@@ -1,0 +1,207 @@
+	<fields name="general">
+		<field name="language"
+			type="language"
+			size="1"
+			label="COM_CSVI_LANGUAGE_LABEL"
+			description="COM_CSVI_LANGUAGE_DESC"
+			onchange="Csvi.loadCategoryTree(this.value, jform_options_component.value)" />
+
+		<field name="category_separator"
+			type="text"
+			size="2"
+			label="COM_CSVI_CATEGORY_SEPARATOR_LABEL"
+			description="COM_CSVI_CATEGORY_SEPARATOR_DESC"
+			default="/" />
+	</fields>
+	
+	<fields name="product">
+		<field name="exportsef"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_PRODUCT_SEF_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_SEF_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="producturl_suffix"
+			type="text"
+			size="50"
+			label="COM_CSVI_EXPORT_PRODUCT_URL_SUFFIX_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_URL_SUFFIX_DESC"/>
+
+		<field name="featured"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_PRODUCT_FEATURED_FILTER_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_FEATURED_FILTER_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="use_joomfish"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_PRODUCT_JOOMFISH_TRANSLATION_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_JOOMFISH_TRANSLATION_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="joomfish_language"
+			type="CsviJoomfishLanguage"
+			label="COM_CSVI_EXPORT_PRODUCT_JOOMFISH_LANGUAGE_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_JOOMFISH_LANGUAGE_DESC"
+			/>
+
+		<field name="product_categories"
+			size="7"
+			type="CsviVirtuemartProductCategories"
+			label="COM_CSVI_EXPORT_PRODUCT_CATEGORY_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_CATEGORY_DESC"
+			multiple="true"
+			/>
+
+		<field name="publish_state_categories"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_CATEGORY_STATE_LABEL"
+			description="COM_CSVI_EXPORT_CATEGORY_STATE_DESC"
+			default="">
+			<option value="">COM_CSVI_ALL_STATES</option>
+			<option value="1">COM_CSVI_PUBLISHED</option>
+			<option value="0">COM_CSVI_UNPUBLISHED</option>
+		</field>
+
+		<field name="incl_subcategory"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_PRODUCT_INCLUDE_SUBCATEGORY_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_INCLUDE_SUBCATEGORY_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="parent_only"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_PRODUCT_PARENT_ONLY_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_PARENT_ONLY_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="child_only"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_PRODUCT_CHILD_ONLY_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_CHILD_ONLY_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="productskufilter"
+			type="text"
+			size="100"
+			label="COM_CSVI_EXPORT_PRODUCT_SKU_FILTER_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_SKU_FILTER_DESC" />
+
+		<field name="priceoperator"
+			type="list"
+			size="1"
+			label=""
+			description=""
+			default="gt">
+			<option value="gt">COM_CSVI_PRICE_GREATER_THAN</option>
+			<option value="eq">COM_CSVI_PRICE_EQUAL</option>
+			<option value="lt">COM_CSVI_PRICE_LOWER_THAN</option>
+			<option value="bt">COM_CSVI_PRICE_BETWEEN</option>
+		</field>
+
+		<field name="pricefrom"
+			type="text"
+			size="5"
+			label="COM_CSVI_EXPORT_PRODUCT_PRICE_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_PRICE_DESC" />
+
+		<field name="priceto"
+			type="text"
+			size="5"
+			label=""
+			description="" />
+
+		<field name="stocklevelstart"
+			type="text"
+			size="5"
+			label="COM_CSVI_EXPORT_PRODUCT_STOCK_LEVEL_LABEL"
+			description="COM_CSVI_EXPORT_PRODUCT_STOCK_LEVEL_DESC" />
+
+		<field name="stocklevelend"
+			type="text"
+			size="5"
+			label=""
+			description="" />
+
+		<field name="targetcurrency"
+			type="sql"
+			size="1"
+			label="COM_CSVI_EXPORT_CURRENCY_LABEL"
+			description="COM_CSVI_EXPORT_CURRENCY_DESC"
+			query="SELECT #__csvi_currency.currency_code AS value,
+					IF (#__virtuemart_currencies.currency_name IS NULL, #__csvi_currency.currency_code, #__virtuemart_currencies.currency_name) AS text
+					FROM #__csvi_currency
+					LEFT JOIN #__virtuemart_currencies
+					on #__virtuemart_currencies.currency_code_3 = #__csvi_currency.currency_code"
+			key_field="value"
+			value_field="text"
+			translate="true"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="shopper_groups"
+			type="sql"
+			size="7"
+			label="COM_CSVI_EXPORT_SHOPPER_GROUP_NAME_LABEL"
+			description="COM_CSVI_EXPORT_SHOPPER_GROUP_NAME_DESC"
+			query="SELECT virtuemart_shoppergroup_id AS value, shopper_group_name AS text FROM #__virtuemart_shoppergroups"
+			key_field="value"
+			value_field="text"
+			translate="true"
+			multiple="true"
+			default="none">
+			<option value="none">COM_CSVI_ALL_SHOPPERGROUPS</option>
+		</field>
+
+		<field name="manufacturers"
+			type="CsviVirtuemartManufacturer"
+			size="7"
+			label="COM_CSVI_EXPORT_MANUFACTURER_LABEL"
+			description="COM_CSVI_EXPORT_MANUFACTURER_DESC"
+			multiple="true"
+			default="none">
+			<option value="none">COM_CSVI_ALL_MANUFACTURERS</option>
+		</field>
+
+		<field name="custom_title"
+			type="sql"
+			size="7"
+			label="COM_CSVI_EXPORT_CUSTOM_TITLE_LABEL"
+			description="COM_CSVI_EXPORT_CUSTOM_TITLE_DESC"
+			query="SELECT custom_title AS text,virtuemart_custom_id AS value
+					FROM #__virtuemart_customs"
+			key_field="value"
+			value_field="text"
+			translate="false"
+			multiple="true"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+	</fields>

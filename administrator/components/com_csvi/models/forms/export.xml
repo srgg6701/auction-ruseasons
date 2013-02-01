@@ -1,0 +1,272 @@
+	<fields name="options">
+		<field name="action"
+			type="list"
+			size="1"
+			default="import"
+			label="COM_CSVI_PROCESS_ACTIONS_LABEL"
+			description="COM_CSVI_PROCESS_ACTIONS_DESC"
+			onchange="Csvi.loadTemplateTypes();">
+				<option value="import">COM_CSVI_IMPORT</option>
+				<option value="export">COM_CSVI_EXPORT</option>
+		</field>
+
+		<field name="component"
+			type="sql"
+			size="1"
+			default=""
+			label="COM_CSVI_PROCESS_COMPONENT_LABEL"
+			description="COM_CSVI_PROCESS_COMPONENT_DESC"
+			query="SELECT component AS value, component AS text
+					FROM #__csvi_template_types
+					LEFT JOIN #__extensions ON #__csvi_template_types.component = #__extensions.element
+					WHERE #__extensions.type = 'component'
+					GROUP BY component"
+			key_field="text"
+			value_field="value"
+			translate="true"
+			onchange="Csvi.loadTemplateTypes();">
+				<option value="">COM_CSVI_SELECT_COMPONENT</option>
+		</field>
+
+		<field name="operation"
+			type="CsviOperations"
+			size="1"
+			default=""
+			label="COM_CSVI_PROCESS_OPERATION_LABEL"
+			description="COM_CSVI_PROCESS_OPERATION_DESC">
+				<option value="">COM_CSVI_SELECT_OPERATION</option>
+		</field>
+	</fields>
+
+	<fields name="general">
+		<field name="exportto"
+			type="list"
+			size="1"
+			default="fromupload"
+			label="COM_CSVI_EXPORT_EXPORTTO_OPTIONS_LABEL"
+			description="COM_CSVI_EXPORT_EXPORTTO_OPTIONS_DESC"
+			onchange="Csvi.showSource(this.value)">
+				<option value="todownload">COM_CSVI_EXPORT_TO_DOWNLOAD_LABEL</option>
+				<option value="tofile">COM_CSVI_EXPORT_TO_LOCAL_LABEL</option>
+				<option value="toftp">COM_CSVI_EXPORT_TO_FTP_LABEL</option>
+				<option value="toemail">COM_CSVI_EXPORT_EMAIL_FILE_LABEL</option>
+		</field>
+
+		<field name="localpath"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_LOCATION_INFO_LABEL"
+			description="COM_CSVI_EXPORT_LOCATION_INFO_DESC"
+			class="exportlocalpath" />
+
+		<field name="ftphost"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_HOST_LABEL"
+			description="COM_CSVI_EXPORT_FTP_HOST_DESC"
+			class="exportftp" />
+
+		<field name="ftpport"
+			type="text"
+			size="5"
+			label="COM_CSVI_EXPORT_FTP_PORT_LABEL"
+			description="COM_CSVI_EXPORT_FTP_PORT_DESC"
+			class="exportftp" />
+
+		<field name="ftpusername"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_USERNAME_LABEL"
+			description="COM_CSVI_EXPORT_FTP_USERNAME_DESC"
+			class="exportftp" />
+
+		<field name="ftppass"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_PASS_LABEL"
+			description="COM_CSVI_EXPORT_FTP_PASS_DESC"
+			class="exportftp" />
+
+		<field name="ftproot"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_ROOT_LABEL"
+			description="COM_CSVI_EXPORT_FTP_ROOT_DESC"
+			class="exportftp" />
+
+		<field name="ftpfile"
+			type="text"
+			size="120"
+			label="COM_CSVI_IMPORT_FTP_FILENAME_LABEL"
+			description="COM_CSVI_IMPORT_FTP_FILENAME_DESC"
+			class="exportftp" />
+
+		<field name="export_filename"
+			type="text"
+			size="40"
+			label="COM_CSVI_EXPORT_FILENAME_LABEL"
+			description="COM_CSVI_EXPORT_FILENAME_DESC" />
+
+		<field name="export_file"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_FILE_LABEL"
+			description="COM_CSVI_EXPORT_FILE_DESC"
+			default="csv">
+			<option value="csv">CSV</option>
+			<option value="xml">XML</option>
+			<option value="html">HTML</option>
+		</field>
+
+		<field name="export_site"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_SITE_LABEL"
+			description="COM_CSVI_EXPORT_SITE_DESC"
+			default="">
+		</field>
+
+		<field name="field_delimiter"
+			type="text"
+			size="2"
+			label="COM_CSVI_FIELD_DELIMITER_LABEL"
+			description="COM_CSVI_FIELD_DELIMITER_DESC"
+			maxlength="1" />
+
+		<field name="text_enclosure"
+			type="text"
+			size="2"
+			label="COM_CSVI_TEXT_ENCLOSURE_LABEL"
+			description="COM_CSVI_TEXT_ENCLOSURE_DESC"
+			maxlength="1" />
+
+		<field name="include_column_headers"
+			type="list"
+			size="1"
+			label="COM_CSVI_INCLUDE_COLUMN_HEADERS_LABEL"
+			description="COM_CSVI_INCLUDE_COLUMN_HEADERS_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="signature"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_SIGNATURE_LABEL"
+			description="COM_CSVI_EXPORT_SIGNATURE_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="export_frontend"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_FRONTEND_LABEL"
+			description="COM_CSVI_EXPORT_FRONTEND_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="collect_debug_info"
+			type="list"
+			size="1"
+			label="COM_CSVI_COLLECT_DEBUG_INFO_LABEL"
+			description="COM_CSVI_COLLECT_DEBUG_INFO_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="publish_state"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_STATE_LABEL"
+			description="COM_CSVI_EXPORT_STATE_DESC"
+			default="">
+			<option value="">COM_CSVI_ALL_STATES</option>
+			<option value="1">COM_CSVI_PUBLISHED</option>
+			<option value="0">COM_CSVI_UNPUBLISHED</option>
+		</field>
+
+		<field name="recordstart"
+			type="text"
+			size="5"
+			label="COM_CSVI_EXPORT_NUMBER_RECORDS_LABEL"
+			description="COM_CSVI_EXPORT_NUMBER_RECORDS_DESC" />
+
+		<field name="recordend"
+			type="text"
+			size="5"
+			label=""
+			description="" />
+
+		<field name="groupby"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_GROUPBY_LABEL"
+			description="COM_CSVI_EXPORT_GROUPBY_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="export_date_format"
+			type="text"
+			size="15"
+			label="COM_CSVI_EXPORT_DATE_FORMAT_LABEL"
+			description="COM_CSVI_EXPORT_DATE_FORMAT_DESC"
+			default="d/m/Y H:i:s" />
+
+		<field name="export_price_format_decimal"
+			type="text"
+			size="3"
+			maxlength="1"
+			label="COM_CSVI_EXPORT_FORMAT_DECIMAL"
+			description=""
+			default="2" />
+
+		<field name="export_price_format_decsep"
+			type="text"
+			size="3"
+			maxlength="1"
+			label="COM_CSVI_EXPORT_FORMAT_DECIMAL_SEPARATOR"
+			description="" />
+
+		<field name="export_price_format_thousep"
+			type="text"
+			size="3"
+			maxlength="1"
+			label="COM_CSVI_EXPORT_FORMAT_THOUSAND_SEPERATOR"
+			description="" />
+
+		<field name="add_currency_to_price"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_ADD_CURRENCY_TO_PRICE_LABEL"
+			description="COM_CSVI_EXPORT_ADD_CURRENCY_TO_PRICE_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fields>
+	
+	<field name="custom_table"
+			type="sql"
+			size="1"
+			default=""
+			label=""
+			description=""
+			query="SELECT template_table AS text, template_table AS value
+				FROM #__csvi_template_tables
+				WHERE template_type_name = 'customexport'
+				AND component = 'com_csvi'
+				GROUP BY template_table"
+			key_field="text"
+			value_field="value"
+			translate="false"
+			onchange="getData('loadfields');">
+		</field>
+	

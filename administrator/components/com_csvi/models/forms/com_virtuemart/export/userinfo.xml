@@ -1,0 +1,54 @@
+	<fields name="userinfo">
+		<field name="userinfo_address"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_USER_INFO_ADDRESS_LABEL"
+			description="COM_CSVI_EXPORT_USER_INFO_ADDRESS_DESC"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+			<option value="BT">COM_CSVI_BILLING_ADDRESS</option>
+			<option value="ST">COM_CSVI_SHIPPING_ADDRESS</option>
+		</field>
+
+		<field name="vendors"
+			type="sql"
+			size="7"
+			label="COM_CSVI_EXPORT_USER_INFO_ADDRESS_LABEL"
+			description="COM_CSVI_EXPORT_USER_INFO_ADDRESS_DESC"
+			query="SELECT virtuemart_vendor_id AS value, REPLACE(vendor_name, '\\', '') AS text FROM #__virtuemart_vendors ORDER BY vendor_name"
+			key_field="value"
+			value_field="text"
+			translate="false"
+			multiple="true"
+			default="none">
+			<option value="none">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="permissions"
+			type="sql"
+			size="7"
+			label="COM_CSVI_EXPORT_USER_INFO_PERMS_LABEL"
+			description="COM_CSVI_EXPORT_USER_INFO_PERMS_DESC"
+			query="SELECT group_name AS value, group_name AS text FROM #__virtuemart_permgroups ORDER BY group_name"
+			key_field="value"
+			value_field="text"
+			translate="false"
+			multiple="true"
+			default="none">
+			<option value="none">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="userinfomdatestart"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label="COM_CSVI_EXPORT_USER_INFO_MODIFIED_DATE_LABEL"
+			description="COM_CSVI_EXPORT_USER_INFO_MODIFIED_DATE_DESC" />
+
+		<field name="userinfomdateend"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label=""
+			description="" />
+	</fields>

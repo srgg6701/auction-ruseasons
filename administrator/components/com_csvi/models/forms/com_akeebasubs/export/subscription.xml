@@ -1,0 +1,92 @@
+	<fields name="order">
+		<field name="ordernostart"
+			type="text"
+			size="10"
+			label="COM_CSVI_EXPORT_ORDER_NUMBER_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_NUMBER_DESC" />
+
+		<field name="ordernoend"
+			type="text"
+			size="10"
+			label="COM_CSVI_EXPORT_ORDER_NUMBER_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_NUMBER_DESC" />
+
+		<field name="orderlist"
+			type="text"
+			size="100"
+			label="COM_CSVI_EXPORT_ORDER_LIST_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_LIST_DESC" />
+
+		<field name="orderdatestart"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label="COM_CSVI_EXPORT_ORDER_DATE_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_DATE_DESC" />
+
+		<field name="orderdateend"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label=""
+			description="" />
+
+		<field name="orderstatus"
+			type="list"
+			label="COM_CSVI_EXPORT_ORDER_STATUS_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_STATUS_DESC"
+			translate="false"
+			size="5"
+			multiple="true"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+			<option value="N">COM_CSVI_SUBSCRIPTION_NEW</option>
+			<option value="P">COM_CSVI_SUBSCRIPTION_PENDING</option>
+			<option value="C">COM_CSVI_SUBSCRIPTION_COMPLETED</option>
+			<option value="X">COM_CSVI_SUBSCRIPTION_CANCELED</option>
+		</field>
+
+		<field name="orderpayment"
+			type="CsviAkeebasubsOrderPayment"
+			label="COM_CSVI_EXPORT_ORDER_PAYMENT_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_PAYMENT_DESC"
+			translate="false"
+			multiple="true"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="orderpricestart"
+			type="text"
+			size="10"
+			label="COM_CSVI_EXPORT_ORDER_PRICE_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_PRICE_DESC" />
+
+		<field name="orderpriceend"
+			type="text"
+			size="10"
+			label=""
+			description="" />
+
+		<field name="orderuser"
+			type="CsviAkeebasubsOrderUser"
+			size="7"
+			label="COM_CSVI_EXPORT_ORDER_USER_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_USER_DESC"
+			default=""
+			multiple="true">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="orderproduct"
+			type="CsviAkeebasubsOrderProduct"
+			size="7"
+			label="COM_CSVI_EXPORT_ORDER_PRODUCT_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_PRODUCT_DESC"
+			default=""
+			multiple="true">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+
+	</fields>

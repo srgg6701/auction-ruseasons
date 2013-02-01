@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="import">
+		<field name="import_nolines" type="text" size="5" default="0" label="COM_CSVI_IMPORT_NOLINES_LABEL" description="COM_CSVI_IMPORT_NOLINES_DESC" />
+		<field name="import_wait" type="text" size="5" default="5" label="COM_CSVI_IMPORT_WAIT_LABEL" description="COM_CSVI_IMPORT_WAIT_DESC" />
+	</fields>
+	<fields name="site">
+		<field name="hostname" type="text" size="80" default="" required="true" class="required" label="COM_CSVI_HOSTNAME_LABEL" description="COM_CSVI_HOSTNAME_DESC" />
+	</fields>
+	<fields name="google_base">
+		<field name="gb_title" type="text" size="80" default="" label="COM_CSVI_GOOGLE_BASE_TITLE_LABEL" description="COM_CSVI_GOOGLE_BASE_TITLE_DESC" />
+		<field name="gb_link" type="text" size="80" default="" label="COM_CSVI_GOOGLE_BASE_LINK_LABEL" description="COM_CSVI_GOOGLE_BASE_LINK_DESC" />
+		<field name="gb_description" type="textarea" rows="10" cols="50" default="" label="COM_CSVI_GOOGLE_BASE_DESCRIPTION_LABEL" description="COM_CSVI_GOOGLE_BASE_DESCRIPTION_DESC" />
+	</fields>
+	<fields name="icecat">
+		<field name="ice_username" type="text" size="80" default="" label="COM_CSVI_ICECAT_USERNAME_LABEL" description="COM_CSVI_ICECAT_USERNAME_DESC" />
+		<field name="ice_password" type="password" size="80" default="" label="COM_CSVI_ICECAT_PASSWORD_LABEL" description="COM_CSVI_ICECAT_PASSWORD_DESC" />
+		<field name="ice_advanced" type="radio" default="0" label="COM_CSVI_ICECAT_ADVANCED_LABEL" description="COM_CSVI_ICECAT_ADVANCED_DESC">
+			<option value="0">COM_CSVI_NO</option>
+			<option value="1">COM_CSVI_YES</option>
+		</field>
+		<field name="ice_lang" type="list" default="INT" label="COM_CSVI_ICECAT_LANG_LABEL" description="COM_CSVI_ICECAT_LANG_DESC">
+			<option value="INT">COM_CSVI_ICECAT_INT</option>
+			<option value="EN">COM_CSVI_ICECAT_EN</option>
+			<option value="US">COM_CSVI_ICECAT_US</option>
+			<option value="BG">COM_CSVI_ICECAT_BG</option>
+			<option value="CA">COM_CSVI_ICECAT_CA</option>
+			<option value="ZH">COM_CSVI_ICECAT_ZH</option>
+			<option value="HR">COM_CSVI_ICECAT_HR</option>
+			<option value="CZ">COM_CSVI_ICECAT_CZ</option>
+			<option value="DK">COM_CSVI_ICECAT_DK</option>
+			<option value="NL">COM_CSVI_ICECAT_NL</option>
+			<option value="FI">COM_CSVI_ICECAT_FI</option>
+			<option value="FR">COM_CSVI_ICECAT_FR</option>
+			<option value="KA">COM_CSVI_ICECAT_KA</option>
+			<option value="DE">COM_CSVI_ICECAT_DE</option>
+			<option value="HU">COM_CSVI_ICECAT_HU</option>
+			<option value="IT">COM_CSVI_ICECAT_IT</option>
+			<option value="JA">COM_CSVI_ICECAT_JA</option>
+			<option value="NO">COM_CSVI_ICECAT_NO</option>
+			<option value="PL">COM_CSVI_ICECAT_PL</option>
+			<option value="PT">COM_CSVI_ICECAT_PT</option>
+			<option value="RO">COM_CSVI_ICECAT_RO</option>
+			<option value="RU">COM_CSVI_ICECAT_RU</option>
+			<option value="SR">COM_CSVI_ICECAT_SR</option>
+			<option value="ES">COM_CSVI_ICECAT_ES</option>
+			<option value="SE">COM_CSVI_ICECAT_SE</option>
+			<option value="TR">COM_CSVI_ICECAT_TR</option>
+			<option value="UK">COM_CSVI_ICECAT_UK</option>
+		</field>
+		<field name="ice_index" type="text" size="80" default="http://data.icecat.biz/export/freexml.int/INT/files.index.csv" label="COM_CSVI_ICECAT_INDEX_URL_LABEL" description="COM_CSVI_ICECAT_INDEX_URL_DESC" />
+		<field name="ice_supplier" type="text" size="80" default="http://data.icecat.biz/export/freexml.int/INT/supplier_mapping.xml" label="COM_CSVI_ICECAT_MF_URL_LABEL" description="COM_CSVI_ICECAT_MF_URL_DESC" />
+	</fields>
+	<fields name="log">
+		<field name="log_store" type="radio" default="1" label="COM_CSVI_LOG_STORE_LABEL" description="COM_CSVI_LOG_STORE_DESC">
+			<option value="0">COM_CSVI_NO</option>
+			<option value="1">COM_CSVI_YES</option>
+		</field>
+		<field name="log_max" type="text" size="5" default="25" label="COM_CSVI_LOG_MAX_LABEL" description="COM_CSVI_LOG_MAX_DESC" />
+		<field name="log_type" type="list" default="all" label="COM_CSVI_LOG_TYPE_LABEL" description="COM_CSVI_LOG_TYPE_DESC">
+			<option value="all">COM_CSVI_ALL_LOGS</option>
+			<option value="notice">COM_CSVI_LOG_NOTICE</option>
+			<option value="failure">COM_CSVI_LOG_FAILURE</option>
+			<option value="notice_failure">COM_CSVI_LOG_NOTICE_FAILURE</option>
+		</field>
+	</fields>
+	<fields name="debuglog">
+		<field name="log_line_start" type="text" size="5" default="1" label="COM_CSVI_LOG_LINE_START_LABEL" description="COM_CSVI_LOG_LINE_START_DESC" />
+		<field name="log_line_end" type="text" size="5" default="5" label="COM_CSVI_LOG_LINE_END_LABEL" description="COM_CSVI_LOG_LINE_END_DESC" />
+	</fields>
+	<fields name="tables">
+		<field name="tablelist" type="list" label="COM_CSVI_TABLELIST_LABEL" description="COM_CSVI_TABLELIST_DESC">
+		</field>
+	</fields>
+</form>

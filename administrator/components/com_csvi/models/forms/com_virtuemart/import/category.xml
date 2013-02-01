@@ -1,0 +1,20 @@
+	<fields name="general">
+		<field name="language"
+			type="language"
+			size="1"
+			label="COM_CSVI_LANGUAGE_LABEL"
+			description="COM_CSVI_LANGUAGE_DESC"/>
+			
+		<field name="target_language"
+			type="language"
+			size="1"
+			label="COM_CSVI_TARGET_LANGUAGE_LABEL"
+			description="COM_CSVI_TARGET_LANGUAGE_DESC"/>
+
+		<field name="category_separator"
+			type="text"
+			size="2"
+			label="COM_CSVI_CATEGORY_SEPARATOR_LABEL"
+			description="COM_CSVI_CATEGORY_SEPARATOR_DESC"
+			default="/" />
+	</fields>

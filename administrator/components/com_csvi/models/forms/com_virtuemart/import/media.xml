@@ -1,0 +1,11 @@
+	<fields name="media">
+		<field name="ignore_non_exist"
+			type="list"
+			size="1"
+			label="COM_CSVI_IGNORE_NON_EXIST_FILES_LABEL"
+			description="COM_CSVI_IGNORE_NON_EXIST_FILES_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fields>

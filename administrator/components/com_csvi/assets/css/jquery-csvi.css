@@ -1,0 +1,240 @@
+/* Component containers
+----------------------------------*/
+.ui-widget { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif ; font-size: 1.1em; }
+.ui-widget .ui-widget { font-size: 1em; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif ; font-size: 1em; }
+.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff ; color: #222222; }
+.ui-widget-content a { color: #222222; }
+.ui-widget-header {
+	border: 0px solid #aaaaaa;
+	color: #222222;
+	font-weight: bold;
+	background-color: #cccccc;
+	background-image: url(images/maintabbg.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+.ui-widget-header a { color: #222222; }
+
+a:active { outline: none;}
+a:focus {  outline: none;}
+
+
+
+
+
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+/*	border-bottom: 1px solid #4a84a5;*/
+	font-weight: normal;
+	color: #555555;
+	background-color: #e6e6e6;
+	background-image: url(images/deactmaintab.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #2a6583; text-decoration: none; font-size:16px;  }
+/*.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	border-bottom: 1px solid #4a84a5;
+	font-weight: normal;
+	color: #212121;
+	background-color: #dadada;
+	background-image: url(images/deactmaintab_hov.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}*/
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover {
+/*	border-bottom: 1px solid #4a84a5;*/
+	font-weight: normal;
+	color: #212121;
+	background-color: #dadada;
+	background-image: url(images/deactmaintab_hov.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+
+
+.ui-state-hover a, .ui-state-hover a:hover { color: #3f7c9b; text-decoration: none; font-size: 16px; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(images/activetab_bg.png) 50% top repeat-x; font-weight: normal; color: #212121; }
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121;  background: #ffffff url(images/activetab_bg.png) 50% top repeat-x;  text-decoration: none; font-weight:bold; }
+.ui-widget :active { outline: none; }
+
+.ui-tabs .ui-tabs-nav li {
+	list-style: none;
+	float: left;
+	position: relative;
+	top: 1px;
+	border-bottom: 0 !important;
+	padding: 0;
+	white-space: nowrap;
+	margin-top: 0;
+	margin-right: 0.2em;
+	margin-bottom: 2px;
+	margin-left: 0;
+}
+.ui-tabs .ui-tabs-nav li a {
+	float: left;
+	text-decoration: none;
+	padding-top: 0.2em;
+	padding-right: 0.7em;
+	padding-bottom: 0.2em;
+	padding-left: 0.7em;
+}
+
+/*IMPORT PAGE */
+
+
+#import_page #options_tab .ui-widget { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif ; font-size: 0.8em; }
+#import_page #options_tab .ui-widget .ui-widget { font-size: 0.8em; }
+#import_page #options_tab .ui-widget input, #import_page #options_tab .ui-widget select, #import_page #options_tab .ui-widget textarea, #import_page #options_tab .ui-widget button { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif ; font-size: 0.8em; }
+#import_page #options_tab .ui-widget-content { border-top: 0px solid #aaaaaa; border-bottom: 1px solid #aaaaaa; border-left: 1px solid #aaaaaa; border-right: 1px solid #aaaaaa; background: #ffffff ; color: #222222; }
+#import_page #options_tab .ui-widget-content a { color: #222222; }
+#import_page #options_tab .ui-widget-header {
+	border: 0px solid #aaaaaa;
+	color: #222222;
+	font-weight: bold;
+	background-color: #cccccc;
+	background-image: url(images/maintabbg.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+#import_page #options_tab .ui-widget-header a { color: #222222; }
+
+#import_page #options_tab a:active { outline: none;}
+#import_page #options_tab a:focus {     outline: none;}
+
+
+
+
+#import_page #options_tab .ui-state-default, #import_page #options_tab .ui-widget-content .ui-state-default, #import_page #options_tab .ui-widget-header .ui-state-default {
+/*	border-bottom: 1px solid #4a84a5;*/
+	font-weight: normal;
+	color: #555555;
+	background-color: #e6e6e6;
+	background-image: url(images/subtab_bg.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+#import_page #options_tab .ui-state-default a, #import_page #options_tab .ui-state-default a:link, #import_page #options_tab .ui-state-default a:visited { color: #2a6583; text-decoration: none; font-size:14px;   }
+#import_page #options_tab .ui-state-hover, #import_page #options_tab .ui-widget-content .ui-state-hover, #import_page #options_tab .ui-widget-header .ui-state-hover {
+/*	border-bottom: 1px solid #4a84a5;*/
+	font-weight: normal;
+	color: #212121;
+	background-color: #dadada;
+	background-image: url(images/deactmaintab_hov.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+
+#import_page #options_tab .ui-state-hover a, #import_page #options_tab .ui-state-hover a:hover { color: #3f7c9b; text-decoration: none; font-size: 14px; }
+#import_page #options_tab .ui-state-active, #import_page #options_tab .ui-widget-content .ui-state-active, #import_page #options_tab .ui-widget-header .ui-state-active { 
+border: 1px solid #aaaaaa; 
+background: #ffffff url(images/activetab_bg.png) 50% top repeat-x; 
+font-weight: normal; 
+color: #212121; 
+}
+#import_page #options_tab .ui-state-active a, #import_page #options_tab .ui-state-active a:link, #import_page #options_tab .ui-state-active a:visited { color: #212121; text-decoration: none; font-weight:bold; }
+#import_page #options_tab .ui-widget :active { outline: none; }
+
+#import_page #options_tab .ui-tabs .ui-tabs-nav li {
+	list-style: none;
+	float: left;
+	position: relative;
+	top: 1px;
+	border-bottom: 0 !important;
+	padding: 0;
+	white-space: nowrap;
+	margin-top: 0;
+	margin-right: 0.2em;
+	margin-bottom: 1px;
+	margin-left: 0;
+}
+#import_page #options_tab .ui-tabs .ui-tabs-nav li a {
+	float: left;
+	text-decoration: none;
+	padding-top: 0.5em;
+	padding-right: 0.7em;
+	padding-bottom: 0.3em;
+	padding-left: 0.7em;
+}
+
+
+
+/*IMPORT PAGE */
+
+
+#import_page #options_tab .ui-widget { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif ; font-size: 0.8em; }
+#import_page #options_tab .ui-widget .ui-widget { font-size: 0.8em; }
+#import_page #options_tab .ui-widget input, #import_page #options_tab .ui-widget select, #import_page #options_tab .ui-widget textarea, #import_page #options_tab .ui-widget button { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif ; font-size: 0.8em; }
+#import_page #options_tab .ui-widget-content { border-top: 0px solid #aaaaaa; border-bottom: 1px solid #aaaaaa; border-left: 1px solid #aaaaaa; border-right: 1px solid #aaaaaa; background: #ffffff ; color: #222222; }
+#import_page #options_tab .ui-widget-content a { color: #222222; }
+#import_page #options_tab .ui-widget-header {
+	border: 0px solid #aaaaaa;
+	color: #222222;
+	font-weight: bold;
+	background-color: #cccccc;
+	background-image: url(images/maintabbg.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+#import_page #options_tab .ui-widget-header a { color: #222222; }
+
+
+
+
+/*EXPORT PAGE*/
+
+
+#export_page #options_tab .ui-state-default, #export_page #options_tab .ui-widget-content .ui-state-default, #export_page #options_tab .ui-widget-header .ui-state-default {
+/*	border-bottom: 1px solid #4a84a5;*/
+	font-weight: normal;
+	color: #555555;
+	background-color: #e6e6e6;
+	background-image: url(images/subtab_bg.png);
+	background-repeat: repeat-x;
+	background-position: 50% bottom;
+}
+#export_page #options_tab .ui-state-default a, #export_page #options_tab .ui-state-default a:link, #export_page #options_tab .ui-state-default a:visited { color: #2a6583; text-decoration: none; font-size:14px;  }
+#export_page #options_tab .ui-state-hover, #export_page #options_tab .ui-widget-content .ui-state-hover, #export_page #options_tab .ui-widget-header .ui-state-hover, #export_page #options_tab .ui-state-focus, #export_page #options_tab .ui-widget-content .ui-state-focus {
+/*	border-bottom: 1px solid #4a84a5;*/
+	font-weight: normal;
+	color: #212121;
+	background-color: #dadada;
+	background-image: url(images/deactmaintab_hov.png);
+	background-repeat: repeat-x;
+	background-position:  bottom;
+}
+#export_page #options_tab .ui-state-hover a, #export_page #options_tab .ui-state-hover a:hover { color: #3f7c9b; text-decoration: none; font-size: 14px; }
+#export_page #options_tab .ui-state-active, #export_page #options_tab .ui-widget-content .ui-state-active, #export_page #options_tab .ui-widget-header .ui-state-active { 
+border: 1px solid #aaaaaa; 
+background: #ffffff url(images/activetab_bg.png) 50% top repeat-x; 
+font-weight: normal; 
+color: #212121; 
+}
+#export_page #options_tab .ui-state-active a, #export_page #options_tab .ui-state-active a:link, #export_page #options_tab .ui-state-active a:visited { color: #212121; text-decoration: none; font-weight:bold; }
+#export_page #options_tab .ui-widget :active { outline: none; }
+
+#export_page #options_tab .ui-tabs .ui-tabs-nav li {
+	list-style: none;
+	float: left;
+	position: relative;
+	top: 1px;
+	border-bottom: 0 !important;
+	padding: 0;
+	white-space: nowrap;
+	margin-top: 0;
+	margin-right: 0.2em;
+	margin-bottom: 1px;
+	margin-left: 0;
+}
+#export_page #options_tab .ui-tabs .ui-tabs-nav li a {
+	float: left;
+	text-decoration: none;
+	padding-top: 0.5em;
+	padding-right: 0.7em;
+	padding-bottom: 0.3em;
+	padding-left: 0.7em;
+}

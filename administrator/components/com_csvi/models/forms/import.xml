@@ -1,0 +1,264 @@
+	<fields name="options">
+		<field name="action"
+			type="list"
+			size="1"
+			default="import"
+			label="COM_CSVI_PROCESS_ACTIONS_LABEL"
+			description="COM_CSVI_PROCESS_ACTIONS_DESC"
+			onchange="Csvi.loadTemplateTypes();">
+				<option value="import">COM_CSVI_IMPORT</option>
+				<option value="export">COM_CSVI_EXPORT</option>
+		</field>
+
+		<field name="component"
+			type="sql"
+			size="1"
+			default=""
+			label="COM_CSVI_PROCESS_COMPONENT_LABEL"
+			description="COM_CSVI_PROCESS_COMPONENT_DESC"
+			query="SELECT component AS value, component AS text
+					FROM #__csvi_template_types
+					LEFT JOIN #__extensions ON #__csvi_template_types.component = #__extensions.element
+					WHERE #__extensions.type = 'component'
+					GROUP BY component"
+			key_field="text"
+			value_field="value"
+			translate="true"
+			onchange="Csvi.loadTemplateTypes();">
+				<option value="">COM_CSVI_SELECT_COMPONENT</option>
+		</field>
+
+		<field name="operation"
+			type="CsviOperations"
+			size="1"
+			default=""
+			label="COM_CSVI_PROCESS_OPERATION_LABEL"
+			description="COM_CSVI_PROCESS_OPERATION_DESC">
+				<option value="">COM_CSVI_SELECT_OPERATION</option>
+		</field>
+	</fields>
+
+	<fields name="general">
+		<field name="source"
+			type="list"
+			size="1"
+			default="fromupload"
+			label="COM_CSVI_IMPORT_SOURCE_OPTIONS_LABEL"
+			description="COM_CSVI_IMPORT_SOURCE_OPTIONS_DESC"
+			onchange="Csvi.showSource(this.value)">
+				<option value="fromupload">COM_CSVI_IMPORT_UPLOAD_FILE_LABEL</option>
+				<option value="fromserver">COM_CSVI_IMPORT_FROM_SERVER_LABEL</option>
+				<option value="fromurl">COM_CSVI_IMPORT_FROM_URL_LABEL</option>
+				<option value="fromftp">COM_CSVI_IMPORT_FROM_FTP_LABEL</option>
+		</field>
+
+		<field name="import_file"
+			type="file"
+			size="120"
+			label="COM_CSVI_IMPORT_UPLOAD_FILE_LABEL"
+			description="COM_CSVI_IMPORT_UPLOAD_FILE_DESC"
+			class="importupload" />
+
+		<field name="local_csv_file"
+			type="text"
+			size="120"
+			label="COM_CSVI_IMPORT_FROM_SERVER_LABEL"
+			description="COM_CSVI_IMPORT_FROM_SERVER_DESC"
+			class="importserver" />
+
+		<field name="urlfile"
+			type="text"
+			size="120"
+			label="COM_CSVI_IMPORT_FROM_URL_LABEL"
+			description="COM_CSVI_IMPORT_FROM_URL_DESC"
+			class="importurl" />
+
+		<field name="ftphost"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_HOST_LABEL"
+			description="COM_CSVI_EXPORT_FTP_HOST_DESC"
+			class="importftp" />
+
+		<field name="ftpport"
+			type="text"
+			size="5"
+			label="COM_CSVI_EXPORT_FTP_PORT_LABEL"
+			description="COM_CSVI_EXPORT_FTP_PORT_DESC"
+			class="importftp" />
+
+		<field name="ftpusername"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_USERNAME_LABEL"
+			description="COM_CSVI_EXPORT_FTP_USERNAME_DESC"
+			class="importftp" />
+
+		<field name="ftppass"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_PASS_LABEL"
+			description="COM_CSVI_EXPORT_FTP_PASS_DESC"
+			class="importftp" />
+
+		<field name="ftproot"
+			type="text"
+			size="120"
+			label="COM_CSVI_EXPORT_FTP_ROOT_LABEL"
+			description="COM_CSVI_EXPORT_FTP_ROOT_DESC"
+			class="importftp" />
+
+		<field name="ftpfile"
+			type="text"
+			size="120"
+			label="COM_CSVI_IMPORT_FTP_FILENAME_LABEL"
+			description="COM_CSVI_IMPORT_FTP_FILENAME_DESC"
+			class="importftp" />
+
+		<field name="auto_detect_delimiters"
+			type="list"
+			size="1"
+			label="COM_CSVI_AUTO_DELIMITER_LABEL"
+			description="COM_CSVI_AUTO_DELIMITER_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="field_delimiter"
+			type="text"
+			size="2"
+			label="COM_CSVI_FIELD_DELIMITER_LABEL"
+			description="COM_CSVI_FIELD_DELIMITER_DESC"
+			maxlength="1" />
+
+		<field name="text_enclosure"
+			type="text"
+			size="2"
+			label="COM_CSVI_TEXT_ENCLOSURE_LABEL"
+			description="COM_CSVI_TEXT_ENCLOSURE_DESC"
+			maxlength="1" />
+
+		<field name="category_separator"
+			type="text"
+			size="2"
+			label="COM_CSVI_CATEGORY_SEPARATOR_LABEL"
+			description="COM_CSVI_CATEGORY_SEPARATOR_DESC"
+			default="/" />
+		
+		<field name="im_mac"
+			type="list"
+			size="1"
+			label="COM_CSVI_IM_MAC_LABEL"
+			description="COM_CSVI_IM_MAC_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="use_column_headers"
+			type="list"
+			size="1"
+			label="COM_CSVI_USE_COLUMN_HEADERS_LABEL"
+			description="COM_CSVI_USE_COLUMN_HEADERS_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="skip_first_line"
+			type="list"
+			size="1"
+			label="COM_CSVI_SKIP_FIRST_LINE_LABEL"
+			description="COM_CSVI_SKIP_FIRST_LINE_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="overwrite_existing_data"
+			type="list"
+			size="1"
+			label="COM_CSVI_OVERWRITE_EXISTING_DATA_LABEL"
+			description="COM_CSVI_OVERWRITE_EXISTING_DATA_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="ignore_non_exist"
+			type="list"
+			size="1"
+			label="COM_CSVI_IGNORE_NON_DATA_LABEL"
+			description="COM_CSVI_IGNORE_NON_DATA_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="skip_default_value"
+			type="list"
+			size="1"
+			label="COM_CSVI_SKIP_DEFAULT_LABEL"
+			description="COM_CSVI_SKIP_DEFAULT_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="show_preview"
+			type="list"
+			size="1"
+			label="COM_CSVI_SHOW_PREVIEW_LABEL"
+			description="COM_CSVI_SHOW_PREVIEW_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="collect_debug_info"
+			type="list"
+			size="1"
+			label="COM_CSVI_COLLECT_DEBUG_INFO_LABEL"
+			description="COM_CSVI_COLLECT_DEBUG_INFO_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="refresh_xml_headers"
+			type="list"
+			size="1"
+			label="COM_CSVI_REFRESH_XML_HEADERS_LABEL"
+			description="COM_CSVI_REFRESH_XML_HEADERS_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="xml_nodes_map"
+			type="textarea"
+			rows="25"
+			cols="100"
+			label="COM_CSVI_XML_NODES_LABEL"
+			description="COM_CSVI_XML_NODES_DESC"
+			filter="raw" />
+
+	</fields>
+
+	<field name="custom_table"
+			type="sql"
+			size="1"
+			default=""
+			label=""
+			description=""
+			query="SELECT template_table AS text, template_table AS value
+				FROM #__csvi_template_tables
+				WHERE template_type_name = 'customimport'
+				AND component = 'com_csvi'
+				GROUP BY template_table"
+			key_field="text"
+			value_field="value"
+			translate="false"
+			onchange="getData('loadfields');">
+		</field>

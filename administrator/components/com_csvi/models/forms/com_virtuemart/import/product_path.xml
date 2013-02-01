@@ -1,0 +1,7 @@
+	<fields name="path">
+		<field name="file_location_product_images"
+			type="text"
+			size="155"
+			label="COM_CSVI_IMPORT_FILE_LOCATION_PRODUCT_IMAGES_LABEL"
+			description="COM_CSVI_IMPORT_FILE_LOCATION_PRODUCT_IMAGES_DESC" />
+	</fields>

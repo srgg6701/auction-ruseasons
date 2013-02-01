@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields>
+		<field name="id" type="hidden" />
+
+		<field name="name"
+			type="text"
+			size="55"
+			label="COM_CSVI_REPLACEMENT_NAME_LABEL"
+			description="COM_CSVI_REPLACEMENT_NAME_DESC"
+			required="true"
+			class="inputbox" />
+
+		<field name="findtext"
+			type="text"
+			size="55"
+			label="COM_CSVI_REPLACEMENT_FIND_LABEL"
+			description="COM_CSVI_REPLACEMENT_FIND_DESC"
+			required="true"
+			class="inputbox"
+			filter="raw" />
+		
+		<field name="replacetext"
+			type="text"
+			size="55"
+			label="COM_CSVI_REPLACEMENT_REPLACE_LABEL"
+			description="COM_CSVI_REPLACEMENT_REPLACE_DESC"
+			required="false"
+			class="inputbox" 
+			filter="raw" />
+	
+		 <field name="method"
+			type="list"
+			size="1"
+			label="COM_CSVI_REPLACEMENT_METHOD_LABEL"
+			description="COM_CSVI_REPLACEMENT_METHOD_DESC"
+			required="true"
+			class="inputbox" 
+			default="text">
+			<option value="text">COM_CSVI_REPLACEMENT_REGULAR</option>
+			<option value="regex">COM_CSVI_REPLACEMENT_REGEX</option>
+		</field>
+	</fields>
+</form>

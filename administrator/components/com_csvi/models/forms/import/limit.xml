@@ -1,0 +1,35 @@
+	<fields name="limit">
+		<field name="use_system_limits"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_USE_SYSTEM_LIMITS_LABEL"
+			description="COM_CSVI_EXPORT_USE_SYSTEM_LIMITS_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="max_execution_time"
+			type="text"
+			size="5"
+			label="COM_CSVI_EXPORT_MAX_EXECUTION_TIME_LABEL"
+			description="COM_CSVI_EXPORT_MAX_EXECUTION_TIME_DESC" />
+
+		<field name="memory_limit"
+			type="text"
+			size="5"
+			label="COM_CSVI_EXPORT_MEMORY_LIMIT_LABEL"
+			description="COM_CSVI_EXPORT_MEMORY_LIMIT_DESC" />
+
+		<field name="post_max_size"
+			type="text"
+			size="5"
+			label="COM_CSVI_IMPORT_POST_MAX_SIZE_LABEL"
+			description="COM_CSVI_IMPORT_POST_MAX_SIZE_DESC" />
+
+		<field name="upload_max_filesize"
+			type="text"
+			size="5"
+			label="COM_CSVI_IMPORT_UPLOAD_MAX_FILESIZE_LABEL"
+			description="COM_CSVI_IMPORT_UPLOAD_MAX_FILESIZE_DESC" />
+	</fields>

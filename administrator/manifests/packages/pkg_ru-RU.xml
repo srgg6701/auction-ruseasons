@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="2.5">
+	<name>Russian Language Pack</name>
+	<packagename>ru-RU</packagename>
+	<version>2.5.8.4</version>
+	<url>http://joomlaportal.ru</url>
+	<packager>JoomlaPortal.ru</packager>
+	<packagerurl>http://joomlaportal.ru</packagerurl>
+	<description>Joomla 2.5 Russian Language Package</description>
+	<files>
+	        <file type="language" client="site" id="ru-RU">site_ru-RU.zip</file>
+        	<file type="language" client="administrator" id="ru-RU">admin_ru-RU.zip</file>
+		<file type="file" client="site" id="TinyMCE_ru-RU">tinymce_ru-RU.zip</file>
+	</files>
+	<updateservers>
+		<server type="collection" priority="1" name="Accredited Joomla! Translations">http://update.joomla.org/language/translationlist.xml</server>
+	</updateservers>
+</extension>

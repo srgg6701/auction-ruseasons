@@ -1,0 +1,22 @@
+	<fields name="layout">
+		<field name="header"
+			type="textarea"
+			cols="150"
+			rows="3"
+			label="COM_CSVI_EXPORT_LAYOUT_HEADER_LABEL"
+			description="COM_CSVI_EXPORT_LAYOUT_HEADER_DESC" />
+
+		<field name="body"
+			type="textarea"
+			cols="150"
+			rows="10"
+			label="COM_CSVI_EXPORT_LAYOUT_BODY_LABEL"
+			description="COM_CSVI_EXPORT_LAYOUT_BODY_DESC" />
+
+		<field name="footer"
+			type="textarea"
+			cols="150"
+			rows="3"
+			label="COM_CSVI_EXPORT_LAYOUT_FOOTER_LABEL"
+			description="COM_CSVI_EXPORT_LAYOUT_FOOTER_DESC" />
+	</fields>

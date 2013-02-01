@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields>
+		<field name="id" type="hidden" />
+
+		<field name="template_type_name"
+			type="text"
+			size="55"
+			label="COM_CSVI_TEMPLATE_TYPE_NAME_LABEL"
+			description="COM_CSVI_TEMPLATE_TYPE_NAME_DESC"
+			required="true"
+			class="inputbox" />
+
+		<field name="template_type"
+			type="list"
+			size="1"
+			label="COM_CSVI_TEMPLATE_PROCESS_LABEL"
+			description="COM_CSVI_TEMPLATE_PROCESS_DESC"
+			required="true"
+			class="inputbox">
+			<option value="import">COM_CSVI_IMPORT</option>
+			<option value="export">COM_CSVI_EXPORT</option>
+		</field>
+
+		<field name="component"
+			type="text"
+			size="55"
+			label="COM_CSVI_COMPONENT_LABEL"
+			description="COM_CSVI_COMPONENT_DESC"
+			required="true"
+			class="inputbox" />
+
+		 <field name="options"
+			type="text"
+			size="100"
+			label="COM_CSVI_OPTIONS_LABEL"
+			description="COM_CSVI_OPTIONS_DESC"
+			required="true"
+			class="inputbox" />
+
+		<field name="url"
+			type="url"
+			size="100"
+			label="COM_CSVI_URL_LABEL"
+			description="COM_CSVI_URL_DESC"
+			required="false"
+			class="inputbox" />
+	</fields>
+</form>

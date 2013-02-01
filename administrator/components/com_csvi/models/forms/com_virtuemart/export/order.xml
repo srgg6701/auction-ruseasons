@@ -1,0 +1,144 @@
+	<fields name="order">
+		<field name="ordernostart"
+			type="text"
+			size="10"
+			label="COM_CSVI_EXPORT_ORDER_NUMBER_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_NUMBER_DESC" />
+
+		<field name="ordernoend"
+			type="text"
+			size="10"
+			label="COM_CSVI_EXPORT_ORDER_NUMBER_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_NUMBER_DESC" />
+
+		<field name="orderlist"
+			type="text"
+			size="100"
+			label="COM_CSVI_EXPORT_ORDER_LIST_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_LIST_DESC" />
+
+		<field name="orderdatestart"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label="COM_CSVI_EXPORT_ORDER_DATE_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_DATE_DESC" />
+
+		<field name="orderdateend"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label=""
+			description="" />
+
+		<field name="ordermdatestart"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label="COM_CSVI_EXPORT_ORDER_MODIFIED_DATE_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_MODIFIED_DATE_DESC" />
+
+		<field name="ordermdateend"
+			type="calendar"
+			format="%d-%m-%Y %H:%M:%S"
+			size="25"
+			label=""
+			description="" />
+
+		<field name="orderstatus"
+			type="sql"
+			query="SELECT order_status_code AS value, order_status_name AS text FROM #__virtuemart_orderstates ORDER BY ordering"
+			label="COM_CSVI_EXPORT_ORDER_STATUS_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_STATUS_DESC"
+			key_field="value"
+			value_field="text"
+			translate="true"
+			multiple="true"
+			size="7"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="orderpayment"
+			type="CsviVirtuemartOrderPayment"
+			label="COM_CSVI_EXPORT_ORDER_PAYMENT_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_PAYMENT_DESC"
+			translate="false"
+			multiple="true"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="order_address"
+			type="list"
+			size="1"
+			label="COM_CSVI_EXPORT_ORDER_SHIPPING_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_SHIPPING_DESC"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+			<option value="BT">COM_CSVI_BILLING_ADDRESS</option>
+			<option value="ST">COM_CSVI_SHIPPING_ADDRESS</option>
+			<option value="BTST">COM_CSVI_BILLING_SHIPPING_ADDRESS</option>
+		</field>
+
+		<field name="ordermanufacturer"
+			type="CsviVirtuemartManufacturer"
+			label="COM_CSVI_EXPORT_MANUFACTURER_LABEL"
+			description="COM_CSVI_EXPORT_MANUFACTURER_DESC"
+			translate="false"
+			multiple="true"
+			default="none">
+			<option value="none">COM_CSVI_ALL_MANUFACTURERS</option>
+		</field>
+
+		<field name="ordercurrency"
+			type="sql"
+			query="SELECT order_currency AS value, currency_name AS text
+				FROM #__virtuemart_orders o, #__virtuemart_currencies c
+				WHERE o.order_currency = c.virtuemart_currency_id
+				GROUP BY currency_name
+				ORDER BY currency_name"
+			label="COM_CSVI_EXPORT_ORDER_CURRENCY_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_CURRENCY_DESC"
+			key_field="value"
+			value_field="text"
+			translate="false"
+			multiple="true"
+			default="">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="orderpricestart"
+			type="text"
+			size="10"
+			label="COM_CSVI_EXPORT_ORDER_PRICE_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_PRICE_DESC" />
+
+		<field name="orderpriceend"
+			type="text"
+			size="10"
+			label=""
+			description="" />
+
+		<field name="orderuser"
+			type="CsviVirtuemartOrderUser"
+			size="7"
+			label="COM_CSVI_EXPORT_ORDER_USER_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_USER_DESC"
+			default=""
+			multiple="true">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+		<field name="orderproduct"
+			type="CsviVirtuemartOrderProduct"
+			size="7"
+			label="COM_CSVI_EXPORT_ORDER_PRODUCT_LABEL"
+			description="COM_CSVI_EXPORT_ORDER_PRODUCT_DESC"
+			default=""
+			multiple="true">
+			<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+		</field>
+
+
+	</fields>

@@ -1,0 +1,30 @@
+.template_block {
+	display: block;
+}
+
+.template_none {
+	display: none;
+}
+
+table.adminlist tbody tr.addfield td {
+	background-color: #CCFFCC;
+}
+
+.optionrow_block, .exportoption_block {
+}
+
+.optionrow_none, .exportoption_none {
+	display: none;
+}
+
+table.adminlist thead th.showallbutton {
+	background-color: #CECECE;
+	border-style: outset;
+}
+
+.center {
+	text-align: center;
+}
+table#selectuserid tbody tr, table#selectproductsku tbody tr, table#selectitemproductsku tbody tr {
+	cursor: pointer;
+}

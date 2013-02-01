@@ -1,0 +1,127 @@
+	<fields name="image">
+		<field name="process_image"
+			type="list"
+			size="1"
+			label="COM_CSVI_PROCESS_IMAGE_LABEL"
+			description="COM_CSVI_PROCESS_IMAGE_DESC"
+			default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="change_case"
+			type="list"
+			size="1"
+			label="COM_CSVI_GENERATE_IMAGE_NAME_CASE_LABEL"
+			description="COM_CSVI_GENERATE_IMAGE_NAME_CASE_DESC"
+			default="0">
+			<option value="none">COM_CSVI_DO_NOT_CHANGE_CASE</option>
+			<option value="lcase">COM_CSVI_SELECT_LCASE</option>
+			<option value="ucase">COM_CSVI_SELECT_UCASE</option>
+			<option value="ucfirst">COM_CSVI_SELECT_UCFIRST</option>
+			<option value="ucwords">COM_CSVI_SELECT_UCWORDS</option>
+		</field>
+
+		<field name="keep_original"
+			type="list"
+			size="1"
+			label="COM_CSVI_KEEP_ORIGINAL_LABEL"
+			description="COM_CSVI_KEEP_ORIGINAL_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="convert_type"
+			type="list"
+			size="1"
+			label="COM_CSVI_AUTO_GENERATE_IMAGE_NAME_EXT_LABEL"
+			description="COM_CSVI_AUTO_GENERATE_IMAGE_NAME_EXT_DESC"
+			default="0">
+			<option value="none">COM_CSVI_DO_NOT_CONVERT</option>
+			<option value="jpg">JPG</option>
+			<option value="png">PNG</option>
+			<option value="gif">GIF</option>
+		</field>
+
+		<field name="save_images_on_server"
+			type="list"
+			size="1"
+			label="COM_CSVI_SAVE_IMAGES_ON_SERVER_LABEL"
+			description="COM_CSVI_SAVE_IMAGES_ON_SERVER_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="full_resize"
+			type="list"
+			size="1"
+			label="COM_CSVI_FULL_IMAGE_RESIZE_LABEL"
+			description="COM_CSVI_FULL_IMAGE_RESIZE_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="full_width"
+			type="text"
+			size="3"
+			label="COM_CSVI_FULL_WIDTH_HEIGHT_LABEL"
+			description="COM_CSVI_FULL_WIDTH_HEIGHT_DESC"
+			default="" />
+
+		<field name="full_height"
+			type="text"
+			size="3"
+			label="COM_CSVI_FULL_WIDTH_HEIGHT_LABEL"
+			description="COM_CSVI_FULL_WIDTH_HEIGHT_DESC"
+			default="" />
+
+		<field name="thumb_check_filetype"
+			type="list"
+			size="1"
+			label="COM_CSVI_THUMB_CHECK_FILETYPE_LABEL"
+			description="COM_CSVI_THUMB_CHECK_FILETYPE_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="thumb_create"
+			type="list"
+			size="1"
+			label="COM_CSVI_AUTOMATIC_THUMBNAIL_CREATION_LABEL"
+			description="COM_CSVI_AUTOMATIC_THUMBNAIL_CREATION_DESC"
+			default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="thumb_extension"
+			type="list"
+			size="1"
+			label="COM_CSVI_THUMBNAIL_FORMAT_LABEL"
+			description="COM_CSVI_THUMBNAIL_FORMAT_DESC"
+			default="0">
+			<option value="none">DEFAULT</option>
+			<option value="jpg">JPG</option>
+			<option value="png">PNG</option>
+			<option value="gif">GIF</option>
+		</field>
+
+		<field name="thumb_width"
+			type="text"
+			size="3"
+			label="COM_CSVI_THUMBNAIL_WIDTH_HEIGHT_LABEL"
+			description="COM_CSVI_THUMBNAIL_WIDTH_HEIGHT_DESC"
+			default="90" />
+
+		<field name="thumb_height"
+			type="text"
+			size="3"
+			label="COM_CSVI_THUMBNAIL_WIDTH_HEIGHT_LABEL"
+			description="COM_CSVI_THUMBNAIL_WIDTH_HEIGHT_DESC"
+			default="90" />
+
+	</fields>

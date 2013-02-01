@@ -1,0 +1,58 @@
+
+<fields name="orderitem">
+	<field name="orderitemnostart" type="text" size="10"
+		label="COM_CSVI_EXPORT_ORDER_ITEMS_NUMBER_LABEL" description="COM_CSVI_EXPORT_ORDER_ITEMS_NUMBER_DESC" />
+
+	<field name="orderitemnoend" type="text" size="10" label=""
+		description="" />
+
+	<field name="orderitemlist" type="text" size="100"
+		label="COM_CSVI_EXPORT_ORDER_LIST_LABEL" description="COM_CSVI_EXPORT_ORDER_LIST_DESC" />
+
+	<field name="orderitemdatestart" type="calendar" format="%d-%m-%Y %H:%M:%S"
+		size="25" label="COM_CSVI_EXPORT_ORDER_ITEMS_DATE_LABEL" description="COM_CSVI_EXPORT_ORDER_ITEMS_DATE_DESC" />
+
+	<field name="orderitemdateend" type="calendar" format="%d-%m-%Y %H:%M:%S"
+		size="25" label="" description="" />
+
+	<field name="orderitemmdatestart" type="calendar" format="%d-%m-%Y %H:%M:%S"
+		size="25" label="COM_CSVI_EXPORT_ORDER_ITEMS_MODIFIED_DATE_LABEL"
+		description="COM_CSVI_EXPORT_ORDER_ITEMS_MODIFIED_DATE_DESC" />
+
+	<field name="orderitemmdateend" type="calendar" format="%d-%m-%Y %H:%M:%S"
+		size="25" label="" description="" />
+
+	<field name="orderitemstatus" type="sql"
+		query="SELECT order_status_code AS value, order_status_name AS text FROM #__virtuemart_orderstates ORDER BY ordering"
+		label="COM_CSVI_EXPORT_ORDER_ITEMS_STATUS_LABEL" description="COM_CSVI_EXPORT_ORDER_ITEMS_STATUS_DESC"
+		key_field="value" value_field="text" translate="true" multiple="true"
+		size="7" default="">
+		<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+	</field>
+
+	<field name="orderitemcurrency" type="sql"
+		query="SELECT order_currency AS value, currency_name AS text
+				FROM #__virtuemart_orders o, #__virtuemart_currencies c
+				WHERE o.order_currency = c.virtuemart_currency_id
+				GROUP BY currency_name
+				ORDER BY currency_name"
+		label="COM_CSVI_EXPORT_ORDER_ITEMS_CURRENCY_LABEL" description="COM_CSVI_EXPORT_ORDER_ITEMS_CURRENCY_DESC"
+		key_field="value" value_field="text" translate="false" multiple="true"
+		default="">
+		<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+	</field>
+
+	<field name="orderitempricestart" type="text" size="10"
+		label="COM_CSVI_EXPORT_ORDER_ITEMS_PRICE_LABEL" description="COM_CSVI_EXPORT_ORDER_ITEMS_PRICE_DESC" />
+
+	<field name="orderitempriceend" type="text" size="10" label=""
+		description="" />
+
+	<field name="orderitemproduct" type="CsviVirtuemartOrderItemProduct"
+		size="7" label="COM_CSVI_EXPORT_ORDER_ITEMS_PRODUCT_LABEL"
+		description="COM_CSVI_EXPORT_ORDER_ITEMS_PRODUCT_DESC" default=""
+		multiple="true">
+		<option value="">COM_CSVI_EXPORT_DONT_USE</option>
+	</field>
+
+</fields>

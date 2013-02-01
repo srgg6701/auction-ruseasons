@@ -1,0 +1,260 @@
+/* Control panel */
+#cpanel {
+   display: block;
+   float: left;
+}
+
+.cpanel_button {
+   display: block;
+   float:left;
+}
+
+.template_header {
+	background-color: #CFCFCF;
+	margin-bottom: 0em;
+}
+.longtext {
+	width: 45em;
+}
+.delimiter {
+	width: 1.2em;
+}
+.thumbs {
+	width: 3em;
+}
+
+br {
+	clear: left;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+#subtitle {
+	/*color: #146295;*/
+	font-size: 1.128em;
+	font-weight: bold;
+	display: inline-block;
+	width: 100%;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #dfdfdf;
+	vertical-align: top;
+}
+
+/* Hides from IE-mac \ */
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+
+.debug {
+	display: none;
+	border-bottom: 1px dashed #000000;
+	padding: 0.2em;
+	margin-bottom: 0.3em;
+}
+
+.sqlerror, .error {
+	font-size: 14px;
+	color: #FF0000;
+}
+
+IMG {
+	border: none;
+}
+
+.smallprint {
+	font-size: 10px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+#filterbox {
+	text-align: left;
+	margin: 0.2em;
+}
+
+#templatesettings {
+	display: block;
+	float: left;
+	width: 50%;
+}
+
+#systemlimits {
+	display: block;
+	float: right;
+	width: 50%;
+}
+
+#templateconfig {
+	display: block;
+}
+
+.templateconfig-active {
+	background-color: #CECECE;
+	border: 0.2em ridge #000000;
+}
+
+#templateconfig #templateconfig-header {
+	display: block;
+	margin-top: 1.5em;
+	font-size: 120%;
+}
+
+#templateconfig #templateconfig-content {
+	display: block;
+	text-align: left;
+	margin-top: 3.5em;
+	margin-left: 2em;
+}
+
+#templateconfig #templateconfig-content .submit, #templateconfig-steps .submit {
+	border: 0.2em ridge #000000;
+	background: transparent;
+}
+
+#configurator #import_tab,
+#configurator #export_tab,
+#configurator #images_tab,
+#configurator #email_tab {
+	display: none;
+}
+.msgtitle {
+	margin-right:0.4em;
+	padding-right: 0.4em;
+	border-right: 0.2em solid #CECECE;
+}
+.msgtitle a {
+	cursor: pointer;
+}
+
+.showexportoption {
+	cursor: pointer;
+}
+
+.userfilename {
+	text-align: center;
+	font-size: 1.5em;
+	padding: 0.5em;
+	border: 1px solid #EFEFE0;
+}
+.column_header_input {
+	width: 15em;
+}
+
+#importcontinue {
+	color: #FF0000;
+	float: right;
+	display: block;
+	font-size: 16px;
+	padding: 0.2em;
+}
+
+.replaceinput {
+	width: 200px;
+}
+
+.crontitle {
+	margin: 5px;
+	font-size: 14px;
+}
+
+.cronline {
+	margin: 10px;
+	padding: 10px;
+	background: #F1EFFF;
+	border: 1px solid #000000;
+}
+
+#cronnote {
+	margin: 5px;
+	font-size: 1.5em;
+}
+
+.resultscounter {
+	display: block;
+	float: right;
+}
+
+#error_file {
+	margin: 5px;
+}
+
+.writable {
+	color: #008000;
+}
+
+.not_writable {
+	color: #FF0000;
+}
+
+/* Export page */
+#set_export {
+	font-size: 16px;
+}
+#selected_export {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.selectcol {
+	width: 5px;
+}
+
+#quickadd-buttons {
+	display: block;
+	position: relative;
+	float: left;
+	margin-left: 10px;
+}
+
+#importtypes, #exporttypes {
+	display: block;
+	position: left;
+	float: left;
+}
+
+table.adminlist tbody tr.tDnD_whileDrag td {
+	background: #ffffff url(images/subtab_bg.png) 50% top repeat-x;
+}
+
+.isprimary {
+	color: #FF0000;
+}
+
+.dialog-text {
+	margin-left: 42px;
+}
+
+.dialog-info {
+	background-image: url("images/info.gif");
+	background-repeat: no-repeat;
+	display: block;
+	float: left;
+	height: 32px;
+	width: 32px;
+}
+
+.dialog-important {
+	background-image: url(images/important.gif);
+}
+
+.dialog-help {
+	background-image: url(images/help.gif);
+}
+
+.dialog-hide {
+	display: none;
+}
+
+fieldset fieldset, fieldset {
+	position: relative;
+	overflow: visible;
+}

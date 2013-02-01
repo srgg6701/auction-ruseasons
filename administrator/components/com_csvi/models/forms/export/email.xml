@@ -1,0 +1,36 @@
+	<fields name="email">
+		<field name="export_email_addresses"
+			type="textarea"
+			cols="50"
+			rows="3"
+			label="COM_CSVI_EXPORT_EMAIL_ADDRESSES_LABEL"
+			description="COM_CSVI_EXPORT_EMAIL_ADDRESSES_DESC" />
+
+		<field name="export_email_addresses_cc"
+			type="textarea"
+			cols="50"
+			rows="3"
+			label="COM_CSVI_EXPORT_EMAIL_ADDRESSES_CC_LABEL"
+			description="COM_CSVI_EXPORT_EMAIL_ADDRESSES_CC_DESC" />
+
+		<field name="export_email_addresses_bcc"
+			type="textarea"
+			cols="50"
+			rows="3"
+			label="COM_CSVI_EXPORT_EMAIL_ADDRESSES_BCC_LABEL"
+			description="COM_CSVI_EXPORT_EMAIL_ADDRESSES_BCC_DESC" />
+
+		<field name="export_email_subject"
+			type="text"
+			size="100"
+			label="COM_CSVI_EXPORT_EMAIL_SUBJECT_LABEL"
+			description="COM_CSVI_EXPORT_EMAIL_SUBJECT_DESC" />
+
+		<field name="export_email_body"
+			type="editor"
+			height="350"
+			label="COM_CSVI_EXPORT_EMAIL_BODY_LABEL"
+			description="COM_CSVI_EXPORT_EMAIL_BODY_DESC"
+			filter="safehtml" />
+
+	</fields>
