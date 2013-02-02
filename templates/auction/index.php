@@ -1,10 +1,10 @@
 <?php
 defined('_JEXEC') or die('Restricted access'); // no direct access
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'functions.php';
+// require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'functions.php'; 
 $document = isset($this) ? $this : null;
 $baseUrl = $this->baseurl;
 $templateUrl = $this->baseurl . '/templates/' . $this->template;
-artxComponentWrapper($document);
+//artxComponentWrapper($document);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -82,7 +82,7 @@ try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
         </div>
         <div id="content">
 		<?php $style="";?>
-						<?php if (artxCountModules($document, 'left') == 0): ?>
+						<?php if ($this->countModules($document, 'left') == 0): ?>
      
   <?php else: ?>
   <?php $style="left "?>
@@ -93,7 +93,7 @@ try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
 		
 			
 
-			<?php if (artxCountModules($document, 'right') == 0): ?>
+			<?php if ($this->countModules($document, 'right') == 0): ?>
      
   <?php else: ?>
    <?php $style.="right"?>
@@ -135,7 +135,7 @@ if(11<js)d.write('--'+'&#062');//]]></script>
 </div>	
             </div>
             <div id="copyright">
-			<?php if (artxCountModules($document, 'copyright') == 0): ?>
+			<?php if ($this->countModules($document, 'copyright') == 0): ?>
 &copy; 2010 Русские Сезоны
   <?php else: ?>
   <jdoc:include type="modules" name="copyright" />
