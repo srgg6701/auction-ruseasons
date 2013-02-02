@@ -18,7 +18,6 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <![endif]-->
 <script type="text/javascript" src="<?php echo $templateUrl; ?>/js/mootools.js"></script>
 <script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>
-
 <script type="text/javascript">
 <!--
 window.addEvent('domready', function() {
@@ -69,42 +68,54 @@ try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
 <body>
 	<div id="page">
 	
-	    	<div id="header"> 
-<div id="pic_top"></div>			
-           <div id="main_menu">
-            	<jdoc:include type="modules" name="user3" />
+        <div id="header"> 
+            
+            <div id="pic_top"></div>			
+            	
+            <div id="main_menu">
+                <jdoc:include type="modules" name="user3" />
             </div>   
-<div style="position:absolute;float:right;top:10px; right:30px;"><jdoc:include type="modules" name="search" /></div>
-            <div id="clock">
-            </div>  
+            
+            <div style="position:absolute;float:right;top:10px; right:30px;">					
+                <jdoc:include type="modules" name="search" />
+            </div>
+            
+            <div id="clock"></div>  
+            
             <a href="#" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
             <a href="#" id="logo_text"><img src="<?php echo $templateUrl; ?>/images/logo_text.png" width="266" height="50" alt="" /></a>
-        </div>
+    	</div>
+        
+        
         <div id="content">
 		<?php $style="";?>
-						<?php if ($this->countModules('left') == 0): ?>
-     	NO LEFT MODULE
+  <?php if ($this->countModules('left') == 0): ?>
   <?php else: ?>
-        LEFT MODULE COMES HERE!
-  <?php $style="left "?>
-  <div id="left_part">
-  	<jdoc:include type="modules" name="left" style="xhtml" />    
-  </div>
+  	<?php $style="left "?>
+          <div id="left_part">
+            <jdoc:include type="modules" name="left" style="xhtml" />    
+          </div>
   <?php endif; ?>
-			<?php if ($this->countModules('right') == 0): ?>
-     	NO RIGHT MODULE
+  
+  <?php if ($this->countModules('right') == 0): ?>
   <?php else: ?>
-  		RIGHT MODULE COMES HERE!
    <?php $style.="right"?>
-            <div id="right_part">
+          <div id="right_part">
               	<jdoc:include type="modules" name="right" style="xhtml" />    
             </div>
   <?php endif; ?>
 			
             <div id="main_content" class="<?php echo $style; ?> ">
-            	<jdoc:include type="component" />
+                <div class="Post">
+                    <div class="Post-body">
+                		<jdoc:include type="component" />
+                    </div>
+                </div>
             </div>
+        
         </div>
+        
+        
         <div id="footer">
         	
         	<div id="bottom_menu">

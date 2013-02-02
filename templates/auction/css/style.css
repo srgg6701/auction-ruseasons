@@ -15,9 +15,26 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 		#main_menu{ padding:30px 0 0 315px; width:675px; background:url(../images/menu_bg.png) left bottom no-repeat; height:44px; top:205px; left:0px; position:absolute;}
 		/*------------------------------------*/
 		
-			#main_menu ul{padding:0; margin:0; list-style:none;}
-			#main_menu ul li{float:left; position:relative; top:0; left:0;}			
-			#main_menu ul li a{color:#fad674; font:bold 12px/13px Verdana, Geneva, sans-serif; float:left; padding:10px 50px 0 10px;  height:23px; text-decoration:none; text-transform:uppercase}
+			#main_menu ul{
+				display:table;
+				list-style:none;
+				margin:0; 
+				margin-top: 10px;
+				width: 660px;
+			}
+			#main_menu ul li{
+				display:table-cell;
+				/*float:left;
+				top:0; 
+				left:0; */
+				position:relative; 
+			}			
+			#main_menu ul li a{
+				color:#fad674; 
+				font:bold 12px/13px Verdana, Geneva, sans-serif; 
+				float:left; 
+				/*padding:10px 50px 0 10px;*/  
+				height:23px; text-decoration:none; text-transform:uppercase}
 			#main_menu ul li.active a,#main_menu ul li a:hover{text-decoration:none; color:#e9e4bc;}
 			
 			#main_menu ul li ul{display:none; position:absolute; top:100%; left:0; width:190px; background:#417337; border-top:1px solid #e9e4bc;}
