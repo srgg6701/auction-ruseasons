@@ -18,7 +18,10 @@
 <fileName>images/logo_text.png</fileName>
 <fileName>images/menu_bg.png</fileName>
 </images>
-
+ <less>
+    <fileName>less/styles.less</fileName>
+    <fileName>less/less.js</fileName>
+ </less>
  <css>
     <fileName>css/styleIE6.css</fileName>
     <fileName>css/style.css</fileName>
@@ -29,7 +32,9 @@
     <fileName>index.php</fileName>
     <fileName>html/index.html</fileName>
     <fileName>html/modules.php</fileName>
-    <fileName>html/com_content/index.html</fileName>
+    <!--
+		извращение, как следствие использования первоначальным умельцем устаревшей версии artisteer:
+	<fileName>html/com_content/index.html</fileName>
     <fileName>html/com_content/article/default.php</fileName>
     <fileName>html/com_content/article/form.php</fileName>
     <fileName>html/com_content/article/index.html</fileName>
@@ -41,7 +46,7 @@
     <fileName>html/com_content/frontpage/index.html</fileName>
     <fileName>html/com_content/section/blog.php</fileName>
     <fileName>html/com_content/section/blog_item.php</fileName>
-    <fileName>html/com_content/section/index.html</fileName>
+    <fileName>html/com_content/section/index.html</fileName>-->
     <fileName>html/mod_mainmenu/default.php</fileName>
     <fileName>html/mod_mainmenu/index.html</fileName>
     <fileName>html/mod_syndicate/default.php</fileName>
