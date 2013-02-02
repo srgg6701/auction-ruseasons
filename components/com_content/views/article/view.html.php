@@ -242,7 +242,7 @@ class ContentViewArticle extends JViewLegacy
 			if ($v)
 			{
 				$this->document->setMetadata($k, $v);
-			}
+			} 
 		}
 
 		// If there is a pagebreak heading or title, add it to the page title

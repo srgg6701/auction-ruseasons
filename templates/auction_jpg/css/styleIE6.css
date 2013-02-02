@@ -1,0 +1,6 @@
+@charset "utf-8";
+/* CSS Document */
+.left{margin-left:220px;}				
+			.right{margin-right:300px;}
+#main_menu ul li.hover ul{display:block;}
+			
