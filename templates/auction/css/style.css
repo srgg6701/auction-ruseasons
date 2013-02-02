@@ -83,15 +83,6 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 			.left{margin-left:220px;}
 			.right{margin-right:310px;}
 
-		#footer{background:url(../images/footer.png) 0 0 no-repeat; height:20px; padding-top:24px; position:relative;}
-			#copyright{color:#fbe8b3; font:normal 11px/13px calibri, Verdana, Geneva, sans-serif; position:absolute; top:24px; right:50px;}
-			#bottom_menu{text-align:center; margin:0 auto;}
-				#bottom_menu ul{padding:0; margin:0; list-style:none; overflow:hidden; display:block; }
-					#bottom_menu ul li{border-left:1px solid #ead8b0; float:left; line-height:0px; font-size:0; }
-					#bottom_menu ul li.first{border:none;}
-						#bottom_menu ul li a{text-decoration:none; text-transform:uppercase; color:#ead8b0; font:normal 11px/13px calibri, Verdana, Geneva, sans-serif; padding:0 5px;}
-							#bottom_menu ul li a:hover{text-decoration:none;}
-#pic_top{background:url('../images/top_image.jpg') no-repeat; height:211px; margin-left:146px;}
-#padd_bot_menu{margin-left:30px;}
+			#pic_top{background:url('../images/top_image.jpg') no-repeat; height:211px; margin-left:146px;}
 
 

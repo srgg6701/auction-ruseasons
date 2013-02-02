@@ -121,33 +121,6 @@ try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
         
         
         <div id="footer">
-        	
-        	<div id="bottom_menu">
-			<div id="padd_bot_menu">
-            	<jdoc:include type="modules" name="footer" />
-			
-<!--Rating@Mail.ru counter-->
-<script language="javascript" type="text/javascript">//<![CDATA[
-d=document;var a='';a+=';r='+escape(d.referrer);js=10;//]]></script>
-<script language="javascript1.1" type="text/javascript">//<![CDATA[
-a+=';j='+navigator.javaEnabled();js=11;//]]></script>
-<script language="javascript1.2" type="text/javascript">//<![CDATA[
-s=screen;a+=';s='+s.width+'*'+s.height;
-a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth);js=12;//]]></script>
-<script language="javascript1.3" type="text/javascript">//<![CDATA[
-js=13;//]]></script><script language="javascript" type="text/javascript">//<![CDATA[
-d.write('<a href="http://top.mail.ru/jump?from=1859529" target="_top">'+
-'<img src="http://df.c5.bc.a1.top.mail.ru/counter?id=1859529;t=85;js='+js+
-a+';rand='+Math.random()+'" alt="Рейтинг@Mail.ru" border="0" '+
-'height="18" width="88" \/><\/a>');if(11<js)d.write('<'+'!-- ');//]]></script>
-<noscript><a target="_top" href="http://top.mail.ru/jump?from=1859529">
-<img src="http://df.c5.bc.a1.top.mail.ru/counter?js=na;id=1859529;t=85" 
-height="18" width="88" border="0" alt="Рейтинг@Mail.ru" /></a></noscript>
-<script language="javascript" type="text/javascript">//<![CDATA[
-if(11<js)d.write('--'+'&#062');//]]></script>
-<!--// Rating@Mail.ru counter-->
-</div>	
-            </div>
             <div id="copyright">
 			<?php if ($this->countModules('copyright') == 0): ?>
 &copy; 2010 Русские Сезоны
@@ -155,6 +128,35 @@ if(11<js)d.write('--'+'&#062');//]]></script>
   <jdoc:include type="modules" name="copyright" />
   <?php endif; ?>
 			</div>
+        	
+        	<div id="bottom_menu">
+				<div id="padd_bot_menu">
+                	<? // ul ?>
+            		<jdoc:include type="modules" name="footer" />
+					<div id="mailru_counter">
+                        <!--Rating@Mail.ru counter-->
+                        <script language="javascript" type="text/javascript">//<![CDATA[
+                        d=document;var a='';a+=';r='+escape(d.referrer);js=10;//]]></script>
+                        <script language="javascript1.1" type="text/javascript">//<![CDATA[
+                        a+=';j='+navigator.javaEnabled();js=11;//]]></script>
+                        <script language="javascript1.2" type="text/javascript">//<![CDATA[
+                        s=screen;a+=';s='+s.width+'*'+s.height;
+                        a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth);js=12;//]]></script>
+                        <script language="javascript1.3" type="text/javascript">//<![CDATA[
+                        js=13;//]]></script><script language="javascript" type="text/javascript">//<![CDATA[
+                        d.write('<a href="http://top.mail.ru/jump?from=1859529" target="_top">'+
+                        '<img src="http://df.c5.bc.a1.top.mail.ru/counter?id=1859529;t=85;js='+js+
+                        a+';rand='+Math.random()+'" alt="Рейтинг@Mail.ru" border="0" '+
+                        'height="18" width="88" \/><\/a>');if(11<js)d.write('<'+'!-- ');//]]></script>
+                        <noscript><a target="_top" href="http://top.mail.ru/jump?from=1859529">
+                        <img src="http://df.c5.bc.a1.top.mail.ru/counter?js=na;id=1859529;t=85" 
+                        height="18" width="88" border="0" alt="Рейтинг@Mail.ru" /></a></noscript>
+                        <script language="javascript" type="text/javascript">//<![CDATA[
+                        if(11<js)d.write('--'+'&#062');//]]></script>
+                        <!--// Rating@Mail.ru counter-->
+					</div>
+				</div>	
+            </div>
         </div>
     </div>
 </body>

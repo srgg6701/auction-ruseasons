@@ -1,3 +1,5 @@
+@menuBorder: solid 1px #EAD8B0;
+
 .brown{
 	color:#841113;
 }
@@ -9,6 +11,58 @@ div#content{
 			td{
 				font-weight:bold;
 				padding-top:15px;
+			}
+		}
+	}
+}
+div#footer{
+	background:url(../images/footer.png) 0 0 no-repeat; 
+	height:20px; 
+	padding-top:24px; 
+	position:relative;
+	#copyright{
+		color:#fbe8b3;
+		display:inline-block;
+		float:left; 
+		font:normal 13px/14px calibri, Verdana, Geneva, sans-serif; 
+		margin-left:50px;
+		top:24px; 
+	}
+	#bottom_menu{
+		text-align:center; 
+		margin:0 auto;
+	}
+	#bottom_menu {
+		#padd_bot_menu{
+			margin-left:30px;
+			ul{
+				margin:0; 
+				padding:0; 
+				list-style:none; 
+				overflow:hidden; 
+				display:inline-table; 
+				li{
+					display:table-cell;
+					a{
+						border-left: @menuBorder;
+						border-right: @menuBorder;
+						color:#ead8b0; 
+						font: 13px calibri, Verdana, Geneva, sans-serif; 
+						margin: 0 1px;
+						padding:0 6px;
+						text-decoration:none; 
+						text-transform:uppercase; 
+					}
+					a:hover{
+						text-decoration:none;
+					}
+				}
+			}
+			div#mailru_counter{
+				display:inline-block;
+				float:right;
+				margin-right:40px;
+				width:auto;
 			}
 		}
 	}
