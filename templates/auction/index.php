@@ -83,26 +83,21 @@ try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
         <div id="content">
 		<?php $style="";?>
 						<?php if ($this->countModules('left') == 0): ?>
-     
+     	NO LEFT MODULE
   <?php else: ?>
+        LEFT MODULE COMES HERE!
   <?php $style="left "?>
   <div id="left_part">
   	<jdoc:include type="modules" name="left" style="xhtml" />    
-
-            	<?php // echo artxModules($document, 'left', 'left'); ?>
   </div>
   <?php endif; ?>
-		
-			
-
 			<?php if ($this->countModules('right') == 0): ?>
-     
+     	NO RIGHT MODULE
   <?php else: ?>
+  		RIGHT MODULE COMES HERE!
    <?php $style.="right"?>
             <div id="right_part">
               	<jdoc:include type="modules" name="right" style="xhtml" />    
-
-            	<?php // echo artxModules($document, 'right', 'right'); ?>
             </div>
   <?php endif; ?>
 			
