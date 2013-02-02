@@ -82,23 +82,27 @@ try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
         </div>
         <div id="content">
 		<?php $style="";?>
-						<?php if ($this->countModules($document, 'left') == 0): ?>
+						<?php if ($this->countModules('left') == 0): ?>
      
   <?php else: ?>
   <?php $style="left "?>
   <div id="left_part">
-            	<?php echo artxModules($document, 'left', 'left'); ?>
+  	<jdoc:include type="modules" name="left" style="xhtml" />    
+
+            	<?php // echo artxModules($document, 'left', 'left'); ?>
   </div>
   <?php endif; ?>
 		
 			
 
-			<?php if ($this->countModules($document, 'right') == 0): ?>
+			<?php if ($this->countModules('right') == 0): ?>
      
   <?php else: ?>
    <?php $style.="right"?>
             <div id="right_part">
-            	<?php echo artxModules($document, 'right', 'right'); ?>
+              	<jdoc:include type="modules" name="right" style="xhtml" />    
+
+            	<?php // echo artxModules($document, 'right', 'right'); ?>
             </div>
   <?php endif; ?>
 			
@@ -135,7 +139,7 @@ if(11<js)d.write('--'+'&#062');//]]></script>
 </div>	
             </div>
             <div id="copyright">
-			<?php if ($this->countModules($document, 'copyright') == 0): ?>
+			<?php if ($this->countModules('copyright') == 0): ?>
 &copy; 2010 Русские Сезоны
   <?php else: ?>
   <jdoc:include type="modules" name="copyright" />
