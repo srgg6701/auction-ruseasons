@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . str_replace('/', DIRECTORY_SEPARATOR, '/../../.
 $canEdit = ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own'));
 
 echo artxPost(artxPageTitle($this, $this->params->get('show_page_title', 1) && $this->params->get('page_title') != $this->article->title), null);
+
 ?>
 <?php $metadata = array(); ?>
 <div class="Post">

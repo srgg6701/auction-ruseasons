@@ -143,10 +143,8 @@ if (!defined('_ARTX_FUNCTIONS')) {
 		if ($criteria === null)
 			$criteria = $page->params->def('show_page_title', 1);
 		return $criteria
-			? ('<span class="componentheading'.$page->params->get('pageclass_sfx').'">'. $page->escape($page->params->get($key === null ? 'page_title' 
-				: 
-				$key)
-			  ) . '</span>')
+			? ('<span class="componentheading' . $page->params->get('pageclass_sfx') . '">'
+				. $page->escape($page->params->get($key === null ? 'page_title' : $key)) . '</span>')
 			: '';
 	}
 	

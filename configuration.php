@@ -41,7 +41,7 @@ class JConfig {
 	public $smtpport = '25';
 	public $caching = '0';
 	public $cache_handler = 'file';
-	public $cachetime = '300';
+	public $cachetime = '15';
 	public $MetaDesc = '';
 	public $MetaKeys = '';
 	public $MetaTitle = '1';
@@ -55,7 +55,7 @@ class JConfig {
 	public $feed_limit = '10';
 	public $log_path = 'Z:\\home\\localhost\\www\\~auction.test/logs';
 	public $tmp_path = 'Z:\\home\\localhost\\www\\~auction.test/tmp';
-	public $lifetime = '15';
+	public $lifetime = '300';
 	public $session_handler = 'database';
 	public $MetaRights = '';
 	public $sitename_pagetitles = '0';
