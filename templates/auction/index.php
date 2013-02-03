@@ -20,8 +20,8 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 	<script> DD_belatedPNG.fix('*');</script>		
     <link type="text/css" rel="stylesheet" href="<?php echo $templateUrl; ?>/css/styleIE6.css" />
 <![endif]-->
-<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/mootools.js"></script>
-<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>
+<!--<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/mootools.js"></script>
+<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>-->
 <script type="text/javascript">
 <!--
 window.addEvent('domready', function() {
@@ -53,22 +53,16 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
 <!-- Yandex.Metrika -->
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
 <div style="display:none;"><script type="text/javascript">
 try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 </script></div>
 <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1106646" alt="" /></div></noscript>
-<!-- /Yandex.Metrika -->
-<!-- Yandex.Metrika -->
-<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
-<div style="display:none;"><script type="text/javascript">
-try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
-</script></div>
-<noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1061964" alt="" /></div></noscript>
-<!-- /Yandex.Metrika -->
 </head>
-
 <body>
 	<div id="page">
 	
