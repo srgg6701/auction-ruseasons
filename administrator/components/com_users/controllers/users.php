@@ -154,22 +154,9 @@ class UsersControllerUsers extends JControllerAdmin
 	public function convert_users($key = null, $urlVar = null)
 	{
 		// JControllerAdmin!
-		// $data = JRequest::getVar('jform', array(), 'post', 'array');
-		$query="SELECT u.id, 
-    FROM_UNIXTIME(u.date_joined) AS 'registration date',u.username, l.password, 
-    u.firstname, u.optional_field_1 AS '*middlename', u.lastname, 
-    u.company_name, 'send to admin via email' AS '[COUNTRY]', u.zip, u.city, 
-    u.optional_field_2 AS '*street', u.optional_field_3 AS '*house number', 
-    u.optional_field_4 AS '*corpus', u.optional_field_5 AS '*flat/office', 
-    u.phone, u.phone2, u.email
-FROM #__geodesic_users AS u 
-LEFT JOIN #__geodesic_logins AS l ON l.username = u.username";
-		$db=JFactory::getDBO();
-		$db->setQuery($query);
-		$result=$db->loaAssocList(); 
-		var_dump($result); die();
-		$go_next=false;
-		
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
+
+		$go_next=false;		
 		
 		if ($go_next){ 
 			//********************************************
@@ -185,13 +172,60 @@ LEFT JOIN #__geodesic_logins AS l ON l.username = u.username";
 			//********************************************
 			// собственный код:
 			$pks=JRequest::getVar('cid'); // массив id id юзеров
-			$model=$this->getModel('Item'); // будем получать данные аппликантов
+			$query="SELECT
+    FROM_UNIXTIME(u.date_joined) AS 'registerDate',
+	u.username, l.password, 
+    u.firstname AS 'name', 
+	u.optional_field_1 AS '_middlename', 
+	u.lastname AS '_lastname', 
+    u.company_name AS '_company_name', 
+	'' AS '_country_id', 
+	u.zip AS '_zip', 
+	u.city AS '_city', 
+    u.optional_field_2 AS '_street', 
+	u.optional_field_3 AS '_house_number', 
+    u.optional_field_4 AS '_corpus_number', 
+	u.optional_field_5 AS '_flat_office_number', 
+    u.phone AS '_phone_number', 
+	u.phone2 AS '_phone2_number', 
+	u.email
+FROM #__geodesic_users AS u 
+LEFT JOIN #__geodesic_logins AS l ON l.username = u.username
+WHERE u.id = ";
+			$db=JFactory::getDBO();
+
+			$show_data=false;
+			if ($show_data){
+echo <<<DT
+<pre>
+'id' => string '124'
+'registerDate' => string '2010-09-30 14:20:14'
+'username' => string '100130'
+'password' => string '74394864'
+'name' => string 'Андрей'
+'_middlename' => string 'Николаевич'
+'_lastname' => string 'Кокарев'
+'_company_name' => string ''
+'_country_id' => string ''
+'_zip' => string '127522'
+'_city' => string 'Москва'
+'_street' => string 'Ленинградский проспект'
+'_house_number' => string '11'
+'_corpus_number' => string ''
+'_flat_office_number' => string 'офис'
+'_phone_number' => string '+7 962 2302121'
+'_phone2_number' => string ''
+'email' => string 'akvip@mail.ru'
+</pre>
+DT;
+			}
 			// перебрать и зарегистрировать полученных аппликантов:
 			foreach ($pks as $i => $pk) {	
-				$applicant_data=$model->getItem($pk);
+				$db->setQuery($query.$pk);
+				$applicant_data=$db->loadAssocList();
 				if (!$applicant_data) {
-					JError::raiseWarning(100, JText::_('Не получены данные заявки...'));
-					die("ApplicationController_chado_app_data::activate(), LINE: ".__LINE__);
+					JError::raiseWarning(100, JText::_('Не получены данные конвертанта...'));
+					die("convert_users(), LINE: ".__LINE__);
 				}else{
 					
 					//********************************************
@@ -200,36 +234,33 @@ LEFT JOIN #__geodesic_logins AS l ON l.username = u.username";
 					// it's important to set the "0" otherwise your admin user information will be loaded
 					$user = JFactory::getUser(0);
 					// get the default usertype
-					$usertype = $usersParams->get( 'new_usertype' );
-					if (!$usertype) {
-						 $usertype = 'Registered';
-					}
-					// set up the "main" user information
-					//original logic of name creation
-					//$data['name'] = $firstname.' '.$lastname; // add first- and lastname
-					//default to defaultUserGroup i.e.,Registered:
+					$usertype = $usersParams->get('new_usertype');
+					if (!$usertype)
+						$usertype = 'Registered';
 					$defaultUserGroup = $usersParams->get('new_usertype', 2);
-					$password=$this->generate_password(10);
-					$xtra_data=serialize( array(
-											'family'=>$applicant_data->family,
-											'middle_name'=>$applicant_data->middle_name,
-											'child_name'=>$applicant_data->child_name,
-											'kindergarten'=>$applicant_data->kindergarten,
-											'group'=>$applicant_data->group,
-											'mobila'=>$applicant_data->mobila,
-											'password'=>$password
-										));
 					$data=array(
-							'id' => '0', // А без этого добавит ТОЛЬКО ОДНУ запись!!!
-							'name' => $applicant_data->name,
-							'username' => $applicant_data->email,
-							'email' => $applicant_data->email,
-							'password' => $password, 
-							'password2' => $password, 
-							'groups'=>array($defaultUserGroup),
+							'id' => '0', 
+							'name' => $applicant_data['name'],
+							'_middlename' => $applicant_data['_middlename'],
+							'_lastname' => $applicant_data['_lastname'],
+							'username' => $applicant_data['username'],
+							'email' => $applicant_data['email'],
+							'password' => $applicant_data['password'],
+							'password2' => $applicant_data['password'],
 							'sendEmail' => 1, // should the user receive system mails?
+							'registerDate' => $applicant_data['registerDate'],
+							'_company_name' => $applicant_data['_company_name'],
+							'_country_id' => $applicant_data['_country_id'],
+							'_zip' => $applicant_data['_zip'],
+							'_city' => $applicant_data['_city'],
+							'_street' => $applicant_data['_street'],
+							'_house_number' => $applicant_data['_house_number'],
+							'_corpus_number' => $applicant_data['_corpus_number'],
+							'_flat_office_number' => $applicant_data['_flat_office_number'],
+							'_phone_number' => $applicant_data['_phone_number'],
+							'_phone2_number' =>$applicant_data['_phone2_number'],
+							'groups'=>array($defaultUserGroup),
 							'block'=> 0,
-							'data'=>$xtra_data
 						);
 				}
 				if (!$user->bind($data)) { // now bind the data to the JUser Object, if it not works....
@@ -240,13 +271,10 @@ LEFT JOIN #__geodesic_logins AS l ON l.username = u.username";
 					JError::raiseWarning('', JText::_( $user->getError())); // ...raise an Warning
 					return false; 
 					//********************************************
-				}else // удалим аппликанта, т.к. теперь он - юзер!
-					$this->getModel('Chado_app_data')->delete($pks);
+				}
 			}								
 		}
-		
 		// отправляемся на страницу с текущим списком юзеров:
 		$this->setRedirect(JRoute::_('index.php?option=com_users',false));
-
 	}	
 }

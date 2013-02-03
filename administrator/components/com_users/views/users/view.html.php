@@ -49,34 +49,40 @@ class UsersViewUsers extends JViewLegacy
 	protected function addToolbar()
 	{
 		$canDo	= UsersHelper::getActions();
-
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
-
-		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('user.add');
+		
+		if(JRequest::getVar('layout')=='convert'){
+			JToolBarHelper::title(JText::_('Перемещение юзеров из строй таблицы в актуальную'), 'user');
+			if ($canDo->get('core.edit.state'))
+				JToolBarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			
+		}else{		
+			JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
+	
+			if ($canDo->get('core.create')) {
+				JToolBarHelper::addNew('user.add');
+			}
+			if ($canDo->get('core.edit')) {
+				JToolBarHelper::editList('user.edit');
+			}
+	
+			if ($canDo->get('core.edit.state')) {
+				JToolBarHelper::divider();
+				JToolBarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+				JToolBarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+				JToolBarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
+				JToolBarHelper::divider();
+			}
+	
+			if ($canDo->get('core.delete')) {
+				JToolBarHelper::deleteList('', 'users.delete');
+				JToolBarHelper::divider();
+			}
+	
 		}
-		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('user.edit');
-		}
-
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			JToolBarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-			JToolBarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-			JToolBarHelper::divider();
-		}
-
-		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'users.delete');
-			JToolBarHelper::divider();
-		}
-
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_users');
 			JToolBarHelper::divider();
 		}
-
 		JToolBarHelper::help('JHELP_USERS_USER_MANAGER');
 	}
 }
