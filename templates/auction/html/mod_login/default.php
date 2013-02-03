@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</form>
 <?php 	endif; ?>
  	<div id="board">
-    	<a href="http://auction-ruseasons.ru/sell.html">Позвольте вашим вещам<br />самореализоваться<br />Прием антиквариата на торги</a>
+    	<a href="index.php?option=com_content&view=article&id=18:prijom-antikvariata-na-torgi&catid=2:uncategorised">Позвольте вашим вещам<br />самореализоваться<br />Прием антиквариата на торги</a>
     </div>
   </div>
 </div>
