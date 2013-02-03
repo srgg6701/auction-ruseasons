@@ -58,10 +58,10 @@ endif; ?>
 		if ($usersConfig->get('allowUserRegistration')) : ?>
 		
 		
-			<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=remind' ); ?>" style="float:left;">
+			<a href="<?php echo JRoute::_( 'index.php?option=com_users&view=remind' ); ?>" style="float:left;">
 			<?php echo JText::_('Забыли логин '); ?></a>
 		<span style="float:left;"> &nbsp;/ </span>
-			<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset' ); ?>" style="float:left; margin-left:2px;">
+			<a href="<?php echo JRoute::_( 'index.php?option=com_users&view=reset' ); ?>" style="float:left; margin-left:2px;">
 			<?php echo JText::_(' пароль?'); ?></a>
 	
 		

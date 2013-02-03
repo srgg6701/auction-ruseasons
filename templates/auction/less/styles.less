@@ -1,6 +1,21 @@
+@brown:#841113;
+@brownDark:#851719;
+@brownDarkUltra:#6d4721;
 @menuBorder: solid 1px #EAD8B0;
-.brown{
-	color:#841113;
+
+.h3upper{
+	color:@brownDark;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 18px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: normal;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 10px;
+	text-transform: uppercase;
 }
 .liActive{
 	text-decoration:none; 
@@ -99,6 +114,61 @@ div#header{
 }
 
 div#content{
+	#right_part{
+		color:#172a17; 
+		float:right; 
+		font:normal 16px calibri, Verdana, Geneva, sans-serif; 
+		width:290px; 
+		h3{
+			color:#6d4721; 
+			margin:10px 0; 
+			font:normal 18px Verdana, Geneva, sans-serif; 
+			color:#6d4721; 
+			text-transform:uppercase;
+			span{
+				color:#6d4721;
+			}
+		}
+		p{
+			margin:10px 0;
+		}
+		span{
+			color:@brownDark;
+		}
+		a{
+			color:@brownDark; 
+			text-decoration:underline;
+			&:hover{
+				text-decoration:none;
+			}
+		}
+		div[class*="-acy_subscribe"]{
+			div.acymailing_module_form{
+				width:200px;
+			}
+			h3{
+				color:@brownDark;
+			}
+			table.acymailing_form{
+				td{
+					text-align:left;
+				}
+			}
+		}
+		div[class*="-go_catalogues"]{
+			div.custom-go_catalogues{
+				h3{
+					margin:24px 0 auto auto;
+				}
+				a{
+					color:@brownDark;
+					// .h3upper;
+					// text-decoration:none;
+					text-transform:uppercase;
+				}
+			}
+		}
+	}
 	div#main_content{
 		
 		table.category{

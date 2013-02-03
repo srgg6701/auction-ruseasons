@@ -106,7 +106,9 @@ try { var yaCounter1061964 = new Ya.Metrika(1061964); } catch(e){}
    <?php $style.="right"?>
           <div id="right_part">
           	<jdoc:include type="modules" name="right_over" style="xhtml" />    
-            <jdoc:include type="modules" name="right" style="xhtml" />    
+            <jdoc:include type="modules" name="right" style="xhtml" />
+            <jdoc:include type="modules" name="right_under" style="xhtml" />
+            <jdoc:include type="modules" name="right_bottom" style="xhtml" />
           </div>
   <?php endif; ?>
 			

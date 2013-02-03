@@ -14,13 +14,7 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 		#clock{color:#426e36; font:normal 18px Verdana, Geneva, sans-serif; position:absolute; left:10px; top:15px; float:left;}
 			
 		#content{overflow:hidden; padding:1px 10px 0 10px; margin-bottom:10px;}
-			#right_part{float:right; width:290px;  font:normal 16px calibri, Verdana, Geneva, sans-serif; color:#172a17; }
-				#right_part h3{color:#6d4721; margin:10px 0; font:normal 18px Verdana, Geneva, sans-serif; color:#6d4721; text-transform:uppercase;}
-				#right_part h3 span{color:#6d4721;}
-				#right_part p{margin:10px 0;}
-				#right_part span{color:#851719;}
-				#right_part a{color:#851719; text-decoration:underline;}
-					#right_part a:hover{text-decoration:none;}
+				
 				#logIn_wrapper{background:url(../images/login.png) 0 0 no-repeat; }
 				#logIn{width:290px; height:203px; position:relative; top:0; padding-top:1px;}
 					#logIn form{padding:20px 0 0 0px; width:160px; padding-left:20px;}
