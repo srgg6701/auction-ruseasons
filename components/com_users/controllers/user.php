@@ -73,9 +73,9 @@ class UsersControllerUser extends UsersController
 	 * @since	1.6
 	 */
 	public function logout()
-	{
+	{	
 		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
-
+		
 		$app = JFactory::getApplication();
 
 		// Perform the log in.
@@ -89,10 +89,11 @@ class UsersControllerUser extends UsersController
 			if (!JURI::isInternal($return)) {
 				$return = '';
 			}
-
+			if (!$return) // указать абсолютный путь, иначе возвращает в профайл!
+				$return=JUri::root().'index.php'; 
 			// Redirect the user.
 			$app->redirect(JRoute::_($return, false));
-		} else {
+		} else {	die('logout FAILED');
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
 	}

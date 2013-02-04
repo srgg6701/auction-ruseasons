@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
+require_once JPATH_COMPONENT.'/helpers/cabinet.php';
 
 // Launch the controller.
 $controller = JControllerLegacy::getInstance('Users');

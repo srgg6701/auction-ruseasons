@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
  */
 class UsersViewProfile extends JViewLegacy
 {
+	public $cabinet;
 	protected $data;
 	protected $form;
 	protected $params;
@@ -58,7 +59,7 @@ class UsersViewProfile extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
-
+		$this->cabinet=UserCabinet::buildCabinet($this->params->get('logout_redirect_url', $this->form->getValue('return')),$this->getLayout());
 		parent::display($tpl);
 	}
 

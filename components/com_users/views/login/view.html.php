@@ -30,6 +30,7 @@ class UsersViewLogin extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		
 		// Get the view data.
 		$this->user		= JFactory::getUser();
 		$this->form		= $this->get('Form');
@@ -43,11 +44,11 @@ class UsersViewLogin extends JViewLegacy
 		}
 
 		// Check for layout override
-		$active = JFactory::getApplication()->getMenu()->getActive();
+		$app = JFactory::getApplication();
+		$active = $app->getMenu()->getActive();
 		if (isset($active->query['layout'])) {
 			$this->setLayout($active->query['layout']);
 		}
-
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 

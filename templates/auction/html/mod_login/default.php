@@ -4,25 +4,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <div id="logIn">
 <?php	 
 		if($type == 'logout') : ?>
-    <form action="index.php" method="post" name="login" id="form-login">
+    
+	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
     <?php if ($params->get('greeting')) : ?>
     <div>
-    <?php echo 'Клиентский номер: '. $user->get('username');
-		
-	if ($params->get('name')) : {
-    //echo JText::sprintf( 'HINAME', $user->get('name') );
-    } else : {
-    //echo JText::sprintf( 'HINAME', $user->get('username') );
-    } endif; ?>
+    <?php echo 'Клиентский номер: '. $user->get('username');?>
     </div>
     <?php endif; ?>
     <div align="left" style="margin-top:8px;">
     <input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'Выйти'); ?>" />
-    </div>
-    
-    <input type="hidden" name="option" value="com_user" />
-    <input type="hidden" name="task" value="logout" />
-    <input type="hidden" name="return" value="<?php echo $return; ?>" />
+    </div>	    
+    	<input type="hidden" name="return" value="<?php echo $return; ?>" />
+		<?php echo JHTML::_( 'form.token' ); ?>
     </form>
 <?php 	else : ?>
 	<?php if(JPluginHelper::isEnabled('authentication', 'openid')) :
@@ -36,10 +29,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
             $document->addScriptDeclaration( $langScript );
             JHTML::_('script', 'openid.js');
           endif; ?>
-	<form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
+	<form action="<?php echo JRoute::_( 'index.php?option=com_users&task=user.login', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>	
 		<input id="modlgn_username" type="text" name="username" class="inputbox" alt="username" size="18" placeholder="Клиентский номер" required />
-		<input id="modlgn_passwd" type="password" name="passwd" class="inputbox" size="18" alt="password" placeholder="пароль" required />
+		<input id="modlgn_passwd" type="password" name="password" class="inputbox" size="18" alt="password" placeholder="пароль" required />
 	<?php if(JPluginHelper::isEnabled('system', 'remember')) :
 			// плагин: Система - запомнить меня. ?>
 	<a href="<?php echo JRoute::_( 'index.php?option=com_users&view=remind' ); ?>" style="float:left;">
@@ -56,7 +49,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php endif; ?>
 	<?php echo $params->get('posttext'); ?>
 		<input type="hidden" name="option" value="com_users" />
-		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 	</form>
