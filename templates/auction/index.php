@@ -13,8 +13,10 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
 
 <link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
+<?	if(JRequest::getVar('option')=='com_users'):?>
+<link href="<?php echo $templateUrl; ?>/less/styles_user.less" rel="stylesheet/less" type="text/css">
+<?	endif;?>
 <script src="<?php echo $templateUrl; ?>/less/less.js" type="text/javascript"></script> 
-
 <!--[if lte IE 6]>
 	<script src="<?php echo $templateUrl; ?>/js/DD_belatedPNG.js"></script>
 	<script> DD_belatedPNG.fix('*');</script>		

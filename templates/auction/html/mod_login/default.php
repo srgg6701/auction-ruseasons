@@ -7,15 +7,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <form action="index.php" method="post" name="login" id="form-login">
     <?php if ($params->get('greeting')) : ?>
     <div>
-    <?php if ($params->get('name')) : {
-    echo JText::sprintf( 'HINAME', $user->get('name') );
+    <?php echo 'Клиентский номер: '. $user->get('username');
+		
+	if ($params->get('name')) : {
+    //echo JText::sprintf( 'HINAME', $user->get('name') );
     } else : {
-    echo JText::sprintf( 'HINAME', $user->get('username') );
+    //echo JText::sprintf( 'HINAME', $user->get('username') );
     } endif; ?>
     </div>
     <?php endif; ?>
-    <div align="center">
-    <input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGOUT'); ?>" />
+    <div align="left" style="margin-top:8px;">
+    <input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'Выйти'); ?>" />
     </div>
     
     <input type="hidden" name="option" value="com_user" />
@@ -53,8 +55,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<div style="padding: 1px; margin-left: 66px;"><a href="<?=JRoute::_('index.php?option=com_users&view=registration')?>">Регистрация </a></div>
 		<?php endif; ?>
 	<?php echo $params->get('posttext'); ?>
-		<input type="hidden" name="option" value="com_user" />
-		<input type="hidden" name="task" value="login" />
+		<input type="hidden" name="option" value="com_users" />
+		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 	</form>
