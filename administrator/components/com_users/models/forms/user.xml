@@ -9,6 +9,106 @@
 			size="30"
 		/>
 
+		<field
+			name="middlename"
+			type="text"
+			class="inputbox"
+			label="Отчество"
+			description ="Отчество поциента (с)"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="lastname"
+			type="text"
+			class="inputbox"
+			label="Фамилия"
+			description ="Фамилия евоная же"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="zip"
+			type="text"
+			class="inputbox"
+			label="Почтовый индекс"
+			description ="Where the love letters to be sent"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="city"
+			type="text"
+			class="inputbox"
+			label="Город"
+			description ="Город дислокации"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="street"
+			type="text"
+			class="inputbox"
+			label="Улица"
+			description ="Улица"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="house_number"
+			type="text"
+			class="inputbox"
+			label="№ дома"
+			description ="№ дома"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="corpus_number"
+			type="text"
+			class="inputbox"
+			label="Корпус"
+			description ="Корпус"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="flat_office_number"
+			type="text"
+			class="inputbox"
+			label="№ квартиры или офиса"
+			description ="Где ночует, если не бомж"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="phone_number"
+			type="text"
+			class="inputbox"
+			label="№ тел."
+			description ="Контактный телефон"
+			default="0"
+			readonly="false"
+			/>
+
+		<field
+			name="phone2_number"
+			type="text"
+			class="inputbox"
+			label="№ 2-го телефона"
+			description ="Если есть, конечно"
+			default="0"
+			readonly="false"
+			/>
+
 		<field name="username" type="text"
 			class="inputbox"
 			description="COM_USERS_USER_FIELD_USERNAME_DESC"
@@ -127,6 +227,7 @@
 			/>
 
 	</fieldset>
+	
 	<field name="groups" type="hidden" />
 
 	<fields name="params">

@@ -297,6 +297,7 @@ class JTableUser extends JTable
 		else
 		{
 			// Don't have a table key, insert the row.
+			// '#__users', 'id', $db
 			$return = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
 

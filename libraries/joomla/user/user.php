@@ -718,7 +718,7 @@ class JUser extends JObject
 		$table = $this->getTable();
 		$this->params = (string) $this->_params;
 		$table->bind($this->getProperties());
-
+		//var_dump($table);die();
 		// Allow an exception to be thrown.
 		try
 		{

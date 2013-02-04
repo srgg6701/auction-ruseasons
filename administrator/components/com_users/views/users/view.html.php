@@ -53,7 +53,7 @@ class UsersViewUsers extends JViewLegacy
 		if(JRequest::getVar('layout')=='convert'){
 			JToolBarHelper::title(JText::_('Перемещение юзеров из строй таблицы в актуальную'), 'user');
 			if ($canDo->get('core.edit.state'))
-				JToolBarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+				JToolBarHelper::publish('users.convert_users', 'COM_USERS_TOOLBAR_ACTIVATE', true);
 			
 		}else{		
 			JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');

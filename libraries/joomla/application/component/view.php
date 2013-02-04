@@ -372,7 +372,7 @@ class JView extends JObject
 		{
 			$model = strtolower($default);
 		}
-
+		// var_dump($model); die();
 		// First check to make sure the model requested exists
 		if (isset($this->_models[$model]))
 		{
@@ -384,6 +384,9 @@ class JView extends JObject
 			{
 				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
+				// var_dump($this->_models[$model]);
+				// echo "<div class=''>method= ".$method."</div>";
+				// var_dump($result); die();
 				return $result;
 			}
 
@@ -391,7 +394,6 @@ class JView extends JObject
 
 		// Degrade to JObject::get
 		$result = parent::get($property, $default);
-
 		return $result;
 	}
 

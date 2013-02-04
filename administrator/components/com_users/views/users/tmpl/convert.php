@@ -9,19 +9,13 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 $loggeduser = JFactory::getUser();
-$query="SELECT u.id, 
-    FROM_UNIXTIME(u.date_joined) AS 'registerDate',
-	u.username, l.password, 
-    u.firstname AS 'name', 
-	u.optional_field_1 AS '_middlename', 
-	u.lastname AS '_lastname', 
+$subQuery=", 
     u.company_name AS '_company_name', 
-	'' AS '_country_id', 
+	0 AS '_country_id', 
 	u.zip AS '_zip', 
 	u.city AS '_city', 
     u.optional_field_2 AS '_street', 
@@ -29,15 +23,26 @@ $query="SELECT u.id,
     u.optional_field_4 AS '_corpus_number', 
 	u.optional_field_5 AS '_flat_office_number', 
     u.phone AS '_phone_number', 
-	u.phone2 AS '_phone2_number', 
-	u.email
+	u.phone2 AS '_phone2_number'";
+$query="SELECT u.id, 
+    FROM_UNIXTIME(u.date_joined) AS 'registerDate',
+	u.username, 
+	l.password, 
+	u.email, 
+    u.firstname AS 'name', 
+	u.optional_field_1 AS '_middlename', 
+	u.lastname AS '_lastname'
 FROM #__geodesic_users AS u 
-LEFT JOIN #__geodesic_logins AS l ON l.username = u.username";
+LEFT JOIN #__geodesic_logins AS l ON l.username = u.username 
+WHERE u.username <> 'admin'
+ORDER BY id";
 $db=JFactory::getDBO();
 $db->setQuery($query);
-$result=$db->loadAssocList(); 
-var_dump($result); // die();
-echo <<<DT
+$items=$db->loadAssocList(); 
+//var_dump($items); // die();
+$show_fields=false;
+if ($show_fields):
+	echo <<<DT
 <pre>
 'id' => string '124'
 'registerDate' => string '2010-09-30 14:20:14'
@@ -59,7 +64,7 @@ echo <<<DT
 'email' => string 'akvip@mail.ru'
 </pre>
 DT;
-$arrFields=array();?>
+endif;?>
 <form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="adminForm">
 	<? $cnt=0;?>
   <table class="adminlist">
@@ -68,68 +73,48 @@ $arrFields=array();?>
 				<th width="1%">
 					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" /><? ++$cnt;?>
 				</th>
-				<th>XXX</th>
-				<th>XXX</th>
-				<th>XXX</th>
-				<th>XXX</th>
-				<th>XXX</th>
-				<th>XXX</th>
-				<th>XXX</th>
-				<th>XXX</th>
-				<th>XXX</th>
+				<th>Username (id)</th>
+				<th>Password</th>
+				<th>Email</th>
+				<th>Name</th>
+				<th>Middlename</th>
+				<th>Lastname</th>
+				<th>RegisterDate</th>
 			</tr>
 		</thead>
-     <?	/*if ($items=$this->items){?>
+     <?	if (count($items)){?>
 		<tbody>
 		<?php 
-			foreach ($items as $i => $item) {
-				$canCreate	= $user->authorise('core.create',		'com_application');
-				$canEdit	= $user->authorise('core.edit',			'com_application');
-				$canCheckin	= $user->authorise('core.manage',		'com_application');
-				$canChange	= $user->authorise('core.edit.state',	'com_application');
-			?>
+			foreach ($items as $i => $item) {?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
-					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-				</td>
-
-				<td>
-					<?php echo $item->id; ?>
+					<?php echo JHtml::_('grid.id', $i, $item['id']); ?>
 				</td>
 				<td>
-				<?php 
-				if ($canEdit) : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_application&task=application.edit&id='.(int) $item->id); ?>">
-					<?php echo $this->escape($item->family); ?></a>
-				<?php else :
-					echo $this->escape($item->family);
-				endif; ?>
+					<?php echo $item['username'].'('.$item['id'].')'; ?>
 				</td>
 				<td>
-					<?php echo $item->name; ?>
+					<?php echo $item['password']; ?>
 				</td>
 				<td>
-					<?php echo $item->middle_name; ?>
+					<?php echo $item['email']; ?>
 				</td>
 				<td>
-					<?php echo $item->child_name; ?>
+					<?php echo $item['name']; ?>
 				</td>
 				<td>
-					<?php echo $item->kindergarten; ?>
+					<?php echo $item['_middlename']; ?>
 				</td>
 				<td>
-					<?php echo $item->group; ?>
+					<?php echo $item['_lastname']; ?>
 				</td>
-				<td>
-					<?php echo $item->email; ?>
-				</td>
-				<td>
-					<?php echo $item->mobila; ?>
+                <td>
+					<?php echo $item['registerDate']; ?>
 				</td>
 			</tr>
 	<?php 	} ?>
 		</tbody>
-	<?	}*/	?>
+	<?	}	?>
   </table>
   <div>
 		<input type="hidden" name="task" value="" />

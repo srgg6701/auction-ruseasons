@@ -52,7 +52,7 @@ class UsersModelUser extends JModelAdmin
 	public function getItem($pk = null)
 	{
 		$result = parent::getItem($pk);
-
+		//var_dump($result);
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
@@ -80,6 +80,7 @@ class UsersModelUser extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
+		// var_dump($form); die();
 		if (empty($form))
 		{
 			return false;

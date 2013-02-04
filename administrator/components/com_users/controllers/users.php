@@ -156,7 +156,7 @@ class UsersControllerUsers extends JControllerAdmin
 		// JControllerAdmin!
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
-		$go_next=false;		
+		$go_next=true;		
 		
 		if ($go_next){ 
 			//********************************************
@@ -172,33 +172,18 @@ class UsersControllerUsers extends JControllerAdmin
 			//********************************************
 			// собственный код:
 			$pks=JRequest::getVar('cid'); // массив id id юзеров
+			$sub_query=", u.company_name AS '_company_name', 0 AS '_country_id', u.zip AS '_zip', u.city AS '_city', u.optional_field_2 AS '_street', u.optional_field_3 AS '_house_number', u.optional_field_4 AS '_corpus_number', u.optional_field_5 AS '_flat_office_number', u.phone AS '_phone_number', u.phone2 AS '_phone2_number'";
 			$query="SELECT
-    FROM_UNIXTIME(u.date_joined) AS 'registerDate',
-	u.username, l.password, 
-    u.firstname AS 'name', 
-	u.optional_field_1 AS '_middlename', 
-	u.lastname AS '_lastname', 
-    u.company_name AS '_company_name', 
-	'' AS '_country_id', 
-	u.zip AS '_zip', 
-	u.city AS '_city', 
-    u.optional_field_2 AS '_street', 
-	u.optional_field_3 AS '_house_number', 
-    u.optional_field_4 AS '_corpus_number', 
-	u.optional_field_5 AS '_flat_office_number', 
-    u.phone AS '_phone_number', 
-	u.phone2 AS '_phone2_number', 
-	u.email
+    FROM_UNIXTIME(u.date_joined) AS 'registerDate', u.username, u.email, l.password, u.firstname AS 'name', u.optional_field_1 AS '_middlename', u.lastname AS '_lastname' ".$sub_query."
 FROM #__geodesic_users AS u 
 LEFT JOIN #__geodesic_logins AS l ON l.username = u.username
 WHERE u.id = ";
-			$db=JFactory::getDBO();
 
 			$show_data=false;
 			if ($show_data){
 echo <<<DT
 <pre>
-'id' => string '124'
+// 'id' => string '124'
 'registerDate' => string '2010-09-30 14:20:14'
 'username' => string '100130'
 'password' => string '74394864'
@@ -219,62 +204,78 @@ echo <<<DT
 </pre>
 DT;
 			}
+			$db=JFactory::getDBO();
 			// перебрать и зарегистрировать полученных аппликантов:
-			foreach ($pks as $i => $pk) {	
-				$db->setQuery($query.$pk);
-				$applicant_data=$db->loadAssocList();
-				if (!$applicant_data) {
-					JError::raiseWarning(100, JText::_('Не получены данные конвертанта...'));
-					die("convert_users(), LINE: ".__LINE__);
-				}else{
-					
-					//********************************************
-					// http://stackoverflow.com/a/4212791/1522479
-					// "generate" a new JUser Object
-					// it's important to set the "0" otherwise your admin user information will be loaded
-					$user = JFactory::getUser(0);
-					// get the default usertype
-					$usertype = $usersParams->get('new_usertype');
-					if (!$usertype)
-						$usertype = 'Registered';
-					$defaultUserGroup = $usersParams->get('new_usertype', 2);
-					$data=array(
-							'id' => '0', 
-							'name' => $applicant_data['name'],
-							'_middlename' => $applicant_data['_middlename'],
-							'_lastname' => $applicant_data['_lastname'],
-							'username' => $applicant_data['username'],
-							'email' => $applicant_data['email'],
-							'password' => $applicant_data['password'],
-							'password2' => $applicant_data['password'],
-							'sendEmail' => 1, // should the user receive system mails?
-							'registerDate' => $applicant_data['registerDate'],
-							'_company_name' => $applicant_data['_company_name'],
-							'_country_id' => $applicant_data['_country_id'],
-							'_zip' => $applicant_data['_zip'],
-							'_city' => $applicant_data['_city'],
-							'_street' => $applicant_data['_street'],
-							'_house_number' => $applicant_data['_house_number'],
-							'_corpus_number' => $applicant_data['_corpus_number'],
-							'_flat_office_number' => $applicant_data['_flat_office_number'],
-							'_phone_number' => $applicant_data['_phone_number'],
-							'_phone2_number' =>$applicant_data['_phone2_number'],
-							'groups'=>array($defaultUserGroup),
-							'block'=> 0,
-						);
-				}
-				if (!$user->bind($data)) { // now bind the data to the JUser Object, if it not works....
-					JError::raiseWarning('', JText::_( $user->getError())); // ...raise an Warning
-					return false;
-				}
-				if (!$user->save()) {
-					JError::raiseWarning('', JText::_( $user->getError())); // ...raise an Warning
-					return false; 
-					//********************************************
+			foreach ($pks as $i => $pk) {
+				$go=true;
+				if (!$i||$go){
+					$full_query=$query.$pk;	
+					//var_dump($full_query);
+					$db->setQuery($full_query);
+					$applicant_data=$db->loadAssoc();
+					if (!$applicant_data) {
+						JError::raiseWarning(100, JText::_('Не получены данные конвертанта...'));
+						die("convert_users(), LINE: ".__LINE__);
+					}else{
+						
+						//********************************************
+						// http://stackoverflow.com/a/4212791/1522479
+						// "generate" a new JUser Object
+						// it's important to set the "0" otherwise your admin user information will be loaded
+						$user = JFactory::getUser(0);
+						// get the default usertype
+						$usertype = $usersParams->get('new_usertype');
+						if (!$usertype)
+							$usertype = 'Registered';
+						$defaultUserGroup = $usersParams->get('new_usertype', 2);
+						//var_dump($applicant_data);
+						$data=array(
+								'id' => '0', 
+								'name' => $applicant_data['name'],
+								'middlename' => $applicant_data['_middlename'],
+								'lastname' => $applicant_data['_lastname'],
+								'username' => $applicant_data['username'],
+								'email' => $applicant_data['email'],
+								'password' => $applicant_data['password'],
+								'password2' => $applicant_data['password'],
+								'sendEmail' => 1, // should the user receive system mails?
+								'registerDate' => $applicant_data['registerDate'],
+								'company_name' => $applicant_data['_company_name'],
+								'country_id' => $applicant_data['_country_id'],
+								'zip' => $applicant_data['_zip'],
+								'city' => $applicant_data['_city'],
+								'street' => $applicant_data['_street'],
+								'house_number' => $applicant_data['_house_number'],
+								'corpus_number' => $applicant_data['_corpus_number'],
+								'flat_office_number' => $applicant_data['_flat_office_number'],
+								'phone_number' => $applicant_data['_phone_number'],
+								'phone2_number' =>$applicant_data['_phone2_number'],
+								'groups'=>array($defaultUserGroup),
+								'block'=> 0,
+							);
+					}
+					$test=false;
+					if ($test||!$go){
+						var_dump($data);
+						echo "<hr/>";
+					}
+					if (!$test){
+						if (!$user->bind($data)) { // now bind the data to the JUser Object, if it not works....
+							JError::raiseWarning('', JText::_( $user->getError())); // ...raise an Warning
+							return false;
+						}
+						if (!$user->save()) {
+							JError::raiseWarning('', JText::_( $user->getError())); // ...raise an Warning
+							return false; 
+							//********************************************
+						}
+					}
 				}
 			}								
 		}
 		// отправляемся на страницу с текущим списком юзеров:
-		$this->setRedirect(JRoute::_('index.php?option=com_users',false));
+		if (!$test||$go)
+			$this->setRedirect(JRoute::_('index.php?option=com_users',false));
+		else die('LINE: '.__LINE__);
 	}	
 }
