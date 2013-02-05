@@ -1,6 +1,7 @@
 @brown:#841113;
 @brownDark:#851719;
 @brownDarkUltra:#6d4721;
+@veryDarkLink:#172A17;
 @menuBorder: solid 1px #EAD8B0;
 
 .h3upper{
@@ -111,6 +112,12 @@ div#header{
 			}
 		}
 	}
+	div#search_box{
+		float:right;
+		position:absolute;
+		right:30px;
+		top:10px; 
+	}
 }
 
 div#content{
@@ -165,6 +172,40 @@ div#content{
 					// .h3upper;
 					// text-decoration:none;
 					text-transform:uppercase;
+				}
+			}
+		}
+	}
+	#left_part{
+		box-sizing:border-box;
+		margin-top: -18px;
+		padding-left:10px;
+		padding-top: 0;
+		h3{
+			color: @brown;
+			font-size:18px;
+			font-weight:bold;
+			margin: 5px 0px 4px 0px;
+			text-transform:none;
+			a{
+				font-size: 18px;
+				text-decoration: none;
+			}
+			.lots_count{
+				color:@veryDarkLink;
+				font-weight:300;
+			}
+		}
+		ul{
+			li{
+				color:@brownDark;
+				a{
+					color:@veryDarkLink;
+					font-weight: bold;	
+					text-decoration: none;
+					&:hover{
+						text-decoration:underline;
+					}
 				}
 			}
 		}

@@ -76,7 +76,7 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
                 <jdoc:include type="modules" name="user3" />
             </div>   
             
-            <div style="position:absolute;float:right;top:10px; right:30px;">					
+            <div id="search_box">					
                 <jdoc:include type="modules" name="search" />
             </div>
             
@@ -89,13 +89,15 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
         
         <div id="content">
 		<?php $style="";?>
-  <?php if ($this->countModules('left') == 0): ?>
-  <?php else: ?>
   	<?php $style="left "?>
           <div id="left_part">
-            <jdoc:include type="modules" name="left" style="xhtml" />    
-          </div>
+  <?php if ($this->countModules('left_panel')): ?>
+			<jdoc:include type="modules" name="left_panel" style="xhtml" />  
+  <?php endif;?>
+  <?php	if ($this->countModules('left')): ?>
+            <jdoc:include type="modules" name="left" style="xhtml" />
   <?php endif; ?>
+          </div>
   
   <?php if ($this->countModules('right') == 0): ?>
   <?php else: ?>
