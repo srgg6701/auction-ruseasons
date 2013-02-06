@@ -367,6 +367,7 @@ class JView extends JObject
 		if (is_null($default))
 		{
 			$model = $this->_defaultModel;
+			// echo "DEFAULT MODEL: "; var_dump($model); 
 		}
 		else
 		{

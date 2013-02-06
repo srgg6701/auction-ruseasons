@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6.0" method="upgrade">
+	<name>Название компонента</name>
+	<creationDate>Дата создания</creationDate>
+	<copyright>Copyright (C) info.</copyright>
+	<license>*optional*</license>
+    <author>srgg</author>
+	<authorEmail>srgg67@gmail.com</authorEmail>
+	<authorUrl>http://www.facebook.com/srgg67</authorUrl>
+	<version>1.0.0</version>
+	<description>Описание компонента</description>
+	<!-- Runs on install -->
+	<!-- <install> 
+    	<sql>
+        	<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+  		</sql>
+    </install>-->
+	<!-- Runs on uninstall -->
+    <!--<uninstall> 
+    	<sql>
+        	<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+  		</sql>
+   </uninstall>-->
+
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>component_name.php</filename>
+		<filename>controller.php</filename>
+		<filename>router.php</filename>
+		<folder>views</folder>
+		<folder>models</folder>
+		<folder>controllers</folder>
+	</files>
+	<languages folder="site">
+		<language tag="ru-RU">language/ru-RU.com_component_name.ini
+		</language>
+	</languages>
+	<administration>
+		<menu>COM_COMPONENT_NAME</menu>
+		<files folder="administrator">
+			<!-- files -->
+			<filename>index.html</filename>
+			<filename>component_name.php</filename>
+			<filename>controller.php</filename>
+			<filename>component_name.xml</filename>
+			<!-- folders -->
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="administrator">
+			<language tag="ru-RU">language/ru-RU.com_component_name.ini
+			</language>
+			<language tag="ru-RU">language/ru-RU.com_component_name.sys.ini
+			</language>
+		</languages>
+	</administration>
+</extension>
+
