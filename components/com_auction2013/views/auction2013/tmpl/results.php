@@ -3,7 +3,9 @@ defined('_JEXEC') or die('Restricted access');
 	if ($this->params->get('show_page_heading')) : 
 	
 	?><h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
-<?php 
-	
-	endif;?>
-Результаты торгов.
+<?php endif;
+
+// выведем статью "Предложить предмет":
+$article=AuctionStuff::getArticleContent(14);	
+// var_dump($article);	
+echo $article['introtext']; ?>
