@@ -22,8 +22,20 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 	<script> DD_belatedPNG.fix('*');</script>		
     <link type="text/css" rel="stylesheet" href="<?php echo $templateUrl; ?>/css/styleIE6.css" />
 <![endif]-->
+<!--
 <script type="text/javascript" src="<?php echo $templateUrl; ?>/js/mootools.js"></script>
-<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>
+<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>-->
+<?	if(JRequest::getVar('option')!=='com_component'):?> 
+<!-- Not com_content, include exmplicitly: -->
+ <script src="<?=$baseUrl?>/media/system/js/mootools-core.js" type="text/javascript"></script>
+  <script src="<?=$baseUrl?>/media/system/js/core.js" type="text/javascript"></script>
+  <script src="<?=$baseUrl?>/media/system/js/caption.js" type="text/javascript"></script>
+  <script type="text/javascript">
+window.addEvent('load', function() {
+				new JCaption('img.caption');
+			});
+  </script>
+<?	endif;?>
 <script type="text/javascript">
 <!--
 window.addEvent('domready', function() {
