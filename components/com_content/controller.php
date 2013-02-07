@@ -1,4 +1,4 @@
-<?php	
+<?php
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
@@ -28,6 +28,7 @@ class ContentController extends JControllerLegacy
 			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
+
 		parent::__construct($config);
 	}
 
@@ -70,9 +71,8 @@ class ContentController extends JControllerLegacy
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
-		// 
-		// parent::display($cachable, $safeurlparams);
-		//var_dump($this);die();
+		parent::display($cachable, $safeurlparams);
+
 		return $this;
 	}
 }

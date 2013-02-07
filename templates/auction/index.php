@@ -22,8 +22,8 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 	<script> DD_belatedPNG.fix('*');</script>		
     <link type="text/css" rel="stylesheet" href="<?php echo $templateUrl; ?>/css/styleIE6.css" />
 <![endif]-->
-<!--<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/mootools.js"></script>
-<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>-->
+<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/mootools.js"></script>
+<script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>
 <script type="text/javascript">
 <!--
 window.addEvent('domready', function() {
