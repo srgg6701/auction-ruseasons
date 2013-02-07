@@ -1,4 +1,4 @@
-<?php
+<?php	
 /**
  * @package		Joomla.Site
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -18,6 +18,7 @@ jimport('joomla.application.categories');
  */
 function ContentBuildRoute(&$query)
 {
+	
 	$segments	= array();
 
 	// get a menu item based on Itemid or currently active
@@ -35,7 +36,8 @@ function ContentBuildRoute(&$query)
 		$menuItem = $menu->getItem($query['Itemid']);
 		$menuItemGiven = true;
 	}
-
+	//var_dump($menuItem); // die();
+	//echo "<div class=''>menuItem= ".$menuItem.", menuItemGiven= $menuItemGiven</div>";die();
 	if (isset($query['view'])) {
 		$view = $query['view'];
 	}
@@ -57,7 +59,6 @@ function ContentBuildRoute(&$query)
 		}
 
 		unset($query['id']);
-
 		return $segments;
 	}
 

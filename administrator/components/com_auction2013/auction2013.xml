@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="1.6.0" method="upgrade">
-	<name>Название компонента</name>
-	<creationDate>Дата создания</creationDate>
+<extension type="component" version="2.5" method="upgrade">
+	<name>Аукцион</name>
+	<creationDate>Февраль 2013</creationDate>
 	<copyright>Copyright (C) info.</copyright>
-	<license>*optional*</license>
-    <author>srgg</author>
+	<license></license>
+    <author>srgg01</author>
 	<authorEmail>srgg67@gmail.com</authorEmail>
 	<authorUrl>http://www.facebook.com/srgg67</authorUrl>
 	<version>1.0.0</version>
@@ -24,25 +24,22 @@
 
 	<files folder="site">
 		<filename>index.html</filename>
-		<filename>component_name.php</filename>
+		<filename>auction2013.php</filename>
 		<filename>controller.php</filename>
 		<filename>router.php</filename>
 		<folder>views</folder>
 		<folder>models</folder>
 		<folder>controllers</folder>
 	</files>
-	<languages folder="site">
-		<language tag="ru-RU">language/ru-RU.com_component_name.ini
-		</language>
-	</languages>
+	
 	<administration>
-		<menu>COM_COMPONENT_NAME</menu>
+		<menu>com_auction2013</menu>
 		<files folder="administrator">
 			<!-- files -->
 			<filename>index.html</filename>
-			<filename>component_name.php</filename>
+			<filename>auction2013.php</filename>
 			<filename>controller.php</filename>
-			<filename>component_name.xml</filename>
+			<filename>auction2013.xml</filename>
 			<!-- folders -->
 			<folder>assets</folder>
 			<folder>controllers</folder>
@@ -53,11 +50,17 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="administrator">
-			<language tag="ru-RU">language/ru-RU.com_component_name.ini
+			<language tag="ru-RU">language/ru-RU.com_auction2013.ini
 			</language>
-			<language tag="ru-RU">language/ru-RU.com_component_name.sys.ini
+			<language tag="ru-RU">language/ru-RU.com_auction2013.sys.ini
 			</language>
 		</languages>
 	</administration>
+	
+	<languages folder="site">
+		<language tag="ru-RU">language/ru-RU.com_auction2013.ini
+		</language>
+	</languages>
+	
 </extension>
 

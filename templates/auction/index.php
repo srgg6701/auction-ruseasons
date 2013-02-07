@@ -5,7 +5,7 @@ $document = isset($this) ? $this : null;
 $baseUrl = $this->baseurl;
 $templateUrl = $this->baseurl . '/templates/' . $this->template;
 //artxComponentWrapper($document);
-?>
+// var_dump($this);//die();?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -38,6 +38,7 @@ window.addEvent('domready', function() {
 		document.getElementById('clock').innerHTML=temp;				
 	}
 	setInterval(jsClock24hr,1000);
+	
 	if (window.navigator.userAgent.indexOf ("MSIE") >= 0)
     {
 		if(parseInt(window.navigator.userAgent.substr(window.navigator.userAgent.indexOf("MSIE")+5,3))==6)
@@ -51,7 +52,6 @@ window.addEvent('domready', function() {
 									   });
 				}
     }
-
 });
 -->
 </script>
@@ -67,7 +67,7 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 </head>
 <body>
 	<div id="page">
-	
+
         <div id="header"> 
             
             <div id="pic_top"></div>			
@@ -85,8 +85,7 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
             <a href="#" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
             <a href="#" id="logo_text"><img src="<?php echo $templateUrl; ?>/images/logo_text.png" width="266" height="50" alt="" /></a>
     	</div>
-        
-        
+                
         <div id="content">
 		<?php $style="";?>
   	<?php $style="left "?>
@@ -159,6 +158,8 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 				</div>	
             </div>
         </div>
+
     </div>
+
 </body>
 </html>
