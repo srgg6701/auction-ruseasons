@@ -101,17 +101,17 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
         <div id="content">
 		<?php $style="";?>
   	<?php $style="left "?>
-          <div id="left_part">
   <?php if ($this->countModules('left_panel')): ?>
+          <div id="left_part">
 			<jdoc:include type="modules" name="left_panel" style="xhtml" />  
-  <?php endif;?>
-  <?php	if ($this->countModules('left')): ?>
+  	<?php	if ($this->countModules('left')): ?>
             <jdoc:include type="modules" name="left" style="xhtml" />
-  <?php endif; ?>
+  	<?php 	endif; ?>
           </div>
+  <?php else: $style.=" leftLess";
+  		endif;?>
   
-  <?php if ($this->countModules('right') == 0): ?>
-  <?php else: ?>
+  <?php if ($this->countModules('right')!= 0): ?>
    <?php $style.="right"?>
           <div id="right_part">
           	<jdoc:include type="modules" name="right_over" style="xhtml" />    

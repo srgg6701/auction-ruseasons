@@ -24,16 +24,18 @@ class Auction2013ViewAuction2013 extends JView
 		$this->form		= $this->get('Form');
 		$this->state	= $this->get('State');
 		$this->params	= $this->state->get('params');
+		//var_dump($this->params->data); die();
+		// $this->item		= $this->get('Item');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
-
+		//$this->pageclass_sfx=
 		// Assign data to the view
 		$this->prepareDocument();
-
+		//Escape strings for HTML output
 		// Display the view
 		parent::display($tpl);
 	}

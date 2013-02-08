@@ -28,4 +28,68 @@ class AuctionStuff{
 		$db->setQuery($query);
 		return $db->loadAssoc();
 	}
+/**
+ * Получить страны
+ * @package
+ * @subpackage
+ */
+	function getCountries(){
+		return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');	
+	}
+/**
+ * Generate HTML form
+ * @package
+ * @subpackage
+ */
+	public static function sreateForm(){		
+		$arrFields=array(
+				'name'=>array('Имя',1),
+				'middlename'=>array('Отчество'),
+				'lastname'=>array('Фамилия',1),
+				'company_name'=>array('Наименование фирмы'),
+				'country_id'=>array('Страна'),
+				'zip'=>array('Индекс',1),
+				'city'=>array('Город',1),
+				'street'=>array('Улица',1),
+				'house_number'=>array('Дом',1),
+				'corpus_number'=>array('Корпус'),
+				'flat_office_number'=>array('Квартира (офис)',1),
+				'phone_number'=>array('Телефон 1',1),
+				'phone2_number'=>array('Телефон 2'),
+				'email'=>array('E-mail',1),
+				'email2'=>array('Повторите e-mail',1),
+				'password'=>array('Пароль',1),
+				'password2'=>array('Повторите пароль',1)
+			);
+		ob_start();
+		foreach($arrFields as $value=>$fieldArray){?>
+			<div>
+				<label for="<?=$value?>"><?
+				echo $fieldArray[0];
+				if (isset($fieldArray[1])){
+					?><span class="req">*</span><? 
+					$req=' ';
+				}else{
+					$req='required';
+				}?>:</label>	
+		<?	if($value=='country_id'){?>
+				<select id="country" name="contry"<?=$req?>>
+                    <option value="none">Выберите страну</option>
+			<?	$countries=AuctionStuff::getCountries();
+				foreach($countries as $code=>$country):?>
+					<option value="<?=$country?>"><?=$country?></option>
+			<?	endforeach;?>		
+			</select>
+		<?	}else{?>
+                <input type="text" maxlength="50" size="30" value="<?
+                if ($getValue=JRequest::getVar($value))
+					echo $getValue;
+				?>" name="<?=$value?>" id="<?=$value?>"<?=$req?>>					
+        <?	}?>
+			</div>
+	<?	}
+		$fields=ob_get_contents();
+		ob_clean();
+		return $fields;
+	}
 }

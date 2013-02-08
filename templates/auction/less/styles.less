@@ -18,6 +18,9 @@
 	margin-top: 10px;
 	text-transform: uppercase;
 }
+.leftLess{
+	margin-left: 0;
+}
 .liActive{
 	text-decoration:none; 
 	color:#e9e4bc;
@@ -29,6 +32,16 @@
 	padding:5px; display:block; 
 	text-decoration:none; 
 	text-transform:uppercase;
+}
+.thinBrownHeader{
+	border-bottom: solid 1px;
+	border-top: solid 1px;
+	color:@brown;
+	font-size:16px;
+	font-weight:normal;
+	margin: 0;
+	margin-bottom:10px !important;
+	padding: 6px;
 }
 
 div#header{
@@ -216,9 +229,21 @@ div#content{
 		}
 	}
 	div#main_content{
-		
-		table.category{
-			
+		form#registration_form{
+			display: inline-block;
+			input[type="submit"]{
+				margin-top:10px;
+			}
+			label{
+				display: inline-block;
+				width: 210px;
+				text-align: right;	
+			}
+			span.req{
+				color:red;
+			}
+		}
+		table.category{		
 			td{
 				font-weight:bold;
 				padding-top:15px;
