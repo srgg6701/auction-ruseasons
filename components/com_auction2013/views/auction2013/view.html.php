@@ -24,15 +24,23 @@ class Auction2013ViewAuction2013 extends JView
 		$this->form		= $this->get('Form');
 		$this->state	= $this->get('State');
 		$this->params	= $this->state->get('params');
-		//var_dump($this->params->data); die();
-		// $this->item		= $this->get('Item');
-
+		$this->item		= $this->get('Item');
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
-		//$this->pageclass_sfx=
+		// установить суффикс страницы. 
+		// Поскольку не статья, - процедура специфична: 
+		$clear_params=str_replace('"','',$this->item->params);
+		$pg_params=explode(",",$clear_params);
+		foreach($pg_params as $couple){
+			$arrPar=explode(":",$couple);
+			if($arrPar[0]=='pageclass_sfx'){
+				$this->params->pageclass_sfx=$arrPar[1];
+				break;
+			}
+		}
 		// Assign data to the view
 		$this->prepareDocument();
 		//Escape strings for HTML output

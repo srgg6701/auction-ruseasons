@@ -30,6 +30,8 @@ class ContentViewArticle extends JViewLegacy
 		$dispatcher	= JDispatcher::getInstance();
 
 		$this->item		= $this->get('Item');
+		// echo "<div class=''>this->item</div>";
+		// var_dump($this->item); die();
 		$this->print	= JRequest::getBool('print');
 		$this->state	= $this->get('State');
 		$this->user		= $user;
@@ -140,7 +142,7 @@ class ContentViewArticle extends JViewLegacy
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
-
+		
 		$this->_prepareDocument();
 
 		parent::display($tpl);
