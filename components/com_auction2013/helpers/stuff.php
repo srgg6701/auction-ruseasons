@@ -53,7 +53,7 @@ class AuctionStuff{
 				'street'=>array('Улица',1),
 				'house_number'=>array('Дом',1),
 				'corpus_number'=>array('Корпус'),
-				'flat_office_number'=>array('Квартира (офис)',1),
+				'flat_office_number'=>array('Квартира (офис)',1,'Укажите 0 (ноль), если живете в частном доме'),
 				'phone_number'=>array('Телефон 1',1,'Пример ввода: +7 987 6543210'),
 				'phone2_number'=>array('Телефон 2'),
 				'email'=>array('E-mail',1),
@@ -81,10 +81,13 @@ class AuctionStuff{
 			<?	endforeach;?>		
 			</select>
 		<?	}else{?>
-                <input type="text" maxlength="50" size="30" value="<?
+                <input type="<?=(strstr($value,"password"))? "password":"text"?>" autocomplete="off" maxlength="50" size="30" value="<?
                 if ($getValue=JRequest::getVar($value))
 					echo $getValue;
-				?>" name="<?=$value?>" id="<?=$value?>"<?=$req?>>					
+				elseif(JRequest::getVar('test'))
+					echo $fieldArray[0];
+				?>"<?
+				if($value!="email2"){?> name="<?=$value?>"<? }?> id="<?=$value?>"<?=$req?>>					
         <?		if(isset($fieldArray[2])) 
 					echo $fieldArray[2];
 			}?>
