@@ -47,18 +47,18 @@ class AuctionStuff{
 				'middlename'=>array('Отчество'),
 				'lastname'=>array('Фамилия',1),
 				'company_name'=>array('Наименование фирмы'),
-				'country_id'=>array('Страна'),
+				'country_id'=>array('Страна',1),
 				'zip'=>array('Индекс',1),
 				'city'=>array('Город',1),
 				'street'=>array('Улица',1),
 				'house_number'=>array('Дом',1),
 				'corpus_number'=>array('Корпус'),
 				'flat_office_number'=>array('Квартира (офис)',1),
-				'phone_number'=>array('Телефон 1',1),
+				'phone_number'=>array('Телефон 1',1,'Пример ввода: +7 987 6543210'),
 				'phone2_number'=>array('Телефон 2'),
 				'email'=>array('E-mail',1),
 				'email2'=>array('Повторите e-mail',1),
-				'password'=>array('Пароль',1),
+				'password'=>array('Пароль',1,'Длина пароля не менее 6 символов'),
 				'password2'=>array('Повторите пароль',1)
 			);
 		ob_start();
@@ -68,9 +68,9 @@ class AuctionStuff{
 				echo $fieldArray[0];
 				if (isset($fieldArray[1])){
 					?><span class="req">*</span><? 
-					$req=' ';
+					$req=' required';
 				}else{
-					$req='required';
+					$req='';
 				}?>:</label>	
 		<?	if($value=='country_id'){?>
 				<select id="country" name="contry"<?=$req?>>
@@ -85,11 +85,13 @@ class AuctionStuff{
                 if ($getValue=JRequest::getVar($value))
 					echo $getValue;
 				?>" name="<?=$value?>" id="<?=$value?>"<?=$req?>>					
-        <?	}?>
+        <?		if(isset($fieldArray[2])) 
+					echo $fieldArray[2];
+			}?>
 			</div>
 	<?	}
 		$fields=ob_get_contents();
 		ob_clean();
 		return $fields;
 	}
-}
+}?>

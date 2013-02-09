@@ -21,7 +21,7 @@ class Auction2013ViewAuction2013 extends JView
 	function display($tpl = null) 
 	{	// Get the view data FROM model.
 		// $this->user		= JFactory::getUser();
-		$this->form		= $this->get('Form');
+		// $this->form		= $this->get('Form');
 		$this->state	= $this->get('State');
 		$this->params	= $this->state->get('params');
 		$this->item		= $this->get('Item');

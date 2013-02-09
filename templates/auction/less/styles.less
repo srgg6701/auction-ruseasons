@@ -1,9 +1,23 @@
+@almostBlack:#301F07;
 @brown:#841113;
 @brownDark:#851719;
 @brownDarkUltra:#6d4721;
-@veryDarkLink:#172A17;
 @menuBorder: solid 1px #EAD8B0;
+@sandDark:#EAD5B7;
+@veryDarkLink:#172A17;
 
+
+.buttonSand{
+	background:#fbe5ab; 
+	border:none; 
+	color:#735120; 
+	display:block; 
+	font:normal 12px/13px calibri, Verdana, Geneva, sans-serif; 
+	height:25px; 
+	margin:0; 
+	margin-bottom:5px;
+	padding:4px 7px 3px 7px;
+}
 .h3upper{
 	color:@brownDark;
 	font-family: Verdana, Geneva, sans-serif;
@@ -145,7 +159,30 @@ div#content{
 		color:#172a17; 
 		float:right; 
 		font:normal 16px calibri, Verdana, Geneva, sans-serif; 
-		width:290px; 
+		width:290px; 		
+		#logIn_wrapper{
+			background:url(../images/login.png) 0 0 no-repeat; }
+		#logIn{
+			height:203px; 
+			padding-top:1px;
+			position:relative; 
+			top:0; 
+			width:290px; 
+			a{
+				display:block; 
+				font-size:11px;
+				margin-top:5px; 
+			}
+			form{
+				padding:14px 0 0 0px; 
+				padding-left:20px;
+				width:160px; 
+				input[type="submit"]{
+					.buttonSand;
+					margin:4px; 
+				}
+			}
+		}
 		h3{
 			color:#6d4721; 
 			margin:10px 0; 
@@ -232,7 +269,14 @@ div#content{
 		form#registration_form{
 			display: inline-block;
 			input[type="submit"]{
+				background-color:@sandDark;
+				border: solid 1px darkkhaki;
+				color:@almostBlack;
+				font-size:14px;
+				font-weight:bold;
+				height:30px;
 				margin-top:10px;
+				padding:8px 12px;
 			}
 			label{
 				display: inline-block;
@@ -247,6 +291,13 @@ div#content{
 			td{
 				font-weight:bold;
 				padding-top:15px;
+			}
+		}
+		div.item-page-rules{
+			div{
+				h3{
+					font-weight:300;
+				}
 			}
 		}
 	}

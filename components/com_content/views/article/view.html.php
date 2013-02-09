@@ -28,7 +28,6 @@ class ContentViewArticle extends JViewLegacy
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 		$dispatcher	= JDispatcher::getInstance();
-
 		$this->item		= $this->get('Item');
 		// echo "<div class=''>this->item</div>";
 		// var_dump($this->item); die();

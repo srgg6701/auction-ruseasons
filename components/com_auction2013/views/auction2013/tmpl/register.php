@@ -11,14 +11,51 @@ defined('_JEXEC') or die('Restricted access');
 // выведем статью "Предложить предмет":
 $article=AuctionStuff::getArticleContent(19);	
 echo $article['introtext'];?>
-<form id="registration_form" method="post" action="http://auction.auction-ruseasons.ru/register.php?b=1">
+	<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="form-validate">
 		<div class="divider"></div>
 	<?=AuctionStuff::sreateForm()?>
 		<div>
-		<br>Регистрируясь на нашем сайте, Вы принимаете наши <a href="index.php?a=28&amp;b=147">Правила</a>.
+		<br>Регистрируясь на нашем сайте, Вы принимаете наши <a href="index.php/pravila/pravila-registraciji-uchastnikov-torgov">Правила</a>.
 		</div>
 		<div align="center">
-			<input type="submit" class="button" value="Зарегистрироваться" name="submit">
+			<input type="submit" class="button buttonSand" value="Зарегистрироваться" name="submit">
 		</div>
+		<input type="hidden" name="option" value="com_users" />
+		<input type="hidden" name="task" value="registration.register" />
+		<?php echo JHtml::_('form.token');?>        
 	</form>
 </div>
+<script>
+jQuery(function($){
+	$('form#registration_form').submit( function(){
+		var errs=0;
+		$('[required]').each( function(index,element){
+			if (element.tagName.toUpperCase()!='SELECT'
+				|| $(element).val()=='none'
+			   ) {
+				$(element).css({
+					backgroundColor:'#FF6',
+					border:'solid 1px #999',
+					width: '211px',
+					marginLeft: '2px'
+				});
+				//console.info(element.tagName.toUpperCase());
+				errs++;
+			}
+		});
+		if(errs>0){
+			alert('Не все поля заполнены/выбраны.');
+		}else{
+			var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			var eMail=$('input#email');
+			var emalValue=$(eMail).val();
+			if (!filter.test(emailValue)) {
+				alert('Емэйл введён некорректно или отсутствует!');					
+				$(eMail).css('background-color','#FC0');
+			}
+		}
+		if(errs>0)
+			return false;
+	});
+});
+</script>

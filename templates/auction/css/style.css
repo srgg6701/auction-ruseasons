@@ -15,12 +15,7 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 			
 		#content{overflow:hidden; padding:1px 10px 0 10px; margin-bottom:10px;}
 				
-				#logIn_wrapper{background:url(../images/login.png) 0 0 no-repeat; }
-				#logIn{width:290px; height:203px; position:relative; top:0; padding-top:1px;}
-					#logIn form{padding:20px 0 0 0px; width:160px; padding-left:20px;}
-						#logIn form input{display:block; border:none; background:#fbe5ab; font:normal 12px/13px calibri, Verdana, Geneva, sans-serif; color:#735120; padding:4px 7px 3px 7px; height:13px; margin:0; margin-bottom:5px;}
-						#logIn form input.button{height:25px;}
-					#logIn a{margin-top:5px; display:block; font-size:11px;}
+				
 					#board{position:absolute; bottom:5px; left:30px; width:225px; height:60px; font:normal 15px Verdana, Geneva, sans-serif; color:#020100; text-align:center;}
 					#board a{font:normal 14px Verdana, Geneva, sans-serif; color:#020100; text-align:center;margin:0; padding:0;}
 					#board a:hover{font:normal 14px Verdana, Geneva, sans-serif; color:#020100; text-align:center;margin:0; padding:0;}
