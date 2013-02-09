@@ -51,18 +51,19 @@ jQuery(function($){
 		}else{
 			var eMess='';
 	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-			var eMail=$('input#email');
+			var eMail=$('input#email1');
+			var eMail2=$('input#email2');
 			var emailValue=$(eMail).val();
 			if (!filter.test(emailValue)) {
 				eMess='* Емэйл введён некорректно или отсутствует!';
 				$(eMail).css('background-color','#FC0');
 				errs++;
-			}else if($('input#email').val()!=$('input#email2').val()){
+			}else if(emailValue!=$(eMail2).val()){
 				eMess='* Емэйл и его подтверждение не совпадают!';
-				$('input#email2').css('background-color','#FC0');
+				$(eMail2).css('background-color','#FC0');
 				errs++;
 			}
-			if($('input#password').val()!=$('input#password2').val()){
+			if($('input#password1').val()!=$('input#password2').val()){
 				if (errs) eMess+='\n'; 
 				eMess+='* Пароль и его подтверждение не совпадают!';
 				$('input#password2').css('background-color','#FC0');

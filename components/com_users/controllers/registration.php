@@ -88,14 +88,25 @@ class UsersControllerRegistration extends UsersController
 		return true;
 	}
 /**
+ * Создать следующий логин для юзера
+ * @package
+ * @subpackage
+ */
+	function getNextUserName(){
+		$query="SELECT MAX(username) AS username
+		FROM #__users 
+		WHERE username REGEXP '[0-9]{1,10}';";
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return (int)$db->loadResult()+1; 
+	}
+
+/**
  * Альтернативная регистрация - как участника аукциона
  * @package
  * @subpackage
  */
-	function registerOnAuction(){
-		var_dump(JRequest::get('post')); 
-		die('registerOnAuction');
-		
+	function registerOnAuction(){		
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -108,9 +119,11 @@ class UsersControllerRegistration extends UsersController
 		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Registration', 'UsersModel');
-
 		// Get the user data.
 		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
+		$requestData['username']=(string)$this->getNextUserName(); 
+		echo "<div class=''>requestData= ".$requestData."</div>";
+		var_dump($requestData);
 
 		// Validate the posted data.
 		$form	= $model->getForm();
@@ -118,7 +131,14 @@ class UsersControllerRegistration extends UsersController
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		$data	= $model->validate($form, $requestData);
+		$rFields=array('name','username','email1','email2','password1','password2');
+		foreach($rFields as $i=>$field)
+			$requestDataMain[$field]=$requestData[$field];
+		var_dump($requestDataMain);
+		// $data	= $model->validate($form, $requestData);
+		$data	= $model->validate($form, $requestDataMain);
+		var_dump($data);
+		die('registerOnAuction');
 
 		// Check for validation errors.
 		if ($data === false) {
@@ -170,8 +190,6 @@ class UsersControllerRegistration extends UsersController
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
-
-
 		return true;
 	
 	}

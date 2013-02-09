@@ -56,9 +56,9 @@ class AuctionStuff{
 				'flat_office_number'=>array('Квартира (офис)',1,'Укажите 0 (ноль), если живете в частном доме'),
 				'phone_number'=>array('Телефон 1',1,'Пример ввода: +7 987 6543210'),
 				'phone2_number'=>array('Телефон 2'),
-				'email'=>array('E-mail',1),
+				'email1'=>array('E-mail',1),
 				'email2'=>array('Повторите e-mail',1),
-				'password'=>array('Пароль',1,'Длина пароля не менее 6 символов'),
+				'password1'=>array('Пароль',1,'Длина пароля не менее 6 символов'),
 				'password2'=>array('Повторите пароль',1)
 			);
 		ob_start();
@@ -73,7 +73,7 @@ class AuctionStuff{
 					$req='';
 				}?>:</label>	
 		<?	if($value=='country_id'){?>
-				<select id="country" name="contry"<?=$req?>>
+				<select id="country" name="jform[country]"<?=$req?>>
                     <option value="none">Выберите страну</option>
 			<?	$countries=AuctionStuff::getCountries();
 				foreach($countries as $code=>$country):?>
@@ -86,8 +86,7 @@ class AuctionStuff{
 					echo $getValue;
 				elseif(JRequest::getVar('test'))
 					echo $fieldArray[0];
-				?>"<?
-				if($value!="email2"){?> name="<?=$value?>"<? }?> id="<?=$value?>"<?=$req?>>					
+				?>" name="jform[<?=$value?>]" id="<?=$value?>"<?=$req?>>					
         <?		if(isset($fieldArray[2])) 
 					echo $fieldArray[2];
 			}?>

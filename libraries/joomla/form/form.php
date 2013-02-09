@@ -1075,7 +1075,7 @@ class JForm
 	 * @since   11.1
 	 */
 	public function validate($data, $group = null)
-	{
+	{	
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
