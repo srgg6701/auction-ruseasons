@@ -125,10 +125,15 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
                 <div class="Post">
                     <div class="Post-body">
                 		<jdoc:include type="component" />
+  <?php if ($this->countModules('usermenu')): ?>
+  						<div id="usermenu">		
+  							<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
+                        </div>           
+  <?php endif; ?>
                     </div>
                 </div>
             </div>
-        
+        	
         </div>
         
         

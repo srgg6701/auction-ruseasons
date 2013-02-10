@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @since	1.5
  */
 function UsersBuildRoute(&$query)
-{
+{	
 	// Declare static variables.
 	static $items;
 	static $default;
@@ -31,7 +31,7 @@ function UsersBuildRoute(&$query)
 	$segments = array();
 
 	// Get the relevant menu items if not loaded.
-	if (empty($items)) {
+	if (empty($items)) { 
 		// Get all relevant menu items.
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();
@@ -80,6 +80,7 @@ function UsersBuildRoute(&$query)
 		}
 	}
 
+	// die("LINE: ".__LINE__);
 	if (!empty($query['view'])) {
 		switch ($query['view']) {
 			case 'reset':

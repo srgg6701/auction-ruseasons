@@ -30,7 +30,7 @@ class UsersViewProfile extends JViewLegacy
 	 * @since	1.6
 	 */
 	public function display($tpl = null)
-	{
+	{	
 		// Get the view data.
 		$this->data		= $this->get('Data');
 		$this->form		= $this->get('Form');

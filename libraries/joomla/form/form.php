@@ -1138,7 +1138,6 @@ class JForm
 				}
 			}
 		}
-
 		return $return;
 	}
 
@@ -1855,7 +1854,6 @@ class JForm
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
-
 				// Does the field have a defined error message?
 				if ($element['message'])
 				{

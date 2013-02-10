@@ -36,28 +36,13 @@ class UserCabinet
         <!-- START LEFT COLUMN -->
         <div id="user_column">		
             <div class="content_box">
-                <h2 class="title">
-                    <a href="<?=JRoute::_('index.php?option=com_users&view=profile', false)?>">Ваш кабинет</a></h2>
-                <ul>
-                    <li class="my_account_links_inactive">
-                        <a href="<?=JRoute::_('index.php?option=com_users&view=profile&layout=favorites', false)?>" class="user_links">Избранное</a>
-                    </li>
-                    <li class="my_account_links_inactive">
-                        <a href="<?=JRoute::_('index.php?option=com_users&view=profile&layout=bids', false)?>" class="user_links">Мои ставки</a>
-                    </li>
-                    <li class="my_account_links_inactive">
-                        <a href="<?=JRoute::_('index.php?option=com_users&view=profile&layout=data', false)?>">Настройки аккаунта</a>
-                    </li>
-                    <li class="my_account_links_inactive">
-             <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
+            	&nbsp;
+            </div>
+            <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
 			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
 			<input type="hidden" name="return" value="<?php echo base64_encode($logout_params); ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 	</form>           
-             <!--<a href="<?=JRoute::_('index.php?option=com_users&view=profile&layout=favorites', false)?>"><span style="color:#841113">Выйти</span></a>-->
-                  </li>
-                </ul>
-            </div>
         </div>
             <!-- END LEFT COLUMN -->
             <!-- START CONTENT BLOCK -->
@@ -106,6 +91,14 @@ class UserCabinet
         Ваши предметы: 8
     </div>
 <?	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function layout_lots(){?>
+    <H1>LOTS</H1>
+<?	}	
 /**
  * Описание
  * @package

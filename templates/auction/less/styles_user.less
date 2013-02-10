@@ -1,16 +1,52 @@
 @import url(styles.less);
 
-.fleft{float:left; }
+.fleft{
+	float:left; 
+}
+.liUserMenu{
+	list-style: none;
+	padding:10px 0 9px 0;
+	text-align: left;
+	a{
+		font-size: 12px;
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+		&:hover{
+			text-decoration: underline;
+		}
+		&.first-point{
+			padding-top:18px;
+		}
+	}
+}
 .mxWidth(@max){
 	max-width:@max;
 }
 
+div#usermenu{
+	div.moduletable{
+		position:relative;
+		ul.menu{
+			margin-left: 220px;
+			margin-top: -3px;
+			position:absolute;
+			li{
+				.liUserMenu;
+				a.H2{
+					.thinBrownHeader;
+					padding-top:5px;
+				}
+			}
+		}
+	}
+}
 
 div#main_content.left{
 	margin-left:-20px;
 	div {
 		box-sizing:border-box;
-		h2{
+		h2,.H2{
 			.thinBrownHeader;
 			a {
 				text-decoration:none;
@@ -30,22 +66,13 @@ div#main_content.left{
 	div#user_column{
 		.fleft;
 		.mxWidth(140px);
-		div.content_box{
+		div.content_box{ background:yellow;
+			min-height:157px;
+			width:138px;
 			ul{
 				margin-top:-10px;
 				li{
-					list-style: none;
-					padding:10px 0 9px 0;
-					text-align: left;
-					a{
-						font-size: 12px;
-						font-weight: bold;
-						color: black;
-						text-decoration: none;
-						&:hover{
-							text-decoration: underline;
-						}
-					}
+					.liUserMenu;
 				}
 			}
 		}

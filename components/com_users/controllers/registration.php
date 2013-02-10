@@ -135,7 +135,6 @@ class UsersControllerRegistration extends UsersController
 		foreach($rFields as $i=>$field)
 			$requestDataMain[$field]=$requestData[$field];
 		var_dump($requestDataMain);
-		// $data	= $model->validate($form, $requestData);
 		$data	= $model->validate($form, $requestDataMain);
 		var_dump($data);
 		die('registerOnAuction');
@@ -172,7 +171,8 @@ class UsersControllerRegistration extends UsersController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
+			$this->setRedirect(JRoute::_('index.php?option=auction2013&layout=register
+			', false));
 			return false;
 		}
 
@@ -191,7 +191,6 @@ class UsersControllerRegistration extends UsersController
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
 		return true;
-	
 	}
 	/**
 	 * Method to register a user.
