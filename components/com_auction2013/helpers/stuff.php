@@ -73,19 +73,29 @@ class AuctionStuff{
 					$req='';
 				}?>:</label>	
 		<?	if($value=='country_id'){?>
-				<select id="country" name="jform[country]"<?=$req?>>
+				<select id="country" name="jform[country_id]"<?=$req?>>
                     <option value="none">Выберите страну</option>
 			<?	$countries=AuctionStuff::getCountries();
 				foreach($countries as $code=>$country):?>
-					<option value="<?=$country?>"><?=$country?></option>
+					<option value="<?=$code?>"><?=$country?></option>
 			<?	endforeach;?>		
 			</select>
 		<?	}else{?>
                 <input type="<?=(strstr($value,"password"))? "password":"text"?>" autocomplete="off" maxlength="50" size="30" value="<?
                 if ($getValue=JRequest::getVar($value))
 					echo $getValue;
-				elseif(JRequest::getVar('test'))
-					echo $fieldArray[0];
+				elseif(JRequest::getVar('test')){
+					switch($value){
+						case 'email1': case 'email2':
+							echo 'test@email.com';
+						break;
+						case 'password1': case 'password2':
+							echo 'history';
+						break;
+						default:
+							echo $fieldArray[0];
+					}
+				}
 				?>" name="jform[<?=$value?>]" id="<?=$value?>"<?=$req?>>					
         <?		if(isset($fieldArray[2])) 
 					echo $fieldArray[2];

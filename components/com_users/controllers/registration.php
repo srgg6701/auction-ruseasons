@@ -115,30 +115,20 @@ class UsersControllerRegistration extends UsersController
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 			return false;
 		}
-
 		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Registration', 'UsersModel');
 		// Get the user data.
 		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
 		$requestData['username']=(string)$this->getNextUserName(); 
-		echo "<div class=''>requestData= ".$requestData."</div>";
-		var_dump($requestData);
-
 		// Validate the posted data.
 		$form	= $model->getForm();
 		if (!$form) {
+			die('!FORM');
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		$rFields=array('name','username','email1','email2','password1','password2');
-		foreach($rFields as $i=>$field)
-			$requestDataMain[$field]=$requestData[$field];
-		var_dump($requestDataMain);
-		$data	= $model->validate($form, $requestDataMain);
-		var_dump($data);
-		die('registerOnAuction');
-
+		$data	= $model->validate($form, $requestData);
 		// Check for validation errors.
 		if ($data === false) {
 			// Get the validation messages.
@@ -163,7 +153,9 @@ class UsersControllerRegistration extends UsersController
 
 		// Attempt to save the data.
 		$return	= $model->register($data);
-
+		$return_thanx='index.php?option=com_auction2013&layout=thanx';
+		// var_dump($data);
+		// die('return='.$return);
 		// Check for errors.
 		if ($return === false) {
 			// Save the data in the session.
@@ -171,8 +163,7 @@ class UsersControllerRegistration extends UsersController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=auction2013&layout=register
-			', false));
+			$this->setRedirect(JRoute::_($return_thanx, false));
 			return false;
 		}
 
@@ -182,10 +173,10 @@ class UsersControllerRegistration extends UsersController
 		// Redirect to the profile screen.
 		if ($return === 'adminactivate'){
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setRedirect(JRoute::_($return_thanx, false));
 		} elseif ($return === 'useractivate') {
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setRedirect(JRoute::_($return_thanx, false));
 		} else {
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
