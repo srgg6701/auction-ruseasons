@@ -22,9 +22,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 	public function sendApplication(){
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
-		var_dump($requestData);
-		
+		$requestData = JRequest::getVar('jform', array(), 'post', 'array');		
 		/*
 		'name' => string 'dfdsfsd' (length=7)
 	  	'city' => string 'sdfsdf' (length=6)
@@ -56,7 +54,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 <p>'.$requestData['short_description'].'</p>
 Пожелания по цене: 
 <p>'.$requestData['price_wiches'].'</p>';
-		//'<p>Check us out!</p><p><a href="http://www.somewhere.com" target="_blank">http://www.somewhere.com</a></p>';
+
 		$mode = 1;
 		$cc = false;
 		//'bob@somewhereelse.com';
@@ -67,31 +65,20 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 		//$attachment[] = 
 		//'/home/my_site/public_html/images/stories/food/milk.jpg';
 		
-		/*echo "<div class=''>from= ".$from."</div>";
-		echo "<div class=''>replyto= ".$replyto."</div>";
-		echo "<div class=''>fromname= ".$fromname."</div>";
-		echo "<div class=''>replytoname= ".$replytoname."</div>";
-		echo "<div class=''>adminEmail= ".$adminEmail."</div>";
-		echo "<div class=''>recipient= ".$recipient[0]."</div>";
-		echo "<div class=''>subject= ".$subject."</div>";
-		echo "<div class=''>body= ".$body."</div>";*/
-		//var_dump(JFile::upload());
-		//$jinput = JFactory::getApplication()->input;
-		//var_dump($_FILES);
+		var_dump($_FILES);
 		
 		foreach($_FILES as $file)
 			if($file['name']!='')
 				$attachment[]=$file['tmp_name'];
 		
-		//var_dump($attachment);
+		var_dump($attachment);
 		
 		$mail = JFactory::getMailer();
 		
-		//var_dump($mail);
-		//die();
-
 		$mail->sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc, $bcc, $attachment, $replyto, $replytoname);
 		
+		var_dump($requestData);
+		die($body);
 		$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=thanx_for_lot', false));
 
 	}
