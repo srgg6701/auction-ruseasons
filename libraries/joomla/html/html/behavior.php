@@ -817,7 +817,7 @@ abstract class JHtmlBehavior
 		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
-		$document->addStyleDeclaration('html { display:none }');
+		// $document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
 		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');

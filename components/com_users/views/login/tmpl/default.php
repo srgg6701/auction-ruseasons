@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 if ($this->user->get('guest')):
-	// The user is not logged in.
-	echo $this->loadTemplate('login');
+	// The user is not logged in.?><div id="login_area"><?
+	echo $this->loadTemplate('login');?></div><?
 else:
 	// The user is already logged in.
 	echo $this->loadTemplate('logout');

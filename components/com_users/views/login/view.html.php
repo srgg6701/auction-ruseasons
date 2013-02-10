@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package		Joomla.Site
  * @subpackage	com_users
@@ -53,7 +54,7 @@ class UsersViewLogin extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
-
+		
 		parent::display($tpl);
 	}
 

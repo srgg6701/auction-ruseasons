@@ -55,7 +55,7 @@ function UsersBuildRoute(&$query)
 			}
 
 			// Check to see if we have found the login menu item.
-			if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login')) {
+			if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login')) {	
 				$login = $items[$i]->id;
 			}
 
@@ -80,7 +80,7 @@ function UsersBuildRoute(&$query)
 		}
 	}
 
-	// die("LINE: ".__LINE__);
+	//die("LINE: ".__LINE__);
 	if (!empty($query['view'])) {
 		switch ($query['view']) {
 			case 'reset':
@@ -145,7 +145,6 @@ function UsersBuildRoute(&$query)
 				break;
 		}
 	}
-
 	return $segments;
 }
 
