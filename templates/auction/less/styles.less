@@ -85,13 +85,14 @@ div#header{
 					}
 				}
 				ul{
-					display:none; 
-					position:absolute; 
-					top:6px; 
-					left:0; 
-					width:auto; 
 					background:#417337; 
 					border-top:1px solid #e9e4bc;
+					display:none; 
+					left:0; 
+					position:absolute; 
+					top:6px; 
+					width:auto; 
+					z-index:2;
 					li{
 						display:block;
 						padding-right: 8px;
@@ -103,6 +104,9 @@ div#header{
 							width:100%;
 							&:hover{
 								.liActive;
+							}
+							&:last-child{
+								margin-bottom:1px;
 							}
 						}
 						
@@ -118,15 +122,16 @@ div#header{
 					ul {
 						li {
 							a{
-								.subMenu;
+								.subMenu;								
+							}
+							&.active{
+								a{
+									.subMenu;
+									.liActive;
+								}
 							}
 						}
-						li.active{
-							a{
-								.subMenu;
-								.liActive;
-							}
-						}
+						
 					}
 					a{
 						.subMenu;

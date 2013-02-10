@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" method="upgrade">
+        <name>Конструктор Яндекс карты FlyLeaf</name>
+        <creationDate>June 2012</creationDate>
+        <author>Evgeny Zakirov</author>
+        <authorEmail>worstinme@ya.ru</authorEmail>
+        <authorUrl>http://flyleaf.su</authorUrl>
+        <copyright>(c) flyleaf.su</copyright>
+        <license>GNU GPL</license>
+        <version>2.0.14</version>
+		<description><![CDATA[<div style='background:#fff;padding:10px;border: solid 1px #CCC;margin-left:68px;'>Перетащите метку в нужное место, задайте координаты и масштаб карты, нажмите правой кнопкой на метке для ее редактирования. Возможно использование html тегов. Можете оставлять поля пустыми если они не нужны. Не забудьте указать значения ширины и высоты карты.<br>Используется API 2.0, можете вставить в функцию вызова карты свои скрипты.</div>
+<p style='margin-left:68px;margin-top:10px'>Подробная информация на странице разработчика <a href="http://flyleaf.su/blog/joomla/modul-yandeks-kart-s-rasshirennymi-nastroykami-dlya-joomla-2.5.html" target="_blank">«форза́ц»</a>. WMR R138753723227, ЯД 410011409102401</p>
+		  
+		  
+<script src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&mode=debug&wizard=mod_flyleaf_ymap&lang=ru-RU&onload=init" type="text/javascript"></script>
+<script src="http://yandex.st/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+		
+		
+function init () {
+	$("<div id='search_map'><form method='post'><input style='width:80%;font-size:14px;' type='text' name='search_map' placeholder='поиск по адресу'/><input type='submit' style='width:12%;float:right;font-size:14px;' value='Найти'></form><div id='result_map' style='width:100%;margin-bottom:10px;font-size:14px;'></div></div><div id='ymaps' style='width:100%;height:300px;'></div>").prependTo($("#module-sliders"));
+	
+	$("#jform_params_selfscript-lbl").attr("style","max-width:inherit;width:auto;");
+	if ($("#jform_params_center").val() == '') {
+		var ymc = [ymaps.geolocation.longitude,ymaps.geolocation.latitude];
+		if (ymc[0] == '' && ymc[1] == '')
+		ymc = [54.23021568749796,56.071896198720616];
+		$("#jform_params_center").val(ymc[0]+','+ymc[1]) 
+	}
+	else 
+	var ymc = $("#jform_params_center").val().split(',');
+	if ($("#jform_params_location").val() == '') {
+		var mpc = ymc;
+		$("#jform_params_location").val(mpc[0]+','+mpc[1]) 
+	}
+	else 
+	var mpc = $("#jform_params_location").val().split(',');
+	var myMap = new ymaps.Map("ymaps", {center:ymc,zoom: $("#jform_params_zoom").val(),type: $("#jform_params_map_type").val()});
+	
+	myMap.controls.add('zoomControl').add(new ymaps.control.TypeSelector(['yandex#map', 'yandex#satellite', 'yandex#hybrid', 'yandex#publicMap','yandex#publicMapHybrid']));
+	
+	myPlacemark = new ymaps.Placemark(mpc, 
+		{ iconContent: $("#jform_params_icon").val(),hintContent: $("#jform_params_hint").val(),balloonContent: $("#jform_params_balloon").val() }, 
+		 {	preset: $("#jform_params_iconstyle").val(),
+				draggable: true,
+			}
+			);
+	myPlacemark.events.add('contextmenu', function (e) {
+                e.get('domEvent').callMethod('preventDefault');
+                if ($('#menu-mark').css('display') == 'block') {
+                    $('#menu-mark').remove();
+                } else {
+                    // HTML-содержимое контекстного меню.
+                    var menuContent =
+                        '<div id="menu-mark">\
+                             <ul id="menu_list">\
+                                 <li>Название: <br /> <input type="text" style="width:200px;" name="icon_text" /></li>\
+                                 <li>Подсказка: <br /> <input type="text" style="width:200px;"  name="hint_text" /></li>\
+                                 <li>Балун: <br /> <textarea style="width:200px;height:30px;"  name="balloon_text"></textarea></li>\
+								 <li>Стиль: <select name="icon_style">\
+					<option value="twirl#lightblueStretchyIcon">lightblue</option>\
+					<option value="twirl#whiteStretchyIcon">white</option>\
+					<option value="twirl#greenStretchyIcon">green</option>\
+					<option value="twirl#redStretchyIcon">red</option>\
+					<option value="twirl#yellowStretchyIcon">yellow</option>\
+					<option value="twirl#nightStretchyIcon">night</option>\
+					<option value="twirl#greyStretchyIcon">grey</option>\
+					<option value="twirl#darkblueStretchyIcon">darkblue</option>\
+					<option value="twirl#blueStretchyIcon" selected="selected">blue</option>\
+					<option value="twirl#orangeStretchyIcon">orange</option>\
+					<option value="twirl#darkorangeStretchyIcon">darkorange</option>\
+					<option value="twirl#pinkStretchyIcon">pink</option>\
+					<option value="twirl#violetStretchyIcon">violet</option>\
+								 					</select></li>\
+                             </ul>\
+                         <div align="center"><input type="submit" value="Сохранить" /></div>\
+                         </div>';
+						 
+                    $('body').append(menuContent);
+
+                    $('#menu-mark').css({
+                        position: 'absolute',
+                        left: e.get('position')[0],
+                        top: e.get('position')[1],
+                        background: '#FFFFCC',
+                        border: '3px solid #1E9CFE',
+                        'border-radius': '12px',
+                        width: '240px',
+                        'padding-bottom': '10px',
+                        'z-index': 2
+                    });
+
+                    $('#menu-mark ul').css({
+                        'list-style-type': 'none',
+                        padding: '20px',
+                        margin: 0
+                    });
+
+                    $('#menu-mark input[name="icon_text"]').val($("#jform_params_icon").val());
+                    $('#menu-mark input[name="hint_text"]').val($("#jform_params_hint").val());
+                    $('#menu-mark textarea[name="balloon_text"]').val($("#jform_params_balloon").val());
+					$('#menu-mark select[name="icon_style"]').val($("#jform_params_iconstyle").val());
+
+                    $('#menu-mark input[type="submit"]').click(function () {
+                        var iconText = $('input[name="icon_text"]').val(),
+                            hintText = $('input[name="hint_text"]').val(),
+                            balloonText = $('textarea[name="balloon_text"]').val();
+					
+					
+                        myPlacemark.properties.set({
+                            iconContent: iconText,
+                            hintContent: hintText,
+                            balloonContent: balloonText
+                        });
+						$("#jform_params_icon").val(iconText),
+						$("#jform_params_hint").val(hintText),
+						$("#jform_params_balloon").val(balloonText)
+                        // Удаляем контекстное меню.
+                        $('#menu-mark').remove();
+                    });
+					
+					$('#menu-mark select[name="icon_style"]').click(function(){
+						var iconStyle = $('#menu-mark select[name="icon_style"]').val();
+						myPlacemark.options.set({preset:iconStyle});
+						$("#jform_params_iconstyle").val(iconStyle)
+					});	
+                }
+            });
+			myPlacemark.events.add("dragend", function (e) {
+              coords = this.geometry.getCoordinates(),
+				$("#jform_params_location").val(coords)
+			},myPlacemark);
+						
+			myMap.events.add(['boundschange', 'typechange'], function() {
+				$("#jform_params_center").val(myMap.getCenter()),
+				$("#jform_params_zoom").val(myMap.getZoom()),
+				$("#jform_params_map_type").val(myMap.getType())
+			});
+			
+			$("#jform_params_map_type").click(function(){
+				myMap.setType($(this).val())
+			});
+			$("#jform_params_iconstyle").click(function(){
+				var icStyle = $(this).val();
+				myPlacemark.options.set({preset:icStyle});
+			});
+			$("#jform_params_icon").keyup(function(){
+				var iconC = $(this).val();
+				myPlacemark.properties.set({iconContent:iconC});
+			});
+			$("#jform_params_hint").keyup(function(){
+				var hintC = $(this).val();
+				myPlacemark.properties.set({hintContent:hintC});
+			});
+			$("#jform_params_balloon").keyup(function(){
+				var balloonC = $(this).val();
+				myPlacemark.properties.set({balloonContent:balloonC});
+			});
+			$("#jform_params_zoom").keyup(function(){
+				myMap.setZoom($(this).val())
+			});
+			myMap.geoObjects.add(myPlacemark);
+	
+	$('#search_map form').submit(function () {
+        var search_query = $('#search_map input').val();
+		ymaps.geocode(search_query, {results: 10}).then(function (res) {
+			var names = []; var coords = [];
+			$("#result_map").html("");
+            res.geoObjects.each(function (obj) {			
+			$("<a href='#' rel='"+obj.geometry.getCoordinates()+"'>"+obj.properties.get('name')+"</a><br>").prependTo($("#result_map"));
+            });			
+        }); 
+        return false;
+     });
+	 
+	 $("#result_map a").live("click",function(){
+	 	var rmc = $(this).attr("rel").split(',');
+	 	myMap.setCenter([rmc[0],rmc[1]]);
+		$("#result_map a").attr("style","");
+		$(this).attr("style","background:#ddd;color:#d50");
+		myPlacemark.geometry.setCoordinates([rmc[0],rmc[1]]);
+		$("#jform_params_location").val(rmc[0]+","+rmc[1])
+	 });
+		
+	}
+</script>]]></description>
+  
+        <!-- Обратите внимание на атрибут folder, он указывает из
+                 какой директории будут копироваться файлы  -->
+        <files>
+                <filename module="mod_flyleaf_ymap">mod_flyleaf_ymap.php</filename>
+                <filename>mod_flyleaf_ymap.xml</filename>
+                <filename>index.html</filename>
+                <folder>tmpl</folder>
+        </files>
+        <config>
+            <fields name="params">
+                <!-- Основные параметры для модуля -->
+                <fieldset name="basic">
+					<field name="location" type="text" default=""
+                        label="Координаты longlat *" size="50"
+                        description="longlat, например 54.274161,56.096468" /> 
+					<field name="center" type="text"
+                        label="Центр карты *" size="50" default=""
+                        description="longlat, например 54.274161,56.096468" />
+					<field name="zoom" type="text" default="6"
+                        label="Масштаб карты *"
+                        description="Уровень приближения карты 1-17" />  
+					<field name="map_type" type="list" default="yandex#map" label="Тип карты?" >
+        				<option value="yandex#map">Схема</option>
+        				<option value="yandex#satellite">Спутник</option>
+						<option value="yandex#hybrid">Гибрид</option>
+						<option value="yandex#publicMap">Народная</option>
+						<option value="yandex#publicMapHybrid">Народная+Спутник</option>
+						
+    				</field>
+					<field type="spacer" hr="true" />
+                    <field name="width" type="text" default="100%"					
+                        label="Ширина"
+                        description="Ширина в пикселях или процентах" /> 
+					<field name="height" type="text" default="300px"
+                        label="Высота"
+                        description="Высота в пикселях" /> 
+					<field type="spacer" hr="true" />
+					<field name="icon" type="textarea" filter="raw" rows="2"  cols="50"
+                        label="Текст (название) иконки, html теги"
+                        description="текст, html теги" 
+						default="Я.Метка"/>
+					<field name="hint" type="text"
+                        label="Подсказка метки"
+                        description="текст" />
+					<field name="iconstyle" type="list" 
+					default="twirl#blueIcon" label="Стиль иконки"
+					description="Из стандартного списка API">
+					<option value="twirl#lightblueStretchyIcon">lightblue</option>
+					<option value="twirl#whiteStretchyIcon">white</option>
+					<option value="twirl#greenStretchyIcon">green</option>
+					<option value="twirl#redStretchyIcon">red</option>
+					<option value="twirl#yellowStretchyIcon">yellow</option>
+					<option value="twirl#nightStretchyIcon">night</option>
+					<option value="twirl#greyStretchyIcon">grey</option>
+					<option value="twirl#darkblueStretchyIcon">darkblue</option>
+					<option value="twirl#blueStretchyIcon">blue</option>
+					<option value="twirl#orangeStretchyIcon">orange</option>
+					<option value="twirl#darkorangeStretchyIcon">darkorange</option>
+					<option value="twirl#pinkStretchyIcon">pink</option>
+					<option value="twirl#violetStretchyIcon">violet</option>					
+					</field>
+					
+					<field name="balloon" type="textarea" filter="raw" rows="5"  cols="50"
+                        label="Балун, html теги"
+                        description="текст, html теги" />
+					<field
+					name="balloon_on"
+					type="radio"
+					default="0"
+					label="Только балун?"
+					description="Отключить отображение метки, показывать только балун">
+					<option	value="1">Да</option>
+					<option	value="0">Нет, показывать с меткой!</option>
+					</field>
+					<field type="spacer" hr="true" />
+					<field name="control1" type="radio" label="Масштабирование" description="Добавить элемент машстабирования на карту" default="1">
+					<option	value="1">Да</option>
+					<option	value="0">Нет</option>
+					</field>
+					<field name="control2" type="radio" label="Инструменты" description="Дополнительные инструменты на карте, линейка и т.п." default="0" >
+					<option	value="1">Да</option>
+					<option	value="0">Нет</option>
+					</field>
+					<field name="control3" type="radio" label="Тип карты" description="Элемент смены типа карты" default="1">
+					<option	value="1">Да</option>
+					<option	value="0">Нет</option>
+					</field>					
+					<field name="control4" type="radio" label="Пробки" description="Отображать информацию о пробках?" default="0" >
+					<option	value="1">Да</option>
+					<option	value="0">Нет</option>
+					</field>							
+					<field type="spacer" hr="true" />
+					<field name="selfscript" type="textarea" filter="raw" rows="6"  cols="50"
+						default="/* пример кода добавления еще одной метки myMap.geoObjects.add(new ymaps.Placemark([54.274161,56.096468], { iconContent: 'Текст метки',hintContent: '', balloonContent: 'Описание, балун' },   {	 	preset: 'twirl#blueStretchyIcon'} )); */"
+                        label="Дополнительные параметры, будет вставлено в функцию вызова карты, не изменяйте или оставьте пустым если не знаете для чего это ;)"
+                        description="javascript" />
+                </fieldset>
+
+                <!-- Дополнительные параметры для модуля -->
+           <fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+				<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field
+					name="bklnk"
+					type="hidden"
+					default="PGRpdiBpZD0iYmxuayI+PGEgaHJlZj0iaHR0cDovL2ZseWxlYWYuc3UvYmxvZy8iIHRhcmdldD0iX2JsYW5rIj7QnNC+0LTRg9C70Ywg0K/QvdC00LXQutGBINCa0LDRgNGCIEpvb21sYTwvYT48L2Rpdj4="/>
+				<field
+					name="cachemode"
+					type="hidden"
+					default="static">
+					<option
+						value="static"></option>
+				</field>
+			</fieldset>
+		
+            </fields>
+        </config>
+</extension>
