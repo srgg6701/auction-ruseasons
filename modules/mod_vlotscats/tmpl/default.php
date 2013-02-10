@@ -1,8 +1,10 @@
-﻿<?php
+<?php
 // No direct access
 defined('_JEXEC') or die('Restricted access'); 
 $arrLots=array(
-			'Онлайн торги'=>array(
+			array(
+			'header'=>array('Онлайн торги','#'),
+			'sections'=>array(
 					'Русская живопись',
 					'Советская живопись',
 					'Миниатюры',
@@ -22,8 +24,10 @@ $arrLots=array(
 					'Марки, открытки',
 					'Ткани, прочее...',
 					'Разное' 
-				),
-			'Очные торги'=>array(
+				)),
+			array(	
+			'header'=>array('Очные торги','virtuemart&view=category&virtuemart_category_id=0'),
+			'sections'=>array(
 					'Живопись, графика',
 					'Иконы',
 					'Декоративно-прикладное искусство',
@@ -31,8 +35,10 @@ $arrLots=array(
 					'Предметы интерьера',
 					'Мебель',
 					'Предметы коллекционирования'
-				),
-			'Магазин'=>array(
+				)),
+			array(
+			'header'=>array('Магазин','virtuemart&view=category&virtuemart_category_id=0'),
+			'sections'=>array(
 					'Русская живопись',
 					'Западноевропейская живопись',
 					'Советская живопись',
@@ -53,17 +59,18 @@ $arrLots=array(
 					'Марки, открытки',
 					'Ткани, прочее...',
 					'Разное' 
-				)	
+				))	
 		);
-foreach($arrLots as $lot=>$lots):?>
+foreach($arrLots as $i=>$dbl_array):
+		$header=$dbl_array['header'][0];
+		$link=$dbl_array['header'][1];?>
 <h3>
-	<a href="#"><?=$lot?></a>
+	<a href="<?=JRoute::_('index.php?option=com_'.$link)?>"><?=$header?></a>
     <span class="lots_count">(x)</span>
 </h3>
+<?	foreach($dbl_array['sections'] as $j=>$subsection):?>
 <ul>
-	<?	foreach($lots as $i=>$lot):?>
-    	<li><a href="#"><?=$lot?></a> (x)</li>
-    <?	endforeach;?>
+    	<li><a href="<?=JRoute::_('index.php?option=com_'.$link)?>"><?=$subsection?></a> (x)</li>
 </ul>
-<?
+<?	endforeach;
 endforeach;?>

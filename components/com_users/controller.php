@@ -31,17 +31,18 @@ class UsersController extends JControllerLegacy
 		// Get the document object.
 		$document	= JFactory::getDocument();
 
+		$user = JFactory::getUser();
 		// Set the default view name and format from the Request.
-		$vName	 = JRequest::getCmd('view', 'login');
+		$vName=($user->get('guest') == 1)? JRequest::getCmd('view', 'login'):'profile';
 		$vFormat = $document->getType();
 		$lName	 = JRequest::getCmd('layout', 'default');
 
 		if ($view = $this->getView($vName, $vFormat)) {
 			// Do any specific processing by view.
+			// die('vName: '.$vName);
 			switch ($vName) {
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
-					$user = JFactory::getUser();
 					if ($user->get('guest') != 1) {
 						// Redirect to profile page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));

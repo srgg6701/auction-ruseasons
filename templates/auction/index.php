@@ -101,7 +101,11 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
         <div id="content">
 		<?php $style="";?>
   	<?php $style="left "?>
-  <?php if ($this->countModules('left_panel')): ?>
+  <?php $hide_left_panel=false;
+  		if(JRequest::getVar('layout')=='register'):
+			$hide_left_panel=true;
+  		endif;
+  		if ($this->countModules('left_panel')&&!$hide_left_panel): ?>
           <div id="left_part">
 			<jdoc:include type="modules" name="left_panel" style="xhtml" />  
   	<?php	if ($this->countModules('left')): ?>
@@ -125,7 +129,15 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
                 <div class="Post">
                     <div class="Post-body">
                 		<jdoc:include type="component" />
-  <?php if ($this->countModules('usermenu')): ?>
+  <?php $user = JFactory::getUser();
+  		$layout=JRequest::getVar('layout');
+		$option=JRequest::getVar('option');
+		if ( $this->countModules('usermenu')
+			 && $user->get('guest') != 1
+		   	 && $layout!='register'
+			 && ($option=='com_auction2013'
+			 	 || $option=='com_users')
+		   ): ?>
   						<div id="usermenu">		
   							<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
                         </div>           
