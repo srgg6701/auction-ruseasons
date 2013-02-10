@@ -10,8 +10,24 @@ endif;
 $article=AuctionStuff::getArticleContent(13);	
 // var_dump($article);	
 echo $article['introtext'];?>
-<form method="POST" id="contactform" name="contactform" action="index.php?a=28&amp;b=136" enctype="multipart/form-data">  
-
+<form method="post" id="proposal_form" name="proposal_form" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.sendApplication'); ?>" enctype="multipart/form-data">  
+<?=AuctionStuff::sreateForm(
+			array(	'name'=>array('Ваше имя',1),
+					'city'=>array('Город',1),
+					'email1'=>array('E-mail',1),
+					'phone_number'=>array('Телефон 1'),
+					'short_description'=>array('Краткое описание',1,false,'textarea'),
+					'price_wiches'=>array('Пожелания по цене',0,false,'textarea'),
+				)
+			)?>
+<br/>
+<br/>
+<div>
+	<span class="req">*</span> Фото предмета в нескольких ракурсах (если имеется, фото подписи, марки или клейма).
+</div>
+<br/>
+<? $old=false;
+if ($old){?>  
 <div class="form_item">
   <div class="form_element cf_textbox">
     <label style="width: 150px;" class="cf_label">* Город  </label>
@@ -21,7 +37,6 @@ echo $article['introtext'];?>
  </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
 <div class="form_item">
   <div class="form_element cf_textbox">
     <label style="width: 150px;" class="cf_label">* Ваше имя </label>
@@ -31,9 +46,6 @@ echo $article['introtext'];?>
  </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
-
-
 <div class="form_item">
   <div class="form_element cf_textbox">
     <label style="width: 150px;" class="cf_label">* Ваш e-mail</label>
@@ -43,7 +55,6 @@ echo $article['introtext'];?>
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
 <div class="form_item">
   <div class="form_element cf_textbox">
     <label style="width: 150px;" class="cf_label">Телефон</label>
@@ -52,7 +63,6 @@ echo $article['introtext'];?>
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
 <div class="form_item">
   <div class="form_element cf_textarea">
     <label style="width: 150px;" class="cf_label">* Краткое описание (материал, наличие подписи, марки или клейма, размер и др.) </label>
@@ -62,7 +72,6 @@ echo $article['introtext'];?>
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
 <div class="form_item">
   <div class="form_element cf_textarea">
     <label style="width: 150px;" class="cf_label">Пожелания по цене</label>
@@ -71,15 +80,13 @@ echo $article['introtext'];?>
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
-
 <div class="form_item">
   <div class="form_element cf_textbox">
 * Фото предмета в нескольких ракурсах (если имеется, фото подписи, марки или клейма)
   <div class="cfclear">&nbsp;</div>
   </div>
 </div>
-
+<?	}?>
 
 <div class="form_item">
   <div class="form_element cf_fileupload">
@@ -89,7 +96,6 @@ echo $article['introtext'];?>
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
 <div class="form_item">
   <div class="form_element cf_fileupload">
     <label style="width: 150px;" class="cf_label">Изображение 2</label>
@@ -98,7 +104,6 @@ echo $article['introtext'];?>
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
 <div class="form_item">
   <div class="form_element cf_fileupload">
     <label style="width: 150px;" class="cf_label">Изображение 3</label>
@@ -107,17 +112,53 @@ echo $article['introtext'];?>
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-
-<div class="form_item">
+<!--<div class="form_item">
   <div class="form_element cf_textbox">
 * графы, обязательные для заполнения
   <div class="cfclear">&nbsp;</div></div>
+</div>-->
+<div align="center">
+    <input type="submit" name="sendApp" value="Отправить">
 </div>
-
-<div class="form_item">
-  <div class="form_element cf_button">
-    <input type="submit" name="button_13" value="Отправить">
-  </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-           </form>
+		<input type="hidden" name="option" value="com_auction2013" />
+		<input type="hidden" name="task" value="auction2013.sendApplication" />
+		<?php echo JHtml::_('form.token');?>        
+</form>
+<script>
+jQuery(function($){
+	$('form#proposal_form').submit( function(){
+		var errs=0;
+		$('[required]').each( function(index,element){
+			console.info($(element).val());
+			if (!$(element).val()){
+				$(element).css({
+					backgroundColor:'#FF6',
+					border:'solid 1px #999',
+					width: '211px',
+					marginLeft: '2px'
+				}); // console.info(element.tagName.toUpperCase());
+				errs++;
+			}
+		}); 
+		if(errs>0){
+			alert('Не все поля заполнены/выбраны.');
+			return false;
+		}else{
+			var eMess='';
+	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			var eMail=$('input#email1');
+			var eMail2=$('input#email2');
+			var emailValue=$(eMail).val();
+			if (!filter.test(emailValue)) {
+				eMess='* Емэйл введён некорректно или отсутствует!';
+				$(eMail).css('background-color','#FC0');
+				errs++;
+			}
+			if(errs>0){
+				alert(eMess);
+				return false;
+			}
+		}
+	});
+});
+</script>

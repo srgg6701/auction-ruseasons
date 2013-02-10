@@ -13,7 +13,26 @@ $article=AuctionStuff::getArticleContent(19);
 echo $article['introtext'];?>
 	<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.registerOnAuction'); ?>" method="post" class="form-validate">
 		<div class="divider"></div>
-	<?=AuctionStuff::sreateForm()?>
+	<?=AuctionStuff::sreateForm(
+			array(	'name'=>array('Имя',1),
+					'middlename'=>array('Отчество'),
+					'lastname'=>array('Фамилия',1),
+					'company_name'=>array('Наименование фирмы'),
+					'country_id'=>array('Страна',1),
+					'zip'=>array('Индекс',1),
+					'city'=>array('Город',1),
+					'street'=>array('Улица',1),
+					'house_number'=>array('Дом',1),
+					'corpus_number'=>array('Корпус'),
+					'flat_office_number'=>array('Квартира (офис)',1,'Укажите 0 (ноль), если живете в частном доме'),
+					'phone_number'=>array('Телефон 1',1,'Пример ввода: +7 987 6543210'),
+					'phone2_number'=>array('Телефон 2'),
+					'email1'=>array('E-mail',1),
+					'email2'=>array('Повторите e-mail',1),
+					'password1'=>array('Пароль',1,'Длина пароля не менее 6 символов'),
+					'password2'=>array('Повторите пароль',1)
+				)
+			)?>
 		<div>
 		<br>Регистрируясь на нашем сайте, Вы принимаете наши <a href="index.php/pravila/pravila-registraciji-uchastnikov-torgov">Правила</a>.
 		</div>

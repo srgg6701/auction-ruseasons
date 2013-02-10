@@ -41,37 +41,18 @@ class AuctionStuff{
  * @package
  * @subpackage
  */
-	public static function sreateForm(){		
-		$arrFields=array(
-				'name'=>array('Имя',1),
-				'middlename'=>array('Отчество'),
-				'lastname'=>array('Фамилия',1),
-				'company_name'=>array('Наименование фирмы'),
-				'country_id'=>array('Страна',1),
-				'zip'=>array('Индекс',1),
-				'city'=>array('Город',1),
-				'street'=>array('Улица',1),
-				'house_number'=>array('Дом',1),
-				'corpus_number'=>array('Корпус'),
-				'flat_office_number'=>array('Квартира (офис)',1,'Укажите 0 (ноль), если живете в частном доме'),
-				'phone_number'=>array('Телефон 1',1,'Пример ввода: +7 987 6543210'),
-				'phone2_number'=>array('Телефон 2'),
-				'email1'=>array('E-mail',1),
-				'email2'=>array('Повторите e-mail',1),
-				'password1'=>array('Пароль',1,'Длина пароля не менее 6 символов'),
-				'password2'=>array('Повторите пароль',1)
-			);
+	public static function sreateForm($arrFields){		
 		ob_start();
 		foreach($arrFields as $value=>$fieldArray){?>
 			<div>
 				<label for="<?=$value?>"><?
-				echo $fieldArray[0];
 				if (isset($fieldArray[1])){
 					?><span class="req">*</span><? 
 					$req=' required';
 				}else{
 					$req='';
-				}?>:</label>	
+				}
+				echo $fieldArray[0];?>:</label>	
 		<?	if($value=='country_id'){?>
 				<select id="country" name="jform[country_id]"<?=$req?>>
                     <option value="none">Выберите страну</option>
@@ -80,24 +61,33 @@ class AuctionStuff{
 					<option value="<?=$code?>"><?=$country?></option>
 			<?	endforeach;?>		
 			</select>
-		<?	}else{?>
+		<?	}else{
+				if (isset($fieldArray[3])):
+					if($fieldArray[3]=='textarea'):
+                		echo "<".$fieldArray[3]." id=\"{$value}\" name=\"jform[".$value."]\"";
+						if(isset($fieldArray[4]))
+							echo $fieldArray[4];
+						echo $req."></".$fieldArray[3].">";
+					endif;
+            	else:?>
                 <input type="<?=(strstr($value,"password"))? "password":"text"?>" autocomplete="off" maxlength="50" size="30" value="<?
-                if ($getValue=JRequest::getVar($value))
-					echo $getValue;
-				elseif(JRequest::getVar('test')){
-					switch($value){
-						case 'email1': case 'email2':
-							echo 'test@email.com';
-						break;
-						case 'password1': case 'password2':
-							echo 'history';
-						break;
-						default:
-							echo $fieldArray[0];
+					if ($getValue=JRequest::getVar($value))
+						echo $getValue;
+					elseif(JRequest::getVar('test')){
+						switch($value){
+							case 'email1': case 'email2':
+								echo 'test@email.com';
+							break;
+							case 'password1': case 'password2':
+								echo 'history';
+							break;
+							default:
+								echo $fieldArray[0];
+						}
 					}
-				}
 				?>" name="jform[<?=$value?>]" id="<?=$value?>"<?=$req?>>					
-        <?		if(isset($fieldArray[2])) 
+        	<?	endif;
+				if(isset($fieldArray[2])) 
 					echo $fieldArray[2];
 			}?>
 			</div>

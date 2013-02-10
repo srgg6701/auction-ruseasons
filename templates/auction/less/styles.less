@@ -271,7 +271,8 @@ div#content{
 		}
 	}
 	div#main_content{
-		form#registration_form{
+		form#registration_form,
+		form#proposal_form{
 			display: inline-block;
 			input[type="submit"]{
 				background-color:@sandDark;
@@ -285,11 +286,22 @@ div#content{
 			}
 			label{
 				display: inline-block;
+				padding-top: 4px;
+				text-align: right;
+				vertical-align:top;
 				width: 210px;
-				text-align: right;	
 			}
 			span.req{
 				color:red;
+			}
+			textarea{
+				height:80px;
+				min-height:32px;
+				margin-top:2px;
+				width: 209px;
+				&#price_wiches{
+					height:50px;
+				}
 			}
 		}
 		table.category{		

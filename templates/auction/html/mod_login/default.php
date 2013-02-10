@@ -31,8 +31,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
           endif; ?>
 	<form action="<?php echo JRoute::_( 'index.php?option=com_users&task=user.login', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>	
-		<input id="modlgn_username" type="text" name="username" class="inputbox" alt="username" size="18" placeholder="Клиентский номер" required />
-		<input id="modlgn_passwd" type="password" name="password" class="inputbox" size="18" alt="password" placeholder="пароль" required />
+		<input id="modlgn_username" type="text" name="username" class="inputbox" alt="username" size="18" autocomplete="off" placeholder="Клиентский номер" required />
+		<input id="modlgn_passwd" type="password" name="password" class="inputbox" size="18" alt="password" autocomplete="off" placeholder="пароль" required />
 	<?php if(JPluginHelper::isEnabled('system', 'remember')) :
 			// плагин: Система - запомнить меня. ?>
 	<a href="<?php echo JRoute::_( 'index.php?option=com_users&view=remind' ); ?>" style="float:left;">

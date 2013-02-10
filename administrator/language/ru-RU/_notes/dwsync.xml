@@ -7,4 +7,10 @@
 <file name="ru-RU.com_search.ini" server="2013.auction-ruseasons.ru/public_html/" local="130046575766307500" remote="130047466200000000" />
 <file name="ru-RU.com_search.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130046575935897500" remote="130047466200000000" />
 <file name="ru-RU.com_users.ini" server="2013.auction-ruseasons.ru/public_html/" local="130047912775678000" remote="130048281000000000" />
+<file name="ru-RU.plg_editors-xtd_modulesanywhere.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742977570000" remote="130049794200000000" />
+<file name="ru-RU.plg_editors-xtd_modulesanywhere.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742977950000" remote="130049794200000000" />
+<file name="ru-RU.plg_system_modulesanywhere.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742978000000" remote="130049794200000000" />
+<file name="ru-RU.plg_system_modulesanywhere.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742978030000" remote="130049794200000000" />
+<file name="ru-RU.plg_system_nnframework.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742990720000" remote="130049794200000000" />
+<file name="ru-RU.plg_system_nnframework.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742990740000" remote="130049794200000000" />
 </dwsync>

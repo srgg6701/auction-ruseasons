@@ -18,6 +18,7 @@ else:
 endif;?>
 <script>
 $( function(){
+	$('input').attr('autocomplete','off');
 	$('div#login_area ul li a:last-child')
 		.click( function(){
 			$(this).attr('href','<?=JRoute::_('index.php?option=com_auction2013&layout=register')?>');

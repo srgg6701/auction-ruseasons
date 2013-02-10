@@ -4,4 +4,9 @@
 <file name="data.php" server="2013.auction-ruseasons.ru/public_html/" local="130044682913100000" remote="130045268400000000" />
 <file name="default.php" server="2013.auction-ruseasons.ru/public_html/" local="130044693242290000" remote="130045268400000000" />
 <file name="favorites.php" server="2013.auction-ruseasons.ru/public_html/" local="130044693386820000" remote="130045268400000000" />
+<file name="bids.xml" server="2013.auction-ruseasons.ru/public_html/" local="130049603093620000" remote="130049794200000000" />
+<file name="data.xml" server="2013.auction-ruseasons.ru/public_html/" local="130049603627430000" remote="130049794200000000" />
+<file name="favorites.xml" server="2013.auction-ruseasons.ru/public_html/" local="130049602905450000" remote="130049794800000000" />
+<file name="lots.php" server="2013.auction-ruseasons.ru/public_html/" local="130049608189740000" remote="130049794800000000" />
+<file name="lots.xml" server="2013.auction-ruseasons.ru/public_html/" local="130049608866180000" remote="130049794800000000" />
 </dwsync>
