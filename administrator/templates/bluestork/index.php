@@ -38,6 +38,14 @@ if ($this->params->get('highContrast')) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" >
 <head>
+<link href="templates/<?php echo $this->template; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
+
+<?	if(JRequest::getVar('option')=='com_virtuemart'):?>
+<link href="templates/<?php echo $this->template; ?>/less/virtuemart.less" rel="stylesheet/less" type="text/css">
+<?	endif;?>
+
+<script src="templates/<?php echo $this->template; ?>/less/less.js" type="text/javascript"></script> 
+
 <jdoc:include type="head" />
 
 <!--[if IE 7]>

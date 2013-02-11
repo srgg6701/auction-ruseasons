@@ -23,25 +23,15 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$requestData = JRequest::getVar('jform', array(), 'post', 'array');		
-		/*
-		'name' => string 'dfdsfsd' (length=7)
-	  	'city' => string 'sdfsdf' (length=6)
-  		'email1' => string 'sdfsdf' (length=6)
-  		'phone_number' => string '' (length=0)
-  		'short_description' => string 'sdfsdf' (length=6)
-  		'price_wiches' => string 'ssdfsdf' (length=7)
+		
+		/*	'name' => string 'dfdsfsd' (length=7)
+			'city' => string 'sdfsdf' (length=6)
+			'email1' => string 'sdfsdf' (length=6)
+			'phone_number' => string '' (length=0)
+			'short_description' => string 'sdfsdf' (length=6)
+			'price_wiches' => string 'ssdfsdf' (length=7)
 		*/
-		$from = $replyto = $requestData['email1'];
-		//'admin@somewhere.com';
-		$fromname = $replytoname = $requestData['name'];
-		//'BIGSHOT Blog';
-		$adminEmail=JFactory::getConfig()->getValue('mailfrom');
-		$recipient[] = $adminEmail;
-		//'john@somewhere.com';
-		//$recipient[] = $requestData[''];
-		//'jane@somewhere.com';
 		$subject = "Предложение предмета для аукциона";
-		//'Want to learn about BIGSHOT Blog';
 		$body = 'Имя клиента: 
 <p>'.$requestData['name'].'</p>
 Город проживания: 
@@ -55,31 +45,34 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 Пожелания по цене: 
 <p>'.$requestData['price_wiches'].'</p>';
 
-		$mode = 1;
-		$cc = false;
-		//'bob@somewhereelse.com';
-		$bcc[] = false;
-		//'simon@somewhereelse.com';
-		//$attachment[] = 
-		//'/home/my_site/public_html/images/stories/food/coffee.jpg';
-		//$attachment[] = 
-		//'/home/my_site/public_html/images/stories/food/milk.jpg';
-		
-		var_dump($_FILES);
-		
-		foreach($_FILES as $file)
-			if($file['name']!='')
-				$attachment[]=$file['tmp_name'];
-		
-		var_dump($attachment);
-		
-		$mail = JFactory::getMailer();
-		
-		$mail->sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc, $bcc, $attachment, $replyto, $replytoname);
-		
-		var_dump($requestData);
-		die($body);
-		$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=thanx_for_lot', false));
+		// $cc = false;
+		// $bcc[] = false;
 
+		$mail = JFactory::getMailer();
+		$mail->setSender(array($requestData['email1'],$requestData['name']));
+		$config =& JFactory::getConfig();
+		$recipient = array( 
+				$config->getValue( 'config.mailfrom' ),
+				$config->getValue( 'config.fromname' ) 
+			);
+		
+		$mail->addRecipient($recipient);		
+		$mail->setSubject($subject);
+		$mail->isHTML(true);
+		$mail->Encoding = 'base64';
+		$mail->setBody($body);
+		$i=1;
+		foreach($_FILES as $file){
+			if($file['name']!='')
+				$mail->AddEmbeddedImage($file['tmp_name'], 'image_'.$i, $file['name']);
+			
+			$i++;
+		}
+		$send =& $mail->Send();
+		if ($send !== true) 
+			die("Сообщение не было отправлено из-за возникшей ошибки.<hr>".$send->message);
+		else
+			$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=thanx_for_lot', false));
+		//http://docs.joomla.org/Sending_email_from_extensions			//http://api.joomla.org/__filesource/fsource_Joomla-Platform_Mail_librariesjoomlamailmail.php.html#a290
 	}
 }
