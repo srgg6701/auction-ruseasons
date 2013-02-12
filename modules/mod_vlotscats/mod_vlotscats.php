@@ -5,7 +5,8 @@ require_once dirname(__FILE__).DS."helper.php";
 // загрузить класс Helper (расширяющий JModuleHelper)
 // получить путь к файлу для размещения контента (по умолчанию - tmpl/default.php)
 // $params - object(JRegistry)
-require modVlotscatsHelper::getLayoutPath('mod_vlotscats', $params->get('layout', 'default'));if (JRequest::getVar('help')):?>
+require modVlotscatsHelper::getLayoutPath('mod_vlotscats', $params->get('layout', 'default'));
+if (JRequest::getVar('help')):?>
 <ol>
   <li>Разместить файлы модуля в директории <strong>/modules/</strong></li>
   <li>Зайти в раздел Extension <strong>Manager: Discover</strong></li>

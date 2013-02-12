@@ -150,7 +150,7 @@ class VirtueMartModelCategory extends VmModel {
 // 		$q = 'SELECT * FROM '
 // 	}
 
-	public function getCategoryTree($parentId=0, $level = 0, $onlyPublished = true,$keyword = ''){
+	public function getCategoryTree($parentId=0, $level = 0, $onlyPublished = true,$keyword = '',$unlimited = false){
 
 		$sortedCats = array();
 
@@ -165,7 +165,7 @@ class VirtueMartModelCategory extends VmModel {
 		} else {
 
 			$this->rekurseCats($parentId,$level,$onlyPublished,$keyword,$sortedCats);
-		}
+		} 
 
 		$this->_noLimit = false;
 		$this->_total = count($sortedCats);
@@ -176,14 +176,12 @@ class VirtueMartModelCategory extends VmModel {
 		$this->_limit = $limit;
 
 		$this->getPagination();
-
-		if(empty($limit)){
+		if(empty($limit)||$unlimited){
 			return $sortedCats;
 		} else {
 			$sortedCats = array_slice($sortedCats, $limitStart,$limit);
 			return $sortedCats;
 		}
-
 	}
 
 	public function rekurseCats($virtuemart_category_id,$level,$onlyPublished,$keyword,&$sortedCats){
@@ -823,7 +821,6 @@ class VirtueMartModelCategory extends VmModel {
 
 			// initialise the query in the $database connector
 			$db->setQuery($query);
-
 			// Transfer the Result into a searchable Array
 			$dbCategories = $db->loadAssocList();
 
