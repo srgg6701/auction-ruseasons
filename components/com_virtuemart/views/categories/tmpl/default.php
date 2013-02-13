@@ -1,4 +1,4 @@
-<?php
+<?php	
 /**
 *
 * Show the products in a category

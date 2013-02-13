@@ -38,7 +38,6 @@ jQuery(document).ready(function () {
 
 $document = JFactory::getDocument ();
 $document->addScriptDeclaration ($js);
-
 /*$edit_link = '';
 if(!class_exists('Permissions')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'permissions.php');
 if (Permissions::getInstance()->check("admin,storeadmin")) {
