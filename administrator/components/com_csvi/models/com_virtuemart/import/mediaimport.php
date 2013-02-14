@@ -2,16 +2,14 @@
 /**
  * Product files import
  *
- * @package		CSVI
- * @subpackage 	Import
  * @author 		Roland Dalmulder
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: mediaimport.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: mediaimport.php 2298 2013-01-29 11:38:39Z RolandD $
  */
 
-defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die;
 
 /**
  * Processor for product details
@@ -182,7 +180,7 @@ class CsviModelMediaimport extends CsviModelImportfile {
 			if ($this->_medias->store()) {
 				if ($this->queryResult() == 'UPDATE') $csvilog->AddStats('updated', JText::_('COM_CSVI_UPDATE_MEDIAFILE'));
 				else $csvilog->AddStats('added', JText::_('COM_CSVI_ADD_MEDIAFILE'));
-				
+
 				// Add a link to the product if the SKU is specified
 				if (isset($this->product_sku)) {
 					$this->_product_medias->virtuemart_media_id = $this->_medias->virtuemart_media_id;
@@ -301,7 +299,7 @@ class CsviModelMediaimport extends CsviModelImportfile {
 		$csvilog = $jinput->get('csvilog', null, null);
 		$template = $jinput->get('template', null, null);
 		// Check if any image handling needs to be done
-		if ($template->get('process_image', 'image', false)) {
+	if ($template->get('process_image', 'image', false)) {
 			if (!is_null($this->file_url)) {
 				// Image handling
 				$imagehelper = new ImageHelper;
@@ -321,6 +319,7 @@ class CsviModelMediaimport extends CsviModelImportfile {
 						}
 					}
 					else $base = '';
+					$full_path = $base;
 				}
 				else {
 					// Create the full file_url path
@@ -332,13 +331,25 @@ class CsviModelMediaimport extends CsviModelImportfile {
 							$base = $template->get('file_location_product_images', 'path');
 							break;
 					}
-					$original = $base.'/'.$this->file_url;
+
+					// Check if the image contains the image path
+					$dirname = dirname($this->file_url);
+					if (strpos($base, $dirname) !== false) {
+						$image = basename($this->file_url);
+					}
+					$original = $base.$this->file_url;
+					$remote = false;
+
+					// Get subfolders
+					$path_parts = pathinfo($original);
+					$full_path = $path_parts['dirname'].'/';
+
 					$csvilog->addDebug(JText::sprintf('COM_CSVI_CREATED_FILE_URL', $original));
 					$remote = false;
 				}
 
 				// Generate image names
-				$file_details = $imagehelper->ProcessImage($original, $base);
+				$file_details = $imagehelper->ProcessImage($original, $full_path);
 
 				// Process the file details
 				if ($file_details['exists'] && $file_details['isimage']) {
@@ -346,6 +357,7 @@ class CsviModelMediaimport extends CsviModelImportfile {
 					$this->file_title = ($this->file_title) ? $this->file_title : $this->file_url;
 					$this->file_description = ($this->file_description) ? $this->file_description : $this->file_url;
 					$this->file_meta = ($this->file_meta) ? $this->file_meta : $this->file_url;
+
 					$this->file_mimetype = $file_details['mime_type'];
 					$this->file_type = $this->file_type;
 					$this->file_is_product_image = ($this->file_type == 'product') ? 1 : 0;
@@ -355,7 +367,9 @@ class CsviModelMediaimport extends CsviModelImportfile {
 
 					// Create the thumbnail
 					if ($template->get('thumb_create', 'image')) {
-						if (empty($this->file_url_thumb)) $this->file_url_thumb = 'resized/'.basename($this->file_url);
+						// Get the subfolder structure
+						$thumb_path = str_ireplace($base, '', $full_path);
+						if (empty($this->file_url_thumb)) $this->file_url_thumb = 'resized/'.$thumb_path.basename($this->file_url);
 						if (!$remote) $original = $this->file_url;
 						$this->file_url_thumb = $imagehelper->createThumbnail($original, $base, $this->file_url_thumb);
 					}
@@ -365,4 +379,3 @@ class CsviModelMediaimport extends CsviModelImportfile {
 		}
 	}
 }
-?>

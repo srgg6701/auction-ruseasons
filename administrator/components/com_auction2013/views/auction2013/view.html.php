@@ -59,7 +59,7 @@ class Auction2013ViewAuction2013 extends JView
 		//var_dump($state); 
 		$canDo = Auction2013Helper::getActions($state->get('filter.category_id'));
 		$user = JFactory::getUser();
-		JToolBarHelper::title(JText::_('COM_AUCTION2013'), 'image_name.png');
+		JToolBarHelper::title(JText::_('COM_AUCTION2013'), 'auction.png');
 		if (count($user->getAuthorisedCategories('com_auction2013', 'core.create')) > 0)
 		{
 			JToolBarHelper::addNew('сontroller_to_add_single_item_name.add');

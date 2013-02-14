@@ -28,4 +28,18 @@ class Auction2013Helper
 
 		return $result;
 	}
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param	string	The name of the active view.
+	 * @since	1.6
+	 */
+	/*public static function addSubmenu()
+	{
+		//die('addSubmenu');
+		JSubMenuHelper::addEntry(
+							JText::_('Импорт лотов'),
+							'index.php?option=com_auction2013&view=importlots'
+						);
+	}*/	
 }

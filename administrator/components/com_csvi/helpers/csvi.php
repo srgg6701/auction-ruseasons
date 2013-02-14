@@ -7,7 +7,7 @@
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: csvi.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: csvi.php 2298 2013-01-29 11:38:39Z RolandD $
  */
 
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
@@ -95,7 +95,7 @@ class CsviHelper {
 	 */
 	public function replaceValue($id, $value) {
 		static $replacements;
-		
+
 		if ($id > 0) {
 			if (!isset($this->replacements[$id])) {
 				// Get the replace details
@@ -113,7 +113,7 @@ class CsviHelper {
 			else {
 				$replace = $this->replacements[$id];
 			}
-			
+
 			// Perform the replacement
 			if (empty($replace)) return $value;
 			else {
@@ -167,7 +167,7 @@ class CsviHelper {
      * @return 		boolean	true if file exists | false if file does not exist
      * @since 		2.17
      */
-    public function fileExistsRemote($file) {
+public function fileExistsRemote($file) {
     	// If it is an SSL file we cannot validate its existence
     	if (substr($file, 0, 5) == 'https') return true;
 
@@ -200,30 +200,30 @@ class CsviHelper {
         else {
             $port = $url_parts['port'];
         }
-        
+
         if ($url_parts['scheme'] == 'https') {
         	$sslhost = 'ssl://'.$host;
         }
         else $sslhost = $host;
-        
-        $errno = null;
+
+		$errno = null;
         $errstr = null;
         $documentpath = str_replace(' ', '%20', $documentpath);
         $socket = @fsockopen($sslhost, $port, $errno, $errstr, 30);
         if ($socket) {
-            fwrite($socket, "HEAD $documentpath HTTP/1.0\r\nHost:  $host\r\n\r\n");
-            $http_response = fgets($socket, 25);
-            $csvilog->addDebug('HTTP response:'.$http_response);
+        	fwrite($socket, "HEAD $documentpath HTTP/1.1\r\nUser-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11\r\nHost:  $host\r\n\r\n");
+        	$http_response = fgets($socket, 25);
+        	fclose($socket);
 
-            if (stripos($http_response, '200 OK') === false
-            	&& stripos($http_response, '302 Found') === false) {
-                return false;
-            }
-            else {
-                fclose($socket);
-                return true;
-            }
+        	// Parse the result
+        	$csvilog->addDebug('HTTP response:'.$http_response);
+        	if (stripos($http_response, '200 OK') === false && stripos($http_response, '302 Found') === false) {
+        		return false;
+        	}
+        	else return true;
         }
+
+
         return false;
     }
 
@@ -241,7 +241,7 @@ class CsviHelper {
 	 */
 	public function getPrimaryKey($tablename) {
 		$db = JFactory::getDbo();
-		$q = "SHOW KEYS FROM ".$db->quoteName('#__'.$tablename)." 
+		$q = "SHOW KEYS FROM ".$db->quoteName('#__'.$tablename)."
 			WHERE ".$db->quoteName('Key_name')." = ".$db->quote('PRIMARY');
 		$db->setQuery($q);
 		$key = $db->loadObject();
@@ -348,14 +348,14 @@ class CsviHelper {
 		$cpanelbutton .= '</div>';
 		return $cpanelbutton;
 	}
-	
+
 	/**
-	 * Get a Yes/No dropdown list 
-	 * 
-	 * @copyright 
+	 * Get a Yes/No dropdown list
+	 *
+	 * @copyright
 	 * @author 		RolandD
-	 * @todo 
-	 * @see 
+	 * @todo
+	 * @see
 	 * @access 		public
 	 * @param 		string	$name		the name of the dropdown
 	 * @param		string	$selected	pre-selected entry
@@ -368,7 +368,7 @@ class CsviHelper {
 		$options = array();
 		$options[] = JHtml::_('select.option', '0', JText::_('COM_CSVI_NO'));
 		$options[] = JHtml::_('select.option', '1', JText::_('COM_CSVI_YES'));
-		
+
 		return JHtml::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected, $idtag);
 	}
 }

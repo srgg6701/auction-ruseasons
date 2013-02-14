@@ -30,6 +30,15 @@ jimport('joomla.application.component.controller');
  */
 class CsviControllerImportfile extends JController {
 
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function name(){
+		
+	
+	}
 	/**
 	 * Load import model files
 	 *
@@ -46,6 +55,7 @@ class CsviControllerImportfile extends JController {
 	 * @since		3.0
 	 */
 	public function process() {
+		
 		$jinput = JFactory::getApplication()->input;
 		// Load the import type
 		$vtype = ($jinput->get('cron', false, 'bool')) ? 'cron' : 'html';
@@ -70,8 +80,9 @@ class CsviControllerImportfile extends JController {
 		$session->set($option.'.filepos', serialize('0'));
 		$session->set($option.'.recordsprocessed', serialize('0'));
 		$session->set($option.'.totalline', serialize('0'));
-
-		$model = $this->getModel('templates');
+		
+		$model = $this->getModel('templates'); // CsviModelTemplates
+		
 
 		// Create the view object
 		$view = $this->getView('importfile', $vtype);
@@ -82,7 +93,7 @@ class CsviControllerImportfile extends JController {
 		$view->setModel( $this->getModel( 'log', 'CsviModel' ));
 
 		// Load the model
-		$model = $this->getModel('importfile');
+		$model = $this->getModel('importfile'); // CsviModelImportfile
 
 		// Check which helper files to include
 		$helper_files = $model->getHelperFiles();

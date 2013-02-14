@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="component" version="2.5" method="upgrade">
 	<name>CSVI</name>
-	<creationDate>5 januari 2013</creationDate>
+	<creationDate>4 februari 2013</creationDate>
 	<author>RolandD Cyber Produksi</author>
 	<authorEmail>contact@csvimproved.com</authorEmail>
 	<authorUrl>http://www.csvimproved.com/</authorUrl>
 	<copyright>Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.</copyright>
 	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
-	<version>4.5.1</version>
+	<version>4.5.3.2</version>
 	<description>COM_CSVI_XML_DESCRIPTION</description>
 
   <!-- Front-end files -->

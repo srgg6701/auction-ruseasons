@@ -74,7 +74,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 <tr><td colspan="2"><?php echo JHtml::_('image', JURI::base().'components/com_csvi/assets/images/csvi_about_32.png', JText::_('COM_CSVI_ABOUT')); ?></td></tr>
 <tbody>
 <tr><th>Name:</th><td>CSVI</td></tr>
-<tr><th>Version:</th><td>4.5.1</td></tr>
+<tr><th>Version:</th><td>4.5.3.2</td></tr>
 <tr><th>Coded by:</th><td>RolandD Cyber Produksi</td></tr>
 <tr><th>Contact:</th><td>contact@csvimproved.com</td></tr>
 <tr><th>Support:</th><td><?php echo JHTML::_('link', 'http://www.csvimproved.com/', 'CSVI Homepage', 'target="_blank"'); ?></td></tr>

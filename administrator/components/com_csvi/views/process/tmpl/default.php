@@ -8,7 +8,7 @@
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: default.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: default.php 2298 2013-01-29 11:38:39Z RolandD $
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 JHtml::_('behavior.modal');
@@ -50,7 +50,7 @@ JHtml::_('behavior.keepalive');
 	$action = $this->form->getValue('action', 'options');
 	$component = $this->form->getValue('component', 'options');
 	$operation = $this->form->getValue('operation', 'options');
-	
+
 	if ($action && $component & $operation) {
 		// Load the source template
 		echo $this->loadTemplate('source');
@@ -104,6 +104,9 @@ JHtml::_('behavior.keepalive');
 <script type="text/javascript">
 jQuery(document).ready(function () {
 	jQuery("#process_page").tabs();
+
+	// Show the export location
+	if ('<?php echo $action; ?>' == 'export') Csvi.showSource(document.adminForm.jform_general_exportto.value);
 });
 </script>
 

@@ -9,7 +9,7 @@
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: default.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: default.php 2298 2013-01-29 11:38:39Z RolandD $
  */
 
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
@@ -58,7 +58,7 @@ function startTime() {
 		if (<?php echo ini_get('max_execution_time'); ?> > 0 && i > <?php echo ini_get('max_execution_time'); ?>) {
 			jQuery("#spinner").remove();
 			jQuery("#progress").remove();
-			jQuery(this).html('<?php echo JText::_('COM_CSVI_MAX_IMPORT_TIME_PASSED'); ?>');
+			jQuery(this).html('<?php echo addslashes(JText::_('COM_CSVI_MAX_IMPORT_TIME_PASSED')); ?>');
 		}
 		else {
 			jQuery(this).html(i);

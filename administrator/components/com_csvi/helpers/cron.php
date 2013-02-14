@@ -6,7 +6,7 @@
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: cron.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: cron.php 2298 2013-01-29 11:38:39Z RolandD $
  */
 
 /**
@@ -89,13 +89,20 @@ class CsviCron {
 		$jlang->load('com_csvi', JPATH_ADMINISTRATOR, 'en-GB', true);
 		$jlang->load('com_csvi', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
 		$jlang->load('com_csvi', JPATH_ADMINISTRATOR, null, true);
-		
+
+		// Get the domain name
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/settings.php');
+		$settings = new CsviSettings();
+		$domainname = $settings->get('site.hostname', 'www.example.com');
+		// Check for the trailing slash at the domain name
+		if (substr($domainname, -1) == '/') $domainname = substr($domainname, 0, -1);
+
 		// Load the posted variables
 		$this->CollectVariables();
-		
+
 		// Fill the server global with necessary information
 		$_SERVER['REQUEST_METHOD'] = 'post';
-		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_HOST'] = $domainname;
 		$_SERVER['REMOTE_ADDR'] = gethostbyname('localhost');
 		$_SERVER['SERVER_PORT'] = '';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:2.0) Gecko/20100101 Firefox/4.0';

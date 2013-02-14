@@ -1,9 +1,9 @@
 CSVI
 Author: RolandD Cyber Produksi (contact@csvimproved.com)
 Website: http://www.csvimproved.com/
-Version: 4.5.1
-Date: 5 januari 2013
-Status: $Id: changelog.txt 2275 2013-01-03 21:08:43Z RolandD $
+Version: 4.5.3.2
+Date: 4 februari 2013
+Status: $Id: changelog.txt 2312 2013-02-04 06:30:36Z RolandD $
 
 Legenda:
 + Added
@@ -12,6 +12,36 @@ Legenda:
 / Changed
 
 Changelog
+Version 4.5.3.2
+Export
+* Fixed custom paramater delimiter in VirtueMart Product export
+
+Version 4.5.3.1
+Import
+* Fixed missing config helper
+
+Version 4.5.3
+Import
+* Fixed a missing table file
+
+Version 4.5.2
+Import
+* Fixed fatal error in VirtueMart Product import for shopper groups
++ Added shopper_group_name_price to VirtueMart Product import
+* Fixed product discount price missing mathop for VirtueMart Product import
+* Fixed images in subfolders on VirtueMart Product import
+* Fixed images in subfolders on VirtueMart Media import
+* Fixed issues with accented characters in error reporting
+/ Updated newly created manufacturers are assigned a category on VirtueMart Product import
+* Fixed product_packaging and product_box on VirtueMart Product import
+
+Export
+* Fixed issue with price field exports
+
+General
+/ Let cron use hostname from settings
+* Fixed export template not show source
+
 Version 4.5.1
 Import
 * Fixed manufacturer slug being recreated on VirtueMart Product import

@@ -2137,6 +2137,7 @@ a.jgrid:hover {	text-decoration: none;}
 .toolbar-inactive					{	background-position: 0 32px;  }
 
 /* -- HEADER ICON STYLES ----------------------------- */
+.icon-48-auction		{	background-image: url(../images/header/icon-48-auction.png);	}
 .icon-48-categories					{	background-image: url(../images/header/icon-48-category.png);	}
 .icon-48-category-edit				{	background-image: url(../images/header/icon-48-category.png);	}
 .icon-48-category-add				{	background-image: url(../images/header/icon-48-category-add.png);	}
@@ -2207,6 +2208,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-weblinks-categories		{	background-image: url(../images/header/icon-48-links-cat.png);	}
 .icon-48-weblinks-category-edit		{	background-image: url(../images/header/icon-48-links-cat.png);	}
 .icon-48-weblinks-category-add		{	background-image: url(../images/header/icon-48-category-add.png);	}
+.icon-48-csv		{	background-image: url(../images/header/icon-48-csv.png);	}
 
 /* -- BASIC MENU STYLES ----------------------------- */
 

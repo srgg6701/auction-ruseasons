@@ -25,7 +25,7 @@ if(JRequest::getCmd('view','') == 'liveupdate') {
 }
 
 // Define our version number
-define('CSVI_VERSION', '4.5.1');
+define('CSVI_VERSION', '4.5.3.2');
 
 // Make sure the Joomla default language is always loaded
 $jlang = JFactory::getLanguage();

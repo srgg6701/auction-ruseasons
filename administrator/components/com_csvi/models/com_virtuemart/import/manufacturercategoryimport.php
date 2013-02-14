@@ -2,23 +2,20 @@
 /**
  * Manufacturer category import
  *
- * @package		CSVI
- * @subpackage 	Import
  * @author 		Roland Dalmulder
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: manufacturercategoryimport.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: manufacturercategoryimport.php 2307 2013-02-03 07:23:02Z RolandD $
  */
 
-defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die;
 
 /**
  * Processor for manufacturer categories
  *
  * Main processor for handling manufacturer categories
  *
-* @package CSVI
  * @todo	Remove images
  * @todo	check update null fields
  */

@@ -6,7 +6,7 @@
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: productimport.php 2279 2013-01-04 07:26:01Z RolandD $
+ * @version 	$Id: productimport.php 2310 2013-02-03 17:22:12Z RolandD $
  */
 
 defined('_JEXEC') or die;
@@ -80,9 +80,13 @@ class CsviModelProductimport extends CsviModelImportfile {
 	/** @var float holds the price including tax */
 	public $product_price = null;
 	public $price_with_tax = null;
+	public $product_override_price = null;
 	/** @var int the shopper group id */
-	public $shopper_group_id = 0;
+	public $virtuemart_shoppergroup_id = 0;
+	public $shopper_group_id = null;
 	public $shopper_group_name = null;
+	public $shopper_group_name_price = null;
+	public $shopper_group_name_new = null;
 	/** @var string the parent SKU */
 	public $product_parent_sku = null;
 	public $product_parent_id = null;
@@ -100,8 +104,6 @@ class CsviModelProductimport extends CsviModelImportfile {
 	public $max_order_level = null;
 	public $product_params = null;
 	public $product_discount_id = null;
-	public $price_quantity_start = 0;
-	public $price_quantity_end = 0;
 
 	/**
 	 * Constructor
@@ -154,6 +156,7 @@ class CsviModelProductimport extends CsviModelImportfile {
 
 			// Load the helper
 			$this->helper = new Com_VirtueMart();
+			$this->vmconfig = new CsviCom_VirtueMart_Config();
 
 			$this->virtuemart_product_id = $this->helper->getProductId();
 			$this->virtuemart_vendor_id = $this->helper->getVendorId();
@@ -254,7 +257,9 @@ class CsviModelProductimport extends CsviModelImportfile {
 			}
 
 			// Calculate product packaging
-			if (!is_null($this->product_box) && !is_null($this->product_packaging)) $this->_productPackaging();
+			if (version_compare($this->vmconfig->get('release'), '2.0.10', 'lt')) {
+				if (!is_null($this->product_box) && !is_null($this->product_packaging)) $this->_productPackaging();
+			}
 
 			// We need the currency
 			if (is_null($this->product_currency) && (isset($this->product_price) || isset($this->price_with_tax))) {
@@ -323,14 +328,22 @@ class CsviModelProductimport extends CsviModelImportfile {
 			}
 			// User wants to add or update the product
 			else {
-				// Process order levels
-				if (!isset($this->product_params) && (isset($this->min_order_level) || isset($this->max_order_level))) {
+			// Process order levels
+				if (!isset($this->product_params)
+						&& (!is_null($this->min_order_level)
+								|| !is_null($this->max_order_level)
+								|| !is_null($this->product_box))) {
 					$this->product_params = 'min_order_level="';
 					if (isset($this->min_order_level)) $this->product_params .= $this->min_order_level;
 					else $this->product_params .= '0';
 					$this->product_params .= '"|max_order_level="';
 					if (isset($this->max_order_level)) $this->product_params .= $this->max_order_level;
 					else $this->product_params .= '0';
+					if (version_compare($this->vmconfig->get('release'), '2.0.10', 'ge')) {
+						$this->product_params .= '"|product_box="';
+						if (isset($this->product_box)) $this->product_params .= $this->product_box;
+						else $this->product_params .= '0';
+					}
 					$this->product_params .= '"|';
 				}
 
@@ -434,6 +447,7 @@ class CsviModelProductimport extends CsviModelImportfile {
 		$this->_product_customfields = $this->getTable('product_customfields');
 		$this->_manufacturers = $this->getTable('manufacturers');
 		$this->_product_manufacturers = $this->getTable('product_manufacturers');
+		$this->_product_shoppergroups = $this->getTable('product_shoppergroups');
 
 		// Check if the language tables exist
 		$db = JFactory::getDbo();
@@ -785,24 +799,38 @@ class CsviModelProductimport extends CsviModelImportfile {
 				// Image handling
 				$imagehelper = new ImageHelper;
 
+				// Get the image path
+				$imgpath = $template->get('file_location_product_files', 'path');
+
 				if ($template->get('auto_generate_image_name', 'image')) $this->_createImageName();
 
 				// Verify the original image
 				if ($imagehelper->isRemote($this->file_url)) {
 					$original = $this->file_url;
 					$remote = true;
+					$full_path = $imgpath;
 				}
 				else {
-					$original = $template->get('file_location_product_images', 'path').$this->file_url;
 					$remote = false;
+					// Check if the image contains the image path
+					$dirname = dirname($this->file_url);
+					if (strpos($imgpath, $dirname) !== false) {
+						$image = basename($this->file_url);
+					}
+					$original = $imgpath.$this->file_url;
+					$remote = false;
+
+					// Get subfolders
+					$path_parts = pathinfo($original);
+					$full_path = $path_parts['dirname'].'/';
 				}
 
 				// Generate image names
 				if ($template->get('auto_generate_image_name', 'image')) {
-					$file_details = $imagehelper->ProcessImage($original, $template->get('file_location_product_images', 'path'), $this->product_full_image_output);
+					$file_details = $imagehelper->ProcessImage($original, $full_path, $this->product_full_image_output);
 				}
 				else {
-					$file_details = $imagehelper->ProcessImage($original, $template->get('file_location_product_images', 'path'));
+					$file_details = $imagehelper->ProcessImage($original, $full_path);
 				}
 
 				// Process the file details
@@ -826,10 +854,12 @@ class CsviModelProductimport extends CsviModelImportfile {
 
 						// Create the thumbnail
 						if ($template->get('thumb_create', 'image')) {
-							if (empty($this->file_url_thumb)) $this->file_url_thumb = 'resized/'.basename($media['file_url']);
+							// Get the subfolder structure
+							$thumb_path = str_ireplace($imgpath, '', $full_path);
+							if (empty($this->file_url_thumb)) $this->file_url_thumb = 'resized/'.$thumb_path.basename($media['file_url']);
 							if ($remote) $original = $this->file_url;
 							else $original = $media['file_url'];
-							$media['file_url_thumb'] = $imagehelper->createThumbnail($original, $template->get('file_location_product_images', 'path'), $this->file_url_thumb);
+							$media['file_url_thumb'] = $imagehelper->createThumbnail($original, $imgpath, $this->file_url_thumb);
 						}
 						else {
 							$media['file_url_thumb'] = (empty($this->file_url_thumb)) ? $media['file_url'] : $this->file_url_thumb;
@@ -951,7 +981,7 @@ class CsviModelProductimport extends CsviModelImportfile {
 	 *
 	 * @copyright
 	 * @author		RolandD
-	 * @todo 		add price calculations
+	 * @todo
 	 * @see
 	 * @access 		private
 	 * @param
@@ -963,19 +993,31 @@ class CsviModelProductimport extends CsviModelImportfile {
 		$csvilog = $jinput->get('csvilog', null, null);
 
 		// Check if we have a child product with an empty price (will use parents price)
-		if ($this->child_product && $this->product_price == 0) {
+		if ($this->child_product && ($this->product_price == 0 && (is_null($this->price_with_tax) && is_null($this->product_tax)))) {
 			$csvilog->addDebug(JText::_('COM_CSVI_DEBUG_CHILD_NO_PRICE'));
 		}
 		else {
-			// Check if the price is including or excluding tax
-			if ($this->product_tax && $this->price_with_tax && is_null($this->product_price)) {
-				if (strlen($this->price_with_tax) == 0) $this->product_price = null;
-				else $this->product_price = $this->price_with_tax / (1+($this->product_tax/100));
+			// Check if we have an override price, this is always excluding tax
+			if ($this->product_override_price) {
+				if (is_null($this->override)) $this->override = 1;
 			}
-			else if (strlen($this->product_price) == 0) $this->product_price = null;
+			else {
+				// Check if the price is including or excluding tax
+				if ($this->product_tax && $this->price_with_tax && is_null($this->product_price)) {
+					if (strlen($this->price_with_tax) == 0) $this->product_price = null;
+					else $this->product_price = $this->price_with_tax / (1+($this->product_tax/100));
+				}
+				else if (strlen($this->product_price) == 0) $this->product_price = null;
+			}
 
-			// Add the product ID
-			$this->_product_prices->virtuemart_product_id = $this->virtuemart_product_id;
+			// Bind the fields to check for an existing price
+			$this->_product_prices->bind($this);
+
+			// Check if we need to assign a shopper group
+			if (!is_null($this->shopper_group_name_price)) {
+				if ($this->shopper_group_name_price == '*') $this->_product_prices->virtuemart_shoppergroup_id = 0;
+				else $this->_product_prices->virtuemart_shoppergroup_id = $this->helper->getShopperGroupId($this->shopper_group_name_price);
+			}
 
 			// Check if the price already exists
 			if (!$this->_product_prices->check()) {
@@ -986,7 +1028,7 @@ class CsviModelProductimport extends CsviModelImportfile {
 
 				// Set the create date if the user has not done so and there is no product_price_id
 				if (!$this->_product_prices->get('created_on')) {
-					$this->_product_prices->created_on = $this->date->toMySQL();
+					$this->_product_prices->created_on = $this->date->toSql();
 					$this->_product_prices->created_by = $this->user->id;
 				}
 			}
@@ -994,34 +1036,18 @@ class CsviModelProductimport extends CsviModelImportfile {
 			// Bind the data
 			$this->_product_prices->bind($this);
 
-			// Set the default shopper_group_id
-			if (is_null($this->shopper_group_id)) {
-				// Check if this price has a shopper group ID
-				$shopper_group_ids = $this->_product_prices->getShopperGroupID();
-				$cnt_shopper_group_ids = count($shopper_group_ids);
-				if ($cnt_shopper_group_ids <> 1) {
-					$default_shopper_group_id = $this->helper->getDefaultShopperGroupID();
-					$csvilog->addDebug(JText::sprintf('COM_CSVI_DEBUG_FOUND_DEFAULT_SHOPPER_GROUP', $default_shopper_group_id));
-					if ($cnt_shopper_group_ids == 0) $this->_product_prices->virtuemart_shoppergroup_id = $default_shopper_group_id;
-					else {
-						$shopper_group_key = array_search($default_shopper_group_id, $shopper_group_ids);
-						if ($shopper_group_key >= 0) {
-							$this->_product_prices->virtuemart_shoppergroup_id = $shopper_group_ids[$shopper_group_key];
-						}
-						else {
-							$csvilog->AddStats('skipped', JText::_('COM_CSVI_PRICE_QUERY_NO_SHOPPER_GROUP'));
-							$csvilog->addDebug(JText::_('COM_CSVI_DEBUG_PRICE_QUERY_NO_SHOPPER_GROUP'), true);
-							return false;
-						}
-					}
+			// Check if we need to change the shopper group name
+			if (!is_null($this->shopper_group_name_new)) {
+				if ($this->shopper_group_name_new == '*') $this->_product_prices->virtuemart_shoppergroup_id = 0;
+				else {
+					$this->_product_prices->virtuemart_shoppergroup_id = $this->helper->getShopperGroupId($this->shopper_group_name_new);
 				}
-				else $this->_product_prices->virtuemart_shoppergroup_id = $shopper_group_ids[0];
 			}
 
 			// Calculate the new price
 			$this->_product_prices->CalculatePrice();
 
-			if (is_null($this->product_price)) {
+			if (is_null($this->product_price) && is_null($this->product_override_price)) {
 				// Delete the price
 				$this->_product_prices->delete();
 			}
@@ -1030,7 +1056,7 @@ class CsviModelProductimport extends CsviModelImportfile {
 				// Add some variables if needed
 				// Set the modified date if the user has not done so
 				if (!$this->_product_prices->get('modified_on')) {
-					$this->_product_prices->set('modified_on', $this->date->toMySQL());
+					$this->_product_prices->set('modified_on', $this->date->toSql());
 					$this->_product_prices->set('modified_by', $this->user->id);
 				}
 
@@ -1067,7 +1093,10 @@ class CsviModelProductimport extends CsviModelImportfile {
 				$this->_calcs->calc_value_mathop = '-%';
 				$this->_calcs->calc_value = substr($this->toPeriod($this->product_discount), 0, -1);
 			}
-			else $this->_calcs->calc_value = $this->cleanPrice($this->product_discount);
+			else {
+				$this->_calcs->calc_value_mathop = '-';
+				$this->_calcs->calc_value = $this->cleanPrice($this->product_discount);
+			}
 		}
 
 		if (!is_null($this->_calcs->calc_value) && $this->_calcs->calc_value > 0) {
@@ -1081,8 +1110,8 @@ class CsviModelProductimport extends CsviModelImportfile {
 			$this->_calcs->calc_shopper_published = 1;
 			$this->_calcs->calc_vendor_published = 1;
 			$this->_calcs->calc_currency = $this->_product_prices->product_currency;
-			$this->_calcs->calc_kind = 'DBTax';
-			//$this->_calcs->calc_value_mathop = '-';
+			if (empty($this->calc_kind)) $this->_calcs->calc_kind = 'DBTax';
+			else $this->_calcs->calc_kind = $this->calc_kind;
 
 			// Check if a discount already exists
 			$this->_calcs->check();

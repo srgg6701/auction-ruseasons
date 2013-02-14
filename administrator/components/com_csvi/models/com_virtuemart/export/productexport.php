@@ -6,7 +6,7 @@
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: productexport.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: productexport.php 2312 2013-02-04 06:30:36Z RolandD $
  */
 
 defined('_JEXEC') or die;
@@ -66,12 +66,12 @@ class CsviModelProductExport extends CsviModelExportfile {
 					case 'metaauthor':
 					case 'metarobot':
 					case 'published':
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName($field->field_name);
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn($field->field_name);
 						break;
 					case 'category_id':
 					case 'category_path':
-						$userfields[] = $db->quoteName('#__virtuemart_product_categories').'.'.$db->quoteName('virtuemart_category_id');
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('virtuemart_product_id');
+						$userfields[] = $db->qn('#__virtuemart_product_categories').'.'.$db->qn('virtuemart_category_id');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('virtuemart_product_id');
 						break;
 					case 'product_name':
 					case 'product_s_desc':
@@ -86,48 +86,42 @@ class CsviModelProductExport extends CsviModelExportfile {
 					case 'custom_title':
 					case 'file_url':
 					case 'file_url_thumb':
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('virtuemart_product_id');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('virtuemart_product_id');
 						break;
 					case 'product_parent_sku':
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('product_parent_id');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('product_parent_id');
 						break;
 					case 'related_products':
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('virtuemart_product_id').' AS main_product_id';
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('virtuemart_product_id').' AS main_product_id';
 						break;
 					case 'product_box':
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('product_packaging');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('product_packaging');
 						break;
 					case 'product_price':
 					case 'price_with_tax':
-						$userfields[] = $db->quoteName('#__virtuemart_product_prices').'.'.$db->quoteName('product_price');
-						$userfields[] = $db->quoteName('#__virtuemart_currencies').'.'.$db->quoteName('currency_code_3');
+						$userfields[] = $db->qn('#__virtuemart_product_prices').'.'.$db->qn('product_price');
+						$userfields[] = $db->qn('#__virtuemart_currencies').'.'.$db->qn('currency_code_3');
 						break;
 					case 'product_url':
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('virtuemart_product_id');
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('product_url');
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('product_parent_id');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('virtuemart_product_id');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('product_url');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('product_parent_id');
 						break;
 					case 'price_with_discount':
-						$userfields[] = $db->quoteName('#__virtuemart_product_prices').'.'.$db->quoteName('product_price');
-						$userfields[] = $db->quoteName('#__virtuemart_currencies').'.'.$db->quoteName('currency_code_3');
-						//$userfields[] = $db->quoteName('#__virtuemart_calcs').'.'.$db->quoteName('calc_value');
-						//$userfields[] = $db->quoteName('#__virtuemart_calcs').'.'.$db->quoteName('calc_value_mathop');
-						//$userfields[] = $db->quoteName('#__virtuemart_calcs').'.'.$db->quoteName('calc_kind');
-						break;
-					case 'product_currency':
-						$userfields[] = $db->quoteName('#__virtuemart_currencies').'.'.$db->quoteName('currency_code_3');
+						$userfields[] = $db->qn('#__virtuemart_product_prices').'.'.$db->qn('product_price');
+						$userfields[] = $db->qn('#__virtuemart_currencies').'.'.$db->qn('currency_code_3');
+						//$userfields[] = $db->qn('#__virtuemart_calcs').'.'.$db->qn('calc_value');
+						//$userfields[] = $db->qn('#__virtuemart_calcs').'.'.$db->qn('calc_value_mathop');
+						//$userfields[] = $db->qn('#__virtuemart_calcs').'.'.$db->qn('calc_kind');
 						break;
 					case 'custom_shipping':
-						$userfields[] = $db->quoteName('#__virtuemart_product_prices').'.'.$db->quoteName('product_price');
+						$userfields[] = $db->qn('#__virtuemart_product_prices').'.'.$db->qn('product_price');
 						$userfields[] = '1 AS tax_rate';
 						break;
 					case 'max_order_level':
 					case 'min_order_level':
-						$userfields[] = $db->quoteName('#__virtuemart_products').'.'.$db->quoteName('product_params');
+						$userfields[] = $db->qn('#__virtuemart_products').'.'.$db->qn('product_params');
 						break;
-					// Man made fields, do not export them
-					case 'custom':
-					case 'picture_url':
 					case 'basepricewithtax':
 					case 'discountedpricewithouttax':
 					case 'pricebeforetax':
@@ -135,10 +129,17 @@ class CsviModelProductExport extends CsviModelExportfile {
 					case 'taxamount':
 					case 'discountamount':
 					case 'pricewithouttax':
+					case 'product_currency':
+						$userfields[] = $db->qn('#__virtuemart_products.virtuemart_product_id');
+						$userfields[] = $db->qn('#__virtuemart_currencies.currency_code_3');
+						break;
+					// Man made fields, do not export them
+					case 'custom':
+					case 'picture_url':
 					case 'manufacturer_name':
 						break;
 					default:
-						$userfields[] = $db->quoteName($field->field_name);
+						$userfields[] = $db->qn($field->field_name);
 						break;
 				}
 			}
@@ -311,7 +312,7 @@ class CsviModelProductExport extends CsviModelExportfile {
 								ON p.virtuemart_product_id = x.virtuemart_product_id
 								LEFT JOIN #__virtuemart_categories c
 								ON x.virtuemart_category_id = c.virtuemart_category_id
-								WHERE c.category_publish = ".$db->Quote($category_publish);
+								WHERE c.category_publish = ".$db->q($category_publish);
 					$db->setQuery($q_product_ids);
 					$product_ids = $db->loadResultArray();
 					$csvilog->addDebug(JText::_('COM_CSVI_EXPORT_QUERY'), true);
@@ -344,7 +345,7 @@ class CsviModelProductExport extends CsviModelExportfile {
 		// Filter by published state
 		$product_publish = $template->get('publish_state', 'general');
 		if ($product_publish !== '' && ($product_publish == 1 || $product_publish == 0)) {
-			$selectors[] = '#__virtuemart_products.published = '.$db->Quote($product_publish);
+			$selectors[] = '#__virtuemart_products.published = '.$db->q($product_publish);
 		}
 
 		// Filter by product SKU
@@ -358,9 +359,9 @@ class CsviModelProductExport extends CsviModelExportfile {
 				foreach ($skus as $sku) {
 					if (!empty($sku)) {
 						if (strpos($sku, '%')) {
-							$wildcard .= "#__virtuemart_products.product_sku LIKE ".$db->Quote($sku)." OR ";
+							$wildcard .= "#__virtuemart_products.product_sku LIKE ".$db->q($sku)." OR ";
 						}
-						else $normal[] = $db->Quote($sku);
+						else $normal[] = $db->q($sku);
 					}
 				}
 				if (substr($wildcard, -3) == 'OR ') $wildcard = substr($wildcard, 0, -4);
@@ -553,13 +554,13 @@ class CsviModelProductExport extends CsviModelExportfile {
 									// Get the custom ID
 									$related_records = array();
 									$query = $db->getQuery(true);
-									$query->select($db->quoteName('#__virtuemart_products').'.'.$db->quoteName('product_sku'));
-									$query->from($db->quoteName('#__virtuemart_product_customfields'));
-									$query->leftJoin($db->quoteName('#__virtuemart_customs').' ON '.$db->quoteName('#__virtuemart_customs').'.'.$db->quoteName('virtuemart_custom_id').' = '.$db->quoteName('#__virtuemart_product_customfields').'.'.$db->quoteName('virtuemart_custom_id'));
-									$query->leftJoin($db->quoteName('#__virtuemart_products').' ON '.$db->quoteName('#__virtuemart_products').'.'.$db->quoteName('virtuemart_product_id').' = '.$db->quoteName('#__virtuemart_product_customfields').'.'.$db->quoteName('custom_value'));
-									$query->where($db->quoteName('#__virtuemart_customs').'.'.$db->quoteName('field_type').' = '.$db->quote('R'));
-									$query->where($db->quoteName('#__virtuemart_product_customfields').'.'.$db->quoteName('virtuemart_product_id').' = '.$db->quote($record->virtuemart_product_id));
-									$query->group($db->quoteName('#__virtuemart_products').'.'.$db->quoteName('product_sku'));
+									$query->select($db->qn('#__virtuemart_products').'.'.$db->qn('product_sku'));
+									$query->from($db->qn('#__virtuemart_product_customfields'));
+									$query->leftJoin($db->qn('#__virtuemart_customs').' ON '.$db->qn('#__virtuemart_customs').'.'.$db->qn('virtuemart_custom_id').' = '.$db->qn('#__virtuemart_product_customfields').'.'.$db->qn('virtuemart_custom_id'));
+									$query->leftJoin($db->qn('#__virtuemart_products').' ON '.$db->qn('#__virtuemart_products').'.'.$db->qn('virtuemart_product_id').' = '.$db->qn('#__virtuemart_product_customfields').'.'.$db->qn('custom_value'));
+									$query->where($db->qn('#__virtuemart_customs').'.'.$db->qn('field_type').' = '.$db->q('R'));
+									$query->where($db->qn('#__virtuemart_product_customfields').'.'.$db->qn('virtuemart_product_id').' = '.$db->q($record->virtuemart_product_id));
+									$query->group($db->qn('#__virtuemart_products').'.'.$db->qn('product_sku'));
 									$db->setQuery($query);
 									$related_records = $db->loadResultArray();
 									if (is_array($related_records)) $related_products = implode('|', $related_records);
@@ -708,21 +709,21 @@ class CsviModelProductExport extends CsviModelExportfile {
 								case 'custom_title':
 									// Get the custom title
 									$query = $db->getQuery(true);
-									$query->select($db->quoteName('custom_title'));
-									$query->from($db->quoteName('#__virtuemart_customs').' AS c');
-									$query->leftJoin($db->quoteName('#__virtuemart_product_customfields').' AS f ON c.virtuemart_custom_id = f.virtuemart_custom_id');
-									$query->where($db->quoteName('virtuemart_product_id').' = '.$db->quote($record->virtuemart_product_id));
+									$query->select($db->qn('custom_title'));
+									$query->from($db->qn('#__virtuemart_customs').' AS c');
+									$query->leftJoin($db->qn('#__virtuemart_product_customfields').' AS f ON c.virtuemart_custom_id = f.virtuemart_custom_id');
+									$query->where($db->qn('virtuemart_product_id').' = '.$db->q($record->virtuemart_product_id));
 									// Check if we need to filter
 									$title_filter = array();
 									$title_filter = $template->get('custom_title', 'product', array(), 'array');
 									if (!empty($title_filter) && $title_filter[0] != '') {
-										$query->where($db->quoteName('f').'.'.$db->quoteName('virtuemart_custom_id').' IN ('.implode(',', $title_filter).')');
+										$query->where($db->qn('f').'.'.$db->qn('virtuemart_custom_id').' IN ('.implode(',', $title_filter).')');
 									}
-									$query->order($db->quoteName('f').'.'.$db->quoteName('virtuemart_custom_id'));
+									$query->order($db->qn('f').'.'.$db->qn('virtuemart_custom_id'));
 									$db->setQuery($query);
 									$titles = $db->loadResultArray();
 									if (is_array($titles)) {
-										$fieldvalue = CsviHelper::replaceValue($field->replace, implode('|', $titles));
+										$fieldvalue = CsviHelper::replaceValue($field->replace, implode('~', $titles));
 										// Check if we have any content otherwise use the default value
 									}
 									else $fieldvalue = '';
@@ -734,16 +735,16 @@ class CsviModelProductExport extends CsviModelExportfile {
 								case 'custom_param':
 									if (!isset($this->_customfields[$record->virtuemart_product_id][$fieldname])) {
 										$query = $db->getQuery(true);
-										$query->select($db->quoteName($fieldname));
-										$query->from($db->quoteName('#__virtuemart_product_customfields'));
-										$query->where($db->quoteName('virtuemart_product_id').' = '.$db->quote($record->virtuemart_product_id));
+										$query->select($db->qn($fieldname));
+										$query->from($db->qn('#__virtuemart_product_customfields'));
+										$query->where($db->qn('virtuemart_product_id').' = '.$db->q($record->virtuemart_product_id));
 										// Check if we need to filter
 										$title_filter = array();
 										$title_filter = $template->get('custom_title', 'product', array());
 										if (!empty($title_filter) && $title_filter[0] != '') {
-											$query->where($db->quoteName('virtuemart_custom_id').' IN ('.implode(',', $title_filter).')');
+											$query->where($db->qn('virtuemart_custom_id').' IN ('.implode(',', $title_filter).')');
 										}
-										$query->order($db->quoteName('virtuemart_custom_id'));
+										$query->order($db->qn('virtuemart_custom_id'));
 										$db->setQuery($query);
 										$customfields = $db->loadObjectList();
 										$csvilog->addDebug('COM_CSVI_CUSTOM_FIELD_QUERY', true);
@@ -753,12 +754,12 @@ class CsviModelProductExport extends CsviModelExportfile {
 												$values[] = $customfield->$fieldname;
 											}
 											$this->_customfields[$record->virtuemart_product_id][$fieldname] = $values;
-											$fieldvalue = implode('|', $this->_customfields[$record->virtuemart_product_id][$fieldname]);
+											$fieldvalue = implode('~', $this->_customfields[$record->virtuemart_product_id][$fieldname]);
 										}
 										else $fieldvalue = '';
 									}
 									else {
-										$fieldvalue = implode('|', $this->_customfields[$record->virtuemart_product_id][$fieldname]);
+										$fieldvalue = implode('~', $this->_customfields[$record->virtuemart_product_id][$fieldname]);
 									}
 
 									$fieldvalue = CsviHelper::replaceValue($field->replace, $fieldvalue);
@@ -769,11 +770,11 @@ class CsviModelProductExport extends CsviModelExportfile {
 								case 'file_url':
 								case 'file_url_thumb':
 									$query = $db->getQuery(true);
-									$query->select($db->quoteName($fieldname));
-									$query->from($db->quoteName('#__virtuemart_medias').' AS m');
-									$query->leftJoin($db->quoteName('#__virtuemart_product_medias').' AS p ON m.virtuemart_media_id = p.virtuemart_media_id');
-									$query->where($db->quoteName('virtuemart_product_id').' = '.$db->quote($record->virtuemart_product_id));
-									$query->where($db->quoteName('file_type').' = '.$db->quote('product'));
+									$query->select($db->qn($fieldname));
+									$query->from($db->qn('#__virtuemart_medias').' AS m');
+									$query->leftJoin($db->qn('#__virtuemart_product_medias').' AS p ON m.virtuemart_media_id = p.virtuemart_media_id');
+									$query->where($db->qn('virtuemart_product_id').' = '.$db->q($record->virtuemart_product_id));
+									$query->where($db->qn('file_type').' = '.$db->q('product'));
 									$query->order('p.ordering');
 									$db->setQuery($query);
 									$titles = $db->loadResultArray();
@@ -851,7 +852,7 @@ class CsviModelProductExport extends CsviModelExportfile {
 				$query = $db->getQuery(true);
 				$query->select('currency_code, currency_rate');
 				$query->from('#__csvi_currency');
-				$query->where('currency_code IN ('.$db->Quote($product_currency).", ".$db->Quote($template->get('targetcurrency', 'product', 'EUR')).")");
+				$query->where('currency_code IN ('.$db->q($product_currency).", ".$db->q($template->get('targetcurrency', 'product', 'EUR')).")");
 				$db->setQuery($query);
 				$rates = $db->loadObjectList('currency_code');
 

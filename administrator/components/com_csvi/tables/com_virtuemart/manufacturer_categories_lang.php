@@ -2,20 +2,16 @@
 /**
  * Virtuemart Manufacturer table
  *
- * @package 	CSVI
  * @author 		Roland Dalmulder
  * @link 		http://www.csvimproved.com
  * @copyright 	Copyright (C) 2006 - 2013 RolandD Cyber Produksi. All rights reserved.
  * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: manufacturer_categories_lang.php 2275 2013-01-03 21:08:43Z RolandD $
+ * @version 	$Id: manufacturer_categories_lang.php 2307 2013-02-03 07:23:02Z RolandD $
  */
 
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-/**
-* @package CSVI
- */
 class TableManufacturer_categories_lang extends JTable {
 
 	/**
@@ -56,21 +52,21 @@ class TableManufacturer_categories_lang extends JTable {
 			$query = $db->getQuery(true);
 			$query->select($this->_tbl_key);
 			$query->from($this->_tbl);
-			$query->where($db->quoteName($this->_tbl_key).' = '.$db->Quote($this->virtuemart_manufacturercategories_id));
+			$query->where($db->qn($this->_tbl_key).' = '.$db->q($this->virtuemart_manufacturercategories_id));
 			$db->setQuery($query);
 			$id = $db->loadResult();
 			if ($id > 0) {
-				$csvilog->addDebug(JText::_('COM_CSVIVIRTUEMART_DEBUG_MANUFACTURERCATEGORY_EXISTS'), true);
+				$csvilog->addDebug(JText::_('COM_CSVI_DEBUG_MANUFACTURERCATEGORY_EXISTS'), true);
 				return true;
 			}
 			else {
 				if ($create) {
 					// Create a dummy entry for updating
-					$query = "INSERT IGNORE INTO ".$this->_tbl." (".$db->quoteName($this->_tbl_key).") VALUES (".$db->Quote($this->virtuemart_manufacturercategories_id).")";
+					$query = "INSERT IGNORE INTO ".$this->_tbl." (".$db->qn($this->_tbl_key).") VALUES (".$db->q($this->virtuemart_manufacturercategories_id).")";
 					$db->setQuery($query);
 					if ($db->query()) return true;
 					else {
-						$csvilog->addDebug(JText::_('COM_CSVIVIRTUEMART_DEBUG_MANUFACTURERCATEGORY_NOT_EXISTS'), true);
+						$csvilog->addDebug(JText::_('COM_CSVI_DEBUG_MANUFACTURERCATEGORY_NOT_EXISTS'), true);
 						return false;
 					}
 				}
@@ -81,30 +77,30 @@ class TableManufacturer_categories_lang extends JTable {
 			$query = $db->getQuery(true);
 			$query->select($this->_tbl_key);
 			$query->from($this->_tbl);
-			$query->where('mf_category_name = '.$db->Quote($this->mf_category_name));
+			$query->where('mf_category_name = '.$db->q($this->mf_category_name));
 			$db->setQuery($query);
 			$id = $db->loadResult();
 			if ($id > 0) {
-				$csvilog->addDebug(JText::_('COM_CSVIVIRTUEMART_DEBUG_MANUFACTURERCATEGORY_EXISTS'), true);
+				$csvilog->addDebug(JText::_('COM_CSVI_DEBUG_MANUFACTURERCATEGORY_EXISTS'), true);
 				$this->virtuemart_manufacturercategories_id = $id;
 				return true;
 			}
 			else {
 				if ($create) {
 					// Create a dummy entry for updating
-					$query = "INSERT IGNORE INTO ".$this->_tbl." (".$db->quoteName($this->_tbl_key).") VALUES (".$db->Quote($this->virtuemart_manufacturercategories_id).")";
+					$query = "INSERT IGNORE INTO ".$this->_tbl." (".$db->qn($this->_tbl_key).") VALUES (".$db->q($this->virtuemart_manufacturercategories_id).")";
 					$db->setQuery($query);
 					if ($db->query()) {
 						$this->virtuemart_manufacturercategories_id = $db->insertid();
 						return true;
 					}
 					else {
-						$csvilog->addDebug(JText::_('COM_CSVIVIRTUEMART_DEBUG_MANUFACTURERCATEGORY_NOT_EXISTS'), true);
+						$csvilog->addDebug(JText::_('COM_CSVI_DEBUG_MANUFACTURERCATEGORY_NOT_EXISTS'), true);
 						return false;
 					}
 				}
 				else {
-					$csvilog->addDebug(JText::_('COM_CSVIVIRTUEMART_DEBUG_MANUFACTURERCATEGORY_NOT_EXISTS'), true);
+					$csvilog->addDebug(JText::_('COM_CSVI_DEBUG_MANUFACTURERCATEGORY_NOT_EXISTS'), true);
 					return false;
 				}
 			}
@@ -131,17 +127,17 @@ class TableManufacturer_categories_lang extends JTable {
 
 		return parent::store();
 	}
-	
+
 	/**
-	 * Reset the table fields, need to do it ourselves as the fields default is not NULL 
-	 * 
-	 * @copyright 
+	 * Reset the table fields, need to do it ourselves as the fields default is not NULL
+	 *
+	 * @copyright
 	 * @author 		RolandD
-	 * @todo 
-	 * @see 
+	 * @todo
+	 * @see
 	 * @access 		public
-	 * @param 
-	 * @return 
+	 * @param
+	 * @return
 	 * @since 		4.0
 	 */
 	public function reset() {
@@ -154,4 +150,3 @@ class TableManufacturer_categories_lang extends JTable {
 		}
 	}
 }
-?>
