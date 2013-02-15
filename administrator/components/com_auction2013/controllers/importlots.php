@@ -32,7 +32,33 @@ class Auction2013ControllerImportlots extends JControllerForm
 	function import(){
 		
 		die('IMPORT!');
-	
+		
+		$file="files/Bronze.csv";
+
+		$max_length=false;
+		$row_count = 0;
+		$enc_from="windows-1251";
+		$enc_to="UTF-8";
+		
+		if (($handle = fopen($file, "r")) !== FALSE) {?>
+			<table style="border:solid 1px #CCCCCC;" rules="rows">
+		<?	while (($data = fgetcsv($handle, $max_length, ";")) !== FALSE) {?>
+				<tr>
+			<?	$num = count($data);
+				for ($c=0; $c < $num; $c++) {
+					if (isset($enc_from)&&isset($enc_to))
+						$data[$c]=iconv($enc_from,$enc_to,$data[$c]);
+					
+					$tag=(!$row_count)? 'th':'td';
+					echo  "<{$tag} nowrap>".$data[$c]. "</{$tag}>";
+				}?>
+				</tr>
+			<?	$row_count++;
+			}
+			fclose($handle);?>
+			</table>
+		<?
+		}	
 	}
 /**
  * Подготовить данные представления

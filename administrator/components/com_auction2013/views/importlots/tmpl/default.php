@@ -33,7 +33,7 @@ foreach($lots as $top_cat_id => $array){?>
 	<?	foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):
-					$catsHTML[$top_cat_id].='	<label><input name="child_cat" type="radio" value="'.$top_cat_id.'">'.$category_data['category_name'].' &nbsp &nbsp </label>'; 
+					$catsHTML[$top_cat_id].='	<label><input name="virtuemart_category_id" type="radio" value="'.$category_data['virtuemart_category_id'].'">'.$category_data['category_name'].' &nbsp &nbsp </label>'; 
 				endforeach;
 			endif;
 		endforeach;?>
@@ -62,6 +62,18 @@ foreach($lots as $top_cat_id => $array){?>
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
+        <br/>
+        <br/>
+        <div>
+        	<span style="padding-right:40px;">Кодировка файла:</span>
+        	<label>
+            	<input name="encoding" type="radio" value="windows-1251" checked> windows-1251
+            </label>
+            &nbsp; &nbsp; 
+            <label>
+                <input name="encoding" type="radio" value="another">другая:</label> 
+                <input name="alt_encoding" type="text">
+        </div>
 </form>
 <script>
 $( function(){ 
