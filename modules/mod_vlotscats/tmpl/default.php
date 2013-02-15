@@ -2,7 +2,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 // get categories:
-$lots=modVlotscatsHelper::getTopCatCounts();?>
+$lots=modVlotscatsHelper::getCategoriesData(true);?>
 <br/>
 <?
 foreach($lots as $top_cat_id => $array){

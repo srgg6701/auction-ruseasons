@@ -20,6 +20,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
+//
+require_once JPATH_SITE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
 /**
  * HTML View class for maintaining the list of categories
  *
@@ -28,9 +30,11 @@ jimport('joomla.application.component.view');
  * @author RickG, jseros
  */
 class Auction2013ViewImportlots extends JView {
-
+	
+	public $categories_data;
+	
 	function display($tpl = null) {
-
+		$this->categories_data=modVlotscatsHelper::getCategoriesData();
 		$this->addToolbar($this->_layout);
 		parent::display($tpl);
 	}
@@ -44,8 +48,8 @@ class Auction2013ViewImportlots extends JView {
 		require_once JPATH_COMPONENT . '/helpers/auction2013.php';
 		$user = JFactory::getUser();
 		JToolBarHelper::title(JText::_('Импорт данных предметов аукциона'), 'csv.png');
+		JToolBarHelper::custom('', 'publish', '', JText::_('Импортировать!'), false);
 	}
-
 }
 
 // pure php no closing tag

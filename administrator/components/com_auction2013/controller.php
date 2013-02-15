@@ -36,6 +36,8 @@ class Auction2013Controller extends JController
 		// Use the View display method 
 		// Load the submenu.
 		// Auction2013Helper::addSubmenu();
+
+		JFactory::getDocument()->addScript('http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js');
 		$view->display(); 
 	}
 	/**

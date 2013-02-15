@@ -7,11 +7,11 @@ defined('_JEXEC') or die('Restricted access');
 class modVlotscatsHelper extends JModuleHelper
 {	
 /**
- * Описание
+ * Извлечь данные категорий верхнего уровня
  * @package
  * @subpackage
  */
-	function getTopCategories($db=false){
+	function getTopCategories($published=false,$db=false){
 		$query='SELECT cats.virtuemart_category_id, 
         cats_ru.category_name,
 		cats_ru.slug AS "alias"
@@ -20,7 +20,10 @@ LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru
     ON  cats_ru.virtuemart_category_id = cats.virtuemart_category_id
 LEFT JOIN #__virtuemart_category_categories AS cat_cats 
     ON  cat_cats.id = cats.virtuemart_category_id
-WHERE cat_cats.category_parent_id = 0 AND cats.`published` = "1"
+WHERE cat_cats.category_parent_id = 0';
+		if($published)
+			$query.=' AND cats.`published` = "1"';
+		$query.='
 ORDER BY cats.ordering'; 
 		if(!$db) 
 			$db=JFactory::getDBO();
@@ -28,12 +31,13 @@ ORDER BY cats.ordering';
 		return $db->loadAssocList(); 
 	}
 /**
- * Описание
+ * Извлечь все (или только опубликованные) категории
  * @package
  * @subpackage
  */
-	function getTopCatCounts($db=false){
-		$db=JFactory::getDBO();
+	function getCategoriesData($published=false,$db=false){
+		if (!$db)
+			$db=JFactory::getDBO();
 		$top_cats=modVlotscatsHelper::getTopCategories($db);
 		/* 0 => 
 			array
@@ -55,16 +59,22 @@ ORDER BY cats.ordering';
         (   SELECT count(p.virtuemart_product_id)
 			FROM `auc13_virtuemart_products` AS p, `auc13_virtuemart_product_categories` AS pc
 			WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
-			AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`
-			AND p.`published` = "1"
+			AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`';
+			if($published)
+				$query.='
+			AND p.`published` = "1"';
+			$query.='
         ) AS "product_count"
 FROM auc13_virtuemart_categories AS cats
 LEFT JOIN auc13_virtuemart_categories_ru_ru AS cats_ru 
     ON  cats_ru.virtuemart_category_id = cats.virtuemart_category_id
  LEFT JOIN auc13_virtuemart_category_categories AS cat_cats 
     ON  cat_cats.id = cats.virtuemart_category_id
-WHERE cat_cats.category_parent_id = '.$top_cat['virtuemart_category_id'].' 
-	AND cats.`published` = "1"
+WHERE cat_cats.category_parent_id = '.$top_cat['virtuemart_category_id'];
+			if($published)
+				$query.=' 
+	AND cats.`published` = "1"';
+			$query.='
 ORDER BY cat_cats.category_parent_id,cats.ordering';
 			$db->setQuery($query);
 			$records[$top_cat['virtuemart_category_id']]=array(
