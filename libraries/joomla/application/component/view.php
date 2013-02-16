@@ -592,16 +592,33 @@ class JView extends JObject
 	 * @since   11.1
 	 */
 	public function loadTemplate($tpl = null)
-	{
+	{	// profiling:
+		$gAll=JRequest::getVar('gall');
+		
 		// Clear prior output
 		$this->_output = null;
 
+		// получить имя шаблона (bluestork)
 		$template = JFactory::getApplication()->getTemplate();
+			// profiling:
+			if(JRequest::getVar('gtpl')||$gAll)
+				echo "<h2>template= ".$template."</h2>";
+		
 		$layout = $this->getLayout();
+			// profiling:
+			if(JRequest::getVar('glt')||$gAll)
+				echo "<h2>layout= ".$layout."</h2>";
+				
 		$layoutTemplate = $this->getLayoutTemplate();
-
+			// profiling:
+			if(JRequest::getVar('gltpl')||$gAll)
+				echo "<h2>layoutTemplate= ".$layoutTemplate."</h2>";
+				
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
+			// profiling:
+			if(JRequest::getVar('gfile')||$gAll)
+				echo "<h2>file= ".$file."</h2>";
 
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
@@ -643,7 +660,12 @@ class JView extends JObject
 			{
 				unset($this->this);
 			}
-
+			
+			// profiling:
+			if(JRequest::getVar('ginc')||$gAll)
+				echo "<h2>include template file path= ".$this->_template."</h2>";
+			
+			
 			// Start capturing output into a buffer
 			ob_start();
 
@@ -655,7 +677,8 @@ class JView extends JObject
 			// clear it.
 			$this->_output = ob_get_contents();
 			ob_end_clean();
-
+			//echo '<h1>OUTPUT:</h1>';
+			//var_dump($this->_output); // die();
 			return $this->_output;
 		}
 		else

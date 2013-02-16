@@ -802,8 +802,10 @@ class VirtueMartModelProduct extends VmModel {
 			$product->load ($this->_id, 0, 0, $joinIds);
 
 			$xrefTable = $this->getTable ('product_medias');
+			//echo "<h1 class=''>this->_id= ".$this->_id."</h1>";
+			//var_dump('<pre>',$xrefTable,'</pre>');
 			$product->virtuemart_media_id = $xrefTable->load ((int)$this->_id);
-
+			//var_dump('<h1>virtuemart_media_id</h1><pre>',$product->virtuemart_media_id,'</pre>'); die();
 			// Load the shoppers the product is available to for Custom Shopper Visibility
 			$product->shoppergroups = $this->getProductShoppergroups ($this->_id);
 

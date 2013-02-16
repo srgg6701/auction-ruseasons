@@ -1,4 +1,4 @@
-<?php
+<?php	
 /**
 *
 * Description
@@ -39,8 +39,7 @@ $tabarray['custom'] = 'COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_CUSTOM_TAB';
 //$tabarray['emails'] = 'COM_VIRTUEMART_PRODUCT_FORM_EMAILS_TAB';
 // $tabarray['customer'] = 'COM_VIRTUEMART_PRODUCT_FORM_CUSTOMER_TAB';
 
-
-AdminUIHelper::buildTabs ( $this,  $tabarray, $this->product->virtuemart_product_id );
+AdminUIHelper::buildTabs ( $this,  $tabarray, $this->product->virtuemart_product_id ); 
 // Loading Templates in Tabs END ?>
 
 
@@ -49,4 +48,4 @@ AdminUIHelper::buildTabs ( $this,  $tabarray, $this->product->virtuemart_product
 <input type="hidden" name="virtuemart_product_id" value="<?php echo $this->product->virtuemart_product_id; ?>" />
 <input type="hidden" name="product_parent_id" value="<?php echo JRequest::getInt('product_parent_id', $this->product->product_parent_id); ?>" />
 </form>
-<?php AdminUIHelper::endAdminArea(); ?>
+<?php AdminUIHelper::endAdminArea();?>

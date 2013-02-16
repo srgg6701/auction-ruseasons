@@ -60,6 +60,7 @@ class VirtuemartViewProduct extends VmView {
 				}
 
 				$product = $model->getProductSingle($virtuemart_product_id,false);
+				//var_dump('<h1>product</h1><pre>',$product,'</pre>'); die();
 				$product_parent= $model->getProductParent($product->product_parent_id);
 
 				$mf_model = VmModel::getModel('manufacturer');

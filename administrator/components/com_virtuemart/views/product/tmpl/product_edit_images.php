@@ -18,8 +18,7 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
-
+//var_dump('<pre>',$this,'</pre>'); die();
 ?>
 <div class="col50">
 	<div class="selectimage">

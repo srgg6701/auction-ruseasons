@@ -148,7 +148,25 @@ class AdminUIHelper {
 
 		foreach ( $load_template as $tab_content => $tab_title ) {
 			$html .= '<div class="tabs" title="' . JText::_ ( $tab_title ) . '">';
+			/*	$tab_content => $tab_title :
+				----------------------------
+				information = COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_INFO_LBL
+				description = COM_VIRTUEMART_PRODUCT_FORM_DESCRIPTION
+				status = COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_STATUS_LBL
+				dimensions = COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_DIM_WEIGHT_LBL
+				images = COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_IMAGES_LBL
+				custom = COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_CUSTOM_TAB
+			*/ 
+			//var_dump($view); die();
+			/*	
+				VirtuemartViewProduct 	extends VmView
+				VmView 					extends JView
+				
+			*/
+			//echo ('tab_content = '.$tab_content.'<hr>');
+			
 			$html .= $view->loadTemplate ( $tab_content );
+			
 			$html .= '<div class="clear"></div></div>';
 		}
 		$html .= '</div>';

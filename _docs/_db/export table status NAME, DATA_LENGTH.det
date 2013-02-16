@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), data export template file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<DataExportTemplate Version="2.4" Format="Excel">
+  <FormatOptions>
+    <HeaderText xml:space="preserve" />
+    <FooterText xml:space="preserve" />
+    <SubOptions Name="Paragraph">
+      <Font xml:space="preserve">Tahoma, 8.25pt</Font>
+      <Color xml:space="preserve">Black</Color>
+    </SubOptions>
+    <SubOptions Name="TableStyle">
+      <VerLinesStyle>1</VerLinesStyle>
+      <HorLinesStyle>1</HorLinesStyle>
+      <GridLineColor xml:space="preserve">Black</GridLineColor>
+      <HeaderFont xml:space="preserve">Tahoma, 8.25pt</HeaderFont>
+      <HeaderForeColor xml:space="preserve">Black</HeaderForeColor>
+      <HeaderBackColor xml:space="preserve">White</HeaderBackColor>
+      <Font xml:space="preserve">Tahoma, 8.25pt</Font>
+      <ForeColor xml:space="preserve">Black</ForeColor>
+      <BackColor xml:space="preserve">White</BackColor>
+      <AlternatingForeColor xml:space="preserve">Black</AlternatingForeColor>
+      <AlternatingBackColor xml:space="preserve">White</AlternatingBackColor>
+      <HorizontalAlignment>0</HorizontalAlignment>
+      <VerticalAlignment>2</VerticalAlignment>
+      <BorderColor xml:space="preserve">Silver</BorderColor>
+      <LineWidth>1</LineWidth>
+    </SubOptions>
+    <SubOptions Name="PageOptions">
+      <Format>1</Format>
+      <FooterOffset xml:space="preserve">10</FooterOffset>
+      <HeaderOffset xml:space="preserve">10</HeaderOffset>
+      <MarginBottom xml:space="preserve">20</MarginBottom>
+      <MarginTop xml:space="preserve">20</MarginTop>
+      <MarginLeft xml:space="preserve">20</MarginLeft>
+      <MarginRight xml:space="preserve">10</MarginRight>
+      <SizeUnit>1</SizeUnit>
+      <SubOptions Name="PageHeader">
+        <Text xml:space="preserve" />
+      </SubOptions>
+      <SubOptions Name="PageFooter">
+        <Text xml:space="preserve" />
+      </SubOptions>
+      <RepeatTableHeader>false</RepeatTableHeader>
+      <Orientation>0</Orientation>
+    </SubOptions>
+  </FormatOptions>
+  <DataExportOptions>
+    <ExportToSingleFile>false</ExportToSingleFile>
+    <WriteLog>false</WriteLog>
+    <LogFileName xml:space="preserve">DataExport.log</LogFileName>
+    <ErrorHandlingMode>0</ErrorHandlingMode>
+    <FormatInt xml:space="preserve">#0</FormatInt>
+    <FormatFloat xml:space="preserve">#0.0##</FormatFloat>
+    <FormatCurrency xml:space="preserve"># ##0.00р.</FormatCurrency>
+    <FormatBool xml:space="preserve">true;false</FormatBool>
+    <FormatDate xml:space="preserve">dd.MM.yyyy</FormatDate>
+    <FormatTime xml:space="preserve">H:mm</FormatTime>
+    <FormatDateTime xml:space="preserve">dd.MM.yyyy H:mm:ss</FormatDateTime>
+    <NullText xml:space="preserve">null</NullText>
+    <RangeType>0</RangeType>
+    <ConnectionName xml:space="preserve" />
+    <DisplayConnectionString xml:space="preserve">User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</DisplayConnectionString>
+    <StartRecordIndex xml:space="preserve">0</StartRecordIndex>
+    <ExportRecordCount xml:space="preserve">0</ExportRecordCount>
+    <FileName xml:space="preserve">C:\Users\Srgg\Documents\expdata.xls</FileName>
+  </DataExportOptions>
+  <DatabaseObjects>
+    <DatabaseObjectType ObjectType="Data">
+      <DatabaseObject>SHOW TABLE STATUS IN auctionru_2013 WHERE NAME LIKE '%virtuemart%'</DatabaseObject>
+    </DatabaseObjectType>
+  </DatabaseObjects>
+  <Mappings>
+    <MappingCollection>
+      <ColumnMappingOptions>
+        <PropertyValue Name="Caption" xml:space="preserve">Таблица</PropertyValue>
+        <PropertyValue Name="NullText" xml:space="preserve" />
+        <PropertyValue Name="BooleanFormat" xml:space="preserve">True;False</PropertyValue>
+        <PropertyValue Name="IntegerFormat" xml:space="preserve">#0</PropertyValue>
+        <PropertyValue Name="FloatFormat" xml:space="preserve">#0.0##</PropertyValue>
+        <PropertyValue Name="CurrencyFormat" xml:space="preserve"># ##0.00</PropertyValue>
+        <PropertyValue Name="DateFormat" xml:space="preserve">dd.MM.yyyy</PropertyValue>
+        <PropertyValue Name="TimeFormat" xml:space="preserve">H:mm</PropertyValue>
+        <PropertyValue Name="DateTimeFormat" xml:space="preserve">dd.MM.yyyy H:mm:ss</PropertyValue>
+      </ColumnMappingOptions>
+      <ColumnMappings>
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+        <ColumnMapping />
+      </ColumnMappings>
+    </MappingCollection>
+  </Mappings>
+</DataExportTemplate>
