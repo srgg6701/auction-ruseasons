@@ -28,6 +28,18 @@ class Auction2013Helper
 
 		return $result;
 	}
+	public static function getImportFields(){
+		return array(
+				'auction_number'=>'Номер аукциона',
+				'contract_number'=>'Номер договора',
+				'date_start'=>'Дата начала периода торгов по предмету', // ?
+				'date_stop'=>'Дата окончания периода торгов по предмету', // ?
+				'title'=>'Название лота',
+				'desc'=>'Описание лота',
+				'price'=>'Стартовая цена', // ?
+				'img'=>'Изображения. Полей может быть несколько (0-15)',
+			);
+	}
 	/**
 	 * Configure the Linkbar.
 	 *

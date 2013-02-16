@@ -5,6 +5,17 @@
 @menuBorder: solid 1px #EAD8B0;
 @sandDark:#EAD5B7;
 @veryDarkLink:#172A17;
+
+.tdOffset(@left,@right){
+	padding-left:@left;
+	padding-right:@right;
+}
+
+span#check_flds{
+	border-bottom:dashed 1px green;
+	color:green;
+	cursor:pointer;
+}
 hr{
 	&.light{
 		border-top-color:#fff;
@@ -21,4 +32,22 @@ div.radiocats{
 }
 div.top_radios{
 	
+}
+table#make_fields_control{
+	border:solid 2px #CCCCCC;
+	border-spacing:0; 
+	display:none;
+	margin-bottom:14px;
+	tr>td:first-child{
+		font-weight:bold;
+	}
+	th{
+		background-color:#CCC;
+		padding:4px;
+		.tdOffset(6px,4px);
+	}
+	td{
+		padding:3px;
+		.tdOffset(6px,8px);
+	}
 }

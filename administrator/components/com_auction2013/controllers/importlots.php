@@ -31,6 +31,15 @@ class Auction2013ControllerImportlots extends JControllerForm
  */
 	function import(){
 		
+		var_dump($_FILES);
+		/*   'import_file' => 
+				array
+				  'name' => string 'Bronze.csv' (length=10)
+				  'type' => string 'application/vnd.ms-excel' (length=24)
+				  'tmp_name' => string 'Z:\tmp\phpEBAF.tmp' (length=18)
+				  'error' => int 0
+				  'size' => int 6371
+		*/ 
 		die('IMPORT!');
 		
 		$file="files/Bronze.csv";

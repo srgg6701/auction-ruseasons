@@ -53,10 +53,24 @@ foreach($lots as $top_cat_id => $array){?>
 <br/>
 </div>
 <?	endforeach;?>
-<form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm">
-
+<form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+<p><img style="margin-left:-6px;" src="<?=JUri::root()?>administrator/templates/bluestork/images/admin/publish_y.png" width="16" height="16" align="absmiddle" /> <span id="check_flds">Сверьтесь с названиями полей импортируемого файла</span></p>
+<? $av_fields=Auction2013Helper::getImportFields();?>
+<table id="make_fields_control" rules="rows">
+	<tr>
+    	<th>Имя столба</th>
+        <th>Предназначение поля</th>
+    </tr>
+<?	foreach($av_fields as $field=>$desc):?>
+	<tr>
+    	<td><?=$field?></td>
+        <td><?=$desc?></td>
+    </tr>
+	
+<?	endforeach;?>
+</table>
 Выберите файл для импорта данных:
-	<input name="import_file" type="file">
+	<input id="import_file" name="import_file" type="file" required>
     		<input type="hidden" name="task" value="importlots.import" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
@@ -82,5 +96,32 @@ $( function(){
 			$('div.hiddenRadios').fadeOut(200);
 			$('div#top-'+$(this).val()).fadeIn(200);
 		});
+	$('#check_flds')
+		.click( function(){
+			$('#make_fields_control').fadeToggle(200);
+		});
 });
+Joomla.submitbutton = function(task)
+{
+	var err=false;
+	if(!$('input[id^="top_cat_"]:checked').size()){
+		err='Вы не выбрали родительский раздел для списка предметов';
+	}else{
+		if(!$('input[name="virtuemart_category_id"]:checked').size()){
+			err='Вы не выбрали категорию предметов';
+		}else{
+			if(!$('input#import_file').val()){
+				err='Вы не указали расположение импортируемого файла';
+			}else if($('input[name="encoding"]:checked').val()=='another'&&!$('input[name="alt_encoding"]').val()){
+				err='Вы не указали имя альтернативной кодировки загружаемого файла';
+			}
+		}
+	}
+	if(err){
+		alert(err+'!');
+		return false;
+	}else{
+		$('form#adminForm').submit();
+	}
+}
 </script>
