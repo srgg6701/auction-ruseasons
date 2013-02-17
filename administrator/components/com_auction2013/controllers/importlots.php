@@ -42,9 +42,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 					);
 			
 			foreach($data as $i=>$field)
+				// $virtuemart_category_id, $encoding AND so on...
 				${$field}=JRequest::getVar($field);
 			
-
 			var_dump(JRequest::get('post'));
 			/*	  'top_cat' => string '23, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories'
 				  'virtuemart_category_id' => string '2'
@@ -63,6 +63,19 @@ class Auction2013ControllerImportlots extends JControllerForm
 					  'error' => int 0
 					  'size' => int 6371
 			*/
+			$files=$_FILES['import_file'];
+			
+			$max_length=false;
+			$row_count = 0;
+			$enc_from="windows-1251";
+			$enc_to="UTF-8";
+
+			$importfile=$files['tmp_name'];
+			//"files/Bronze.csv";
+			if (($handle = fopen($importfile, "r")) !== FALSE) {?>
+				<table style="border:solid 1px #CCCCCC;" rules="rows">
+			<?	while (($data = fgetcsv($handle, $max_length, ";")) !== FALSE) {
+			
 			
 			/*	ПОЛЯ РАЗМЕЩЕНИЯ ДАННЫХ:
 				-----------------------
@@ -121,8 +134,10 @@ class Auction2013ControllerImportlots extends JControllerForm
 					
 					// Установить:
 					file_mimetype
-					file_type
-					
+					file_type 
+				*/
+				
+				/*	
 					file_url	: [URL]/img
 					
 					published	- 1
@@ -136,19 +151,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 					virtuemart_product_id - #__virtuemart_products.last_insert_id
 					virtuemart_media_id - #__virtuemart_medias.last_insert_id
 					ordering 			- в соответствии с порядком добавления, начиная с 1 
-			*/ 
-			die('IMPORT!');
-			
-			$file="files/Bronze.csv";
-	
-			$max_length=false;
-			$row_count = 0;
-			$enc_from="windows-1251";
-			$enc_to="UTF-8";
-			
-			if (($handle = fopen($file, "r")) !== FALSE) {?>
-				<table style="border:solid 1px #CCCCCC;" rules="rows">
-			<?	while (($data = fgetcsv($handle, $max_length, ";")) !== FALSE) {?>
+			*/ 			?>
 					<tr>
 				<?	$num = count($data);
 					for ($c=0; $c < $num; $c++) {
@@ -163,8 +166,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 				}
 				fclose($handle);?>
 				</table>
-			<?
-			}	
+		<?	}
+			die('IMPORT!');
 		}
 	}
 /**

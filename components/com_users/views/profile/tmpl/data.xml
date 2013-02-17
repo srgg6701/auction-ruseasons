@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Настройки аккаунта" option="com_user_profile_data_option">
+	<layout title=":: Настройки аккаунта" option="com_user_profile_data_option">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_USER_PROFILE_DATA"
 		/>
 		<message>
-			<![CDATA[com_user_profile_data_desc]]>
+			<![CDATA[com_user_profile_data_default_desc]]>
 		</message>
 	</layout>
 </metadata>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="ВСЕ ПРЕДМЕТЫ: Магазин">
+	<layout title=":: ВСЕ ПРЕДМЕТЫ: Магазин">
 		<message><![CDATA[COM_VIRTUEMART_CATEGORY_VIEW_SHOP_DESC]]></message>
 	</layout>
 	<state>
@@ -8,9 +8,12 @@
 		<description><![CDATA[COM_VIRTUEMART_CATEGORY_VIEW_SHOP_DESC]]></description>
 
 		<url addpath="/administrator/components/com_virtuemart/elements">
-			<param name="virtuemart_category_id" section="com_virtuemart"
-				type="vmcategoriesmenu" value_field="category_name"
-				label="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE" description="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE_DESC" />
+			<param name="virtuemart_category_id" 
+				   section="com_virtuemart"
+				   type="vmcategoriesmenu" 
+				   value_field="category_name"
+				   label="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE" 
+				   description="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE_DESC" />
 		</url>
 	</state>
 
@@ -18,8 +21,9 @@
 		<fieldset name="request"
 			addfieldpath="/administrator/components/com_virtuemart/models/fields">
 			<field name="virtuemart_category_id" type="category"
-				label="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE" required="true"
-				description="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE_DESC" />
+				   label="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE" 
+				   required="true"
+				   description="COM_VIRTUEMART_CATEGORY_FIELD_SELECT_TITLE_DESC" />
 		</fieldset>
 	</fields>
 </metadata>
