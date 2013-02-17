@@ -30,7 +30,7 @@ class JRoute
 	 *
 	 * @since   11.1
 	 */
-	public static function _($url, $xhtml = true, $ssl = null)
+	public static function _($url, $xhtml = true, $ssl = null, $show = false)
 	{
 		// Get the router.
 		$app = JFactory::getApplication();
@@ -48,8 +48,18 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = $router->build($url);
+		$uri = $router->build($url,true);
+		
+		if ($show){
+			var_dump($router);
+			echo('<div><b>url='.$url.'</b></div>');
+			var_dump($uri);
+		}
+		
 		$url = $uri->toString(array('path', 'query', 'fragment'));
+		
+		if ($show)
+			echo('<div><b style="background-color:yellow">url='.$url.'</b></div>');
 
 		// Replace spaces.
 		$url = preg_replace('/\s/u', '%20', $url);
@@ -89,7 +99,7 @@ class JRoute
 		{
 			$url = htmlspecialchars($url);
 		}
-
+			
 		return $url;
 	}
 }

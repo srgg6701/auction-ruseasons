@@ -51,7 +51,7 @@ class JConfig {
 	public $sef = '1';
 	public $sef_rewrite = '1';
 	public $sef_suffix = '0';
-	public $unicodeslugs = '0';
+	public $unicodeslugs = '1';
 	public $feed_limit = '10';
 	public $log_path = 'Z:\\home\\localhost\\www\\~auction.test/logs';
 	public $tmp_path = 'Z:\\home\\localhost\\www\\~auction.test/tmp';

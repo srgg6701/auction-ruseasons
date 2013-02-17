@@ -114,6 +114,17 @@ if(!$vm_native){
 			if ($show_button):// Product Details Button?>
 		<p><?=JHTML::link ($product->link, JText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'product-details'))?></p>
 		<?	endif;	
+		
+		
+			/*echo "
+			<div class=''>virtuemart_product_id= ".$product->virtuemart_product_id."</div>
+			<div class=''>product_name= ".$product->product_name."</div>
+			<div class=''>slug= ".$product->slug."</div>
+			<div class=''>product_s_desc= ".$product->product_s_desc."</div>
+			<div class=''>product_desc= ".$product->product_desc."</div>
+			<div class=''>product_url= ".$product->product_url."</div>
+			<div class=''>product_in_stock= ".$product->product_in_stock."</div>";*/
+			//var_dump($product);
 
 		}
 	
@@ -121,5 +132,4 @@ if(!$vm_native){
 		echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 	}
 	
-}else
-	require_once 'old/default.php';?>
+}?>

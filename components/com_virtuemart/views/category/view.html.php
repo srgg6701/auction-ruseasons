@@ -169,6 +169,9 @@ class VirtuemartViewCategory extends VmView {
 		$this->assignRef('keyword', $keyword);
 		$this->assignRef('search', $search);
 
+		// echo "<div class=''>category= ".$category."</div>";
+		// echo "<div class=''>categoryId= ".$categoryId."</div>";
+
 	    // Load the products in the given category
 	    $products = $productModel->getProductsInCategory($categoryId);
 	    $productModel->addImages($products,1);

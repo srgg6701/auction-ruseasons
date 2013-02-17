@@ -185,7 +185,11 @@ class VirtueMartModelProduct extends VmModel {
 	 *
 	 * @author Max Milbers
 	 */
-	function sortSearchListQuery ($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE) {
+	function sortSearchListQuery ( $onlyPublished = TRUE, 
+								   $virtuemart_category_id = FALSE, 
+								   $group = FALSE, 
+								   $nbrReturnProducts = FALSE
+								 ) {
 
 		$app = JFactory::getApplication ();
 
@@ -487,6 +491,8 @@ class VirtueMartModelProduct extends VmModel {
 		}
 		//vmdebug ( $joinedTables.' joined ? ',$select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir );		/* jexit();  */
 		$this->orderByString = $orderBy;
+		//echo '<hr>', $select, $joinedTables, $whereString, $groupBy, $orderBy, '<hr>';
+		
 		$product_ids = $this->exeSortSearchListQuery (2, $select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir, $nbrReturnProducts);
 
 		// This makes products searchable, we decided that this is not good, because variant childs appear then in lists
@@ -688,7 +694,12 @@ class VirtueMartModelProduct extends VmModel {
 
 			// Add the product link  for canonical
 			$child->canonical = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id;
-			$child->link = JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id);
+			echo "<div>child->canonical= ".$child->canonical."</div>";
+			echo "<div class=''>child->virtuemart_category_id= ".$child->virtuemart_category_id."</div>";
+			$child->link = JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id, false, false, true);
+			
+			
+			echo "<div style='color:red'>child->link= ".$child->link."</div>";
 
 			/*if (empty($child->layout)) {
 				// product_layout ?
@@ -1091,8 +1102,7 @@ class VirtueMartModelProduct extends VmModel {
 	 * @param int $virtuemart_category_id the category ID where to get the products for
 	 * @return array containing product objects
 	 */
-	public function getProductsInCategory ($categoryId) {
-
+	public function getProductsInCategory ($categoryId,$layout=false) {
 		$ids = $this->sortSearchListQuery (TRUE, $categoryId);
 		$this->products = $this->getProducts ($ids);
 		return $this->products;

@@ -21,7 +21,6 @@ function virtuemartBuildRoute(&$query) {
 
 	$segments = array();
 
-
 	$helper = vmrouterHelper::getInstance($query);
 	/* simple route , no work , for very slow server or test purpose */
 	if ($helper->router_disabled) {
@@ -62,6 +61,8 @@ function virtuemartBuildRoute(&$query) {
 			$start = null;
 			$limitstart = null;
 			$limit = null;
+				
+			var_dump($segments); var_dump($query); die('<hr>'.__LINE__);
 
 			if ( isset($query['virtuemart_manufacturer_id'])  ) {
 				$segments[] = $helper->lang('manufacturer').'/'.$helper->getManufacturerName($query['virtuemart_manufacturer_id']) ;
@@ -293,6 +294,7 @@ function virtuemartBuildRoute(&$query) {
 		$segments[] = $query['tmpl'] ;
 		unset($query['tmpl']);
 	}*/
+
 	return $segments;
 }
 

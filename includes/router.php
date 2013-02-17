@@ -77,12 +77,16 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	public function build($url)
+	public function build($url, $show=false)
 	{
 		$uri = parent::build($url);
 
 		// Get the path data
 		$route = $uri->getPath();
+		if ($show){
+			echo "<div class=''>url = ".$url."</div><hr>";
+			echo "<div class=''>route = ".$route."</div><hr>";
+		}
 
 		//Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route) {
@@ -110,7 +114,13 @@ class JRouterSite extends JRouter
 
 		//Add basepath to the uri
 		$uri->setPath(JURI::base(true).'/'.$route);
-
+		if ($show){
+			echo "<div class=''><B>BUILD:</B></div>";
+			echo "<div class=''>base= ".JURI::base(true)."</div>";
+			echo "<div class=''>route = ".$route."</div>";
+			var_dump($uri);
+			if ($_GET['stop']) die();
+		}
 		return $uri;
 	}
 
