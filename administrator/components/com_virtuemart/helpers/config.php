@@ -1034,7 +1034,10 @@ class vmJsApi{
 			return FALSE;
 		}
 		$document = JFactory::getDocument();
-		if(VmConfig::get('google_jquery',TRUE)){
+		if( VmConfig::get('google_jquery',TRUE)
+		    && !strstr($_SERVER['HTTP_HOST'],"localhost")
+		  ){
+			
 			vmJsApi::js('jquery','//ajax.googleapis.com/ajax/libs/jquery/1.6.4','',TRUE);
 			//$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js');
 			if (!$isSite) {

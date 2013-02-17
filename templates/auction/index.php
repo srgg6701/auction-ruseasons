@@ -67,11 +67,17 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="<?=$baseUrl?>/js/jquery-1.8.1.js"></script>
+<script src="<?=$baseUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
+<?	/*?>
+<!--<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>-->  
+<?	*/
+	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
 <!-- Yandex.Metrika -->
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
+<?	}?>
 <div style="display:none;"><script type="text/javascript">
 try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 </script></div>
@@ -163,6 +169,7 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
                 	<? // ul ?>
             		<jdoc:include type="modules" name="footer" />
 					<div id="mailru_counter">
+<?	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
                         <!--Rating@Mail.ru counter-->
                         <script language="javascript" type="text/javascript">//<![CDATA[
                         d=document;var a='';a+=';r='+escape(d.referrer);js=10;//]]></script>
@@ -183,11 +190,11 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
                         <script language="javascript" type="text/javascript">//<![CDATA[
                         if(11<js)d.write('--'+'&#062');//]]></script>
                         <!--// Rating@Mail.ru counter-->
+<?	}?>                        
 					</div>
 				</div>	
             </div>
         </div>
-
     </div>
 </body>
 </html>
