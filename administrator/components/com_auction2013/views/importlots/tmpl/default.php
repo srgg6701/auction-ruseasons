@@ -24,16 +24,19 @@ defined('_JEXEC') or die('Restricted access');?>
 <p>Выберите родительский раздел для списка предметов:</p>
 <?	$lots=$this->categories_data; 
 $catsHTML=array();?>
+<form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div id="top_radios">
 <?
 foreach($lots as $top_cat_id => $array){?>
 	<label>
-    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$top_cat_id?>"><?=$array['top_category_name']?> &nbsp; 
-    </label>
+    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$top_cat_id?>, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories"<? 
+	if(strstr($array['top_category_name'],"Онлайн торги"))
+		{?> disabled title="Опция в разработке"<? }?>><?=$array['top_category_name']?> &nbsp; </label>
 	<?	foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):
-					$catsHTML[$top_cat_id].='	<label><input name="virtuemart_category_id" type="radio" value="'.$category_data['virtuemart_category_id'].'">'.$category_data['category_name'].' &nbsp &nbsp </label>'; 
+					$catsHTML[$top_cat_id].='	<label>
+	<input name="virtuemart_category_id" type="radio" value="'.$category_data['virtuemart_category_id'].'">'.$category_data['category_name'].' &nbsp &nbsp </label>'; 
 				endforeach;
 			endif;
 		endforeach;?>
@@ -53,28 +56,26 @@ foreach($lots as $top_cat_id => $array){?>
 <br/>
 </div>
 <?	endforeach;?>
-<form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <p><img style="margin-left:-6px;" src="<?=JUri::root()?>administrator/templates/bluestork/images/admin/publish_y.png" width="16" height="16" align="absmiddle" /> <span id="check_flds">Сверьтесь с названиями полей импортируемого файла</span></p>
 <? $av_fields=Auction2013Helper::getImportFields();?>
-<table id="make_fields_control" rules="rows">
+<table id="make_fields_control">
 	<tr>
-    	<th>Имя столба</th>
-        <th>Предназначение поля</th>
-    </tr>
+    	<th>Имя столбца:</th>
 <?	foreach($av_fields as $field=>$desc):?>
-	<tr>
     	<td><?=$field?></td>
-        <td><?=$desc?></td>
-    </tr>
-	
 <?	endforeach;?>
+    </tr>
+    <tr bgcolor="#FFF">
+        <th>Предназначение поля:</th>
+<?	foreach($av_fields as $field=>$desc):?>
+        <td><?=$desc?></td>
+<?	endforeach;?>
+    </tr>
 </table>
 Выберите файл для импорта данных:
 	<input id="import_file" name="import_file" type="file" required>
-    		<input type="hidden" name="task" value="importlots.import" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+    	<input type="hidden" name="task" value="importlots.import" />
+		<? //<input type="hidden" name="boxchecked" value="0" /> ?>
 		<?php echo JHtml::_('form.token'); ?>
         <br/>
         <br/>
@@ -101,10 +102,17 @@ $( function(){
 			$('#make_fields_control').fadeToggle(200);
 		});
 });
-Joomla.submitbutton = function(task)
+Joomla.submitbutton = function()
 {
 	var err=false;
 	if(!$('input[id^="top_cat_"]:checked').size()){
+		/*	С точки зрения отнесения категории предмета к родительской
+			категории отметка данного чекбокса никакой роли не играет, 
+			поскольку вышеуказанная принадлежность определяется по id 
+			самой категории. Однако это необходимо для того, чтобы 
+			юзер выбрал правильную секцию, которая, как раз, и 
+			ограничивает диапазон id id категорий.
+		*/
 		err='Вы не выбрали родительский раздел для списка предметов';
 	}else{
 		if(!$('input[name="virtuemart_category_id"]:checked').size()){

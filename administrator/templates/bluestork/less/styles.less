@@ -38,15 +38,22 @@ table#make_fields_control{
 	border-spacing:0; 
 	display:none;
 	margin-bottom:14px;
-	tr>td:first-child{
-		font-weight:bold;
+	tbody>tr:first-child{
+		background-color:rgb(218, 238, 211);
+		td{
+			font-weight:bold;
+		}		
 	}
 	th{
-		background-color:#CCC;
+		font-weight:normal;
 		padding:4px;
+		text-align:right;
+		text-transform:uppercase;
 		.tdOffset(6px,4px);
+		border:solid 1px #CCC;
 	}
 	td{
+		border:solid 1px #CCC;
 		padding:3px;
 		.tdOffset(6px,8px);
 	}

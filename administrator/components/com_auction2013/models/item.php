@@ -45,9 +45,10 @@ class Auction2013ModelItem extends JModelAdmin
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
+	 * имеет смысл, если есть таблица, из которой извлекаются поля для формы
 	 */
 	public function getForm($data = array(), $loadData = true)
-	{
+	{	// 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
 
@@ -111,7 +112,6 @@ class Auction2013ModelItem extends JModelAdmin
 				$max = $db->loadResult();
 				$table->ordering = $max+1;
 			}
-
 		}
 	}
 
