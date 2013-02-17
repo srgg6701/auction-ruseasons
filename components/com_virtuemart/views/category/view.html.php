@@ -1,3 +1,4 @@
+<?php echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">"; ?>
 <?php 
 /**
 *
@@ -31,11 +32,9 @@ if(!class_exists('VmView'))require(JPATH_VM_SITE.DS.'helpers'.DS.'vmview.php');
 * @todo add full path to breadcrumb
 */
 class VirtuemartViewCategory extends VmView {
-	
-	public $products;
 
 	public function display($tpl = null) {
-		
+
 
 		$show_prices  = VmConfig::get('show_prices',1);
 		if($show_prices == '1'){
@@ -91,7 +90,7 @@ class VirtuemartViewCategory extends VmView {
 // 		vmTime('end loop categoryListTree '.$counter);
 
 		$categoryModel->addImages($category->children,1);
-		
+
 		if (VmConfig::get('enable_content_plugin', 0)) {
 			// add content plugin //
 			$dispatcher = JDispatcher::getInstance();
@@ -119,7 +118,8 @@ class VirtuemartViewCategory extends VmView {
 			$category->category_description = $category->text;
 		}
 
-	   	$this->assignRef('category', $category);
+
+	   $this->assignRef('category', $category);
 
 		// Set Canonic link
 		if (!empty($tpl)) {
@@ -136,7 +136,7 @@ class VirtuemartViewCategory extends VmView {
         	 $title = strip_tags($category->customtitle);
      	} elseif ($category->category_name) {
      		 $title = strip_tags($category->category_name);
-     	}
+     		 }
 		else {
 			$menus	= $app->getMenu();
 			$menu = $menus->getActive();
@@ -170,122 +170,76 @@ class VirtuemartViewCategory extends VmView {
 		$this->assignRef('keyword', $keyword);
 		$this->assignRef('search', $search);
 
-	    $aprod=true;
-		if($aprod){
-			// Load the products in the given category
-			$products = $productModel->getProductsInCategory($categoryId);
-			//
-			if(!JRequest::getVar('layout')=='shop'||1==1){
-				$productModel->addImages($products,1);
-		
-				$this->assignRef('products', $products);
-				foreach($products as $product){
-					  $product->stock = $productModel->getStockIndicator($product);
-				}
-			}else{
-				
-				$this->extractProducts($products);
-				
-			}
-		}
+	    // Load the products in the given category
+	    $products = $productModel->getProductsInCategory($categoryId);
+	    $productModel->addImages($products,1);
 
-		
-		$arank=true;
-		if($arank){
-			$ratingModel = VmModel::getModel('ratings');
-			$showRating = $ratingModel->showRating();
-			$this->assignRef('showRating', $showRating);
-		}
-		
-
-		$aman=true;
-		if($aman){
-			$virtuemart_manufacturer_id = JRequest::getInt('virtuemart_manufacturer_id',0 );
-			if ($virtuemart_manufacturer_id and !empty($products[0])) $title .=' '.$products[0]->mf_name ;
-			$document->setTitle( $title );
-			// Override Category name when viewing manufacturers products !IMPORTANT AFTER page title.
-			if (JRequest::getInt('virtuemart_manufacturer_id' ) and !empty($products[0])) $category->category_name =$products[0]->mf_name ;
-		}
-		
-	    
-		$apag=true;
-		if($apag){
-			$pagination = $productModel->getPagination($perRow);
-	    	$this->assignRef('vmPagination', $pagination);
-		}
+	    $this->assignRef('products', $products);
+		foreach($products as $product){
+              $product->stock = $productModel->getStockIndicator($product);
+         }
 
 
-	    $aord=true;
-		if($aord){
-			$orderByList = $productModel->getOrderByList($categoryId);
-	    	$this->assignRef('orderByList', $orderByList);
+		$ratingModel = VmModel::getModel('ratings');
+		$showRating = $ratingModel->showRating();
+		$this->assignRef('showRating', $showRating);
+
+		$virtuemart_manufacturer_id = JRequest::getInt('virtuemart_manufacturer_id',0 );
+		if ($virtuemart_manufacturer_id and !empty($products[0])) $title .=' '.$products[0]->mf_name ;
+		$document->setTitle( $title );
+		// Override Category name when viewing manufacturers products !IMPORTANT AFTER page title.
+		if (JRequest::getInt('virtuemart_manufacturer_id' ) and !empty($products[0])) $category->category_name =$products[0]->mf_name ;
+
+	    $pagination = $productModel->getPagination($perRow);
+	    $this->assignRef('vmPagination', $pagination);
+
+	    $orderByList = $productModel->getOrderByList($categoryId);
+	    $this->assignRef('orderByList', $orderByList);
 
 // 	    $productRelatedManufacturerList = $productModel->getProductRelatedManufacturerList($categoryId);
 // 	    $this->assignRef('productRelatedManufacturerList', $productRelatedManufacturerList);
 
 		//$sortOrderButton = $productModel->getsortOrderButton();
 		//$this->assignRef('sortOrder', $sortOrderButton);
+
+	   if ($category->metadesc) {
+			$document->setDescription( $category->metadesc );
 		}
-		
-		
-		$ameta=true;
-	   	if($ameta) {
-			if ($category->metadesc) {
-				$document->setDescription( $category->metadesc );
-			}
-			if ($category->metakey) {
-				$document->setMetaData('keywords', $category->metakey);
-			}
-			if ($category->metarobot) {
-				$document->setMetaData('robots', $category->metarobot);
-			}
-	
-			if ($app->getCfg('MetaTitle') == '1') {
-				$document->setMetaData('title',  $title);
-	
-			}
-			if ($app->getCfg('MetaAuthor') == '1') {
-				$document->setMetaData('author', $category->metaauthor);
-			}
+		if ($category->metakey) {
+			$document->setMetaData('keywords', $category->metakey);
+		}
+		if ($category->metarobot) {
+			$document->setMetaData('robots', $category->metarobot);
 		}
 
+		if ($app->getCfg('MetaTitle') == '1') {
+			$document->setMetaData('title',  $title);
 
-		$aprod=true;
-		if ($aprod){
-			if ($products) {
-				$currency = CurrencyDisplay::getInstance( );
-				$this->assignRef('currency', $currency);
-			}
+		}
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$document->setMetaData('author', $category->metaauthor);
+		}
+		if ($products) {
+		$currency = CurrencyDisplay::getInstance( );
+		$this->assignRef('currency', $currency);
 		}
 
-		
-		$aperm=true;
-		if($aperm){
-			if(!class_exists('Permissions')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'permissions.php');
-			$showBasePrice = Permissions::getInstance()->check('admin'); //todo add config settings
-		}
-		
-		
-		$bprice=true;
-		if ($bprice)
-			$this->assignRef('showBasePrice', $showBasePrice);
-		
-		
-		$incfunc=true;
-		if ($incfunc){
-			//set this after the $categoryId definition
-			$paginationAction=JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$categoryId );
-			$this->assignRef('paginationAction', $paginationAction);
-	
-			shopFunctionsF::setLastVisitedCategoryId($categoryId);
-			shopFunctionsF::setLastVisitedManuId($virtuemart_manufacturer_id);
-	
-			if(empty($category->category_template)){
-				$category->category_template = VmConfig::get('categorytemplate');
-			}
-			shopFunctionsF::setVmTemplate($this,$category->category_template,0,$category->category_layout);
-		}
+		if(!class_exists('Permissions')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'permissions.php');
+		$showBasePrice = Permissions::getInstance()->check('admin'); //todo add config settings
+		$this->assignRef('showBasePrice', $showBasePrice);
 
+		//set this after the $categoryId definition
+		$paginationAction=JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$categoryId );
+		$this->assignRef('paginationAction', $paginationAction);
+
+	    shopFunctionsF::setLastVisitedCategoryId($categoryId);
+		shopFunctionsF::setLastVisitedManuId($virtuemart_manufacturer_id);
+
+	    if(empty($category->category_template)){
+	    	$category->category_template = VmConfig::get('categorytemplate');
+	    }
+
+	    shopFunctionsF::setVmTemplate($this,$category->category_template,0,$category->category_layout);
 
 		parent::display($tpl);
 	}
@@ -330,28 +284,6 @@ class VirtuemartViewCategory extends VmView {
 		$this->assignRef('searchcustom', $this->searchCustomList);
 		$this->assignRef('searchcustomvalues', $this->searchCustomValues);
 	}
-/**
- * Описание
- * @package
- * @subpackage
- */
-	public function extractProducts($products){
-		$this->products=$products;
-		//echo gettype($products);
-		// var_dump($products);
-		/*foreach($products as $i=>$array){
-			echo "<h1>$i =></h1>";
-			echo "
-			<div class=''>virtuemart_product_id= ".$array->virtuemart_product_id."</div>
-			<div class=''>product_name= ".$array->product_name."</div>
-			<div class=''>slug= ".$array->slug."</div>
-			<div class=''>product_s_desc= ".$array->product_s_desc."</div>
-			<div class=''>product_desc= ".$array->product_desc."</div>
-			<div class=''>product_url= ".$array->product_url."</div>
-			<div class=''>product_in_stock= ".$array->product_in_stock."</div>";
-			//var_dump($array);
-		}*/
-	}	
 }
 
 
