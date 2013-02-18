@@ -16,7 +16,6 @@ if(  !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not
  * http://virtuemart.net
  */
 
-
 function virtuemartBuildRoute(&$query) {
 
 	$segments = array();
@@ -42,7 +41,8 @@ function virtuemartBuildRoute(&$query) {
 	// $lang = $helper->lang ;
 	$view = '';
 
-	$jmenu = $helper->menu ;
+	$jmenu = $helper->menu;
+	
 
 	if(isset($query['langswitch'])) unset($query['langswitch']);
 
@@ -61,8 +61,25 @@ function virtuemartBuildRoute(&$query) {
 			$start = null;
 			$limitstart = null;
 			$limit = null;
-				
-			var_dump($segments); var_dump($query); die('<hr>'.__LINE__);
+			
+			/*	array
+				  'option' => string 'com_virtuemart' (length=14)
+				  'virtuemart_category_id' => string '0' (length=1)
+				  'Itemid' => string '115' (length=3)			
+			*/
+			if( $query['virtuemart_category_id']=='0'
+				&& (int)$query['Itemid']
+			  ) {
+				$jmenu['virtuemart_category_id'][0]=$query['Itemid'];
+				$jmenu['virtuemart']=$query['Itemid'];
+			}
+			/*echo "query: ";
+			var_dump($query); 
+			echo "jmenu: ";
+			var_dump($jmenu); 
+			echo "segments: ";
+			var_dump($segments); 
+			echo "<hr size=4>";*/
 
 			if ( isset($query['virtuemart_manufacturer_id'])  ) {
 				$segments[] = $helper->lang('manufacturer').'/'.$helper->getManufacturerName($query['virtuemart_manufacturer_id']) ;
@@ -78,8 +95,9 @@ function virtuemartBuildRoute(&$query) {
 				unset($query['keyword']);
 			}
 			if ( isset($query['virtuemart_category_id']) ) {
+				//echo "query['virtuemart_category_id'] = ".$query['virtuemart_category_id']."<hr>";
 				if (isset($jmenu['virtuemart_category_id'][ $query['virtuemart_category_id'] ] ) )
-					$query['Itemid'] = $jmenu['virtuemart_category_id'][$query['virtuemart_category_id']];
+					$query['Itemid'] = $jmenu['virtuemart_category_id'][$query['virtuemart_category_id']]; // = 0
 				else {
 					$categoryRoute = $helper->getCategoryRoute($query['virtuemart_category_id']);
 					if ($categoryRoute->route) $segments[] = $categoryRoute->route;
@@ -94,7 +112,7 @@ function virtuemartBuildRoute(&$query) {
 				if ($query['order'] =='DESC') $segments[] = $helper->lang('orderDesc') ;
 				unset($query['order']);
 			}
-
+			
 			if ( isset($query['orderby']) ) {
 				$segments[] = $helper->lang('by').','.$helper->lang( $query['orderby']) ;
 				unset($query['orderby']);
@@ -122,11 +140,20 @@ function virtuemartBuildRoute(&$query) {
 				$segments[] = $helper->lang('results') .','. ($start+1).'-'.($start+$limit);
 			} else if ($limit !== null && $limit != vmrouterHelper::$limit ) $segments[] = $helper->lang('results') .',1-'.$limit ;//limit change
 
+			/*echo "<b>jmenu: </b>";
+			var_dump($jmenu); 
+			echo "<b>query['Itemid']: </b>";
+			var_dump($query['Itemid']);
+			echo "<b>segments: </b>";
+			var_dump($segments); 
+			echo "<b>categoryRoute: </b>";
+			var_dump($categoryRoute); 
+			echo('<hr>LINE: '.__LINE__.'<hr color="#0000FF">');*/
+
 			return $segments;
 			break;
 		/* Shop product details view  */
 		case 'productdetails';
-
 			$virtuemart_product_id = false;
 			if (isset($jmenu['virtuemart_product_id'][ $query['virtuemart_product_id'] ] ) ) {
 				$query['Itemid'] = $jmenu['virtuemart_product_id'][$query['virtuemart_product_id']];
@@ -273,8 +300,6 @@ function virtuemartBuildRoute(&$query) {
 		// sef only view
 		default ;
 			$segments[] = $view;
-
-
 	}
 
 	//	if (!class_exists( 'VmConfig' )) require(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart'.DS.'helpers'.DS.'config.php');
@@ -293,7 +318,7 @@ function virtuemartBuildRoute(&$query) {
 		//if ( $query['tmpl'] = 'component') $segments[] = 'modal' ;
 		$segments[] = $query['tmpl'] ;
 		unset($query['tmpl']);
-	}*/
+	}var_dump($segments); die();*/
 
 	return $segments;
 }
@@ -680,7 +705,10 @@ class vmrouterHelper {
 	}
 
 	public static function getInstance(&$query = null) {
-
+		/*echo "<h2 class=''>call: vmrouterHelper::getInstance(</h2>";
+		var_dump($query);
+		echo "<h2>);</h2>";*/
+		
 		if (!class_exists( 'VmConfig' )) {
 			require(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart'.DS.'helpers'.DS.'config.php');
 			VmConfig::loadConfig();
@@ -702,9 +730,11 @@ class vmrouterHelper {
 				// 				self::$limit= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', VmConfig::get('list_limit', 20), 'int');
 			}
 		}
+		
+		/*echo "<h2>instanceKey = $instanceKey<br>\$_instances[\$instanceKey]:</h2>";
+		var_dump($_instances[$instanceKey]);*/
 		return self::$_instances[$instanceKey];
 	}
-
 	/* multi language routing ? */
 	public function setLangs($instanceKey){
 		$langs = VmConfig::get('active_languages',false);
@@ -770,7 +800,6 @@ class vmrouterHelper {
 		}
 		return self::$_catRoute[$virtuemart_category_id . $this->vmlang] ;
 	}
-
 	/*get url safe names of category and parents categories  */
 	public function getCategoryNames($virtuemart_category_id,$catMenuId=0){
 
@@ -839,7 +868,6 @@ class vmrouterHelper {
 
 		return $category_id ;
 	}
-
 	/* Get URL safe Product name */
 	public function getProductName($id){
 
@@ -858,7 +886,6 @@ class vmrouterHelper {
 
 		return $name.$this->seo_sufix;
 	}
-
 	var $counter = 0;
 	/* Get parent Product first found category ID */
 	public function getParentProductcategory($id){
@@ -887,8 +914,6 @@ class vmrouterHelper {
 		$this->counter = 0;
 		return $virtuemart_category_id ;
 	}
-
-
 	/* get product and category ID */
 	public function getProductId($names,$virtuemart_category_id = NULL ){
 		$productName = array_pop($names);
@@ -909,7 +934,6 @@ class vmrouterHelper {
 
 		return $product ;
 	}
-
 	/* Get URL safe Manufacturer name */
 	public function getManufacturerName($virtuemart_manufacturer_id ){
 		$db = JFactory::getDBO();
@@ -919,7 +943,6 @@ class vmrouterHelper {
 		return $db->loadResult();
 
 	}
-
 	/* Get Manufacturer id */
 	public function getManufacturerId($slug ){
 		$db = JFactory::getDBO();
@@ -959,7 +982,6 @@ class vmrouterHelper {
 
 		}
 	}
-
 	/* Set $this->menu with the Item ID from Joomla Menus */
 	private function setMenuItemIdJ17(){
 
@@ -1034,7 +1056,6 @@ class vmrouterHelper {
 		// }
 
 	}
-
 	/* Set $this->menu with the Item ID from Joomla Menus */
 	private function setMenuItemId(){
 
@@ -1091,7 +1112,6 @@ class vmrouterHelper {
 		}
 
 	}
-
 	/*
 	 * Get language key or use $key in route
 	 */
@@ -1107,7 +1127,6 @@ class vmrouterHelper {
 		//falldown
 		return $key;
 	}
-
 	/*
 	 * revert key or use $key in route
 	 */
