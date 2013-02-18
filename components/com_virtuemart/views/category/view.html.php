@@ -172,7 +172,11 @@ class VirtuemartViewCategory extends VmView {
 		// echo "<div class=''>category= ".$category."</div>";
 		// echo "<div class=''>categoryId= ".$categoryId."</div>";
 
-	    // Load the products in the given category
+	    /*	MODIFIED START */
+		// 	Получить и передать модели Id топовой категории:
+		$this->setTopCatId($productModel);
+		/*	MODIFIED END	*/		
+		// Load the products in the given category
 	    $products = $productModel->getProductsInCategory($categoryId);
 	    $productModel->addImages($products,1);
 
@@ -180,7 +184,6 @@ class VirtuemartViewCategory extends VmView {
 		foreach($products as $product){
               $product->stock = $productModel->getStockIndicator($product);
          }
-
 
 		$ratingModel = VmModel::getModel('ratings');
 		$showRating = $ratingModel->showRating();
@@ -245,6 +248,46 @@ class VirtuemartViewCategory extends VmView {
 
 		parent::display($tpl);
 	}
+/*	MODIFIED START */
+/**
+ * Получить и передать модели Id топовой категории
+ * @package
+ * @subpackage
+ */
+	private function setTopCatId($productModel)  {
+		$get=JRequest::get('get');
+		if( $get['view'] == 'category'
+			&& $get['virtuemart_category_id'] == '0'
+			&& $layout=$get['layout']
+		  ){
+			// извлечь id id топовых категорий по порядку их расположения в таблице
+			switch($layout){ // см. /components/com_virtuemart/views/category/tmpl/
+				case 'online':
+					// Онлайн торги
+					$category_id_index='0';
+				break;
+				case 'fulltime':
+					// Очные торги
+					$category_id_index='1';
+				break;
+				case 'shop':
+					// Магазин
+					$category_id_index='2';
+				break;
+				default:
+					die('ОШИБКА: Не определено имя top_category!');			
+			}
+			$query="SELECT category_child_id 
+  FROM #__virtuemart_category_categories
+  WHERE category_parent_id = 0 ORDER BY category_child_id ASC";
+			$db = JFactory::getDBO();
+			$db->setQuery($query);
+			$catsIds=$db->loadResultArray();
+			$productModel->top_category=$catsIds[$category_id_index];
+			return true;
+		}
+	}	
+/*	MODIFIED END	*/		
 	/*
 	 * generate custom fields list to display as search in FE
 	 */

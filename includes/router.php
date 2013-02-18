@@ -77,7 +77,7 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	public function build($url, $show=false)
+	public function build($url)
 	{
 		$uri = parent::build($url);
 

@@ -69,7 +69,7 @@ if(!$vm_native){
 
 		// array => object
 		foreach($this->products as $i=>$product){?>
-		<a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
+		<a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
 		<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
 		<?	if (!empty($product->product_s_desc)):?>
 		<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>

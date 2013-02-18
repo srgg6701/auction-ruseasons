@@ -19,7 +19,6 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 
-
 if (!class_exists ('VmModel')) {
 	require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'vmmodel.php');
 }
@@ -33,14 +32,19 @@ if (!class_exists ('VmModel')) {
  * @todo Replace getOrderUp and getOrderDown with JTable move function. This requires the vm_product_category_xref table to replace the ordering with the ordering column
  */
 class VirtueMartModelProduct extends VmModel {
-
 	/**
 	 * products object
 	 *
 	 * @var integer
 	 */
 	var $products = NULL;
-
+	/*	MODIFIED START */
+	/**
+	 * Если хотим получить консолидированные данные предметов из дочерних категорий при загрузке раздела с top-категорией (online, fulltime, shop)
+	 */
+	public $top_category;
+	/*	MODIFIED END	*/
+	
 	/**
 	 * constructs a VmModel
 	 * setMainTable defines the maintable of the model
@@ -84,7 +88,6 @@ class VirtueMartModelProduct extends VmModel {
 		$this->updateRequests ();
 
 	}
-
 	var $keyword = "0";
 	var $product_parent_id = FALSE;
 	var $virtuemart_manufacturer_id = FALSE;
@@ -97,14 +100,12 @@ class VirtueMartModelProduct extends VmModel {
 	var $valid_BE_search_fields = array('product_name', 'product_sku', 'product_s_desc', '`l`.`metadesc`');
 	private $orderByString = 0;
 	private $listing = FALSE;
-
 	/**
 	 * This function resets the variables holding request depended data to the initial values
 	 *
 	 * @author Max Milbers
 	 */
 	function initialiseRequests () {
-
 		$this->keyword = "0";
 		$this->valid_search_fields = $this->valid_BE_search_fields;
 		$this->product_parent_id = FALSE;
@@ -118,7 +119,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		$this->_uncategorizedChildren = null;
 	}
-
 	/**
 	 * This functions updates the variables of the model which are used in the sortSearchListQuery
 	 *  with the variables from the Request
@@ -167,9 +167,7 @@ class VirtueMartModelProduct extends VmModel {
 		$this->searchcustoms = JRequest::getVar ('customfields', array(), 'default', 'array');
 
 		$this->searchplugin = JRequest::getInt ('custom_parent_id', 0);
-
 	}
-
 	/**
 	 * Sets the keyword variable for the search
 	 *
@@ -179,7 +177,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		$this->keyword = $keyword;
 	}
-
 	/**
 	 * New function for sorting, searching, filtering and pagination for product ids.
 	 *
@@ -483,6 +480,21 @@ class VirtueMartModelProduct extends VmModel {
 			$joinedTables .= ' LEFT OUTER JOIN `#__virtuemart_products` children ON p.`virtuemart_product_id` = children.`product_parent_id` ';
 		}
 
+		/*	MODIFIED START */
+
+		if ($this->top_category){
+			$where[]="p.`virtuemart_product_id` IN (
+        SELECT
+  cats.virtuemart_product_id
+FROM #__virtuemart_product_categories AS cats
+  INNER JOIN #__virtuemart_category_categories AS catcats
+    ON cats.virtuemart_category_id = catcats.category_child_id
+  WHERE category_parent_id = ".$this->top_category."
+      )";
+		}
+		
+		/*	MODIFIED END	*/
+		
 		if (count ($where) > 0) {
 			$whereString = ' WHERE (' . implode (' AND ', $where) . ') ';
 		}
@@ -491,7 +503,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 		//vmdebug ( $joinedTables.' joined ? ',$select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir );		/* jexit();  */
 		$this->orderByString = $orderBy;
-		//echo '<hr>', $select, $joinedTables, $whereString, $groupBy, $orderBy, '<hr>';
+		//echo '<hr><pre>SELECT ', $select."\n", $joinedTables."\n", $whereString."\n", $groupBy."\n", $orderBy."\n", '</pre><hr>'; die();
 		
 		$product_ids = $this->exeSortSearchListQuery (2, $select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir, $nbrReturnProducts);
 
@@ -513,9 +525,7 @@ class VirtueMartModelProduct extends VmModel {
 		 //vmdebug('my product ids',$product_ids);
 
 		return $product_ids;
-
 	}
-
 	/**
 	 * Override
 	 *
@@ -595,7 +605,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		return array($this->_limitStart, $this->_limit);
 	}
-
 	/**
 	 * This function creates a product with the attributes of the parent.
 	 *
@@ -999,7 +1008,6 @@ class VirtueMartModelProduct extends VmModel {
 		$this->product = $product;
 		return $product;
 	}
-
 	/**
 	 * This fills the empty properties of a product
 	 * todo add if(!empty statements
@@ -1047,10 +1055,8 @@ class VirtueMartModelProduct extends VmModel {
 			$product->related = '';
 			$product->box = '';
 		}
-
 		return $product;
 	}
-
 	/**
 	 * Load  the product category
 	 *
@@ -1075,7 +1081,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		return $categories;
 	}
-
 	/**
 	 * Load  the product shoppergroups
 	 *
@@ -1090,10 +1095,8 @@ class VirtueMartModelProduct extends VmModel {
 			$this->_db->setQuery ($q);
 			$shoppergroups = $this->_db->loadResultArray ();
 		}
-
 		return $shoppergroups;
 	}
-
 	/**
 	 * Get the products in a given category
 	 *
@@ -1102,13 +1105,11 @@ class VirtueMartModelProduct extends VmModel {
 	 * @param int $virtuemart_category_id the category ID where to get the products for
 	 * @return array containing product objects
 	 */
-	public function getProductsInCategory ($categoryId,$layout=false) {
+	public function getProductsInCategory ($categoryId) {
 		$ids = $this->sortSearchListQuery (TRUE, $categoryId);
 		$this->products = $this->getProducts ($ids);
 		return $this->products;
 	}
-
-
 	/**
 	 * Loads different kind of product lists.
 	 * you can load them with calculation or only published onces, very intersting is the loading of groups
@@ -1154,7 +1155,6 @@ class VirtueMartModelProduct extends VmModel {
 		$this->listing = FALSE;
 		return $products;
 	}
-
 	/**
 	 * overriden getFilter to persist filters
 	 *
@@ -1175,7 +1175,6 @@ class VirtueMartModelProduct extends VmModel {
 			$this->virtuemart_category_id = JRequest::getInt ('virtuemart_category_id', FALSE);
 		}
 	}
-
 	/**
 	 * Returns products for given array of ids
 	 *
@@ -1224,8 +1223,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		return $products;
 	}
-
-
 	/**
 	 * This function retrieves the "neighbor" products of a product specified by $virtuemart_product_id
 	 * Neighbors are the previous and next product in the current list
@@ -1304,8 +1301,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		return $neighbors;
 	}
-
-
 	/* reorder product in one category
 	 * TODO this not work perfect ! (Note by Patrick Kohl)
 	*/
@@ -1354,7 +1349,6 @@ class VirtueMartModelProduct extends VmModel {
 		JFactory::getApplication ()->redirect ('index.php?option=com_virtuemart&view=product&virtuemart_category_id=' . $virtuemart_category_id, $msg);
 
 	}
-
 	/**
 	 * Moves the order of a record
 	 *
@@ -1370,7 +1364,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		JFactory::getApplication ()->redirect ('index.php?option=com_virtuemart&view=product&virtuemart_category_id=' . JRequest::getInt ('virtuemart_category_id', 0));
 	}
-
 	/**
 	 * Store a product
 	 *
@@ -1550,6 +1543,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		return $product_data->virtuemart_product_id;
+		
 	}
 
 	public function updateXrefAndChildTables ($data, $tableName, $preload = FALSE) {
@@ -1577,7 +1571,6 @@ class VirtueMartModelProduct extends VmModel {
 		return $data;
 
 	}
-
 	/**
 	 * This function creates a child for a given product id
 	 *
@@ -1618,14 +1611,12 @@ class VirtueMartModelProduct extends VmModel {
 		}
 		return $data['virtuemart_product_id'];
 	}
-
 	/**
 	 * Creates a clone of a given product id
 	 *
 	 * @author Max Milbers
 	 * @param int $virtuemart_product_id
 	 */
-
 	public function createClone ($id) {
 
 		//	if (is_array($cids)) $cids = array($cids);
@@ -1645,7 +1636,6 @@ class VirtueMartModelProduct extends VmModel {
 		$this->store ($product);
 		return $this->_id;
 	}
-
 	/* look if whe have a product type */
 	private function productCustomsfieldsClone ($virtuemart_product_id) {
 
@@ -1664,7 +1654,6 @@ class VirtueMartModelProduct extends VmModel {
 			return NULL;
 		}
 	}
-
 	/**
 	 * removes a product and related table entries
 	 *
@@ -1752,8 +1741,6 @@ class VirtueMartModelProduct extends VmModel {
 
 		return $ok;
 	}
-
-
 	/**
 	 * Gets the price for a variant
 	 *
@@ -2003,7 +1990,6 @@ class VirtueMartModelProduct extends VmModel {
 		return $stock;
 	}
 
-
 	public function updateStockInDB ($product, $amount, $signInStock, $signOrderedStock) {
 
 // 	vmdebug( 'stockupdate in DB', $product->virtuemart_product_id,$amount, $signInStock, $signOrderedStock );
@@ -2058,7 +2044,8 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 	}
-function lowStockWarningEmail($virtuemart_product_id) {
+
+	function lowStockWarningEmail($virtuemart_product_id) {
 
 	if(VmConfig::get('lstockmail',TRUE)){
 		if (!class_exists ('shopFunctionsF')) {
@@ -2094,7 +2081,7 @@ function lowStockWarningEmail($virtuemart_product_id) {
 		return FALSE;
 	}
 
-}
+	}
 
 	public function getUncategorizedChildren ($withParent) {
 		if (empty($this->_uncategorizedChildren)) {
@@ -2155,7 +2142,7 @@ function lowStockWarningEmail($virtuemart_product_id) {
 
 	}
 
-// use lang table only TODO Look if this not cause errors
+	// use lang table only TODO Look if this not cause errors
 	function getProductChilds ($product_id) {
 
 		if (empty($product_id)) {
@@ -2180,8 +2167,7 @@ function lowStockWarningEmail($virtuemart_product_id) {
 		return $db->loadResultArray ();
 
 	}
-
-// use lang table only TODO Look if this not cause errors
+	// use lang table only TODO Look if this not cause errors
 	function getProductParent ($product_parent_id) {
 
 		if (empty($product_parent_id)) {
@@ -2192,7 +2178,6 @@ function lowStockWarningEmail($virtuemart_product_id) {
 		$db->setQuery (' SELECT * FROM `#__virtuemart_products_' . VMLANG . '` WHERE `virtuemart_product_id` =' . $product_parent_id);
 		return $db->loadObject ();
 	}
-
 
 	function sentProductEmailToShoppers () {
 
@@ -2239,7 +2224,6 @@ function lowStockWarningEmail($virtuemart_product_id) {
 		}
 
 	}
-
 
 	public function getProductShoppersByStatus ($product_id, $states) {
 

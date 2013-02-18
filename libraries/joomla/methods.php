@@ -48,7 +48,7 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = $router->build($url,true);
+		$uri = $router->build($url);
 		
 		if ($show){
 			var_dump($router);

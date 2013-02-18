@@ -17,9 +17,9 @@ if(  !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not
  */
 
 function virtuemartBuildRoute(&$query) {
-
+	
 	$segments = array();
-
+	
 	$helper = vmrouterHelper::getInstance($query);
 	/* simple route , no work , for very slow server or test purpose */
 	if ($helper->router_disabled) {
@@ -62,6 +62,7 @@ function virtuemartBuildRoute(&$query) {
 			$limitstart = null;
 			$limit = null;
 			
+			/*	MODIFIED START */
 			/*	array
 				  'option' => string 'com_virtuemart' (length=14)
 				  'virtuemart_category_id' => string '0' (length=1)
@@ -73,13 +74,15 @@ function virtuemartBuildRoute(&$query) {
 				$jmenu['virtuemart_category_id'][0]=$query['Itemid'];
 				$jmenu['virtuemart']=$query['Itemid'];
 			}
-			/*echo "query: ";
+			echo "query: ";
 			var_dump($query); 
 			echo "jmenu: ";
 			var_dump($jmenu); 
 			echo "segments: ";
 			var_dump($segments); 
-			echo "<hr size=4>";*/
+			echo "<hr size=4>";
+			
+			/*	MODIFIED END	*/
 
 			if ( isset($query['virtuemart_manufacturer_id'])  ) {
 				$segments[] = $helper->lang('manufacturer').'/'.$helper->getManufacturerName($query['virtuemart_manufacturer_id']) ;
@@ -95,7 +98,6 @@ function virtuemartBuildRoute(&$query) {
 				unset($query['keyword']);
 			}
 			if ( isset($query['virtuemart_category_id']) ) {
-				//echo "query['virtuemart_category_id'] = ".$query['virtuemart_category_id']."<hr>";
 				if (isset($jmenu['virtuemart_category_id'][ $query['virtuemart_category_id'] ] ) )
 					$query['Itemid'] = $jmenu['virtuemart_category_id'][$query['virtuemart_category_id']]; // = 0
 				else {
@@ -325,7 +327,7 @@ function virtuemartBuildRoute(&$query) {
 
 /* This function can be slower because is used only one time  to find the real URL*/
 function virtuemartParseRoute($segments) {
-
+	
 	$vars = array();
 	$helper = vmrouterHelper::getInstance();
 	if ($helper->router_disabled) {
