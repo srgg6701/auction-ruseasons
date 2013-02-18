@@ -839,8 +839,10 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	static public function getRouter($name = null, array $options = array())
-	{
+	static public function getRouter($name = null, array $options = array(),$show=false)
+	{	
+		if ($show=='show') echo('<hr>getRouter 2<hr>');
+		
 		if (!isset($name))
 		{
 			$app = JFactory::getApplication();
@@ -854,7 +856,10 @@ class JApplication extends JObject
 		{
 			return null;
 		}
-
+		if ($show=='show'){
+			echo "<div class=''>line: ".__LINE__."</div>";
+			var_dump($router); //die();
+		}
 		return $router;
 	}
 

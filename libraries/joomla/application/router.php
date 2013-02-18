@@ -22,6 +22,7 @@ define('JROUTER_MODE_SEF', 1);
  * @subpackage  Application
  * @since       11.1
  */
+
 class JRouter extends JObject
 {
 	/**
@@ -185,26 +186,31 @@ class JRouter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function build($url)
+	public function build($url,$show=false)
 	{
 		// Create the URI object
 		$uri = $this->_createURI($url);
+		//if ($show=='JRoute:_') echo "<h4 style='color:green'>/libraries/joomla/application/router.php <br>JRouter::build() :<br>uri LINE ".__LINE__." = ".$uri."</h4>";
 
 		// Process the uri information based on custom defined rules
-		$this->_processBuildRules($uri);
+		$this->_processBuildRules($uri); //if ($show=='JRoute:_') echo "<h4 style='color:violet'>uri LINE ".__LINE__." = ".$uri."</h4>";
 
 		// Build RAW URL
 		if ($this->_mode == JROUTER_MODE_RAW)
 		{
 			$this->_buildRawRoute($uri);
-		}
+		} //if ($show=='JRoute:_') echo "<h4 style='color:blue'>uri LINE ".__LINE__." = ".$uri."</h4>";
 
 		// Build SEF URL : mysite/route/index.php?var=x
 		if ($this->_mode == JROUTER_MODE_SEF)
-		{
-			$this->_buildSefRoute($uri);
+		{	// calls JRouterSite::_buildSefRoute
+			if ($show=='JRoute:_')
+				$show='JRouter::build';
+			$this->_buildSefRoute($uri,$show);
 		}
-
+		
+		if ($show=='JRoute:_') 
+			echo "<h4 style='color:orange'>uri LINE ".__LINE__." = ".$uri."</h4>";
 		return $uri;
 	}
 

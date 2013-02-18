@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @since    11.1
  */
 class JRoute
-{
+{	
 	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
 	 *
@@ -34,8 +34,24 @@ class JRoute
 	{
 		// Get the router.
 		$app = JFactory::getApplication();
-		$router = $app->getRouter();
-
+		/*	JRouterSite comes here!	*/
+		$router = $app->getRouter(null,array(),$show);
+		/*
+		object(JRouterSite)[146]
+		  protected 'mode' => null
+		  protected '_mode' => string '1' (length=1)
+		  protected 'vars' => 
+			array
+			  empty
+		  protected '_vars' => 
+			array
+			  'option' => string 'com_virtuemart' (length=14)
+			  'view' => string 'category' (length=8)
+			  'layout' => string 'shop' (length=4)
+			  'virtuemart_category_id' => string '0' (length=1)
+			  'Itemid' => int 115
+		  ...	*/
+		
 		// Make sure that we have our router
 		if (!$router)
 		{
@@ -48,12 +64,20 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = $router->build($url);
+		if ($show) $show='JRoute:_';
 		
+		$uri = $router->build($url,$show); 
+		
+		$show=null;
 		if ($show){
-			var_dump($router);
+			echo "<div class=''>line: ".__LINE__."</div>";
 			echo('<div><b>url='.$url.'</b></div>');
+			echo "<h2>\$router</h2>";
+			var_dump($router);
+			echo "<h2>/\$router</h2>";
+			echo "<h2>\$uri</h2>";
 			var_dump($uri);
+			echo "<h2>/\$uri</h2>";
 		}
 		
 		$url = $uri->toString(array('path', 'query', 'fragment'));

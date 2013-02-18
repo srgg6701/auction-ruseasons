@@ -254,7 +254,7 @@ class VirtuemartViewCategory extends VmView {
  * @package
  * @subpackage
  */
-	private function setTopCatId($productModel)  {
+	private function setTopCatId($productModel) {
 		$get=JRequest::get('get');
 		if( $get['view'] == 'category'
 			&& $get['virtuemart_category_id'] == '0'

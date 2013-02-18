@@ -565,11 +565,17 @@ final class JSite extends JApplication
 	 * @return	JRouter
 	 * @since	1.5
 	 */
-	static public function getRouter($name = null, array $options = array())
-	{
+	static public function getRouter($name = null, array $options = array(),$show=false)
+	{	//if ($show) echo('<hr>getRouter 1<hr>');
 		$config = JFactory::getConfig();
 		$options['mode'] = $config->get('sef');
-		$router = parent::getRouter('site', $options);
+		//if ($show) var_dump($options);
+		// $options == array( 'mode' => '1' )
+		$router = parent::getRouter('site', $options, false);
+		/*if ($show){
+			echo "<div class=''>line: ".__LINE__."</div>";
+			var_dump($router);
+		}*/
 		return $router;
 	}
 

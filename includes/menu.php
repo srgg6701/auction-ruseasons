@@ -73,9 +73,9 @@ class JMenuSite extends JMenu
 	 *
 	 * @return	array
 	 */
-	public function getItems($attributes, $values, $firstonly = false)
+	public function getItems($attributes, $values, $firstonly = false/*,$show=false*/)
 	{
-		$attributes = (array) $attributes;
+		$attributes = (array) $attributes; 
 		$values 	= (array) $values;
 		$app		= JApplication::getInstance('site');
 

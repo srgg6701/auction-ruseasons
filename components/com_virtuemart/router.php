@@ -74,13 +74,13 @@ function virtuemartBuildRoute(&$query) {
 				$jmenu['virtuemart_category_id'][0]=$query['Itemid'];
 				$jmenu['virtuemart']=$query['Itemid'];
 			}
-			echo "query: ";
+			/*echo "query: ";
 			var_dump($query); 
 			echo "jmenu: ";
 			var_dump($jmenu); 
 			echo "segments: ";
 			var_dump($segments); 
-			echo "<hr size=4>";
+			echo "<hr size=4>";*/
 			
 			/*	MODIFIED END	*/
 
@@ -142,7 +142,9 @@ function virtuemartBuildRoute(&$query) {
 				$segments[] = $helper->lang('results') .','. ($start+1).'-'.($start+$limit);
 			} else if ($limit !== null && $limit != vmrouterHelper::$limit ) $segments[] = $helper->lang('results') .',1-'.$limit ;//limit change
 
-			/*echo "<b>jmenu: </b>";
+			/*
+			echo "<div class=''>line: ".__LINE__."</div>";
+			echo "<b>jmenu: </b>";
 			var_dump($jmenu); 
 			echo "<b>query['Itemid']: </b>";
 			var_dump($query['Itemid']);

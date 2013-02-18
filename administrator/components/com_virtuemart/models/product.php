@@ -703,12 +703,15 @@ FROM #__virtuemart_product_categories AS cats
 
 			// Add the product link  for canonical
 			$child->canonical = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id;
-			echo "<div>child->canonical= ".$child->canonical."</div>";
-			echo "<div class=''>child->virtuemart_category_id= ".$child->virtuemart_category_id."</div>";
+			
+			//echo "<div>child->canonical= ".$child->canonical."</div>";
+			//var_dump($child);
+			//echo "<div class=''>child->virtuemart_category_id= ".$child->virtuemart_category_id."</div>";
+			
 			$child->link = JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id, false, false, true);
 			
 			
-			echo "<div style='color:red'>child->link= ".$child->link."</div>";
+			//echo "<div style='color:red'>child->link= ".$child->link."</div>";
 
 			/*if (empty($child->layout)) {
 				// product_layout ?
@@ -1212,6 +1215,7 @@ FROM #__virtuemart_product_categories AS cats
 			foreach ($productIds as $id) {
 				if ($product = $this->getProduct ((int)$id, $front, $withCalc, $onlyPublished)) {
 					$products[] = $product;
+					//echo "<h3>product:</h3>";var_dump($product);
 					$i++;
 				}
 				if ($i > $maxNumber) {
