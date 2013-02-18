@@ -55,14 +55,11 @@ class JMenu extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($options = array()/*,$show=false*/)
+	public function __construct($options = array())
 	{
+		
 		// Load the menu items
 		$this->load();
-		/*if ($show=='route') {
-			echo "<h1>this->_items</h1>";
-			var_dump($this->_items); //die();
-		}*/
 
 		foreach ($this->_items as $item)
 		{
@@ -129,16 +126,13 @@ class JMenu extends JObject
 	 */
 	public function getItem($id,$show=false)
 	{
+		if ($show=='JRouter::_buildSefRoute') echo('<h1>id='.$id.'</h1>');
 		$result = null;
 		if (isset($this->_items[$id]))
 		{
 			$result = &$this->_items[$id];
 		}
-		// 0 => 115
-		/*if($show=='JRouter::_buildSefRoute'){
-			var_dump($result);
-			//die();
-		}*/
+
 		return $result;
 	}
 
@@ -314,8 +308,9 @@ class JMenu extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getMenu()
+	public function getMenu()//$show=false
 	{
+		//if ($show) echo "<div class=''>getMenu()</div>";
 		return $this->_items;
 	}
 

@@ -81,15 +81,14 @@ class JRouterSite extends JRouter
 	{
 		$uri = parent::build($url,$show); 
 		
-		if ($show=='JRoute:_')
-			echo "<h1 style='color:red'>url = $url<hr>uri = ".$uri."</h1>";
+		//if ($show=='JRoute:_') echo "<h1 style='color:red'>url = $url<hr>uri = ".$uri."</h1>";
 		// Get the path data
 		$route = $uri->getPath();
 		
-		if ($show){
+		/*if ($show){
 			echo "<div class=''>url = ".$url."</div><hr>";
 			echo "<div class=''>route = ".$route."</div><hr>";
-		}
+		}*/
 
 		//Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route) {
@@ -406,8 +405,19 @@ class JRouterSite extends JRouter
 		 */
 		$built = false;
 		if (isset($query['Itemid']) && !empty($query['Itemid'])) {
+			if ($show=='JRouter::build'){
+				echo "<h4 class=''>query['Itemid']= ".$query['Itemid']."</h4>
+				<div>";
+				var_dump($query);
+				echo "</div>
+				<blockquote style='padding:10px; background-color:white'>"; 
+			}
 			$item = $menu->getItem($query['Itemid'],'JRouter::_buildSefRoute');
-			// 		JMenuSite->getItem(115);
+			if ($show=='JRouter::build'){
+				echo "</blockquote>"; 
+			}
+				//die('LINE: '.__LINE__);
+			// 		$JMenuSite->getItem(115);
 			//if ($show=='JRouter::build') var_dump($item);
 			/*	object(stdClass)[154]
 				  public 'id' => string '126' (length=3)
