@@ -80,16 +80,13 @@ class JRouterSite extends JRouter
 	public function build($url,$show=false)
 	{
 		$uri = parent::build($url,$show); 
-		
 		//if ($show=='JRoute:_') echo "<h1 style='color:red'>url = $url<hr>uri = ".$uri."</h1>";
 		// Get the path data
 		$route = $uri->getPath();
-		
 		/*if ($show){
 			echo "<div class=''>url = ".$url."</div><hr>";
 			echo "<div class=''>route = ".$route."</div><hr>";
 		}*/
-
 		//Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route) {
 			$app = JApplication::getInstance('site');
@@ -100,7 +97,6 @@ class JRouterSite extends JRouter
 					$uri->delVar('format');
 				}
 			}
-
 			if ($app->getCfg('sef_rewrite')) {
 				//Transform the route
 				if ($route == 'index.php')
@@ -113,7 +109,6 @@ class JRouterSite extends JRouter
 				}
 			}
 		}
-
 		//Add basepath to the uri
 		$uri->setPath(JURI::base(true).'/'.$route);
 		/*if ($show){
@@ -373,18 +368,22 @@ class JRouterSite extends JRouter
 			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>function= ".$function."</h1>";
 
 			// $query will be changed:
+			/*echo '<div class="testPadding" style="border:solid 2px #ccc">
+					<div style="padding:4px;"><h1>query BEFORE</h1>';
+			var_dump($query);*/
+			//
 			$parts		= $function($query,'called from includes/router.php');
 			/*	array
   					empty
 			*/
-			echo '<div class="testPadding" style="border:solid 2px #ccc">
-					<div style="padding:4px;">';//
-			echo "<h1>parts</h1>";
+			/*echo "<div  class='testPadding'>
+				<h1>parts</h1>";
 			var_dump($parts);
-			echo "<h1>query</h1>";
+			echo "<h1>query AFTER</h1>";
 			var_dump($query);
-			echo '	</div>
-				</div>';
+			echo '</div>';*/
+			/*echo '	</div>
+				</div>';*/
 			/*	array
 				  0 => string 'магазин/русская-живопись' (length=46)
 				  1 => string 'kartina-repina-pro-rep-detail' (length=29)
@@ -411,25 +410,25 @@ class JRouterSite extends JRouter
 			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>result= ".$result."</h1>";
 			
 			$tmp	= ($result != "") ? $result : '';
-		}
+		}//else echo "<DIV class=\"testPadding\"><h1>CONDITION NOT ALLOWED!</h1></DIV>";
 
 		/*
 		 * Build the application route
 		 */
 		$built = false;
 		if (isset($query['Itemid']) && !empty($query['Itemid'])) {
-			if ($show=='JRouter::build'){
+			/*if ($show=='JRouter::build'){
 				echo "<h4 class=''>query['Itemid']= ".$query['Itemid']."</h4>
 				<div>";
 				var_dump($query);
 				echo "</div>
 				<blockquote style='padding:10px; background-color:white'>"; 
-			}
+			}*/
 			$item = $menu->getItem($query['Itemid'],'JRouter::_buildSefRoute');
-			if ($show=='JRouter::build'){
+			/*if ($show=='JRouter::build'){
 				echo "</blockquote>"; 
-			}
-				//die('LINE: '.__LINE__);
+			}*/
+			//die('LINE: '.__LINE__);
 			// 		$JMenuSite->getItem(115);
 			//if ($show=='JRouter::build') var_dump($item);
 			/*	object(stdClass)[154]

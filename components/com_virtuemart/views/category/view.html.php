@@ -261,7 +261,18 @@ class VirtuemartViewCategory extends VmView {
 			&& $layout=$get['layout']
 		  ){
 			// извлечь id id топовых категорий по порядку их расположения в таблице
-			switch($layout){ // см. /components/com_virtuemart/views/category/tmpl/
+			$top_cats=getTopCatsLayouts(); // from component's router
+			$found_layout=false;
+			foreach($top_cats as $i => $get_layout){
+				if ($layout==$get_layout){
+					$category_id_index=$i;
+					$found_layout=true;
+					break;
+				}
+			}
+			if (!$found_layout)
+				die('ОШИБКА: Не определено имя top_category!');
+			/*switch($layout){ // см. /components/com_virtuemart/views/category/tmpl/
 				case 'online':
 					// Онлайн торги
 					$category_id_index='0';
@@ -276,7 +287,7 @@ class VirtuemartViewCategory extends VmView {
 				break;
 				default:
 					die('ОШИБКА: Не определено имя top_category!');			
-			}
+			}*/
 			$query="SELECT category_child_id 
   FROM #__virtuemart_category_categories
   WHERE category_parent_id = 0 ORDER BY category_child_id ASC";

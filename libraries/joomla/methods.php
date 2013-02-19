@@ -69,7 +69,7 @@ class JRoute
 		$uri = $router->build($url,$show); 
 		
 		$show=null;
-		if ($show){
+		/*if ($show){
 			echo "<div class=''>line: ".__LINE__."</div>";
 			echo('<div><b>url='.$url.'</b></div>');
 			echo "<h2>\$router</h2>";
@@ -78,7 +78,7 @@ class JRoute
 			echo "<h2>\$uri</h2>";
 			var_dump($uri);
 			echo "<h2>/\$uri</h2>";
-		}
+		}*/
 		
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 		

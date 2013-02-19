@@ -856,10 +856,10 @@ class JApplication extends JObject
 		{
 			return null;
 		}
-		if ($show=='show'){
+		/*if ($show=='show'){
 			echo "<div class=''>line: ".__LINE__."</div>";
 			var_dump($router); //die();
-		}
+		}*/
 		return $router;
 	}
 

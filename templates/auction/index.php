@@ -67,8 +67,8 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
-<script src="<?=$baseUrl?>/js/jquery-1.8.1.js"></script>
-<script src="<?=$baseUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="<?=$templateUrl?>/js/jquery-1.8.1.js"></script>
+<script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <?	/*?>
 <!--<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
@@ -196,5 +196,31 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
             </div>
         </div>
     </div>
+<script>
+jQuery( function($){
+	$('div.testPadding')
+		.mouseenter( function(){
+			//alert('solid');
+			$(this).css('opacity',1);
+		});
+	$('div.testPadding')
+		.mouseleave( function(){
+			//alert('solid');
+			if (!$(this).hasClass('solid'))
+				$(this).css('opacity',0.2);
+		});
+	
+	$('div.testPadding')
+		.click( function(){
+				$(this).toggleClass('solid');
+				//.fadeToggle(500);
+			});
+	var menuHdrs=$('.menuH');
+	$(menuHdrs)
+		.click( function(){
+				$(this).toggleClass('menuH2');
+			});
+});
+</script>    
 </body>
 </html>

@@ -126,7 +126,7 @@ class JMenu extends JObject
 	 */
 	public function getItem($id,$show=false)
 	{
-		if ($show=='JRouter::_buildSefRoute') echo('<h1>id='.$id.'</h1>');
+		//if ($show=='JRouter::_buildSefRoute') echo('<h1 class="menuH">JMenu::getItem('.$id.')</h1>');
 		$result = null;
 		if (isset($this->_items[$id]))
 		{

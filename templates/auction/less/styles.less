@@ -6,11 +6,29 @@
 @sandDark:#EAD5B7;
 @veryDarkLink:#172A17;
 
+.menuH{
+	display:inline-block; 
+	margin:0; 
+	padding:10px; 
+	background-color:orange; 
+	opacity:0.75;
+}
+.menuH2{
+	opacity:0.2;
+}
+.opaque{
+	opacity:0.2;
+}
+.solid{
+	opacity:1 !important;
+}
 .testPadding{
 	background-color: lightgreen;
 	border-radius:8px;
 	display:inline-block;
+	// display:none;
 	margin-left:-200px;
+	opacity:0.2;
 	padding:10px;
 	text-align:left;
 	h1{
@@ -18,9 +36,11 @@
 		padding:4px;
 	}
 }
+
 #search_box{
 	*.testPadding{
 		background-color: lightcoral;
+		display:none;
 		&:before{
 			content:"SEARCH_BOX";
 		}
@@ -30,6 +50,8 @@
 	*.testPadding{
 		background-color: navy;
 		color:white;
+		display:none;
+		z-index:1;
 		&:before{
 			content:"MAIN_MENU";
 		}
@@ -53,6 +75,7 @@
 		}
 	}
 }
+
 
 .buttonSand{
 	background:#fbe5ab; 
