@@ -16,7 +16,7 @@ if(  !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not
  * http://virtuemart.net
  */
 
-function virtuemartBuildRoute(&$query) {
+function virtuemartBuildRoute(&$query,$show=false) {
 	
 	$segments = array();
 	
@@ -42,7 +42,6 @@ function virtuemartBuildRoute(&$query) {
 	$view = '';
 
 	$jmenu = $helper->menu;
-	
 
 	if(isset($query['langswitch'])) unset($query['langswitch']);
 
@@ -81,7 +80,6 @@ function virtuemartBuildRoute(&$query) {
 			echo "segments: ";
 			var_dump($segments); 
 			echo "<hr size=4>";*/
-			
 			/*	MODIFIED END	*/
 
 			if ( isset($query['virtuemart_manufacturer_id'])  ) {
@@ -98,9 +96,15 @@ function virtuemartBuildRoute(&$query) {
 				unset($query['keyword']);
 			}
 			if ( isset($query['virtuemart_category_id']) ) {
-				if (isset($jmenu['virtuemart_category_id'][ $query['virtuemart_category_id'] ] ) )
+				if (isset($jmenu['virtuemart_category_id'][ $query['virtuemart_category_id'] ] ) ){
 					$query['Itemid'] = $jmenu['virtuemart_category_id'][$query['virtuemart_category_id']]; // = 0
-				else {
+					/*	query:
+						array
+						  'option' => string 'com_virtuemart' (length=14)
+						  'virtuemart_category_id' => string '0' (length=1)
+						  'Itemid' => string '115' (length=3)
+					*/
+				}else{
 					$categoryRoute = $helper->getCategoryRoute($query['virtuemart_category_id']);
 					if ($categoryRoute->route) $segments[] = $categoryRoute->route;
 					if ($categoryRoute->itemId) $query['Itemid'] = $categoryRoute->itemId;
@@ -142,18 +146,34 @@ function virtuemartBuildRoute(&$query) {
 				$segments[] = $helper->lang('results') .','. ($start+1).'-'.($start+$limit);
 			} else if ($limit !== null && $limit != vmrouterHelper::$limit ) $segments[] = $helper->lang('results') .',1-'.$limit ;//limit change
 
-			/*
-			echo "<div class=''>line: ".__LINE__."</div>";
-			echo "<b>jmenu: </b>";
-			var_dump($jmenu); 
-			echo "<b>query['Itemid']: </b>";
-			var_dump($query['Itemid']);
-			echo "<b>segments: </b>";
-			var_dump($segments); 
-			echo "<b>categoryRoute: </b>";
-			var_dump($categoryRoute); 
-			echo('<hr>LINE: '.__LINE__.'<hr color="#0000FF">');*/
-
+			
+			//echo "<div class=''>line: ".__LINE__."</div>";
+			//echo "<b>jmenu: </b>"; 
+			/*	array
+				  'virtuemart_category_id' => 
+					array
+					  0 => string '115' (length=3)
+				  'virtuemart' => string '115' (length=3)
+			*/ 
+			//var_dump($jmenu); 
+			
+			//echo "<b>query['Itemid']: </b>";
+			/*	string '115' (length=3)
+			*/
+			//var_dump($query['Itemid']);
+			
+			//echo "<b>segments: </b>";
+			/*	array
+  			  		empty
+			*/
+			//var_dump($segments); 
+			
+			//echo "<b>categoryRoute: </b>";
+			/*	null
+			*/
+			//var_dump($categoryRoute); 
+			//echo('<hr>LINE: '.__LINE__.'<hr color="#0000FF">');//die($show);
+			//var_dump($segments); die();
 			return $segments;
 			break;
 		/* Shop product details view  */

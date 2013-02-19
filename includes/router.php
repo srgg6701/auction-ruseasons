@@ -371,7 +371,20 @@ class JRouterSite extends JRouter
 			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>function= ".$function."</h1>";
 			$function   = str_replace(array("-", "."), "", $function); // virtuemartBuildRoute
 			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>function= ".$function."</h1>";
-			$parts		= $function($query);
+
+			// $query will be changed:
+			$parts		= $function($query,'called from includes/router.php');
+			/*	array
+  					empty
+			*/
+			echo '<div class="testPadding" style="border:solid 2px #ccc">
+					<div style="padding:4px;">';//
+			echo "<h1>parts</h1>";
+			var_dump($parts);
+			echo "<h1>query</h1>";
+			var_dump($query);
+			echo '	</div>
+				</div>';
 			/*	array
 				  0 => string 'магазин/русская-живопись' (length=46)
 				  1 => string 'kartina-repina-pro-rep-detail' (length=29)

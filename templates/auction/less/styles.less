@@ -6,6 +6,53 @@
 @sandDark:#EAD5B7;
 @veryDarkLink:#172A17;
 
+.testPadding{
+	background-color: lightgreen;
+	border-radius:8px;
+	display:inline-block;
+	margin-left:-200px;
+	padding:10px;
+	text-align:left;
+	h1{
+		margin:4px;
+		padding:4px;
+	}
+}
+#search_box{
+	*.testPadding{
+		background-color: lightcoral;
+		&:before{
+			content:"SEARCH_BOX";
+		}
+	}
+}
+#main_menu{
+	*.testPadding{
+		background-color: navy;
+		color:white;
+		&:before{
+			content:"MAIN_MENU";
+		}
+	}
+}
+#main_content{
+	*.testPadding{
+		background-color: yellow;
+		float:right;
+		margin-left:40px;
+		&:before{
+			content:"MAIN_CONTENT";
+		}
+	}
+}
+#padd_bot_menu{
+	*.testPadding{
+		background-color: rgb(193, 144, 238);
+		&:before{
+			content:"PAD_BOT_MENU";
+		}
+	}
+}
 
 .buttonSand{
 	background:#fbe5ab; 
