@@ -4,7 +4,10 @@ defined('_JEXEC') or die('Restricted access');
 // get categories:
 $lots=modVlotscatsHelper::getCategoriesData(true);?>
 <br/>
-<?
+<?	$top_cats_menu_ids=AuctionStuff::getTopCatsMenuItemIds();	
+	// get top categories aliases to substitute them as layouts:
+	$top_cats_aliases=AuctionStuff::getTopCatsLayouts();
+	$a=0;
 foreach($lots as $top_cat_id => $array){
 	$top_cat_count=0;
 	$sub_cats='
@@ -22,8 +25,9 @@ foreach($lots as $top_cat_id => $array){
 $sub_cats.='
 </ul>';?>
 <h3>
-	<a href="<?=JRoute::_('index.php?option=com_')?>"><?=$array['top_category_name']?></a>
+	<a href="<?=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.$top_cats_menu_ids[$a])?>"><?=$array['top_category_name']?></a>
 	<span class="lots_count">(<?=$top_cat_count?>)</span>
 </h3>
 <?	echo $sub_cats;	
+	$a++;
 }?>

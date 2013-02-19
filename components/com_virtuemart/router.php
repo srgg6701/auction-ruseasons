@@ -8,7 +8,8 @@ if(  !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not
  * @subpackage
  */
 function getTopCatsLayouts(){
-	return array('online','fulltime','shop');
+	require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+	return AuctionStuff::getTopCatsLayouts();
 }
 /**
  * Проверить - не загружен ли Layout аукциона?
@@ -909,8 +910,6 @@ class vmrouterHelper {
 		} else {
 			return strtolower(implode ('/', $strings ) );
 		}
-
-
 	}
 	/* Get parents of category*/
 	public function getCategoryRecurse($virtuemart_category_id,$catMenuId,$first=true ) {

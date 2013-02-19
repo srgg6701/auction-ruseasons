@@ -33,9 +33,42 @@ class AuctionStuff{
  * @package
  * @subpackage
  */
-	function getCountries(){
+	public static function getCountries(){
 		return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');	
 	}
+/**
+ * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
+ * @package
+ * @subpackage
+ */
+	public static function getTopCatsLayouts(){
+		return array('online','fulltime','shop');
+	}
+/**
+ * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е
+ * @package
+ * @subpackage
+ */
+	public static function getTopCatsMenuItemIds(){
+		$layouts=AuctionStuff::getTopCatsLayouts();
+		$query_start="SELECT id 
+  FROM  `#__menu` 
+ WHERE  `menutype` =  'mainmenu'
+   AND link REGEXP  '(^|/?|&|&amp;)layout=";
+		$query_end="($|&|&amp;)'";
+		$db = JFactory::getDBO();
+		$ItemIds=array();
+		foreach($layouts as $i=>$layout){
+			$query=$query_start.$layout.$query_end;
+			//echo "<div class=''>query= <pre>".$query."</pre></div>";
+			$db->setQuery($query);
+			$ItemId=$db->loadResult();
+			$ItemIds[]=$ItemId;
+			//echo "<div class=''>ItemId= ".$ItemId."</div>"; 
+		}
+		return $ItemIds;
+	}
+//shop'
 /**
  * Generate HTML form
  * @package
