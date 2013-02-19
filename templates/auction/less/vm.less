@@ -1,0 +1,83 @@
+@borderThickBrown:solid 1px rgb(132, 17, 19);
+.txtBrown{
+	color: rgb(132, 17, 19);
+}
+
+div.top_list{
+	height:45px;
+	h2{			
+		display: block;
+		float:left;
+		font-size: 20px;
+		font-weight: bold;
+		//height: 25px;
+		.txtBrown;
+	}
+	div.top_list_mn{
+		display: inline-block;
+		float:right;
+		height: 25px;
+		div{
+			display: inline-block;
+			float:right;
+		}
+	}
+}
+div.lots_listing{
+	//border-bottom-color: rgb(132, 17, 19);
+	//border-bottom-style: solid;
+	//border-bottom-width: 1px;
+	border-top:@borderThickBrown;
+	border-bottom:@borderThickBrown;
+	//border-top-color: rgb(132, 17, 19);
+	//border-top-style: solid;
+	//border-top-width: 1px;
+	color: rgb(132, 17, 19);
+	display: block;
+	font-family: Verdana;
+	font-size: 13px;
+	height: 24px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 10px;
+	//overflow-x: hidden;
+	//overflow-y: hidden;
+	padding-top: 6px;
+	//text-align: left;
+	// width: 746px;
+}
+div.item-page-shop{
+	*{
+		font-family: Verdana;
+	}
+	div.box{
+		display:inline-block;
+		font-size: 13px;
+		padding:5px;
+		.txtBrown;
+		vertical-align:top;
+		width: 226px;
+		div.img{
+			background-color: rgb(255, 255, 255);
+			border: solid 1px rgb(132, 17, 19);
+			height: 228px;
+			overflow-x: hidden;
+			overflow-y: hidden;
+			vertical-align: middle;
+			width: 226px;
+		}
+		h2{
+			font-size: 13px;
+			outline-color: rgb(132, 17, 19);
+			outline-style: none;
+			outline-width: 0px;
+			text-align: left;
+			.txtBrown;
+			a{
+				height: auto;
+				text-decoration: none !important;
+			}
+		}
+	}
+}
