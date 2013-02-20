@@ -209,8 +209,7 @@ class JRouter extends JObject
 			$this->_buildSefRoute($uri,$show);
 		}
 		
-		if ($show=='JRoute:_') 
-			echo "<h4 style='color:orange'>uri LINE ".__LINE__." = ".$uri."</h4>";
+		// if ($show=='JRoute:_') echo "<h4 style='color:orange'>uri LINE ".__LINE__." = ".$uri."</h4>";
 		return $uri;
 	}
 

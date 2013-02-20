@@ -80,13 +80,10 @@ class JRouterSite extends JRouter
 	public function build($url,$show=false)
 	{
 		$uri = parent::build($url,$show); 
-		//if ($show=='JRoute:_') echo "<h1 style='color:red'>url = $url<hr>uri = ".$uri."</h1>";
+
 		// Get the path data
 		$route = $uri->getPath();
-		/*if ($show){
-			echo "<div class=''>url = ".$url."</div><hr>";
-			echo "<div class=''>route = ".$route."</div><hr>";
-		}*/
+
 		//Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route) {
 			$app = JApplication::getInstance('site');
@@ -111,14 +108,7 @@ class JRouterSite extends JRouter
 		}
 		//Add basepath to the uri
 		$uri->setPath(JURI::base(true).'/'.$route);
-		/*if ($show){
-			echo "<div class=''>line: ".__LINE__."</div>";
-			echo "<div class=''><B>BUILD:</B></div>";
-			echo "<div class=''>base= ".JURI::base(true)."</div>";
-			echo "<div class=''>route = ".$route."</div>";
-			var_dump($uri);
-			if ($_GET['stop']) die();
-		}*/
+
 		return $uri;
 	}
 
@@ -327,19 +317,13 @@ class JRouterSite extends JRouter
 	{
 		// Get the route
 		$route = $uri->getPath(); // index.php
-		//if ($show=='JRouter::build') echo "<h1 style='color:lime'>route= ".$route."</h1>";
 
 		// Get the query data
 		$query = $uri->getQuery(true);
-		/*	array
-			  'option' => string 'com_virtuemart' (length=14)
-			  'view' => string 'productdetails' (length=14)
-			  'virtuemart_product_id' => string '1' (length=1)
-			  'virtuemart_category_id' => string '1' (length=1)
-			  'Itemid' => string '115' (length=3)
-				
-			if ($show=='JRouter::build') var_dump($query);
-		*/
+			
+		//TEST:	
+		//setDebugTrace('includes/router.php','JRouterSite::_buildSefRoute',__LINE__,'',$query,'backtrace true');
+		//TEST
 		
 		if (!isset($query['option'])) {
 			return;
@@ -347,17 +331,15 @@ class JRouterSite extends JRouter
 
 		$app	= JApplication::getInstance('site');
 		$menu	= $app->getMenu(); // JMenuSite
-		//if ($show=='JRouter::build') echo "<h1 style='color:lime'>menu= ".$menu."</h1>";
 		
 		/*
 		 * Build the component route
 		 */
-		$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']); // com_virtuemart
-		//if ($show=='JRouter::build') echo "<h1 style='color:lime'>component= ".$component."</h1>";
+		$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+		
 		$tmp		= '';
 		// Use the component routing handler if it exists
-		$path = JPATH_SITE . '/components/' . $component . '/router.php'; //Z:\home\localhost\www\~auction.test/components/com_virtuemart/router.php
-		//if ($show=='JRouter::build') echo "<h1 style='color:lime'>path= ".$path."</h1>";
+		$path = JPATH_SITE . '/components/' . $component . '/router.php';
 		
 		// Use the custom routing handler if it exists
 		if (file_exists($path) && !empty($query)) {
@@ -367,35 +349,13 @@ class JRouterSite extends JRouter
 			$function   = str_replace(array("-", "."), "", $function); // virtuemartBuildRoute
 			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>function= ".$function."</h1>";
 
-			// $query will be changed:
-			/*echo '<div class="testPadding" style="border:solid 2px #ccc">
-					<div style="padding:4px;"><h1>query BEFORE</h1>';
-			var_dump($query);*/
-			//
+
 			$parts		= $function($query,'called from includes/router.php');
-			/*	array
-  					empty
-			*/
-			/*echo "<div  class='testPadding'>
-				<h1>parts</h1>";
-			var_dump($parts);
-			echo "<h1>query AFTER</h1>";
-			var_dump($query);
-			echo '</div>';*/
-			/*echo '	</div>
-				</div>';*/
-			/*	array
-				  0 => string 'магазин/русская-живопись' (length=46)
-				  1 => string 'kartina-repina-pro-rep-detail' (length=29)
-				if ($show=='JRouter::build') var_dump($parts);
-  			*/
+
 			// encode the route segments
 			if ($component != 'com_search') {
 				// Cheep fix on searches
 				$parts = $this->_encodeSegments($parts);
-				/* 	see above	
-					if ($show=='JRouter::build') var_dump($parts);
-				*/
 			} else {
 				// fix up search for URL
 				$total = count($parts);
@@ -406,11 +366,10 @@ class JRouterSite extends JRouter
 				}
 			}
 
-			$result = implode('/', $parts); // магазин/русская-живопись/kartina-repina-pro-rep-detail
-			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>result= ".$result."</h1>";
+			$result = implode('/', $parts); 
 			
 			$tmp	= ($result != "") ? $result : '';
-		}//else echo "<DIV class=\"testPadding\"><h1>CONDITION NOT ALLOWED!</h1></DIV>";
+		}
 
 		/*
 		 * Build the application route

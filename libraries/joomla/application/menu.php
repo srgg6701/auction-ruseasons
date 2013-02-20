@@ -310,7 +310,6 @@ class JMenu extends JObject
 	 */
 	public function getMenu()//$show=false
 	{
-		//if ($show) echo "<div class=''>getMenu()</div>";
 		return $this->_items;
 	}
 

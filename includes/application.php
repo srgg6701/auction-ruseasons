@@ -42,7 +42,7 @@ final class JSite extends JApplication
 	 * Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	 */
 	public function __construct($config = array())
-	{
+	{	
 		$config['clientId'] = 0;
 		parent::__construct($config);
 	}
@@ -566,16 +566,12 @@ final class JSite extends JApplication
 	 * @since	1.5
 	 */
 	static public function getRouter($name = null, array $options = array(),$show=false)
-	{	//if ($show) echo('<hr>getRouter 1<hr>');
+	{	
 		$config = JFactory::getConfig();
 		$options['mode'] = $config->get('sef');
-		//if ($show) var_dump($options);
-		// $options == array( 'mode' => '1' )
+
 		$router = parent::getRouter('site', $options, false);
-		/*if ($show){
-			echo "<div class=''>line: ".__LINE__."</div>";
-			var_dump($router);
-		}*/
+
 		return $router;
 	}
 

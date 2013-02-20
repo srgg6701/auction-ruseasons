@@ -385,9 +385,7 @@ class JView extends JObject
 			{
 				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
-				// var_dump($this->_models[$model]);
-				// echo "<div class=''>method= ".$method."</div>";
-				// var_dump($result); die();
+
 				return $result;
 			}
 

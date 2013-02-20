@@ -5,7 +5,9 @@ $document = isset($this) ? $this : null;
 $baseUrl = $this->baseurl;
 $templateUrl = $this->baseurl . '/templates/' . $this->template;
 //artxComponentWrapper($document);
-// var_dump($this);//die();?>
+// var_dump($this);//die();
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -70,13 +72,13 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
-<script src="<?=$templateUrl?>/js/jquery-1.8.1.js"></script>
+<!----><script src="<?=$templateUrl?>/js/jquery-1.8.1.js"></script>
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <?	/*?>
-<!--<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>-->  
-<?	*/
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<?	*/	
 	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
 <!-- Yandex.Metrika -->
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
@@ -199,8 +201,21 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
             </div>
         </div>
     </div>
+<?	//TEST: 
+	/*?>
+<div id="dOutput">
+<?	//showDebugTrace();?>
+</div>
+<?	*/
+	//TEST?>
 <script>
 jQuery( function($){
+	
+	//$('div#dOutput').draggable();
+	$('div#dOutput').dblclick( function(){
+			$(this).toggleClass('opaque');
+		});
+	
 	$('div.testPadding')
 		.mouseenter( function(){
 			//alert('solid');
@@ -224,6 +239,7 @@ jQuery( function($){
 				$(this).toggleClass('menuH2');
 			});
 });
-</script>    
+</script>
+</div>
 </body>
 </html>

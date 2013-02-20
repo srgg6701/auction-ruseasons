@@ -38,6 +38,9 @@ function checkAuctionLayout(){
  */
 
 function virtuemartBuildRoute(&$query,$show=false) {
+	//TEST:
+	$session =JFactory::getSession();
+	//TEST
 	
 	$segments = array();
 	
@@ -104,7 +107,6 @@ function virtuemartBuildRoute(&$query,$show=false) {
 			var_dump($segments); 
 			echo "<hr size=4>";*/
 			/*	MODIFIED END	*/
-			//echo "<h2 class=''>query['Itemid'] BEFORE = ".$query['Itemid']."</h2>";
 
 			if ( isset($query['virtuemart_manufacturer_id'])  ) {
 				$segments[] = $helper->lang('manufacturer').'/'.$helper->getManufacturerName($query['virtuemart_manufacturer_id']) ;
@@ -120,16 +122,16 @@ function virtuemartBuildRoute(&$query,$show=false) {
 				unset($query['keyword']);
 			}
 			if ( isset($query['virtuemart_category_id']) ) {
+					
+						
+				
 				if (isset($jmenu['virtuemart_category_id'][ $query['virtuemart_category_id'] ] ) ){
 					$query['Itemid'] = $jmenu['virtuemart_category_id'][$query['virtuemart_category_id']]; // = 0
-					/*	query:
-						array
-						  'option' => string 'com_virtuemart' (length=14)
-						  'virtuemart_category_id' => string '0' (length=1)
-						  'Itemid' => string '115' (length=3)
-					*/
+
 				}else{
 					$categoryRoute = $helper->getCategoryRoute($query['virtuemart_category_id']);
+	//TEST:				//setDebugTrace('\components\com_virtuemart\router.php','virtuemartBuildRoute::getCategoryRoute',__LINE__,'! isset($jmenu[\'virtuemart_category_id\'][ $query[\'virtuemart_category_id\']])','$query[\'virtuemart_category_id\'] = '.$query['virtuemart_category_id'],true);
+	//TEST
 					if ($categoryRoute->route) $segments[] = $categoryRoute->route;
 					if ($categoryRoute->itemId) $query['Itemid'] = $categoryRoute->itemId;
 				}
@@ -138,8 +140,6 @@ function virtuemartBuildRoute(&$query,$show=false) {
 			}
 			if ( isset($jmenu['category']) ) $query['Itemid'] = $jmenu['category'];
 			//echo "<h2 class=''>query['Itemid'] AFTER = ".$query['Itemid']."</h2>";
-
-
 
 			if ( isset($query['order']) ) {
 				if ($query['order'] =='DESC') $segments[] = $helper->lang('orderDesc') ;
@@ -199,8 +199,10 @@ function virtuemartBuildRoute(&$query,$show=false) {
 			/*	null
 			*/
 			//var_dump($categoryRoute); 
+			//echo "<div class='testPadding'>";
 			//echo('<hr>LINE: '.__LINE__.'<hr color="#0000FF">');//die($show);
-			//var_dump($segments); die();
+			//var_dump($segments); //die();
+			//echo "</div>";
 			return $segments;
 			break;
 		/* Shop product details view  */
@@ -822,15 +824,14 @@ class vmrouterHelper {
 		$key = $virtuemart_category_id. $this->vmlang ; // internal cache key
 		if (!($CategoryRoute = $cache->get($key))) {
 			$CategoryRoute = $this->getCategoryRouteNocache($virtuemart_category_id);
-			/*echo "<div class=''><hr><b>getCategoryRoute</b>";
-			var_dump($CategoryRoute);
-			echo "<hr></div>";*/
+
 			$cache->store($CategoryRoute, $key);
 		}
 		return $CategoryRoute;
 	}
 	/* Get Joomla menu item and the route for category */
 	public function getCategoryRouteNocache($virtuemart_category_id){
+
 		if (! array_key_exists ($virtuemart_category_id . $this->vmlang, self::$_catRoute)){
 			$category = new stdClass();
 			$category->route = '';
@@ -840,6 +841,7 @@ class vmrouterHelper {
 
 			// control if category is joomla menu
 			if (isset($this->menu['virtuemart_category_id'])) {
+				
 				if (isset( $this->menu['virtuemart_category_id'][$virtuemart_category_id])) {
 					$ismenu = true;
 					$category->itemId = $this->menu['virtuemart_category_id'][$virtuemart_category_id] ;
@@ -860,23 +862,20 @@ class vmrouterHelper {
 				if ( $this->use_id ) $category->route = $virtuemart_category_id.'/';
 				if (!isset ($this->CategoryName[$virtuemart_category_id])) {
 					$this->CategoryName[$virtuemart_category_id] = $this->getCategoryNames($virtuemart_category_id, $menuCatid );
-					//echo "<div class=''>this->getCategoryNames= ".$this->getCategoryNames($virtuemart_category_id, $menuCatid )."</div>";
 				}
 				
 				$category->route .= $this->CategoryName[$virtuemart_category_id];
-				//echo "<div class=''>category->route= ".$category->route."</div>";
 				
 				if ($menuCatid == 0  && $this->menu['virtuemart']) $category->itemId = $this->menu['virtuemart'] ;
 			}
 			
-			/*var_dump(self::$_catRoute);
-			echo "<hr size='4' color='blue'><div class=''>virtuemart_category_id= ".$virtuemart_category_id.", this->vmlang= ".$this->vmlang."<hr size='4' color='blue'>";
-			var_dump($category);
-			echo "</hr></div>";*/
-			
 			self::$_catRoute[$virtuemart_category_id . $this->vmlang] = $category;
 		}
-		return self::$_catRoute[$virtuemart_category_id . $this->vmlang] ;
+
+		//TEST:	//setDebugTrace('components/com_virtuemart/router.php','virtuemartParseRoute::getCategoryRouteNocache',__LINE__,'','argument: virtuemart_category_id = '.$virtuemart_category_id,false);
+		//TEST				
+	
+		return self::$_catRoute[$virtuemart_category_id . $this->vmlang];
 	}
 	/*get url safe names of category and parents categories  */
 	public function getCategoryNames($virtuemart_category_id,$catMenuId=0){
@@ -894,16 +893,28 @@ class vmrouterHelper {
 
 				$db->setQuery($q);
 				$cslug = $db->loadResult();
+				//TEST:				
+				//setDebugTrace('components/com_virtuemart/router.php', 'getCategoryNames::getCategoryNames->$db->loadResult()', __LINE__, '', '$cslug = '.$cslug, false); 
+				//TEST				
+				
 				$categoryNamesCache[$id] = $cslug;
 				$strings[] = $cslug;
+				
 			} else {
 				$strings[] = $categoryNamesCache[$id];
 			}
-			
+			//TEST:
+			//$strs.=$cslug.', ';
+			//TEST
 		}
-		
+		//echo "<div class=''>getCategoryNames</div>";
+		//var_dump($strings);
+		//echo "<div class=''>virtuemart_category_id= ".$virtuemart_category_id."</div>";
 		if(checkAuctionLayout())
 			unset ($strings[0]); 
+		
+		//TEST:					//setDebugTrace('components/com_virtuemart/router.php','getCategoryNames::getCategoryNames',__LINE__,'','virtuemart_category_id = '.$virtuemart_category_id.'<br>strings = '.$strs,'backtrace true');
+		//TEST
 		
 		if(function_exists('mb_strtolower')){
 			return mb_strtolower(implode ('/', $strings ) );
@@ -922,12 +933,20 @@ class vmrouterHelper {
 				WHERE `xref`.`category_child_id`= ".(int)$virtuemart_category_id;
 		$db->setQuery($q);
 		$ids = $db->loadObject();
+		
+		//TEST:					//setDebugTrace('/components/com_virtuemart/router.php','JFactory::getDBO::loadObject',__LINE__,'','',false);
+		//TEST
+		
 		if (isset ($ids->child)) {
 			$idsArr[] = $ids->child;
 			if($ids->parent != 0 and $catMenuId != $virtuemart_category_id and $catMenuId != $ids->parent) {
 				$this->getCategoryRecurse($ids->parent,$catMenuId,false);
 			}
 		}
+		//TEST:				
+		//setDebugTrace('/components/com_virtuemart/router.php','vmrouterHelper::getCategoryRecurse',__LINE__,'','Рекурсивная функция','backtrace true');
+		//TEST
+
 		return $idsArr ;
 	}
 	/* return id of categories

@@ -22,6 +22,10 @@ defined('_JEXEC') or die('Restricted access');
 // Load the view framework
 if(!class_exists('VmView'))require(JPATH_VM_SITE.DS.'helpers'.DS.'vmview.php');
 
+/*	MODIFIED START */
+require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+/*	MODIFIED END	*/
+
 /**
 * Handle the category view
 *
@@ -33,7 +37,6 @@ if(!class_exists('VmView'))require(JPATH_VM_SITE.DS.'helpers'.DS.'vmview.php');
 class VirtuemartViewCategory extends VmView {
 
 	public function display($tpl = null) {
-
 
 		$show_prices  = VmConfig::get('show_prices',1);
 		if($show_prices == '1'){
@@ -47,10 +50,8 @@ class VirtuemartViewCategory extends VmView {
 
 		$app = JFactory::getApplication();
 		$pathway = $app->getPathway();
-
 		/* Set the helper path */
 		$this->addHelperPath(JPATH_VM_ADMINISTRATOR.DS.'helpers');
-
 		//Load helpers
 		$this->loadHelper('image');
 		$categoryModel = VmModel::getModel('category');
@@ -59,13 +60,11 @@ class VirtuemartViewCategory extends VmView {
 
 		$categoryId = JRequest::getInt('virtuemart_category_id', false);
 		$vendorId = 1;
-
 		$category = $categoryModel->getCategory($categoryId);
 		$categoryModel->addImages($category,1);
 		$perRow = empty($category->products_per_row)? VmConfig::get('products_per_row',3):$category->products_per_row;
 // 		$categoryModel->setPerRow($perRow);
 		$this->assignRef('perRow', $perRow);
-
 
 		//No redirect here, category id = 0 means show ALL categories! note by Max Milbers
 /*		if(empty($category->virtuemart_vendor_id) && $search == null ) {
@@ -261,7 +260,7 @@ class VirtuemartViewCategory extends VmView {
 			&& $layout=$get['layout']
 		  ){
 			// извлечь id id топовых категорий по порядку их расположения в таблице
-			$top_cats=getTopCatsLayouts(); // from component's router
+			$top_cats=AuctionStuff::getTopCatsLayouts(); // from component's router
 			$found_layout=false;
 			foreach($top_cats as $i => $get_layout){
 				if ($layout==$get_layout){

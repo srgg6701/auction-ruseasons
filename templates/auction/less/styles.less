@@ -22,11 +22,26 @@
 .solid{
 	opacity:1 !important;
 }
+#dOutput{
+	background-color:#FF9; 
+	border:solid 2px #CCC; 
+	border-radius:6px; 
+	display: inline-block; 
+	max-width:50%; 
+	overflow:auto;
+	padding:10px; 
+	position:fixed; 
+	top:40px; 
+	bottom:10px; 
+	right:10px;
+	*{
+		line-height: 19px;
+	}
+}
 .testPadding{
 	background-color: lightgreen;
 	border-radius:8px;
-	display:inline-block;
-	// display:none;
+	display:none;
 	margin-left:-200px;
 	opacity:0.2;
 	padding:10px;
@@ -36,11 +51,18 @@
 		padding:4px;
 	}
 }
+div#left_part{
+	.testPadding{
+		background-color:lightyellow;
+		display:inline-block;
+		margin-left:0;
+	}
+}
 
 #search_box{
 	*.testPadding{
 		background-color: lightcoral;
-		display:none;
+		// display:none;
 		&:before{
 			content:"SEARCH_BOX";
 		}
