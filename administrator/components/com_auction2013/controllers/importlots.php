@@ -33,6 +33,9 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @subpackage
  */
 	function import(){
+
+		// for your safety, please, use condoms :)
+		JRequest::checkToken() or jexit( 'Invalid Token save' );
 		
 		if(isset($_FILES)&&!empty($_FILES)){
 			$common_data_fields=array(
@@ -72,6 +75,20 @@ class Auction2013ControllerImportlots extends JControllerForm
 			$enc_to="UTF-8";
 
 			$importfile=$files['tmp_name'];
+			$prices=array(
+					'product_price'=>array('0'),
+					'virtuemart_product_price_id'=>array('0'),
+					'product_currency'=>array('131'),
+					'virtuemart_shoppergroup_id'=>array(''),
+					'basePrice'=>array('0'),
+					'product_tax_id'=>array('0'),
+					'product_discount_id'=>array('0'),
+					'product_price_publish_up'=>array(date('000-00-00 00:00:00')),
+					'product_price_publish_down'=>array(date('000-00-00 00:00:00')),
+					'product_override_price'=>array(''),
+					'price_quantity_start'=>array(''),
+					'price_quantity_end'=>array(''),
+				);
 			//"files/Bronze.csv";
 			if (($handle = fopen($importfile, "r")) !== FALSE) {
 				// synchronyze fields: file => tables:
@@ -86,9 +103,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'short_desc'=>'product_s_desc', 
 							'desc'=>'product_desc', 
 							// #__virtuemart_product_prices:
-							'date_show'=>'product_price_publish_up', 
-							'date_hide'=>'product_price_publish_down',
-							'price'=>'product_price', 
+							'date_show'=>true, 
+							'date_hide'=>true,
+							'price'=>true 
 						);
 				
 				// go ahead!
@@ -97,11 +114,14 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$col_count=0;
 				$imgExt=array('gif','jpg','png','wbmp');
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
+					$date_start=$date_stop=false; // containers for product_availability to calculate its value
 					
+					//$data[$row_count]['mprices']=$prices;
+					// $cells - колич. ячеек в строке
 					for ($i=0, $j=count($cells); $i < $j; $i++) {
 						
 						$cell_content=$cells[$i];
-						
+						// если первая строка файла - собираем заголовки:
 						if(!$row_count){ 
 							// если поле не было добавлено ранее. 
 							// нужно, чтобы предотвратить более одного добавления
@@ -121,29 +141,67 @@ class Auction2013ControllerImportlots extends JControllerForm
 							
 						}else{
 							
+							$data_index=$row_count-1;
+							
 							if (isset($enc_from)&&isset($enc_to))
 								$cell_content=iconv($enc_from,$enc_to,$cell_content);							
 							
+							// если не кончились уникальные заголовки:
 							if($col_count>$i){
+								
+								//имя текущего столбца, в том порядке, в котором расположены в файле:
 								$column_name=$columns_names[$i];
-								$data[$row_count][$arrFields[$column_name]]=$cell_content;
+
+								switch($column_name){
+									
+									case 'price':
+										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
+									break;
+									
+									case 'date_show':
+										$data[$data_index]['mprices']['product_price_publish_up'][0]=$cell_content;
+									break;
+									
+									case 'date_hide':
+										$data[$data_index]['mprices']['product_price_publish_down'][0]=$cell_content;
+									break;
+									
+									// save dates to diff them for product_availability later:
+									//case 'date_start':
+										//$date_start=$data[$data_index][$arrFields[$column_name]]=$cell_content;
+									//break;
+									
+									//case 'date_start':
+										//$date_stop=$data[$data_index][$arrFields[$column_name]]=$cell_content;
+									//break;
+
+									default:
+										$data[$data_index][$arrFields[$column_name]]=$cell_content;
+								}
+								
 							}else{
 								// сформировать массив вторичных картинок:
 								$picExt=array_pop(explode('.',$cell_content));
 								if(in_array(strtolower($picExt),$imgExt)){
-									$images[$row_count][]=$cell_content;
+									$images[$data_index][]=$cell_content;
 								}
 							}
 						}
 					}
+					echo "<hr>";
 					$row_count++;
 				}
                 fclose($handle);
 			}
 			echo "<hr><hr>";
 			//var_dump($columns_names); 
-			var_dump($data); 
-			var_dump($images); 
+			var_dump($data[0]); 
+			var_dump($images[0]);
+			$adm_com_path=JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart';
+			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
+			require_once $adm_com_path.DS.'models'.DS.'product.php';			
+			$model = VmModel::getModel('VirtueMart','ModelProduct'); // VirtueMartModelProduct
+ 			//var_dump($model);
 			die('IMPORT is done!');
 		}
 	}
