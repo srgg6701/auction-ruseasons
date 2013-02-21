@@ -82,16 +82,19 @@ foreach($lots as $top_cat_id => $array){?>
         <div>
         	<span style="padding-right:40px;">Кодировка файла:</span>
         	<label>
-            	<input name="encoding" type="radio" value="windows-1251" checked> windows-1251
+            	<input id="encoding" name="encoding" type="radio" value="windows-1251" checked> windows-1251
             </label>
             &nbsp; &nbsp; 
             <label>
-                <input name="encoding" type="radio" value="another">другая:</label> 
-                <input name="alt_encoding" type="text">
+                <input id="encoding_alt" name="encoding" type="radio" value="another">другая:</label> 
+                <input id="alt_encoding" name="alt_encoding" type="text">
         </div>
 </form>
 <script>
-$( function(){ 
+$( function(){  
+	$('input#alt_encoding').click( function(){
+			$('input#encoding_alt').attr('checked',true);
+		});
 	$('input[id^="top_cat_"]')
 		.click( function(){
 			$('div.hiddenRadios').fadeOut(200);

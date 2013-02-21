@@ -67,7 +67,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 			
 			$max_length=false;
 			$row_count = 0;
-			$enc_from="windows-1251";
+			if(!$enc_from=JRequest::getVar('encoding'))
+				$enc_from=JRequest::getVar('alt_encoding');
 			$enc_to="UTF-8";
 
 			$importfile=$files['tmp_name'];
