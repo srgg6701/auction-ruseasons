@@ -1379,7 +1379,6 @@ FROM #__virtuemart_product_categories AS cats
 
 		JRequest::checkToken () or jexit ('Invalid Token');
 
-
 		if ($product) {
 			$data = (array)$product;
 		}
@@ -1547,7 +1546,6 @@ FROM #__virtuemart_product_categories AS cats
 		}
 
 		return $product_data->virtuemart_product_id;
-		
 	}
 
 	public function updateXrefAndChildTables ($data, $tableName, $preload = FALSE) {

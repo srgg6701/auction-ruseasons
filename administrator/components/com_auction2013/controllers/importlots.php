@@ -35,13 +35,13 @@ class Auction2013ControllerImportlots extends JControllerForm
 	function import(){
 		
 		if(isset($_FILES)&&!empty($_FILES)){
-			$data=array(
+			$common_data_fields=array(
 					  'virtuemart_category_id',
 					  'encoding',
 					  'alt_encoding'
 					);
 			
-			foreach($data as $i=>$field)
+			foreach($common_data_fields as $i=>$field)
 				// $virtuemart_category_id, $encoding AND so on...
 				${$field}=JRequest::getVar($field);
 			
@@ -73,102 +73,78 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 			$importfile=$files['tmp_name'];
 			//"files/Bronze.csv";
-			if (($handle = fopen($importfile, "r")) !== FALSE) {?>
-				<table style="border:solid 1px #CCCCCC;" rules="rows">
-			<?	while (($data = fgetcsv($handle, $max_length, ";")) !== FALSE) {
-			
-			
-			/*	ПОЛЯ РАЗМЕЩЕНИЯ ДАННЫХ:
-				-----------------------
-				#__virtuemart_products:
+			if (($handle = fopen($importfile, "r")) !== FALSE) {
+				// synchronyze fields: file => tables:
+				$arrFields=array(
+							// #__virtuemart_products:
+							'auction_number'=>'auction_number', 
+							'contract_number'=>'contract_number',
+							'date_start'=>'product_available_date',
+							'date_stop'=>'product_available_date_closed',
+							// #__virtuemart_products_ru_ru:
+							'title'=>'product_name', 
+							'short_desc'=>'product_s_desc', 
+							'desc'=>'product_desc', 
+							// #__virtuemart_product_prices:
+							'date_show'=>'product_price_publish_up', 
+							'date_hide'=>'product_price_publish_down',
+							'price'=>'product_price', 
+						);
+				
+				// go ahead!
+				$data=array();
+				$columns_names=array();
+				$col_count=0;
+				$imgExt=array('gif','jpg','png','wbmp');
+				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
 					
-					***virtuemart_product_id	: AUTO_INCREMENT
-
-						virtuemart_vendor_id - 1
-						product_parent_id	 - 0
-						product_weight_uom	 - KG (dumb, I know...)
-						product_lwh_uom		 - M (the same thing)
-
-					product_available_date			: date_start
-					product_available_date_closed	: date_stop
-					auction_number					: auction_number
-					contract_number					: contract_number
+					for ($i=0, $j=count($cells); $i < $j; $i++) {
 						
-						product_unit - KG (see above)
-						product_params - min_order_level=""|max_order_level=""|product_box=""|
-						published	- 1
-						created_on	- date('Y-m-d H:i:s');
-						created_by	- user_id
+						$cell_content=$cells[$i];
 						
-				#__virtuemart_products_ru_ru
-						
-					virtuemart_product_id - #__virtuemart_products.last_insert_id
-					
-					product_s_desc	: short description
-					product_desc	: sescription
-					product_name	: title
-				
-				#__virtuemart_product_prices
-				
-					***virtuemart_product_price_id	: AUTO_INCREMENT
-					
-					virtuemart_product_id - #__virtuemart_products.last_insert_id
-					
-					product_price	: price
-					
-						product_currency - 131
-						created_on 		 - user_id
-				
-				#__virtuemart_product_categories
-				
-					***id	: AUTO_INCREMENT
-					
-					virtuemart_product_id - #__virtuemart_products.last_insert_id
-					
-					virtuemart_category_id	: $virtuemart_category_id
-				
-				#__virtuemart_medias
-
-					***virtuemart_media_id	: AUTO_INCREMENT
-					
-					virtuemart_vendor_id - 1
-					
-					// Установить:
-					file_mimetype
-					file_type 
-				*/
-				
-				/*	
-					file_url	: [URL]/img
-					
-					published	- 1
-					created_on	- date('Y-m-d H:i:s');
-					created_by	- user_id
-
-				#__virtuemart_product_medias
-				
-					***id	: AUTO_INCREMENT
-					
-					virtuemart_product_id - #__virtuemart_products.last_insert_id
-					virtuemart_media_id - #__virtuemart_medias.last_insert_id
-					ordering 			- в соответствии с порядком добавления, начиная с 1 
-			*/ 			?>
-					<tr>
-				<?	$num = count($data);
-					for ($c=0; $c < $num; $c++) {
-						if (isset($enc_from)&&isset($enc_to))
-							$data[$c]=iconv($enc_from,$enc_to,$data[$c]);
-						
-						$tag=(!$row_count)? 'th':'td';
-						echo  "<{$tag} nowrap>".$data[$c]. "</{$tag}>";
-					}?>
-					</tr>
-				<?	$row_count++;
+						if(!$row_count){ 
+							// если поле не было добавлено ранее. 
+							// нужно, чтобы предотвратить более одного добавления
+							// картинок, т.к., остальные должны добавляться
+							// ПОСЛЕ добавления записи в БД:
+							if( !in_array($cell_content,$columns_names)
+							    && $cell_content
+								&& $cell_content != 'img'
+							  ) { 
+							  	// сформировать порядок полей в пришедшем файле:
+								$columns_names[]=$cell_content;
+								// $columns_names[0] = 'date_hide';
+								// $columns_names[1] = 'contract_number';
+								if(!$row_count)
+									$col_count++;
+							} 
+							
+						}else{
+							
+							if (isset($enc_from)&&isset($enc_to))
+								$cell_content=iconv($enc_from,$enc_to,$cell_content);							
+							
+							if($col_count>$i){
+								$column_name=$columns_names[$i];
+								$data[$row_count][$arrFields[$column_name]]=$cell_content;
+							}else{
+								// сформировать массив вторичных картинок:
+								$picExt=array_pop(explode('.',$cell_content));
+								if(in_array(strtolower($picExt),$imgExt)){
+									$images[$row_count][]=$cell_content;
+								}
+							}
+						}
+					}
+					$row_count++;
 				}
-				fclose($handle);?>
-				</table>
-		<?	}
-			die('IMPORT!');
+                fclose($handle);
+			}
+			echo "<hr><hr>";
+			//var_dump($columns_names); 
+			var_dump($data); 
+			var_dump($images); 
+			die('IMPORT is done!');
 		}
 	}
 /**

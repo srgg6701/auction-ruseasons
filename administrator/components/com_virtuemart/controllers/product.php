@@ -20,7 +20,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 if(!class_exists('VmController'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmcontroller.php');
-
+$test=0;
+if ($test){
+	if ($post=JRequest::get('post')){
+		if($post['task']=='apply'){
+			echo "<h1>task = $post[task]</h1> <H2>DATA:</H2>";
+			var_dump($post);
+			die('<hr>'); 
+		}
+	}	
+}
 
 /**
  * Product Controller
@@ -37,6 +46,7 @@ class VirtuemartControllerProduct extends VmController {
 	 * @author
 	 */
 	function __construct() {
+		// die('__construct');
 		parent::__construct('virtuemart_product_id');
 		$this->addViewPath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart' . DS . 'views');
 	}
@@ -46,6 +56,7 @@ class VirtuemartControllerProduct extends VmController {
 	 * Shows the product add/edit screen
 	 */
 	public function edit($layout='edit') {
+		// die('edit');
 		parent::edit('product_edit');
 	}
 
@@ -55,6 +66,7 @@ class VirtuemartControllerProduct extends VmController {
 	 * @author Max Milbers
 	 */
 	function save($data = 0){
+				// die('save');
 
 		$data = JRequest::get('post');
 
@@ -76,6 +88,7 @@ class VirtuemartControllerProduct extends VmController {
 	}
 
 	function saveJS(){
+		// die('saveJS');
 		$data = JRequest::get('get');
 		JRequest::setVar($data['token'], '1', 'post');
 
@@ -112,6 +125,8 @@ class VirtuemartControllerProduct extends VmController {
 	 * @author Max Milbers
 	 */
 	public function createChild(){
+				// die('createChild');
+
 		$app = Jfactory::getApplication();
 
 		/* Load the view object */
@@ -144,6 +159,7 @@ class VirtuemartControllerProduct extends VmController {
 	* @author Max Milbers
 	*/
 	public function createVariant(){
+		// die('createVariant');
 
 		$data = JRequest::get('get');
 		JRequest::setVar($data['token'], '1', 'post');
@@ -178,11 +194,13 @@ class VirtuemartControllerProduct extends VmController {
 	}
 
 	public function massxref_sgrps(){
+		// die('massxref_sgrps');
 
 		$this->massxref('massxref');
 	}
 
 	public function massxref_sgrps_exe(){
+		// die('massxref_sgrps_exe');
 
 		$virtuemart_shoppergroup_ids = JRequest::getVar('virtuemart_shoppergroup_id',array(),'', 'ARRAY');
 		JArrayHelper::toInteger($virtuemart_shoppergroup_ids);
@@ -200,10 +218,12 @@ class VirtuemartControllerProduct extends VmController {
 	}
 
 	public function massxref_cats(){
+		// die('massxref_cats');
 		$this->massxref('massxref');
 	}
 
 	public function massxref_cats_exe(){
+		// die('massxref_cats_exe');
 
 		$virtuemart_cat_ids = JRequest::getVar('cid',array(),'', 'ARRAY');
 		JArrayHelper::toInteger($virtuemart_cat_ids);
@@ -224,6 +244,7 @@ class VirtuemartControllerProduct extends VmController {
 	 *
 	 */
 	public function massxref($layoutName){
+		// die('massxref');
 
 		JRequest::checkToken() or jexit('Invalid Token, in ' . JRequest::getWord('task'));
 
@@ -265,6 +286,8 @@ class VirtuemartControllerProduct extends VmController {
 	 * @author RolandD, Max Milbers
 	 */
 	public function CloneProduct() {
+				// die('CloneProduct');
+
 		$mainframe = Jfactory::getApplication();
 
 		/* Load the view object */
@@ -297,6 +320,7 @@ class VirtuemartControllerProduct extends VmController {
 	 * Kohl Patrick
 	 */
 	public function getData() {
+		// die('getData');
 
 		/* Create the view object. */
 		$view = $this->getView('product', 'json');
@@ -310,6 +334,7 @@ class VirtuemartControllerProduct extends VmController {
 	 * @author RolandD
 	 */
 	public function addRating() {
+		// die('addRating');
 		$mainframe = Jfactory::getApplication();
 
 		/* Get the product ID */
@@ -324,6 +349,7 @@ class VirtuemartControllerProduct extends VmController {
 
 
 	public function ajax_notifyUsers(){
+		// die('ajax_notifyUsers');
 
 		//vmdebug('updatestatus');
 		
@@ -338,6 +364,7 @@ class VirtuemartControllerProduct extends VmController {
 	}
 	
 	public function ajax_waitinglist() {
+		// die('ajax_waitinglist');
 		
 		$virtuemart_product_id = (int)JRequest::getVar('virtuemart_product_id', 0);
 
