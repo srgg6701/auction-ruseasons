@@ -194,8 +194,8 @@ class Auction2013ControllerImportlots extends JControllerForm
                 fclose($handle);
 			}
 			echo "<hr><hr>";
-			//var_dump($columns_names); 
-			$adm_com_path=JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart';
+			//var_dump($columns_names);
+			$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
 			require_once $adm_com_path.DS.'helpers'.DS.'vmcontroller.php';			
 			require_once $adm_com_path.DS.'helpers'.DS.'vmmodel.php';
