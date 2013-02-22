@@ -1383,7 +1383,9 @@ FROM #__virtuemart_product_categories AS cats
 						  ) {
 
 		JRequest::checkToken () or jexit ('Invalid Token');
-		var_dump($product); die('VirtueMartModelProduct::store()');
+		
+		//var_dump($product); die('VirtueMartModelProduct::store()');
+		
 		if ($product) {
 			$data = (array)$product;
 		}

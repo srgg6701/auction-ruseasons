@@ -83,11 +83,11 @@ class Auction2013ControllerImportlots extends JControllerForm
 					//'basePrice'=>array('0'),
 					//'product_tax_id'=>array('0'),
 					//'product_discount_id'=>array('0'),
-					'product_price_publish_up'=>array(date('000-00-00 00:00:00')),
-					'product_price_publish_down'=>array(date('000-00-00 00:00:00')),
-					'product_override_price'=>array(''),
-					'price_quantity_start'=>array(''),
-					'price_quantity_end'=>array(''),
+					//'product_price_publish_up'=>array(date('000-00-00 00:00:00')),
+					//'product_price_publish_down'=>array(date('000-00-00 00:00:00')),
+					//'product_override_price'=>array(''),
+					//'price_quantity_start'=>array(''),
+					//'price_quantity_end'=>array(''),
 				);
 			//"files/Bronze.csv";
 			if (($handle = fopen($importfile, "r")) !== FALSE) {
@@ -103,9 +103,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'short_desc'=>'product_s_desc', 
 							'desc'=>'product_desc', 
 							// #__virtuemart_product_prices:
-							'date_show'=>true, 
-							'date_hide'=>true,
-							'price'=>true 
+							'date_show'=>'product_price_publish_up', 
+							'date_hide'=>'product_price_publish_down',
+							'price'=>'product_price' 
 						);
 				
 				// go ahead!
@@ -151,32 +151,29 @@ class Auction2013ControllerImportlots extends JControllerForm
 								//имя текущего столбца, в том порядке, в котором расположены в файле:
 								$column_name=$columns_names[$i];
 
+								//echo "<div class=''>column_name= ".$column_name."</div>";
 								switch($column_name){
 									
 									case 'price':
+										//echo "<h4>column_name= ".$column_name.", $cell_content</h4>";
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
+										//echo "<hr><div class=''>data= ".$data[$data_index]['mprices']['product_price'][0]."</div><hr>";
 									break;
 									
 									case 'date_show':
+										//echo "<h4>column_name= ".$column_name.", $cell_content</h4>";
 										$data[$data_index]['mprices']['product_price_publish_up'][0]=$cell_content;
+										//echo "<hr><div class=''>data= ".$data[$data_index]['mprices']['product_price_publish_up'][0]."<hr></div>";
 									break;
 									
 									case 'date_hide':
+										//echo "<h4>column_name= ".$column_name.", $cell_content</h4>";
 										$data[$data_index]['mprices']['product_price_publish_down'][0]=$cell_content;
+										//echo "<hr><div class=''>data= ".$data[$data_index]['mprices']['product_price_publish_down'][0]."<hr></div>";
 									break;
-									
-									// save dates to diff them for product_availability later:
-									//case 'date_start':
-										//$date_start=$data[$data_index][$arrFields[$column_name]]=$cell_content;
-									//break;
-									
-									//case 'date_start':
-										//$date_stop=$data[$data_index][$arrFields[$column_name]]=$cell_content;
-									//break;
-
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
-								}
+								} //var_dump($data[$data_index]);
 								
 							}else{
 								// сформировать массив вторичных картинок:
@@ -205,16 +202,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 			
 			//$VmController->import();
 			
-			//var_dump($ProductTable);
+			//var_dump($data[0]);
 			//die();
 			
 			// additional "static" fields:
 			$arrDataToUpdate=array(
 							'categories' => array($virtuemart_category_id),
-							'mprices' => array(
-										'product_currency' => array('131'),
-										'product_override_price' => array('0,00000')
-									),
 							'product_weight_uom' => 'KG',
 							'product_lwh_uom' => 'M',
 							'product_in_stock' => '1',
@@ -223,15 +216,20 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'product_packaging' => '0,0000',
 							'layout' => '0',
 							'product_unit' => 'KG',
+							'price_quantity_start'=>array(''),
+							'price_quantity_end'=>array(''),
 						);?>
             <h4>Импортированные предметы:</h4>
 		<?	foreach($data as $i=>$data_stream){
 				
+				//var_dump($data_stream);die();
 				foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
+
+				$data_stream['mprices']['product_currency']=array('131');
+				$data_stream['mprices']['product_override_price']=array('0,00000');
 				
-				var_dump($data_stream); die();
-				
+				//var_dump($data_stream); die();
 				$id = $VmController->import($model,$data_stream,$ProductTable);
 				$errors[]= $model->getErrors();
 			/*foreach($data_stream as $key=>$data_string){
@@ -248,7 +246,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				
 				// UPDATE:
 				// #__virtuemart_products:
-				if (!$ProductTable->load($id))
+				/*if (!$ProductTable->load($id))
 				  echo $ProductTable->getError();
 				else{
 					$ProductTable->set('auction_number',$data_stream['auction_number']);
@@ -277,7 +275,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							// подключить файл с помощью JTable::addIncludePath() или require/include
 					
 					echo "<div class=''>".$data_stream['product_name']."</div>";
-				}
+				}*/
 			}
 			
 			if(empty($errors)) {
