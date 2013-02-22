@@ -34,7 +34,7 @@ class VmController extends JController{
 	public function __construct($cidName='cid', $config=array()) {
 		parent::__construct($config);
 
-		 $this->_cidName = $cidName;
+		$this->_cidName = $cidName;
 
 		$this->registerTask( 'add',  'edit' );
 		$this->registerTask('apply','save');
@@ -120,7 +120,20 @@ class VmController extends JController{
 
 		return $this;
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function import(){
+		$path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart'.DS.'tables'.DS.'products.php';
+		require_once $path;
 
+		$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct
+		
+		var_dump($model);	
+		die();		
+	}
 
 	/**
 	 * Generic edit task
@@ -160,11 +173,9 @@ class VmController extends JController{
 		
 		$model = VmModel::getModel($this->_cname); // VirtueMartModelProduct
 		
-		//var_dump($data); 
+		//echo "<h2>Model name = ".$this->_cname."</h2>";
 		//var_dump($model);	
 		//die();
-		
-		
 		
 		$id = $model->store($data);
 

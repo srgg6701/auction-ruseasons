@@ -1397,7 +1397,7 @@ FROM #__virtuemart_product_categories AS cats
 		}
 		// Setup some place holders
 		$product_data = $this->getTable ('products');
-
+		var_dump($product_data); die();
 		//Set the product packaging
 		if (array_key_exists ('product_packaging', $data)) {
 			$data['product_packaging'] = str_replace(',','.',$data['product_packaging']);

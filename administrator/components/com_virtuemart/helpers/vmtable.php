@@ -100,7 +100,14 @@ class VmTable extends JTable{
 		$this->_translatable = true;
 
 		if(!defined('VMLANG')){
-			if (!class_exists( 'VmConfig' )) require(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'config.php');
+			if (!class_exists( 'VmConfig' )) 
+				/*	MODIFIED START */
+				require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+				//  Заменено: 
+					// с JPATH_COMPONENT_ADMINISTRATOR 
+					// на JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'
+				/*	MODIFIED END	*/
+				//require(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'config.php');
 			VmConfig::loadConfig();
 		}
 		$this->_langTag = VMLANG;

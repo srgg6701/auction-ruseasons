@@ -67,20 +67,20 @@ class VmModel extends JModel {
 	 * @author Max Milbers
 	 */
 	static function getModel($name=false){
-
 		if (!$name){
 			$name = JRequest::getCmd('view','');
 // 			vmdebug('Get standard model of the view');
 		}
 		$name = strtolower($name);
-		$className = 'VirtueMartModel'.ucfirst($name);
-
+		$className = 'VirtueMartModel'.ucfirst($name); //VirtueMartModelProduct
 
 		if(empty(self::$_vmmodels[strtolower($className)])){
+			
 			if( !class_exists($className) ){
 
 				$modelPath = JPATH_VM_ADMINISTRATOR.DS."models".DS.$name.".php";
-
+				//administrator\components\com_virtuemart\models\product.php
+				//echo "<div class=''>modelPath= ".$modelPath."</div>";
 				if( file_exists($modelPath) ){
 					require( $modelPath );
 				}
@@ -89,9 +89,9 @@ class VmModel extends JModel {
 					echo 'File for Model '. $name .' not found.';
 					return false;
 				}
-			}
-
-			self::$_vmmodels[strtolower($className)] = new $className();
+			} //die('MODEL = '.$_vmmodels.'['.strtolower($className).']');
+			
+			self::$_vmmodels[strtolower($className)] = new $className();//VirtueMartModelProduct
 			return self::$_vmmodels[strtolower($className)];
 		} else {
 			return self::$_vmmodels[strtolower($className)];
