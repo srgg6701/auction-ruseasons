@@ -120,6 +120,7 @@ class VmController extends JController{
 
 		return $this;
 	}
+/*	MODIFIED START */
 /**
  * Описание
  * @package
@@ -128,7 +129,7 @@ class VmController extends JController{
 	function import($model,$data,$ProductTable){
 		return $model->store($data,false,$ProductTable);
 	}
-
+/*	MODIFIED END	*/
 	/**
 	 * Generic edit task
 	 *

@@ -1383,7 +1383,7 @@ FROM #__virtuemart_product_categories AS cats
 						  ) {
 
 		JRequest::checkToken () or jexit ('Invalid Token');
-
+		var_dump($product); die('VirtueMartModelProduct::store()');
 		if ($product) {
 			$data = (array)$product;
 		}
@@ -1482,7 +1482,6 @@ FROM #__virtuemart_product_categories AS cats
 				if(isset($data['mprices']['product_price'][$k]) ){
 					$pricesToStore['product_price'] = $data['mprices']['product_price'][$k];
 				}
-
 			}
 
 			if (isset($data['mprices']['product_price'][$k]) and $data['mprices']['product_price'][$k]!='') {

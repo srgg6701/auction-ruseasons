@@ -77,12 +77,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 			$importfile=$files['tmp_name'];
 			$prices=array(
 					'product_price'=>array('0'),
-					'virtuemart_product_price_id'=>array('0'),
-					'product_currency'=>array('131'),
-					'virtuemart_shoppergroup_id'=>array(''),
-					'basePrice'=>array('0'),
-					'product_tax_id'=>array('0'),
-					'product_discount_id'=>array('0'),
+					//'virtuemart_product_price_id'=>array('0'),
+					//'product_currency'=>array('131'),
+					//'virtuemart_shoppergroup_id'=>array(''),
+					//'basePrice'=>array('0'),
+					//'product_tax_id'=>array('0'),
+					//'product_discount_id'=>array('0'),
 					'product_price_publish_up'=>array(date('000-00-00 00:00:00')),
 					'product_price_publish_down'=>array(date('000-00-00 00:00:00')),
 					'product_override_price'=>array(''),
@@ -202,12 +202,19 @@ class Auction2013ControllerImportlots extends JControllerForm
 			$VmController=new VmController();
 			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct	
 			$ProductTable = $model->getTable('products');
+			
 			//$VmController->import();
+			
 			//var_dump($ProductTable);
 			//die();
 			
 			// additional "static" fields:
 			$arrDataToUpdate=array(
+							'categories' => array($virtuemart_category_id),
+							'mprices' => array(
+										'product_currency' => array('131'),
+										'product_override_price' => array('0,00000')
+									),
 							'product_weight_uom' => 'KG',
 							'product_lwh_uom' => 'M',
 							'product_in_stock' => '1',
@@ -216,11 +223,15 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'product_packaging' => '0,0000',
 							'layout' => '0',
 							'product_unit' => 'KG',
-						);
-			?>
+						);?>
             <h4>Импортированные предметы:</h4>
 		<?	foreach($data as $i=>$data_stream){
-				//
+				
+				foreach($arrDataToUpdate as $field => $content)
+					$data_stream[$field] = $content;
+				
+				var_dump($data_stream); die();
+				
 				$id = $VmController->import($model,$data_stream,$ProductTable);
 				$errors[]= $model->getErrors();
 			/*foreach($data_stream as $key=>$data_string){
@@ -240,9 +251,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 				if (!$ProductTable->load($id))
 				  echo $ProductTable->getError();
 				else{
-
-					foreach ($arrDataToUpdate as $field=>$value)
-						$ProductTable->set($field,$value);
 					$ProductTable->set('auction_number',$data_stream['auction_number']);
 					$ProductTable->set('contract_number',$data_stream['contract_number']);
 					$ProductTable->set('lot_number',$data_stream['lot_number']);
@@ -258,8 +266,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 	
 	
 					// #__virtuemart_product_prices:
-					$data_stream['product_override_price']='0,00000';
-					$data_stream['product_currency']='131';
+					//$data_stream['product_override_price']='0,00000';
+					//$data_stream['product_currency']='131';
 					
 					// INSERT INTO #__virtuemart_product_categories:
 					// virtuemart_product_id = $id
