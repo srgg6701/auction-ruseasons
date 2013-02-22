@@ -195,23 +195,20 @@ class Auction2013ControllerImportlots extends JControllerForm
 			}
 			echo "<hr><hr>";
 			//var_dump($columns_names); 
-			$adm_com_path=JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart';
+			$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
-			require_once $adm_com_path.DS.'helpers'.DS.'vmcontroller.php';			
 			require_once $adm_com_path.DS.'helpers'.DS.'vmmodel.php';
-			$VmController=new VmController();
-			$VmController->import();
-			//var_dump($VmController);
-			//require_once $adm_com_path.DS.'models'.DS.'product.php';			
-			//$model=JModel::getInstance('Product','VirtueMartModel');
-			
-			//$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct
-			//var_dump($model);
-			die();?>
+			require_once $adm_com_path.DS.'tables'.DS.'products.php';			
+			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct
+			//var_dump($model);die();?>
             <h4>Импортированные предметы:</h4>
 		<?	foreach($data as $i=>$data_stream){
 				foreach($data_stream as $key=>$data_string){
-					$id = $model->store($data);
+					//echo "<div class=''><hr>data_string:</div>";
+					//var_dump($data_string);
+					if(!$id = $model->store($data))
+						echo "<div style='color:red'>Не выполнено...</div>";
+					echo "<div style='color:green'>new id = $id</div>";
 					$errors[]= $model->getErrors();
 				}
 				echo "<div class=''>".$data_stream['product_name']."</div>";

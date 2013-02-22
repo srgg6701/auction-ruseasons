@@ -100,12 +100,12 @@ class VmTable extends JTable{
 		$this->_translatable = true;
 
 		if(!defined('VMLANG')){
-			if (!class_exists( 'VmConfig' )) 
+			if (!class_exists( 'VmConfig' ))
 				/*	MODIFIED START */
-				require(JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
+				require(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart'.DS.'helpers'.DS.'config.php');
 				//  Заменено: 
 					// с JPATH_COMPONENT_ADMINISTRATOR 
-					// на JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart'
+					// на JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart'
 				/*	MODIFIED END	*/
 				//require(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'config.php');
 			VmConfig::loadConfig();
@@ -507,7 +507,6 @@ class VmTable extends JTable{
 		}
 
 		return false;
-
 	}
 
 
@@ -515,24 +514,29 @@ class VmTable extends JTable{
 	 * @author Max Milbers
 	 * @param
 	 */
-	function check(){
+	function check(){ 
 
 		if(!empty($this->_slugAutoName)){
 
-			$slugAutoName = $this->_slugAutoName;
-			$slugName = $this->_slugName;
-
+			$slugAutoName = $this->_slugAutoName; // product_name
+			//
+			$slugName = $this->_slugName; // slug
+			
 			if(in_array($slugAutoName,$this->_translatableFields)){
 				$checkTable = $this->_tbl.'_'.VMLANG;
-			} else {
-				$checkTable = $this->_tbl;
+			} else { 
+				$checkTable = $this->_tbl; // #__virtuemart_products_ru_ru
 			}
 
 			if(empty($this->$slugName)){
-				// 				vmdebug('table check use _slugAutoName '.$slugAutoName.' '.$slugName);
-				if(!empty($this->$slugAutoName)){
+				//vmdebug('table check use _slugAutoName '.$slugAutoName.' '.$slugName);
+				if(!empty($this->$slugAutoName)){ // VmTableData()->product_name
 					$this->$slugName = $this->$slugAutoName;
 				} else {
+					echo "<div class=''>slugAutoName= ".$slugAutoName."</div>";
+					var_dump($this->$slugAutoName);
+					var_dump($this);
+					echo ('LINE: '.__LINE__);
 					vmError('VmTable '.$checkTable.' Check not passed. Neither slug nor obligatory value at '.$slugAutoName.' for auto slug creation is given');
 					return false;
 				}
@@ -549,7 +553,7 @@ class VmTable extends JTable{
 			else $this->$slugName = JApplication::stringURLSafe($this->$slugName);
 
 			$valid = $this->checkCreateUnique($checkTable,$slugName);
-			if(!$valid){
+			if(!$valid){ 
 				return false;
 			}
 
@@ -683,9 +687,11 @@ class VmTable extends JTable{
 	 */
 	public function bindChecknStore(&$data,$preload=false){
 
-		$tblKey = $this->_tbl_key;
+		$tblKey = $this->_tbl_key; //virtuemart_product_id, OK
+			
 		$ok = true;
-		if($this->_translatable){
+		if($this->_translatable){ // 1
+			// components\com_virtuemart\helpers\vmtabledata.php:
 			if(!class_exists('VmTableData'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmtabledata.php');
 			$db = JFactory::getDBO();
 
@@ -757,7 +763,7 @@ class VmTable extends JTable{
 			$langTable->_translatable = false;
 
 			//We must check the langtable BEFORE we store the normal table, cause the langtable is often defining if there are enough data to store it (for exmple the name)
-
+			//echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
 			if($ok){
 				//vmdebug('my langtable before bind',$langTable->id);
 				if(!$langTable->bind($data)){
@@ -766,12 +772,15 @@ class VmTable extends JTable{
 					// 			vmdebug('Problem in bind '.get_class($this).' '.$this->_db->getErrorMsg());
 					vmdebug('Problem in bind '.get_class($this).' ');
 				}
+				//echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
 			}
 
 			if($ok){
 				if(!$langTable->check()){
 					$ok = false;
+					echo "<div class=''>ok FALSE (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
 					vmdebug('Check returned false '.get_class($langTable).' '.$this->_tbl.' '.$langTable->_db->getErrorMsg());
+					//var_dump($langTable);
 				}
 			}
 
@@ -820,7 +829,7 @@ class VmTable extends JTable{
 				$ok= false;
 			}
 		}
-
+		echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
 		return $ok;
 	}
 

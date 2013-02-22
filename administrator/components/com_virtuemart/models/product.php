@@ -1397,7 +1397,7 @@ FROM #__virtuemart_product_categories AS cats
 		}
 		// Setup some place holders
 		$product_data = $this->getTable ('products');
-		var_dump($product_data); die();
+		//var_dump($product_data); die();
 		//Set the product packaging
 		if (array_key_exists ('product_packaging', $data)) {
 			$data['product_packaging'] = str_replace(',','.',$data['product_packaging']);
@@ -1407,9 +1407,14 @@ FROM #__virtuemart_product_categories AS cats
 	//	$product_data->bindChecknStore ($data, $isChild);
 
 		$stored = $product_data->bindChecknStore ($data, TRUE);
-
+		
 		$errors = $product_data->getErrors ();
 		if(!$stored or count($errors)>0){
+			if (count($errors)>0)
+				var_dump($errors);
+			else
+				echo "<div class=''>! stored...</div>";
+
 			foreach ($errors as $error) {
 				vmError ('Product store '.$error);
 			}
@@ -1417,11 +1422,11 @@ FROM #__virtuemart_product_categories AS cats
 				vmError('You are not an administrator or the correct vendor, storing of product cancelled');
 			}
 			return FALSE;
-		}
-
+		}else
+			var_dump($stored);
 
 		$this->_id = $data['virtuemart_product_id'] = (int)$product_data->virtuemart_product_id;
-
+		
 		if (empty($this->_id)) {
 			vmError('Product not stored, no id');
 			return FALSE;
@@ -1544,7 +1549,6 @@ FROM #__virtuemart_product_categories AS cats
 			}
 
 		}
-
 		return $product_data->virtuemart_product_id;
 	}
 
