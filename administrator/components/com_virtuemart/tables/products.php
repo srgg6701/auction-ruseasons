@@ -76,9 +76,9 @@ class TableProducts extends VmTable {
 	var $auction_number = '';
 	var $contract_number = '';
 	var $lot_number = 0;
-	var $product_available_date_closed = '000-00-00 00:00:00';
-	var $auction_date_start = '000-00-00';
-	var $auction_date_finish = '000-00-00';
+	var $product_available_date_closed = null;
+	var $auction_date_start = null;
+	var $auction_date_finish = null;
 	/*	MODIFIED END	*/
 
 	/** @var int File thumbnail image width */

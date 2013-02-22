@@ -33,7 +33,8 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @subpackage
  */
 	function import(){
-
+		$user = JFactory::getUser();
+		$user_id=$user->id;
 		// for your safety, please, use condoms :)
 		JRequest::checkToken() or jexit( 'Invalid Token save' );
 		
@@ -96,18 +97,20 @@ class Auction2013ControllerImportlots extends JControllerForm
 							// #__virtuemart_products:
 							'auction_number'=>'auction_number', 
 							'contract_number'=>'contract_number',
-							'date_start'=>'product_available_date',
-							'date_stop'=>'product_available_date_closed',
+							// дата начала аукциона
+							'date_start'=>'auction_date_start',
+							// дата окончания аукциона
+							'date_stop'=>'auction_date_finish',
 							// #__virtuemart_products_ru_ru:
 							'title'=>'product_name', 
 							'short_desc'=>'product_s_desc', 
 							'desc'=>'product_desc', 
 							// #__virtuemart_product_prices:
-							'date_show'=>'product_price_publish_up', 
-							'date_hide'=>'product_price_publish_down',
+							// выставлять на сайте с/пд:
+							'date_show'=>'product_available_date', 
+							'date_hide'=>'product_available_date_closed',
 							'price'=>'product_price' 
 						);
-				
 				// go ahead!
 				$data=array();
 				$columns_names=array();
@@ -154,26 +157,21 @@ class Auction2013ControllerImportlots extends JControllerForm
 								//echo "<div class=''>column_name= ".$column_name."</div>";
 								switch($column_name){
 									
-									case 'price':
-										//echo "<h4>column_name= ".$column_name.", $cell_content</h4>";
-										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
-										//echo "<hr><div class=''>data= ".$data[$data_index]['mprices']['product_price'][0]."</div><hr>";
-									break;
-									
 									case 'date_show':
-										//echo "<h4>column_name= ".$column_name.", $cell_content</h4>";
-										$data[$data_index]['mprices']['product_price_publish_up'][0]=$cell_content;
-										//echo "<hr><div class=''>data= ".$data[$data_index]['mprices']['product_price_publish_up'][0]."<hr></div>";
+									case 'date_hide':
+									case 'date_start':
+									case 'date_stop':
+										$dt=explode('.',$cell_content);
+										$data[$data_index][$arrFields[$column_name]]=$dt[2].'-'.$dt[1].'-'.$dt[0];
 									break;
 									
-									case 'date_hide':
-										//echo "<h4>column_name= ".$column_name.", $cell_content</h4>";
-										$data[$data_index]['mprices']['product_price_publish_down'][0]=$cell_content;
-										//echo "<hr><div class=''>data= ".$data[$data_index]['mprices']['product_price_publish_down'][0]."<hr></div>";
+									case 'price':
+										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
 									break;
+									
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
-								} //var_dump($data[$data_index]);
+								} 
 								
 							}else{
 								// сформировать массив вторичных картинок:
@@ -196,15 +194,14 @@ class Auction2013ControllerImportlots extends JControllerForm
 			require_once $adm_com_path.DS.'helpers'.DS.'vmcontroller.php';			
 			require_once $adm_com_path.DS.'helpers'.DS.'vmmodel.php';
 			require_once $adm_com_path.DS.'tables'.DS.'products.php';
+			require_once $adm_com_path.DS.'tables'.DS.'medias.php';
+			require_once $adm_com_path.DS.'tables'.DS.'product_medias.php';
+
 			$VmController=new VmController();
 			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct	
 			$ProductTable = $model->getTable('products');
-			
-			//$VmController->import();
-			
-			//var_dump($data[0]);
-			//die();
-			
+			$MediasTable = $model->getTable('medias'); //var_dump($MediasTable);
+			$ProductMediasTable = $model->getTable('product_medias'); //var_dump($ProductMediasTable); die();
 			// additional "static" fields:
 			$arrDataToUpdate=array(
 							'categories' => array($virtuemart_category_id),
@@ -221,16 +218,68 @@ class Auction2013ControllerImportlots extends JControllerForm
 						);?>
             <h4>Импортированные предметы:</h4>
 		<?	foreach($data as $i=>$data_stream){
-				
 				//var_dump($data_stream);die();
 				foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
 
 				$data_stream['mprices']['product_currency']=array('131');
 				$data_stream['mprices']['product_override_price']=array('0,00000');
-				
+				$data_stream['mprices']['product_price_publish_up']=array('00.00.0000 0:00:00');
+				$data_stream['mprices']['product_price_publish_down']=array('00.00.0000 0:00:00');				
 				//var_dump($data_stream); die();
-				$id = $VmController->import($model,$data_stream,$ProductTable);
+				if($id = $VmController->import($model,$data_stream,$ProductTable)){
+					// add images:
+					// #__virtuemart_medias, then #__virtuemart_product_medias
+					foreach($images as $icount=>$pic){
+						$MediasTable->reset();
+						$MediasTable->set('virtuemart_vendor_id', '1');
+						$MediasTable->set('file_title', '');
+						$arrIm=explode('.',$pic);
+						$pic_ext=array_pop($arrIm);
+						$pic_name=implode('.',$arrIm);
+						switch($pic_ext){
+							// see above: $imgExt=array('gif','jpg','png','wbmp');
+							case 'jpg':case 'jpeg':
+								$mimetype='jpeg';
+							break;
+							case 'gif':
+								$mimetype='gif';
+							break;
+							case 'png':
+								$mimetype='png';
+							break;
+							case 'wbmp':
+								$mimetype='x-windows-bmp';
+							break;
+						}
+						$MediasTable->set('file_mimetype', 'image/'.$mimetype);
+						$MediasTable->set('file_type', 'product');
+						$MediasTable->set('file_url', 'images/stories/virtuemart/product/'.$pic);
+						$MediasTable->set('file_url_thumb', 'images/stories/virtuemart/product/resized/'.$pic_name.'_90x90.'.$pic_ext);
+						$MediasTable->set('published', '1');
+						$MediasTable->set('created_on', date('Y-m-d H:i:s'));
+						$MediasTable->set('created_by', $user_id);
+						// Bind the data to the table
+						if (!$MediasTable->bind())
+						{
+						  // handle bind failure
+						  echo $table->getError();
+						}
+						// Check that the data is valid
+						if (!$MediasTable->check())
+						{
+						  // handle validation failure
+						  echo $table->getError();
+						}
+						// Store the data in the table
+						if (!$MediasTable->store(true))
+						{
+						  // handle store failure
+						  echo $table->getError();
+						}
+					}
+				}
+				
 				$errors[]= $model->getErrors();
 			/*foreach($data_stream as $key=>$data_string){
 				$id = $VmController->import($model,$data_stream);
@@ -240,42 +289,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				else "<div style='color:green'>Done!</div>";
 				$errors[]= $model->getErrors();
 			}*/
-				if(!$id)
-					echo "<div style='color:red'>Не выполнено...</div>";
-				else "<div style='color:green'>Done!</div>";
-				
-				// UPDATE:
-				// #__virtuemart_products:
-				/*if (!$ProductTable->load($id))
-				  echo $ProductTable->getError();
-				else{
-					$ProductTable->set('auction_number',$data_stream['auction_number']);
-					$ProductTable->set('contract_number',$data_stream['contract_number']);
-					$ProductTable->set('lot_number',$data_stream['lot_number']);
-					
-					// Check that the data is valid
-					if ($ProductTable->check()) {
-						// Store the data in the table
-						if (!$ProductTable->store(true)){	
-							JError::raiseWarning(100, JText::_('Не удалось сохранить данные для id '.$pk.'...'));
-							$errors++;
-						}
-					}else die("Данные не валидны...");
-	
-	
-					// #__virtuemart_product_prices:
-					//$data_stream['product_override_price']='0,00000';
-					//$data_stream['product_currency']='131';
-					
-					// INSERT INTO #__virtuemart_product_categories:
-					// virtuemart_product_id = $id
-					// virtuemart_category_id = category_id
-					// ordering = 0
-	
-							// подключить файл с помощью JTable::addIncludePath() или require/include
-					
-					echo "<div class=''>".$data_stream['product_name']."</div>";
-				}*/
+
 			}
 			
 			if(empty($errors)) {
