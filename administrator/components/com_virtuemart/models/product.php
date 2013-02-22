@@ -1375,7 +1375,12 @@ FROM #__virtuemart_product_categories AS cats
 	 * @author Max Milbers
 	 * @access public
 	 */
-	public function store (&$product, $isChild = FALSE) {
+	public function store ( &$product, 
+							$isChild = FALSE, 
+							/*	MODIFIED START 	*/
+							$product_data=false
+							/*	MODIFIED END	*/
+						  ) {
 
 		JRequest::checkToken () or jexit ('Invalid Token');
 
@@ -1396,8 +1401,11 @@ FROM #__virtuemart_product_categories AS cats
 			$data['intnotes'] = trim ($data['intnotes']);
 		}
 		// Setup some place holders
-		$product_data = $this->getTable ('products');
-		var_dump($product_data); die();
+		/*	MODIFIED START 	*/
+		if (!$product_data)
+		/*	MODIFIED END	*/
+			$product_data = $this->getTable ('products');
+		//var_dump($product_data); die();
 		//Set the product packaging
 		if (array_key_exists ('product_packaging', $data)) {
 			$data['product_packaging'] = str_replace(',','.',$data['product_packaging']);

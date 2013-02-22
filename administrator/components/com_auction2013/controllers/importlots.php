@@ -116,7 +116,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
 					$date_start=$date_stop=false; // containers for product_availability to calculate its value
 					
-					//$data[$row_count]['mprices']=$prices;
 					// $cells - колич. ячеек в строке
 					for ($i=0, $j=count($cells); $i < $j; $i++) {
 						
@@ -199,22 +198,78 @@ class Auction2013ControllerImportlots extends JControllerForm
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
 			require_once $adm_com_path.DS.'helpers'.DS.'vmcontroller.php';			
 			require_once $adm_com_path.DS.'helpers'.DS.'vmmodel.php';
+			require_once $adm_com_path.DS.'tables'.DS.'products.php';
 			$VmController=new VmController();
-			$VmController->import();
-			//var_dump($VmController);
-			//require_once $adm_com_path.DS.'models'.DS.'product.php';			
-			//$model=JModel::getInstance('Product','VirtueMartModel');
+			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct	
+			$ProductTable = $model->getTable('products');
+			//$VmController->import();
+			//var_dump($ProductTable);
+			//die();
 			
-			//$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct
-			//var_dump($model);
-			die();?>
+			// additional "static" fields:
+			$arrDataToUpdate=array(
+							'product_weight_uom' => 'KG',
+							'product_lwh_uom' => 'M',
+							'product_in_stock' => '1',
+							'product_availability' => '',
+							'product_special' => '0',
+							'product_packaging' => '0,0000',
+							'layout' => '0',
+							'product_unit' => 'KG',
+						);
+			?>
             <h4>Импортированные предметы:</h4>
 		<?	foreach($data as $i=>$data_stream){
-				foreach($data_stream as $key=>$data_string){
-					$id = $model->store($data);
-					$errors[]= $model->getErrors();
+				//
+				$id = $VmController->import($model,$data_stream,$ProductTable);
+				$errors[]= $model->getErrors();
+			/*foreach($data_stream as $key=>$data_string){
+				$id = $VmController->import($model,$data_stream);
+				//$model->store($data);
+				if(!$id)
+					echo "<div style='color:red'>Не выполнено...</div>";
+				else "<div style='color:green'>Done!</div>";
+				$errors[]= $model->getErrors();
+			}*/
+				if(!$id)
+					echo "<div style='color:red'>Не выполнено...</div>";
+				else "<div style='color:green'>Done!</div>";
+				
+				// UPDATE:
+				// #__virtuemart_products:
+				if (!$ProductTable->load($id))
+				  echo $ProductTable->getError();
+				else{
+
+					foreach ($arrDataToUpdate as $field=>$value)
+						$ProductTable->set($field,$value);
+					$ProductTable->set('auction_number',$data_stream['auction_number']);
+					$ProductTable->set('contract_number',$data_stream['contract_number']);
+					$ProductTable->set('lot_number',$data_stream['lot_number']);
+					
+					// Check that the data is valid
+					if ($ProductTable->check()) {
+						// Store the data in the table
+						if (!$ProductTable->store(true)){	
+							JError::raiseWarning(100, JText::_('Не удалось сохранить данные для id '.$pk.'...'));
+							$errors++;
+						}
+					}else die("Данные не валидны...");
+	
+	
+					// #__virtuemart_product_prices:
+					$data_stream['product_override_price']='0,00000';
+					$data_stream['product_currency']='131';
+					
+					// INSERT INTO #__virtuemart_product_categories:
+					// virtuemart_product_id = $id
+					// virtuemart_category_id = category_id
+					// ordering = 0
+	
+							// подключить файл с помощью JTable::addIncludePath() или require/include
+					
+					echo "<div class=''>".$data_stream['product_name']."</div>";
 				}
-				echo "<div class=''>".$data_stream['product_name']."</div>";
 			}
 			
 			if(empty($errors)) {
