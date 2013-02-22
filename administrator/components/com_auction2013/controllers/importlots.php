@@ -195,14 +195,41 @@ class Auction2013ControllerImportlots extends JControllerForm
 			}
 			echo "<hr><hr>";
 			//var_dump($columns_names); 
-			var_dump($data[0]); 
-			var_dump($images[0]);
 			$adm_com_path=JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart';
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
 			require_once $adm_com_path.DS.'models'.DS.'product.php';			
-			$model = VmModel::getModel('VirtueMart','ModelProduct'); // VirtueMartModelProduct
+			$model = VmModel::getModel('VirtueMart','ModelProduct'); // VirtueMartModelProduct?>
+            <h4>Импортированные предметы:</h4>
+		<?	foreach($data as $i=>$data_stream){
+				foreach($data_stream as $key=>$data_string){
+					$id = $model->store($data);
+					$errors[]= $model->getErrors();
+				}
+				echo "<div class=''>".$data_stream['product_name']."</div>";
+			}
+			
+			if(empty($errors)) {
+				$msg = JText::sprintf('COM_VIRTUEMART_STRING_SAVED',$this->mainLangKey);
+				$type = 'save';
+			}
+			else $type = 'error';
+			foreach($errors as $error){
+				foreach($error as $err):
+					var_dump($err);
+				endforeach;
+			}
+			
  			//var_dump($model);
+			//var_dump($data[0]); 
+			var_dump($images[0]);
 			die('IMPORT is done!');
+			
+			//$redir = $this->redirectPath;
+			//vmInfo($msg);
+			//if(JRequest::getCmd('task') == 'apply'){
+				//$redir .= '&task=edit&'.$this->_cidName.'[]='.$id;
+			//} //else $this->display();
+			//$this->setRedirect($redir, $msg,$type);
 		}
 	}
 /**

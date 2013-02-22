@@ -160,9 +160,9 @@ class VmController extends JController{
 		
 		$model = VmModel::getModel($this->_cname); // VirtueMartModelProduct
 		
-		var_dump($data); 
+		//var_dump($data); 
 		//var_dump($model);	
-		die();
+		//die();
 		
 		
 		
