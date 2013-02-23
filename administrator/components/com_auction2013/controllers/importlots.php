@@ -1,8 +1,8 @@
 <?php
 /**
- * @version     2.1.0
- * @package     com_collector1
- * @copyright   Copyright (C) webapps 2012. All rights reserved.
+ * @version     1.0
+ * @package     import CSV
+ * @copyright   Copyright (C) webapps 2013. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      srgg <srgg67@gmail.com> - http://www.facebook.com/srgg67
  */
@@ -49,7 +49,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				// $virtuemart_category_id, $encoding AND so on...
 				${$field}=JRequest::getVar($field);
 			
-			var_dump(JRequest::get('post'));
+			//var_dump(JRequest::get('post'));
 			/*	  'top_cat' => string '23, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories'
 				  'virtuemart_category_id' => string '2'
 				  'task' => string 'import'
@@ -58,7 +58,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				  'alt_encoding' => string ''
 				  'option' => string 'com_auction2013'
 			*/
-			var_dump($_FILES);
+			//var_dump($_FILES);
 			/*   'import_file' => 
 					array
 					  'name' => string 'Bronze.csv'
@@ -182,12 +182,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 							}
 						}
 					}
-					echo "<hr>";
+					//echo "<hr>";
 					$row_count++;
 				}
                 fclose($handle);
 			}
-			echo "<hr><hr>";
+			//echo "<hr><hr>";
 			//var_dump($columns_names);
 			$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
@@ -226,60 +226,121 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$data_stream['mprices']['product_override_price']=array('0,00000');
 				$data_stream['mprices']['product_price_publish_up']=array('00.00.0000 0:00:00');
 				$data_stream['mprices']['product_price_publish_down']=array('00.00.0000 0:00:00');				
-				//var_dump($data_stream); die();
-				if($id = $VmController->import($model,$data_stream,$ProductTable)){
+				
+				/*$test=true;
+				if($test){
+					foreach($images as $icount=>$pix){
+						foreach($pix as $pcount=>$pic){
+							//echo "<div class=''>PIC:</div>".$pic;
+							//var_dump($pix);
+							//echo '<hr>';
+							$arrIm=explode('.',$pic);
+							$pic_ext=array_pop($arrIm);
+							$pic_name=implode('.',$arrIm);
+							switch($pic_ext){
+								// see above: $imgExt=array('gif','jpg','png','wbmp');
+								case 'jpg':case 'jpeg':
+									$mimetype='jpeg';
+								break;
+								case 'gif':
+									$mimetype='gif';
+								break;
+								case 'png':
+									$mimetype='png';
+								break;
+								case 'wbmp':
+									$mimetype='x-windows-bmp';
+								break;
+							}
+					echo '<div>image:<hr>
+					file_mimetype = image/'.$mimetype.'<br>
+					file_type = 	product<br>
+					file_url = 		images/stories/virtuemart/product/'.$pic.'<br>
+					file_url_thumb = images/stories/virtuemart/product/resized/'.$pic_name.'_90x90.'.$pic_ext.'<br>
+					published =		1<br>
+					created_on = 	'.date('Y-m-d H:i:s').'<br>
+					created_by = 	'.$user_id.'
+						</div><hr>';
+						}
+					}
+				}else*/
+				
+				if($virtuemart_product_id = $VmController->import($model,$data_stream,$ProductTable)){
 					// add images:
 					// #__virtuemart_medias, then #__virtuemart_product_medias
-					foreach($images as $icount=>$pic){
-						$MediasTable->reset();
-						$MediasTable->set('virtuemart_vendor_id', '1');
-						$MediasTable->set('file_title', '');
-						$arrIm=explode('.',$pic);
-						$pic_ext=array_pop($arrIm);
-						$pic_name=implode('.',$arrIm);
-						switch($pic_ext){
-							// see above: $imgExt=array('gif','jpg','png','wbmp');
-							case 'jpg':case 'jpeg':
-								$mimetype='jpeg';
-							break;
-							case 'gif':
-								$mimetype='gif';
-							break;
-							case 'png':
-								$mimetype='png';
-							break;
-							case 'wbmp':
-								$mimetype='x-windows-bmp';
-							break;
-						}
-						$MediasTable->set('file_mimetype', 'image/'.$mimetype);
-						$MediasTable->set('file_type', 'product');
-						$MediasTable->set('file_url', 'images/stories/virtuemart/product/'.$pic);
-						$MediasTable->set('file_url_thumb', 'images/stories/virtuemart/product/resized/'.$pic_name.'_90x90.'.$pic_ext);
-						$MediasTable->set('published', '1');
-						$MediasTable->set('created_on', date('Y-m-d H:i:s'));
-						$MediasTable->set('created_by', $user_id);
-						// Bind the data to the table
-						if (!$MediasTable->bind())
-						{
-						  // handle bind failure
-						  echo $table->getError();
-						}
-						// Check that the data is valid
-						if (!$MediasTable->check())
-						{
-						  // handle validation failure
-						  echo $table->getError();
-						}
-						// Store the data in the table
-						if (!$MediasTable->store(true))
-						{
-						  // handle store failure
-						  echo $table->getError();
+					foreach($images as $icount=>$pix){
+						foreach($pix as $pcount=>$pic){
+							$MediasTable->reset();
+							$MediasTable->set('virtuemart_vendor_id', '1');
+							$MediasTable->set('file_title', '');
+							$arrIm=explode('.',$pic);
+							$pic_ext=array_pop($arrIm);
+							$pic_name=implode('.',$arrIm);
+							switch($pic_ext){
+								// see above: $imgExt=array('gif','jpg','png','wbmp');
+								case 'jpg':case 'jpeg':
+									$mimetype='jpeg';
+								break;
+								case 'gif':
+									$mimetype='gif';
+								break;
+								case 'png':
+									$mimetype='png';
+								break;
+								case 'wbmp':
+									$mimetype='x-windows-bmp';
+								break;
+							}
+							$fieldsToBind=array(
+								'virtuemart_vendor_id' => '1',
+								'file_title' => $pic_name, 
+								'file_mimetype' => 'image/'.$mimetype,
+								'file_type' => 'product',
+								'file_url' => 'images/stories/virtuemart/product/'.$pic,
+								'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic_name.'_90x90.'.$pic_ext,
+								'file_params' => '',
+								'published' => '1',
+								'created_on' => date('Y-m-d H:i:s'),
+								'created_by' => $user_id,
+							);
+							foreach($fieldsToBind as $tField => $tValue):
+								$MediasTable->set($tField, $tValue);
+							endforeach;
+							// check fields' binding:
+							$data_check_bind=array_values(array_flip($fieldsToBind));
+							// Bind the data to the table
+							if (!$MediasTable->bind($data_check_bind))
+								echo $MediasTable->getError();
+							// Check that the data is valid
+							if (!$MediasTable->check())
+								echo $MediasTable->getError();
+							// Store the data in the table
+							if (!$MediasTable->store(true))
+								echo $MediasTable->getError();
+							else
+								$virtuemart_media_id=$MediasTable->id;
+							// now let's try to push all the media stuff into #__virtuemart_product_medias!
+							$pMedia=array(
+									'virtuemart_product_id' => $virtuemart_product_id, 
+									'virtuemart_media_id' => $virtuemart_media_id, 
+									'ordering' => $pcount
+								);
+							foreach($pMedia as $pmField => $pmValue):
+								$ProductMediasTable->set($pmField, $pmValue);//
+							endforeach;
+							$data_check_bind2=array_values(array_flip($pMedia));
+							// Bind the data to the table
+							if (!$ProductMediasTable->bind($data_check_bind2))
+								echo $ProductMediasTable->getError();
+							// Check that the data is valid
+							if (!$ProductMediasTable->check())
+								echo $ProductMediasTable->getError();
+							// Store the data in the table
+							if (!$ProductMediasTable->store(true))
+								echo $ProductMediasTable->getError();
 						}
 					}
 				}
-				
 				$errors[]= $model->getErrors();
 			/*foreach($data_stream as $key=>$data_string){
 				$id = $VmController->import($model,$data_stream);
@@ -289,23 +350,15 @@ class Auction2013ControllerImportlots extends JControllerForm
 				else "<div style='color:green'>Done!</div>";
 				$errors[]= $model->getErrors();
 			}*/
-
 			}
-			
-			if(empty($errors)) {
-				$msg = JText::sprintf('COM_VIRTUEMART_STRING_SAVED',$this->mainLangKey);
-				$type = 'save';
-			}
-			else $type = 'error';
+			if($errors) 
 			foreach($errors as $error){
 				foreach($error as $err):
 					var_dump($err);
 				endforeach;
 			}
 			
- 			//var_dump($model);
-			//var_dump($data[0]); 
-			var_dump($images[0]);
+ 			var_dump($images);
 			die('IMPORT is done!');
 			
 			//$redir = $this->redirectPath;
