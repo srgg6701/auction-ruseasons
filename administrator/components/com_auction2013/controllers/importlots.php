@@ -32,7 +32,47 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
-	function import(){
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function addProductMedia( $virtuemart_product_id, $pcount, $db=false){
+		if(!$db) $db=JFactory::getDBO();		
+		$query = $db->getQuery(true);
+		$query->clear();
+		$query->insert($db->quoteName('#__virtuemart_product_medias'));
+		$query->columns(
+					array( $db->quoteName('virtuemart_product_id'), 
+						   $db->quoteName('virtuemart_media_id'),
+						   $db->quoteName('ordering'),
+						 )
+				);
+		$query->values( 
+					$virtuemart_product_id . ', ' . 
+					self::getLastId('virtuemart_media_id','virtuemart_medias',$db) .
+					', '. $pcount
+				);
+		
+		$db->setQuery($query);
+		return $db->query();	
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function getLastId($id,$table,$db=false){
+		$query="SELECT MAX($id) FROM #__".$table;
+		if(!$db) $db=JFactory::getDBO();
+		$db->setQuery($query);
+		$last_id=$db->loadResult();
+		
+		echo "<div class=''>query = $query<br>last_id= ".$last_id."</div>";
+		return $last_id; 
+	}
+	public static function import(){
+		$db = JFactory::getDBO();
 		$user = JFactory::getUser();
 		$user_id=$user->id;
 		// for your safety, please, use condoms :)
@@ -199,9 +239,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 			$VmController=new VmController();
 			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct	
-			$ProductTable = $model->getTable('products');
-			$MediasTable = $model->getTable('medias'); //var_dump($MediasTable);
-			$ProductMediasTable = $model->getTable('product_medias'); //var_dump($ProductMediasTable); die();
+			// $MediasTable = $model->getTable('medias'); //var_dump($MediasTable);
+			// $ProductMediasTable = $model->getTable('product_medias'); 
+
 			// additional "static" fields:
 			$arrDataToUpdate=array(
 							'categories' => array($virtuemart_category_id),
@@ -218,6 +258,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 						);?>
             <h4>Импортированные предметы:</h4>
 		<?	foreach($data as $i=>$data_stream){
+				
+				$ProductTable = $model->getTable('products');
+				$ProductTable->reset();
 				//var_dump($data_stream);die();
 				foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
@@ -266,16 +309,19 @@ class Auction2013ControllerImportlots extends JControllerForm
 				}else*/
 				
 				if($virtuemart_product_id = $VmController->import($model,$data_stream,$ProductTable)){
+				
+				//if(1==1) { $virtuemart_product_id = '69';
 					// add images:
 					// #__virtuemart_medias, then #__virtuemart_product_medias
 					foreach($images as $icount=>$pix){
 						foreach($pix as $pcount=>$pic){
+							echo "<div class=''>pic= ".$pic."</div>";
+							$MediasTable = $model->getTable('medias'); 
 							$MediasTable->reset();
 							$MediasTable->set('virtuemart_vendor_id', '1');
 							$MediasTable->set('file_title', '');
 							$arrIm=explode('.',$pic);
 							$pic_ext=array_pop($arrIm);
-							$pic_name=implode('.',$arrIm);
 							switch($pic_ext){
 								// see above: $imgExt=array('gif','jpg','png','wbmp');
 								case 'jpg':case 'jpeg':
@@ -293,16 +339,18 @@ class Auction2013ControllerImportlots extends JControllerForm
 							}
 							$fieldsToBind=array(
 								'virtuemart_vendor_id' => '1',
-								'file_title' => $pic_name, 
+								'file_title' => $pic, 
 								'file_mimetype' => 'image/'.$mimetype,
 								'file_type' => 'product',
 								'file_url' => 'images/stories/virtuemart/product/'.$pic,
-								'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic_name.'_90x90.'.$pic_ext,
+								'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
 								'file_params' => '',
 								'published' => '1',
 								'created_on' => date('Y-m-d H:i:s'),
 								'created_by' => $user_id,
 							);
+							// var_dump($fieldsToBind);
+							
 							foreach($fieldsToBind as $tField => $tValue):
 								$MediasTable->set($tField, $tValue);
 							endforeach;
@@ -316,16 +364,23 @@ class Auction2013ControllerImportlots extends JControllerForm
 								echo $MediasTable->getError();
 							// Store the data in the table
 							if (!$MediasTable->store(true))
+								//$last_id=self::getLastId('virtuemart_media_id','virtuemart_medias',$db);
+							//else{
+								//die('Not stored!');
 								echo $MediasTable->getError();
-							else
-								$virtuemart_media_id=$MediasTable->id;
+							//}
 							// now let's try to push all the media stuff into #__virtuemart_product_medias!
-							$pMedia=array(
+							/*$pMedia=array(
 									'virtuemart_product_id' => $virtuemart_product_id, 
-									'virtuemart_media_id' => $virtuemart_media_id, 
+									'virtuemart_media_id' => $last_id, 
 									'ordering' => $pcount
 								);
-							foreach($pMedia as $pmField => $pmValue):
+							var_dump($pMedia);
+							$ProductMediasTable = $model->getTable('product_medias'); 
+							$ProductMediasTable->reset();*/
+							self::addProductMedia($virtuemart_product_id, $pcount, $db);
+							
+							/*foreach($pMedia as $pmField => $pmValue):
 								$ProductMediasTable->set($pmField, $pmValue);//
 							endforeach;
 							$data_check_bind2=array_values(array_flip($pMedia));
@@ -338,6 +393,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 							// Store the data in the table
 							if (!$ProductMediasTable->store(true))
 								echo $ProductMediasTable->getError();
+							else 
+								echo "<div class=''>Сохранено!</div>";*/
+							//var_dump($ProductMediasTable);
 						}
 					}
 				}
@@ -358,8 +416,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 				endforeach;
 			}
 			
- 			var_dump($images);
-			die('IMPORT is done!');
+ 			//var_dump($images);
+			die('Импортировано записей: '.($i+1));
 			
 			//$redir = $this->redirectPath;
 			//vmInfo($msg);
