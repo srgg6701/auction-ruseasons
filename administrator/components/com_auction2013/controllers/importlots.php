@@ -37,8 +37,8 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
-	public static function addProductMedia( $virtuemart_product_id, $pcount, $db=false){
-		if(!$db) $db=JFactory::getDBO();		
+	public static function addProductMedia($virtuemart_product_id, $order){
+		$db=JFactory::getDBO();		
 		$query = $db->getQuery(true);
 		$query->clear();
 		$query->insert($db->quoteName('#__virtuemart_product_medias'));
@@ -51,7 +51,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 		$query->values( 
 					$virtuemart_product_id . ', ' . 
 					self::getLastId('virtuemart_media_id','virtuemart_medias',$db) .
-					', '. $pcount
+					', '. $order
 				);
 		
 		$db->setQuery($query);
@@ -220,15 +220,17 @@ class Auction2013ControllerImportlots extends JControllerForm
 									$images[$data_index][]=$cell_content;
 								}
 							}
+							if(!$images[$data_index])
+								$images[$data_index]=array();
 						}
 					}
-					//echo "<hr>";
 					$row_count++;
 				}
                 fclose($handle);
 			}
+			//
+			//var_dump($images);//die();
 			//echo "<hr><hr>";
-			//var_dump($columns_names);
 			$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
 			require_once $adm_com_path.DS.'helpers'.DS.'vmcontroller.php';			
@@ -239,29 +241,40 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 			$VmController=new VmController();
 			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct	
-			// $MediasTable = $model->getTable('medias'); //var_dump($MediasTable);
-			// $ProductMediasTable = $model->getTable('product_medias'); 
 
 			// additional "static" fields:
 			$arrDataToUpdate=array(
-							'categories' => array($virtuemart_category_id),
+							'product_sku' => '',
+							'product_weight' => '',
 							'product_weight_uom' => 'KG',
+							'product_length' => '0,0000',
+							'product_width' => '0,0000',
+							'product_height' => '0,0000',
 							'product_lwh_uom' => 'M',
+							'product_url' => '',
 							'product_in_stock' => '1',
+							'product_ordered' => '0',
+							'low_stock_notification' => '0',
 							'product_availability' => '',
 							'product_special' => '0',
+							'product_sales' => '0',
 							'product_packaging' => '0,0000',
+							'intnotes' => '',
+							'metarobor' => '',
+							'metaauthor' => '',
 							'layout' => '0',
+							'published' => '1',
+							'created_on' => date('Y-m-d H:i:s'),
 							'product_unit' => 'KG',
 							'price_quantity_start'=>array(''),
 							'price_quantity_end'=>array(''),
+							'categories' => array($virtuemart_category_id),
 						);?>
             <h4>Импортированные предметы:</h4>
-		<?	foreach($data as $i=>$data_stream){
-				
-				$ProductTable = $model->getTable('products');
-				$ProductTable->reset();
-				//var_dump($data_stream);die();
+		<?	var_dump($data); //die();
+			echo "<hr><hr>";
+			foreach($data as $i=>$data_stream){
+				//var_dump($data_stream);//die();
 				foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
 
@@ -308,97 +321,48 @@ class Auction2013ControllerImportlots extends JControllerForm
 					}
 				}else*/
 				
-				if($virtuemart_product_id = $VmController->import($model,$data_stream,$ProductTable)){
-				
+				if( //$virtuemart_product_id = 35+$i
+					$virtuemart_product_id = $VmController->import($model,$data_stream)
+				){
 				//if(1==1) { $virtuemart_product_id = '69';
 					// add images:
 					// #__virtuemart_medias, then #__virtuemart_product_medias
-					foreach($images as $icount=>$pix){
-						foreach($pix as $pcount=>$pic){
-							echo "<div class=''>pic= ".$pic."</div>";
-							$MediasTable = $model->getTable('medias'); 
-							$MediasTable->reset();
-							$MediasTable->set('virtuemart_vendor_id', '1');
-							$MediasTable->set('file_title', '');
-							$arrIm=explode('.',$pic);
-							$pic_ext=array_pop($arrIm);
-							switch($pic_ext){
-								// see above: $imgExt=array('gif','jpg','png','wbmp');
-								case 'jpg':case 'jpeg':
-									$mimetype='jpeg';
-								break;
-								case 'gif':
-									$mimetype='gif';
-								break;
-								case 'png':
-									$mimetype='png';
-								break;
-								case 'wbmp':
-									$mimetype='x-windows-bmp';
-								break;
-							}
-							$fieldsToBind=array(
-								'virtuemart_vendor_id' => '1',
-								'file_title' => $pic, 
-								'file_mimetype' => 'image/'.$mimetype,
-								'file_type' => 'product',
-								'file_url' => 'images/stories/virtuemart/product/'.$pic,
-								'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
-								'file_params' => '',
-								'published' => '1',
-								'created_on' => date('Y-m-d H:i:s'),
-								'created_by' => $user_id,
-							);
-							// var_dump($fieldsToBind);
-							
-							foreach($fieldsToBind as $tField => $tValue):
-								$MediasTable->set($tField, $tValue);
-							endforeach;
-							// check fields' binding:
-							$data_check_bind=array_values(array_flip($fieldsToBind));
-							// Bind the data to the table
-							if (!$MediasTable->bind($data_check_bind))
-								echo $MediasTable->getError();
-							// Check that the data is valid
-							if (!$MediasTable->check())
-								echo $MediasTable->getError();
-							// Store the data in the table
-							if (!$MediasTable->store(true))
-								//$last_id=self::getLastId('virtuemart_media_id','virtuemart_medias',$db);
-							//else{
-								//die('Not stored!');
-								echo $MediasTable->getError();
-							//}
-							// now let's try to push all the media stuff into #__virtuemart_product_medias!
-							/*$pMedia=array(
-									'virtuemart_product_id' => $virtuemart_product_id, 
-									'virtuemart_media_id' => $last_id, 
-									'ordering' => $pcount
-								);
-							var_dump($pMedia);
-							$ProductMediasTable = $model->getTable('product_medias'); 
-							$ProductMediasTable->reset();*/
-							self::addProductMedia($virtuemart_product_id, $pcount, $db);
-							
-							/*foreach($pMedia as $pmField => $pmValue):
-								$ProductMediasTable->set($pmField, $pmValue);//
-							endforeach;
-							$data_check_bind2=array_values(array_flip($pMedia));
-							// Bind the data to the table
-							if (!$ProductMediasTable->bind($data_check_bind2))
-								echo $ProductMediasTable->getError();
-							// Check that the data is valid
-							if (!$ProductMediasTable->check())
-								echo $ProductMediasTable->getError();
-							// Store the data in the table
-							if (!$ProductMediasTable->store(true))
-								echo $ProductMediasTable->getError();
-							else 
-								echo "<div class=''>Сохранено!</div>";*/
-							//var_dump($ProductMediasTable);
+					echo "<BR><div class=''>IMAGES:</div>";
+					var_dump($images[$i]);
+					$arrMediaData[$i]=array('virtuemart_product_id' => $virtuemart_product_id);
+					foreach($images[$i] as $icount=>$pic){
+						$arrIm=explode('.',$pic);
+						$pic_ext=array_pop($arrIm);
+						switch($pic_ext){
+							// see above: $imgExt=array('gif','jpg','png','wbmp');
+							case 'jpg':case 'jpeg':
+								$mimetype='jpeg';
+							break;
+							case 'gif':
+								$mimetype='gif';
+							break;
+							case 'png':
+								$mimetype='png';
+							break;
+							case 'wbmp':
+								$mimetype='x-windows-bmp';
+							break;
 						}
+						$arrMediaData[$i][]=array(
+							'virtuemart_vendor_id' => '1',
+							'file_title' => $pic, 
+							'file_mimetype' => 'image/'.$mimetype,
+							'file_type' => 'product',
+							'file_url' => 'images/stories/virtuemart/product/'.$pic,
+							'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
+							'file_params' => '',
+							'published' => '1',
+							'created_on' => date('Y-m-d H:i:s'),
+							'created_by' => $user_id,
+						);
 					}
-				}
+				}else
+					echo "<div class=''>Не сохранено...</div>";
 				$errors[]= $model->getErrors();
 			/*foreach($data_stream as $key=>$data_string){
 				$id = $VmController->import($model,$data_stream);
@@ -409,6 +373,82 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$errors[]= $model->getErrors();
 			}*/
 			}
+			
+			foreach($arrMediaData as $index => $mediadata){
+				echo "<h1>record: ".$index."</h1><h2>Product id: $mediadata[virtuemart_product_id]</h2><div>";
+				if(count($mediadata)>1){
+					foreach($mediadata as $order => $media){
+						$MediasTable = $model->getTable('medias'); //var_dump($MediasTable);
+						$MediasTable->reset();
+						//var_dump($media);
+						echo "<div class=''>TABLE DATA SET START";
+							if(is_array($media)){
+								foreach($media as $field => $value){
+									$MediasTable->set($field,$value);
+									echo "<div class=''>set: ".$field." -> $value</div>";
+								}
+								$doit=true;
+								if($doit) {
+									$data_check_bind=array_values(array_flip($media));
+									// Bind the data to the table
+									if (!$MediasTable->bind($data_check_bind))
+										echo $MediasTable->getError();
+									// Check that the data is valid
+									if (!$MediasTable->check())
+										echo $MediasTable->getError();
+									// Store the data in the table
+									if (!$MediasTable->store(true))
+										echo $MediasTable->getError();
+									else
+										self::addProductMedia($mediadata['virtuemart_product_id'], $order);
+								}else echo "<div class=''>order: ".$order."</div>";
+							}
+						echo "<BR>TABLE DATA SET FINISH</div><hr>";
+					}
+				}else echo "<h3>NO images at all</h3>";
+				
+				echo "</div><hr>";
+			}
+			// $ProductMediasTable = $model->getTable('product_medias'); 
+			//$MediasTable->set('virtuemart_vendor_id', '1');
+			//$MediasTable->set('file_title', '');
+
+						// var_dump($arrMediaData);
+						
+						/*foreach($arrMediaData as $tField => $tValue):
+							$MediasTable->set($tField, $tValue);
+						endforeach;*/
+						// check fields' binding:
+						
+						// now let's try to push all the media stuff into #__virtuemart_product_medias!
+						/*$pMedia=array(
+								'virtuemart_product_id' => $virtuemart_product_id, 
+								'virtuemart_media_id' => $last_id, 
+								'ordering' => $pcount
+							);
+						var_dump($pMedia);
+						$ProductMediasTable = $model->getTable('product_medias'); 
+						$ProductMediasTable->reset();*/
+						//self::addProductMedia($virtuemart_product_id, $pcount, $db);
+						
+						/*foreach($pMedia as $pmField => $pmValue):
+							$ProductMediasTable->set($pmField, $pmValue);//
+						endforeach;
+						$data_check_bind2=array_values(array_flip($pMedia));
+						// Bind the data to the table
+						if (!$ProductMediasTable->bind($data_check_bind2))
+							echo $ProductMediasTable->getError();
+						// Check that the data is valid
+						if (!$ProductMediasTable->check())
+							echo $ProductMediasTable->getError();
+						// Store the data in the table
+						if (!$ProductMediasTable->store(true))
+							echo $ProductMediasTable->getError();
+						else 
+							echo "<div class=''>Сохранено!</div>";*/
+						//var_dump($ProductMediasTable);			
+			
+			var_dump($arrMediaData);
 			if($errors) 
 			foreach($errors as $error){
 				foreach($error as $err):
@@ -416,9 +456,10 @@ class Auction2013ControllerImportlots extends JControllerForm
 				endforeach;
 			}
 			
- 			//var_dump($images);
-			die('Импортировано записей: '.($i+1));
-			
+ 			//
+			echo('Импортировано: записей - '.($i+1).', изображений - '.$index);
+			//
+			die();
 			//$redir = $this->redirectPath;
 			//vmInfo($msg);
 			//if(JRequest::getCmd('task') == 'apply'){

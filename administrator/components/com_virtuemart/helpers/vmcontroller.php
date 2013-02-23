@@ -126,7 +126,9 @@ class VmController extends JController{
  * @package
  * @subpackage
  */
-	function import($model,$data,$ProductTable){
+	function import($model,$data){
+		$ProductTable=$model->getTable('products');
+		$ProductTable->reset();
 		return $model->store($data,false,$ProductTable);
 	}
 /*	MODIFIED END	*/
