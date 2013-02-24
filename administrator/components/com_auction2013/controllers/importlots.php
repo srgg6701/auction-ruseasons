@@ -74,7 +74,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 	function import(){
 		
-		$test=true;
+		$test=false;
 
 		$db = JFactory::getDBO();
 		$user = JFactory::getUser();
@@ -244,7 +244,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'product_sales' => '0',
 							'product_packaging' => '0,0000',
 							'intnotes' => '',
-							'metarobor' => '',
+							'metarobot' => '',
 							'metaauthor' => '',
 							'layout' => '0',
 							'published' => '1',
