@@ -32,100 +32,6 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
- 	 
-/**
- * Описание
- * @package
- * @subpackage
- */
-	function insertRecord ($table_name,$arrData){
-		$fields=array_keys($arrData);
-		foreach($fields as $i=>$field_name)
-			$colums[]=$db->quoteName($field_name);
-		$i=0;
-		foreach($arrData as $value){
-			if($i) $values.=', ';
-			$values.=$value;
-			$i++;
-		}
-		$db=JFactory::getDBO();		
-		$query = $db->getQuery(true);
-		$query->clear();
-		$query->insert($db->quoteName('#__virtuemart_'.$table_name));
-		$query->columns($columns);
-		$query->values($values);
-		$db->setQuery($query);
-		if(!$db->execute())
-			die('Query has failed');
-		return $db->insertid();	
-	}
-	
-/**
- * Описание
- * @package
- * @subpackage
- */
-	function addProduct($rowArrData){
-		return $this->insertRecord ('products',$rowArrData);		
-	}
-
-/**
- * Описание
- * @package
- * @subpackage
- */
-	function addProductRuRu(){
-		
-	
-	}
-
-/**
- * Описание
- * @package
- * @subpackage
- */
-	function addProductPrices(){
-		
-	
-	}
-
-/**
- * Описание
- * @package
- * @subpackage
- */
-	function addProductCategories(){
-		
-	
-	}
-
-/**
- * Описание
- * @package
- * @subpackage
- */
-	function addMedia(){
-		/*virtuemart_media_id
-		virtuemart_vendor_id
-		file_title
-		file_description
-		file_meta
-		file_mimetype
-		file_type
-		file_url
-		file_url_thumb
-		file_is_product_image
-		file_is_downloadable
-		file_is_for Sale
-		file_params	shared
-		published
-		created_on
-		created_by
-		modified_on
-		modified_by
-		locked_on
-		locked_by*/
-	}
 /**
  * Описание
  * @package
@@ -146,8 +52,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 					$virtuemart_product_id . ', ' . 
 					$this->getLastId('virtuemart_media_id','virtuemart_medias',$db) .
 					', '. $order
-				);
-		//if ($test) echo "<div style='color:brown'><pre>addProductMedia query= ".$query."</pre></div>";
+				); //if ($test) echo "<div style='color:brown'><pre>addProductMedia query= ".$query."</pre></div>";
 		$db->setQuery($query);
 		if(!$db->execute())
 			return array('query', $query);
@@ -166,481 +71,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 		//echo "<div class=''>query = $query<br>last_id= ".$last_id."</div>";
 		return $last_id; 
 	}
-	
-	private function import3(){
-		$test=true;
 
-		$db = JFactory::getDBO();
-		$user = JFactory::getUser();
-		$user_id=$user->id;
-		// for your safety, please, use condoms :)
-		JRequest::checkToken() or jexit( 'Invalid Token save' );
-		
-		if(isset($_FILES)&&!empty($_FILES)){
-			$common_data_fields=array(
-					  'virtuemart_category_id',
-					  'encoding',
-					  'alt_encoding'
-					);
-			
-			foreach($common_data_fields as $i=>$field){
-				// $virtuemart_category_id, $encoding AND so on...
-				${$field}=JRequest::getVar($field);
-						$files=$_FILES['import_file'];
-			}
-			
-			$max_length=false;
-			$row_count = 0;
-			if(!$enc_from=JRequest::getVar('encoding'))
-				$enc_from=JRequest::getVar('alt_encoding');
-			$enc_to="UTF-8";
-
-			$importfile=$files['tmp_name'];
-			
-			//"files/Bronze.csv";
-			if (($handle = fopen($importfile, "r")) !== FALSE) {
-				$arrFields=array(
-						// #__virtuemart_products:
-						'auction_number'=>'auction_number', 
-						'contract_number'=>'contract_number',
-						// дата начала аукциона
-						'date_start'=>'auction_date_start',
-						// дата окончания аукциона
-						'date_stop'=>'auction_date_finish',
-						// #__virtuemart_products_ru_ru:
-						'title'=>'product_name', 
-						'short_desc'=>'product_s_desc', 
-						'desc'=>'product_desc', 
-						// #__virtuemart_product_prices:
-						// выставлять на сайте с/пд:
-						'date_show'=>'product_available_date', 
-						'date_hide'=>'product_available_date_closed',
-						'price'=>'product_price' 
-					);
-
-				// go ahead!
-				$data=array();
-				$columns_names=array();
-				$col_count=0;
-				$imgExt=array('gif','jpg','png','wbmp');
-				
-				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
-					
-					// $cells - колич. ячеек в строке
-					for ($i=0, $j=count($cells); $i < $j; $i++) {
-						
-						$cell_content=$cells[$i];
-						
-						if(!$row_count){ 
-							// если поле не было добавлено ранее. 
-							// нужно, чтобы предотвратить более одного добавления
-							// картинок, т.к., остальные должны добавляться
-							// ПОСЛЕ добавления записи в БД:
-							if( !in_array($cell_content,$columns_names)
-								&& $cell_content
-								&& $cell_content != 'img'
-							  ) { 
-								// сформировать порядок полей в пришедшем файле:
-								$columns_names[]=$cell_content;
-								
-								switch($column_name){
-									
-									case 'date_show':
-									case 'date_hide':
-									case 'date_start':
-									case 'date_stop':
-										$dt=explode('.',$cell_content);
-										$data[$data_index][$arrFields[$column_name]]=trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
-									break;
-									
-									case 'price':
-										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
-									break;
-									
-									default:
-										$data[$data_index][$arrFields[$column_name]]=$cell_content;
-								} 
-
-								// $columns_names[0] = 'date_hide';
-								// $columns_names[1] = 'contract_number';
-								if(!$row_count)
-									$col_count++;
-							} 
-							
-								
-						}else{
-						}
-					}
-				}
-			}
-		}
-	}
-	private function import2(){
-		$test=true;
-
-		$db = JFactory::getDBO();
-		$user = JFactory::getUser();
-		$user_id=$user->id;
-		// for your safety, please, use condoms :)
-		JRequest::checkToken() or jexit( 'Invalid Token save' );
-		
-		if(isset($_FILES)&&!empty($_FILES)){
-			$common_data_fields=array(
-					  'virtuemart_category_id',
-					  'encoding',
-					  'alt_encoding'
-					);
-			
-			foreach($common_data_fields as $i=>$field)
-				// $virtuemart_category_id, $encoding AND so on...
-				${$field}=JRequest::getVar($field);
-			
-			//var_dump(JRequest::get('post'));
-			/*	  'top_cat' => string '23, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories'
-				  'virtuemart_category_id' => string '2'
-				  'task' => string 'import'
-				  'd8cbe8fbc1d088b324c57dff410d39da' => string '1'
-				  'encoding' => string 'windows-1251'
-				  'alt_encoding' => string ''
-				  'option' => string 'com_auction2013'
-			*/
-			//var_dump($_FILES);
-			/*   'import_file' => 
-					array
-					  'name' => string 'Bronze.csv'
-					  'type' => string 'application/vnd.ms-excel'
-					  'tmp_name' => string 'Z:\tmp\phpEBAF.tmp'
-					  'error' => int 0
-					  'size' => int 6371
-			*/
-			$files=$_FILES['import_file'];
-			
-			$max_length=false;
-			$row_count = 0;
-			if(!$enc_from=JRequest::getVar('encoding'))
-				$enc_from=JRequest::getVar('alt_encoding');
-			$enc_to="UTF-8";
-
-			$importfile=$files['tmp_name'];
-			
-			//"files/Bronze.csv";
-			if (($handle = fopen($importfile, "r")) !== FALSE) {
-				// synchronyze fields: file => tables:
-				$products=array(
-							// #__virtuemart_products:
-							'auction_number'=>'auction_number', 
-							'contract_number'=>'contract_number',
-							// дата начала аукциона
-							'date_start'=>'auction_date_start',
-							// дата окончания аукциона
-							'date_stop'=>'auction_date_finish',
-							// #__virtuemart_products_ru_ru:
-							'title'=>'product_name', 
-							'short_desc'=>'product_s_desc', 
-							'desc'=>'product_desc', 
-							
-						);
-				
-				$products_ru_ru=array(
-							
-						);
-						
-				$product_prices=array(
-							// #__virtuemart_product_prices:
-							// выставлять на сайте с/пд:
-							'date_show'=>'product_available_date', 
-							'date_hide'=>'product_available_date_closed',
-							'price'=>'product_price' 				
-						);
-				
-				$product_categories=array(
-				
-						);
-				
-				$medias=array(
-				
-						);
-						
-				$product_medias=array(
-				
-						);
-				
-				
-				// go ahead!
-				$data=array();
-				$columns_names=array();
-				$col_count=0;
-				$imgExt=array('gif','jpg','png','wbmp');
-				
-				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
-					$date_start=$date_stop=false; // containers for product_availability to calculate its value
-					
-					// $cells - колич. ячеек в строке
-					for ($i=0, $j=count($cells); $i < $j; $i++) {
-						
-						$cell_content=$cells[$i];
-						// если первая строка файла - собираем заголовки:
-						if(!$row_count){ 
-							// если поле не было добавлено ранее. 
-							// нужно, чтобы предотвратить более одного добавления
-							// картинок, т.к., остальные должны добавляться
-							// ПОСЛЕ добавления записи в БД:
-							if( !in_array($cell_content,$columns_names)
-							    && $cell_content
-								&& $cell_content != 'img'
-							  ) { 
-							  	// сформировать порядок полей в пришедшем файле:
-								$columns_names[]=$cell_content;
-								// $columns_names[0] = 'date_hide';
-								// $columns_names[1] = 'contract_number';
-								if(!$row_count)
-									$col_count++;
-							} 
-							
-						}else{
-							
-							$data_index=$row_count-1;
-							
-							if (isset($enc_from)&&isset($enc_to))
-								$cell_content=iconv($enc_from,$enc_to,$cell_content);							
-							
-							// если не кончились уникальные заголовки:
-							if($col_count>$i){
-								
-								//имя текущего столбца, в том порядке, в котором расположены в файле:
-								$column_name=$columns_names[$i];
-
-								//echo "<div class=''>column_name= ".$column_name."</div>";
-								switch($column_name){
-									
-									case 'date_show':
-									case 'date_hide':
-									case 'date_start':
-									case 'date_stop':
-										$dt=explode('.',$cell_content);
-										$data[$data_index][$arrFields[$column_name]]=trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
-									break;
-									
-									case 'price':
-										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
-									break;
-									
-									default:
-										$data[$data_index][$arrFields[$column_name]]=$cell_content;
-								} 
-								
-							}else{
-								// сформировать массив вторичных картинок:
-								$picExt=array_pop(explode('.',$cell_content));
-								if(in_array(strtolower($picExt),$imgExt)){
-									$images[$data_index][]=$cell_content;
-								}
-							}
-							if(!$images[$data_index])
-								$images[$data_index]=array();
-						}
-					}
-					$row_count++;
-				}
-                fclose($handle);
-			} // //var_dump($images);//die(); //echo "<hr><hr>";
-
-			$product=array();
-			
-
-			// additional "static" fields:
-			$arrDataToUpdate=array(
-							'product_sku' => '',
-							'product_weight' => '',
-							'product_weight_uom' => 'KG',
-							'product_length' => '0,0000',
-							'product_width' => '0,0000',
-							'product_height' => '0,0000',
-							'product_lwh_uom' => 'M',
-							'product_url' => '',
-							'product_in_stock' => '1',
-							'product_ordered' => '0',
-							'low_stock_notification' => '0',
-							'product_availability' => '',
-							'product_special' => '0',
-							'product_sales' => '0',
-							'product_packaging' => '0,0000',
-							'intnotes' => '',
-							'metarobot' => '',
-							'metaauthor' => '',
-							'layout' => '0',
-							'published' => '1',
-							'created_on' => date('Y-m-d H:i:s'),
-							'product_unit' => 'KG',
-							'price_quantity_start'=>array(''),
-							'price_quantity_end'=>array(''),
-							'categories' => array($virtuemart_category_id),
-						);/*?>
-            <h4>Импортированные предметы:</h4>
-		<?*/	// var_dump($data); //die(); echo "<hr><hr>";
-			foreach($data as $i=>$data_stream){ //var_dump($data_stream);//die();
-				
-				foreach($arrDataToUpdate as $field => $content)
-					$data_stream[$field] = $content;
-
-				$data_stream['mprices']['product_currency']=array('131');
-				$data_stream['mprices']['product_override_price']=array('0,00000');
-				$data_stream['mprices']['product_price_publish_up']=array('00.00.0000 0:00:00');
-				$data_stream['mprices']['product_price_publish_down']=array('00.00.0000 0:00:00');				
-
-				if($virtuemart_product_id = $VmController->import($model,$data_stream)
-				){
-					// add images:
-					// #__virtuemart_medias, then #__virtuemart_product_medias
-					//echo "<BR><div class=''>IMAGES:</div>";
-					//var_dump($images[$i]);
-					$arrMediaData[$i]=array('virtuemart_product_id' => $virtuemart_product_id);
-					foreach($images[$i] as $icount=>$pic){
-						$arrIm=explode('.',$pic);
-						$pic_ext=array_pop($arrIm);
-						switch($pic_ext){
-							// see above: $imgExt=array('gif','jpg','png','wbmp');
-							case 'jpg':case 'jpeg':
-								$mimetype='jpeg';
-							break;
-							case 'gif':
-								$mimetype='gif';
-							break;
-							case 'png':
-								$mimetype='png';
-							break;
-							case 'wbmp':
-								$mimetype='x-windows-bmp';
-							break;
-						}
-						$arrMediaData[$i][]=array(
-							'virtuemart_vendor_id' => '1',
-							'file_title' => $pic, 
-							'file_mimetype' => 'image/'.$mimetype,
-							'file_type' => 'product',
-							'file_url' => 'images/stories/virtuemart/product/'.$pic,
-							'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
-							'file_params' => '',
-							'published' => '1',
-							'created_on' => date('Y-m-d H:i:s'),
-							'created_by' => $user_id,
-						);
-					}
-				}//else echo "<div class=''>Не сохранено...</div>";
-				$errors[]= $model->getErrors();
-			}
-			if($test&&empty($data))
-				echo "<div class=''>\$data is empty, line: ".__LINE__."</div>";
-				
-			$all_pix_count=0;
-			foreach($arrMediaData as $index => $mediadata){
-
-				if(count($mediadata)>1){
-					foreach($mediadata as $order => $media){
-						if(!$MediasTable = $model->getTable('medias'))
-							echo "<div class=''>Не создан экземпляр класса $MediasTable; line: ".__LINE__."</div>"; 
-						
-						$MediasTable->reset();
-
-						if(is_array($media)){
-							foreach($media as $field => $value){
-								$MediasTable->set($field,$value);
-							}
-							$doit=true;
-							if($doit) {
-								$data_check_bind=array_values(array_flip($media));
-								if(!empty($media)){
-									// Bind the data to the table
-									if (!$MediasTable->bind($data_check_bind)){
-										echo $MediasTable->getError();
-										echo "<div class=''>Bind error; line: ".__LINE__."</div>";
-									}
-									// Check that the data is valid
-									if (!$MediasTable->check()){
-										echo $MediasTable->getError();
-										echo "<div class=''>Check error; line: ".__LINE__."</div>";
-										// Store the data in the table
-									}
-									if (!$MediasTable->store(true)){
-										echo $MediasTable->getError();
-										$imgErrors[].="<div>Не сохранена запись в таблице Medias.</div>";
-									}
-									else{
-										
-										if($test)
-											echo "<div style='color:blue;'>Добавлена запись в таблицу Medias; line: ".__LINE__."</div>";
-										
-										$result=$this->addProductMedia($mediadata['virtuemart_product_id'], $order+1, $test);
-										if($test)
-											echo "<div style='color:violet'>result = ".$result.", line: ".__LINE__."</div>";
-										if($result===true){
-											$all_pix_count++;
-											if($test)
-												echo "<div style='color:blue;'>Добавлена запись в таблицу Product Medias; line: ".__LINE__."</div>";
-										}else{
-											if(is_array($result)){
-												if(!$mediadata['virtuemart_product_id'])
-													$imgErrors[].="<div>Не получен id предмета.</div>";
-												else 
-													$imgErrors[].="<div>Id предмета: ".$mediadata['virtuemart_product_id']."</div>";
-												
-												$imgErrors[].= "<hr>
-													<h5>Не добавлены данные:</h5>";
-												$lErr='';
-												foreach($media as $field => $value)
-													$lErr.= "<div class=''>{$field}: ".$value."</div>";
-												$imgErrors[].= $lErr. "<hr>
-												<b>Текст запроса:</b> 
-												<div>
-													<pre>".$result[1]."</pre>
-												</div>
-												<hr>";
-											}else{
-												echo "<div style='color:orange'>\$result is not an array! It is ".gettype($result).", {$result}</div>";
-											}
-										}
-									}
-								}elseif ($test)
-									echo "<div style='color:666;'>\$media array is empty; line: ".__LINE__."</div>";
-							}
-						}elseif($test){
-							if ($order!="virtuemart_product_id"){
-								echo "<div class=''>\$media is not an array; type: ".gettype($media).";, line: ".__LINE__."</div>"; 
-
-								echo "<br><br>\$mediadata:"; var_dump($mediadata); 
-								echo "<hr>line: ".__LINE__."</div>";
-							}
-						}
-					}
-				}//else echo "<h3>NO images at all</h3>";		
-				//echo "</div><hr>";
-			}
-			if (empty($arrMediaData)&&$test)
-				echo "<div style='color:navy'>\$arrMediaData is empty, line: ".__LINE__."</div>";
-				
-			if($errors) 
-			foreach($errors as $error){
-				foreach($error as $err):
-					var_dump($err);
-				endforeach;
-			}
-			$msg='Импортировано '.($i+1).' записей.';
-			$redir='index.php?option=com_auction2013';
-			//
-			if(count($imgErrors)||$test){
-				echo('Импортировано: записей - '.($i+1).', изображений - '.$all_pix_count);
-				if(count($imgErrors)) {
-					echo "<hr><h5 style='color:red'>Ошибки добавления записей в табл. #__virtuemart_product_medias:</h5>";
-					
-					foreach($imgErrors as $e=>$ms)
-						echo $imgErrors[$e];	
-				}
-				die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
-			}else
-				$this->setRedirect(JRoute::_($redir), $msg);
-		}
-	}
-	
 	function import(){
 		
 		$test=true;
@@ -688,20 +119,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 			$enc_to="UTF-8";
 
 			$importfile=$files['tmp_name'];
-			$prices=array(
-					'product_price'=>array('0'),
-					//'virtuemart_product_price_id'=>array('0'),
-					//'product_currency'=>array('131'),
-					//'virtuemart_shoppergroup_id'=>array(''),
-					//'basePrice'=>array('0'),
-					//'product_tax_id'=>array('0'),
-					//'product_discount_id'=>array('0'),
-					//'product_price_publish_up'=>array(date('000-00-00 00:00:00')),
-					//'product_price_publish_down'=>array(date('000-00-00 00:00:00')),
-					//'product_override_price'=>array(''),
-					//'price_quantity_start'=>array(''),
-					//'price_quantity_end'=>array(''),
-				);
+			$prices=array('product_price'=>array('0'));
+			
 			//"files/Bronze.csv";
 			if (($handle = fopen($importfile, "r")) !== FALSE) {
 				// synchronyze fields: file => tables:
@@ -729,7 +148,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$col_count=0;
 				$imgExt=array('gif','jpg','png','wbmp');
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
-					//$date_start=$date_stop=false; // containers for product_availability to calculate its value
+
 					// $cells - колич. ячеек в строке
 					for ($i=0, $j=count($cells); $i < $j; $i++) {
 						
@@ -791,18 +210,21 @@ class Auction2013ControllerImportlots extends JControllerForm
 				}
                 fclose($handle);
 			} // //var_dump($images);//die(); //echo "<hr><hr>";
-			//$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
-			//defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
-			//require_once $adm_com_path.DS.'helpers'.DS.'vmcontroller.php';			
-			//require_once $adm_com_path.DS.'helpers'.DS.'vmmodel.php';
-			//require_once $adm_com_path.DS.'tables'.DS.'products.php';
-			//require_once $adm_com_path.DS.'tables'.DS.'medias.php';
-			//require_once $adm_com_path.DS.'tables'.DS.'product_medias.php';
+			
+			$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
+			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
+			require_once $adm_com_path.DS.'helpers'.DS.'vmcontroller.php';			
+			require_once $adm_com_path.DS.'helpers'.DS.'vmmodel.php';
+			require_once $adm_com_path.DS.'tables'.DS.'products.php';
+			require_once $adm_com_path.DS.'tables'.DS.'medias.php';
+			require_once $adm_com_path.DS.'tables'.DS.'product_medias.php';
 
-			//$VmController=new VmController();
-			// VirtueMartModelProduct	
-			//if(!$model = VmModel::getModel('Product','VirtueMartModel'))
-				//echo "<div class=''>Не создан экземпляр Модели продукта \$model; line: ".__LINE__."</div>"; 
+			$VmController=new VmController();
+			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct	
+
+			//
+			if(!$model = VmModel::getModel('Product','VirtueMartModel'))
+				echo "<div class=''>Не создан экземпляр Модели продукта \$model; line: ".__LINE__."</div>"; 
 
 			// additional "static" fields:
 			$arrDataToUpdate=array(
@@ -821,31 +243,28 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'product_special' => '0',
 							'product_sales' => '0',
 							'product_packaging' => '0,0000',
-							'product_params' => 'min_order_level=""|max_order_level=""|product_box=""|',
 							'intnotes' => '',
-							'metarobot' => '',
+							'metarobor' => '',
 							'metaauthor' => '',
 							'layout' => '0',
 							'published' => '1',
 							'created_on' => date('Y-m-d H:i:s'),
 							'product_unit' => 'KG',
-							// product_prices
-							'product_override_price' => '0,00000',
-							'product_price_publish_up' => '0000-00-00 0:00:00',
-							'product_currency' => '131',
-							'price_quantity_start'=>'0',
-							'price_quantity_end'=>'0'
-						);/*?>
+							'price_quantity_start'=>array(''),
+							'price_quantity_end'=>array(''),
+							'categories' => array($virtuemart_category_id),
+						); /*?>
             <h4>Импортированные предметы:</h4>
-		<?*/	// var_dump($data); //die(); echo "<hr><hr>";
+			<?*/	// var_dump($data); //die(); echo "<hr><hr>";
 			foreach($data as $i=>$data_stream){ //var_dump($data_stream);//die();
 				foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
 
-				$data_stream['mprices'][;
-				$data_stream['mprices'][;
-				$data_stream['mprices'][);
-				$data_stream['mprices']['product_price_publish_down']=array('00.00.0000 0:00:00');				
+				$data_stream['mprices']['product_currency']=array('131');
+				$data_stream['mprices']['product_override_price']=array('0,00000');
+				$data_stream['mprices']['product_price_publish_up']=array('0000-00-00 0:00:00');
+				$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
+				$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
 
 				if( //$virtuemart_product_id = 35+$i
 					$virtuemart_product_id = $VmController->import($model,$data_stream)
