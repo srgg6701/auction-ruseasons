@@ -129,4 +129,22 @@ class AuctionStuff{
 		ob_clean();
 		return $fields;
 	}
+}
+class HTML{
+	public static function pageHead($section,$obj){?>
+<div class="top_list">
+    <h2><?=$section?>. Лотов: <?=count($obj->products)?> </h2>
+	<div class="top_list_mn">
+        <div class="your_cab">
+            <a href="index.php?a=4">Ваш кабинет &gt;&gt; </a>
+        </div>	
+        <div class="your_cab">
+            <a href="index.php?a=28&amp;b=136"> Прием на торги &gt;&gt; </a>
+        </div>
+    </div>
+</div>
+<div class="lots_listing">
+
+</div>    
+<?	}
 }?>

@@ -46,9 +46,12 @@ if ($this->params->get('highContrast')) {
 
 <script src="templates/<?php echo $this->template; ?>/less/less.js" type="text/javascript"></script> 
 
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="templates/<?php echo $this->template; ?>/js/jquery-1.7.1.min.js"></script>
+<script src="templates/<?php echo $this->template; ?>/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+<!--<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>--> 
 
 <jdoc:include type="head" />
 

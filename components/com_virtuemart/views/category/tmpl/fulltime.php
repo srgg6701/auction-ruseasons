@@ -12,21 +12,9 @@
 //vmdebug('$this->category',$this->category);
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
-defined ('_JEXEC') or die('Restricted access');?>
-<div class="top_list">
-    <h2>Очные торги: лотов XXX </h2>
-	<div class="top_list_mn">
-        <div class="your_cab">
-            <a href="index.php?a=4">Ваш кабинет &gt;&gt; </a>
-        </div>	
-        <div class="your_cab">
-            <a href="index.php?a=28&amp;b=136"> Прием на торги &gt;&gt; </a>
-        </div>
-    </div>
-</div>
-<div class="lots_listing">
+defined ('_JEXEC') or die('Restricted access');
 
-</div>
+HTML::pageHead("Очные торги",$this);	?>
 <div class="item-page-shop fulltime">
 <br>
 <?

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), SQL document design file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<Document>
+  <Properties>
+    <Type>SQL Document Design</Type>
+    <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
+    <ProviderVersion>6.0.26.0</ProviderVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </Properties>
+  <Connection Name="LocalHost">
+    <ConnectionString>User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</ConnectionString>
+    <Database />
+  </Connection>
+  <Views ShowAdditionalViews="True" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="64">
+    <View Name="Design" Visible="True">
+      <Data>
+        <StatementType>Select</StatementType>
+        <ActiveQuery>0</ActiveQuery>
+        <SubQuery Id="0" Open="0" LocationX="-10.3448275295081" LocationY="-108.045976419306" Scale="0.87">
+          <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <HorizontalOverlap>0</HorizontalOverlap>
+            <VerticalOverlap>0</VerticalOverlap>
+            <TopLeftMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </TopLeftMargins>
+            <BottomRightMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </BottomRightMargins>
+            <PaperSize>
+              <Width>210 mm</Width>
+              <Height>297 mm</Height>
+            </PaperSize>
+          </PageOptions>
+          <Tables>
+            <Table Name="auc13_virtuemart_products" Left="16" Top="-120" Width="300.3038" Height="736" Collapsed="False" />
+            <Table Name="auc13_virtuemart_products_ru_ru" Left="760" Top="-152" Width="306.8741" Height="210" Collapsed="False" />
+            <Table Name="auc13_virtuemart_categories" Left="336" Top="184" Width="266.1319" Height="462" Collapsed="False" />
+            <Table Name="auc13_virtuemart_categories_ru_ru" Left="1048" Top="352" Width="318.1111" Height="192" Collapsed="False" />
+            <Table Name="auc13_virtuemart_product_categories_1" Left="784" Top="112" Width="333.3389" Height="138" Collapsed="False" />
+          </Tables>
+        </SubQuery>
+      </Data>
+    </View>
+    <View Name="Code" Visible="True">
+      <Data />
+    </View>
+    <View Name="Data" Active="True" Visible="True" />
+    <View Name="Profiler" Visible="False" />
+    <View Name="PivotGrid" Visible="False" />
+  </Views>
+</Document>

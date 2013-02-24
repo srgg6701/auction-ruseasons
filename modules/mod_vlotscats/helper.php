@@ -35,7 +35,7 @@ ORDER BY cats.ordering';
  * @package
  * @subpackage
  */
-	function getCategoriesData($published=false,$db=false){
+	function getCategoriesData($published=false,$db=false,$inStockOnly=true){
 		if (!$db)
 			$db=JFactory::getDBO();
 		$top_cats=modVlotscatsHelper::getTopCategories($db);
@@ -68,6 +68,9 @@ ORDER BY cats.ordering';
 			}else{
 				$pub='';
 			}
+			if($inStockOnly)
+				$query.='
+               AND p.`product_in_stock` > 0';
 
 			$query.='
         ) AS "product_count"
