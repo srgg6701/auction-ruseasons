@@ -1,1 +1,0 @@
-ALTER TABLE `#__csvi_replacements` ADD COLUMN `multivalue` ENUM('0','1') NOT NULL AFTER `replacetext`;
