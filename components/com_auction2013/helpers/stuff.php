@@ -72,7 +72,6 @@ class AuctionStuff{
         AND cat_cats.category_parent_id = ".$category_parent_id." 
   ORDER BY cat_cats.category_parent_id,cats.ordering";		
 */	
-		
 	}
 
 /**
@@ -181,17 +180,22 @@ class HTML{
 		$products_data=$session->get('products_data');
 		$section_data=$products_data[$layout];
 		$links=$session->get('section_links');
-		//var_dump($links[$layout]); die();
+		//var_dump($links[$layout]); 
 		$router = $app->getRouter();
 		
 		if($SefMode=$router->getMode()){
-			if((int)$category_id>0)
+			if((int)$category_id>0){
 				$link=$links[$layout][$category_id];
-			else{ 
+			}else{ 
 				$menu = $app->getMenu();
 				$menus = $menu->getMenu();
-				$link=JUri::root().$menus[JRequest::getVar('Itemid')]->alias;
+				$link=JUri::root();
+				
+				$top_alias=($layout!='shop')? 'route':'alias';
+				$link.=$menus[JRequest::getVar('Itemid')]->$top_alias;
 			}
+			//var_dump($menus[JRequest::getVar('Itemid')]);
+			//echo('link = '.$link); 
 			$cab_link=($user->guest)?
 				"index.php/component/auction2013/?layout=register"
 				: 
@@ -226,7 +230,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
         </div>	
     </div>
 </div>    
-<?		HTML::setVmPagination($SefMode,$link,$pagination);
+<?		HTML::setVmPagination($SefMode,$link,$pagination); 
 	}
 /**
  * Описание

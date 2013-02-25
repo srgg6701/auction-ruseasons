@@ -13,8 +13,15 @@
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
-
-HTML::pageHead("Очные торги",$this);	?>
+HTML::pageHead( 
+			"Очные торги",
+			'fulltime',
+			JRequest::getVar('virtuemart_category_id'),
+			$this->category->slug,
+			$this->vmPagination
+		);
+if(JRequest::getVar('spag'))
+	var_dump($this->vmPagination); ?>
 <div class="item-page-shop fulltime">
 <br>
 <?
@@ -65,17 +72,21 @@ if ($this->search !== NULL):?>
 <?	endif;
 
 // here all rock & roll begins! Yo.
-if (!empty($this->products)) {
-
+if (!empty($this->products)) {?>
+	<table>
+<?
 	// array => object
 	foreach($this->products as $i=>$product){?>
-<div class="box">
-  <div class="img">	
-    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
-</div>
-	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
+		<tr>
+        	<td class="box">
+            	<div class="img">
+                	<a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
+                </div>
+            </td>
+			<td class="desc">
+            	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
 	<?	if (!empty($product->product_s_desc)):?>
-	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
+	  <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 
 
 		if ($this->show_prices == '1') {
@@ -115,12 +126,15 @@ if (!empty($this->products)) {
 		
 		$show_button=false;
 		if ($show_button):// Product Details Button?>
-	<p><?=JHTML::link ($product->link, JText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'product-details'))?></p>
+	  <p><?=JHTML::link ($product->link, JText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'product-details'))?></p>
 	<?	endif;?>
-</div>
-<?	}
-
+			</td>
+        </tr>
+<?	}?>
+    </table>
+<?
 }elseif ($this->search !== NULL) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
+<? HTML::setVmPagination()?>

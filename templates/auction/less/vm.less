@@ -36,11 +36,20 @@ div.lots_listing{
 	margin-top: 10px;
 	padding-top: 6px;
 }
+
+.imHeader{
+	font-size: 14px;
+	a{
+		height: auto;
+		text-decoration: none !important;
+	}
+}
+
 div.item-page-shop{
 	*{
 		font-family: Verdana;
 	}
-	div.box{
+	div.box, td.box{
 		display:inline-block;
 		font-size: 13px;
 		padding:5px;
@@ -57,16 +66,23 @@ div.item-page-shop{
 			width: 226px;
 		}
 		h2{
-			font-size: 13px;
-			outline-color: rgb(132, 17, 19);
-			outline-style: none;
-			outline-width: 0px;
-			text-align: left;
-			.txtBrown;
-			a{
-				height: auto;
-				text-decoration: none !important;
+			.imHeader;
+		}
+	}
+	&.fulltime{
+		.box{
+			.img{
+				height:228px;
 			}
 		}
+		td.desc{
+			padding-left:28px;
+			h2{ 
+				.imHeader;
+			}
+		}
+	}
+	p.product_s_desc{
+		color:black;
 	}
 }
