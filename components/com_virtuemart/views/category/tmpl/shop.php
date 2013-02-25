@@ -29,7 +29,34 @@ defined ('_JEXEC') or die('Restricted access');
 		
 		$this->category->slug
  */ 
-HTML::pageHead("Магазин",'shop',JRequest::getVar('virtuemart_category_id'),$this->category->slug);?>
+HTML::pageHead( 
+			"Магазин",
+			'shop',
+			JRequest::getVar('virtuemart_category_id'),
+			$this->category->slug,
+			$this->vmPagination
+		);
+if(JRequest::getVar('spag'))
+	var_dump($this->vmPagination); ?>
+<? /*	?>
+<div class="width30 floatright display-number">
+	FIRST
+	<?php echo $this->vmPagination->getResultsCounter ();?><br/><?php echo $this->vmPagination->getLimitBox (); ?>
+</div>
+<?		?>
+	
+<div class="vm-pagination">
+	SECOND
+	<?php echo $this->vmPagination->getPagesLinks (); ?>
+	<span style="float:right"><?php echo $this->vmPagination->getPagesCounter (); ?></span>
+	</div>
+<?		?>
+
+<div class="vm-pagination">
+	THIRD
+	<?php echo $this->vmPagination->getPagesLinks (); ?><span style="float:right"><?php echo $this->vmPagination->getPagesCounter (); ?></span></div>
+
+<? //die();*/?>
 <div class="item-page-shop">
 <br>
 <?
@@ -138,3 +165,4 @@ if (!empty($this->products)) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
+<? HTML::setVmPagination()?>

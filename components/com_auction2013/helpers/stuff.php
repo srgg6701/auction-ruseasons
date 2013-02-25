@@ -162,7 +162,13 @@ class AuctionStuff{
 	}
 }
 class HTML{
-	public static function pageHead($section,$layout,$category_id,$slug=false){?>
+	public static function pageHead (
+								$section,
+								$layout,
+								$category_id,
+								$slug=false,
+								$pagination=false
+							){?>
 <div class="top_list">
     <h2><? echo $section;
 	
@@ -210,8 +216,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		}else{
 			$lots=$section_data['prod_count'];
 		}
-		echo ". Лотов: ".$lots;
-		//if(isset($cat)) echo $subcat;?></h2>
+		echo ". Лотов: ".$lots;?></h2>
 	<div class="top_list_mn">
         <div class="your_cab">
             <a href="<?=$prop_link?>"> Прием на торги &gt;&gt; </a>
@@ -220,34 +225,43 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
             <a href="<?=$cab_link?>"><?=($user->guest)? "Регистрация":"Ваш кабинет"?> &gt;&gt; </a>
         </div>	
     </div>
-</div>
-<div class="lots_listing">
-	Лотов на странице: 
-    <?	$arrLimits=array(15,30,60);
-		foreach($arrLimits as $i=>$limit){
-			if($SefMode){
-				$go_limit=$link.'/?';
-			}else{
-				$go_limit=JRoute::_($link.'&');
-			}?>
-    <a href="<?=$go_limit.'limit='.$limit?>"><?=$limit?></a>
-     &nbsp; 
-	<?	}?>
 </div>    
-<?	}
-
+<?		HTML::setVmPagination($SefMode,$link,$pagination);
+	}
 /**
  * Описание
  * @package
  * @subpackage
  */
-	/*function setSefLinkText($SefMode=false){		
-		if($SefMode){
-			$category_link=JUri::base(); 
-			if ($top_cats_aliases[$a]=='fulltime')
-				$category_link.= $menus[$menus[$top_cats_menu_ids[$a]]->parent_id]->alias.'/';
-			$category_link.= $menus[$top_cats_menu_ids[$a]]->alias.'/'.$category_data['alias'];
-		}
-		return $category_link;
-	}*/
+	public static function setVmPagination(
+								$SefMode = false,
+								$link = false,
+								$pagination = false
+							){?>	
+<div class="lots_listing">
+	Лотов на странице: 
+    <?	static $sef;
+		static $lnk;
+		static $pag;
+		
+		if($link) $lnk=$link;
+		if($SefMode) $sef=$SefMode;
+		if($pagination) $pag=$pagination->getPagesLinks();
+		
+		$arrLimits=array(15,30,60);
+		
+		foreach($arrLimits as $i=>$limit){
+			if($sef){
+				$go_limit=$lnk.'/?';
+			}else{
+				$go_limit=JRoute::_($lnk.'&');
+			}?>
+    <a href="<?=$go_limit.'limit='.$limit?>"><?=$limit?></a>
+     &nbsp; 
+	<?	}?>
+    <div class="vmPag">
+		<?=$pag?>
+    </div>
+</div>	
+<?	}
 }?>
