@@ -45,6 +45,37 @@ class AuctionStuff{
 		return array('online','fulltime','shop');
 	}
 /**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function getCatProdCount(){
+		/*$query="SELECT 
+		-- cats.virtuemart_category_id, 
+        -- cats_ru.category_name,
+        -- cats_ru.slug AS 'alias',
+        (   SELECT count(p.virtuemart_product_id)
+              FROM `#__virtuemart_products` AS p,
+                   `#__virtuemart_product_categories` AS pc
+             WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
+               AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`
+               AND p.`published` = '1'
+               AND p.`product_in_stock` > 0
+        ) AS 'product_count'
+   FROM #__virtuemart_categories AS cats
+   LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru 
+     ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
+   LEFT JOIN #__virtuemart_category_categories AS cat_cats 
+     ON cat_cats.id = cats.virtuemart_category_id
+  WHERE cats.`published` = '1'
+        AND cats_ru.slug = '".$alias."'
+        AND cat_cats.category_parent_id = ".$category_parent_id." 
+  ORDER BY cat_cats.category_parent_id,cats.ordering";		
+*/	
+		
+	}
+
+/**
  * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е
  * @package
  * @subpackage
@@ -131,20 +162,83 @@ class AuctionStuff{
 	}
 }
 class HTML{
-	public static function pageHead($section,$obj){?>
+	public static function pageHead($section,$layout,$category_id,$slug=false){?>
 <div class="top_list">
-    <h2><?=$section?>. Лотов: <?=count($obj->products)?> </h2>
+    <h2><? echo $section;
+	
+		$results=1;
+		$session =& JFactory::getSession();
+		
+		$products_data=$session->get('products_data');
+		$section_data=$products_data[$layout];
+		$links=$session->get('section_links');
+		//var_dump($links[$layout]); die();
+		$app=JFactory::getApplication();
+		$router = $app->getRouter();
+		
+		if($SefMode=$router->getMode()){
+			if((int)$category_id>0)
+				$link=$links[$layout][$category_id];
+			else{ 
+				$menu = $app->getMenu();
+				$menus = $menu->getMenu();
+				$link=JUri::root().$menus[JRequest::getVar('Itemid')]->alias;
+				$cab_link="index.php/component/users/?view=login";
+			}
+			//var_dump(JRequest::get('get'));
+		}else{
+	 		$link='index.php?option=com_virtuemart&view=category&layout='.$layout;
+			$cab_link="index.php?option=com_users&view=login";
+		}
+		
+		//var_dump($links);
+		//var_dump($section_data); //die();
+		if((int)$category_id>0){
+			$cat=$section_data[$slug];
+			$subcat="<div style='font-weight:200;font-size: 16px;
+margin-top: 8px;'>".$cat['category_name']."</div>";
+			$lots = $cat['product_count'];
+		}else{
+			$lots=$section_data['prod_count'];
+		}
+		echo ". Лотов: ".$lots;
+		//if(isset($cat)) echo $subcat;?></h2>
 	<div class="top_list_mn">
-        <div class="your_cab">
-            <a href="index.php?a=4">Ваш кабинет &gt;&gt; </a>
-        </div>	
         <div class="your_cab">
             <a href="index.php?a=28&amp;b=136"> Прием на торги &gt;&gt; </a>
         </div>
+        <div class="your_cab">
+            <a href="index.php/component/users/?view=login">Ваш кабинет &gt;&gt; </a>
+        </div>	
     </div>
 </div>
 <div class="lots_listing">
-
+	Лотов на странице: 
+    <?	$arrLimits=array(15,30,60);
+		foreach($arrLimits as $i=>$limit){
+			if($SefMode){
+				$go_limit=$link.'/?';
+			}else{
+				$go_limit=JRoute::_($link.'&');
+			}?>
+    <a href="<?=$go_limit.'limit='.$limit?>"><?=$limit?></a>
+     &nbsp; 
+	<?	}?>
 </div>    
 <?	}
+
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	/*function setSefLinkText($SefMode=false){		
+		if($SefMode){
+			$category_link=JUri::base(); 
+			if ($top_cats_aliases[$a]=='fulltime')
+				$category_link.= $menus[$menus[$top_cats_menu_ids[$a]]->parent_id]->alias.'/';
+			$category_link.= $menus[$top_cats_menu_ids[$a]]->alias.'/'.$category_data['alias'];
+		}
+		return $category_link;
+	}*/
 }?>

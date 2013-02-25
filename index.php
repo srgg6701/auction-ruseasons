@@ -119,7 +119,12 @@ function setDebugTrace( $file,
 		$session->clear('test_output');
 }
 //TEST
-
+if(JRequest::getVar('sclear')) {
+	$session = JFactory::getSession();
+	$session->clear('section_links');
+	$session->clear('products_data');
+	echo "<h1>SESSION IS CLEAR!</h1>";
+}
 // Route the application.
 $app->route();
 

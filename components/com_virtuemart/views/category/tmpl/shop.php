@@ -13,8 +13,23 @@
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
+//var_dump(JRequest::get('get'));
+/*	get:
+		'Itemid' => string '115' (length=3)
+		'option' => string 'com_virtuemart' (length=14)
+		'view' => string 'category' (length=8)		
 
-HTML::pageHead("Магазин",$this);	?>
+	SHOP:
+		'layout' => string 'shop' (length=4)
+		'virtuemart_category_id' => string '0' (length=1)
+	CATEGORY:
+		'limitstart' => int 0
+		'limit' => string 'int' (length=3)
+		'virtuemart_category_id' => string '6' (length=1)
+		
+		$this->category->slug
+ */ 
+HTML::pageHead("Магазин",'shop',JRequest::getVar('virtuemart_category_id'),$this->category->slug);?>
 <div class="item-page-shop">
 <br>
 <?
@@ -62,8 +77,7 @@ if ($this->search !== NULL):?>
 	<input type="hidden" name="view" value="category"/>
 </form>
 <!-- End Search Box -->
-<?	endif;
-
+<?	endif; //var_dump($this); die();
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
 

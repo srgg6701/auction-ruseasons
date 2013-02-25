@@ -1,28 +1,35 @@
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+$session =JFactory::getSession();
+if(!$session->get('section_links')){?>
+<script>location.reload();</script>
+<? 
+}
+	//var_dump($section_links); die();
 // get categories:
 $lots=modVlotscatsHelper::getCategoriesData(true);
 //var_dump($lots); die();
 $router = $app->getRouter();
+
 if($SefMode=$router->getMode()){
 	$menu = JFactory::getApplication()->getMenu();
 	$menus = $menu->getMenu();
-	//var_dump($menus);die(); //
-}
-?>
+}?>
 <br/>
 <?	$top_cats_menu_ids=AuctionStuff::getTopCatsMenuItemIds();	
 	// get top categories aliases to substitute them as layouts:
 	$top_cats_aliases=AuctionStuff::getTopCatsLayouts();
-	//var_dump($top_cats_aliases);
+	// online, fulltime, shop
 	$a=0;
 	// TODO: extract a whole link from the top cat menu params!
 	// See data above: $top_cats_menu_ids
 	$common_link_segment='index.php?option=com_virtuemart&view=category&virtuemart_category_id=';
+$section_links=array();
 foreach($lots as $top_cat_id => $array){
+	$section_links[$top_cats_aliases[$a]]=array();
 	//var_dump($array); //die();
-	$top_cat_count=0;
+	$top_cat_count=0; 
 	$andLayout='&layout='.$top_cats_aliases[$a];
 	$sub_cats='
 <ul>';
@@ -55,6 +62,7 @@ foreach($lots as $top_cat_id => $array){
 	<li><a href="';
 				
 				$sub_cats.=$category_link;	
+				$section_links[$top_cats_aliases[$a]][$category_data['virtuemart_category_id']]=$category_link;
 	$sub_cats.='">'.$category_data['category_name'].'</a> ('. $product_count .')<br>
 	</li>';
 			endforeach;
@@ -77,5 +85,6 @@ $sub_cats.='
 </h3>
 <?	echo $sub_cats;	
 	$a++;
-}
-?>
+	
+} 
+$session->set('section_links',$section_links);?>
