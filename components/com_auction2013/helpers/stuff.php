@@ -104,7 +104,7 @@ class AuctionStuff{
  * @package
  * @subpackage
  */
-	public static function sreateForm($arrFields){		
+	public static function createForm($arrFields){		
 		ob_start();
 		foreach($arrFields as $value=>$fieldArray){?>
 			<div>
@@ -161,13 +161,43 @@ class AuctionStuff{
 	}
 }
 class HTML{
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function setBaseLink($layout){
+		$category_id=JRequest::getVar('virtuemart_category_id');
+		$Itemid=JRequest::getVar('Itemid');
+		
+		$app=&JFactory::getApplication();
+		$session=&JFactory::getSession();
+		$user=&JFactory::getUser();
+		$links=$session->get('section_links');
+		$router = $app->getRouter();
+		if($SefMode=$router->getMode()){
+			if((int)$category_id>0){
+				$detail_link['base']=$links[$layout][$category_id];
+			}else{ 
+				$menu = $app->getMenu();
+				$menus = $menu->getMenu();
+				$top_alias=($layout!='shop')? 'route':'alias';
+				$detail_link['base']=JUri::root().$menus[$Itemid]->$top_alias;
+				$detail_link['top']=true;
+			}
+			return $detail_link;
+		}else return false;
+	}
+
 	public static function pageHead (
 								$section,
 								$layout,
-								$category_id,
+								// $category_id,
 								$slug=false,
 								$pagination=false
-							){?>
+							){
+		$category_id=JRequest::getVar('virtuemart_category_id');
+?>
 <div class="top_list">
     <h2><? echo $section;
 	
@@ -175,29 +205,16 @@ class HTML{
 		$session=&JFactory::getSession();
 		$user=&JFactory::getUser();
 		
-		$results=1; //results,1-80
+		//$results=1; //results,1-80
 		
 		$products_data=$session->get('products_data');
 		$section_data=$products_data[$layout];
-		$links=$session->get('section_links');
+		//$links=$session->get('section_links');
+		
 		//var_dump($links[$layout]); 
 		$router = $app->getRouter();
 		
 		if($SefMode=$router->getMode()){
-			if((int)$category_id>0){
-				$link=$links[$layout][$category_id];
-				$detail_link['base']=$link;
-			}else{ 
-				$menu = $app->getMenu();
-				$menus = $menu->getMenu();
-				$link=JUri::root();
-				
-				$top_alias=($layout!='shop')? 'route':'alias';
-				$link.=$menus[JRequest::getVar('Itemid')]->$top_alias;
-				$detail_link['base']=$link;
-			}
-			//var_dump($menus[JRequest::getVar('Itemid')]);
-			//echo('link = '.$link); 
 			$cab_link=($user->guest)?
 				"index.php/component/auction2013/?layout=register"
 				: 
@@ -205,15 +222,13 @@ class HTML{
 			$prop_link="index.php/аукцион/predlozhit-predmet";
 			//var_dump(JRequest::get('get'));
 		}else{
-	 		$link='index.php?option=com_virtuemart&view=category&layout='.$layout;
 			$cab_link=($user->guest)? 
 				"index.php?option=com_auction2013&layout=register"
 				:
 				"index.php?option=com_users&view=login";
 			$prop_link="index.php?option=com_auction2013&view=auction2013&layout=proposal";
 		}
-		//var_dump($links);
-		//var_dump($section_data); //die();
+		
 		if((int)$category_id>0){
 			$cat=$section_data[$slug];
 			$subcat="<div style='font-weight:200;font-size: 16px;
@@ -221,21 +236,37 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 			$lots = $cat['product_count'];
 		}else{
 			$lots=$section_data['prod_count'];
-			$detail_link['top']=true;
 		}
 		echo ". Лотов: ".$lots;?></h2>
 	<div class="top_list_mn">
-        <div class="your_cab">
-            <a href="<?=$prop_link?>"> Прием на торги &gt;&gt; </a>
-        </div>
-        <div class="your_cab">
-            <a href="<?=$cab_link?>"><?=($user->guest)? "Регистрация":"Ваш кабинет"?> &gt;&gt; </a>
-        </div>	
+    <?	HTML::innerMenu('take_lot',$cab_link);
+		HTML::innerMenu('user',$cab_link,$user);?>
     </div>
 </div>    
 <?		HTML::setVmPagination($SefMode,$link,$pagination);
-		return ($SefMode)? $detail_link:true; 
 	}
+	public static function innerMenu($content_type,$link,$obj=false){?>
+        <div class="your_cab">
+            <a href="<?=$link?>"><?
+		$lts=' &lt; &lt; ';
+		$gts=' &gt;&gt; ';
+		switch($content_type){
+			case 'user':
+				if(!$obj)
+					$obj = JFactory::getUser();
+				echo($obj->guest)? "Регистрация":"Ваш кабинет";
+				echo $gts;
+			break;
+			case 'take_lot':
+				echo "Прием на торги";
+				echo $gts;
+			break;
+			case 'ask_about_lot':
+				echo "Задать вопрос по лоту";
+			break;
+		}?></a>
+        </div>	
+<?	}	
 /**
  * Описание
  * @package
@@ -277,7 +308,8 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
  * @package
  * @subpackage
  */
-	public static function setDetailedLink($product,$detail_link=false){
+	public static function setDetailedLink($product,$layout){
+		$detail_link=HTML::setBaseLink($layout);
 		if (is_array($detail_link)){
 			$product->link=$detail_link['base'].'/';
 			if($detail_link['top'])

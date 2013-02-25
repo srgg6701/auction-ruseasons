@@ -1,4 +1,4 @@
-<?php
+<?php	
 /**
  *
  * Show the product details page
@@ -51,8 +51,26 @@ if (empty($this->product)) {
     echo '<br /><br />  ' . $this->continue_link_html;
     return;
 }
-?>
 
+//require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';?>
+<div class="top_list_mn">
+<?	HTML::innerMenu('take_lot','#');
+	HTML::innerMenu('ask_about_lot','#');
+	HTML::innerMenu('user','#');	?>
+</div>
+
+<div class="lots_listing">
+  <div class="width70 inBlock" style="margin-left:-8px;">    
+    <ul class="table inline weak">
+        <li><a href="#">&lt; &lt; Назад</a></li>	
+        <li><a href="#">Вернуться к списку лотов</a></li>
+        <li><a href="#">Вперед &gt; &gt;</a></li>
+    </ul>
+  </div>
+  <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
+  	<a href="#">Добавить в избранное</a>
+  </div>
+</div>
 <div class="productdetails-view productdetails">
 
     <?php

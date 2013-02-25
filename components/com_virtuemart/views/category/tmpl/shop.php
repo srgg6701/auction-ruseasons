@@ -13,7 +13,7 @@
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
-var_dump(JRequest::get('get'));
+//var_dump(JRequest::get('get'));
 /*	get:
 		'Itemid' => string '115' (length=3)
 		'option' => string 'com_virtuemart' (length=14)
@@ -29,13 +29,12 @@ var_dump(JRequest::get('get'));
 		
 		$this->category->slug
  */ 
-$detail_link=HTML::pageHead( 
-					"Магазин",
-					'shop',
-					JRequest::getVar('virtuemart_category_id'),
-					$this->category->slug,
-					$this->vmPagination
-				); //var_dump($detail_link);
+HTML::pageHead( 
+			"Магазин",
+			'shop',
+			$this->category->slug,
+			$this->vmPagination
+		);
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">
@@ -92,7 +91,7 @@ if (!empty($this->products)) {
 	// array => object
 	foreach($this->products as $i=>$product){
 		// if SEF has been switched off, returns just the same as gets:
-		$product->link=HTML::setDetailedLink($product,$detail_link);?>
+		$product->link=HTML::setDetailedLink($product,'shop');?>
 <div class="box">
   <div class="img">	
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>

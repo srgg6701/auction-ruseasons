@@ -1,6 +1,61 @@
+@import url(styles.less);
+
 @borderThickBrown:solid 1px rgb(132, 17, 19);
+
+.inBlock{
+	display:inline-block;
+}
 .txtBrown{
 	color: rgb(132, 17, 19);
+}
+.width75{
+	box-sizing:border-box;
+	width:75%;
+} 
+
+.width70{
+	box-sizing:border-box;
+	width:70%;
+} 
+
+.width30{
+	box-sizing:border-box;
+	width:30%;
+} 
+
+
+ul.table{
+	display:table;
+	li{
+		display:table-cell;
+		list-style:none;
+		text-align:center;
+		width:33%;
+		white-space:nowrap;
+		a{
+			&:hover{
+				text-decoration:underline !important;
+			}
+		}
+	}
+}
+
+
+div.top_list_mn{
+	height: 25px;
+	margin-top: 10px;
+	text-align:right;
+	div{
+		display: inline-block;
+		float:right;
+		margin-right:20px;
+		a{
+			color:@brown;
+			font-size:13px;
+			font-weight: bold;
+			text-decoration: underline;
+		}
+	}
 }
 
 div.top_list{
@@ -13,15 +68,14 @@ div.top_list{
 		.txtBrown;
 	}
 	div.top_list_mn{
-		display: inline-block;
+		display: inline-block;	
 		float:right;
-		height: 25px;
-		div{
-			display: inline-block;
-			float:right;
-		}
+		margin-top: 18px;
 	}
 }
+
+
+
 div.lots_listing{
 	border-top:@borderThickBrown;
 	border-bottom:@borderThickBrown;
@@ -83,6 +137,7 @@ div.item-page-shop{
 		}
 	}
 	p.product_s_desc{
+		color:black;
 		color:black;
 	}
 }
