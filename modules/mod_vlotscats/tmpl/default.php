@@ -15,6 +15,10 @@ $router = $app->getRouter();
 if($SefMode=$router->getMode()){
 	$menu = JFactory::getApplication()->getMenu();
 	$menus = $menu->getMenu();
+	//var_dump(JRequest::get('get'));
+	// var_dump($menus); die();
+	$loaded_category_id=JRequest::getVar('virtuemart_category_id'); // 9
+	echo "<div class=''>loaded_category= ".$loaded_category."</div>";
 	$top_layout=$menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime
 }?>
 <br/>
@@ -65,10 +69,16 @@ foreach($lots as $top_cat_id => $array){
 					}
 					
 					$sub_cats.='
-		<li><a href="';
+		<li><a ';
+					
+					if ($loaded_category_id==$category_data['virtuemart_category_id'])
+						 $sub_cats.=' style="color:brown;" ';
+
+					$sub_cats.='href="';
 					
 					$sub_cats.=$category_link;	
 					$section_links[$top_cats_aliases[$a]][$category_data['virtuemart_category_id']]=$category_link;
+		
 		$sub_cats.='">'.$category_data['category_name'].'</a> ('. $product_count .')<br>
 		</li>';
 				endforeach;

