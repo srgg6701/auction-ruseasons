@@ -186,6 +186,7 @@ class HTML{
 		if($SefMode=$router->getMode()){
 			if((int)$category_id>0){
 				$link=$links[$layout][$category_id];
+				$detail_link['base']=$link;
 			}else{ 
 				$menu = $app->getMenu();
 				$menus = $menu->getMenu();
@@ -193,6 +194,7 @@ class HTML{
 				
 				$top_alias=($layout!='shop')? 'route':'alias';
 				$link.=$menus[JRequest::getVar('Itemid')]->$top_alias;
+				$detail_link['base']=$link;
 			}
 			//var_dump($menus[JRequest::getVar('Itemid')]);
 			//echo('link = '.$link); 
@@ -219,6 +221,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 			$lots = $cat['product_count'];
 		}else{
 			$lots=$section_data['prod_count'];
+			$detail_link['top']=true;
 		}
 		echo ". Лотов: ".$lots;?></h2>
 	<div class="top_list_mn">
@@ -230,7 +233,8 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
         </div>	
     </div>
 </div>    
-<?		HTML::setVmPagination($SefMode,$link,$pagination); 
+<?		HTML::setVmPagination($SefMode,$link,$pagination);
+		return ($SefMode)? $detail_link:true; 
 	}
 /**
  * Описание
@@ -268,4 +272,20 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
     </div>
 </div>	
 <?	}
+/**
+ * Построить правильную ссылку
+ * @package
+ * @subpackage
+ */
+	public static function setDetailedLink($product,$detail_link=false){
+		if (is_array($detail_link)){
+			$product->link=$detail_link['base'].'/';
+			if($detail_link['top'])
+				$product->link.=$product->category_name.'/';
+			$product->link.=$product->slug.'-detail';
+		}
+		return $product->link;
+	}
+
+// 
 }?>

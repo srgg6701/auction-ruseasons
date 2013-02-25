@@ -13,7 +13,7 @@
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
-//var_dump(JRequest::get('get'));
+var_dump(JRequest::get('get'));
 /*	get:
 		'Itemid' => string '115' (length=3)
 		'option' => string 'com_virtuemart' (length=14)
@@ -29,34 +29,15 @@ defined ('_JEXEC') or die('Restricted access');
 		
 		$this->category->slug
  */ 
-HTML::pageHead( 
-			"Магазин",
-			'shop',
-			JRequest::getVar('virtuemart_category_id'),
-			$this->category->slug,
-			$this->vmPagination
-		);
+$detail_link=HTML::pageHead( 
+					"Магазин",
+					'shop',
+					JRequest::getVar('virtuemart_category_id'),
+					$this->category->slug,
+					$this->vmPagination
+				); //var_dump($detail_link);
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
-<? /*	?>
-<div class="width30 floatright display-number">
-	FIRST
-	<?php echo $this->vmPagination->getResultsCounter ();?><br/><?php echo $this->vmPagination->getLimitBox (); ?>
-</div>
-<?		?>
-	
-<div class="vm-pagination">
-	SECOND
-	<?php echo $this->vmPagination->getPagesLinks (); ?>
-	<span style="float:right"><?php echo $this->vmPagination->getPagesCounter (); ?></span>
-	</div>
-<?		?>
-
-<div class="vm-pagination">
-	THIRD
-	<?php echo $this->vmPagination->getPagesLinks (); ?><span style="float:right"><?php echo $this->vmPagination->getPagesCounter (); ?></span></div>
-
-<? //die();*/?>
 <div class="item-page-shop">
 <br>
 <?
@@ -109,7 +90,9 @@ if ($this->search !== NULL):?>
 if (!empty($this->products)) {
 
 	// array => object
-	foreach($this->products as $i=>$product){?>
+	foreach($this->products as $i=>$product){
+		// if SEF has been switched off, returns just the same as gets:
+		$product->link=HTML::setDetailedLink($product,$detail_link);?>
 <div class="box">
   <div class="img">	
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>

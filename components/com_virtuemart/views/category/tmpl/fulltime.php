@@ -13,7 +13,7 @@
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
-HTML::pageHead( 
+$detail_link=HTML::pageHead( 
 			"Очные торги",
 			'fulltime',
 			JRequest::getVar('virtuemart_category_id'),
@@ -76,7 +76,9 @@ if (!empty($this->products)) {?>
 	<table>
 <?
 	// array => object
-	foreach($this->products as $i=>$product){?>
+	foreach($this->products as $i=>$product){
+		// if SEF has been switched off, returns just the same as gets:
+		$product->link=HTML::setDetailedLink($product,$detail_link);?>
 		<tr>
         	<td class="box">
             	<div class="img">
