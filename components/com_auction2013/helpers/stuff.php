@@ -166,14 +166,16 @@ class HTML{
 <div class="top_list">
     <h2><? echo $section;
 	
-		$results=1;
-		$session =& JFactory::getSession();
+		$app=&JFactory::getApplication();
+		$session=&JFactory::getSession();
+		$user=&JFactory::getUser();
+		
+		$results=1; //results,1-80
 		
 		$products_data=$session->get('products_data');
 		$section_data=$products_data[$layout];
 		$links=$session->get('section_links');
 		//var_dump($links[$layout]); die();
-		$app=JFactory::getApplication();
 		$router = $app->getRouter();
 		
 		if($SefMode=$router->getMode()){
@@ -183,14 +185,21 @@ class HTML{
 				$menu = $app->getMenu();
 				$menus = $menu->getMenu();
 				$link=JUri::root().$menus[JRequest::getVar('Itemid')]->alias;
-				$cab_link="index.php/component/users/?view=login";
 			}
+			$cab_link=($user->guest)?
+				"index.php/component/auction2013/?layout=register"
+				: 
+				"index.php/component/users/?view=login";
+			$prop_link="index.php/аукцион/predlozhit-predmet";
 			//var_dump(JRequest::get('get'));
 		}else{
 	 		$link='index.php?option=com_virtuemart&view=category&layout='.$layout;
-			$cab_link="index.php?option=com_users&view=login";
+			$cab_link=($user->guest)? 
+				"index.php?option=com_auction2013&layout=register"
+				:
+				"index.php?option=com_users&view=login";
+			$prop_link="index.php?option=com_auction2013&view=auction2013&layout=proposal";
 		}
-		
 		//var_dump($links);
 		//var_dump($section_data); //die();
 		if((int)$category_id>0){
@@ -205,10 +214,10 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		//if(isset($cat)) echo $subcat;?></h2>
 	<div class="top_list_mn">
         <div class="your_cab">
-            <a href="index.php?a=28&amp;b=136"> Прием на торги &gt;&gt; </a>
+            <a href="<?=$prop_link?>"> Прием на торги &gt;&gt; </a>
         </div>
         <div class="your_cab">
-            <a href="index.php/component/users/?view=login">Ваш кабинет &gt;&gt; </a>
+            <a href="<?=$cab_link?>"><?=($user->guest)? "Регистрация":"Ваш кабинет"?> &gt;&gt; </a>
         </div>	
     </div>
 </div>
