@@ -37,6 +37,25 @@ class AuctionStuff{
 		return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');	
 	}
 /**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function getSingleProductData($product_id,$fields=false){
+		if(!$fields) $fields='*';
+		$query="SELECT {$fields}
+FROM #__virtuemart_products AS p
+  INNER JOIN #__virtuemart_products_ru_ru AS p_ru_ru
+    ON p.virtuemart_product_id = p_ru_ru.virtuemart_product_id
+  INNER JOIN #__virtuemart_product_prices AS p_prices
+    ON p_prices.virtuemart_product_id = p_ru_ru.virtuemart_product_id AND p_prices.virtuemart_product_id = p.virtuemart_product_id
+WHERE p.virtuemart_product_id = ".$product_id;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadAssoc(); 
+	}
+	
+/**
  * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
  * @package
  * @subpackage
@@ -242,7 +261,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
  * @package
  * @subpackage
  */
-	public static function setCommonInnerMenu($params=false){
+	public static function setCommonInnerMenu($params=false,$params_xtra=false){
 		
 		$session=&JFactory::getSession();
 		$user=&JFactory::getUser();
@@ -258,7 +277,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 			$prop_link=$pre_link."auction2013&layout=proposal";
 		}
 		if(in_array('ask_about_lot',$params)){
-			$ask_link=$pre_link."auction2013&view=auction2013&layout=askaboutlot";
+			$ask_link=$pre_link."auction2013&view=auction2013&layout=askaboutlot&lot_id=".$params_xtra['ask_about_lot'];
 		}?>
 		
 	<div class="top_list_mn">

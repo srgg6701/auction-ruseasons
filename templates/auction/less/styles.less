@@ -386,10 +386,18 @@ div#content{
 				}
 			}
 		}
+		form#ask_form{
+			textarea#comments{
+				width:485px;
+			}
+		}
 		form#registration_form,
-		form#proposal_form{
+		form#proposal_form,
+		form#ask_form{
 			display: inline-block;
-			input[type="submit"]{
+			input[type="submit"],
+			input[type="reset"],
+			button{
 				background-color:@sandDark;
 				border: solid 1px darkkhaki;
 				color:@almostBlack;

@@ -19,6 +19,8 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+//require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
 
 // addon for joomla modal Box
 JHTML::_('behavior.modal');
@@ -51,9 +53,8 @@ if (empty($this->product)) {
     echo '<br /><br />  ' . $this->continue_link_html;
     return;
 }
-
-//require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';?>
-<?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'));?>
+?>
+<?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
