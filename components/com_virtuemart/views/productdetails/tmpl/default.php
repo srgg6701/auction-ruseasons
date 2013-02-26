@@ -20,7 +20,16 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-//var_dump($this);die();
+/*
+
+  'Itemid' => string '115' (length=3)
+  'option' => string 'com_virtuemart' (length=14)
+  'limitstart' => int 0
+  'limit' => string 'int' (length=3)
+  'view' => string 'productdetails' (length=14)
+  'virtuemart_product_id' => string '551' (length=3)
+  'virtuemart_category_id' => string '6' (length=1)
+*/
 
 require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 //require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
@@ -30,8 +39,24 @@ if(!$native){?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
-        <li><a href="#">&lt; &lt; Назад</a></li>	
-        <li><a href="#">Вернуться к списку лотов</a></li>
+        <li><a href="#">&lt; &lt; Назад</a></li>
+<?	$router = JFactory::getApplication()->getRouter();
+	if($SefMode=$router->getMode()){
+		$virtuemart_category_id=JRequest::getVar('virtuemart_category_id');
+		$session=JFactory::getSession();
+		$links=$session->get('section_links');
+		foreach($links as $layout=>$categories_links):
+			if(array_key_exists($virtuemart_category_id,$categories_links)){
+				$category_link=$categories_links[$virtuemart_category_id];
+				break;
+			}
+		endforeach;
+	}
+	if(!$category_link):
+		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.JRequest::getVar('Itemid'),false);
+	endif;
+?>	
+        <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
         <li><a href="#">Вперед &gt; &gt;</a></li>
     </ul>
   </div>
@@ -63,7 +88,7 @@ if(!$native){?>
 						</script>
                         
                         <a href="<? //http://auction-ruseasons.ru/items_images/1_1.jpg
-			$this->product->images[0]->file_url;			?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
+			echo $this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
                         
                             <img src="<?
 //http://auction-ruseasons.ru/items_images/preview_1_1.jpg

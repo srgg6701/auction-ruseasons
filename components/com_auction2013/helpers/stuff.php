@@ -184,8 +184,9 @@ class HTML{
  * Описание
  * @package
  * @subpackage
+ * layout = shop | fulltime | online
  */
-	function setBaseLink($layout){
+	public static function setBaseLink($layout){
 		$category_id=JRequest::getVar('virtuemart_category_id');
 		$Itemid=JRequest::getVar('Itemid');
 		
@@ -208,6 +209,11 @@ class HTML{
 		}else return false;
 	}
 
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
 	public static function pageHead (
 								$section,
 								$layout,
