@@ -201,26 +201,8 @@ class HTML{
 <div class="top_list">
     <h2><? echo $section;
 	
-		$app=&JFactory::getApplication();
+		//$app=&JFactory::getApplication();
 		$session=&JFactory::getSession();
-		$user=&JFactory::getUser();
-		//$results=1; //results,1-80
-		$router = $app->getRouter();
-		if($SefMode=$router->getMode()){
-			$cab_link=($user->guest)?
-				"index.php/component/auction2013/?layout=register"
-				: 
-				"index.php/component/users/?view=login";
-			$prop_link="index.php/аукцион/predlozhit-predmet";
-			//var_dump(JRequest::get('get'));
-		}else{
-			$cab_link=($user->guest)? 
-				"index.php?option=com_auction2013&layout=register"
-				:
-				"index.php?option=com_users&view=login";
-			$prop_link="index.php?option=com_auction2013&view=auction2013&layout=proposal";
-		}
-		
 		$products_data=$session->get('products_data');
 		$section_data=$products_data[$layout];
 		if((int)$category_id>0){
@@ -232,11 +214,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 			$lots=$section_data['prod_count'];
 		}
 		echo ". Лотов: ".$lots;?></h2>
-<?	?>        
-	<div class="top_list_mn">
-    <?	HTML::innerMenu('take_lot',$cab_link);
-		HTML::innerMenu('user',$cab_link,$user);?>
-    </div>
+<?		HTML::setCommonInnerMenu(array('user','take_lot'));?>    
 </div>    
 <?		HTML::setVmPagination($SefMode,$link,$pagination);
 	}
@@ -267,9 +245,30 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
  * @package
  * @subpackage
  */
-	public static function setCommonInnerMenu(){?>
+	public static function setCommonInnerMenu($params=false){
 		
-	
+		$session=&JFactory::getSession();
+		$user=&JFactory::getUser();
+		if(in_array('user',$params)){
+			$cab_link=($user->guest)? 
+				"index.php?option=com_auction2013&layout=register"
+				:
+				"index.php?option=com_users&view=login";
+		}
+		if(in_array('take_lot',$params)){
+			//Itemid=127
+			$prop_link="index.php?option=com_auction2013&layout=proposal";
+		}
+		if(in_array('ask_about_lot',$params)){
+			$ask_link="index.php?option=com_auction2013&view=auction2013&layout=ask_about_lot";
+		}?>
+		
+	<div class="top_list_mn">
+    <?	// расположить в обратном порядке, ибо float:right
+		if(isset($prop_link)) HTML::innerMenu('take_lot',JRoute::_($prop_link,false));
+		if(isset($lot_link)) HTML::innerMenu('ask_about_lot',JRoute::_($lot_link,false));
+		if(isset($cab_link)) HTML::innerMenu('user',JRoute::_($cab_link,false),$user);?>
+    </div>
 <?	}
 
 /**
