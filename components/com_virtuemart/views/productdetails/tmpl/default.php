@@ -93,7 +93,6 @@ if (empty($this->product)) {
         </div>
     <?php } // Product Navigation END
     ?>
-
 	<?php // Back To Category Button
 	if ($this->product->virtuemart_category_id) {
 		$catURL =  JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$this->product->virtuemart_category_id);
@@ -102,11 +101,11 @@ if (empty($this->product)) {
 		$catURL =  JRoute::_('index.php?option=com_virtuemart');
 		$categoryName = jText::_('COM_VIRTUEMART_SHOP_HOME') ;
 	}
-	?>
+		/*?>
 	<div class="back-to-category">
     	<a href="<?php echo $catURL ?>" class="product-details" title="<?php echo $categoryName ?>"><?php echo JText::sprintf('COM_VIRTUEMART_CATEGORY_BACK_TO',$categoryName) ?></a>
 	</div>
-
+<?	*/?>
     <?php // Product Title   ?>
     <h1><?php echo $this->product->product_name ?></h1>
     <?php // Product Title END   ?>

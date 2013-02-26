@@ -204,16 +204,8 @@ class HTML{
 		$app=&JFactory::getApplication();
 		$session=&JFactory::getSession();
 		$user=&JFactory::getUser();
-		
 		//$results=1; //results,1-80
-		
-		$products_data=$session->get('products_data');
-		$section_data=$products_data[$layout];
-		//$links=$session->get('section_links');
-		
-		//var_dump($links[$layout]); 
 		$router = $app->getRouter();
-		
 		if($SefMode=$router->getMode()){
 			$cab_link=($user->guest)?
 				"index.php/component/auction2013/?layout=register"
@@ -229,6 +221,8 @@ class HTML{
 			$prop_link="index.php?option=com_auction2013&view=auction2013&layout=proposal";
 		}
 		
+		$products_data=$session->get('products_data');
+		$section_data=$products_data[$layout];
 		if((int)$category_id>0){
 			$cat=$section_data[$slug];
 			$subcat="<div style='font-weight:200;font-size: 16px;
@@ -238,6 +232,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 			$lots=$section_data['prod_count'];
 		}
 		echo ". Лотов: ".$lots;?></h2>
+<?	?>        
 	<div class="top_list_mn">
     <?	HTML::innerMenu('take_lot',$cab_link);
 		HTML::innerMenu('user',$cab_link,$user);?>
@@ -267,6 +262,16 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		}?></a>
         </div>	
 <?	}	
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function setCommonInnerMenu(){?>
+		
+	
+<?	}
+
 /**
  * Описание
  * @package
