@@ -31,7 +31,7 @@ if ($old){?>
 <div class="form_item">
   <div class="form_element cf_textbox">
     <label style="width: 150px;" class="cf_label">* Город  </label>
-    <input type="text" name="city" id="city" title="" size="30" maxlength="150" class="cf_inputbox required validate-alpha">
+    <input type="text" name="city" id="city" title="" size="30" maxlength="150" class="cf_inputbox required validate-alpha" required>
     <label for="city" style="width:190px;float: right;" class="cf_label"><em></em></label>
 
  </div>
@@ -40,7 +40,7 @@ if ($old){?>
 <div class="form_item">
   <div class="form_element cf_textbox">
     <label style="width: 150px;" class="cf_label">* Ваше имя </label>
-    <input type="text" name="name" id="name" title="" size="30" maxlength="150" class="cf_inputbox required validate-alpha">
+    <input type="text" name="name" id="name" title="" size="30" maxlength="150" class="cf_inputbox required validate-alpha" required>
     <label for="name" style="width: 190px;float: right;" class="cf_label"><em></em> </label>
 
  </div>
@@ -49,7 +49,7 @@ if ($old){?>
 <div class="form_item">
   <div class="form_element cf_textbox">
     <label style="width: 150px;" class="cf_label">* Ваш e-mail</label>
-    <input type="text" name="posta" id="posta" title="" size="30" maxlength="150" class="cf_inputbox required">
+    <input type="text" name="posta" id="posta" title="" size="30" maxlength="150" class="cf_inputbox required" required>
       <label for="posta" style="width: 190px;float: right;" class="cf_label"><em></em> </label>
 
   </div>
@@ -66,7 +66,7 @@ if ($old){?>
 <div class="form_item">
   <div class="form_element cf_textarea">
     <label style="width: 150px;" class="cf_label">* Краткое описание (материал, наличие подписи, марки или клейма, размер и др.) </label>
-    <textarea name="tikstik" cols="30" title="" id="tikstik" rows="3" class="cf_inputbox required"></textarea>
+    <textarea name="short_description" cols="30" title="" id="short_description" rows="3" class="cf_inputbox required" required></textarea>
     <label for="tikstik" style="width: 190px;float: right;" class="cf_label"> <em></em> </label>
 
   </div>

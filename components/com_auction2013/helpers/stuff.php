@@ -192,7 +192,6 @@ class HTML{
 	public static function pageHead (
 								$section,
 								$layout,
-								// $category_id,
 								$slug=false,
 								$pagination=false
 							){
@@ -200,8 +199,6 @@ class HTML{
 ?>
 <div class="top_list">
     <h2><? echo $section;
-	
-		//$app=&JFactory::getApplication();
 		$session=&JFactory::getSession();
 		$products_data=$session->get('products_data');
 		$section_data=$products_data[$layout];
@@ -249,24 +246,25 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		
 		$session=&JFactory::getSession();
 		$user=&JFactory::getUser();
+		$pre_link='index.php?option=com_';
 		if(in_array('user',$params)){
 			$cab_link=($user->guest)? 
-				"index.php?option=com_auction2013&layout=register"
+				$pre_link."auction2013&layout=register"
 				:
-				"index.php?option=com_users&view=login";
+				$pre_link."users&view=login";
 		}
 		if(in_array('take_lot',$params)){
 			//Itemid=127
-			$prop_link="index.php?option=com_auction2013&layout=proposal";
+			$prop_link=$pre_link."auction2013&layout=proposal";
 		}
 		if(in_array('ask_about_lot',$params)){
-			$ask_link="index.php?option=com_auction2013&view=auction2013&layout=ask_about_lot";
+			$ask_link=$pre_link."auction2013&view=auction2013&layout=askaboutlot";
 		}?>
 		
 	<div class="top_list_mn">
     <?	// расположить в обратном порядке, ибо float:right
 		if(isset($prop_link)) HTML::innerMenu('take_lot',JRoute::_($prop_link,false));
-		if(isset($lot_link)) HTML::innerMenu('ask_about_lot',JRoute::_($lot_link,false));
+		if(isset($ask_link)) HTML::innerMenu('ask_about_lot',JRoute::_($ask_link,false));
 		if(isset($cab_link)) HTML::innerMenu('user',JRoute::_($cab_link,false),$user);?>
     </div>
 <?	}

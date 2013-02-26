@@ -1,11 +1,13 @@
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
 $session =JFactory::getSession();
 if(!$session->get('section_links')){?>
 <script>location.reload();</script>
 <? 
 }
+
 	//var_dump($section_links); die();
 // get categories:
 $lots=modVlotscatsHelper::getCategoriesData(true);
@@ -18,7 +20,6 @@ if($SefMode=$router->getMode()){
 	//var_dump(JRequest::get('get'));
 	// var_dump($menus); die();
 	$loaded_category_id=JRequest::getVar('virtuemart_category_id'); // 9
-	echo "<div class=''>loaded_category= ".$loaded_category."</div>";
 	$top_layout=$menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime
 }?>
 <br/>
@@ -31,9 +32,9 @@ if($SefMode=$router->getMode()){
 	// See data above: $top_cats_menu_ids
 	$common_link_segment='index.php?option=com_virtuemart&view=category&virtuemart_category_id=';
 $section_links=array();
+//
 foreach($lots as $top_cat_id => $array){
 	$section_links[$top_cats_aliases[$a]]=array();
-	
 	
 	if($top_cats_aliases[$a]!='online'){
 	
@@ -95,7 +96,10 @@ foreach($lots as $top_cat_id => $array){
 			$link.=$andLayout;
 		$link.='&Itemid='.$top_cats_menu_ids[$a];
 		
-		if(!$top_layout || $top_cats_aliases[$a]==$top_layout) {
+		if( !$top_layout 
+			|| $top_cats_aliases[$a]==$top_layout
+			|| !in_array($top_layout,$top_cats_aliases)
+		  ) {
 	?>
 <h3><? 
 
@@ -114,6 +118,7 @@ foreach($lots as $top_cat_id => $array){
 	
 	$a++;
 	
-} 
+}
+ 
 $session->set('section_links',$section_links);
 //var_dump($section_links); die();?>

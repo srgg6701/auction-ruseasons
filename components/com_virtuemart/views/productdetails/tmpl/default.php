@@ -53,12 +53,7 @@ if (empty($this->product)) {
 }
 
 //require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';?>
-<div class="top_list_mn">
-<?	HTML::innerMenu('take_lot','#');
-	HTML::innerMenu('ask_about_lot','#');
-	HTML::innerMenu('user','#');	?>
-</div>
-
+<?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
