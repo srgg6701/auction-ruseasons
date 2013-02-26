@@ -139,7 +139,7 @@ if(!$native){?>
                     
         <div class="o_o">
 
-            <a href="#">
+            <a href="<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>">
                 Поставить заочный бид
             </a>
 
