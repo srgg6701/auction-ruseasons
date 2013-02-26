@@ -24,8 +24,8 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 //require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
-$old=false;
-if(!$old){?>
+$native=false;
+if(!$native){?>
 <?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
@@ -54,13 +54,22 @@ if(!$old){?>
 						
 						<script type="text/javascript">
 							//<![CDATA[
-							images[0] = new galleryAddImage( '6261', 'http://auction-ruseasons.ru/items_images/1_1.jpg', 'http://auction-ruseasons.ru/items_images/preview_1_1.jpg', 334, 334, '', 0);
+							images[0] = new galleryAddImage( '6261', '<?	//http://auction-ruseasons.ru/items_images/1_1.jpg
+							
+							?>', '<? //http://auction-ruseasons.ru/items_images/preview_1_1.jpg
+					
+			?>', 334, 334, '', 0);
 							//]]>
 						</script>
                         
-                        <a href="http://auction-ruseasons.ru/items_images/1_1.jpg" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
+                        <a href="<? //http://auction-ruseasons.ru/items_images/1_1.jpg
+			$this->product->images[0]->file_url;			?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
                         
-                            <img src="http://auction-ruseasons.ru/items_images/preview_1_1.jpg" width="334" height="334" alt="" style="opacity: 1; ">                        
+                            <img src="<?
+//http://auction-ruseasons.ru/items_images/preview_1_1.jpg
+			echo $this->product->images[0]->file_url;
+	
+	?>" width="334" height="334" alt="" style="opacity: 1; ">                        
                             
                             <div class="MagicZoomBigImageCont" style="overflow: hidden; z-index: 100; top: -10000px; position: absolute; width: 450px; height: 293px; opacity: 1; left: 349px; ">
                                 <div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; ">
@@ -68,7 +77,11 @@ if(!$old){?>
                                                     
                                 <div style="overflow: hidden; ">
                             
-                                	<img src="http://auction-ruseasons.ru/items_images/1_1.jpg" style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -750px; top: 0px; ">
+                                	<img src="<?
+                                    //http://auction-ruseasons.ru/items_images/1_1.jpg
+		echo $this->product->images[0]->file_url;	
+									
+									?>" style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -750px; top: 0px; ">
                             
                                 </div>
                             
@@ -95,14 +108,16 @@ if(!$old){?>
 		
         <div class="bord_bottom">
 
-         	<b>Лот 1. Приписывается Francesco Guardi (1712-1793) «Вид Венеции»</b>
+         	<b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?>
+            <!--Лот 1. Приписывается Francesco Guardi (1712-1793) «Вид Венеции»--></b>
 
 		</div>
         
         <div class="o_o">
 
              <span style="color:#000">
-                Холст, масло, XVIII в., 30х40 см
+             	<?=$this->product->product_s_desc?>
+                <!--Холст, масло, XVIII в., 30х40 см-->
              </span>
 
         </div>
@@ -113,9 +128,10 @@ if(!$old){?>
                 ..............
             </span>
 
-            <a href="index.php?a=19&amp;b[search_text]=№1">
+            <a href="#">
                 <span class="bold span_o_o">
-                    №1 
+            		<?=$this->product->auction_number?>
+                    <!--№1 -->
                 </span> 
             </a>
 
@@ -123,7 +139,7 @@ if(!$old){?>
                     
         <div class="o_o">
 
-            <a href="index.php?a=28&amp;b=151">
+            <a href="#">
                 Поставить заочный бид
             </a>
 
@@ -134,7 +150,8 @@ if(!$old){?>
 
             <span class="span_o_o">
                 <b>
-                    14.11.2010 12:00
+             		<?=$this->product->auction_date_start?>
+                    <!--14.11.2010 12:00-->
                 </b>
             </span>
 
@@ -145,7 +162,8 @@ if(!$old){?>
 
             <span class="span_o_o">
                 <b>
-                    14.11.2010 17:00
+             		<?=$this->product->auction_date_finish?>
+                    <!--14.11.2010 17:00-->
                 </b>
             </span>
 
@@ -156,10 +174,13 @@ if(!$old){?>
 
             <span class="span_o_o">
                 <b>
-                    120000
+             		<?
+	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
+                    <!--120000-->
                 </b>  
                 <b>
-                    - 150000
+                	- ? ? ? ?
+                   <!-- - 150000-->
                 </b>   
                 рублей
             </span>
@@ -169,9 +190,90 @@ if(!$old){?>
     </div>
 
 </div>
+<?	
+
+// product:
+
+/*virtuemart_product_id 
+virtuemart_vendor_id 
+product_parent_id
+product_sku
+product_name 
+slug 
+product_s_desc 
+product_desc 
+product_weight 
+product_weight_uom 
+product_length 
+product_width 
+product_height 
+product_lwh_uom 
+product_url
+product_in_stock 
+product_ordered
+low_stock_notification
+product_available_date 
+product_availability
+product_special
+auction_number 
+contract_number 
+lot_number
+product_available_date_closed 
+auction_date_start 
+auction_date_finish 
+product_sales
+product_unit 
+product_packaging 
+product_params 
+intnotes
+customtitle
+metadesc
+metakey
+metarobot
+metaauthor
+layout
+published
+
+// product_prices
+
+product_price
+
+// categorits
+
+virtuemart_category_id
+category_name
+canonical
+link
+images
+	array 0 => 
+        object(VmImage)[278]
+          public 'media_attributes' => int 0
+          public 'setRole' => boolean false
+          public 'file_name' => string '02_215_03_1' (length=11)
+          public 'file_extension' => string 'jpg' (length=3)
+          public 'virtuemart_media_id' => string '1995' (length=4)
+
+и т.д., см. var_dump($this->product);
+
+*/
 
 
-<? }else{
+
+/*echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";*/
+	
+
+}else{
 // addon for joomla modal Box
 JHTML::_('behavior.modal');
 // JHTML::_('behavior.tooltip');
