@@ -113,7 +113,9 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 		<?php $style="";?>
   	<?php $style="left "?>
   <?php $hide_left_panel=false;
-  		if(JRequest::getVar('layout')=='register'):
+  		if( JRequest::getVar('layout')=='register'
+		  	|| JRequest::getVar('layout')=='askaboutlot'
+		  ):
 			$hide_left_panel=true;
   		endif;
   		if ($this->countModules('left_panel')&&!$hide_left_panel): ?>

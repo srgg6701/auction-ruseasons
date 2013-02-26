@@ -71,7 +71,15 @@ class TableProducts extends VmTable {
 	var $product_availability	= null;
 	/** @var int File thumbnail image width */
 	var $product_special	= null;
-
+	
+	/*	MODIFIED START */
+	var $auction_number = '';
+	var $contract_number = '';
+	var $lot_number = 0;
+	var $product_available_date_closed = null;
+	var $auction_date_start = null;
+	var $auction_date_finish = null;
+	/*	MODIFIED END	*/
 
 	/** @var int File thumbnail image width */
 	var $product_sales	= 0;

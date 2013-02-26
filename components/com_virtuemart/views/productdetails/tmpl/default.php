@@ -1,4 +1,4 @@
-<?php
+<?php	
 /**
  *
  * Show the product details page
@@ -20,6 +20,260 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+//var_dump($this);die();
+
+require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+//require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
+$native=false;
+if(!$native){?>
+<?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
+<div class="lots_listing">
+  <div class="width70 inBlock" style="margin-left:-8px;">    
+    <ul class="table inline weak">
+        <li><a href="#">&lt; &lt; Назад</a></li>	
+        <li><a href="#">Вернуться к списку лотов</a></li>
+        <li><a href="#">Вперед &gt; &gt;</a></li>
+    </ul>
+  </div>
+  <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
+  	<a href="#">Добавить в избранное</a>
+  </div>
+</div>
+
+<div>
+
+	<div class="gallery_lot">
+		
+        <div id="galleryContainer">
+			
+            <div class="main_im_lot">
+				
+                <div id="galleryBigImage">
+					
+                    <div id="bigLeadImage">
+						
+						<script type="text/javascript">
+							//<![CDATA[
+							images[0] = new galleryAddImage( '6261', '<?	//http://auction-ruseasons.ru/items_images/1_1.jpg
+							
+							?>', '<? //http://auction-ruseasons.ru/items_images/preview_1_1.jpg
+					
+			?>', 334, 334, '', 0);
+							//]]>
+						</script>
+                        
+                        <a href="<? //http://auction-ruseasons.ru/items_images/1_1.jpg
+			$this->product->images[0]->file_url;			?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
+                        
+                            <img src="<?
+//http://auction-ruseasons.ru/items_images/preview_1_1.jpg
+			echo $this->product->images[0]->file_url;
+	
+	?>" width="334" height="334" alt="" style="opacity: 1; ">                        
+                            
+                            <div class="MagicZoomBigImageCont" style="overflow: hidden; z-index: 100; top: -10000px; position: absolute; width: 450px; height: 293px; opacity: 1; left: 349px; ">
+                                <div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; ">
+                                </div>
+                                                    
+                                <div style="overflow: hidden; ">
+                            
+                                	<img src="<?
+                                    //http://auction-ruseasons.ru/items_images/1_1.jpg
+		echo $this->product->images[0]->file_url;	
+									
+									?>" style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -750px; top: 0px; ">
+                            
+                                </div>
+                            
+                            </div>
+                            
+                            <div class="MagicZoomPup" style="z-index: 10; position: absolute; overflow: hidden; display: none; visibility: hidden; width: 123px; height: 80px; opacity: 0.5; left: 209px; top: 0px; ">
+                            </div>
+                        
+                        </a>
+                        
+					</div>
+				
+                </div>		
+			
+            </div>
+				
+			<div class="clr"></div>
+	
+    	</div>
+
+	</div>
+		
+	<div class="box_desc">
+		
+        <div class="bord_bottom">
+
+         	<b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?>
+            <!--Лот 1. Приписывается Francesco Guardi (1712-1793) «Вид Венеции»--></b>
+
+		</div>
+        
+        <div class="o_o">
+
+             <span style="color:#000">
+             	<?=$this->product->product_s_desc?>
+                <!--Холст, масло, XVIII в., 30х40 см-->
+             </span>
+
+        </div>
+        
+        <div class="o_o">
+                Номер аукциона: 
+            <span class="span_o_o">
+                ..............
+            </span>
+
+            <a href="#">
+                <span class="bold span_o_o">
+            		<?=$this->product->auction_number?>
+                    <!--№1 -->
+                </span> 
+            </a>
+
+        </div>				
+                    
+        <div class="o_o">
+
+            <a href="<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>">
+                Поставить заочный бид
+            </a>
+
+        </div>
+        
+        <div class="o_o">
+            Начало торгов:................. 
+
+            <span class="span_o_o">
+                <b>
+             		<?=$this->product->auction_date_start?>
+                    <!--14.11.2010 12:00-->
+                </b>
+            </span>
+
+        </div>		   
+        
+        <div class="o_o">
+            Конец торгов:................... 
+
+            <span class="span_o_o">
+                <b>
+             		<?=$this->product->auction_date_finish?>
+                    <!--14.11.2010 17:00-->
+                </b>
+            </span>
+
+        </div>				  
+        
+        <div class="o_o">
+            Предварительная оценка: 
+
+            <span class="span_o_o">
+                <b>
+             		<?
+	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
+                    <!--120000-->
+                </b>  
+                <b>
+                	- ? ? ? ?
+                   <!-- - 150000-->
+                </b>   
+                рублей
+            </span>
+
+        </div>
+    
+    </div>
+
+</div>
+<?	
+
+// product:
+
+/*virtuemart_product_id 
+virtuemart_vendor_id 
+product_parent_id
+product_sku
+product_name 
+slug 
+product_s_desc 
+product_desc 
+product_weight 
+product_weight_uom 
+product_length 
+product_width 
+product_height 
+product_lwh_uom 
+product_url
+product_in_stock 
+product_ordered
+low_stock_notification
+product_available_date 
+product_availability
+product_special
+auction_number 
+contract_number 
+lot_number
+product_available_date_closed 
+auction_date_start 
+auction_date_finish 
+product_sales
+product_unit 
+product_packaging 
+product_params 
+intnotes
+customtitle
+metadesc
+metakey
+metarobot
+metaauthor
+layout
+published
+
+// product_prices
+
+product_price
+
+// categorits
+
+virtuemart_category_id
+category_name
+canonical
+link
+images
+	array 0 => 
+        object(VmImage)[278]
+          public 'media_attributes' => int 0
+          public 'setRole' => boolean false
+          public 'file_name' => string '02_215_03_1' (length=11)
+          public 'file_extension' => string 'jpg' (length=3)
+          public 'virtuemart_media_id' => string '1995' (length=4)
+
+и т.д., см. var_dump($this->product);
+
+*/
+
+
+
+/*echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";
+echo "<div class=''>".$this->product->."</div>";*/
+	
+
+}else{
 // addon for joomla modal Box
 JHTML::_('behavior.modal');
 // JHTML::_('behavior.tooltip');
@@ -75,7 +329,6 @@ if (empty($this->product)) {
         </div>
     <?php } // Product Navigation END
     ?>
-
 	<?php // Back To Category Button
 	if ($this->product->virtuemart_category_id) {
 		$catURL =  JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$this->product->virtuemart_category_id);
@@ -84,11 +337,11 @@ if (empty($this->product)) {
 		$catURL =  JRoute::_('index.php?option=com_virtuemart');
 		$categoryName = jText::_('COM_VIRTUEMART_SHOP_HOME') ;
 	}
-	?>
+		/*?>
 	<div class="back-to-category">
     	<a href="<?php echo $catURL ?>" class="product-details" title="<?php echo $categoryName ?>"><?php echo JText::sprintf('COM_VIRTUEMART_CATEGORY_BACK_TO',$categoryName) ?></a>
 	</div>
-
+<?	*/?>
     <?php // Product Title   ?>
     <h1><?php echo $this->product->product_name ?></h1>
     <?php // Product Title END   ?>
@@ -120,8 +373,7 @@ if (empty($this->product)) {
 	    ?>
     	<div class="clear"></div>
         </div>
-    <?php } // PDF - Print - Email Icon END
-    ?>
+    <?php } // PDF - Print - Email Icon END	  ?>
 
     <?php
     // Product Short Description
@@ -143,15 +395,23 @@ if (empty($this->product)) {
     } // Product Custom ontop end
     ?>
 
+    <div id="prod_content">
+    <?	$show=false;
+		if($show):?>
+    	IMAGE COMES HERE!
+    <?	endif;?>
     <div>
-	<div class="width60 floatleft">
-<?php
-echo $this->loadTemplate('images');
+		<div id="bigLeadImage" class="width60 floatleft">
+<?php	
+		echo $this->loadTemplate('images');
 ?>
-	</div>
-
-	<div class="width40 floatright">
-	    <div class="spacer-buy-area">
+		</div>
+    <?	if($show):?>
+    	IMAGE ENDS HERE!
+    <?	endif;?>
+		<!-- -->
+		<div class="width40 floatright">
+	    	<div class="spacer-buy-area">
 
 		<?php
 		// TODO in Multi-Vendor not needed at the moment and just would lead to confusion
@@ -316,3 +576,5 @@ echo $this->product->event->afterDisplayContent; ?>
 echo $this->loadTemplate('reviews');
 ?>
 </div>
+<?
+}?>

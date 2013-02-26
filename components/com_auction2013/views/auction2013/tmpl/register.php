@@ -13,7 +13,7 @@ $article=AuctionStuff::getArticleContent(19);
 echo $article['introtext'];?>
 	<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.registerOnAuction'); ?>" method="post" class="form-validate">
 		<div class="divider"></div>
-	<?=AuctionStuff::sreateForm(
+	<?=AuctionStuff::createForm(
 			array(	'name'=>array('Имя',1),
 					'middlename'=>array('Отчество'),
 					'lastname'=>array('Фамилия',1),

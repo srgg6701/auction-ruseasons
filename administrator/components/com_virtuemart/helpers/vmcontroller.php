@@ -120,21 +120,18 @@ class VmController extends JController{
 
 		return $this;
 	}
+/*	MODIFIED START */
 /**
  * Описание
  * @package
  * @subpackage
  */
-	function import(){
-		$path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart'.DS.'tables'.DS.'products.php';
-		require_once $path;
-
-		$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct
-		
-		var_dump($model);	
-		die();		
+	function import($model,$data){
+		$ProductTable=$model->getTable('products');
+		$ProductTable->reset();
+		return $model->store($data,false,$ProductTable);
 	}
-
+/*	MODIFIED END	*/
 	/**
 	 * Generic edit task
 	 *

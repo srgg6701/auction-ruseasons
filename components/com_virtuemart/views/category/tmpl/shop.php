@@ -12,21 +12,31 @@
 //vmdebug('$this->category',$this->category);
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
-defined ('_JEXEC') or die('Restricted access');?>
-<div class="top_list">
-    <h2>Магазин: лотов XXX </h2>
-	<div class="top_list_mn">
-        <div class="your_cab">
-            <a href="index.php?a=4">Ваш кабинет &gt;&gt; </a>
-        </div>	
-        <div class="your_cab">
-            <a href="index.php?a=28&amp;b=136"> Прием на торги &gt;&gt; </a>
-        </div>
-    </div>
-</div>
-<div class="lots_listing">
+defined ('_JEXEC') or die('Restricted access');
+//var_dump(JRequest::get('get'));
+/*	get:
+		'Itemid' => string '115' (length=3)
+		'option' => string 'com_virtuemart' (length=14)
+		'view' => string 'category' (length=8)		
 
-</div>
+	SHOP:
+		'layout' => string 'shop' (length=4)
+		'virtuemart_category_id' => string '0' (length=1)
+	CATEGORY:
+		'limitstart' => int 0
+		'limit' => string 'int' (length=3)
+		'virtuemart_category_id' => string '6' (length=1)
+		
+		$this->category->slug
+ */ 
+HTML::pageHead( 
+			"Магазин",
+			'shop',
+			$this->category->slug,
+			$this->vmPagination
+		);
+if(JRequest::getVar('spag'))
+	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">
 <br>
 <?
@@ -74,13 +84,14 @@ if ($this->search !== NULL):?>
 	<input type="hidden" name="view" value="category"/>
 </form>
 <!-- End Search Box -->
-<?	endif;
-
+<?	endif; //var_dump($this); die();
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
 
 	// array => object
-	foreach($this->products as $i=>$product){?>
+	foreach($this->products as $i=>$product){
+		// if SEF has been switched off, returns just the same as gets:
+		$product->link=HTML::setDetailedLink($product,'shop');?>
 <div class="box">
   <div class="img">	
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
@@ -136,3 +147,4 @@ if (!empty($this->products)) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
+<? HTML::setVmPagination()?>

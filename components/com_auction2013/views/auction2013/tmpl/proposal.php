@@ -11,7 +11,7 @@ $article=AuctionStuff::getArticleContent(13);
 // var_dump($article);	
 echo $article['introtext'];?>
 <form method="post" id="proposal_form" name="proposal_form" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.sendApplication'); ?>" enctype="multipart/form-data">  
-<?=AuctionStuff::sreateForm(
+<?=AuctionStuff::createForm(
 			array(	'name'=>array('Ваше имя',1),
 					'city'=>array('Город',1),
 					'email1'=>array('E-mail',1),
@@ -26,68 +26,6 @@ echo $article['introtext'];?>
 	<span class="req">*</span> Фото предмета в нескольких ракурсах (если имеется, фото подписи, марки или клейма).
 </div>
 <br/>
-<? $old=false;
-if ($old){?>  
-<div class="form_item">
-  <div class="form_element cf_textbox">
-    <label style="width: 150px;" class="cf_label">* Город  </label>
-    <input type="text" name="city" id="city" title="" size="30" maxlength="150" class="cf_inputbox required validate-alpha">
-    <label for="city" style="width:190px;float: right;" class="cf_label"><em></em></label>
-
- </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<div class="form_item">
-  <div class="form_element cf_textbox">
-    <label style="width: 150px;" class="cf_label">* Ваше имя </label>
-    <input type="text" name="name" id="name" title="" size="30" maxlength="150" class="cf_inputbox required validate-alpha">
-    <label for="name" style="width: 190px;float: right;" class="cf_label"><em></em> </label>
-
- </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<div class="form_item">
-  <div class="form_element cf_textbox">
-    <label style="width: 150px;" class="cf_label">* Ваш e-mail</label>
-    <input type="text" name="posta" id="posta" title="" size="30" maxlength="150" class="cf_inputbox required">
-      <label for="posta" style="width: 190px;float: right;" class="cf_label"><em></em> </label>
-
-  </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<div class="form_item">
-  <div class="form_element cf_textbox">
-    <label style="width: 150px;" class="cf_label">Телефон</label>
-    <input type="text" name="phone" id="phone" title="" size="30" maxlength="150" class="cf_inputbox">
-  
-  </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<div class="form_item">
-  <div class="form_element cf_textarea">
-    <label style="width: 150px;" class="cf_label">* Краткое описание (материал, наличие подписи, марки или клейма, размер и др.) </label>
-    <textarea name="tikstik" cols="30" title="" id="tikstik" rows="3" class="cf_inputbox required"></textarea>
-    <label for="tikstik" style="width: 190px;float: right;" class="cf_label"> <em></em> </label>
-
-  </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<div class="form_item">
-  <div class="form_element cf_textarea">
-    <label style="width: 150px;" class="cf_label">Пожелания по цене</label>
-    <textarea name="coast" cols="30" title="" id="coast" rows="3" class="cf_inputbox"></textarea>
-    
-  </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<div class="form_item">
-  <div class="form_element cf_textbox">
-* Фото предмета в нескольких ракурсах (если имеется, фото подписи, марки или клейма)
-  <div class="cfclear">&nbsp;</div>
-  </div>
-</div>
-<?	}?>
-
 <div class="form_item">
   <div class="form_element cf_fileupload">
     <label style="width: 150px;" class="cf_label">Изображение 1</label>

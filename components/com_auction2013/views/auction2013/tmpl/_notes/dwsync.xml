@@ -3,12 +3,14 @@
 <file name="default.php" server="2013.auction-ruseasons.ru/public_html/" local="130046607474327500" remote="130047466200000000" />
 <file name="default.xml" server="2013.auction-ruseasons.ru/public_html/" local="130047356319596500" remote="130047466200000000" />
 <file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130046507799027500" remote="130047466200000000" />
-<file name="proposal.php" server="2013.auction-ruseasons.ru/public_html/" local="130049936804490000" remote="130049968200000000" />
+<file name="proposal.php" server="2013.auction-ruseasons.ru/public_html/" local="130063423027530000" remote="130063477200000000" />
 <file name="proposal.xml" server="2013.auction-ruseasons.ru/public_html/" local="130047356319606500" remote="130047466800000000" />
-<file name="register.php" server="2013.auction-ruseasons.ru/public_html/" local="130049879692740000" remote="130049968200000000" />
+<file name="register.php" server="2013.auction-ruseasons.ru/public_html/" local="130062986766216000" remote="130063041000000000" />
 <file name="register.xml" server="2013.auction-ruseasons.ru/public_html/" local="130047407859616500" remote="130047466800000000" />
 <file name="results.php" server="2013.auction-ruseasons.ru/public_html/" local="130049702294730000" remote="130049797800000000" />
-<file name="results.xml" server="2013.auction-ruseasons.ru/public_html/" local="130047356319626500" remote="130047466800000000" />
+<file name="results.xml" server="2013.auction-ruseasons.ru/public_html/" local="130063392575520000" remote="130063477200000000" />
 <file name="thanx.php" server="2013.auction-ruseasons.ru/public_html/" local="130049702616950000" remote="130049794200000000" />
 <file name="thanx_for_lot.php" server="2013.auction-ruseasons.ru/public_html/" local="130049958902190000" remote="130049968200000000" />
+<file name="askaboutlot.php" server="2013.auction-ruseasons.ru/public_html/" local="130063472284860000" remote="130063476600000000" />
+<file name="askaboutlot.xml" server="2013.auction-ruseasons.ru/public_html/" local="130063378166160000" remote="130063476600000000" />
 </dwsync>

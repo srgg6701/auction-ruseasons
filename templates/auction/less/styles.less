@@ -6,6 +6,10 @@
 @sandDark:#EAD5B7;
 @veryDarkLink:#172A17;
 
+.weak{
+	font-weight:200;
+}
+
 .menuH{
 	display:inline-block; 
 	margin:0; 
@@ -97,7 +101,6 @@ div#left_part{
 		}
 	}
 }
-
 
 .buttonSand{
 	background:#fbe5ab; 
@@ -363,10 +366,38 @@ div#content{
 		}
 	}
 	div#main_content{
+		div.vmPag{
+			display:inline-block; 
+			float:right; 
+			margin-right:6px;
+			ul{
+				display:table;
+				li{
+					display:table-cell;
+					padding: 0 4px;
+				}
+				li:not([class]){
+					span.pagenav{
+						background: #851719;
+						border-radius: 7px;
+						color: white;
+						padding: 2px 6px;
+					}
+				}
+			}
+		}
+		form#ask_form{
+			textarea#comments{
+				width:485px;
+			}
+		}
 		form#registration_form,
-		form#proposal_form{
+		form#proposal_form,
+		form#ask_form{
 			display: inline-block;
-			input[type="submit"]{
+			input[type="submit"],
+			input[type="reset"],
+			button{
 				background-color:@sandDark;
 				border: solid 1px darkkhaki;
 				color:@almostBlack;

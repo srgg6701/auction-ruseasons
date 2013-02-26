@@ -1375,10 +1375,17 @@ FROM #__virtuemart_product_categories AS cats
 	 * @author Max Milbers
 	 * @access public
 	 */
-	public function store (&$product, $isChild = FALSE) {
+	public function store ( &$product, 
+							$isChild = FALSE, 
+							/*	MODIFIED START 	*/
+							$product_data=false
+							/*	MODIFIED END	*/
+						  ) {
 
 		JRequest::checkToken () or jexit ('Invalid Token');
-
+		
+		//var_dump($product); die('VirtueMartModelProduct::store()');
+		
 		if ($product) {
 			$data = (array)$product;
 		}
@@ -1396,7 +1403,10 @@ FROM #__virtuemart_product_categories AS cats
 			$data['intnotes'] = trim ($data['intnotes']);
 		}
 		// Setup some place holders
-		$product_data = $this->getTable ('products');
+		/*	MODIFIED START 	*/
+		if (!$product_data)
+		/*	MODIFIED END	*/
+			$product_data = $this->getTable ('products');
 		//var_dump($product_data); die();
 		//Set the product packaging
 		if (array_key_exists ('product_packaging', $data)) {
@@ -1407,14 +1417,9 @@ FROM #__virtuemart_product_categories AS cats
 	//	$product_data->bindChecknStore ($data, $isChild);
 
 		$stored = $product_data->bindChecknStore ($data, TRUE);
-		
+
 		$errors = $product_data->getErrors ();
 		if(!$stored or count($errors)>0){
-			if (count($errors)>0)
-				var_dump($errors);
-			else
-				echo "<div class=''>! stored...</div>";
-
 			foreach ($errors as $error) {
 				vmError ('Product store '.$error);
 			}
@@ -1422,11 +1427,11 @@ FROM #__virtuemart_product_categories AS cats
 				vmError('You are not an administrator or the correct vendor, storing of product cancelled');
 			}
 			return FALSE;
-		}else
-			var_dump($stored);
+		}
+
 
 		$this->_id = $data['virtuemart_product_id'] = (int)$product_data->virtuemart_product_id;
-		
+
 		if (empty($this->_id)) {
 			vmError('Product not stored, no id');
 			return FALSE;
@@ -1479,7 +1484,6 @@ FROM #__virtuemart_product_categories AS cats
 				if(isset($data['mprices']['product_price'][$k]) ){
 					$pricesToStore['product_price'] = $data['mprices']['product_price'][$k];
 				}
-
 			}
 
 			if (isset($data['mprices']['product_price'][$k]) and $data['mprices']['product_price'][$k]!='') {
@@ -1549,6 +1553,7 @@ FROM #__virtuemart_product_categories AS cats
 			}
 
 		}
+
 		return $product_data->virtuemart_product_id;
 	}
 

@@ -75,4 +75,47 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 			$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=thanx_for_lot', false));
 		//http://docs.joomla.org/Sending_email_from_extensions			//http://api.joomla.org/__filesource/fsource_Joomla-Platform_Mail_librariesjoomlamailmail.php.html#a290
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function askQuestion(){
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$requestData = JRequest::getVar('jform', array(), 'post', 'array');	
+		/*	
+		*/
+		$subject = "Вопрос по предмету id ".$_POST['lot_id']." (".$_POST['lot_name'].")";
+		$body = '<p>
+Имя клиента: '.$requestData['name'].'</p>
+<p>Емэйл: '.$requestData['email'].'</p>
+<p>Контактный телефон: '.$requestData['phone_number'].'</p>
+<hr>
+<p><b>Комментарий:</b> '.$requestData['comments'].'</p>';
+
+		// $cc = false;
+		// $bcc[] = false;
+
+		$mail = JFactory::getMailer();
+		$mail->setSender(array($requestData['email'],$requestData['name']));
+		$config =& JFactory::getConfig();
+		$recipient = array( 
+				$config->getValue( 'config.mailfrom' ),
+				$config->getValue( 'config.fromname' ) 
+			);
+		
+		$mail->addRecipient($recipient);		
+		$mail->setSubject($subject);
+		$mail->isHTML(true);
+		$mail->Encoding = 'base64';
+		$mail->setBody($body);
+		//echo $subject.'<hr>'.$body;
+		//die();
+		$send =& $mail->Send();
+		if ($send !== true) 
+			die("Сообщение не было отправлено из-за возникшей ошибки.<hr>".$send->message);
+		else
+			$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=askaboutlot&result=thanx', false));
+	}
 }
