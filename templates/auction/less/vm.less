@@ -74,8 +74,6 @@ div.top_list{
 	}
 }
 
-
-
 div.lots_listing{
 	border-top:@borderThickBrown;
 	border-bottom:@borderThickBrown;
@@ -141,3 +139,92 @@ div.item-page-shop{
 		color:black;
 	}
 }
+
+// PRODUCT DETAILS
+
+div.gallery_lot{
+
+	width: 350px;
+	float: left;
+	
+	div#galleryContainer{
+		
+		div.main_im_lot{
+			
+			margin-left: 0px;
+			
+			div#galleryBigImage{
+			
+				background: white;
+				border: 1px solid @brownDark;;
+				display: table-cell;
+				height: 334px;
+				margin: 10px auto;
+				vertical-align: middle;
+				width: 334px;
+				
+				div#bigLeadImage{
+					img{
+						border: none;
+						width: 334px;
+						height: 334px;
+						&.MagicZoomPlus{
+							border: 0 !important;
+							padding: 0 !important;
+							margin: 0 !important;
+						}
+					}
+					.MagicZoomPlus{
+						
+						cursor: url(graphics/zoomin.cur), pointer;
+						outline: 0 !important;
+						.MagicZoomBigImageCont{
+							border: 0px solid #999;
+							.MagicZoomHeader{
+								font-size: 8pt !important;
+								line-height: normal !important;
+								color: white;
+								background: #666;
+								text-align: center !important;
+							}
+						}
+						.MagicZoomPup{
+							border: 1px solid #AAA;
+							background: white;
+							cursor: move;
+						}
+					}
+				}
+				
+			}
+		}
+	}
+}
+
+div.box_desc{
+	
+	float: right;
+	width: 360px;
+	
+	div.bord_bottom{
+		border-bottom: 1px solid;
+		margin: 5px 0px;
+		width: 366px;
+	}
+	
+	div.o_o{
+		clear: both;
+		overflow: hidden;
+		span{
+			&.span_o_o{
+			}
+		}
+		a{
+			span.bold span_o_o{
+		
+			}
+		}
+	}
+	
+}
+

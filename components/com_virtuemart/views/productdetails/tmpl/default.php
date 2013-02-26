@@ -19,9 +19,159 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+
+//var_dump($this);die();
+
 require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 //require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
+$old=false;
+if(!$old){?>
+<?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
+<div class="lots_listing">
+  <div class="width70 inBlock" style="margin-left:-8px;">    
+    <ul class="table inline weak">
+        <li><a href="#">&lt; &lt; Назад</a></li>	
+        <li><a href="#">Вернуться к списку лотов</a></li>
+        <li><a href="#">Вперед &gt; &gt;</a></li>
+    </ul>
+  </div>
+  <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
+  	<a href="#">Добавить в избранное</a>
+  </div>
+</div>
 
+<div>
+
+	<div class="gallery_lot">
+		
+        <div id="galleryContainer">
+			
+            <div class="main_im_lot">
+				
+                <div id="galleryBigImage">
+					
+                    <div id="bigLeadImage">
+						
+						<script type="text/javascript">
+							//<![CDATA[
+							images[0] = new galleryAddImage( '6261', 'http://auction-ruseasons.ru/items_images/1_1.jpg', 'http://auction-ruseasons.ru/items_images/preview_1_1.jpg', 334, 334, '', 0);
+							//]]>
+						</script>
+                        
+                        <a href="http://auction-ruseasons.ru/items_images/1_1.jpg" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
+                        
+                            <img src="http://auction-ruseasons.ru/items_images/preview_1_1.jpg" width="334" height="334" alt="" style="opacity: 1; ">                        
+                            
+                            <div class="MagicZoomBigImageCont" style="overflow: hidden; z-index: 100; top: -10000px; position: absolute; width: 450px; height: 293px; opacity: 1; left: 349px; ">
+                                <div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; ">
+                                </div>
+                                                    
+                                <div style="overflow: hidden; ">
+                            
+                                	<img src="http://auction-ruseasons.ru/items_images/1_1.jpg" style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -750px; top: 0px; ">
+                            
+                                </div>
+                            
+                            </div>
+                            
+                            <div class="MagicZoomPup" style="z-index: 10; position: absolute; overflow: hidden; display: none; visibility: hidden; width: 123px; height: 80px; opacity: 0.5; left: 209px; top: 0px; ">
+                            </div>
+                        
+                        </a>
+                        
+					</div>
+				
+                </div>		
+			
+            </div>
+				
+			<div class="clr"></div>
+	
+    	</div>
+
+	</div>
+		
+	<div class="box_desc">
+		
+        <div class="bord_bottom">
+
+         	<b>Лот 1. Приписывается Francesco Guardi (1712-1793) «Вид Венеции»</b>
+
+		</div>
+        
+        <div class="o_o">
+
+             <span style="color:#000">
+                Холст, масло, XVIII в., 30х40 см
+             </span>
+
+        </div>
+        
+        <div class="o_o">
+                Номер аукциона: 
+            <span class="span_o_o">
+                ..............
+            </span>
+
+            <a href="index.php?a=19&amp;b[search_text]=№1">
+                <span class="bold span_o_o">
+                    №1 
+                </span> 
+            </a>
+
+        </div>				
+                    
+        <div class="o_o">
+
+            <a href="index.php?a=28&amp;b=151">
+                Поставить заочный бид
+            </a>
+
+        </div>
+        
+        <div class="o_o">
+            Начало торгов:................. 
+
+            <span class="span_o_o">
+                <b>
+                    14.11.2010 12:00
+                </b>
+            </span>
+
+        </div>		   
+        
+        <div class="o_o">
+            Конец торгов:................... 
+
+            <span class="span_o_o">
+                <b>
+                    14.11.2010 17:00
+                </b>
+            </span>
+
+        </div>				  
+        
+        <div class="o_o">
+            Предварительная оценка: 
+
+            <span class="span_o_o">
+                <b>
+                    120000
+                </b>  
+                <b>
+                    - 150000
+                </b>   
+                рублей
+            </span>
+
+        </div>
+    
+    </div>
+
+</div>
+
+
+<? }else{
 // addon for joomla modal Box
 JHTML::_('behavior.modal');
 // JHTML::_('behavior.tooltip');
@@ -54,19 +204,7 @@ if (empty($this->product)) {
     return;
 }
 ?>
-<?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
-<div class="lots_listing">
-  <div class="width70 inBlock" style="margin-left:-8px;">    
-    <ul class="table inline weak">
-        <li><a href="#">&lt; &lt; Назад</a></li>	
-        <li><a href="#">Вернуться к списку лотов</a></li>
-        <li><a href="#">Вперед &gt; &gt;</a></li>
-    </ul>
-  </div>
-  <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
-  	<a href="#">Добавить в избранное</a>
-  </div>
-</div>
+
 <div class="productdetails-view productdetails">
 
     <?php
@@ -133,8 +271,7 @@ if (empty($this->product)) {
 	    ?>
     	<div class="clear"></div>
         </div>
-    <?php } // PDF - Print - Email Icon END
-    ?>
+    <?php } // PDF - Print - Email Icon END	  ?>
 
     <?php
     // Product Short Description
@@ -156,15 +293,23 @@ if (empty($this->product)) {
     } // Product Custom ontop end
     ?>
 
+    <div id="prod_content">
+    <?	$show=false;
+		if($show):?>
+    	IMAGE COMES HERE!
+    <?	endif;?>
     <div>
-	<div class="width60 floatleft">
-<?php
-echo $this->loadTemplate('images');
+		<div id="bigLeadImage" class="width60 floatleft">
+<?php	
+		echo $this->loadTemplate('images');
 ?>
-	</div>
-
-	<div class="width40 floatright">
-	    <div class="spacer-buy-area">
+		</div>
+    <?	if($show):?>
+    	IMAGE ENDS HERE!
+    <?	endif;?>
+		<!-- -->
+		<div class="width40 floatright">
+	    	<div class="spacer-buy-area">
 
 		<?php
 		// TODO in Multi-Vendor not needed at the moment and just would lead to confusion
@@ -329,3 +474,5 @@ echo $this->product->event->afterDisplayContent; ?>
 echo $this->loadTemplate('reviews');
 ?>
 </div>
+<?
+}?>
