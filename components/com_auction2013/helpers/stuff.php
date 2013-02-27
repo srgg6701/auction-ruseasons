@@ -375,7 +375,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		}else{
 			$lots=$section_data['prod_count'];
 		}
-		echo ". Лотов: ".$lots;?></h2>
+		echo ". <div class=\"weak\">Лотов: ".$lots."</div>";?></h2>
 <?		HTML::setCommonInnerMenu(array('user','take_lot'));?>    
 </div>    
 <?		
