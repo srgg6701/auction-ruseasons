@@ -30,7 +30,9 @@ defined ('_JEXEC') or die('Restricted access');
 		$this->category->slug
  */
 //var_dump($this);die(); 
+
 $subheader=($this->category->category_name)? $this->category->category_name:"Магазин";
+
 HTML::pageHead( 
 			$subheader,
 			'shop',

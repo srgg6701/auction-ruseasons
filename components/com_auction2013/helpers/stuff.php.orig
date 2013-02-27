@@ -70,6 +70,8 @@ class AuctionStuff{
 		return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');	
 	}
 /**
+<<<<<<< HEAD
+=======
  * Описание
  * @package
  * @subpackage
@@ -161,6 +163,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 		return $db->loadResultArray();
 	}
 /**
+>>>>>>> RouteRefactoring
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
  * @package
  * @subpackage
