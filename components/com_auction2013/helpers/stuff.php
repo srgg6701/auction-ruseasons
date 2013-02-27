@@ -16,6 +16,39 @@ defined('_JEXEC') or die;
  * @since		1.6
  */
 class AuctionStuff{
+
+/**
+ * Построить ссылку на соседний предмет
+ * @package
+ * @subpackage
+ */
+	public static function buildProdNeighborLink($neighborId,$category_link=false,$SefMode=false){
+		return ($SefMode)? 
+			$category_link.'/'.AuctionStuff::getProdSlug($neighborId).'-detail'
+				:
+			JRoute::_('index.php?option=com_virtuemart&virtuemart_category_id='.JRequest::getVar('virtuemart_category_id').'&virtuemart_product_id='.$neighborId		
+				//$trinityIds[0]
+			.'&Itemid='.JRequest::getVar('Itemid'));	
+	}
+/**
+ * Извлечь ЧПУ-ссылку для категории из ранее сохранённого массива в сессии
+ * @package
+ * @subpackage
+ */
+	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
+		if(!$links){
+			$session=JFactory::getSession();
+			$links=$session->get('section_links');
+		}
+		foreach($links as $layout=>$categories_links):
+			if(array_key_exists($virtuemart_category_id,$categories_links)){
+				$category_link=$categories_links[$virtuemart_category_id];
+				break;
+			}
+		endforeach;
+		return $category_link;
+	}
+
 /**
  * Получить контент статьи
  * @package
@@ -119,8 +152,24 @@ class AuctionStuff{
         prods_.".$product_id." IN ( ".$queryGetCategoryProducts." )";
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		echo "<div class=''><pre>".$query."</pre></div>";
+		//echo "<div class=''><pre>".$query."</pre></div>";
 		return $db->loadResultArray();
+	}
+/**
+ * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
+ * @package
+ * @subpackage
+ */
+	function getProdSlug($product_id){
+		// 
+		$query="SELECT slug
+ FROM #__virtuemart_products_ru_ru
+INNER JOIN #__virtuemart_products
+   ON #__virtuemart_products_ru_ru.virtuemart_product_id = #__virtuemart_products.virtuemart_product_id
+WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadResult(); 
 	}
 /**
  * Описание

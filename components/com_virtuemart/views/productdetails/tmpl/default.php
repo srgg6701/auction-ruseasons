@@ -19,7 +19,7 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-var_dump(JRequest::get('get'));
+//var_dump(JRequest::get('get'));
 /*
 
   'Itemid' => string '115' (length=3)
@@ -35,36 +35,43 @@ require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
 //require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
 $native=false;
 if(!$native){		
-	$virtuemart_category_id=JRequest::getVar('virtuemart_category_id');
-	$virtuemart_product_id=JRequest::getVar('virtuemart_product_id');
-	$router = JFactory::getApplication()->getRouter();
+	$virtuemart_category_id=$this->product->virtuemart_category_id;
+	//JRequest::getVar('virtuemart_category_id');
+	$virtuemart_product_id=(int)$this->product->virtuemart_product_id;
+	//JRequest::getVar('virtuemart_product_id');
+	//var_dump($this->product->neighbours); die();
+	if(is_array($this->product->neighbours['previous'][0]))
+		$prev_prod_id=$this->product->neighbours['previous'][0]['virtuemart_product_id'];
+	if(is_array($this->product->neighbours['next'][0]))
+		$next_prod_id=$this->product->neighbours['next'][0]['virtuemart_product_id'];
+	if($router = JFactory::getApplication()->getRouter()){
+		$session=&JFactory::getSession();
+		$links=$session->get('section_links');
+	}
 	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
 <?	// получить предыдущий-следующий предметы в категории:	
-	$trinity=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
+	//$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
+	if($SefMode=$router->getMode())
+		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
 	
-	if((int)$trinity[0]<$virtuemart_product_id):?>    
-        <li><a href="#">&lt; &lt; Назад</a></li>
+	if($prev_prod_id):
+	
+	//if((int)$trinityIds[0]<$virtuemart_product_id):	
+		$prev_prod_link=AuctionStuff::buildProdNeighborLink($prev_prod_id,$category_link,$SefMode);
+	?>    
+        <li><a href="<?=$prev_prod_link?>">&lt; &lt; Предыдущий</a></li>
 <?	endif;
-	if($SefMode=$router->getMode()){
-		$session=JFactory::getSession();
-		$links=$session->get('section_links');
-		foreach($links as $layout=>$categories_links):
-			if(array_key_exists($virtuemart_category_id,$categories_links)){
-				$category_link=$categories_links[$virtuemart_category_id];
-				break;
-			}
-		endforeach;
-	}
-	if(!$category_link):
+	if(!$category_link): // if no SEF only:
 		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.JRequest::getVar('Itemid'),false);
 	endif;
 ?>	
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
-<?	if((int)$trinity[1]>$virtuemart_product_id||$trinity[2]):	?>
-        <li><a href="#">Вперед &gt; &gt;</a></li>
+<?	if((int)$trinityIds[1]>$virtuemart_product_id||$next_prod_id):	
+		$next_prod_link=AuctionStuff::buildProdNeighborLink($next_prod_id,$category_link,$SefMode);?>
+        <li><a href="<?=$next_prod_link?>">Следующий &gt; &gt;</a></li>
 <?	endif;	?>
     </ul>
   </div>
