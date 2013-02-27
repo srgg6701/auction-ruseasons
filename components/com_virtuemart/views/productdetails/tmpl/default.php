@@ -43,8 +43,16 @@ if(!$native){
 	if(is_array($this->product->neighbours['next'][0]))
 		$next_prod_id=(int)$this->product->neighbours['next'][0]['virtuemart_product_id'];
 	
-	var_dump($this->product->neighbours['previous']);
-	var_dump($this->product->neighbours['next']);
+	// будем ходить по кругу. Вынужденная мера. См. коммит с тегом SwitchNeighborToVM от 27.02.2013
+	// исправить можно.
+	if (!$prev_prod_id)
+		$prev_prod_id=$next_prod_id;
+	
+	if (!$next_prod_id)
+		$next_prod_id=$prev_prod_id;
+	
+	//var_dump($this->product->neighbours['previous']);
+	//var_dump($this->product->neighbours['next']);
 	
 	if($router = JFactory::getApplication()->getRouter()){
 		$session=&JFactory::getSession();
@@ -59,10 +67,12 @@ if(!$native){
 <?	// получить предыдущий-следующий предметы в категории:	
 	if($SefMode=$router->getMode())
 		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
+	// т.к. нативная сортировка предыдущий/следующий работает не совсем корректно...
+	// см. коммит с тегом SwitchNeighborToVM от 27.02.2013
+	//if(!$prev_prod_id):
+		//$hide_prev_style=$hidden;
+	//endif;
 	
-	if(!$prev_prod_id):
-		$hide_prev_style=$hidden;
-	endif;
 	// если ЧПУ не включены, возвращает стандартную ссылку:
 	$prev_prod_link=AuctionStuff::buildProdNeighborLink($prev_prod_id,$category_link,$SefMode);?>    
         <li><a title="Предыдущий предмет в категории" href="<?=$prev_prod_link?>"<?=$hide_prev_style?>>&lt; &lt; Предыдущий</a></li>
@@ -74,8 +84,8 @@ if(!$native){
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
 <?	if($next_prod_id>$virtuemart_product_id||$next_prod_id):	
 		$next_prod_link=AuctionStuff::buildProdNeighborLink($next_prod_id,$category_link,$SefMode);
-	else:
-		$hide_next_style=$hidden;
+	//else:
+		//$hide_next_style=$hidden;
 	endif;?>
         <li><a title="Следующий предмет в категории" href="<?=$next_prod_link?>"<?=$hide_next_style?>>Следующий &gt; &gt;</a></li>
     </ul>
