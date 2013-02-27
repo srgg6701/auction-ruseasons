@@ -19,7 +19,7 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
+var_dump(JRequest::get('get'));
 /*
 
   'Itemid' => string '115' (length=3)
@@ -34,15 +34,21 @@ defined('_JEXEC') or die('Restricted access');
 require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 //require_once JPATH_BASE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';
 $native=false;
-if(!$native){?>
-<?	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
+if(!$native){		
+	$virtuemart_category_id=JRequest::getVar('virtuemart_category_id');
+	$virtuemart_product_id=JRequest::getVar('virtuemart_product_id');
+	$router = JFactory::getApplication()->getRouter();
+	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
+<?	// получить предыдущий-следующий предметы в категории:	
+	$trinity=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
+	
+	if((int)$trinity[0]<$virtuemart_product_id):?>    
         <li><a href="#">&lt; &lt; Назад</a></li>
-<?	$router = JFactory::getApplication()->getRouter();
+<?	endif;
 	if($SefMode=$router->getMode()){
-		$virtuemart_category_id=JRequest::getVar('virtuemart_category_id');
 		$session=JFactory::getSession();
 		$links=$session->get('section_links');
 		foreach($links as $layout=>$categories_links):
@@ -57,7 +63,9 @@ if(!$native){?>
 	endif;
 ?>	
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
+<?	if((int)$trinity[1]>$virtuemart_product_id||$trinity[2]):	?>
         <li><a href="#">Вперед &gt; &gt;</a></li>
+<?	endif;	?>
     </ul>
   </div>
   <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
