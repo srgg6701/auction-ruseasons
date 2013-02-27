@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access');
   'virtuemart_category_id' => string '6' (length=1)
 */
 
-require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
 $native=false;
 if(!$native){		
 	$virtuemart_category_id=$this->product->virtuemart_category_id;
@@ -40,7 +40,28 @@ if(!$native){
 		$session=&JFactory::getSession();
 		$links=$session->get('section_links');
 	}
-	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
+	HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));
+$path=JUri::root().'templates/auction/magic_zoom/';?>
+<!--<link href="<?=$path?>style_old.css" rel="stylesheet" type="text/css">
+<link href="<?=$path?>style.css" rel="stylesheet" type="text/css">-->
+<link href="<?=$path?>magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
+<script src="<?=$path?>magiczoomplus.js" type="text/javascript"></script>
+<script src="<?=$path?>jquery-1.2.6.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="<?=$path?>prototype.js"></script>
+<script type="text/javascript" src="<?=$path?>main.js"></script>
+
+<script type="text/javascript">
+	//<![CDATA[
+	//initialize things for the page
+	Event.observe(window, 'load', function () {
+		geoUtil.runHeartbeat = true;
+		
+		geoUtil.init();
+	});
+	//]]>
+</script>
+<script src="<?=$path?>watch.js" type="text/javascript"></script>    
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
@@ -86,10 +107,10 @@ if(!$native){
 </div>
 
 <div>
-
+<? $base_path=JUri::root();?>
 	<div class="gallery_lot">
 		
-        <div id="galleryContainer">
+        <div id="galleryContainer" style="clear: both;">
 			
             <div class="main_im_lot">
 				
@@ -99,20 +120,22 @@ if(!$native){
 						
 						<script type="text/javascript">
 							//<![CDATA[
-							images[0] = new galleryAddImage( '6261', '<?	//http://auction-ruseasons.ru/items_images/1_1.jpg
-							
+							images[0] = new galleryAddImage( '6589', '<?	//http://auction-ruseasons.ru/items_images/1_1.jpg
+				echo $base_path.$this->product->images[0]->file_url;			
 							?>', '<? //http://auction-ruseasons.ru/items_images/preview_1_1.jpg
+				echo $base_path.$this->product->images[0]->file_url_thumb;
+				
 					
 			?>', 334, 334, '', 0);
 							//]]>
 						</script>
                         
                         <a href="<? //http://auction-ruseasons.ru/items_images/1_1.jpg
-			echo $this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
+			echo $base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
                         
                             <img src="<?
 //http://auction-ruseasons.ru/items_images/preview_1_1.jpg
-			echo $this->product->images[0]->file_url;
+			echo $base_path.$this->product->images[0]->file_url;
 	
 	?>" width="334" height="334" alt="" style="opacity: 1; ">                        
                             
@@ -124,7 +147,7 @@ if(!$native){
                             
                                 	<img src="<?
                                     //http://auction-ruseasons.ru/items_images/1_1.jpg
-		echo $this->product->images[0]->file_url;	
+		echo $base_path.$this->product->images[0]->file_url_thumb;	
 									
 									?>" style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -750px; top: 0px; ">
                             
@@ -144,7 +167,6 @@ if(!$native){
             </div>
 
 
-            
             <div id="galleryThumbs">
 				
                 <div class="tumb">
@@ -157,12 +179,12 @@ if(!$native){
                     	
                         <a href="<?
                         //http://auction-ruseasons.ru/items_images/rus_berezi_01_120_04_1.jpg
-			echo $this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?
+			echo $base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?
             //http://auction-ruseasons.ru/items_images/preview_rus_berezi_01_120_04_1.jpg
-			echo $this->product->images[$i]->file_url;?>" style="outline: none; " class="MagicThumb-swap">
+			echo $base_path.$this->product->images[$i]->file_url;?>" style="outline: none; " class="MagicThumb-swap">
                         	<img src="<?
                             //http://auction-ruseasons.ru/items_images/preview_rus_berezi_01_120_04_1.jpg
-			echo $this->product->images[$i]->file_url;?>" height="82" width="82" alt="" title="">
+			echo $base_path.$this->product->images[$i]->file_url;?>" height="82" width="82" alt="" title="">
                         </a>
                 	
                     </div>
