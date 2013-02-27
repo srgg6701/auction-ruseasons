@@ -160,12 +160,13 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 		//echo "<div class=''><pre>".$query."</pre></div>"; var_dump($db->loadResultArray());die();
 		return $db->loadResultArray();
 	}
+
 /**
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
  * @package
  * @subpackage
  */
-	function getProdSlug($product_id){
+	public static function getProdSlug($product_id){
 		// 
 		$query="SELECT slug
  FROM #__virtuemart_products_ru_ru
@@ -176,12 +177,32 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
 		$db->setQuery($query);
 		return $db->loadResult(); 
 	}
+
 /**
  * Описание
  * @package
  * @subpackage
  */
-	function getSingleProductData($product_id,$fields=false){
+	public static function getCategoryIdByProductId($virtuemart_product_id){
+		$query="SELECT cats.virtuemart_category_id
+FROM #__virtuemart_categories cats
+  INNER JOIN #__virtuemart_category_categories cat_cats
+    ON cats.virtuemart_category_id = cat_cats.category_child_id
+  INNER JOIN #__virtuemart_product_categories prod_cats
+    ON cats.virtuemart_category_id = prod_cats.virtuemart_category_id 
+   AND prod_cats.virtuemart_category_id = cat_cats.category_child_id
+   AND prod_cats.virtuemart_product_id = ".$virtuemart_product_id;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadResult(); 
+	}
+
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function getSingleProductData($product_id,$fields=false){
 		if(!$fields) $fields='*';
 		$query="SELECT {$fields}
 FROM #__virtuemart_products AS p
@@ -208,7 +229,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
  * @package
  * @subpackage
  */
-	function getCatProdCount(){
+	public static function getCatProdCount(){
 		/*$query="SELECT 
 		-- cats.virtuemart_category_id, 
         -- cats_ru.category_name,
@@ -382,6 +403,12 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		$arrMenus=self::setBaseLink($layout);//var_dump($arrMenus); 
 		HTML::setVmPagination($arrMenus['base'],$pagination);
 	}
+
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
 	public static function innerMenu($content_type,$link,$obj=false){?>
         <div class="your_cab">
             <a href="<?=$link?>"><?

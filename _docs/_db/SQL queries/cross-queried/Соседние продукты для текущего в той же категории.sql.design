@@ -13,10 +13,10 @@
     <Database />
   </Connection>
   <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="False" MainViewAttribute="Design" MainViewScale="50">
-    <View Name="Design" Active="True" Visible="True">
+    <View Name="Design" Visible="True">
       <Data>
         <StatementType>Select</StatementType>
-        <ActiveQuery>4</ActiveQuery>
+        <ActiveQuery>0</ActiveQuery>
         <SubQuery Id="0" Open="0" LocationX="-422" LocationY="-63" Scale="1">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
@@ -130,7 +130,7 @@
     <View Name="Code" Visible="True">
       <Data />
     </View>
-    <View Name="Data" Visible="True" />
+    <View Name="Data" Active="True" Visible="True" />
     <View Name="Profiler" Visible="False" />
     <View Name="PivotGrid" Visible="False" />
   </Views>

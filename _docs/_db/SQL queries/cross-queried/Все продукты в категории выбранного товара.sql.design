@@ -17,7 +17,7 @@
       <Data>
         <StatementType>Select</StatementType>
         <ActiveQuery>0</ActiveQuery>
-        <SubQuery Id="0" Open="0" LocationX="-210.526318431231" LocationY="158.947370415579" Scale="0.95">
+        <SubQuery Id="0" Open="0" LocationX="-404.210531387963" LocationY="156.842107231267" Scale="0.95">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
             <VerticalOverlap>0</VerticalOverlap>
@@ -39,6 +39,7 @@
             <Table Name="prod_cats" Left="-120" Top="632" Width="413.5472" Height="138" Collapsed="False" />
             <Table Name="cat_cats" Left="376" Top="312" Width="409.8363" Height="138" Collapsed="False" />
             <Table Name="cats" Left="848" Top="480" Width="310.8715" Height="228" Collapsed="False" />
+            <Table Name="auc13_virtuemart_products_ru_ru" Left="208" Top="104" Width="306.8741" Height="210" Collapsed="False" />
           </Tables>
         </SubQuery>
         <SubQuery Id="1" Open="1" LocationX="-10.3448275295081" LocationY="-10.3448275295081" Scale="0.87">
@@ -61,10 +62,10 @@
         </SubQuery>
       </Data>
     </View>
-    <View Name="Code" Active="True" Visible="True">
+    <View Name="Code" Visible="True">
       <Data />
     </View>
-    <View Name="Data" Visible="True" />
+    <View Name="Data" Active="True" Visible="True" />
     <View Name="Profiler" Visible="False" />
     <View Name="PivotGrid" Visible="False" />
   </Views>

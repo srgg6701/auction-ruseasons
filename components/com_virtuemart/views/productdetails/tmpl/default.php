@@ -142,6 +142,38 @@ if(!$native){
                 </div>		
 			
             </div>
+
+
+            
+            <div id="galleryThumbs">
+				
+                <div class="tumb">
+
+	<? 	foreach($this->product->images as $i => $stuff):?>	
+
+                    <div class="th_imgage">
+						
+                        <div class="inside_image_preview">
+                    	
+                        <a href="<?
+                        //http://auction-ruseasons.ru/items_images/rus_berezi_01_120_04_1.jpg
+			echo $this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?
+            //http://auction-ruseasons.ru/items_images/preview_rus_berezi_01_120_04_1.jpg
+			echo $this->product->images[$i]->file_url;?>" style="outline: none; " class="MagicThumb-swap">
+                        	<img src="<?
+                            //http://auction-ruseasons.ru/items_images/preview_rus_berezi_01_120_04_1.jpg
+			echo $this->product->images[$i]->file_url;?>" height="82" width="82" alt="" title="">
+                        </a>
+                	
+                    </div>
+				
+                </div>
+
+	<?	endforeach;?>																	
+
+				</div>
+
+			</div>
 				
 			<div class="clr"></div>
 	
@@ -153,8 +185,7 @@ if(!$native){
 		
         <div class="bord_bottom">
 
-         	<b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?>
-            <!--Лот 1. Приписывается Francesco Guardi (1712-1793) «Вид Венеции»--></b>
+         	<b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
 
 		</div>
         
@@ -162,7 +193,6 @@ if(!$native){
 
              <span style="color:#000">
              	<?=$this->product->product_s_desc?>
-                <!--Холст, масло, XVIII в., 30х40 см-->
              </span>
 
         </div>
@@ -176,7 +206,6 @@ if(!$native){
             <a href="#">
                 <span class="bold span_o_o">
             		<?=$this->product->auction_number?>
-                    <!--№1 -->
                 </span> 
             </a>
 
@@ -196,7 +225,6 @@ if(!$native){
             <span class="span_o_o">
                 <b>
              		<?=$this->product->auction_date_start?>
-                    <!--14.11.2010 12:00-->
                 </b>
             </span>
 
@@ -208,7 +236,6 @@ if(!$native){
             <span class="span_o_o">
                 <b>
              		<?=$this->product->auction_date_finish?>
-                    <!--14.11.2010 17:00-->
                 </b>
             </span>
 
@@ -221,7 +248,6 @@ if(!$native){
                 <b>
              		<?
 	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
-                    <!--120000-->
                 </b>  
                 <b>
                 	- ? ? ? ?

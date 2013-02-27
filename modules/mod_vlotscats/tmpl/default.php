@@ -19,7 +19,18 @@ if($SefMode=$router->getMode()){
 	$menus = $menu->getMenu();
 	//var_dump(JRequest::get('get'));
 	// var_dump($menus); die();
-	$loaded_category_id=JRequest::getVar('virtuemart_category_id'); // 9
+	// Не получим virtuemart_category_id в режиме ЧПУ при загрузке профайла предмета. Используем другой способ извлечения...
+	if(!$loaded_category_id=JRequest::getVar('virtuemart_category_id')){
+		/*array
+		  'Itemid' => string '115' (length=3)
+		  'option' => string 'com_virtuemart' (length=14)
+		  'limitstart' => int 0
+		  'limit' => string 'int' (length=3)
+		  'view' => string 'productdetails' (length=14)
+		  'virtuemart_product_id' => string '551' (length=3)
+		  'virtuemart_category_id' => int 0*/
+		$loaded_category_id=AuctionStuff::getCategoryIdByProductId(JRequest::getVar('virtuemart_product_id')); // 9
+	}
 	$top_layout=$menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime
 }?>
 <br/>

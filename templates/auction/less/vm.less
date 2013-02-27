@@ -59,10 +59,12 @@ div.top_list_mn{
 }
 
 div.top_list{
-	height:45px;
+	//height:45px;
+	position: relative;
 	h2{			
-		display: block;
-		float:left;
+		//display: block;
+		display: inline-block;
+		//float:left;
 		font-size: 20px;
 		font-weight: bold;
 		max-width: 400px;
@@ -77,7 +79,10 @@ div.top_list{
 	div.top_list_mn{
 		display: inline-block;	
 		float:right;
-		margin-top: 18px;
+		margin-top: 0;
+		position: absolute;
+		right: 0;
+		top: 19px;
 	}
 }
 
@@ -123,6 +128,10 @@ div.item-page-shop{
 			overflow-y: hidden;
 			vertical-align: middle;
 			width: 226px;
+		}
+		div.PricesalesPrice{
+			//padding-top: 5px;
+			min-height: 35px;
 		}
 		h2{
 			.imHeader;
@@ -181,8 +190,7 @@ div.gallery_lot{
 							margin: 0 !important;
 						}
 					}
-					.MagicZoomPlus{
-						
+					.MagicZoomPlus{					
 						cursor: url(graphics/zoomin.cur), pointer;
 						outline: 0 !important;
 						.MagicZoomBigImageCont{
@@ -201,8 +209,30 @@ div.gallery_lot{
 							cursor: move;
 						}
 					}
-				}
+				}				
+			}
+		}
+		div#galleryThumbs{
+			div.tumb{
+				margin-left: 0px;
+				padding-left: 0px; 
 				
+				div.th_imgage{
+					border: 1px solid;
+					background: white;
+					display: inline-block;
+					height: 82px;
+					margin: 10px 10px 10px 0;
+					vertical-align: middle;
+					width: 82px;
+					
+					div.inside_image_preview{
+						display: table-cell;
+						height: 82px;
+						vertical-align: middle;
+						width: 82px;
+					}
+				}
 			}
 		}
 	}
