@@ -114,45 +114,50 @@ class AuctionStuff{
  */
 	public static function getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id){
 		
-		$product_id='virtuemart_product_id';
+		$qProdParentCategoryId="SELECT cat_cats1.category_parent_id
+            FROM #__virtuemart_category_categories cat_cats1
+           WHERE cat_cats1.category_child_id = ".$virtuemart_category_id;
 		
-		$queryGetYoungerProductId="SELECT MAX(prods0.".$product_id.")
+		$qAllProdsInCategory="SELECT prods.virtuemart_product_id
+ FROM #__virtuemart_products prods
+  INNER JOIN #__virtuemart_product_categories prod_cats
+          ON prods.virtuemart_product_id = prod_cats.virtuemart_product_id
+  INNER JOIN #__virtuemart_category_categories cat_cats
+          ON prod_cats.virtuemart_category_id = cat_cats.category_child_id
+  INNER JOIN #__virtuemart_categories cats
+          ON prod_cats.virtuemart_category_id = cats.virtuemart_category_id 
+  AND cats.virtuemart_category_id = cat_cats.id
+WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId." 
+                                    )
+   AND prod_cats.virtuemart_category_id = ".$virtuemart_category_id;
+   		
+		$qPrevProdId="
+		SELECT MAX(prods0.virtuemart_product_id)
           FROM #__virtuemart_products prods0
-         WHERE prods0.".$product_id." < ".$virtuemart_product_id;
+         WHERE prods0.virtuemart_product_id < ".$virtuemart_product_id;		
 		
-		$queryGetOlderProductId="SELECT MIN(prods00.".$product_id.")
+		$qNextProdId="SELECT MIN(prods00.virtuemart_product_id)
           FROM #__virtuemart_products prods00
-         WHERE prods00.".$product_id." > ".$virtuemart_product_id;
-				
-		$queryGetParentCategoryId="SELECT cat_cats1.category_parent_id
-                  FROM #__virtuemart_category_categories cat_cats1
-                 WHERE cat_cats1.category_child_id = ".$virtuemart_category_id;
-		
-		$queryGetCategoryProducts="SELECT 
-              prods.".$product_id."
-            FROM #__virtuemart_products prods
-              INNER JOIN #__virtuemart_product_categories prod_cats
-                ON prods.".$product_id." = prod_cats.".$product_id."
-              INNER JOIN #__virtuemart_category_categories cat_cats
-                ON prod_cats.virtuemart_category_id = cat_cats.category_child_id
-              INNER JOIN #__virtuemart_categories cats
-                ON prod_cats.virtuemart_category_id = cats.virtuemart_category_id 
-               AND cats.virtuemart_category_id = cat_cats.id
-            WHERE cat_cats.category_parent_id = ( ".$queryGetParentCategoryId." )";
-		
-		$query="SELECT prods_.".$product_id."
+         WHERE prods00.virtuemart_product_id > ".$virtuemart_product_id;
+		 
+		$query="SELECT prods_.virtuemart_product_id
   FROM #__virtuemart_products prods_
  WHERE (
-        prods_.".$product_id." = ( ".$queryGetYoungerProductId." )     
+        prods_.virtuemart_product_id = ( ".$qPrevProdId." 
+                                       )     
         OR
-        prods_.".$product_id." = ".$virtuemart_product_id."
+        prods_.virtuemart_product_id = ".$virtuemart_product_id."
         OR
-        prods_.".$product_id." = ( ".$queryGetOlderProductId." )
-       ) AND 
-        prods_.".$product_id." IN ( ".$queryGetCategoryProducts." )";
+        prods_.virtuemart_product_id = ( ".$qNextProdId." 
+                                       )
+       ) 
+  AND   prods_.virtuemart_product_id IN ( 
+        ".$qAllProdsInCategory." 
+       ) ";
+  		
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		//echo "<div class=''><pre>".$query."</pre></div>";
+		//echo "<div class=''><pre>".$query."</pre></div>"; var_dump($db->loadResultArray());die();
 		return $db->loadResultArray();
 	}
 /**
@@ -373,7 +378,9 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		echo ". Лотов: ".$lots;?></h2>
 <?		HTML::setCommonInnerMenu(array('user','take_lot'));?>    
 </div>    
-<?		HTML::setVmPagination($SefMode,$link,$pagination);
+<?		
+		$arrMenus=self::setBaseLink($layout);//var_dump($arrMenus); 
+		HTML::setVmPagination($arrMenus['base'],$pagination);
 	}
 	public static function innerMenu($content_type,$link,$obj=false){?>
         <div class="your_cab">
@@ -451,24 +458,22 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
  * @subpackage
  */
 	public static function setVmPagination(
-								$SefMode = false,
 								$link = false,
 								$pagination = false
 							){?>	
 <div class="lots_listing">
 	Лотов на странице: 
-    <?	static $sef;
+    <?	
+		$router = JFactory::getApplication()->getRouter();
 		static $lnk;
 		static $pag;
-		
 		if($link) $lnk=$link;
-		if($SefMode) $sef=$SefMode;
 		if($pagination) $pag=$pagination->getPagesLinks();
 		
 		$arrLimits=array(15,30,60);
 		
 		foreach($arrLimits as $i=>$limit){
-			if($sef){
+			if($router->getMode()){
 				$go_limit=$lnk.'/?';
 			}else{
 				$go_limit=JRoute::_($lnk.'&');
