@@ -156,7 +156,7 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 			 && ($option=='com_auction2013'
 			 	 || $option=='com_users')
 		   ): ?>
-  						<div id="usermenu">		
+  						<div id="usermenu" style="border:solid 1px #FFCC00;">		
   							<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
                         </div>           
   <?php endif; ?>

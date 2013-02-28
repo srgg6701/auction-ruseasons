@@ -16,7 +16,37 @@ defined('_JEXEC') or die;
  * @since		1.6
  */
 class AuctionStuff{
+/**
+ * Построить ссылку на соседний предмет
+ * @package
+ * @subpackage
+ */
+	public static function addToFavorites($data,$user_id){
+		//var_dump(JRequest::get('post')); die('addToFavorites');			
+		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'tables'.DS.'product_favorites.php';
+		$table = JTable::getInstance('Productfavorites','Auction2013Table');
 
+		if (!AuctionStuff::getFavoritesCount($data['virtuemart_product_id'],$user_id)) {		
+			$table->reset();
+			$table->set('virtuemart_product_id',$data['virtuemart_product_id']);
+			$table->set('user_id',$user_id);
+			// Check that the data is valid
+			if ($table->check()){
+				
+				if (!$table->bind()){
+				  echo "<div class=''>Ошибка связи полей таблицы...</div>";
+				  // handle bind failure
+				  echo $table->getError();
+				}
+				// Store the data in the table
+				if (!$table->store(true))
+				{	JError::raiseWarning(100, JText::_('Не удалось сохранить данные для id '.$pk.'...'));
+					$errors++;
+				}
+			}else die("Данные не валидны...");
+			return true;
+		}else return 'exists';
+	}	
 /**
  * Построить ссылку на соседний предмет
  * @package
@@ -107,6 +137,65 @@ class AuctionStuff{
 		$db->setQuery($query);
 		return $db->loadResultArray();
 	}
+
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function getFavorites($user_id=false){
+		if(!$user_id){
+			$user = JFactory::getUser();
+			$user_id=$user->id;
+		}
+		$query="SELECT
+  #__product_favorites.virtuemart_product_id,
+  product_name,
+  auction_date_start,
+  auction_date_finish,
+  product_price
+FROM #__virtuemart_products_ru_ru
+  INNER JOIN #__product_favorites
+    ON #__virtuemart_products_ru_ru.virtuemart_product_id = #__product_favorites.virtuemart_product_id
+  INNER JOIN #__virtuemart_products
+    ON #__virtuemart_products.virtuemart_product_id = #__product_favorites.virtuemart_product_id 
+   AND #__virtuemart_products.virtuemart_product_id = #__virtuemart_products_ru_ru.virtuemart_product_id
+  INNER JOIN #__virtuemart_product_prices
+    ON #__virtuemart_product_prices.virtuemart_product_id = #__virtuemart_products_ru_ru.virtuemart_product_id AND #__virtuemart_product_prices.virtuemart_product_id = #__virtuemart_products.virtuemart_product_id
+  WHERE user_id = ".$user_id;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		$favors=$db->loadAssocList();
+		foreach($favors as $i=>$rows){
+			$virtuemart_product_id=$rows['virtuemart_product_id'];
+			unset($rows['virtuemart_product_id']);
+			$favorites[$virtuemart_product_id]=$rows;
+			unset ($rows);
+		}
+		return $favorites;
+	}
+
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function getFavoritesCount($virtuemart_product_id=false,$user_id=false){
+		if(!$user_id){
+			$user = JFactory::getUser();
+			$user_id=$user->id;
+		}
+		$query="SELECT COUNT(id) FROM #__product_favorites
+ WHERE ";
+ 		if ($virtuemart_product_id)
+ 			$query.=" virtuemart_product_id = ".$data['virtuemart_product_id']."
+   AND ";
+   		$query.=" user_id = ".$user_id;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadResult();
+	}
+
 /**
  * Описание
  * @package

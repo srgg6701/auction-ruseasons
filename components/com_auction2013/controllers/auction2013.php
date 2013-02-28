@@ -84,17 +84,21 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 	function addToFavorites(){
 		$data=JRequest::get('post');
 		$user = JFactory::getUser();
-		if($user->guest)
+		if($user->guest){
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login&virtuemart_product_id='.$data['virtuemart_product_id']), false);
-		else{
-			var_dump(JRequest::get('post')); die('addToFavorites');
+		}else{ /*	'btn_favor' => string 'добавить в избранное' (length=38)
+				'option' => string 'com_auction2013' (length=15)
+				'task' => string 'addToFavorites' (length=14)
+				'virtuemart_product_id' => string '516' (length=3)
+				'79513d0a835927c68c03b271ac965de9' => string '1' (length=1)
+			  */
+			require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+			if(!AuctionStuff::addToFavorites($data,$user->id))
+				echo "<div class=''>Ошибка. Данные не добавлены...</div>";
+			else{
+				$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=favorites'), false);
+			}
 		}
-		/*	'btn_favor' => string 'добавить в избранное' (length=38)
-			'option' => string 'com_auction2013' (length=15)
-			'task' => string 'addToFavorites' (length=14)
-			'virtuemart_product_id' => string '516' (length=3)
-			'79513d0a835927c68c03b271ac965de9' => string '1' (length=1)
-		*/
 	}
 
 

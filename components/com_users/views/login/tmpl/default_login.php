@@ -20,9 +20,9 @@ JHtml::_('behavior.noframes');
 <?	$bold='';
 	if($favorite_product_id=JRequest::getVar('virtuemart_product_id')):
 		$bold=' style="font-weight:bold;"';
-		// add to session. But first, clear it
+		// add to session
+		// именно в сессию, чтобы не потерять после авторизации. Как только юзер будет авторизован - первым делом проверим, что там у него сохранилось и добавим в таблицу.
 		$session = JFactory::getSession();
-		$session->clear('favorite_product_id');
 		$session->set('favorite_product_id',$favorite_product_id);
 		?>
 	<p<?=$bold?>>Чтобы добавить выбранный вами предмет в избранное,<br><?

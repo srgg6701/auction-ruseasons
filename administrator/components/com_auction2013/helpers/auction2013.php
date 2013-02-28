@@ -28,6 +28,7 @@ class Auction2013Helper
 
 		return $result;
 	}
+	
 	public static function getImportFields(){
 		return array(
 				'auction_number'=>'Номер аукциона',
@@ -42,7 +43,8 @@ class Auction2013Helper
 				'price'=>'Стартовая цена', // ?
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',
 			);
-	}	
+	}
+	
 	/**
 	 * Configure the Linkbar.
 	 *

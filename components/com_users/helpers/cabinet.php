@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class UserCabinet
 {
-	function buildCabinet($logout_params,$layout=false,$user=false){
+	public function buildCabinet($logout_params,$layout=false,$user=false){
 		
 		if (!$user)
 			$user=JFactory::getUser();
@@ -55,6 +55,7 @@ class UserCabinet
 				switch($layout){
 					case 'favorites':
 						echo 'Избранное';
+						$params=$user->id;
 					break;
 					case 'bids':
 						echo 'Мои ставки';
@@ -67,7 +68,7 @@ class UserCabinet
 				}
 				
 				echo $section;?></h2>
-		<?	UserCabinet::$method();?>            	
+		<?	UserCabinet::$method($params);?>            	
             </div>   
           </div>
             <!-- END CONTENT BLOCK -->
@@ -112,9 +113,33 @@ class UserCabinet
  * @package
  * @subpackage
  */
-	function layout_favorites(){?>
+	function layout_favorites($user_id){?>
     <H1>FAVORITES</H1>
-<?	}	
+<?		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+		$favorites=AuctionStuff::getFavorites($user_id);
+		//if($go) 
+		if(!empty($favorites)){?>
+        <table>
+        	<tr>
+            	<th>Предмет</th>
+            	<th>Цена</th>
+            	<th>Начало</th>
+            	<th>Окончание</th>
+            	<th>Осталось</th>
+            </tr>
+		<?	foreach($favorites as $virtuemart_product_id => $product_data){?>
+			<tr>
+            	<td><?=$product_data['product_name']?></td>
+            	<td><?=$product_data['product_price']?></td>
+            	<td><?=$product_data['auction_date_start']?></td>
+            	<td><?=$product_data['auction_date_start']?></td>
+            	<td><? //=?></td>
+            </tr>
+		<?	}?>
+	<?	}else{?>
+        <p><b>У Вас нет избранных лотов.</b></p>
+	<? 	}
+	}	
 /**
  * Описание
  * @package
