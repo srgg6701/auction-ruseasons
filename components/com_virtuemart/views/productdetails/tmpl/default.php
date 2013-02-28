@@ -30,7 +30,6 @@ defined('_JEXEC') or die('Restricted access');
   'virtuemart_product_id' => string '551' (length=3)
   'virtuemart_category_id' => string '6' (length=1)
 */
-
 require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
 $native=false;
 if(!$native){		
@@ -61,7 +60,24 @@ $path=JUri::root().'templates/auction/magic_zoom/';?>
 	});
 	//]]>
 </script>
-<script src="<?=$path?>watch.js" type="text/javascript"></script>    
+<!--<script src="<?=$path?>watch.js" type="text/javascript"></script>--> 
+<?	if(isset($testcart)):?><h1>add to CART!</h1><? endif;?>
+<?	$addtocart=false;
+	if($addtocart=="show_old"):
+		// нативная VM-корзина - уже с формой.
+		echo $this->loadTemplate('addtocart');
+	// если решили таки подключить корзину:
+	elseif($addtocart):?>
+	<form method="post" class="product js-recalculate" action="<?php echo JRoute::_ ('index.php'); ?>">
+    <input type="hidden" class="quantity-input js-recalculate" name="quantity[]" value="1">
+    <input type="submit" name="addtocart" class="addtocart-button" value="Добавить в корзину" title="Добавить в корзину">
+				<input type="hidden" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>">
+		<input type="hidden" name="option" value="com_virtuemart">
+		<input type="hidden" name="view" value="cart">
+		<noscript><input type="hidden" name="task" value="add"/></noscript>
+		<input type="hidden" name="virtuemart_product_id[]" value="<?=$this->product->virtuemart_product_id?>">
+</form>
+<?	endif;?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
@@ -102,7 +118,25 @@ $path=JUri::root().'templates/auction/magic_zoom/';?>
     </ul>
   </div>
   <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
-  	<a href="#">Добавить в избранное</a>
+
+<form method="post" id="add_to_favorite" name="add_to_favorite" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.addToFavorites'); ?>"
+	style="display:inline;padding:0;margin:0;border:none;">    
+    <input type="submit" name="favor" value="Добавить в избранное"
+	style="background: none;
+color: #851719;
+font-family: Verdana;
+font-weight: bold;
+margin: 0;
+padding: 0;
+text-decoration: underline;
+border: none;">
+	<input type="hidden" name="option" value="com_auction2013" />
+	<input type="hidden" name="task" value="auction2013.addToFavorites" />
+		<?php echo JHtml::_('form.token');?>        
+</form>
+  	<a href="<?
+    
+	?>">Добавить в избранное</a>
   </div>
 </div>
 

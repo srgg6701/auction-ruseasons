@@ -72,7 +72,7 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
-<!----><script src="<?=$templateUrl?>/js/jquery-1.8.1.js"></script>
+<!----><script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <?	/*?>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>

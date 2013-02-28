@@ -1,0 +1,61 @@
+<html>
+<head>
+  <title>Not Found</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+  <style type="text/css">
+  <!--
+    html, body { padding: 0px; margin: 0px; }
+    .menu { padding: 4px 10px 4px 10px; border-bottom: 3px double #999999; background: #FFFFFF; font-size: 85%; font-weight: bold; }
+    p { text-align: justify }
+    h1 { font-size: 150%; }
+    h2 { font-size: 130%; }
+  -->
+  </style>
+</head>
+
+<body bgcolor="white" text="#000000" link="#00639C" alink="#ffaa00" vlink="#00437C">
+
+<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+<tr valign="top">
+  <td bgcolor="#DEDFDE" width="80%" style="border-right: 1px outset">
+        <div style="width=100%; padding: 0px 10px 4px 10px">
+            <h1 style="margin-top: 0.2em">Not Found</h1>
+
+The requested URL /~auction.test/components/com_virtuemart/assets/images/vmgeneral/filetype_jpg.png was not found on this server.<P>
+
+<h2>Подсказка Денвера</h2>
+<p>Вы ошиблись при наборе URL в браузере. Вероятнее всего, сервер 
+пытается найти файл <tt>Z:/home/localhost/www/~auction.test/components/com_virtuemart/assets/images/vmgeneral/filetype_jpg.png</tt>, 
+которого не существует. 
+
+<p>В случае использования CGI-скриптов, корректные пути к CGI-директориям следующие:
+
+<p><table border=0 cellpadding=3 cellcpacing=1>
+<tr bgcolor=silver>
+	<td><b>URL</td>
+	<td><b>Куда указывает</td>
+</tr>
+<tr bgcolor=#EEEEEE>
+	<td nowrap><tt>http://***/cgi-glob/script.cgi</td>
+	<td nowrap><tt>/home/cgi-glob/script.cgi</td>
+</tr>
+<tr bgcolor=#EEEEEE>
+	<td nowrap><tt>http://***/cgi/script.cgi</td>
+	<td nowrap><tt>/home/***/cgi/script.cgi</td>
+</tr>
+<tr bgcolor=#EEEEEE>
+	<td nowrap><tt>http://***/cgi-bin/script.cgi</td>
+	<td nowrap><tt>/home/***/cgi-bin/script.cgi</td>
+</tr>
+</table>
+<p>
+              <br/><br/>
+        <HR noshade="noshade" />
+        <address>Apache/2.2.4 (Win32) mod_ssl/2.2.4 OpenSSL/0.9.8k PHP/5.3.3 Server at localhost Port 80</address>
+          </div>
+  </td>
+  <td bgcolor="#000000">&nbsp;</td>
+</tr>
+</table>
+</body>
+</html>

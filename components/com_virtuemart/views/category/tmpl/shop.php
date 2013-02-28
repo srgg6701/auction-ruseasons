@@ -64,7 +64,7 @@ if ( VmConfig::get ('showCategory', 1) &&
 				// Show Category?>
 				<h2><a href="<?=$caturl?>" title="<?=$category->category_name?>"><?=$category->category_name?></a>
 					<div class="img" title="<?=$category->category_name?>">
-						<a href="<?=$caturl?>"><?=$category->images[0]->displayMediaThumb ("", FALSE)?></a>
+						<a href="<?=$caturl?>"><?=$category->images[0]->displayMediaThumb ("", FALSE)?>&nbsp;</a>
 					</div>
 				</h2>
 		<?	endforeach;?>
@@ -97,8 +97,8 @@ if (!empty($this->products)) {
 		// if SEF has been switched off, returns just the same as gets:
 		$product->link=HTML::setDetailedLink($product,'shop');?>
 <div class="box">
-  <div class="img">	
-    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
+  <div class="img">
+    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>&nbsp;</a>
 </div>
 	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
 	<?	if (!empty($product->product_s_desc)):?>
