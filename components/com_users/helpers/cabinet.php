@@ -114,10 +114,8 @@ class UserCabinet
  * @subpackage
  */
 	function layout_favorites($user_id){?>
-    <H1>FAVORITES</H1>
 <?		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 		$favorites=AuctionStuff::getFavorites($user_id);
-		//if($go) 
 		if(!empty($favorites)){?>
         <table>
         	<tr>
@@ -136,6 +134,7 @@ class UserCabinet
             	<td><? //=?></td>
             </tr>
 		<?	}?>
+        </table>
 	<?	}else{?>
         <p><b>У Вас нет избранных лотов.</b></p>
 	<? 	}
