@@ -24,7 +24,7 @@ $method='layout_'.$layout;
                 <?=$user->get('username')?></span>
         </div>
         <!-- START LEFT COLUMN -->
-        <div id="user_column">		
+        <!--<div id="user_column">		
             <div class="content_box">
             	&nbsp;
             </div>
@@ -33,7 +33,13 @@ $method='layout_'.$layout;
 			<input type="hidden" name="return" value="<?php echo base64_encode($logout_params); ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 	</form>           
-        </div>
+        </div>-->
+        
+            <!--<form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
+			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
+			<input type="hidden" name="return" value="<?php echo base64_encode($logout_params); ?>" />
+			<?php echo JHtml::_('form.token'); ?>
+	</form>-->           
             <!-- END LEFT COLUMN -->
             <!-- START CONTENT BLOCK -->
         <div id="content_column_wide">
@@ -58,7 +64,53 @@ $method='layout_'.$layout;
 				}
 				
 				//echo $section;?></h2>
-		<?	//$method($params);?><table cellspacing="0" cellpadding="0">
+                
+		<?	//$method($params);
+		
+require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+		$favorites=AuctionStuff::getFavorites($user->id);
+		//var_dump($favorites); 
+		/*?>
+	<table>
+    	<tr>
+    		<th>HEADER</th>
+        </tr>
+	<?	foreach($favorites as $virtuemart_product_id => $product_data){
+			//echo "<div class=''>virtuemart_product_id= ".$virtuemart_product_id."</div>";
+			foreach($product_data as $key => $value)
+				echo "<div class=''>key => ".$value."</div>";
+		}?>
+    </table>
+	<? 	*/	
+	//$favorites=array();
+		//if($go) 
+		if(!empty($favorites)){?>
+        <table>
+        	<tr>
+            	<th>Предмет</th>
+            	<th>Цена</th>
+            	<th>Начало</th>
+            	<th>Окончание</th>
+            	<th>Осталось</th>
+            </tr>
+		<?	//if (1>2)
+			foreach($favorites as $virtuemart_product_id => $product_data){?>
+			<tr>
+            	<td><?=$product_data['product_name']?></td>
+            	<td><?=$product_data['product_price']?></td>
+            	<td><?=$product_data['auction_date_start']?></td>
+            	<td><?=$product_data['auction_date_start']?></td>
+            	<td><? //=?></td>
+            </tr>
+		<?	}?>
+        </table>
+	<?	}else{?>
+        <p><b>У Вас нет избранных лотов.</b></p>
+	<? 	}
+		
+		
+		
+		?><!--<table cellspacing="0" cellpadding="0">
       <tr>
         <td>№02</td>
         <td>02/188/03</td>
@@ -155,7 +207,7 @@ $method='layout_'.$layout;
         <td>Рамка для фотографии.</td>
         <td>Бронза, золочение, стекло, к. XIX - н. ХХ вв., размер 27х15,7 см.</td>
       </tr>
-  </table>            	
+  </table>-->            	
             </div>   
           </div>
             <!-- END CONTENT BLOCK -->
