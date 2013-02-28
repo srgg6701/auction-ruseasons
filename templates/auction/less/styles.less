@@ -6,6 +6,49 @@
 @sandDark:#EAD5B7;
 @veryDarkLink:#172A17;
 
+.buttonAsLink{
+	border: none;
+	background: none;
+	color: @brownDark;
+	cursor: pointer;
+	font-weight: bold;
+	margin-left: 0px;
+	padding: 0;
+}
+
+.buttonSandCool{
+	background-color:@sandDark;
+	border: solid 1px darkkhaki;
+	color:@almostBlack;
+	font-size:14px;
+	font-weight:bold;
+	height:30px;
+	margin-top:10px;
+	padding:8px 12px;
+}
+
+ul.buttons{
+	li{
+		div{
+			.buttonSandCool;
+			display:inline-block;
+			a{
+				text-decoration:none !important;
+				font-size:12px;
+				&:hover{
+					text-decoration:none !important;
+				}
+			}
+		}
+	}
+}
+
+.flat{
+	border:none;
+	display:inline;
+	margin:0;
+	padding:0;
+}
 .weak{
 	font-weight:200;
 }
@@ -398,14 +441,7 @@ div#content{
 			input[type="submit"],
 			input[type="reset"],
 			button{
-				background-color:@sandDark;
-				border: solid 1px darkkhaki;
-				color:@almostBlack;
-				font-size:14px;
-				font-weight:bold;
-				height:30px;
-				margin-top:10px;
-				padding:8px 12px;
+				.buttonSandCool;
 			}
 			label{
 				display: inline-block;

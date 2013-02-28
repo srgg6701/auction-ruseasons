@@ -119,25 +119,12 @@ $path=JUri::root().'templates/auction/magic_zoom/';?>
   </div>
   <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
 
-<form method="post" id="add_to_favorite" name="add_to_favorite" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.addToFavorites'); ?>"
-	style="display:inline;padding:0;margin:0;border:none;">    
-    <input type="submit" name="favor" value="Добавить в избранное"
-	style="background: none;
-color: #851719;
-font-family: Verdana;
-font-weight: bold;
-margin: 0;
-padding: 0;
-text-decoration: underline;
-border: none;">
+<form method="post" id="add_to_favorite" name="add_to_favorite" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.addToFavorites'); ?>">    
+    <input type="submit" name="btn_favor" id="btn_favor" value="добавить в избранное">
 	<input type="hidden" name="option" value="com_auction2013" />
 	<input type="hidden" name="task" value="auction2013.addToFavorites" />
 		<?php echo JHtml::_('form.token');?>        
-</form>
-  	<a href="<?
-    
-	?>">Добавить в избранное</a>
-  </div>
+</form>  </div>
 </div>
 
 <div>

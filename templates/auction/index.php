@@ -112,11 +112,19 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
         <div id="content">
 		<?php $style="";?>
   	<?php $style="left "?>
-  <?php $hide_left_panel=false;
-  		if( JRequest::getVar('layout')=='register'
-		  	|| JRequest::getVar('layout')=='askaboutlot'
-		  ):
-			$hide_left_panel=true;
+  <?php $user = JFactory::getUser();
+  		$layout=JRequest::getVar('layout');
+		$option=JRequest::getVar('option');
+		$view=JRequest::getVar('view');
+  		$hide_left_panel=false;
+		//echo "<div class=''>$layout, ".$option.", $view, ".$user->guest."</div>";
+  		if( $layout=='register'
+		  	|| $layout=='askaboutlot'
+			|| ( $option=='com_users'
+			   	 && $view=='login'
+				 && $user->guest
+			   )
+		  ): $hide_left_panel=true;
   		endif;
   		if ($this->countModules('left_panel')&&!$hide_left_panel): ?>
           <div id="left_part">
@@ -142,10 +150,7 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
                 <div class="Post">
                     <div class="Post-body">
                 		<jdoc:include type="component" />
-  <?php $user = JFactory::getUser();
-  		$layout=JRequest::getVar('layout');
-		$option=JRequest::getVar('option');
-		if ( $this->countModules('usermenu')
+  <?php if ( $this->countModules('usermenu')
 			 && $user->get('guest') != 1
 		   	 && $layout!='register'
 			 && ($option=='com_auction2013'
