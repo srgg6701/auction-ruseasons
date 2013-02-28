@@ -17,8 +17,17 @@ JHtml::_('behavior.noframes');
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 	<?php endif; ?>
-
-Добро пожаловать! Чтобы получить доступ ко всем функциям аукциона, пожалуйста, введите ниже свой клиентский номер и пароль.
+<?	$bold='';
+	if($favorite_product_id=JRequest::getVar('virtuemart_product_id')):
+		$bold=' style="font-weight:bold;"';
+		// add to session. But first, clear it
+		$session = JFactory::getSession();
+		$session->clear('favorite_product_id');
+		$session->set('favorite_product_id',$favorite_product_id);
+		?>
+	<p<?=$bold?>>Чтобы добавить выбранный вами предмет в избранное,<br><?
+	else:?>Добро пожаловать! Чтобы получить доступ ко всем функциям аукциона,<?	
+	endif;?> пожалуйста, введите ниже свой клиентский номер и пароль.</p>
 <br><br>
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	<div class="login-description">

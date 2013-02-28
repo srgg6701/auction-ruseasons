@@ -123,6 +123,7 @@ $path=JUri::root().'templates/auction/magic_zoom/';?>
     <input type="submit" name="btn_favor" id="btn_favor" value="добавить в избранное">
 	<input type="hidden" name="option" value="com_auction2013" />
 	<input type="hidden" name="task" value="auction2013.addToFavorites" />
+    <input type="hidden" name="virtuemart_product_id" value="<?=$this->product->virtuemart_product_id?>" />
 		<?php echo JHtml::_('form.token');?>        
 </form>  </div>
 </div>
