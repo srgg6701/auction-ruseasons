@@ -153,6 +153,7 @@ try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
   <?php if ( $this->countModules('usermenu')
 			 && $user->get('guest') != 1
 		   	 && $layout!='register'
+			 && $layout!='askaboutlot'
 			 && ($option=='com_auction2013'
 			 	 || $option=='com_users')
 		   ): ?>

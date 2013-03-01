@@ -102,11 +102,19 @@ class UserCabinet
 	function layout_lots($user_id){
 		// Проверить закрома:
 		$session = JFactory::getSession();
+		//echo "<div class=''>favorite_product_id= ".$session->get('favorite_product_id')."</div>"; die();
 		if($virtuemart_product_id=$session->get('favorite_product_id')){
 			// добавить запись в таблицу, перенаправить в Избранное:
 			AuctionStuff::addToFavorites($virtuemart_product_id,$user_id);
 			$app =JFactory::getApplication();
-			$app->redirect('index.php?option=com_users&view=profile&layout=favorites&added='.$virtuemart_product_id);
+			$uMenus=AuctionStuff::getTopCatsMenuItemIds(	
+						'usermenu',
+						'profile',
+						'favorites'
+					);
+			$redirect='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id;
+			//echo "<div class=''>redirect= ".$redirect."</div>";die();
+			$app->redirect($redirect);
 		}else{?>
     <H1>LOTS</H1>
 <?		}

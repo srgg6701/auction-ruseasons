@@ -27,12 +27,16 @@ class AuctionStuff{
 		$table = JTable::getInstance('Productfavorites','Auction2013Table');
 		if (!AuctionStuff::getFavoritesCount($user_id,$virtuemart_product_id)) {		
 			$table->reset();
-			$table->set('virtuemart_product_id',$virtuemart_product_id);
-			$table->set('user_id',$user_id);
-			$table->set('datetime',date('Y-m-d H:i:s'));
+			$data=array(
+					'virtuemart_product_id'=>$virtuemart_product_id,
+					'user_id'=>$user_id,
+					'datetime'=>date('Y-m-d H:i:s')
+				);
+			foreach($data as $field=>$value)
+				$table->set($field,$value);
 			// Check that the data is valid
 			if ($table->check()){
-				if (!$table->bind()){
+				if (!$table->bind($data)){
 				  echo "<div class=''>Ошибка связи полей таблицы...</div>";
 				  // handle bind failure
 				  echo $table->getError();
@@ -371,14 +375,28 @@ WHERE p.virtuemart_product_id = ".$product_id;
  * @package
  * @subpackage
  */
-	public static function getTopCatsMenuItemIds(){
-		$layouts=AuctionStuff::getTopCatsLayouts();
+	public static function getTopCatsMenuItemIds(
+										$menutype='mainmenu',
+										$view=false,
+										$layout=false
+									){
 		$query_start="SELECT id 
   FROM  `#__menu` 
- WHERE  `menutype` =  'mainmenu'
+ WHERE  `menutype` =  '".$menutype."'";
+   		
+		if ($view)
+			$query_start.="
+   AND link REGEXP  '(^|/?|&|&amp;)view=".$view."($|&|&amp;)'";
+			
+		$query_start.="
    AND link REGEXP  '(^|/?|&|&amp;)layout=";
 		$query_end="($|&|&amp;)'";
-		$db = JFactory::getDBO();
+		$db = JFactory::getDBO();		
+		if(!$layout){
+			$layouts=AuctionStuff::getTopCatsLayouts();
+		}else{
+			$layouts[0]=$layout;
+		}
 		$ItemIds=array();
 		foreach($layouts as $i=>$layout){
 			$query=$query_start.$layout.$query_end;
@@ -387,7 +405,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
 			$ItemId=$db->loadResult();
 			$ItemIds[]=$ItemId;
 			//echo "<div class=''>ItemId= ".$ItemId."</div>"; 
-		}
+		}//die();
 		return $ItemIds;
 	}
 //shop'

@@ -97,7 +97,14 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 			if(!AuctionStuff::addToFavorites($data['virtuemart_product_id'],$user->id))
 				echo "<div class=''>Ошибка. Данные не добавлены...</div>";
 			else{
-				$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=favorites'), false);
+				$uMenus=AuctionStuff::getTopCatsMenuItemIds(	
+							'usermenu',
+							'profile',
+							'favorites'
+						);
+				$link='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0];
+				//echo "<div class=''>link= ".$link."</div>";die();
+				$this->setRedirect($link, false);
 			}
 		}
 	}
@@ -122,9 +129,16 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 		if (!$db->query()) {
                                                 //sendErrorMess включён
 			JError::raiseError(500, $db->getErrorMsg());
-		}else
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=favorites&deleted='.$virtuemart_product_id, false));
-
+		}else{
+			require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+			$uMenus=AuctionStuff::getTopCatsMenuItemIds(	
+									'usermenu',
+									'profile',
+									'favorites'
+								);
+			$link='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0].'&deleted='.$virtuemart_product_id;
+			$this->setRedirect($link,false);
+		}
 		/*	'virtuemart_product_id' => string '584' (length=3)
   			'option' => string 'com_auction2013' (length=15)
   			'task' => string 'deleteFromFavorites' (length=19)
