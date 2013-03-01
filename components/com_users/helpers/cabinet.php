@@ -19,6 +19,8 @@ class UserCabinet
 {
 	public function buildCabinet($logout_params,$layout=false,$user=false){
 		
+		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+				
 		if (!$user)
 			$user=JFactory::getUser();
 		
@@ -26,7 +28,7 @@ class UserCabinet
 			$layout='default';
 		
 		$method='layout_'.$layout;
-			
+		
 		ob_start();?>
 <div class="content_shell left private_room">
         <div id="your_order">
@@ -65,6 +67,7 @@ class UserCabinet
 					break;					
 					default: 
 						echo 'Ваши лоты';
+						$params=$user->id;
 				}
 				
 				echo $section;?></h2>
@@ -78,12 +81,12 @@ class UserCabinet
 		return $cabinet;
 	}
 /**
- * Описание
+ * Проверяет добавление в избранное перед авторизацией. Если находит, заносит в таблицу, перенаправляет в избранное.
  * @package
  * @subpackage
  */
-	function layout_default(){?>
-    <a href="#"><b>Ставки сделанные Вами:</b></a>
+	function layout_default($user_id){ ?>
+    <a href="#"><b>Ставки, сделанные Вами:</b></a>
     <span class="count_st_lt">&nbsp;2</span>
     <div class="para">
         Заканчивающиеся торги в которых Вы лидируете: 2
@@ -93,13 +96,21 @@ class UserCabinet
     </div>
 <?	}
 /**
- * Описание
  * @package
  * @subpackage
  */
-	function layout_lots(){?>
+	function layout_lots($user_id){
+		// Проверить закрома:
+		$session = JFactory::getSession();
+		if($virtuemart_product_id=$session->get('favorite_product_id')){
+			// добавить запись в таблицу, перенаправить в Избранное:
+			AuctionStuff::addToFavorites($virtuemart_product_id,$user_id);
+			$app =JFactory::getApplication();
+			$app->redirect('index.php?option=com_users&view=profile&layout=favorites&added='.$virtuemart_product_id);
+		}else{?>
     <H1>LOTS</H1>
-<?	}	
+<?		}
+	}	
 /**
  * Описание
  * @package
@@ -113,11 +124,11 @@ class UserCabinet
  * @package
  * @subpackage
  */
-	function layout_favorites($user_id){?>
-<?		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+	function layout_favorites($user_id){
+
 		$favorites=AuctionStuff::getFavorites($user_id);
 		if(!empty($favorites)){?>
-        <table>
+        <table id="tblFavorites" cellpadding="2" cellspacing="1">
         	<tr>
             	<th>Предмет</th>
             	<th>Цена</th>
@@ -126,12 +137,25 @@ class UserCabinet
             	<th>Осталось</th>
             </tr>
 		<?	foreach($favorites as $virtuemart_product_id => $product_data){?>
-			<tr>
-            	<td><?=$product_data['product_name']?></td>
-            	<td><?=$product_data['product_price']?></td>
-            	<td><?=$product_data['auction_date_start']?></td>
-            	<td><?=$product_data['auction_date_start']?></td>
-            	<td><? //=?></td>
+			<tr<?	
+			if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?	
+			}?> valign="top">
+            	<td><?
+                $product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug'],$virtuemart_product_id);  
+				?><a href="<? 
+				
+				echo $product_link; 
+				
+				?>"><?=$product_data['product_name']?></a>
+                <div>Удалить из избранного</div></td>
+            	<td><?=substr($product_data['product_price'],0,strpos($product_data['product_price'],"."))?></td>
+            	<td><?=JHTML::_('date', $product_data['auction_date_start'], JText::_('DATE_FORMAT_LC2'));?></td>
+            	<td><?=JHTML::_('date', $product_data['auction_date_finish'], JText::_('DATE_FORMAT_LC2'));?></td>
+            	<td><? 
+		
+			echo HTML::DateTimeDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
+				
+				?></td>
             </tr>
 		<?	}?>
         </table>

@@ -17,22 +17,21 @@ defined('_JEXEC') or die;
  */
 class AuctionStuff{
 /**
- * Построить ссылку на соседний предмет
+ * Добавить предмет в избранное
  * @package
  * @subpackage
  */
-	public static function addToFavorites($data,$user_id){
+	public static function addToFavorites($virtuemart_product_id,$user_id){
 		//var_dump(JRequest::get('post')); die('addToFavorites');			
 		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'tables'.DS.'product_favorites.php';
 		$table = JTable::getInstance('Productfavorites','Auction2013Table');
-
-		if (!AuctionStuff::getFavoritesCount($data['virtuemart_product_id'],$user_id)) {		
+		if (!AuctionStuff::getFavoritesCount($user_id,$virtuemart_product_id)) {		
 			$table->reset();
-			$table->set('virtuemart_product_id',$data['virtuemart_product_id']);
+			$table->set('virtuemart_product_id',$virtuemart_product_id);
 			$table->set('user_id',$user_id);
+			$table->set('datetime',date('Y-m-d H:i:s'));
 			// Check that the data is valid
 			if ($table->check()){
-				
 				if (!$table->bind()){
 				  echo "<div class=''>Ошибка связи полей таблицы...</div>";
 				  // handle bind failure
@@ -42,10 +41,13 @@ class AuctionStuff{
 				if (!$table->store(true))
 				{	JError::raiseWarning(100, JText::_('Не удалось сохранить данные для id '.$pk.'...'));
 					$errors++;
+				}else{
+					$session = JFactory::getSession();
+					$session->clear('favorite_product_id');
 				}
 			}else die("Данные не валидны...");
 			return true;
-		}else return 'exists';
+		}else return 'exists'; // reserved meaning
 	}	
 /**
  * Построить ссылку на соседний предмет
@@ -69,16 +71,32 @@ class AuctionStuff{
 		if(!$links){
 			$session=JFactory::getSession();
 			$links=$session->get('section_links');
+			//var_dump($links); echo('links?!');
 		}
 		foreach($links as $layout=>$categories_links):
 			if(array_key_exists($virtuemart_category_id,$categories_links)){
 				$category_link=$categories_links[$virtuemart_category_id];
+				//echo "<div class=''>category_link= ".$category_link."</div>";
 				break;
 			}
 		endforeach;
 		return $category_link;
 	}
-
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function extractProductLink($virtuemart_category_id,$slug,$virtuemart_product_id=false){
+		$app=&JFactory::getApplication();
+		$router = $app->getRouter();
+		if($SefMode=$router->getMode()){
+			//echo "<div class=''>category_link= ".AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id)."/$slug-detail</div>";
+			return AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id).'/'.$slug.'-detail';
+		}else{
+			return JRoute::_('index.php?option=com_virtuemart&virtuemart_category_id='.$virtuemart_category_id).'&virtuemart_product_id='.$virtuemart_product_id;	
+		}
+	}
 /**
  * Получить контент статьи
  * @package
@@ -153,7 +171,9 @@ class AuctionStuff{
   product_name,
   auction_date_start,
   auction_date_finish,
-  product_price
+  product_price,
+  slug,
+  virtuemart_category_id
 FROM #__virtuemart_products_ru_ru
   INNER JOIN #__product_favorites
     ON #__virtuemart_products_ru_ru.virtuemart_product_id = #__product_favorites.virtuemart_product_id
@@ -162,6 +182,9 @@ FROM #__virtuemart_products_ru_ru
    AND #__virtuemart_products.virtuemart_product_id = #__virtuemart_products_ru_ru.virtuemart_product_id
   INNER JOIN #__virtuemart_product_prices
     ON #__virtuemart_product_prices.virtuemart_product_id = #__virtuemart_products_ru_ru.virtuemart_product_id AND #__virtuemart_product_prices.virtuemart_product_id = #__virtuemart_products.virtuemart_product_id
+  INNER JOIN #__virtuemart_product_categories
+    ON #__product_favorites.virtuemart_product_id = #__virtuemart_product_categories.virtuemart_product_id
+
   WHERE user_id = ".$user_id;
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
@@ -180,7 +203,7 @@ FROM #__virtuemart_products_ru_ru
  * @package
  * @subpackage
  */
-	public static function getFavoritesCount($virtuemart_product_id=false,$user_id=false){
+	public static function getFavoritesCount($user_id,$virtuemart_product_id=false){
 		if(!$user_id){
 			$user = JFactory::getUser();
 			$user_id=$user->id;
@@ -188,7 +211,7 @@ FROM #__virtuemart_products_ru_ru
 		$query="SELECT COUNT(id) FROM #__product_favorites
  WHERE ";
  		if ($virtuemart_product_id)
- 			$query.=" virtuemart_product_id = ".$data['virtuemart_product_id']."
+ 			$query.=" virtuemart_product_id = ".$virtuemart_product_id."
    AND ";
    		$query.=" user_id = ".$user_id;
 		$db=JFactory::getDBO();
@@ -429,6 +452,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
 		return $fields;
 	}
 }
+
 class HTML{
 /**
  * Описание
@@ -602,5 +626,34 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
     </div>
 </div>	
 <?	}
-// 
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function DateTimeDiff( $date_start,
+						   $date_finish=false,
+						   $formats=array(
+						  			'y'=>'лет',
+									'm'=>'месяцев',
+									'd'=>'дней',
+									'h'=>'часов',
+									'i'=>'минут',
+									//'s'=>'секунд'
+								)
+						){
+		$time_one = new DateTime( $date_start );
+		if(!$date_finish)
+			$date_finish = date('Y-m-d H:i:s');
+		$time_two = new DateTime( $date_finish );
+		$difference = $time_one->diff( $time_two );
+		$str_diff='';
+		foreach ($formats as $fcode=>$format){
+			if($diff=$difference->format('%'.$fcode)){
+				if ($str_diff!='') $str_diff.=', ';
+				$str_diff.=$format.': '.$diff;
+			}
+		}
+		return $str_diff;
+	}
 }?>

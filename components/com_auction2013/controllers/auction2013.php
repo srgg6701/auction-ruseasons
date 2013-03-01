@@ -93,7 +93,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 				'79513d0a835927c68c03b271ac965de9' => string '1' (length=1)
 			  */
 			require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
-			if(!AuctionStuff::addToFavorites($data,$user->id))
+			if(!AuctionStuff::addToFavorites($data['virtuemart_product_id'],$user->id))
 				echo "<div class=''>Ошибка. Данные не добавлены...</div>";
 			else{
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=favorites'), false);

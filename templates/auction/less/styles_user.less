@@ -83,6 +83,28 @@ div#main_content.left{
 		padding-left:10px;
 		width:600px;
 	}
+		
+		table#tblFavorites{
+			tr{
+				th{
+					text-align:left;
+				}
+				&:first-child{
+					color:@brownDark;
+					font-size: 11px;
+					font-weight: bold;
+					height: 24px;
+					margin: 0px;
+					padding: 4px 0px 0px 5px;
+				}
+				&:not(:first-child){
+					&:hover{
+						background-color:#FFFFE1;
+					}
+				}
+			}
+		}
+
 	div#login_area{
 		margin: 20px 80px;
 		div.login{
@@ -113,9 +135,10 @@ div#main_content.left{
 		}
 	}
 	form#formGoLogout{
-		margin-left:15px;
+		// margin-left:15px;
 		button.button{
 			.buttonAsLink;
 		}
 	}
+	
 }

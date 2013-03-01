@@ -23,8 +23,7 @@ JHtml::_('behavior.noframes');
 		// add to session
 		// именно в сессию, чтобы не потерять после авторизации. Как только юзер будет авторизован - первым делом проверим, что там у него сохранилось и добавим в таблицу.
 		$session = JFactory::getSession();
-		$session->set('favorite_product_id',$favorite_product_id);
-		?>
+		$session->set('favorite_product_id',$favorite_product_id);?>
 	<p<?=$bold?>>Чтобы добавить выбранный вами предмет в избранное,<br><?
 	else:?>Добро пожаловать! Чтобы получить доступ ко всем функциям аукциона,<?	
 	endif;?> пожалуйста, введите ниже свой клиентский номер и пароль.</p>
