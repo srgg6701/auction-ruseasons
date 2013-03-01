@@ -84,9 +84,10 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 	function addToFavorites(){
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$data=JRequest::get('post');
+		$virtuemart_product_id=$data['virtuemart_product_id'];
 		$user = JFactory::getUser();
 		if($user->guest){
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login&virtuemart_product_id='.$data['virtuemart_product_id']), false);
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login&virtuemart_product_id='.$virtuemart_product_id), false);
 		}else{ /*	'btn_favor' => string 'добавить в избранное' (length=38)
 				'option' => string 'com_auction2013' (length=15)
 				'task' => string 'addToFavorites' (length=14)
@@ -94,7 +95,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 				'79513d0a835927c68c03b271ac965de9' => string '1' (length=1)
 			  */
 			require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
-			if(!AuctionStuff::addToFavorites($data['virtuemart_product_id'],$user->id))
+			if(!AuctionStuff::addToFavorites($virtuemart_product_id,$user->id))
 				echo "<div class=''>Ошибка. Данные не добавлены...</div>";
 			else{
 				$uMenus=AuctionStuff::getTopCatsMenuItemIds(	
@@ -102,7 +103,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 							'profile',
 							'favorites'
 						);
-				$link='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0];
+				$link='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id;;
 				//echo "<div class=''>link= ".$link."</div>";die();
 				$this->setRedirect($link, false);
 			}
