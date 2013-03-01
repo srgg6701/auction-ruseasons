@@ -87,6 +87,7 @@ class UsersControllerRegistration extends UsersController
 		}
 		return true;
 	}
+/*	MODIFIED START */
 /**
  * Создать следующий логин для юзера
  * @package
@@ -183,6 +184,8 @@ class UsersControllerRegistration extends UsersController
 		}
 		return true;
 	}
+/*	MODIFIED END	*/
+
 	/**
 	 * Method to register a user.
 	 *

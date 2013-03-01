@@ -82,6 +82,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
  * @subpackage
  */
 	function addToFavorites(){
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$data=JRequest::get('post');
 		$user = JFactory::getUser();
 		if($user->guest){
@@ -100,7 +101,37 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 			}
 		}
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function deleteFromFavorites(){
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//var_dump(JRequest::get('post'));
+		//die('deleteFromFavorites');	
+		$virtuemart_product_id=JRequest::getVar('virtuemart_product_id');
+		$user = JFactory::getUser();
+		$db	= JFactory::getDBO();
+		$query	= $db->getQuery(true);
+		$query->delete();
+		$query->from("#__product_favorites");
+		$query->where(" virtuemart_product_id = ".$virtuemart_product_id.' AND user_id = '.$user->id);
+		//echo "<div class=''>query= ".$query."</div>";die();
+		$db->setQuery((string) $query);
+		if (!$db->query()) {
+                                                //sendErrorMess включён
+			JError::raiseError(500, $db->getErrorMsg());
+		}else
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=favorites&deleted='.$virtuemart_product_id, false));
 
+		/*	'virtuemart_product_id' => string '584' (length=3)
+  			'option' => string 'com_auction2013' (length=15)
+  			'task' => string 'deleteFromFavorites' (length=19)
+  			'df11e545edba1f3486e07aa892c90cb1' => string '1' (length=1)
+
+		*/
+	}
 
 /**
  * Описание

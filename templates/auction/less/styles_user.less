@@ -98,8 +98,30 @@ div#main_content.left{
 					padding: 4px 0px 0px 5px;
 				}
 				&:not(:first-child){
+					font-size:11px;
 					&:hover{
 						background-color:#FFFFE1;
+					}
+					td{
+						border-bottom:dashed 1px @brown;
+					}
+				}
+				td{
+					&:not(:first-child){
+						color:black;
+						font-weight:bold;
+						white-space:nowrap;
+					}
+					&:first-child{
+						button{
+							border: 1px solid #CACBCC;
+							color:@brownDark;
+							//background: #E2E4E9 url('../images/backgrounds/button.gif') repeat-x center left;
+							font-family:Verdana;
+							font-size: 12px;
+							margin: 6px auto 5px 1px;
+							padding: 3px 5px 2px 5px;
+						}
 					}
 				}
 			}

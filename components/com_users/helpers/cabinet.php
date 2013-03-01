@@ -128,6 +128,7 @@ class UserCabinet
 
 		$favorites=AuctionStuff::getFavorites($user_id);
 		if(!empty($favorites)){?>
+            <form id="deleteFromFavorites" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.deleteFromFavorites'); ?>" method="post">
         <table id="tblFavorites" cellpadding="2" cellspacing="1">
         	<tr>
             	<th>Предмет</th>
@@ -147,18 +148,34 @@ class UserCabinet
 				echo $product_link; 
 				
 				?>"><?=$product_data['product_name']?></a>
-                <div>Удалить из избранного</div></td>
+                <button value="<?=$virtuemart_product_id?>">Удалить из избранного</button></td>
             	<td><?=substr($product_data['product_price'],0,strpos($product_data['product_price'],"."))?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_start'], JText::_('DATE_FORMAT_LC2'));?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_finish'], JText::_('DATE_FORMAT_LC2'));?></td>
             	<td><? 
 		
-			echo HTML::DateTimeDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
+				echo HTML::DateTimeDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
 				
 				?></td>
             </tr>
 		<?	}?>
         </table>
+			<input type="hidden" id="virtuemart_product_id" name="virtuemart_product_id" value="" />
+			<input type="hidden" name="option" value="com_auction2013" />
+			<input type="hidden" name="task" value="auction2013.deleteFromFavorites" />
+			<?php echo JHtml::_('form.token'); ?>
+			</form>           
+<script>
+$(function(){
+	$('table#tblFavorites button')
+		.click( function(){
+				var form=$('form#deleteFromFavorites');
+				$('input#virtuemart_product_id',form).val($(this).val());
+				//alert($('input#virtuemart_product_id',form).val());
+				$(form).submit();
+			});
+});
+</script>
 	<?	}else{?>
         <p><b>У Вас нет избранных лотов.</b></p>
 	<? 	}

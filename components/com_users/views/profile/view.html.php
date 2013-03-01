@@ -60,7 +60,6 @@ class UsersViewProfile extends JViewLegacy
 
 		$this->prepareDocument();
 		$this->cabinet=UserCabinet::buildCabinet($this->params->get('logout_redirect_url', $this->form->getValue('return')),$this->getLayout());
-		$this->setLayout('data');
 		parent::display($tpl);
 	}
 
