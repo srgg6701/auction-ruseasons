@@ -41,11 +41,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<a href="<?php echo JRoute::_( 'index.php?option=com_users&view=reset' ); ?>" style="float:left; margin-left:2px;">
 			<?php echo JText::_(' пароль?'); ?></a>
 	<?php endif; ?>
-    	<input style="float:left;" type="submit" name="Submit" class="button" value="<?php echo JText::_('Войти') ?>" />
+    	<input id="enter_auction" type="submit" name="Submit" class="button" value="<?php echo JText::_('Войти') ?>" />
 		<?php
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		if ($usersConfig->get('allowUserRegistration')) : ?>
-			<div style="padding: 1px; margin-left: 66px;"><a href="<?=JRoute::_('index.php?option=com_users&view=registration')?>">Регистрация </a></div>
+			<div id="signup_auction">
+            	<a href="<?=JRoute::_('index.php?option=com_auction2013&layout=register')?>">Регистрация</a>
+            </div>
 		<?php endif; ?>
 	<?php echo $params->get('posttext'); ?>
 		<input type="hidden" name="option" value="com_users" />
@@ -54,7 +56,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</form>
 <?php 	endif; ?>
  	<div id="board">
-    	<a href="index.php?option=com_content&view=article&id=18:prijom-antikvariata-na-torgi&catid=2:uncategorised">Позвольте вашим вещам<br />самореализоваться<br />Прием антиквариата на торги</a>
+    	<a href="<?=JRoute::_('index.php?option=com_auction2013&view=auction2013&layout=proposal')?>">Позвольте вашим вещам<br />самореализоваться<br />Прием антиквариата на торги</a>
     </div>
   </div>
 </div>
