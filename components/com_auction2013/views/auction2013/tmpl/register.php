@@ -13,7 +13,13 @@ $article=AuctionStuff::getArticleContent(19);
 echo $article['introtext'];?>
 	<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.registerOnAuction'); ?>" method="post" class="form-validate">
 		<div class="divider"></div>
-<?	// JRequest::getVar('test') - substitutes test values
+<?	$dWidth='642px';
+	if(JRequest::getVar('err')=='wrong_captcha'):?>
+		<div align="center" style="background:#FFFF99; padding:10px; border:solid 2px #FFCC00;width:<?=$dWidth?>;margin-bottom:10px;">
+        	Неправильно указан контрольный код (CAPTCHA).
+        </div>
+<?	endif;
+	// JRequest::getVar('test') - substitutes test values
 	echo AuctionStuff::createForm(
 			array(	'name'=>array('Имя',1),
 					'middlename'=>array('Отчество'),
@@ -34,7 +40,7 @@ echo $article['introtext'];?>
 					'password2'=>array('Повторите пароль',1)
 				)
 			);?>
-		<div align="center" style="width:642px;">
+		<div align="center" style="width:<?=$dWidth?>;">
 <?	require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'third_party'.DS.'recaptchalib.php';
   	$publickey = "6Lest90SAAAAAA8qVb_-_ShDWrEjq433w9-egFbA"; // you got this from the signup page
   	echo recaptcha_get_html($publickey);	

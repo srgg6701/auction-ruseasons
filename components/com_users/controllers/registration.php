@@ -110,6 +110,8 @@ class UsersControllerRegistration extends UsersController
 	function registerOnAuction(){		
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
+
 		require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'third_party'.DS.'recaptchalib.php';
 
 		$privatekey = "6Lest90SAAAAAFbotT7ODJo3LALbvsJMHpfkN7AG";
@@ -120,11 +122,19 @@ class UsersControllerRegistration extends UsersController
 								$_POST["recaptcha_response_field"]
 							);
 		
-		  if (!$resp->is_valid) {
+		if (!$resp->is_valid) {
+			$backlink='index.php?option=com_auction2013&layout=register';
+			foreach($requestData as $key=>$value)
+				$backlink.='&'.$key.'='.$value;
+			
+			$this->setRedirect($backlink.'&err=wrong_captcha');
+			//echo "<div class=''>backlink= ".$backlink."</div>";  	
 			// What happens when the CAPTCHA was entered incorrectly
-			die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
-				 "(reCAPTCHA said: " . $resp->error . ")");
-		  } else {
+			//die();
+			//echo ("Неправильно указан контрольный код (captcha).");
+			/* . "(reCAPTCHA said: " . $resp->error . ")"*/
+				 //echo "<div>Пожалуйста, <a href='index.php?option=com_auction2013&layout=register".$backlink."'>вернитесь</a> и повторите.</div>";
+		} else {
 			// Your code here to handle a successful verification
 			// var_dump(JRequest::get('post')); die();
 			// If registration is disabled - Redirect to login page.
@@ -136,7 +146,6 @@ class UsersControllerRegistration extends UsersController
 			$app	= JFactory::getApplication();
 			$model	= $this->getModel('Registration', 'UsersModel');
 			// Get the user data.
-			$requestData = JRequest::getVar('jform', array(), 'post', 'array');
 			$requestData['username']=(string)$this->getNextUserName(); 
 			// Validate the posted data.
 			$form	= $model->getForm();
