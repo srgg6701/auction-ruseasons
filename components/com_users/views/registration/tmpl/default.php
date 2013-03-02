@@ -44,7 +44,7 @@ JHtml::_('behavior.noframes');
 		<?php endforeach;?>
 			</dl>
 		</fieldset>
-	<?php endif;?>
+	<?php endif;?>    
 <?php endforeach;?>
 		<div>
 			<button type="submit" class="validate"><?php echo JText::_('JREGISTER');?></button>

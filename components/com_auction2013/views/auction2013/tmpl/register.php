@@ -13,7 +13,8 @@ $article=AuctionStuff::getArticleContent(19);
 echo $article['introtext'];?>
 	<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.registerOnAuction'); ?>" method="post" class="form-validate">
 		<div class="divider"></div>
-	<?=AuctionStuff::createForm(
+<?	// JRequest::getVar('test') - substitutes test values
+	echo AuctionStuff::createForm(
 			array(	'name'=>array('Имя',1),
 					'middlename'=>array('Отчество'),
 					'lastname'=>array('Фамилия',1),
@@ -32,16 +33,20 @@ echo $article['introtext'];?>
 					'password1'=>array('Пароль',1,'Длина пароля не менее 6 символов'),
 					'password2'=>array('Повторите пароль',1)
 				)
-			)?>
-		<div>
+			);?>
+		<div align="center" style="width:642px;">
+<?	require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'third_party'.DS.'recaptchalib.php';
+  	$publickey = "6Lest90SAAAAAA8qVb_-_ShDWrEjq433w9-egFbA"; // you got this from the signup page
+  	echo recaptcha_get_html($publickey);	
+?>    
 		<br>Регистрируясь на нашем сайте, Вы принимаете наши <a href="index.php/pravila/pravila-registraciji-uchastnikov-torgov">Правила</a>.
-		</div>
 		<div align="center">
 			<input type="submit" class="button buttonSand" value="Зарегистрироваться" name="submit">
 		</div>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="registration.registerOnAuction" />
 		<?php echo JHtml::_('form.token');?>        
+		</div>
 	</form>
 </div>
 <script>

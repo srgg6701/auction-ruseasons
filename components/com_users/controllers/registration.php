@@ -110,79 +110,96 @@ class UsersControllerRegistration extends UsersController
 	function registerOnAuction(){		
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'third_party'.DS.'recaptchalib.php';
 
-		// If registration is disabled - Redirect to login page.
-		if(JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0) {
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
-			return false;
-		}
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Registration', 'UsersModel');
-		// Get the user data.
-		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
-		$requestData['username']=(string)$this->getNextUserName(); 
-		// Validate the posted data.
-		$form	= $model->getForm();
-		if (!$form) {
-			die('!FORM');
-			JError::raiseError(500, $model->getError());
-			return false;
-		}
-		$data	= $model->validate($form, $requestData);
-		// Check for validation errors.
-		if ($data === false) {
-			// Get the validation messages.
-			$errors	= $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if ($errors[$i] instanceof Exception) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
+		$privatekey = "6Lest90SAAAAAFbotT7ODJo3LALbvsJMHpfkN7AG";
+		$resp = recaptcha_check_answer (
+								$privatekey,
+								$_SERVER["REMOTE_ADDR"],
+								$_POST["recaptcha_challenge_field"],
+								$_POST["recaptcha_response_field"]
+							);
+		
+		  if (!$resp->is_valid) {
+			// What happens when the CAPTCHA was entered incorrectly
+			die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
+				 "(reCAPTCHA said: " . $resp->error . ")");
+		  } else {
+			// Your code here to handle a successful verification
+			// var_dump(JRequest::get('post')); die();
+			// If registration is disabled - Redirect to login page.
+			if(JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0) {
+				$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+				return false;
 			}
-
-			// Save the data in the session.
-			$app->setUserState('com_users.registration.data', $requestData);
-
-			// Redirect back to the registration screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
-			return false;
-		}
-
-		// Attempt to save the data.
-		$return	= $model->register($data);
-		$return_thanx='index.php?option=com_auction2013&layout=thanx';
-		// var_dump($data);
-		// die('return='.$return);
-		// Check for errors.
-		if ($return === false) {
-			// Save the data in the session.
-			$app->setUserState('com_users.registration.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_($return_thanx, false));
-			return false;
-		}
-
-		// Flush the data from the session.
-		$app->setUserState('com_users.registration.data', null);
-
-		// Redirect to the profile screen.
-		if ($return === 'adminactivate'){
-			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
-			$this->setRedirect(JRoute::_($return_thanx, false));
-		} elseif ($return === 'useractivate') {
-			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
-			$this->setRedirect(JRoute::_($return_thanx, false));
-		} else {
-			$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
-		}
-		return true;
+			// Initialise variables.
+			$app	= JFactory::getApplication();
+			$model	= $this->getModel('Registration', 'UsersModel');
+			// Get the user data.
+			$requestData = JRequest::getVar('jform', array(), 'post', 'array');
+			$requestData['username']=(string)$this->getNextUserName(); 
+			// Validate the posted data.
+			$form	= $model->getForm();
+			if (!$form) {
+				die('!FORM');
+				JError::raiseError(500, $model->getError());
+				return false;
+			}
+			$data	= $model->validate($form, $requestData);
+			// Check for validation errors.
+			if ($data === false) {
+				// Get the validation messages.
+				$errors	= $model->getErrors();
+	
+				// Push up to three validation messages out to the user.
+				for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+					if ($errors[$i] instanceof Exception) {
+						$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					} else {
+						$app->enqueueMessage($errors[$i], 'warning');
+					}
+				}
+	
+				// Save the data in the session.
+				$app->setUserState('com_users.registration.data', $requestData);
+	
+				// Redirect back to the registration screen.
+				$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
+				return false;
+			}
+	
+			// Attempt to save the data.
+			$return	= $model->register($data);
+			$return_thanx='index.php?option=com_auction2013&layout=thanx';
+			// var_dump($data);
+			// die('return='.$return);
+			// Check for errors.
+			if ($return === false) {
+				// Save the data in the session.
+				$app->setUserState('com_users.registration.data', $data);
+	
+				// Redirect back to the edit screen.
+				$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
+				$this->setRedirect(JRoute::_($return_thanx, false));
+				return false;
+			}
+	
+			// Flush the data from the session.
+			$app->setUserState('com_users.registration.data', null);
+	
+			// Redirect to the profile screen.
+			if ($return === 'adminactivate'){
+				$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
+				$this->setRedirect(JRoute::_($return_thanx, false));
+			} elseif ($return === 'useractivate') {
+				$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
+				$this->setRedirect(JRoute::_($return_thanx, false));
+			} else {
+				$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
+				$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+			}
+			return true;
+		}		
 	}
 /*	MODIFIED END	*/
 
