@@ -62,8 +62,9 @@ class UserCabinet
 					case 'bids':
 						echo 'Мои ставки';
 					break;					
-					case 'data':
+					case 'data': 
 						echo 'Моя персональная информация';
+						$params=$user;
 					break;					
 					default: 
 						echo 'Ваши лоты';
@@ -124,8 +125,144 @@ class UserCabinet
  * @package
  * @subpackage
  */
-	function layout_data(){?>
-    <H1>ACCOUNT DATA</H1>
+	function layout_data($user){
+		// Построить поля ввода редактируемых данных или разместить данные в ячейках таблицы, в зависимости от текущего режима:
+		function setField($data,$required=true){
+			if(is_array($data)):
+				$field=$data[0];
+				$value=$data[1];
+				$fType=(strstr($field,'password'))? 'password':'text';
+				if ($field=='country_id'){
+					$countries=AuctionStuff::getCountries();?>
+    <select name="jform[country_id]" id="jform_country_id">
+    			<?	foreach($countries as $id=>$name):?>
+    	<option value="<?=$id?>"<?
+						if($value==$id):
+							?> selected<? 
+						endif;
+		?>><?=$name?></option>
+                <?	endforeach;?>
+    </select>
+			<?	}else{?>
+	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?
+					if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
+					echo $value;?>"<?
+					if( $field!="corpus_number"
+						&& $field!="flat_office_number"
+						&& !strstr($field,'password')
+						//&& !strstr($field,'email')
+					  ):?> class="required" required="required"<? 
+					endif;?> size="30"<? 
+					if($field=='username'||$field=='registerDate'):
+						?> disabled<? 
+					endif;?>>
+			<?	}
+			else:
+				echo $data;
+			endif;
+		}
+/*
+Клиентский номер 	username
+Имя					name
+Отчество			middlename
+Email				email
+Телефон				phone_number			
+Адрес				country_id, zip, city, street, house_number, corpus_number, flat_office_number			
+Зарегистрирован		registerDate
+*/		
+		//var_dump($user); die();
+		$countries=AuctionStuff::getCountries();
+		$country=$countries[$user->country_id];
+		$userData=array(
+				'username'=>'Клиентский номер',
+				'name'=>'Имя',
+				'middlename'=>'Отчество',
+				'email1'=>'Email',
+			); ?>
+<form style="display:inline-block;" id="member-profile" action="index.php?option=com_users&task=profile.save" method="post" class="form-validate" enctype="multipart/form-data">
+		<?	$pAlCenter='';
+			if($edit_mode=JRequest::getVar('mode')):
+				$userData['email2']='Подтверждение e-mail';
+				$userData['password1']='Новый пароль (опционально)';
+				$userData['password12']='Подтверждение нового пароля';
+				$pAlCenter=' align="center"';	
+			endif;
+			$userData=array_merge($userData,array(
+							'phone_number'=>'Телефон',
+							'Адрес'=>array(
+										'zip'=>'Почтовый индекс',
+										'country_id'=>'Страна проживания',
+										'city'=>'Населённый пункт',
+										'street'=>'Улица',
+										'house_number'=>'№ дома',
+										'corpus_number'=>'Корпус',
+										'flat_office_number'=>'№ офиса',
+									), 
+							'registerDate'=>'Зарегистрирован')
+						);?>
+        <p<?=$pAlCenter?> style="margin-top:13px;">Ваши данные:</p>
+        <table class="alignRight verticalTop">
+        <?	foreach ($userData as $user_field=>$data_header){?>
+		<?		if ($user_field!='Адрес'){?>
+        	<tr>
+            	<td nowrap><?=$data_header?>:</td>
+        		<td>
+				<?	$user_data=(!strstr($user_field,'email'))? 
+						$user->$user_field:$user->email;
+					$field=($edit_mode=='edit')?
+						array($user_field,$user_data):$user_data;
+					setField($field,$edit_mode);?>
+				</td>
+			</tr>
+			<?	}else{
+					if(!$edit_mode){?>
+            <tr>
+            	<td nowrap><?=$user_field?>:</td>
+                <td>
+			<?			$i=0;						
+						foreach ($data_header as $address_field=>$address_data):
+							$set_data=($address_field=='country_id')?
+								$country:$user->$address_field;
+							if($i) echo ";<br>";
+							echo '<nobr>'.$address_data.': '.$set_data.'</nobr>';
+						$i++;
+						endforeach;?>
+            	</td>
+            </tr>
+			<?		}else{
+						foreach ($data_header as $address_field=>$address_data):?>
+            <tr>
+            	<td nowrap><?=$address_data?>:</td>
+        		<td><?	$user_data=(!strstr($address_field,'email'))? 
+							$user->$address_field:$user->email;	
+						setField(array($address_field,$user_data),true);?>
+				</td>
+            </tr>
+					<?	endforeach;
+					}?>
+			<?	}
+			}?>
+		</table>
+        <br>
+        <hr size="1" color="#851719">
+        <?	if ($edit_mode){?>
+<input type="hidden" name="option" value="com_users">
+<input type="hidden" name="task" value="profile.save">
+<input type="hidden" name="return" value="option=com_users&view=profile&layout=data&Itemid=<?=JRequest::getVar('Itemid')?>">
+		<?		echo JHtml::_('form.token');
+				$btnType='submit';
+				$btnValue='Сохранить данные!';
+			}else{
+				$btnType='button';
+				$btnValue='Редактировать данные...';
+			}?>
+        <div<?=$pAlCenter?>>
+        	<button type="<?=$btnType?>" class="buttonSandCool"<?
+		if(!$edit_mode):
+			?> onClick="location.href='index.php?option=com_users&view=profile&layout=data&Itemid=<?=JRequest::getVar('Itemid')?>&mode=edit'"<? 
+		endif;?>><?=$btnValue?></button>
+        </div>
+</form>
 <?	}	
 /**
  * Описание

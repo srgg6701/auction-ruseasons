@@ -70,7 +70,6 @@ class UsersControllerProfile extends UsersController
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
 		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Profile', 'UsersModel');
@@ -79,6 +78,7 @@ class UsersControllerProfile extends UsersController
 
 		// Get the user data.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		//var_dump($data);
 
 		// Force the ID to this user.
 		$data['id'] = $userId;
@@ -95,8 +95,10 @@ class UsersControllerProfile extends UsersController
 
 		// Check for errors.
 		if ($data === false) {
+			
 			// Get the validation messages.
 			$errors	= $model->getErrors();
+			var_dump($errors); var_dump($data); die();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
@@ -118,7 +120,7 @@ class UsersControllerProfile extends UsersController
 
 		// Attempt to save the data.
 		$return	= $model->save($data);
-
+		//echo "<div class=''>return= ".$return."</div>"; die();
 		// Check for errors.
 		if ($return === false) {
 			// Save the data in the session.
@@ -155,7 +157,13 @@ class UsersControllerProfile extends UsersController
 
 				// Redirect to the list screen.
 				$this->setMessage(JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_(($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&user_id='.$return, false));
+				
+				/*	MODIFIED START */
+				if($go_back=JRequest::getVar('return'))
+					$this->setRedirect(JRoute::_('index.php?'.$go_back),false);
+				else
+				/*	MODIFIED END	*/
+					$this->setRedirect(JRoute::_(($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&user_id='.$return, false));
 				break;
 		}
 
