@@ -87,7 +87,7 @@ class UserCabinet
  */
 	function layout_default($user_id){ ?>
     <a href="#"><b>Ставки, сделанные Вами:</b></a>
-    <span class="count_st_lt">&nbsp;2</span>
+    <span class="count_st_lt">&nbsp;[]</span>
     <div class="para">
         Заканчивающиеся торги в которых Вы лидируете: <?="[]"?>
     </div>              	
@@ -143,9 +143,10 @@ class UserCabinet
             	<th>Цена</th>
             	<th>Начало</th>
             	<th>Окончание</th>
-            	<th>Осталось</th>
+            	<th title="Дней, часов, минут"><div style='border-bottom:dotted 1px;'>Осталось</div></th>
             </tr>
-		<?	foreach($favorites as $virtuemart_product_id => $product_data){?>
+		<?	$DateAndTime=new DateAndTime();
+			foreach($favorites as $virtuemart_product_id => $product_data){?>
 			<tr<?	
 			if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?	
 			}?> valign="top">
@@ -161,10 +162,16 @@ class UserCabinet
             	<td><?=JHTML::_('date', $product_data['auction_date_start'], JText::_('DATE_FORMAT_LC2'));?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_finish'], JText::_('DATE_FORMAT_LC2'));?></td>
             	<td><? 
-		
-				echo HTML::DateTimeDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
-				
-				?></td>
+				$delta=$DateAndTime->getDaysDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
+				$s=0;
+				foreach ($delta as $k=>$t){
+					if($s) echo ($s==1)? "&nbsp;":":";
+					if($k){
+						if(strlen($t)<2) echo '0'; 
+						echo $t;
+					}
+					$s++;
+				}?></td>
             </tr>
 		<?	}?>
         </table>

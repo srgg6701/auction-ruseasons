@@ -17,7 +17,8 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+//var_dump($this->product); //die();?>
 <fieldset>
 				<legend><?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_STATUS_LBL'); ?></legend>
 <table class="adminform" width="100%">
@@ -85,11 +86,23 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_AVAILABLE_DATE') ?>
 			</div>
 		</td>
-		<td colspan="3">
+		<td<?
+		/*	MODIFIED START */
+		 //colspan="3"
+		/*	MODIFIED END	*/?>>
 			<?php
 
 			echo vmJsApi::jDate($this->product->product_available_date, 'product_available_date'); ?>
 		</td>
+        <?	/*	MODIFIED START */?>
+        <td nowrap>
+        Начало аукциона:
+        <?	echo vmJsApi::jDate($this->product->auction_date_start, 'auction_date_start');?>
+        </td>
+        <td nowrap>
+        Окончание аукциона:
+        <?	echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');?></td>
+        <?	/*	MODIFIED END	*/?>
 	</tr>
 	<tr class="row0">
 		<td valign="top" >

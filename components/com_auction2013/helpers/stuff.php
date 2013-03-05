@@ -531,7 +531,9 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 <?		HTML::setCommonInnerMenu(array('user','take_lot'));?>    
 </div>    
 <?		
-		$arrMenus=self::setBaseLink($layout);//var_dump($arrMenus); 
+		$arrMenus=self::setBaseLink($layout);//
+		//var_dump($arrMenus); 
+		//echo "<div class=''>arrMenus['base']= ".$arrMenus['base']."<br>layout = $layout</div>";
 		HTML::setVmPagination($arrMenus['base'],$pagination);
 	}
 
@@ -625,18 +627,38 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		$router = JFactory::getApplication()->getRouter();
 		static $lnk;
 		static $pag;
-		if($link) $lnk=$link;
+		if($link) 
+			$lnk=$link;
+		if(!$lnk){
+			$lnk='';
+			if(!$router->getMode()){
+				$arrQlink=JRequest::get('get');
+				foreach ($arrQlink as $key=>$segment):
+					if($key!='limit'){
+						if ($lnk!='')
+							$lnk.='&';
+						$lnk.=$key.'='.$segment;
+					}
+				endforeach;
+				$lnk='index.php?'.$lnk;
+				//echo "<div class=''>lnk= ".$lnk."</div>";
+				//option=com_virtuemart&view=category&virtuemart_category_id=6&Itemid=115&layout=shop
+			}
+		}
+		
 		if($pagination) $pag=$pagination->getPagesLinks();
 		
 		$arrLimits=array(15,30,60);
 		
-		foreach($arrLimits as $i=>$limit){
+		
+		foreach($arrLimits as $i=>$limit){?>
+    <a href="<?
 			if($router->getMode()){
-				$go_limit=$lnk.'/?';
+				echo $lnk.'/?limit='.$limit;
 			}else{
-				$go_limit=JRoute::_($lnk.'&');
-			}?>
-    <a href="<?=$go_limit.'limit='.$limit?>"><?=$limit?></a>
+				echo JRoute::_($lnk.'&limit='.$limit);
+				
+			}?>"><?=$limit?></a>
      &nbsp; 
 	<?	}?>
     <div class="vmPag">
@@ -644,34 +666,94 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
     </div>
 </div>	
 <?	}
+}
+class DateAndTime{
+	private $datetime;
 /**
- * Описание
+ * Получить и сохранить как член класса массив из 2-х массивов - даты и времени
  * @package
  * @subpackage
  */
-	function DateTimeDiff( $date_start,
-						   $date_finish=false,
-						   $formats=array(
-						  			'y'=>'лет',
-									'm'=>'месяцев',
-									'd'=>'дней',
-									'h'=>'часов',
-									'i'=>'минут',
-									//'s'=>'секунд'
-								)
-						){
-		$time_one = new DateTime( $date_start );
-		if(!$date_finish)
-			$date_finish = date('Y-m-d H:i:s');
-		$time_two = new DateTime( $date_finish );
-		$difference = $time_one->diff( $time_two );
-		$str_diff='';
-		foreach ($formats as $fcode=>$format){
-			if($diff=$difference->format('%'.$fcode)){
-				if ($str_diff!='') $str_diff.=', ';
-				$str_diff.=$format.': '.$diff;
-			}
-		}
-		return $str_diff;
+	function __construct($row_datetime=false){
+		if(!$row_datetime)
+			$row_datetime=date('Y-m-d H:i:s');
+		$this->datetime=$this->splitDateToArrays($row_datetime);
+	}	
+/**
+ * Разбить дату и время на массивы даты и времени
+ * @package
+ * @subpackage
+ */
+	function splitDateToArrays($row_datetime){
+		$dt=explode(" ",$row_datetime);
+		return array( 'date'=>explode("-",$dt[0]),
+					  'time'=>explode(":",$dt[1])
+					);
+	}	
+/**
+ * Получить массив даты/времени с ключами для простой подстановки значений
+ * @package
+ * @subpackage
+ */
+	function getYmdHisArray(){
+		$datetime=$this->datetime;
+		$date=$datetime['date'];
+		$time=$datetime['time'];
+		return array(
+					'y'=>$date[0],
+					'm'=>$date[1],
+					'd'=>$date[2],
+					'h'=>$time[0],
+					'i'=>$time[1],
+					's'=>$time[2]
+				);	
 	}
-}?>
+/**
+ * Получить массив даты/времени как mktime
+ * @package
+ * @subpackage
+ */
+	function getMkTime($date_start=false){
+		$datetime=($date_start)? 
+			$this->splitDateToArrays($date_start):$this->datetime;
+		$date=$datetime['date'];
+		$time=$datetime['time'];
+		$mktime=mktime( (int)$time[0], // h
+						(int)$time[1], // i
+						(int)$time[2], // s
+						(int)$date[1], // (n)m
+						(int)$date[2], // (j)d
+						(int)$date[0]  // (Y)y
+					  );
+		return $mktime; 
+	}
+/**
+ * Получить разницу дат
+ * @package
+ * @subpackage
+ */
+	function getDaysDiff($date_start,$date_finish=false){
+		// получить дату начала отсчёта как mktime:
+		$mktime_start=$this->getMkTime($date_start,true);
+		// получить метку времени конца отсчёта:
+		$mktime_finish=($date_finish)? 
+			$this->getMkTime($date_finish,true):time();
+		// получить разницу в секундах:		
+		$mktime_delta=$mktime_finish-$mktime_start;
+		$delta=array();
+		$days=60*60*24;
+		$hours=60*60;
+		$minutes=60;
+		// остаток дней:
+		$delta['дней']=floor($mktime_delta/$days);
+		$seconds_in_days=$delta['дней']*$days;
+		// остаток часов:
+		$calc_hours=$mktime_delta-$seconds_in_days;
+		$delta['часов']=floor($calc_hours/$hours); // 2 h
+		$seconds_in_hours=$delta['часов']*$hours;
+		// остаток минут:
+		$seconds_in_minutes=$mktime_delta-$seconds_in_hours-$seconds_in_days;
+		$delta['минут']=floor($seconds_in_minutes/$minutes);		
+		return $delta;
+	}
+}
