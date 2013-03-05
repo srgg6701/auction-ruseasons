@@ -64,7 +64,7 @@ class UserCabinet
 					break;					
 					case 'data': 
 						echo 'Моя персональная информация';
-						$params=$user;
+						// $params=$user;
 					break;					
 					default: 
 						echo 'Ваши лоты';
@@ -125,7 +125,23 @@ class UserCabinet
  * @package
  * @subpackage
  */
-	function layout_data($user){
+	function layout_data(){
+		 
+		$user = JFactory::getUser();
+		// АХТУНГ!!!!
+		// Я НЕ ПОНИМАЮ (пока ещё)
+		// ПОЧЕМУ? В JFactory::getUser()
+		// ОНО ПОКАЗЫВАЕТ У ЮЗЕРА 
+		// СТАРЫЕ ДАННЫЕ?!!!
+		// ТЕ, КОТОРЫХ УЖЕ НЕТ В БД???????????
+		// КАК СИЕ ПОНИМАТЬ???????????????????
+		// Т.о. - вынужденное извращение:
+		$query="SELECT * FROM #__users WHERE id = ".$user->id;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		$user=$db->loadObject(); 
+		// перегрузили объект с юзером типо....
+		
 		// Построить поля ввода редактируемых данных или разместить данные в ячейках таблицы, в зависимости от текущего режима:
 		function setField($data,$required=true){
 			if(is_array($data)):
@@ -176,9 +192,10 @@ Email				email
 		$userData=array(
 				'username'=>'Клиентский номер',
 				'name'=>'Имя',
+				'lastname'=>'Фамилия', 
 				'middlename'=>'Отчество',
 				'email1'=>'Email',
-			); ?>
+			);?>
 <form style="display:inline-block;" id="member-profile" action="index.php?option=com_users&task=profile.save" method="post" class="form-validate" enctype="multipart/form-data">
 		<?	$pAlCenter='';
 			if($edit_mode=JRequest::getVar('mode')):
@@ -209,6 +226,10 @@ Email				email
         		<td>
 				<?	$user_data=(!strstr($user_field,'email'))? 
 						$user->$user_field:$user->email;
+					
+					if($user_field=='registerDate')
+						$user_data=JHTML::_('date', $user_data, JText::_('DATE_FORMAT_LC2'));
+				
 					$field=($edit_mode=='edit')?
 						array($user_field,$user_data):$user_data;
 					setField($field,$edit_mode);?>

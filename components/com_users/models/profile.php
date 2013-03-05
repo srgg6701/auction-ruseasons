@@ -148,6 +148,7 @@ class UsersModelProfile extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
+		//var_dump($form); die('getForm');
 		if (empty($form)) {
 			return false;
 		}

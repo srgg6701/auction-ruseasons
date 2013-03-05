@@ -59,7 +59,9 @@ class UsersViewProfile extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
+		/*	MODIFIED START */
 		$this->cabinet=UserCabinet::buildCabinet($this->params->get('logout_redirect_url', $this->form->getValue('return')),$this->getLayout());
+		/*	MODIFIED END	*/
 		parent::display($tpl);
 	}
 

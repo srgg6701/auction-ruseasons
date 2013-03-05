@@ -73,6 +73,7 @@
 		<!--	/*	MODIFIED START */
 					XTRA FIELDS
 
+Фамилия				lastname
 Отчество			middlename
 Телефон				phone_number			
 Адрес				country_id
@@ -83,82 +84,94 @@
 					corpus_number 
 					flat_office_number -->
 					
+		<field name="lastname" type="text"
+			description="COM_USERS_PROFILE_LASTNAME_DESC"
+			filter="string"
+			label="COM_USERS_PROFILE_LASTNAME_LABEL"
+			message="COM_USERS_PROFILE_LASTNAME_MESSAGE"
+			required="true"
+			size="30"
+		/>
+					
 		<field name="middlename" type="text"
-			class=""
 			description="COM_USERS_PROFILE_MIIDLENAME_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_MIDDLENAME_LABEL"
 			message="COM_USERS_PROFILE_MIIDLENAME_MESSAGE"
 			required="true"
-			size="30"/>
+			size="30"
+		/>
 					
 		<field name="phone_number" type="text"
-			class=""
 			description="COM_USERS_PROFILE_PHONE_NUMBER_DESC"
 			filter="raw"
 			label="COM_USERS_PROFILE_PHONE_NUMBER_LABEL"
 			message="COM_USERS_PROFILE_PHONE_NUMBER_MESSAGE"
 			required="true"
-			size="30"/>
+			size="30"
+		/>
 					
 		<field name="country_id" type="text"
-			class=""
 			description="COM_USERS_COUNTRY_ID_DESC"
-			filter="string"
+			filter="integer"
 			label="COM_USERS_PROFILE_COUNTRY_ID_LABEL"
 			message="COM_USERS_PROFILE_COUNTRY_ID_MESSAGE"
 			required="true"
-			size="30"/>
+			size="30"
+		/>
 					
 		<field name="zip" type="text"
-			class="string"
 			description="COM_USERS_PROFILE_ZIP_DESC"
-			filter="[filter_type]"
+			filter="string"
 			label="COM_USERS_PROFILE_ZIP_LABEL"
-			message="COM_USERS_PROFILE_ZIP_MESSAGE"size="30"/>
+			message="COM_USERS_PROFILE_ZIP_MESSAGE"
+			size="30"
+		/>
 					
 		<field name="city" type="text"
-			class=""
 			description="COM_USERS_PROFILE_CITY_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_CITY_LABEL"
 			message="COM_USERS_PROFILE_CITY_MESSAGE"
 			required="true"
-			size="30"/>
+			size="30"
+		/>
 					
 		<field name="street" type="text"
-			class=""
 			description="COM_USERS_PROFILE_STREET_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_STREET_LABEL"
 			message="COM_USERS_PROFILE_STREET_MESSAGE"
 			required="true"
-			size="30"/>
+			size="30"
+		/>
 					
 		<field name="house_number" type="text"
-			class=""
 			description="COM_USERS_PROFILE_HOUSE_NUMBER_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_HOUSE_NUMBER_LABEL"
 			message="COM_USERS_PROFILE_HOUSE_NUMBER_MESSAGE"
 			required="true"
-			size="30"/>
+			size="30"
+		/>
 					
 		<field name="corpus_number" type="text"
-			class=""
 			description="COM_USERS_PROFILE_CORPUS_NUMBER_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_CORPUS_NUMBER_LABEL"
-			message="COM_USERS_PROFILE_CORPUS_NUMBER_MESSAGE"size="30"/>
+			message="COM_USERS_PROFILE_CORPUS_NUMBER_MESSAGE"
+			size="30"
+		/>
 					
 		<field name="flat_office_number" type="text"
-			class=""
 			description="COM_USERS_PROFILE_FLAT_OFFICE_NUMBER_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_FLAT_OFFICE_NUMBER_LABEL"
-			message="COM_USERS_PROFILE_FLAT_OFFICE_NUMBER_MESSAGE"size="30"/>
+			message="COM_USERS_PROFILE_FLAT_OFFICE_NUMBER_MESSAGE"
+			size="30"
+		/>
 					
-		<!--	/*	MODIFIED END	*/ -->
+		<!--	/*	MODIFIED END	*/--> 
 		
 	</fieldset>
 </form>
