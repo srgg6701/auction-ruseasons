@@ -81,223 +81,107 @@ $path=JUri::root().'templates/auction/magic_zoom/';?>
 		<?php echo JHtml::_('form.token');?>        
 </form>  </div>
 </div>
+<div class="content_shell">
+<div>
+      <div class="gallery_lot">
+          <div id="galleryContainer"<? //style="clear: both;"?>>
+              <div class="main_im_lot">
+                  <div id="galleryBigImage">
+                      <div id="bigLeadImage">
+                          <a href="<?=$base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;zoom-distance:100">
+                           	  <img src="<?=$base_path.$this->product->images[0]->file_url;?>" width="334" style="opacity: 1;">
+                           		  <div class="MagicZoomBigImageCont" style="overflow: hidden; z-index: 100; top: -10000px; position: absolute; width: 450px; height: 293px; opacity: 1; left: 349px; ">
+                           			  <div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; ">
+                                      </div>
 
-<div class="outer_shell">
-    <div class="content_shell">		
-        <div class="left">
-            <div>
-                <div class="gallery_lot">
-                    <div id="galleryContainer" style="clear: both;">
-                        <div class="main_im_lot">
-                            <div id="galleryBigImage">
-                                <div id="bigLeadImage">
-                                    <a href="<?=$base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title="">
-                                    	<img src="<?=$base_path.$this->product->images[0]->file_url;?>" width="334" alt="" style="opacity: 1; ">
-                                    		<div class="MagicZoomBigImageCont" style="overflow: hidden; z-index: 100; top: -10000px; position: absolute; width: 450px; height: 293px; opacity: 1; left: 349px; ">
-                                    			<div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; ">
-                                                </div>
-                                                
-                                                <!--<div style="overflow: hidden; ">
-                                    				<img src="<?=$base_path.$this->product->images[0]->file_url;?>" style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -109.2px; top: -235.4px; ">
-                                    			</div>-->
-                                    		
-                                            </div>
-                                    	<div class="MagicZoomPup" style="z-index: 10; position: absolute; overflow: hidden; display: none; visibility: hidden; width: 123px; height: 80px; opacity: 0.5; left: 0px; top: 80px; "></div>
-                                    </a>
-                                </div>
-                            </div>		
-                        </div>
+                                  </div>
+                           	  <div class="MagicZoomPup" style="z-index: 10; position: absolute; overflow: hidden; display: none; visibility: hidden; width: 123px; height: 80px; opacity: 0.5; left: 0px; top: 80px; "></div>
+                          </a>
+                      </div>
+                  </div>		
+              </div>
 
 
 
 
-                        <div id="galleryThumbs">
-                            <div style="padding-left: 0px; margin-left: 0px;"> 														
+              <div id="galleryThumbs">
+                  <div style="padding-left: 0px; margin-left: 0px;"> 														
                                 
 	<? 	foreach($this->product->images as $i => $stuff):?>	
 
-                                <div class="th_imgage">
-                                    <div class="inside_image_preview">
-                                        <a href="<?=$base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" style="outline: none; " class="MagicThumb-swap">
-                                        	<img src="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" height="82" width="82" alt="" title=""></a>
-                                    </div>
-                                </div>
+                      <div class="th_imgage">
+                          <div class="inside_image_preview">
+                              <a href="<?=$base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" style="outline: none; " class="MagicThumb-swap">
+                               	  <img src="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" height="82" width="82" alt="" title=""></a>
+                          </div>
+                      </div>
                                 
     <?	endforeach;?>                       
-                    </div>
                 </div>
+            </div>
                     
             
             <div class="clr"></div>
-        	</div>
+       	</div>
     
-           	</div>
+    </div>
 
-			<div class="box_desc">
-        <div class="bord_bottom">
-         	<b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
-		</div>
-        <div class="o_o">
-             <span style="color:#000">
-             	<?=$this->product->product_s_desc?>
-             </span>
-        </div>
-        <div class="o_o">
-                Номер аукциона: 
-            <span class="span_o_o">
-                ..............
-            </span>
-            <a href="#">
-                <span class="bold span_o_o">
-            		<?=$this->product->auction_number?>
-                </span> 
-            </a>
-        </div>				
-        <div class="o_o">
-            <a href="<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>">
-                Поставить заочный бид
-            </a>
-        </div>
-        <div class="o_o">
-            Начало торгов:................. 
-            <span class="span_o_o">
-                <b>
-             		<?=$this->product->auction_date_start?>
-                </b>
-            </span>
-        </div>		   
-        <div class="o_o">
-            Конец торгов:................... 
-            <span class="span_o_o">
-                <b>
-             		<?=$this->product->auction_date_finish?>
-                </b>
-            </span>
-        </div>				  
-        <div class="o_o">
-            Предварительная оценка: 
-            <span class="span_o_o">
-                <b>
-             		<?
+    <div class="box_desc" style="float:right; width:360px;">
+      <div class="bord_bottom">
+   	    <b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
+	  </div>
+      <div class="o_o">
+         <span style="color:#000">
+       	    <?=$this->product->product_s_desc?>
+         </span>
+      </div>
+      <div class="o_o">
+            Номер аукциона: 
+        <span class="span_o_o">
+            ..............
+        </span>
+        <a href="#">
+            <span class="bold span_o_o">
+       		    <?=$this->product->auction_number?>
+            </span> 
+        </a>
+      </div>				
+      <div class="o_o">
+        <a href="<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>">
+            Поставить заочный бид
+        </a>
+      </div>
+      <div class="o_o">
+        Начало торгов:................. 
+        <span class="span_o_o">
+            <b>
+       		    <?=$this->product->auction_date_start?>
+            </b>
+        </span>
+      </div>		   
+      <div class="o_o">
+        Конец торгов:................... 
+        <span class="span_o_o">
+            <b>
+       		    <?=$this->product->auction_date_finish?>
+            </b>
+        </span>
+      </div>				  
+      <div class="o_o">
+        Предварительная оценка: 
+        <span class="span_o_o">
+            <b>
+       		    <?
 	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
-                </b>  
-                <b>
-                	- ? ? ? ?
-                   <!-- - 150000-->
-                </b>   
-                рублей
-            </span>
-        </div>
+            </b>  
+            <b>
+           	    - ? ? ? ?
+               <!-- - 150000-->
+            </b>   
+            рублей
+        </span>
+      </div>
     </div>      
     
-      </div>
-            </div>
-            
-        </div>
+  </div>
 </div>
-
-
-
-<?
-if(1>2){?>
-<div>
-<? $base_path=JUri::root();?>
-	<div class="gallery_lot">
-        <div id="galleryContainer" style="clear: both;">
-            <div class="main_im_lot">
-                <div id="galleryBigImage">					
-                    <div id="bigLeadImage">
-                        <a href="<?=$base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px; " title=""><img src="<?=$base_path.$this->product->images[0]->file_url?>" width="334" height="334" alt="" style="opacity: 1;">
-                        <div class="MagicZoomBigImageCont" style="overflow: hidden; z-index: 100; top: -10000px; position: absolute; width: 450px; height: 293px; opacity: 1; left: 349px; ">
-                                <div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; ">
-                                </div>
-                                                    
-                                <div style="overflow: hidden; ">
-                            
-                                	<img src="<?=$base_path.$this->product->images[0]->file_url_thumb?>" style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -750px; top: 0px; ">
-                            
-                                </div>
-                            
-                            </div>
-                            
-                            <div class="MagicZoomPup" style="z-index: 10; position: absolute; overflow: hidden; display: none; visibility: hidden; width: 123px; height: 80px; opacity: 0.5; left: 209px; top: 0px; ">
-                            </div></a>
-					</div>
-                </div>		
-            </div>
-            <div id="galleryThumbs">
-                <div class="tumb">
-	<? 	foreach($this->product->images as $i => $stuff):?>	
-                    <div class="th_imgage">
-                        <div class="inside_image_preview">
-                        	<a href="<?=$base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?=$base_path.$this->product->images[$i]->file_url;?>" style="outline: none; " class="MagicThumb-swap"><img src="<?=$base_path.$this->product->images[$i]->file_url;?>" height="82" width="82"></a>
-                    	</div>
-                	</div>
-	<?	endforeach;?>																	
-				</div>
-			</div>
-			<div class="clr"></div>
-    	</div>
-	</div>
-
-
-
-
-	<div class="box_desc">
-        <div class="bord_bottom">
-         	<b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
-		</div>
-        <div class="o_o">
-             <span style="color:#000">
-             	<?=$this->product->product_s_desc?>
-             </span>
-        </div>
-        <div class="o_o">
-                Номер аукциона: 
-            <span class="span_o_o">
-                ..............
-            </span>
-            <a href="#">
-                <span class="bold span_o_o">
-            		<?=$this->product->auction_number?>
-                </span> 
-            </a>
-        </div>				
-        <div class="o_o">
-            <a href="<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>">
-                Поставить заочный бид
-            </a>
-        </div>
-        <div class="o_o">
-            Начало торгов:................. 
-            <span class="span_o_o">
-                <b>
-             		<?=$this->product->auction_date_start?>
-                </b>
-            </span>
-        </div>		   
-        <div class="o_o">
-            Конец торгов:................... 
-            <span class="span_o_o">
-                <b>
-             		<?=$this->product->auction_date_finish?>
-                </b>
-            </span>
-        </div>				  
-        <div class="o_o">
-            Предварительная оценка: 
-            <span class="span_o_o">
-                <b>
-             		<?
-	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
-                </b>  
-                <b>
-                	- ? ? ? ?
-                   <!-- - 150000-->
-                </b>   
-                рублей
-            </span>
-        </div>
-    </div>
-</div>
-<?	}?>
