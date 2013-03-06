@@ -197,7 +197,7 @@ Email				email
 										'corpus_number'=>'Корпус',
 										'flat_office_number'=>'№ офиса',
 									), 
-							'registerDate'=>'Зарегистрирован')
+							'registerDate'=>'Дата регистрации')
 						);?>
         <p<?=$pAlCenter?> style="margin-top:13px;">Ваши данные:</p>
         <table class="alignRight verticalTop">
