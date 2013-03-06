@@ -17,13 +17,10 @@ defined('_JEXEC') or die;
  */
 class UserCabinet
 {
-	public function buildCabinet($logout_params,$layout=false,$user=false){
+	public function buildCabinet($JUser,$logout_params,$layout=false){
 		
 		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 				
-		if (!$user)
-			$user=JFactory::getUser();
-		
 		if (!$layout)
 			$layout='default';
 		
@@ -33,7 +30,7 @@ class UserCabinet
 <div class="content_shell left private_room">
         <div id="your_order">
             <span class="text_highlight">Ваш клиентский № 
-                <?=$user->get('username')?></span>
+                <?=$JUser->get('username')?></span>
         </div>
         <!-- START LEFT COLUMN -->
         <div id="user_column">		
@@ -57,18 +54,18 @@ class UserCabinet
 				switch($layout){
 					case 'favorites':
 						echo 'Избранное';
-						$params=$user->id;
+						$params=$JUser->id;
 					break;
 					case 'bids':
 						echo 'Мои ставки';
 					break;					
 					case 'data': 
 						echo 'Моя персональная информация';
-						// $params=$user;
+						$params=$JUser;
 					break;					
 					default: 
 						echo 'Ваши лоты';
-						$params=$user->id;
+						$params=$JUser->id;
 				}
 				
 				echo $section;?></h2>
@@ -125,23 +122,8 @@ class UserCabinet
  * @package
  * @subpackage
  */
-	function layout_data(){
+	function layout_data($user){
 		 
-		$user = JFactory::getUser();
-		// АХТУНГ!!!!
-		// Я НЕ ПОНИМАЮ (пока ещё)
-		// ПОЧЕМУ? В JFactory::getUser()
-		// ОНО ПОКАЗЫВАЕТ У ЮЗЕРА 
-		// СТАРЫЕ ДАННЫЕ?!!!
-		// ТЕ, КОТОРЫХ УЖЕ НЕТ В БД???????????
-		// КАК СИЕ ПОНИМАТЬ???????????????????
-		// Т.о. - вынужденное извращение:
-		$query="SELECT * FROM #__users WHERE id = ".$user->id;
-		$db=JFactory::getDBO();
-		$db->setQuery($query);
-		$user=$db->loadObject(); 
-		// перегрузили объект с юзером типо....
-		
 		// Построить поля ввода редактируемых данных или разместить данные в ячейках таблицы, в зависимости от текущего режима:
 		function setField($data,$required=true){
 			if(is_array($data)):

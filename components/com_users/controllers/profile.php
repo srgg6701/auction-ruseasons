@@ -120,7 +120,7 @@ class UsersControllerProfile extends UsersController
 
 		// Attempt to save the data.
 		$return	= $model->save($data);
-		//echo "<div class=''>return= ".$return."</div>"; die();
+
 		// Check for errors.
 		if ($return === false) {
 			// Save the data in the session.
@@ -154,14 +154,17 @@ class UsersControllerProfile extends UsersController
 
 				// Clear the profile id from the session.
 				$app->setUserState('com_users.edit.profile.id', null);
-
+				
 				// Redirect to the list screen.
 				$this->setMessage(JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 				
 				/*	MODIFIED START */
-				if($go_back=JRequest::getVar('return'))
+				if($go_back=JRequest::getVar('return')){
+					//echo "<div class=''>return= ".$return."</div>";
+					//$app->setUserState('com_users.edit.profile.id', $return);
+					//var_dump($app->getUserState('session.counter')); die();
 					$this->setRedirect(JRoute::_('index.php?'.$go_back),false);
-				else
+				}else
 				/*	MODIFIED END	*/
 					$this->setRedirect(JRoute::_(($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&user_id='.$return, false));
 				break;
