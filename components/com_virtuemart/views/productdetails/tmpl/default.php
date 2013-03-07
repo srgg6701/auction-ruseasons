@@ -18,10 +18,12 @@
  * @version $Id: default.php 6530 2012-10-12 09:40:36Z alatak $
  */
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');?>
-<link href="<?=JUri::root()?>templates/auction/magic_zoom/magicstyle.css" rel="stylesheet" type="text/css">
-<link href="<?=JUri::root()?>templates/auction/magic_zoom/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
-<script src="<?=JUri::root()?>templates/auction/magic_zoom/magiczoomplus.js" type="text/javascript"></script>
+defined('_JEXEC') or die('Restricted access');
+$templateUrl=JUri::root().'templates/auction/';?>
+<link href="<?=$templateUrl?>magic_zoom/magicstyle.css" rel="stylesheet" type="text/css">
+<link href="<?=$templateUrl?>magic_zoom/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
+<script src="<?=$templateUrl?>magic_zoom/magiczoomplus.js" type="text/javascript"></script>
+<link href="<?php echo $templateUrl; ?>less/img_zoom.less" rel="stylesheet/less" type="text/css">
 <?
 require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
 $virtuemart_category_id=$this->product->virtuemart_category_id;
@@ -30,8 +32,7 @@ if($router = JFactory::getApplication()->getRouter()){
 	$session=&JFactory::getSession();
 	$links=$session->get('section_links');
 }
-HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));
-$path=JUri::root().'templates/auction/magic_zoom/';?>
+HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
@@ -88,11 +89,10 @@ $path=JUri::root().'templates/auction/magic_zoom/';?>
               <div class="main_im_lot">
                   <div id="galleryBigImage">
                       <div id="bigLeadImage">
-                          <a href="<?=$base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;zoom-distance:100">
-                           	  <img src="<?=$base_path.$this->product->images[0]->file_url;?>" width="334" style="opacity: 1;">
+                          <a href="<?=$base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px; zoom-border:2px; zoom-height:400px; zoom-distance:40">
+                           	  <img src="<?=$base_path.$this->product->images[0]->file_url;?>" width="370" style="opacity: 1;">
                            		  <div class="MagicZoomBigImageCont" style="overflow: hidden; z-index: 100; top: -10000px; position: absolute; width: 450px; height: 293px; opacity: 1; left: 349px; ">
-                           			  <div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; ">
-                                      </div>
+                           			  <div class="MagicZoomHeader" style="position: relative; z-index: 10; left: 0px; top: 0px; padding: 3px; display: none; visibility: hidden; "> </div>
 
                                   </div>
                            	  <div class="MagicZoomPup" style="z-index: 10; position: absolute; overflow: hidden; display: none; visibility: hidden; width: 123px; height: 80px; opacity: 0.5; left: 0px; top: 80px; "></div>
