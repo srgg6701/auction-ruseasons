@@ -19,10 +19,8 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-$templateUrl=JUri::root().'templates/auction/';
-	/*?>
-<!--<link href="<?=$templateUrl?>magic_zoom/magicstyle.css" rel="stylesheet" type="text/css">-->
-<?*/	?>
+$base_path=JUri::root();
+$templateUrl=JUri::root().'templates/auction/';?>
 <link href="<?=$templateUrl?>magic_zoom/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
 <script src="<?=$templateUrl?>magic_zoom/magiczoomplus.js" type="text/javascript"></script>
 <?
@@ -72,16 +70,16 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
         
 		?>>Следующий <!--(<?=$next_prod_id?>)-->&gt; &gt;</a></li>
     </ul>
-  </div>
-  <div align="center" class="width30 inBlock" style="vertical-align:top; font-weight:bold;">
-
+  </div><?
+  			// var_dump($this->product->images); die();
+  ?>
 <form method="post" id="add_to_favorite" name="add_to_favorite" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.addToFavorites'); ?>">    
     <input type="submit" name="btn_favor" id="btn_favor" value="добавить в избранное">
 	<input type="hidden" name="option" value="com_auction2013" />
 	<input type="hidden" name="task" value="auction2013.addToFavorites" />
     <input type="hidden" name="virtuemart_product_id" value="<?=$this->product->virtuemart_product_id?>" />
-		<?php echo JHtml::_('form.token');?>        
-</form>  </div>
+	  <?php echo JHtml::_('form.token');?>        
+</form>  
 </div>
 <div>
   <div class="gallery_lot">
@@ -89,7 +87,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
           <div class="main_im_lot">
               <div id="galleryBigImage">
                   <div id="bigLeadImage">
-                      <a href="<?=$base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:334px; zoom-border:2px; zoom-height:400px; zoom-distance:40">
+                      <a href="<?=$base_path.$this->product->images[0]->file_url;?>" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:370px; zoom-border:2px; zoom-height:400px; zoom-distance:25">
                        	  <img src="<?=$base_path.$this->product->images[0]->file_url;?>" width="334" style="opacity:1;">
                           <div class="MagicZoomBigImageCont">
                               <div class="MagicZoomHeader"> </div>
@@ -106,7 +104,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
                   <div class="th_imgage">
                       <div class="inside_image_preview">
                           <a href="<?=$base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" style="outline: none; " class="MagicThumb-swap">
-                           	  <img src="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" height="82" width="82" alt="" title=""></a>
+                           	  <img src="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" height="82" width="82"></a>
                       </div>
                   </div>
                                 
