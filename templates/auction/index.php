@@ -20,6 +20,9 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <?	endif;
 	if(JRequest::getVar('option')=='com_virtuemart'):?>
 <link href="<?php echo $templateUrl; ?>/less/vm.less" rel="stylesheet/less" type="text/css">
+<?	endif;
+	if(JRequest::getVar('view')=='productdetails'):?>
+<link href="<?php echo $templateUrl; ?>/less/img_zoom.less" rel="stylesheet/less" type="text/css">
 <?	endif;?>
 <script src="<?php echo $templateUrl; ?>/less/less.js" type="text/javascript"></script> 
 <!--[if lte IE 6]>
