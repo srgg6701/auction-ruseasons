@@ -27,6 +27,10 @@ class UsersControllerRegistration extends UsersController
 	 */
 	public function activate()
 	{
+		// http://2013.auction-ruseasons.ru/
+		// index.php?option=com_users
+		// &task=registration.activate
+		// &token=bb66f9a638b375b5fe8e3106d3739a6e
 		$user		= JFactory::getUser();
 		$uParams	= JComponentHelper::getParams('com_users');
 
@@ -57,7 +61,7 @@ class UsersControllerRegistration extends UsersController
 		// Check for errors.
 		if ($return === false) {
 			// Redirect back to the homepage.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED',$model->getError()), 'warning');
 			$this->setRedirect('index.php');
 			return false;
 		}
@@ -128,15 +132,12 @@ class UsersControllerRegistration extends UsersController
 				$backlink.='&'.$key.'='.$value;
 			
 			$this->setRedirect($backlink.'&err=wrong_captcha');
-			//echo "<div class=''>backlink= ".$backlink."</div>";  	
 			// What happens when the CAPTCHA was entered incorrectly
-			//die();
 			//echo ("Неправильно указан контрольный код (captcha).");
 			/* . "(reCAPTCHA said: " . $resp->error . ")"*/
 				 //echo "<div>Пожалуйста, <a href='index.php?option=com_auction2013&layout=register".$backlink."'>вернитесь</a> и повторите.</div>";
 		} else {
 			// Your code here to handle a successful verification
-			// var_dump(JRequest::get('post')); die();
 			// If registration is disabled - Redirect to login page.
 			if(JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0) {
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
@@ -180,8 +181,6 @@ class UsersControllerRegistration extends UsersController
 			// Attempt to save the data.
 			$return	= $model->register($data);
 			$return_thanx='index.php?option=com_auction2013&layout=thanx';
-			// var_dump($data);
-			// die('return='.$return);
 			// Check for errors.
 			if ($return === false) {
 				// Save the data in the session.
@@ -294,7 +293,6 @@ class UsersControllerRegistration extends UsersController
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
-
 
 		return true;
 	}
