@@ -28,6 +28,17 @@ class UsersController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		/*	MODIFIED START */
+		/*
+			'view' => string 'registration' (length=12)
+		  	'layout' => string 'complete' (length=8)
+		  	'Itemid' => string '155' (length=3)
+		  	'option' => string 'com_users' (length=9)
+		*/
+		if(JRequest::getVar('view')=='registration'&&JRequest::getVar('layout')=='complete') $this->setRedirect('index.php?option=com_users&view=login');
+			
+		/*	MODIFIED END	*/
+		
 		// Get the document object.
 		$document	= JFactory::getDocument();
 

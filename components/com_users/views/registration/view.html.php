@@ -30,6 +30,7 @@ class UsersViewRegistration extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		
 		// Get the view data.
 		$this->data		= $this->get('Data');
 		$this->form		= $this->get('Form');

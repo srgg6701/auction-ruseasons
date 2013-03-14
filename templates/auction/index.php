@@ -43,7 +43,8 @@ window.addEvent('load', function() {
 				new JCaption('img.caption');
 			});
   </script>
-<?	endif;?>
+<?	endif;
+	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
 <script type="text/javascript">
 <!--
 window.addEvent('domready', function() {
@@ -75,7 +76,9 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
-<!----><script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
+<?	}?>
+<!---->
+<script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <?	/*?>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -90,6 +93,45 @@ window.addEvent('domready', function() {
 try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 </script></div>
 <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1106646" alt="" /></div></noscript>
+<?	// СПЕЦИАЛЬНО ДЛЯ АЦЦКОГО FF:
+	if(strstr($_SERVER['HTTP_USER_AGENT'],'Firefox')):
+	// hello, community! 
+	// Thank you for the inventation to the HELL:?>
+<script>
+$( function(){
+	var parentLI=$('div#main_menu ul.menu li[class^="item"]');
+	$(parentLI)
+		.css('position','relative')
+			.children('ul')
+				.css({
+			background: '#417337',
+			borderTop: '1px solid #e9e4bc',
+			display: 'none',
+			left: '0',
+			position: 'absolute',
+			width: 'auto',
+			zIndex: 2	
+		});
+	$(parentLI)
+		.mouseenter( function() {
+			var childUL=$(this).children('ul');
+			var thisOffLeft=$(this).offset().left;
+			var thisHalfWidth=$(this).width()/2;
+			$(childUL).css({
+				display:'block',
+				top:$(this).offset().top+4+'px',
+				// дебильный FF считает от края НЕ страницы, а div#page почему-то...
+				left:thisOffLeft-$('div#page').offset().left+'px'
+			});
+			//console.info('left: '+$(this).offset().left+', ul.left: '+$(childUL).css('left')+'\noffsetPage: '+$('div#page').offset().left);
+		});
+	$(parentLI)
+		.mouseleave( function(){
+			$(this).children('ul').css('display','none');
+		});
+});
+</script>
+<?	endif;?>
 </head>
 <body>
 	<div id="page">
