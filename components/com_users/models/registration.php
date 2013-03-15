@@ -315,16 +315,16 @@ class UsersModelRegistration extends JModelForm
 		// Prepare the data for the user object.
 		$data['email']		= $data['email1'];
 		$data['password']	= $data['password1'];
-		// получить текущие настройки активации юзеров:
+		// ГЇГ®Г«ГіГ·ГЁГІГј ГІГҐГЄГіГ№ГЁГҐ Г­Г Г±ГІГ°Г®Г©ГЄГЁ Г ГЄГІГЁГўГ Г¶ГЁГЁ ГѕГ§ГҐГ°Г®Гў:
 		$useractivation = $params->get('useractivation');
 		
 		$sendpassword = $params->get('sendpassword', 1);
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2)) {
-			// создать пароль:
+			// Г±Г®Г§Г¤Г ГІГј ГЇГ Г°Г®Г«Гј:
 			$data['activation'] = JApplication::getHash(JUserHelper::genRandomPassword());
-			// заблокировать доступ:
+			// Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г¤Г®Г±ГІГіГЇ:
 			$data['block'] = 1;
 		}
 
@@ -393,7 +393,7 @@ class UsersModelRegistration extends JModelForm
 			// Set the link to activate the user account.
 			$uri = JURI::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			// отсылаемая юзеру ссылка для подтверждения емэйла:
+			// :
 			$data['activate'] = $base.JRoute::_('index.php?option=com_users&task=registration.activate&token='.$data['activation'], false);
 
 			$emailSubject	= JText::sprintf(
