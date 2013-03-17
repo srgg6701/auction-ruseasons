@@ -111,7 +111,8 @@ class UsersControllerRegistration extends UsersController
  * @package
  * @subpackage
  */
-	function registerOnAuction(){		
+	function registerOnAuction(){
+		$test=true;		
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
@@ -136,7 +137,7 @@ class UsersControllerRegistration extends UsersController
 			//echo ("Неправильно указан контрольный код (captcha).");
 			/* . "(reCAPTCHA said: " . $resp->error . ")"*/
 				 //echo "<div>Пожалуйста, <a href='index.php?option=com_auction2013&layout=register".$backlink."'>вернитесь</a> и повторите.</div>";
-		} else {
+		}else{
 			// Your code here to handle a successful verification
 			// If registration is disabled - Redirect to login page.
 			if(JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0) {
@@ -179,8 +180,12 @@ class UsersControllerRegistration extends UsersController
 			}
 	
 			// Attempt to save the data.
+			// возвращает, в зависимости от настроек активации юзера:
+				// 0 : $user->id 
+				// 1 : 'useractivate'
+				// 2 : 'adminactivate'
 			$return	= $model->register($data);
-			$return_thanx='index.php?option=com_auction2013&layout=thanx';
+			$go_return='index.php?option=com_auction2013&layout=thanx';
 			// Check for errors.
 			if ($return === false) {
 				// Save the data in the session.
@@ -193,19 +198,27 @@ class UsersControllerRegistration extends UsersController
 			}
 	
 			// Flush the data from the session.
-			$app->setUserState('com_users.registration.data', null);
-	
+			$app->setUserState('com_users.registration.data', null);	
 			// Redirect to the profile screen.
-			if ($return === 'adminactivate'){
-				$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
-				$this->setRedirect(JRoute::_($return_thanx, false));
-			} elseif ($return === 'useractivate') {
-				$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
-				$this->setRedirect(JRoute::_($return_thanx, false));
-			} else {
-				$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+			switch($return){
+				// активация админомЖ
+				case 'adminactivate':
+					$tLabel='COMPLETE_VERIFY';
+				break;
+				// самостоятельная активация юзером:
+				case 'useractivate':
+					$tLabel='COMPLETE_ACTIVATE';
+				break;
+				// активация не требуется:
+				default:
+					$tLabel='SAVE_SUCCESS';
+					$go_return='index.php?option=com_users&view=login';
 			}
+			$this->setMessage(JText::_('COM_USERS_REGISTRATION_'.$tLabel));
+			if($test)
+				die("<hr><div class=''>setRedirect: <a href='$go_return'>".$var."</a></div>");
+			else
+				$this->setRedirect(JRoute::_($go_return, false));
 			return true;
 		}		
 	}
