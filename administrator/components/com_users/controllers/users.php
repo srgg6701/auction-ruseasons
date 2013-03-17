@@ -238,7 +238,7 @@ DT;
 								'email' => $applicant_data['email'],
 								'password' => $applicant_data['password'],
 								'password2' => $applicant_data['password'],
-								'sendEmail' => 1, // should the user receive system mails?
+								'sendEmail' => 0, // should the user receive system mails?
 								'registerDate' => $applicant_data['registerDate'],
 								'company_name' => $applicant_data['_company_name'],
 								'country_id' => $applicant_data['_country_id'],

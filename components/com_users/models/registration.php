@@ -27,8 +27,9 @@ class UsersModelRegistration extends JModelForm
 	protected $data;
 
 	/*	MODIFIED START */
-	public function showMail($data,$emailSubject,$emailBody,$recepient_email=false){
-		if($recepient_email&&!isset($data['email']))
+	public function showMail($line,$data,$emailSubject,$emailBody,$recepient_email=false){
+		echo "<div style='border-bottom:dashed 1px #ccc'>LINE: ".$line."</div>";
+		if($recepient_email)
 			$data['email']=$recepient_email;
 		echo "<h2>Отослать сообщение</h2>";
 		echo "<div class=''>
@@ -40,6 +41,7 @@ class UsersModelRegistration extends JModelForm
 		</div>data:<hr>";
 		var_dump($data);
 		echo "<hr>";
+		return true;
 	}
 	/*	MODIFIED END	*/
 	
@@ -52,8 +54,17 @@ class UsersModelRegistration extends JModelForm
 	 */
 	public function activate($token)
 	{
+		/*	MODIFIED START */
+		// $test=true;
+		/*	MODIFIED END	*/
+		
 		$config	= JFactory::getConfig();
 		$userParams	= JComponentHelper::getParams('com_users');
+
+		/*	MODIFIED START */
+		if($test)
+			var_dump($userParams);
+		/*	MODIFIED END	*/
 		$db		= $this->getDbo();
 
 		// Get the user id based on the token.
@@ -64,7 +75,7 @@ class UsersModelRegistration extends JModelForm
 			' AND '.$db->quoteName('lastvisitDate').' = '.$db->Quote($db->getNullDate())
 		);
 		$userId = (int) $db->loadResult();
-
+		
 		// Check for a valid user id.
 		if (!$userId) {
 			$this->setError(JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
@@ -73,9 +84,15 @@ class UsersModelRegistration extends JModelForm
 
 		// Load the users plugin group.
 		JPluginHelper::importPlugin('user');
+		/*	MODIFIED START */
+		if($test)
+			echo "<div>importPlugin('user')</div><hr>";
+		/*	MODIFIED END	*/		
 
 		// Activate the user.
 		$user = JFactory::getUser($userId);
+		
+		//die('LINE: '.__LINE__.'<br>useractivation = '.$userParams->get('useractivation').'<br>activate = '.$user->getParam('activate', 0));
 
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
@@ -115,19 +132,28 @@ class UsersModelRegistration extends JModelForm
 
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
-
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach( $rows as $row )
 			{
 				$usercreator = JFactory::getUser($id = $row->id);
+				
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
+					/*	MODIFIED START */
+					if($test){
+						$return = $this->showMail(__LINE__,$data,$emailSubject,$emailBody,$row->email);
+					}else
+					/*	MODIFIED END	*/
+
 					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
 					// Check for an error.
 					if ($return !== true) {
 						$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
-						return false;
+						if ($test)
+							echo "<div class=''>\$return !== true</div>";
+						else
+							return false;
 					}
 				}
 			}
@@ -180,7 +206,6 @@ class UsersModelRegistration extends JModelForm
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
 			return false;
 		}
-
 		return $user;
 	}
 
@@ -317,7 +342,7 @@ class UsersModelRegistration extends JModelForm
 	public function register($temp)
 	{
 		/*	MODIFIED START */
-		$test=true;
+		// $test=true;
 		/*	MODIFIED END	*/
 
 		$config = JFactory::getConfig();
@@ -373,6 +398,10 @@ class UsersModelRegistration extends JModelForm
 		// Store the data.
 		if (!$user->save()) {
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
+			/*	MODIFIED START */
+			if($test)
+				die('COM_USERS_REGISTRATION_SAVE_FAILED');
+			/*	MODIFIED END	*/
 			return false;
 		}
 		
@@ -481,7 +510,7 @@ class UsersModelRegistration extends JModelForm
 
 		/*	MODIFIED START */
 		if($test){
-			$this->showMail($data,$emailSubject,$emailBody);
+			$this->showMail(__LINE__,$data,$emailSubject,$emailBody);
 		}else
 		/*	MODIFIED END	*/
 		// Send the registration email.
@@ -514,12 +543,14 @@ class UsersModelRegistration extends JModelForm
 
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
+
 			// Send mail to all superadministrators id
 			foreach( $rows as $row )
 			{
 				/*	MODIFIED START */
 				if($test){
-					$this->showMail($data,$emailSubject,$emailBodyAdmin,$row->email);
+					echo "<div class=''>Recepient email: ".$row->email."</div>";
+					$this->showMail(__LINE__,$data,$emailSubject,$emailBodyAdmin,$row->email);
 				}else
 				/*	MODIFIED END	*/
 				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);

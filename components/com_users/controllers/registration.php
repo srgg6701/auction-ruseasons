@@ -26,7 +26,7 @@ class UsersControllerRegistration extends UsersController
 	 * @since	1.6
 	 */
 	public function activate()
-	{
+	{	
 		// http://2013.auction-ruseasons.ru/
 		// index.php?option=com_users
 		// &task=registration.activate
@@ -45,7 +45,7 @@ class UsersControllerRegistration extends UsersController
 			JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 			return false;
 		}
-
+		
 		$model = $this->getModel('Registration', 'UsersModel');
 		$token = JRequest::getVar('token', null, 'request', 'alnum');
 
@@ -54,7 +54,7 @@ class UsersControllerRegistration extends UsersController
 			JError::raiseError(403, JText::_('JINVALID_TOKEN'));
 			return false;
 		}
-
+		
 		// Attempt to activate the user.
 		$return = $model->activate($token);
 
@@ -112,7 +112,10 @@ class UsersControllerRegistration extends UsersController
  * @subpackage
  */
 	function registerOnAuction(){
-		$test=true;		
+		
+		if(!$test=JRequest::getVar('test'))		
+			$test=false;
+		
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
