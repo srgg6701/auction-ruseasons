@@ -44,7 +44,7 @@ label{
 	white-space: nowrap;
 }
 label.checked{
-	background-color:#060;
+	background-color:#489136;
 	color:#FFF;
 }
 .come{
