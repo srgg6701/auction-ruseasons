@@ -9,7 +9,7 @@ SELECT
   ( SELECT COUNT(*) FROM auc13_geodesic_classifieds_images_urls 
       WHERE classified_id = prods.id
   ) AS 'imgs_count_check',  
-  prods.category,
+  -- prods.category,
   prods.ends,
   prods.date,
   -- prods.order_item_id,

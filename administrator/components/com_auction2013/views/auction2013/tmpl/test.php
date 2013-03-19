@@ -19,6 +19,22 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');?>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm">
 	<h3>Тестирование и отладка</h3>
+	<div>
+    <table border="1" rules="rows">
+	<?	$source_prods=Test::getDataToExport();	
+		// var_dump($source_prods); 
+		foreach($source_prods as $i=>$data):?>
+    	<tr>
+		<?	foreach ($data as $key=>$value):?>
+			<?	if(!$i):?>
+            	
+			<?	else:?>
+			<?	endif;
+			endforeach;?>
+        </tr>
+	<?	endforeach;?>    
+    </table>
+    </div>
   <div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
