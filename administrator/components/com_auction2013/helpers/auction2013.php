@@ -51,12 +51,56 @@ class Auction2013Helper
 	 * @param	string	The name of the active view.
 	 * @since	1.6
 	 */
-	/*public static function addSubmenu()
+	public static function addSubmenu()
 	{
 		//die('addSubmenu');
-		JSubMenuHelper::addEntry(
-							JText::_('Импорт лотов'),
-							'index.php?option=com_auction2013&view=importlots'
-						);
-	}*/	
+		$common_link_segment='index.php?option=com_auction2013&view=';
+		JSubMenuHelper::addEntry(JText::_('Импорт лотов'),$common_link_segment.'importlots');
+		JSubMenuHelper::addEntry(JText::_('Тесты'),$common_link_segment.'auction2013&layout=test');
+	}	
+}
+class Test{
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function getDataToExport(){
+		$query="SELECT
+  prods.id,
+  prods.title,
+  prods.description,
+  cats.category_id,
+  cats.category_name,
+  prods.price,
+  -- prods.image,
+  ( SELECT COUNT(*) FROM #__geodesic_classifieds_images_urls 
+      WHERE classified_id = prods.id
+  ) AS 'imgs_count_check',  
+  prods.category,
+  prods.ends,
+  prods.date,
+  -- prods.order_item_id,
+  -- prods.item_type,
+  -- prods.quantity,
+  -- prods.auction_type,
+  -- prods.price_plan_id,
+  -- prods.seller,
+  -- prods.live,
+  -- prods.precurrency,
+  -- prods.postcurrency,
+  prods.duration,
+  prods.optional_field_2,
+  prods.optional_field_1,
+  prods.optional_field_3,
+  prods.optional_field_4,
+  prods.optional_field_5-- ,
+FROM #__geodesic_classifieds_cp prods
+  INNER JOIN #__geodesic_categories cats
+    ON prods.category = cats.category_id
+ORDER BY cats.category_name, prods.title";
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadAssocList(); 
+	}	
 }

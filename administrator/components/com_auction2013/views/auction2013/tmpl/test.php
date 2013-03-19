@@ -15,14 +15,8 @@ JHTML::_('script','system/multiselect.js',false,true);
 // Import CSS
 $document = &JFactory::getDocument();
 $document->addStyleSheet('components/com_auction2013/assets/css/auction2013.css');
-
 $user	= JFactory::getUser();
-$userId	= $user->get('id');
-$listOrder	= $this->state->get('list.ordering');
-$listDirn	= $this->state->get('list.direction');
-$canOrder	= $user->authorise('core.edit.state', 'com_auction2013');
-$saveOrder	= $listOrder == 'a.ordering';
-?>
+$userId	= $user->get('id');?>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm">
 	<h3>Тестирование и отладка</h3>
   <div>
