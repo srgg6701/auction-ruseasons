@@ -53,67 +53,8 @@ class Auction2013ViewAuction2013 extends JView
 	protected function addToolbar($layout=false)
 	{	
 		require_once JPATH_COMPONENT . '/helpers/auction2013.php';
-		
-		//var_dump($this); // die();
-		$state	= $this->get('State');
-		//var_dump($state); 
-		$canDo = Auction2013Helper::getActions($state->get('filter.category_id'));
 		$user = JFactory::getUser();
-		JToolBarHelper::title(JText::_('COM_AUCTION2013'), 'auction.png');
-		if (count($user->getAuthorisedCategories('com_auction2013', 'core.create')) > 0)
-		{
-			JToolBarHelper::addNew('сontroller_to_add_single_item_name.add');
-		}
-
-		if (($canDo->get('core.edit')))
-		{
-			JToolBarHelper::editList('сontroller_to_edit_single_item_name.edit');
-		}
-
-		if ($canDo->get('core.edit.state'))
-		{
-			if ($this->state->get('filter.state') != 2)
-			{
-				JToolBarHelper::divider();
-				JToolBarHelper::publish('сontrollers_to_publish_items.publish', 'JTOOLBAR_PUBLISH', true);
-				JToolBarHelper::unpublish('сontrollers_to_unpublish_items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			}
-
-			if ($this->state->get('filter.state') != -1)
-			{
-				JToolBarHelper::divider();
-				if ($this->state->get('filter.state') != 2)
-				{
-					JToolBarHelper::archiveList('сontrollers_to_archive_items.archive');
-				}
-				elseif ($this->state->get('filter.state') == 2)
-				{
-					JToolBarHelper::unarchiveList('сontrollers_to_publish_items.publish');
-				}
-			}
-		}
-
-		if ($canDo->get('core.edit.state'))
-		{
-			JToolBarHelper::checkin('сontrollers_to_checkin_items.checkin');
-		}
-
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolBarHelper::deleteList('', 'сontrollers_to_delete_items.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolBarHelper::trash('сontrollers_to_trash_items.trash');
-			JToolBarHelper::divider();
-		}
-
-		if ($canDo->get('core.admin'))
-		{
-			JToolBarHelper::preferences('com_auction2013');
-			JToolBarHelper::divider();
-		}
-		JToolBarHelper::help('JHELP_COMPONENTS_VIEW_NAME_LAYOUT_NAME');
+		JToolBarHelper::title(JText::_('Экспорт данных предметов аукциона'), 'csv.png');
+		JToolBarHelper::custom('', 'publish', '', JText::_('Экспортировать!'), false);
 	}
 }

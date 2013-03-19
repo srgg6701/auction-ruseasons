@@ -55,8 +55,8 @@ class Auction2013Helper
 	{
 		//die('addSubmenu');
 		$common_link_segment='index.php?option=com_auction2013&view=';
-		JSubMenuHelper::addEntry(JText::_('Импорт лотов'),$common_link_segment.'importlots');
-		JSubMenuHelper::addEntry(JText::_('Тесты'),$common_link_segment.'auction2013&layout=test');
+		JSubMenuHelper::addEntry(JText::_('Импорт предметов'),$common_link_segment.'importlots');
+		JSubMenuHelper::addEntry(JText::_('Экспорт предметов'),$common_link_segment.'auction2013&layout=test');
 	}	
 }
 class Test{
@@ -65,21 +65,17 @@ class Test{
  * @package
  * @subpackage
  */
-	function getDataToExport(){
+	function getDataToExport($categories_ids=false){
 		$query="SELECT
   prods.id,
   prods.title,
   prods.description,
   cats.category_id,
-  cats.category_name,
   prods.price,
-  -- prods.image,
-  ( SELECT COUNT(*) FROM #__geodesic_classifieds_images_urls 
-      WHERE classified_id = prods.id
-  ) AS 'imgs_count_check',  
-  -- prods.category,
+  prods.image AS 'images',
   prods.ends,
-  prods.date,
+  prods.date,";
+  /*-- cats.category_name,
   -- prods.order_item_id,
   -- prods.item_type,
   -- prods.quantity,
@@ -89,18 +85,70 @@ class Test{
   -- prods.live,
   -- prods.precurrency,
   -- prods.postcurrency,
-  prods.duration,
-  prods.optional_field_2,
-  prods.optional_field_1,
-  prods.optional_field_3,
-  prods.optional_field_4,
-  prods.optional_field_5-- ,
+  -- prods.duration,*/
+  		$query.="
+  prods.optional_field_2 AS 'optf-1',
+  prods.optional_field_1 AS 'optf-2',
+  prods.optional_field_3 AS 'optf-3',
+  prods.optional_field_4 AS 'optf-4',
+  prods.optional_field_5 AS 'optf-5'
 FROM #__geodesic_classifieds_cp prods
   INNER JOIN #__geodesic_categories cats
-    ON prods.category = cats.category_id
+    ON prods.category = cats.category_id";
+		if($categories_ids){
+			$query.="
+	WHERE ";
+			$j=0;
+			foreach($categories_ids as $i=>$id){
+				if($j)
+					$query.=" 
+           OR ";
+				$query.=" cats.category_id = ".$id;
+				$j++;
+			}
+		}
+		$query.="
 ORDER BY cats.category_name, prods.title";
+		//echo "<div class=''>query= <pre>".$query."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadAssocList(); 
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function getImagesToExport($classified_id=false){
+		$query="SELECT
+  image_url,
+  full_filename,
+  thumb_url,
+  thumb_filename
+FROM #__geodesic_classifieds_images_urls";
+		if($classified_id)
+			$query.="	
+	WHERE classified_id = ".$classified_id;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadAssocList(); 	
 	}	
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function getCategoriesToExport(){
+		$query="SELECT cats.category_id, 
+  category_name,
+  ( SELECT COUNT(*) FROM #__geodesic_classifieds_cp
+      WHERE category = cats.category_id
+  ) AS 'count' 
+	FROM #__geodesic_categories cats 
+   ORDER BY category_name";
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadAssocList(); 	
+	}
+		
 }

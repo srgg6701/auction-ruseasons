@@ -82,7 +82,11 @@ foreach($lots as $top_cat_id => $array){?>
         <div>
         	<span style="padding-right:40px;">Кодировка файла:</span>
         	<label>
-            	<input id="encoding" name="encoding" type="radio" value="windows-1251" checked> windows-1251
+            	<input id="encoding_win" name="encoding" type="radio" value="windows-1251" checked> windows-1251
+            </label>
+            &nbsp; &nbsp; 
+        	<label>
+            	<input id="encoding_utf" name="encoding" type="radio" value="utf-8" > utf-8
             </label>
             &nbsp; &nbsp; 
             <label>
