@@ -4,6 +4,8 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * получим методы основного класса:
  */
+require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+
 class modVlotscatsHelper extends JModuleHelper
 {	
  /**
