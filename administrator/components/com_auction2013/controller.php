@@ -27,16 +27,16 @@ class Auction2013Controller extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{	
+		$layout = JRequest::getVar( 'layout', 'default' );
 		if(!$tview=JRequest::getVar('view'))
 			$tview='importlots';
 		$view=$this->getView($tview, 'html'); 
 		$model=$this->getModel('auction2013'); 
 		$view->setModel($model,true);
-		//$view->setLayout( $layout ); 
+		$view->setLayout($layout);
 		// Use the View display method 
 		// Load the submenu.
 		// Auction2013Helper::addSubmenu();
-
 		//JFactory::getDocument()->addScript('http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js');
 		$view->display(); 
 	}
