@@ -30,41 +30,37 @@ th{
 	padding:4px;
 }
 </style>
-	<h2>Выберите раздел: &nbsp; <? 
-	//var_dump($this->top_categories); //die();
-	foreach($this->top_categories as $i=>$data):
-		if($this->section[1]!=$data['virtuemart_category_id']):?>
-	<a href="?option=com_auction2013&view=auction2013&layout=export&section=<?=$data['category_name'].':'.$data['virtuemart_category_id']?>"><b><?=$data['category_name']?></b></a> &nbsp;	
-<?		else:?> [ <b><?=$data['category_name']?></b> ] &nbsp;
-<?		endif;
-	endforeach;?></h2>
-<?	if(!empty($this->section)){?>    
-<div>
-<form action="<?php echo JRoute::_('index.php?option=com_auction2013&view=auction2013&layout=export'); ?>" method="post" name="adminForm" id="adminForm">
-    <?	$cats=$this->categories_data;
-		/*	0 => array
-		  'category_id' => string '283' (length=3)
-		  'category_name' => string 'Восточное искусство' (length=37)
-		  'count' => string '1' (length=1)
-			1 => array
-		  'category_id' => string '337' (length=3)
-		  'category_name' => string 'Декоративно-прикладное искусство' (length=62)
-		  'count' => string '0' (length=1)
-					*/
-		$active_cats=$this->active_categories;
+	<h2 style="margin-bottom:0;">Выберите БД-источник экспорта данных:</h2>
+	<?=$this->source_db_boxes_html?>
+    <h2>Выберите раздел: &nbsp; <?=$this->html_sections?></h2>
+	<? //var_dump($this->categories_data); die();
+	if($cats=$this->categories_data){
+	/*	0 => array
+	  'category_id' => string '283' (length=3)
+	  'category_name' => string 'Восточное искусство' (length=37)
+	  'count' => string '1' (length=1)
+		1 => array
+	  'category_id' => string '337' (length=3)
+	  'category_name' => string 'Декоративно-прикладное искусство' (length=62)
+	  'count' => string '0' (length=1)
+	*/
+		
 		/*	337 => string '337' (length=3)
   			273 => string '273' (length=3)
   			282 => string '282' (length=3)
 		*/
-		foreach($cats as $n=>$data):
+		$active_cats=$this->active_categories;
+		//var_dump($this->active_categories);//die(); ?>    
+<div>
+<form action="<?php echo JRoute::_('index.php?option=com_auction2013&view=auction2013&layout=export'); ?>" method="post" name="adminForm" id="adminForm">
+    <?	foreach($cats as $n=>$data):
 			$catid=$data['category_id'];
-			if(isset($this->section_products)
-			   && in_array($catid,$active_cats))
-				$catnames[$catid]=$data['category_name'];
+			if($active_cats && in_array($catid,$active_cats)) $catnames[$catid]=$data['category_name'];
 		endforeach;
-		
-		if(isset($this->section_products)):
+		// выбирали категоии, получили данные:
+		if($this->active_categories):
 			$source_prods=$this->section_products;
+			//var_dump($source_prods);
 			if(count($source_prods)):?>
         <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)?></h4>
 			<?	$filename=Export::createCSV($catnames,$source_prods);?>
@@ -83,57 +79,77 @@ th{
     <?	foreach($cats as $n=>$data):?>
         <label<?
         $catid=$data['category_id'];
-			if(isset($this->section_products)
+			if($active_cats
 			   && in_array($catid,$active_cats)
 			  ):?> class="come"<? 
 			endif;
 		?>><input id="category_id[<?=$data['category_id']?>]" name="category_id[<?=$data['category_id']?>]" type="checkbox" value="<?=$data['category_id']?>">&nbsp;<?=$data['category_name']?> (<span id="count_<?=$data['category_id']?>"><?=$data['count']?></span>) </label>&nbsp;
     <?	endforeach;
 		if($this->section_products): 
-			if(count($source_prods)):?>
+			if(count($source_prods)):
+				//var_dump($source_prods); ?>
     <h4><a name="tbl_recs">Экспортированные записи:</a></h4>
-    <table id="tblRecs" border="1" rules="rows" style="display:<?="none"?>;">
-	<?			// var_dump($source_prods); 
-				foreach($source_prods as $i=>$data):?>
+    <div style="width:100%;overflow:auto;">
+    <table width="100%" id="tblRecs" border="1" rules="rows" bgcolor="#FFFFFF" style="display:<? //="none"?>;">
+			<?	// var_dump($source_prods); 
+				foreach($source_prods as $i=>$data):
+					if ($i) {
+						$images=Export::getImagesToExport($data['id']);
+						$im=0;
+						//var_dump($images);
+					}
+					/*	i = 26 => 
+					array
+					  'auction_number' => string ''
+					  'date_show' => string '1287349910'
+					  'date_hide' => string '1303161110'
+					  'date_start' => string ''
+					  'date_stop' => string ''
+					  'title' => string 'Образок «Святой Феодосий Черниговский»' 
+					  'short_desc' => string ''
+					  'desc' => string 'Финифть, металл, к. XIX в., 7х6 см' 
+					  'category_id' => string '329'
+					  'images' => string '3'
+					  'id' => string '2985'
+					*/?>
     	<tr title="Запись id <?=($i+1)?>">
 				<?	if(!$i):	
-						foreach ($source_prods[0] as $field=>$th):?>
-       	  	<th class="come"><nobr><?=$field?></nobr></th>    	
+						foreach ($source_prods[0] as $index=>$header):?>
+       	  	<th class="come"><nobr><?=$header?></nobr></th>    	
 		<?				endforeach;?>
 		</tr>
         <tr>
 				<?	endif;
-					foreach ($data as $key=>$value):
-						$rvalue=(strstr($key,"desc"))? substr($value,0,100):$value;?>
-            <td>
-            	<div<?
-				// to export data use just $value, not $rvalue!
-            			if(strstr($key,"optf")):?> style="max-width:40px;overflow:hidden;"<? endif;
-					?>><?
-						if($key=='images'):
-							$images=Export::getImagesToExport($data['id']);
-							if(!empty($images)):
-								foreach($images as $m=>$imgs):
-									foreach($imgs as $field=>$img):
-										if($field=='full_filename'||$field=='thumb_filename'):?>
-                    <div title="<?=$field?>" class="imgBlock"><?=$img?></div>
-									<?	endif;	
-									endforeach;	
-								endforeach;
+					for($i=0,$len=count($source_prods[0]);$i<$len;$i++):
+						$key=$source_prods[0][$i];
+						$value=$data[$key];
+						$rvalue=$value;?>
+			<td>			
+					<?	if($key=='img'):
+							
+							if($im!==false):
+								if($images[$im]):
+									echo $images[$im];
+									$im++;
+								else: $im=false;
+								endif;
 							endif;
+						
 						else:
-							unset($images);
+							
 							if($key=='ends'||$key=='date'):
 						?><nobr><?=date('Y-m-d',$rvalue)?></nobr><?
 							else:
 								echo $rvalue;
 							endif;
-						endif;
-			?></div></td>
-				<?	endforeach;?>
+						
+						endif;?>
+            </td>
+				<?	endfor;?>
         </tr>
 			<?	endforeach;?>    
     </table>
+    </div>
 		<?	endif;	
 		endif;?>
         <input type="hidden" name="section" value="<?=$this->section[0].':'.$this->section[1]?>" />

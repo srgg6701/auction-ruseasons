@@ -1,9 +1,12 @@
+USE auctionru_2013;
 SELECT
-  prods.id,
+  -- prods.id,
+  prods.optional_field_1 AS 'auction_number',
   prods.title,
   prods.description,
   cats.category_id,
   cats.category_name,
+  cats.parent_id,
   prods.price,
   -- prods.image,
   ( SELECT COUNT(*) FROM auc13_geodesic_classifieds_images_urls 

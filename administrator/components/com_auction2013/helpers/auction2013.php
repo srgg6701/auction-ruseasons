@@ -74,16 +74,39 @@ class Export{
  * @package
  * @subpackage
  */
-	function getDataToExport($parent_category_name=false,$categories_ids=false){
+	function getDataToExport( 
+							$source_db,
+							$parent_category_name=false,
+							$categories_ids=false
+						){
+		//echo "<div class=''>getDataToExport:: source_db= ".$source_db."</div>";
+		$this->connect_db_old($source_db);
+/*	auction_number	
+	contract_number	
+	date_show	
+	date_hide	
+	date_start	
+	date_stop	
+	title	
+	short_desc	
+	desc	
+	price	
+	img 
+*/		
 		$query="SELECT
-  prods.id,
+  
+  REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
+  prods.date AS 'date_show',
+  prods.ends AS 'date_hide',
+  REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
+  REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
-  prods.description,
+  '' AS 'short_desc',
+  prods.description AS 'desc',
   cats.category_id,
-  prods.price,
   prods.image AS 'images',
-  prods.ends,
-  prods.date,";
+  prods.id";
+  
   /*-- cats.category_name,
   -- prods.order_item_id,
   -- prods.item_type,
@@ -95,15 +118,19 @@ class Export{
   -- prods.precurrency,
   -- prods.postcurrency,
   -- prods.duration,*/
-  		$query.="
+  
+  /*
   prods.optional_field_2 AS 'optf-1',
   prods.optional_field_1 AS 'optf-2',
   prods.optional_field_3 AS 'optf-3',
   prods.optional_field_4 AS 'optf-4',
-  prods.optional_field_5 AS 'optf-5'
+  prods.optional_field_5 AS 'optf-5'";*/
+
+  		$query.="
 FROM #__geodesic_classifieds_cp prods
   INNER JOIN #__geodesic_categories cats
     ON prods.category = cats.category_id";
+		
 		if($parent_category_name)
 			$query.="   
         AND cats.parent_id = ".$this->getParentIdQuery($parent_category_name);
@@ -121,10 +148,28 @@ FROM #__geodesic_classifieds_cp prods
 		}
 		$query.="
 ORDER BY cats.category_name, prods.title";
-		//echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+		// echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		return $db->loadAssocList(); 
+		$prods=$db->loadAssocList();
+		$headers=array( 'auction_number',
+				'contract_number',
+				'date_show',
+				'date_hide',
+				'date_start',
+				'date_stop',
+				'title',
+				'short_desc',
+				'desc',
+				'price',
+				'img','img','img',
+				'img','img','img',
+				'img','img','img',
+				'img','img','img',
+				'img','img','img'
+		);
+		array_unshift($prods,$headers);
+		return $prods;
 	}
 /**
  * Получить изображения предмета
@@ -132,25 +177,21 @@ ORDER BY cats.category_name, prods.title";
  * @subpackage
  */
 	function getImagesToExport($classified_id=false){
-		$query="SELECT
-  image_url,
-  full_filename,
-  thumb_url,
-  thumb_filename
-FROM #__geodesic_classifieds_images_urls";
+		$query="SELECT full_filename FROM #__geodesic_classifieds_images_urls";
 		if($classified_id)
 			$query.="	
 	WHERE classified_id = ".$classified_id;
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		return $db->loadAssocList(); 	
+		return $db->loadResultArray(); 	
 	}	
 /**
  * Получить список категорий выбранной секции
  * @package
  * @subpackage
  */
-	function getCategoriesToExport($section_name=false){
+	function getCategoriesToExport($source_db,$section_name=false){
+		$this->connect_db_old($source_db);		
 		$query="SELECT cats.category_id, 
   category_name,
   ( SELECT COUNT(*) FROM #__geodesic_classifieds_cp
@@ -178,13 +219,33 @@ FROM #__geodesic_classifieds_images_urls";
 		$filename=str_replace(" ","_",$filename);
 		$winfilename=iconv("UTF-8","windows-1251",$filename);
 			$make_file=false;
+		//var_dump($source_prods); 
 		if($make_file){
 			$fp = fopen(JPATH_SITE.$winfilename, 'w');
 			foreach ($source_prods as $fields):
-				fputcsv($fp, $fields);
+				fputcsv($fp, $fields, ";");
 			endforeach;
 			fclose($fp);
 		}
 		return $filename;	
+	}	
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	private function connect_db_old($source_db){
+		if($source_db=='auctionru_ruse'){
+			$host=(strstr($_SERVER['HTTP_HOST'],"localhost"))? '77.222.56.121':'localhost';
+			$dsn = 'mysql:dbname='.$source_db.';host='.$host;
+			$user = 'auctionru_ruse';
+			$password = 'Ytxbnfnm2012';
+			try {
+				$dbh = new PDO($dsn, $user, $password);
+				echo "<h1>Подключение к auctionru_ruse выполнено!</h1>";
+			} catch (PDOException $e) {
+				echo 'Подключение не удалось: ' . $e->getMessage();
+			}
+		} //echo('<h1>connect_db_old: '.$source_db.'</h1>');
 	}	
 }
