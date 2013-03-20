@@ -17,10 +17,14 @@ jimport('joomla.application.component.view');
  */
 class Auction2013ViewAuction2013 extends JView
 {
+	public $categories_data;
+	public $fields;
+	public $section=array();
+	public $top_categories;
+	
 	protected $items;
 	protected $pagination;
 	protected $state;
-	public $fields;
 	/**
 	 * Display the view
 	 */
@@ -41,7 +45,8 @@ class Auction2013ViewAuction2013 extends JView
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-		
+		if($this->_layout=='export')
+			$this->handleExport();
 		$this->addToolbar($this->_layout);
 		parent::display($tpl);
 	}
@@ -52,9 +57,34 @@ class Auction2013ViewAuction2013 extends JView
 	 */
 	protected function addToolbar($layout=false)
 	{	
-		require_once JPATH_COMPONENT . '/helpers/auction2013.php';
 		$user = JFactory::getUser();
 		JToolBarHelper::title(JText::_('Экспорт данных предметов аукциона'), 'csv.png');
 		JToolBarHelper::custom('', 'publish', '', JText::_('Экспортировать!'), false);
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	private function getTopCategories(){
+		return modVlotscatsHelper::getTopCategories(true);
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	private function handleExport(){
+		require_once JPATH_COMPONENT . '/helpers/auction2013.php';
+		require_once JPATH_SITE.DS.'modules'.DS.'mod_vlotscats'.DS.'helper.php';			
+		$this->top_categories=$this->getTopCategories();
+		if($section=JRequest::getVar('section')){
+			$this->section=explode(':',$section);
+			$this->categories_data=Export::getCategoriesToExport();
+			$post=JRequest::get('post');
+			$this->products=$post['category_id'];
+
+			// echo "<h1>\$section[".$this->section[1]."] = ".$this->section[0]."</h1>"; 
+		}
+	}		
 }

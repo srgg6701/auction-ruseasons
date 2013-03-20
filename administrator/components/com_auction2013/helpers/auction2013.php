@@ -59,13 +59,13 @@ class Auction2013Helper
 		JSubMenuHelper::addEntry(JText::_('Экспорт предметов'),$common_link_segment.'auction2013&layout=export');
 	}	
 }
-class Test{
+class Export{
 /**
  * Описание
  * @package
  * @subpackage
  */
-	function getDataToExport($categories_ids=false){
+	function getDataToExport($categories_ids=false,$parent_category_name=false){
 		$query="SELECT
   prods.id,
   prods.title,
@@ -95,17 +95,24 @@ class Test{
 FROM #__geodesic_classifieds_cp prods
   INNER JOIN #__geodesic_categories cats
     ON prods.category = cats.category_id";
+		if($parent_category_name)
+			$query.="   
+        AND cats.parent_id = (  SELECT category_id 
+                            FROM #__geodesic_categories 
+                           WHERE category_name = '".$parent_category_name."'  
+                       )";
 		if($categories_ids){
 			$query.="
-	WHERE ";
+	WHERE cats.category_id IN (";
 			$j=0;
 			foreach($categories_ids as $i=>$id){
 				if($j)
-					$query.=" 
-           OR ";
-				$query.=" cats.category_id = ".$id;
+					$query.=",";
+				$query.=$id;
 				$j++;
 			}
+			$query.="
+          )";
 		}
 		$query.="
 ORDER BY cats.category_name, prods.title";

@@ -30,29 +30,40 @@ th{
 	padding:4px;
 }
 </style>
-	<!--<h2>Экспорт предметов</h2>-->
+	<h2>Выберите раздел: &nbsp; <? 
+	//var_dump($this->top_categories); //die();
+	foreach($this->top_categories as $i=>$data):
+		if($this->section[1]!=$data['virtuemart_category_id']):?>
+	<a href="?option=com_auction2013&view=auction2013&layout=export&section=<?=$data['category_name'].':'.$data['virtuemart_category_id']?>"><b><?=$data['category_name']?></b></a> &nbsp;	
+<?		else:?> [ <b><?=$data['category_name']?></b> ] &nbsp;
+<?		endif;
+	endforeach;?></h2>
+<?	if(!empty($this->section)){?>    
 <div>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013&view=auction2013&layout=export'); ?>" method="post" name="adminForm" id="adminForm">
-    <!--<h4>Предметы и изображения <span style="font-weight:200;">(http://auction-ruseasons.ru/items_images/)</span>:</h4>-->
-    <?	$post=JRequest::get('post');
-		$cats=Test::getCategoriesToExport();
+    <?	//$post=JRequest::get('post');
+		$cats=$this->categories_data;
+		
 		foreach($cats as $n=>$data):
 			$catid=$data['category_id'];
 			if(isset($post['category_id'])&&in_array($catid,$post['category_id']))
 				$catnames[$catid]=$data['category_name'];
 		endforeach;
 		if(isset($post['category_id'])):
-			$source_prods=Test::getDataToExport($post['category_id']);
+			$source_prods=Export::getDataToExport($post['category_id']);
 			if(count($source_prods)):?>
         <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)?></h4>
 			<?	$filename='/_docs/get_csv/'.array_shift($catnames)."___".array_pop($catnames).'.csv';
 				$filename=str_replace(" ","_",$filename);
 				$winfilename=iconv("UTF-8","windows-1251",$filename);
-				$fp = fopen(JPATH_SITE.$winfilename, 'w');
-				foreach ($source_prods as $fields):
-					fputcsv($fp, $fields);
-				endforeach;
-				fclose($fp);?>
+				$make_file=false;
+				if($make_file){
+					$fp = fopen(JPATH_SITE.$winfilename, 'w');
+					foreach ($source_prods as $fields):
+						fputcsv($fp, $fields);
+					endforeach;
+					fclose($fp);
+				}?>
             <h4 style="margin-bottom:14px; font-weight:200;">
             	Данные успешно экспортированы и сохранены в <a href="<?=JUri::root().$filename?>" title="Просмотреть контент">файле</a>: 
             	<span style="padding:8px; background-color:#FFFF99;"><?=JPATH_SITE.$filename?></span>
@@ -95,7 +106,7 @@ th{
             			if(strstr($key,"optf")):?> style="max-width:40px;overflow:hidden;"<? endif;
 					?>><?
 						if($key=='images'):
-							$images=Test::getImagesToExport($data['id']);
+							$images=Export::getImagesToExport($data['id']);
 							if(!empty($images)):
 								foreach($images as $m=>$imgs):
 									foreach($imgs as $field=>$img):
@@ -148,3 +159,4 @@ Joomla.submitbutton = function()
 		$('form#adminForm').submit();
 }
 </script>
+<?	}?>
