@@ -137,12 +137,27 @@ th{
 						
 						else:
 							
-							if($key=='ends'||$key=='date'):
-						?><nobr><?=date('Y-m-d',$rvalue)?></nobr><?
+							if(strstr($key,'date')&&$rvalue):
+								//echo "date row(".gettype($rvalue)."): $rvalue<br>";
+								if(is_int($rvalue)
+								   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
+								  ):
+								  	if(!is_int($rvalue))
+										(int)$rvalue;
+									echo date('Y-m-d H:i:s',$rvalue);
+								else:
+									if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)):
+										$ardate=explode('+',$rvalue);
+										$bDate=explode('.',$ardate[0]);
+										echo // date:
+											 $bDate[2].'-'.$bDate[1].'-'.$bDate[0].
+											 // time:
+											 ' '.$ardate[1].':00';
+									endif;
+								endif;
 							else:
 								echo $rvalue;
 							endif;
-						
 						endif;?>
             </td>
 				<?	endfor;?>

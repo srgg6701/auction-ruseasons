@@ -93,9 +93,12 @@ class Export{
 	price	
 	img 
 */		
+		// получить данные
+		// ВНИМАНИЕ! Набор столбцов для таблицы с данными формируется методом getActualFields()
 		$query="SELECT
-  
   REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
+  prods.optional_field_5 AS 'lot_number',
+  prods.optional_field_6 AS 'contract_number',
   prods.date AS 'date_show',
   prods.ends AS 'date_hide',
   REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
@@ -103,6 +106,8 @@ class Export{
   prods.title,
   '' AS 'short_desc',
   prods.description AS 'desc',
+  prods.current_bid AS 'price',
+  prods.final_price AS 'actual_price', 
   cats.category_id,
   prods.image AS 'images',
   prods.id";
@@ -148,11 +153,23 @@ FROM #__geodesic_classifieds_cp prods
 		}
 		$query.="
 ORDER BY cats.category_name, prods.title";
-		// echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+		//echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		$prods=$db->loadAssocList();
-		$headers=array( 'auction_number',
+		$headers=$this->getActualFields();
+		array_unshift($prods,$headers);
+		return $prods;
+	}
+/**
+ * Сформировать набор конечных столбцов для таблицы данных
+ * @package
+ * @subpackage
+ */
+	function getActualFields(){
+		return array( 
+				'auction_number',
+				'lot_number',
 				'contract_number',
 				'date_show',
 				'date_hide',
@@ -162,15 +179,14 @@ ORDER BY cats.category_name, prods.title";
 				'short_desc',
 				'desc',
 				'price',
+				'actual_price',
 				'img','img','img',
 				'img','img','img',
 				'img','img','img',
 				'img','img','img',
 				'img','img','img'
 		);
-		array_unshift($prods,$headers);
-		return $prods;
-	}
+	}	
 /**
  * Получить изображения предмета
  * @package

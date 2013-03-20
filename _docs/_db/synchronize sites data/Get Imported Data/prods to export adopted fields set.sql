@@ -1,15 +1,20 @@
 SELECT  
+  prods.id,
   REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
+  prods.optional_field_5 AS 'lot_number',
+  prods.optional_field_6 AS 'contract_number',
   prods.date AS 'date_show',
   prods.ends AS 'date_hide',
-  prods.optional_field_3 AS 'date_start',
-  prods.optional_field_4 AS 'date_stop',
+  REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
+  REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
   ' ' AS 'short_desc',
-  prods.description AS 'desc', 
+  prods.description AS 'desc',
+  prods.current_bid AS 'price',
+  prods.final_price AS 'actual_price', 
+
   cats.category_id,
-  prods.image AS 'images', 
-  prods.id
+  prods.image AS 'images'
 FROM auc13_geodesic_classifieds_cp prods
   INNER JOIN auc13_geodesic_categories cats
     ON prods.category = cats.category_id   
