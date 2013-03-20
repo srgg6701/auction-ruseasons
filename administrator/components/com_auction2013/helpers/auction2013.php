@@ -59,13 +59,22 @@ class Auction2013Helper
 		JSubMenuHelper::addEntry(JText::_('Экспорт предметов'),$common_link_segment.'auction2013&layout=export');
 	}	
 }
+
 class Export{
 /**
- * Описание
+ * Получить подзапрос извлечения id родительской категории (id выбранной секции)
  * @package
  * @subpackage
  */
-	function getDataToExport($categories_ids=false,$parent_category_name=false){
+	private function getParentIdQuery($parent_category_name){
+		return "(  SELECT category_id FROM #__geodesic_categories WHERE category_name = '".$parent_category_name."'  )";
+	}	
+/**
+ * Получить данные для экспорта
+ * @package
+ * @subpackage
+ */
+	function getDataToExport($parent_category_name=false,$categories_ids=false){
 		$query="SELECT
   prods.id,
   prods.title,
@@ -97,10 +106,7 @@ FROM #__geodesic_classifieds_cp prods
     ON prods.category = cats.category_id";
 		if($parent_category_name)
 			$query.="   
-        AND cats.parent_id = (  SELECT category_id 
-                            FROM #__geodesic_categories 
-                           WHERE category_name = '".$parent_category_name."'  
-                       )";
+        AND cats.parent_id = ".$this->getParentIdQuery($parent_category_name);
 		if($categories_ids){
 			$query.="
 	WHERE cats.category_id IN (";
@@ -111,18 +117,17 @@ FROM #__geodesic_classifieds_cp prods
 				$query.=$id;
 				$j++;
 			}
-			$query.="
-          )";
+			$query.=")";
 		}
 		$query.="
 ORDER BY cats.category_name, prods.title";
-		//echo "<div class=''>query= <pre>".$query."</pre></div>"; //die();
+		//echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadAssocList(); 
 	}
 /**
- * Описание
+ * Получить изображения предмета
  * @package
  * @subpackage
  */
@@ -141,21 +146,45 @@ FROM #__geodesic_classifieds_images_urls";
 		return $db->loadAssocList(); 	
 	}	
 /**
- * Описание
+ * Получить список категорий выбранной секции
  * @package
  * @subpackage
  */
-	function getCategoriesToExport(){
+	function getCategoriesToExport($section_name=false){
 		$query="SELECT cats.category_id, 
   category_name,
   ( SELECT COUNT(*) FROM #__geodesic_classifieds_cp
       WHERE category = cats.category_id
   ) AS 'count' 
-	FROM #__geodesic_categories cats 
+	FROM #__geodesic_categories cats";
+		if($section_name)
+			$query.=" 
+ WHERE cats.parent_id = ".$this->getParentIdQuery($section_name);
+		
+		$query.=" 
    ORDER BY category_name";
+		// echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadAssocList(); 	
 	}
-		
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function createCSV($catnames,$source_prods){
+		$filename='/_docs/get_csv/'.array_shift($catnames)."___".array_pop($catnames).'.csv';
+		$filename=str_replace(" ","_",$filename);
+		$winfilename=iconv("UTF-8","windows-1251",$filename);
+			$make_file=false;
+		if($make_file){
+			$fp = fopen(JPATH_SITE.$winfilename, 'w');
+			foreach ($source_prods as $fields):
+				fputcsv($fp, $fields);
+			endforeach;
+			fclose($fp);
+		}
+		return $filename;	
+	}	
 }

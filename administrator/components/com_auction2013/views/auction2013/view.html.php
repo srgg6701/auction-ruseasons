@@ -17,11 +17,13 @@ jimport('joomla.application.component.view');
  */
 class Auction2013ViewAuction2013 extends JView
 {
+	public $active_categories; //array
 	public $categories_data;
 	public $fields;
 	public $section=array();
+	public $section_products;
 	public $top_categories;
-	
+
 	protected $items;
 	protected $pagination;
 	protected $state;
@@ -80,11 +82,13 @@ class Auction2013ViewAuction2013 extends JView
 		$this->top_categories=$this->getTopCategories();
 		if($section=JRequest::getVar('section')){
 			$this->section=explode(':',$section);
-			$this->categories_data=Export::getCategoriesToExport();
+			$Export=new Export;
+			$this->active_categories=JRequest::getVar('category_id');
+			$this->categories_data=$Export->getCategoriesToExport($this->section[0]);
 			$post=JRequest::get('post');
 			$this->products=$post['category_id'];
-
-			// echo "<h1>\$section[".$this->section[1]."] = ".$this->section[0]."</h1>"; 
+			$this->section_products=$Export->getDataToExport($this->section[0],$this->active_categories);
+			// echo "<h1>handleExport:<br>\$section[".$this->section[1]."] = ".$this->section[0]."</h1>"; 
 		}
 	}		
 }

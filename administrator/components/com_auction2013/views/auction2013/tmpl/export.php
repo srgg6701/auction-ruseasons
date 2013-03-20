@@ -41,29 +41,33 @@ th{
 <?	if(!empty($this->section)){?>    
 <div>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013&view=auction2013&layout=export'); ?>" method="post" name="adminForm" id="adminForm">
-    <?	//$post=JRequest::get('post');
-		$cats=$this->categories_data;
-		
+    <?	$cats=$this->categories_data;
+		/*	0 => array
+		  'category_id' => string '283' (length=3)
+		  'category_name' => string 'Восточное искусство' (length=37)
+		  'count' => string '1' (length=1)
+			1 => array
+		  'category_id' => string '337' (length=3)
+		  'category_name' => string 'Декоративно-прикладное искусство' (length=62)
+		  'count' => string '0' (length=1)
+					*/
+		$active_cats=$this->active_categories;
+		/*	337 => string '337' (length=3)
+  			273 => string '273' (length=3)
+  			282 => string '282' (length=3)
+		*/
 		foreach($cats as $n=>$data):
 			$catid=$data['category_id'];
-			if(isset($post['category_id'])&&in_array($catid,$post['category_id']))
+			if(isset($this->section_products)
+			   && in_array($catid,$active_cats))
 				$catnames[$catid]=$data['category_name'];
 		endforeach;
-		if(isset($post['category_id'])):
-			$source_prods=Export::getDataToExport($post['category_id']);
+		
+		if(isset($this->section_products)):
+			$source_prods=$this->section_products;
 			if(count($source_prods)):?>
         <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)?></h4>
-			<?	$filename='/_docs/get_csv/'.array_shift($catnames)."___".array_pop($catnames).'.csv';
-				$filename=str_replace(" ","_",$filename);
-				$winfilename=iconv("UTF-8","windows-1251",$filename);
-				$make_file=false;
-				if($make_file){
-					$fp = fopen(JPATH_SITE.$winfilename, 'w');
-					foreach ($source_prods as $fields):
-						fputcsv($fp, $fields);
-					endforeach;
-					fclose($fp);
-				}?>
+			<?	$filename=Export::createCSV($catnames,$source_prods);?>
             <h4 style="margin-bottom:14px; font-weight:200;">
             	Данные успешно экспортированы и сохранены в <a href="<?=JUri::root().$filename?>" title="Просмотреть контент">файле</a>: 
             	<span style="padding:8px; background-color:#FFFF99;"><?=JPATH_SITE.$filename?></span>
@@ -78,13 +82,14 @@ th{
     </h4>
     <?	foreach($cats as $n=>$data):?>
         <label<?
-        	if( isset($source_prods)
-			    && in_array($data['category_id'],$post['category_id'])
+        $catid=$data['category_id'];
+			if(isset($this->section_products)
+			   && in_array($catid,$active_cats)
 			  ):?> class="come"<? 
 			endif;
 		?>><input id="category_id[<?=$data['category_id']?>]" name="category_id[<?=$data['category_id']?>]" type="checkbox" value="<?=$data['category_id']?>">&nbsp;<?=$data['category_name']?> (<span id="count_<?=$data['category_id']?>"><?=$data['count']?></span>) </label>&nbsp;
     <?	endforeach;
-		if($post['category_id']): 
+		if($this->section_products): 
 			if(count($source_prods)):?>
     <h4><a name="tbl_recs">Экспортированные записи:</a></h4>
     <table id="tblRecs" border="1" rules="rows" style="display:<?="none"?>;">
@@ -131,6 +136,8 @@ th{
     </table>
 		<?	endif;	
 		endif;?>
+        <input type="hidden" name="section" value="<?=$this->section[0].':'.$this->section[1]?>" />
+		
 	  <?php echo JHtml::_('form.token'); ?>
 </form>
 </div>

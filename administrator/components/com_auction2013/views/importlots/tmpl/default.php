@@ -18,10 +18,7 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');?>
-<h3>Внимание! &nbsp; &nbsp; <span style="font-weight:300;">Импортируемый файл должен быть в формате <b>.csv</b></span></h3>
-<hr class="light"/>
-<br/>
-<p>Выберите родительский раздел для списка предметов:</p>
+<h2>Выберите родительский раздел для списка предметов:</h2>
 <?	$lots=$this->categories_data; 
 $catsHTML=array();?>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -72,7 +69,7 @@ foreach($lots as $top_cat_id => $array){?>
 <?	endforeach;?>
     </tr>
 </table>
-Выберите файл для импорта данных:
+Выберите файл для импорта данных (формат <b style="color:red" title="Commas Separated Values">.CSV</b>):
 	<input id="import_file" name="import_file" type="file" required>
     	<input type="hidden" name="task" value="importlots.import" />
 		<? //<input type="hidden" name="boxchecked" value="0" /> ?>
