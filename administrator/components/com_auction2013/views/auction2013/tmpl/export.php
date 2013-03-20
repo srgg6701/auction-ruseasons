@@ -90,7 +90,7 @@ th{
 				//var_dump($source_prods); ?>
     <h4><a name="tbl_recs">Экспортированные записи:</a></h4>
     <div style="width:100%;overflow:auto;">
-    <table width="100%" id="tblRecs" border="1" rules="rows" bgcolor="#FFFFFF" style="display:<? //="none"?>;">
+    <table width="100%" id="tblRecs" border="1" rules="rows" bgcolor="#FFFFFF" style="display:<?="none"?>;">
 			<?	// var_dump($source_prods); 
 				foreach($source_prods as $i=>$data):
 					if ($i) {
@@ -112,7 +112,7 @@ th{
 					  'images' => string '3'
 					  'id' => string '2985'
 					*/?>
-    	<tr title="Запись id <?=($i+1)?>">
+    	<tr<? if($i):?> title="Запись id <? echo $i; endif;?>">
 				<?	if(!$i):	
 						foreach ($source_prods[0] as $index=>$header):?>
        	  	<th class="come"><nobr><?=$header?></nobr></th>    	
@@ -137,8 +137,7 @@ th{
 						
 						else:
 							
-							if(strstr($key,'date')&&$rvalue):
-								//echo "date row(".gettype($rvalue)."): $rvalue<br>";
+							if(strstr($key,'date')&&$rvalue): //echo "date row(".gettype($rvalue)."): $rvalue<br>";
 								if(is_int($rvalue)
 								   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
 								  ):
@@ -153,6 +152,8 @@ th{
 											 $bDate[2].'-'.$bDate[1].'-'.$bDate[0].
 											 // time:
 											 ' '.$ardate[1].':00';
+									else: 
+										echo $rvalue;
 									endif;
 								endif;
 							else:
