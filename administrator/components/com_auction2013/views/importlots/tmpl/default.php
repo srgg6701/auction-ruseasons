@@ -28,7 +28,7 @@ $catsHTML=array();?>
 <div id="top_radios">
 <?
 foreach($lots as $top_cat_id => $array){?>
-	<label>
+	<label class="top_section">
     	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$top_cat_id?>, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories"<? 
 	if(strstr($array['top_category_name'],"Онлайн торги"))
 		{?> disabled title="Опция в разработке"<? }?>><?=$array['top_category_name']?> &nbsp; </label>
@@ -79,16 +79,14 @@ foreach($lots as $top_cat_id => $array){?>
 		<?php echo JHtml::_('form.token'); ?>
         <br/>
         <br/>
-        <div>
+        <div id="encodings">
         	<span style="padding-right:40px;">Кодировка файла:</span>
         	<label>
             	<input id="encoding_win" name="encoding" type="radio" value="windows-1251" checked> windows-1251
             </label>
-            &nbsp; &nbsp; 
         	<label>
             	<input id="encoding_utf" name="encoding" type="radio" value="utf-8" > utf-8
             </label>
-            &nbsp; &nbsp; 
             <label>
                 <input id="encoding_alt" name="encoding" type="radio" value="another">другая:</label> 
                 <input id="alt_encoding" name="alt_encoding" type="text">
@@ -107,6 +105,25 @@ $( function(){
 	$('#check_flds')
 		.click( function(){
 			$('#make_fields_control').fadeToggle(200);
+		});
+	
+	var labelsTopSection=$('label input[name="top_cat"]');
+	$(labelsTopSection)
+		.click( function(){
+			$(labelsTopSection).parent('label').removeClass('checked');
+			$(this).parent('label').addClass('checked');
+		});
+	var labelsVmRadios=$('label input[name="virtuemart_category_id"]');
+	$(labelsVmRadios)
+		.click( function(){
+			$(labelsVmRadios).parent('label').removeAttr('class');
+			$(this).parent('label').attr('class','checked');
+		});
+	var labelEncodingRadios=$('div#encodings label input[type="radio"]');
+	$(labelEncodingRadios)
+		.click( function(){
+			$(labelEncodingRadios).parent('label').css('background','transparent');
+			$(this).parent('label').css('background','#CCC');
 		});
 });
 Joomla.submitbutton = function()

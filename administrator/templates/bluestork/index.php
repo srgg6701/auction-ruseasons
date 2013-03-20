@@ -43,7 +43,9 @@ if ($this->params->get('highContrast')) {
 <?	if(JRequest::getVar('option')=='com_virtuemart'):?>
 <link href="templates/<?php echo $this->template; ?>/less/virtuemart.less" rel="stylesheet/less" type="text/css">
 <?	endif;?>
-
+<?	if(JRequest::getVar('option')=='com_auction2013'):?>
+<link href="templates/<?php echo $this->template; ?>/less/import_export.less" rel="stylesheet/less" type="text/css">
+<?	endif;?>
 <script src="templates/<?php echo $this->template; ?>/less/less.js" type="text/javascript"></script> 
 
 <script src="templates/<?php echo $this->template; ?>/js/jquery-1.7.1.min.js"></script>
