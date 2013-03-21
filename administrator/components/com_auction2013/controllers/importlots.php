@@ -136,6 +136,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$arrFields=array(
 							// #__virtuemart_products:
 							'auction_number'=>'auction_number', 
+							'lot_number'=>'lot_number',
 							'contract_number'=>'contract_number',
 							// дата начала аукциона
 							'date_start'=>'auction_date_start',
@@ -149,7 +150,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 							// выставлять на сайте с/пд:
 							'date_show'=>'product_available_date', 
 							'date_hide'=>'product_available_date_closed',
-							'price'=>'product_price' 
+							'price'=>'product_price', 
+							// #__virtuemart_orders:
+							'sales_price'=>'salesPrice'
 						);
 				// go ahead!
 				$data=array();
@@ -157,7 +160,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$col_count=0;
 				$imgExt=array('gif','jpg','png','wbmp');
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
-
 					// $cells - колич. ячеек в строке
 					for ($i=0, $j=count($cells); $i < $j; $i++) {
 						
@@ -200,6 +202,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 									break;
 									case 'price':
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
+									break;
+									case 'sales_price':
+									$data[$data_index]['mprices']['salesPrice'][0]=$cell_content;
 									break;
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;

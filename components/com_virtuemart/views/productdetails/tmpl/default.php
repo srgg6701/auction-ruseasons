@@ -19,6 +19,14 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+
+			
+			if(JRequest::getVar('source')):
+				require_once 'source/default.php';
+			
+			else:
+
+
 $base_path=JUri::root();
 $templateUrl=JUri::root().'templates/auction/';?>
 <link href="<?=$templateUrl?>magic_zoom/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
@@ -173,6 +181,8 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
           рублей
       </span>
     </div>
-  </div>      
-    
-</div>
+  </div>        
+</div><?
+			
+			
+			endif;

@@ -42,7 +42,7 @@ class Auction2013Helper
 				'short_desc'=>'Краткое описание лота',
 				'desc'=>'Описание лота',
 				'price'=>'Стартовая цена', // ?
-				'actual_price'=>'Конечная цена',
+				'sales_price'=>'Конечная цена',
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',
 			);
 	}
@@ -98,7 +98,7 @@ class Export{
   '' AS 'short_desc',
   prods.description AS 'desc',
   prods.current_bid AS 'price',
-  prods.final_price AS 'actual_price', 
+  prods.final_price AS 'sales_price', 
   cats.category_id,
   prods.image AS 'images',
   prods.id";
@@ -170,7 +170,7 @@ ORDER BY cats.category_name, prods.title";
 		'short_desc'=>'Краткое описание лота',
 		'desc'=>'Описание лота',
 		'price'=>'Стартовая цена', // ?
-		'actual_price'=>'Конечная цена',
+		'sales_price'=>'Конечная цена',
 		'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',*/
 		// модифицировать исходный массив для соответствия с полями CSV-файла:
 		array_pop($row_fields_set);

@@ -106,7 +106,6 @@ $userId	= $user->get('id');?>
 					  'images' => string '3'
 					  'id' => string '2985'
 					*/?>
-                <?	//if($i):?>
     	<tr title="Строка # <? echo $i+1; ?>">
         	<td align="right"><?=$i+1?></td>
 					<?	if(!$i):	
@@ -157,14 +156,12 @@ $userId	= $user->get('id');?>
             </td>
 					<?	endfor;?>
         </tr>
-				<?	//endif;?>	
 			<?	endforeach;?>    
     </table>
     </div>
 		<?	endif;	
 		endif;?>
         <input type="hidden" name="section" value="<?=$this->section[0].':'.$this->section[1]?>" />
-		
 	  <?php echo JHtml::_('form.token'); ?>
 </form>
 </div>
