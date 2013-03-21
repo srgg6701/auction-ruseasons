@@ -32,6 +32,7 @@ class Auction2013Helper
 	public static function getImportFields(){
 		return array(
 				'auction_number'=>'Номер аукциона',
+				'lot_number'=>'Номер лота',
 				'contract_number'=>'Номер договора',
 				'date_show'=>'Дата включения отображения предмета на сайте', // ?
 				'date_hide'=>'Дата отключения отображения предмета на сайте', // ?				
@@ -41,6 +42,7 @@ class Auction2013Helper
 				'short_desc'=>'Краткое описание лота',
 				'desc'=>'Описание лота',
 				'price'=>'Стартовая цена', // ?
+				'actual_price'=>'Конечная цена',
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',
 			);
 	}
@@ -81,18 +83,7 @@ class Export{
 						){
 		//echo "<div class=''>getDataToExport:: source_db= ".$source_db."</div>";
 		$this->connect_db_old($source_db);
-/*	auction_number	
-	contract_number	
-	date_show	
-	date_hide	
-	date_start	
-	date_stop	
-	title	
-	short_desc	
-	desc	
-	price	
-	img 
-*/		
+		// see method getImportFields() to control fields set
 		// получить данные
 		// ВНИМАНИЕ! Набор столбцов для таблицы с данными формируется методом getActualFields()
 		$query="SELECT
@@ -166,26 +157,29 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	function getActualFields(){
-		return array( 
-				'auction_number',
-				'lot_number',
-				'contract_number',
-				'date_show',
-				'date_hide',
-				'date_start',
-				'date_stop',
-				'title',
-				'short_desc',
-				'desc',
-				'price',
-				'actual_price',
-				'img','img','img',
-				'img','img','img',
-				'img','img','img',
-				'img','img','img',
-				'img','img','img'
-		);
+	function getActualFields($imgs_count=15){
+		$row_fields_set=Auction2013Helper::getImportFields();
+		/*'auction_number'=>'Номер аукциона',
+		'lot_number'=>'Номер лота',
+		'contract_number'=>'Номер договора',
+		'date_show'=>'Дата включения отображения предмета на сайте', // ?
+		'date_hide'=>'Дата отключения отображения предмета на сайте', // ?				
+		'date_start'=>'Дата начала периода торгов по предмету', // ?
+		'date_stop'=>'Дата окончания периода торгов по предмету', // ?
+		'title'=>'Название лота',
+		'short_desc'=>'Краткое описание лота',
+		'desc'=>'Описание лота',
+		'price'=>'Стартовая цена', // ?
+		'actual_price'=>'Конечная цена',
+		'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',*/
+		// модифицировать исходный массив для соответствия с полями CSV-файла:
+		array_pop($row_fields_set);
+		$fields=array_flip($row_fields_set);
+		$fields=array_values($fields);
+		for($i=0;$i<$imgs_count;$i++)
+			$fields[]='img';
+		//var_dump($fields); die();
+		return $fields;
 	}	
 /**
  * Получить изображения предмета

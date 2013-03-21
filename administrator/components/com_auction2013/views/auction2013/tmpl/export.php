@@ -17,19 +17,6 @@ $document = &JFactory::getDocument();
 $document->addStyleSheet('components/com_auction2013/assets/css/auction2013.css');
 $user	= JFactory::getUser();
 $userId	= $user->get('id');?>
-<style>
-button[type="submit"]{
-	display:block; 
-	margin:4px 0 10px 0; 
-	padding:6px 10px;
-}
-table tr td:not(:last-child){
-	border-right:dashed 1px #999;
-}
-th{
-	padding:4px;
-}
-</style>
 	<h2 style="margin-bottom:0;">Выберите БД-источник экспорта данных:</h2>
 	<?=$this->source_db_boxes_html?>
     <h2>Выберите раздел: &nbsp; <?=$this->html_sections?></h2>
@@ -62,7 +49,8 @@ th{
 			$source_prods=$this->section_products;
 			//var_dump($source_prods);
 			if(count($source_prods)):?>
-        <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)?></h4>
+        <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)?><div id="wrong_data"></div></h4>
+        
 			<?	$filename=Export::createCSV($catnames,$source_prods);?>
             <h4 style="margin-bottom:14px; font-weight:200;">
             	Данные успешно экспортированы и сохранены в <a href="<?=JUri::root().$filename?>" title="Просмотреть контент">файле</a>: 
@@ -91,13 +79,19 @@ th{
     <h4><a name="tbl_recs">Экспортированные записи:</a></h4>
     <div style="width:100%;overflow:auto;">
     <table width="100%" id="tblRecs" border="1" rules="rows" bgcolor="#FFFFFF" style="display:<?="none"?>;">
-			<?	// var_dump($source_prods); 
+    	<?	$tblHeaders=array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA');
+			echo '<tr class="csvHeader">
+					<th></th>';
+			for($r=0,$t=count($tblHeaders);$r<$t;$r++)
+				echo '<th>'.$tblHeaders[$r].'</th>';
+			echo '</tr>';
+				// var_dump($source_prods); 
 				foreach($source_prods as $i=>$data):
-					if ($i) {
+					if ($i):
 						$images=Export::getImagesToExport($data['id']);
 						$im=0;
 						//var_dump($images);
-					}
+					endif;
 					/*	i = 26 => 
 					array
 					  'auction_number' => string ''
@@ -112,57 +106,58 @@ th{
 					  'images' => string '3'
 					  'id' => string '2985'
 					*/?>
-    	<tr<? if($i):?> title="Запись id <? echo $i; endif;?>">
-				<?	if(!$i):	
-						foreach ($source_prods[0] as $index=>$header):?>
-       	  	<th class="come"><nobr><?=$header?></nobr></th>    	
-		<?				endforeach;?>
-		</tr>
-        <tr>
-				<?	endif;
-					for($i=0,$len=count($source_prods[0]);$i<$len;$i++):
-						$key=$source_prods[0][$i];
-						$value=$data[$key];
-						$rvalue=$value;?>
+                <?	//if($i):?>
+    	<tr title="Строка # <? echo $i+1; ?>">
+        	<td align="right"><?=$i+1?></td>
+					<?	if(!$i):	
+							foreach ($source_prods[0] as $index=>$header):?>
+       	  	<th><nobr><?=$header?></nobr></th>    	
+						<?	endforeach;?>
+					<?	endif;
+						for($j=0,$len=count($source_prods[0]);$j<$len;$j++):
+							$key=$source_prods[0][$j];
+							$value=$data[$key];
+							$rvalue=$value;?>
 			<td>			
-					<?	if($key=='img'):
-							
-							if($im!==false):
-								if($images[$im]):
-									echo $images[$im];
-									$im++;
-								else: $im=false;
-								endif;
-							endif;
-						
-						else:
-							
-							if(strstr($key,'date')&&$rvalue): //echo "date row(".gettype($rvalue)."): $rvalue<br>";
-								if(is_int($rvalue)
-								   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
-								  ):
-								  	if(!is_int($rvalue))
-										(int)$rvalue;
-									echo date('Y-m-d H:i:s',$rvalue);
-								else:
-									if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)):
-										$ardate=explode('+',$rvalue);
-										$bDate=explode('.',$ardate[0]);
-										echo // date:
-											 $bDate[2].'-'.$bDate[1].'-'.$bDate[0].
-											 // time:
-											 ' '.$ardate[1].':00';
-									else: 
-										echo $rvalue;
+					<?		if($key=='img'):
+								if($im!==false):
+									if($images[$im]):
+										echo $images[$im];
+										$im++;
+									else: $im=false;
 									endif;
 								endif;
 							else:
-								echo $rvalue;
-							endif;
-						endif;?>
+							
+								if(strstr($key,'date')&&$rvalue): //echo "date row(".gettype($rvalue)."): $rvalue<br>";
+									if(is_int($rvalue)
+								   	   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
+								  	):
+								  		if(!is_int($rvalue))
+											(int)$rvalue;
+										echo date('Y-m-d H:i:s',$rvalue);
+									else:
+										if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)):
+											$ardate=explode('+',$rvalue);
+											$bDate=explode('.',$ardate[0]);
+											echo // date:
+												$bDate[2].'-'.$bDate[1].'-'.$bDate[0].
+											 // time:
+											 	' '.$ardate[1].':00';
+										else: 
+											// сохраним данные проблемной строки:
+											$wrong[]=$tblHeaders[$j].':'.$i;
+											echo '<a name="'.$tblHeaders[$j].':'.$i.'" style="color:red">'.$rvalue.'</a>';
+										endif;
+									endif;
+								else:
+									echo $rvalue;
+								endif;
+							endif;?>
             </td>
-				<?	endfor;?>
+					<?	endfor;?>
         </tr>
+				<?	//endif;?>	
 			<?	endforeach;?>    
     </table>
     </div>
@@ -173,8 +168,19 @@ th{
 	  <?php echo JHtml::_('form.token'); ?>
 </form>
 </div>
+<?	//if($wrong):var_dump($wrong); endif;?>
 <script>
 $( function(){
+<?	if($wrong):
+		$clmn=(count($wrong)>1)? 'ячейки':'ячейку';?>
+	$('table#tblRecs').show();
+	$('#wrong_data').html('<h4>Внимание! Есть <span style="color:brown" title="Вам необходимо привести их к стандартному. В противном случае возможна ошибка при импорте этих данных.">проблемные записи</span>.</h4><div style="font-weight:200">См. <?=$clmn?> (выделены <span style="color:red">красным</span>): <?
+		foreach($wrong as $w=>$cell){
+			if ($w) echo ', ';
+			echo '<a href="#'.$cell.'">'.$cell.'</a>';
+		}
+	?></div>');
+<?	endif;?>
 	var tCount,category_id;
 	var countBlock=parseInt($('span#recs').text());
 	$('input[id^="category_id"]').click( function(){
@@ -195,7 +201,8 @@ $( function(){
 });
 Joomla.submitbutton = function()
 {
-		$('form#adminForm').submit();
+		if(checkDbSource())
+			$('form#adminForm').submit();
 }
 </script>
 <?	}?>

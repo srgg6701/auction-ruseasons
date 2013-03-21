@@ -33,31 +33,34 @@ div.radiocats{
 div.top_radios{
 	
 }
-table#make_fields_control{
-	border:solid 2px #CCCCCC;
-	border-spacing:0; 
+div#csv_pattern{
 	display:none;
-	margin-bottom:14px;
-	tbody>tr:first-child{
-		background-color:rgb(218, 238, 211);
+	table#make_fields_control{
+		border:solid 2px #CCCCCC;
+		border-spacing:0; 
+		/**/
+		margin-bottom:14px;
+		tbody>tr:first-child{
+			background-color:rgb(218, 238, 211);
+			td{
+				font-weight:bold;
+				&:last-child{
+					width:12%;
+				}
+			}		
+		}
+		th{
+			font-weight:normal;
+			padding:4px;
+			text-align:right;
+			text-transform:uppercase;
+			.tdOffset(6px,4px);
+			border:solid 1px #CCC;
+		}
 		td{
-			font-weight:bold;
-			&:last-child{
-				width:12%;
-			}
-		}		
-	}
-	th{
-		font-weight:normal;
-		padding:4px;
-		text-align:right;
-		text-transform:uppercase;
-		.tdOffset(6px,4px);
-		border:solid 1px #CCC;
-	}
-	td{
-		border:solid 1px #CCC;
-		padding:3px;
-		.tdOffset(6px,8px);
+			border:solid 1px #CCC;
+			padding:3px;
+			.tdOffset(6px,8px);
+		}
 	}
 }

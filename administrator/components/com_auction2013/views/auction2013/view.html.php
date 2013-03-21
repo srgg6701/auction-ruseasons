@@ -129,23 +129,27 @@ class Auction2013ViewAuction2013 extends JView
       <form method="post" name="export_start" id="export_start" action="index.php?option=com_auction2013&view=auction2013&layout=export">  
 		  <div id="dbs" style="padding:8px;display:inline-block">
         	<input name="db_name" id="db_auctionru_ruse" type="radio" value="auctionru_ruse"<?
-		if($this->source_db=='auctionru_ruse'){?> checked<? }?>>
+		if($this->source_db=='auctionru_ruse'){?> checked<? }?> disabled>
         auctionru_ruse (<span style="color:brown">старый</span> сайт, префикс таблиц &mdash; <b>geodesic</b>)
         <br>
         	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?
-		if($this->source_db=='auctionru_2013'){?> checked<? }?>>
+		/*if($this->source_db=='auctionru_2013'){?> checked<? }*/?> checked>
         auctionru_2013 (<span style="color:navy">новый</span> сайт, префикс таблиц &mdash; <b>auc13</b>)
         </div>
     	<input id="active_section" name="section" type="hidden" value="">        
 	</form>
 <script>
-function setSectionValue(section_value){
-	document.getElementById('active_section').value=section_value;
+function checkDbSource(){
 	if(!$('input[name="db_name"]:checked').size()){
 		alert('Вы не указали источник данных экспорта.');
 		$('#dbs').css('background-color','#FC6');
 		return false;
 	}else
+		return true;	
+}
+function setSectionValue(section_value){
+	document.getElementById('active_section').value=section_value;
+	if(checkDbSource())
 		$('form#export_start').submit();
 }
 </script>    

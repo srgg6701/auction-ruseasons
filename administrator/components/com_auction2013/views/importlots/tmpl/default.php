@@ -39,20 +39,21 @@ foreach($lots as $top_cat_id => $array){?>
 <?	endforeach;?>
 <p><img style="margin-left:-6px;" src="<?=JUri::root()?>administrator/templates/bluestork/images/admin/publish_y.png" width="16" height="16" align="absmiddle" /> <span id="check_flds">Сверьтесь с названиями полей импортируемого файла</span></p>
 <? $av_fields=Auction2013Helper::getImportFields();?>
+<div id="csv_pattern">
+<h4 style="margin:auto auto 8px 4px;">Имя столбца, предназначение поля:</h4>
 <table id="make_fields_control">
 	<tr>
-    	<th>Имя столбца:</th>
 <?	foreach($av_fields as $field=>$desc):?>
     	<td><?=$field?></td>
 <?	endforeach;?>
     </tr>
     <tr bgcolor="#FFF">
-        <th>Предназначение поля:</th>
 <?	foreach($av_fields as $field=>$desc):?>
         <td><?=$desc?></td>
 <?	endforeach;?>
     </tr>
 </table>
+</div>
 Выберите файл для импорта данных (формат <b style="color:red" title="Commas Separated Values">.CSV</b>):
 	<input id="import_file" name="import_file" type="file" required>
     	<input type="hidden" name="task" value="importlots.import" />
@@ -85,7 +86,7 @@ $( function(){
 		});
 	$('#check_flds')
 		.click( function(){
-			$('#make_fields_control').fadeToggle(200);
+			$('#csv_pattern').fadeToggle(200);
 		});
 	
 	var labelsTopSection=$('label input[name="top_cat"]');
