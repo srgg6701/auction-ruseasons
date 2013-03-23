@@ -98,7 +98,7 @@ class AuctionStuff{
 			//echo "<div class=''>category_link= ".AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id)."/$slug-detail</div>";
 			return AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id).'/'.$slug.'-detail';
 		}else{
-			return JRoute::_('index.php?option=com_virtuemart&virtuemart_category_id='.$virtuemart_category_id).'&virtuemart_product_id='.$virtuemart_product_id;	
+			return JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='.$virtuemart_category_id).'&virtuemart_product_id='.$virtuemart_product_id;	
 		}
 	}
 /**

@@ -16,5 +16,5 @@ JHtml::_('behavior.tooltip');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; 
-
+	// look at the helpers/cabinet.php:
 	echo $this->cabinet;?></div>
