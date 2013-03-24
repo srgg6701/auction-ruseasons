@@ -92,7 +92,8 @@ class Export{
  * @subpackage
  */
 	public function handleDateFormatDate($rvalue){
-		if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{1,2}:[0-9]{1,2}[:0-9]{0,3}\b/", $rvalue)){
+
+		if(preg_match("/\b[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}[:0-9]{0,3}\b/", $rvalue)){ 
 			$ardate=explode('+',$rvalue); // 10.02.2012 9:12
 			$bDate=explode('.',$ardate[0]); // 10 02 2012
 			$rTime=explode(":",$ardate[1]);
@@ -103,13 +104,15 @@ class Export{
 				if(strlen($tsegment)<2)
 					$tsegment='0'.$tsegment;
 				$rTime[$i]=$tsegment;
-			}
+			} //var_dump($rTime);//die();
 			return // date:
 				$bDate[2].'-'.$bDate[1].'-'.$bDate[0].
 			 // time: //9:12
 				' '.implode(":",$rTime);
-		}else
+		}else{
+			//echo "<div class=''>NO MATCH</div>";
 			return false;
+		}
 	}
 
 /**
@@ -117,8 +120,7 @@ class Export{
  * @package
  * @subpackage
  */
-	public function handleDataFormat($i,$key,$rvalue){
-
+	public function handleDataFormat($i,$key,$rvalue,$header_name,&$wrong){
 		if(strstr($key,'date')&&$rvalue){ //echo "date row(".gettype($rvalue)."): $rvalue<br>";
 			/*if(is_int($rvalue)
 			   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
@@ -129,6 +131,7 @@ class Export{
 			}
 			
 			else*/
+			$raw_date=$rvalue;
 			if(!$rvalue=$this->handleDateFormatInteger($rvalue)){
 				/*if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)){
 					$ardate=explode('+',$rvalue);
@@ -138,12 +141,14 @@ class Export{
 					 // time:
 						' '.$ardate[1].':00';
 				}else*/
-				if(!$rvalue=$this->handleDateFormatDate($rvalue)){ 
+				if(!$rvalue=$this->handleDateFormatDate($raw_date)){
+					//echo "<div class=''>raw_date= ".$raw_date."</div>";//die(); 
 					// сохраним данные проблемной строки:
-					$this->wrong[]=$tblHeaders[$j].':'.$i+1;
-					return '<a name="'.$tblHeaders[$j].':'.$i.'" style="color:red">'.$rvalue.'</a>';
+					$wrong[]=$header_name.':'.($i+1);
+					return '<a name="'.$header_name.':'.($i+1).'" style="color:red">'.$raw_date.'</a>';
 				}
 			}
+			if(!$rvalue) $rvalue=$raw_date;
 		}
 		return $rvalue;
 	}
@@ -311,8 +316,7 @@ ORDER BY cats.category_name, prods.title";
 				// строки:
 				if($i){
 					if(!isset($images)){
-						$images=$this->getImagesToExport($fields['id']);
-						// var_dump($images);
+						$images=$this->getImagesToExport($fields['id']);// var_dump($images);
 					}
 					$im=0;
 					// ячейки:
@@ -338,7 +342,7 @@ ORDER BY cats.category_name, prods.title";
 						if(strstr($key,'date') && $content){
 							if(!$data[$key]=$this->handleDateFormatInteger($content))
 								if(!$data[$key]=$this->handleDateFormatDate($content))
-									$data[$key]='';
+									$data[$key]=$content;
 						}else{
 							if($key=='images'){
 								$icount=0;
@@ -358,7 +362,8 @@ ORDER BY cats.category_name, prods.title";
 				}
 				unset($data['id']);
 				unset($data['images']);
-				fputcsv($fp, $data, ";"); 
+				if($make_file)
+					fputcsv($fp, $data, ";"); 
 				$i++;
 			}
 			fclose($fp);

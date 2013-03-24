@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
-JHTML::_('script','system/multiselect.js',false,true);
+JHTML::_('script','system/multiselect.js',false,true); // var_dump(JRequest::get('post'));
 // Import CSS
 $document = &JFactory::getDocument();
 $document->addStyleSheet('components/com_auction2013/assets/css/auction2013.css');
@@ -131,7 +131,8 @@ $userId	= $user->get('id');?>
 									endif;
 								endif;
 							else:
-								echo $this->Export->handleDataFormat($i,$key,$rvalue);								
+								//echo "<div class=''>tblHeaders= ".$tblHeaders[$j]."</div>";
+								echo $this->Export->handleDataFormat($i, $key, $rvalue, $tblHeaders[$j], $wrong);								
 							endif;?>
             </td>
 					<?	endfor;?>
@@ -145,14 +146,16 @@ $userId	= $user->get('id');?>
 	  <?php echo JHtml::_('form.token'); ?>
 </form>
 </div>
-<?	//if($wrong):var_dump($wrong); endif;?>
+<?	//if($wrong):
+	//echo "<h1>wrong:</h1>";
+	//var_dump($this->wrong); //endif;?>
 <script>
 $( function(){
-<?	if($wrong):
-		$clmn=(count($this->wrong)>1)? 'ячейки':'ячейку';?>
+<?	if(!empty($wrong)):
+		$clmn=(count($wrong)>1)? 'ячейки':'ячейку';?>
 	$('table#tblRecs').show();
 	$('#wrong_data').html('<h4>Внимание! Есть <span style="color:brown" title="Вам необходимо привести их к стандартному формату. В противном случае возможна ошибка при импорте этих данных.">проблемные записи</span>.</h4><div style="font-weight:200">См. <?=$clmn?> (записи выделены <span style="color:red">красным</span>): <?
-		foreach($this->wrong as $w=>$cell){
+		foreach($wrong as $w=>$cell){
 			if ($w) echo ', ';
 			echo '<a href="#'.$cell.'">'.$cell.'</a>';
 		}
