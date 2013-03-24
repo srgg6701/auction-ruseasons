@@ -89,7 +89,7 @@ class Auction2013ViewAuction2013 extends JView
 		$this->source_db=JRequest::getVar('db_name');
 		$this->top_categories=$this->getTopCategories();
 		if($section=JRequest::getVar('section')){
-			$this->section=explode(':',$section);
+			explode(':',$section);
 			$this->Export=new Export;
 			// массив чекбоксов post, приходящий с отправкой формы
 			$this->active_categories=JRequest::getVar('category_id');
@@ -112,7 +112,7 @@ class Auction2013ViewAuction2013 extends JView
  * @subpackage
  */
 	private function chooseSectionBlock(){
-		//var_dump($this->section); //die();
+		//var_dump(; //die();
 		ob_start();?>
 	<?	foreach($this->top_categories as $i=>$data):?>
 	<a href="javascript:void()" onclick="return setSectionValue('<?=$data['category_name'].':'.$data['virtuemart_category_id']?>');"><? 	

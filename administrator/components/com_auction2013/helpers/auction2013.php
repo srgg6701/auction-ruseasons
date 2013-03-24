@@ -92,13 +92,22 @@ class Export{
  * @subpackage
  */
 	public function handleDateFormatDate($rvalue){
-		if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)){
-			$ardate=explode('+',$rvalue);
-			$bDate=explode('.',$ardate[0]);
+		if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{1,2}:[0-9]{1,2}[:0-9]{0,3}\b/", $rvalue)){
+			$ardate=explode('+',$rvalue); // 10.02.2012 9:12
+			$bDate=explode('.',$ardate[0]); // 10 02 2012
+			$rTime=explode(":",$ardate[1]);
+			for($i=0;$i<3;$i++){
+				$tsegment=$rTime[$i];
+				if(!$tsegment)
+					$tsegment='00';
+				if(strlen($tsegment)<2)
+					$tsegment='0'.$tsegment;
+				$rTime[$i]=$tsegment;
+			}
 			return // date:
 				$bDate[2].'-'.$bDate[1].'-'.$bDate[0].
-			 // time:
-				' '.$ardate[1].':00';
+			 // time: //9:12
+				' '.implode(":",$rTime);
 		}else
 			return false;
 	}
@@ -108,7 +117,7 @@ class Export{
  * @package
  * @subpackage
  */
-	public function handleDataFormat($i,$key,$rvalue,&$wrong){
+	public function handleDataFormat($i,$key,$rvalue){
 
 		if(strstr($key,'date')&&$rvalue){ //echo "date row(".gettype($rvalue)."): $rvalue<br>";
 			/*if(is_int($rvalue)
@@ -131,7 +140,7 @@ class Export{
 				}else*/
 				if(!$rvalue=$this->handleDateFormatDate($rvalue)){ 
 					// сохраним данные проблемной строки:
-					$wrong[]=$tblHeaders[$j].':'.$i+1;
+					$this->wrong[]=$tblHeaders[$j].':'.$i+1;
 					return '<a name="'.$tblHeaders[$j].':'.$i.'" style="color:red">'.$rvalue.'</a>';
 				}
 			}
@@ -289,8 +298,9 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	public function createCSV($catnames,$source_prods){
-		$filename='/_docs/csv_saved/'.array_shift($catnames)."___".array_pop($catnames).'.csv';
+	public function createCSV($catnames,$source_prods,$section){
+		//var_dump(JRequest::get('post')); die('section='.$section);		
+		$filename='/_docs/csv_saved/['.$section.']'.array_shift($catnames)."___".array_pop($catnames).'.csv';
 		$filename=str_replace(" ","_",$filename);
 		$winfilename=iconv("UTF-8","windows-1251",$filename);
 			$make_file=true;
@@ -302,7 +312,7 @@ ORDER BY cats.category_name, prods.title";
 				if($i){
 					if(!isset($images)){
 						$images=$this->getImagesToExport($fields['id']);
-						var_dump($images);
+						// var_dump($images);
 					}
 					$im=0;
 					// ячейки:
@@ -343,8 +353,7 @@ ORDER BY cats.category_name, prods.title";
 						}
 					}
 					unset($images);
-				}
-				else{
+				}else{
 					$data=$fields;
 				}
 				unset($data['id']);
