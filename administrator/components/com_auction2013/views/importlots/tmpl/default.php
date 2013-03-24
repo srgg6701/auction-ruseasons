@@ -37,10 +37,10 @@ foreach($lots as $top_cat_id => $array){?>
 <br/>
 </div>
 <?	endforeach;?>
-<p><img style="margin-left:-6px;" src="<?=JUri::root()?>administrator/templates/bluestork/images/admin/publish_y.png" width="16" height="16" align="absmiddle" /> <span id="check_flds">Сверьтесь с названиями полей импортируемого файла</span></p>
+<p><img style="margin-left:-6px;" src="<?=JUri::root()?>administrator/templates/bluestork/images/admin/publish_y.png" width="16" height="16" align="absmiddle" /> <span id="check_flds" title="Щёлкните, чтобы увидеть набор/формат допустимых полей">Сверьтесь с названиями полей импортируемого файла</span></p>
 <? $av_fields=Auction2013Helper::getImportFields();?>
 <div id="csv_pattern">
-<h4 style="margin:auto auto 8px 4px;">Имя столбца, предназначение поля:</h4>
+<h4 style="margin:auto auto 8px 4px;">Имя столбца, предназначение поля, обязательный (если указан) формат ввода данных <span style="font-weight:200;">(ЧЧ:ММ:CC &#8212; не обязательно для даты/времени)</span>:</h4>
 <table id="make_fields_control">
 	<tr>
 <?	foreach($av_fields as $field=>$desc):?>
@@ -48,6 +48,15 @@ foreach($lots as $top_cat_id => $array){?>
 <?	endforeach;?>
     </tr>
     <tr bgcolor="#FFF">
+<?	foreach($av_fields as $field=>$desc):?>
+        <td><?
+		$adesc=explode("|",$desc);
+		$av_fields[$field]=$adesc[1];
+		echo $adesc[0];
+		?></td>
+<?	endforeach;?>
+    </tr>
+    <tr bgcolor="lightgoldenrodyellow">
 <?	foreach($av_fields as $field=>$desc):?>
         <td><?=$desc?></td>
 <?	endforeach;?>

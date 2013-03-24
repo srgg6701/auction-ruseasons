@@ -39,17 +39,21 @@ $userId	= $user->get('id');?>
 		$active_cats=$this->active_categories;
 		//var_dump($this->active_categories);//die(); ?>    
 <div>
+
+<?	// ВНИМАНИЕ! 
+	// Задачу не создаём, т.к. экспорт данных из старой БД, по сути, является одноразовой акцией и в дальнейшем эту процедуру можно удалить.?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013&view=auction2013&layout=export'); ?>" method="post" name="adminForm" id="adminForm">
     <?	foreach($cats as $n=>$data):
 			$catid=$data['category_id'];
 			if($active_cats && in_array($catid,$active_cats)) $catnames[$catid]=$data['category_name'];
 		endforeach;
-		// выбирали категоии, получили данные:
+		// выбирали категории, получили данные:
 		if($this->active_categories):
 			$source_prods=$this->section_products;
 			//var_dump($source_prods);
 			if(count($source_prods)):?>
-        <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)?><div id="wrong_data"></div></h4>
+        <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)-1?><div id="wrong_data"></div></h4>
         
 			<?	$filename=Export::createCSV($catnames,$source_prods);?>
             <h4 style="margin-bottom:14px; font-weight:200;">
@@ -76,12 +80,12 @@ $userId	= $user->get('id');?>
 		if($this->section_products): 
 			if(count($source_prods)):
 				//var_dump($source_prods); ?>
-    <h4><a name="tbl_recs">Экспортированные записи:</a></h4>
+    <h4><a name="tbl_recs">Экспортированные записи <span style="font-weight:200;">(заголовки столбцов и номера строк как в сохранённом файле)</span>:</a></h4>
     <div style="width:100%;overflow:auto;">
     <table width="100%" id="tblRecs" border="1" rules="rows" bgcolor="#FFFFFF" style="display:<?="none"?>;">
     	<?	$tblHeaders=array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA');
 			echo '<tr class="csvHeader">
-					<th></th>';
+					<th>#</th>';
 			for($r=0,$t=count($tblHeaders);$r<$t;$r++)
 				echo '<th>'.$tblHeaders[$r].'</th>';
 			echo '</tr>';
@@ -113,11 +117,12 @@ $userId	= $user->get('id');?>
        	  	<th><nobr><?=$header?></nobr></th>    	
 						<?	endforeach;?>
 					<?	endif;
+						if($i)
 						for($j=0,$len=count($source_prods[0]);$j<$len;$j++):
 							$key=$source_prods[0][$j];
 							$value=$data[$key];
 							$rvalue=$value;?>
-			<td>			
+			<td title="<?="count=".$len.", j=".$j.", i=".$i ?>">			
 					<?		if($key=='img'):
 								if($im!==false):
 									if($images[$im]):

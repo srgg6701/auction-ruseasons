@@ -34,16 +34,16 @@ class Auction2013Helper
 				'auction_number'=>'Номер аукциона',
 				'lot_number'=>'Номер лота',
 				'contract_number'=>'Номер договора',
-				'date_show'=>'Дата включения отображения предмета на сайте', // ?
-				'date_hide'=>'Дата отключения отображения предмета на сайте', // ?				
-				'date_start'=>'Дата начала периода торгов по предмету', // ?
-				'date_stop'=>'Дата окончания периода торгов по предмету', // ?
+				'date_show'=>'Дата включения отображения предмета на сайте|дд.мм.гггг', // ?
+				'date_hide'=>'Дата отключения отображения предмета на сайте|дд.мм.гггг', // ?				
+				'date_start'=>'Дата/время начала периода торгов по предмету|дд.мм.гггг ЧЧ:ММ:CC', // ?
+				'date_stop'=>'Дата/время окончания периода торгов по предмету|дд.мм.гггг ЧЧ:ММ:CC', // ?
 				'title'=>'Название лота',
 				'short_desc'=>'Краткое описание лота',
 				'desc'=>'Описание лота',
-				'price'=>'Стартовая цена', // ?
-				'sales_price'=>'Конечная цена',
-				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',
+				'price'=>'Стартовая цена|только цифры', // ?
+				'sales_price'=>'Конечная цена|только цифры',
+				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.|имя.расширение',
 			);
 	}
 	
@@ -144,10 +144,10 @@ FROM #__geodesic_classifieds_cp prods
 		}
 		$query.="
 ORDER BY cats.category_name, prods.title";
-		//echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		$prods=$db->loadAssocList();
+		//echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$headers=$this->getActualFields();
 		array_unshift($prods,$headers);
 		return $prods;
@@ -157,7 +157,7 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	function getActualFields($imgs_count=15){
+	private function getActualFields($imgs_count=15){
 		$row_fields_set=Auction2013Helper::getImportFields();
 		/*'auction_number'=>'Номер аукциона',
 		'lot_number'=>'Номер лота',
