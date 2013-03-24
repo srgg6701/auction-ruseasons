@@ -68,40 +68,75 @@ class Export{
  * @package
  * @subpackage
  */
-	private function getParentIdQuery($parent_category_name){
+	public function getParentIdQuery($parent_category_name){
 		return "(  SELECT category_id FROM #__geodesic_categories WHERE category_name = '".$parent_category_name."'  )";
 	}	
 /**
- * Описание
+ * Обработать дату, представленную в виде числа
+ * @package
+ * @subpackage
+ */
+	public function handleDateFormatInteger($rvalue){
+		if(is_int($rvalue)
+			   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
+			){
+			if(!is_int($rvalue))
+				(int)$rvalue;
+			return date('Y-m-d H:i:s',$rvalue);
+		}else
+			return false;
+	}
+/**
+ * Обработать дату, представленную в виде datetime без секунд
+ * @package
+ * @subpackage
+ */
+	public function handleDateFormatDate($rvalue){
+		if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)){
+			$ardate=explode('+',$rvalue);
+			$bDate=explode('.',$ardate[0]);
+			return // date:
+				$bDate[2].'-'.$bDate[1].'-'.$bDate[0].
+			 // time:
+				' '.$ardate[1].':00';
+		}else
+			return false;
+	}
+
+/**
+ * Проверить формат данных, по возможности - исправить.
  * @package
  * @subpackage
  */
 	public function handleDataFormat($i,$key,$rvalue,&$wrong){
 
 		if(strstr($key,'date')&&$rvalue){ //echo "date row(".gettype($rvalue)."): $rvalue<br>";
-			if(is_int($rvalue)
+			/*if(is_int($rvalue)
 			   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
 			){
 				if(!is_int($rvalue))
 					(int)$rvalue;
 				return date('Y-m-d H:i:s',$rvalue);
-			}else{
-				if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)){
+			}
+			
+			else*/
+			if(!$rvalue=$this->handleDateFormatInteger($rvalue)){
+				/*if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)){
 					$ardate=explode('+',$rvalue);
 					$bDate=explode('.',$ardate[0]);
 					return // date:
 						$bDate[2].'-'.$bDate[1].'-'.$bDate[0].
 					 // time:
 						' '.$ardate[1].':00';
-				}else{ 
+				}else*/
+				if(!$rvalue=$this->handleDateFormatDate($rvalue)){ 
 					// сохраним данные проблемной строки:
 					$wrong[]=$tblHeaders[$j].':'.$i+1;
 					return '<a name="'.$tblHeaders[$j].':'.$i.'" style="color:red">'.$rvalue.'</a>';
 				}
 			}
-		}else{
-			return $rvalue;
-		}	
+		}
+		return $rvalue;
 	}
 
 /**
@@ -109,7 +144,7 @@ class Export{
  * @package
  * @subpackage
  */
-	function getDataToExport( 
+	public function getDataToExport( 
 							$source_db,
 							$parent_category_name=false,
 							$categories_ids=false
@@ -132,11 +167,10 @@ class Export{
   prods.description AS 'desc',
   prods.current_bid AS 'price',
   prods.final_price AS 'sales_price', 
-  cats.category_id,
   prods.image AS 'images',
   prods.id";
-  
   /*-- cats.category_name,
+  -- cats.category_id,
   -- prods.order_item_id,
   -- prods.item_type,
   -- prods.quantity,
@@ -146,9 +180,8 @@ class Export{
   -- prods.live,
   -- prods.precurrency,
   -- prods.postcurrency,
-  -- prods.duration,*/
+  -- prods.duration,
   
-  /*
   prods.optional_field_2 AS 'optf-1',
   prods.optional_field_1 AS 'optf-2',
   prods.optional_field_3 AS 'optf-3',
@@ -190,7 +223,7 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	private function getActualFields($imgs_count=15){
+	public function getActualFields($imgs_count=15){
 		$row_fields_set=Auction2013Helper::getImportFields();
 		/*'auction_number'=>'Номер аукциона',
 		'lot_number'=>'Номер лота',
@@ -219,7 +252,7 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	function getImagesToExport($classified_id=false){
+	public function getImagesToExport($classified_id=false){
 		$query="SELECT full_filename FROM #__geodesic_classifieds_images_urls";
 		if($classified_id)
 			$query.="	
@@ -233,7 +266,7 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	function getCategoriesToExport($source_db,$section_name=false){
+	public function getCategoriesToExport($source_db,$section_name=false){
 		$this->connect_db_old($source_db);		
 		$query="SELECT cats.category_id, 
   category_name,
@@ -256,17 +289,69 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	function createCSV($catnames,$source_prods){
+	public function createCSV($catnames,$source_prods){
 		$filename='/_docs/csv_saved/'.array_shift($catnames)."___".array_pop($catnames).'.csv';
 		$filename=str_replace(" ","_",$filename);
 		$winfilename=iconv("UTF-8","windows-1251",$filename);
 			$make_file=true;
-		//var_dump($source_prods); 
+		$headers_count=count($source_prods[0]);
 		if($make_file){
 			$fp = fopen(JPATH_SITE.$winfilename, 'w');
-			foreach ($source_prods as $fields):
-				fputcsv($fp, $fields, ";");
-			endforeach;
+			foreach ($source_prods as $i=>$fields){
+				// строки:
+				if($i){
+					if(!isset($images)){
+						$images=$this->getImagesToExport($fields['id']);
+						var_dump($images);
+					}
+					$im=0;
+					// ячейки:
+					$data=array();
+					foreach($fields as $key=>$content){
+						/*	'auction_number' => string '' (length=0)
+							'lot_number' => string '00100' (length=5)
+							'contract_number' => string '01/143/09' (length=9)
+							'date_show' => string '1303374294' (length=10)
+							'date_hide' => string '1587391800' (length=10)
+							'date_start' => string '' (length=0)
+							'date_stop' => string '' (length=0)
+							'title' => string 'Миниатюра «Девушка в красной шали»' (length=64)
+							'short_desc' => string '' (length=0)
+							'desc' => string 'Живопись на кости, 1820-е годы, 7.7х5.5 см, рамка дерево, металл, 14.2х12 см' (length=119)
+							'price' => string '0' (length=1)
+							'sales_price' => string '0' (length=1)
+							'category_id' => string '313' (length=3)
+							================================================
+							'images' => string '2' (length=1)
+							'id' => string '1429' (length=4)	*/
+						$im++;
+						if(strstr($key,'date') && $content){
+							if(!$data[$key]=$this->handleDateFormatInteger($content))
+								if(!$data[$key]=$this->handleDateFormatDate($content))
+									$data[$key]='';
+						}else{
+							if($key=='images'){
+								$icount=0;
+								while($im<$headers_count){
+									$data['img'.$icount]=($images[$icount])?
+										$images[$icount]:'';
+										$icount++;
+									$im++;
+								}
+							}
+							$data[$key]=iconv("UTF-8","windows-1251",$content);
+						}
+					}
+					unset($images);
+				}
+				else{
+					$data=$fields;
+				}
+				unset($data['id']);
+				unset($data['images']);
+				fputcsv($fp, $data, ";"); 
+				$i++;
+			}
 			fclose($fp);
 		}
 		return $filename;	
@@ -276,7 +361,7 @@ ORDER BY cats.category_name, prods.title";
  * @package
  * @subpackage
  */
-	private function connect_db_old($source_db){
+	public function connect_db_old($source_db){
 		if($source_db=='auctionru_ruse'){
 			$host=(strstr($_SERVER['HTTP_HOST'],"localhost"))? '77.222.56.121':'localhost';
 			$dsn = 'mysql:dbname='.$source_db.';host='.$host;

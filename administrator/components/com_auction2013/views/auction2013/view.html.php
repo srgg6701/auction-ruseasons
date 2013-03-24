@@ -19,6 +19,7 @@ class Auction2013ViewAuction2013 extends JView
 {
 	public $active_categories; //array
 	public $categories_data;
+	public $Export;
 	public $fields;
 	public $html_sections;
 	public $section=array();
@@ -89,16 +90,16 @@ class Auction2013ViewAuction2013 extends JView
 		$this->top_categories=$this->getTopCategories();
 		if($section=JRequest::getVar('section')){
 			$this->section=explode(':',$section);
-			$Export=new Export;
+			$this->Export=new Export;
 			// массив чекбоксов post, приходящий с отправкой формы
 			$this->active_categories=JRequest::getVar('category_id');
 			//echo "<div class=''>active_categories:</div>";
 			//var_dump(JRequest::getVar('category_id'));
 			//Получить список категорий выбранной секции:
-			$this->categories_data=$Export->getCategoriesToExport($this->source_db, $this->section[0]);
+			$this->categories_data=$this->Export->getCategoriesToExport($this->source_db, $this->section[0]);
 			$post=JRequest::get('post');
 			$this->products=$post['category_id'];
-			$this->section_products=$Export->getDataToExport($this->source_db,$this->section[0],$this->active_categories); // echo "<h1>handleExport:<br>\$section[".$this->section[1]."] = ".$this->section[0]."</h1>"; 
+			$this->section_products=$this->Export->getDataToExport($this->source_db,$this->section[0],$this->active_categories); // echo "<h1>handleExport:<br>\$section[".$this->section[1]."] = ".$this->section[0]."</h1>"; 
 		}
 		$this->chooseDb();
 		// Выберите раздел:   

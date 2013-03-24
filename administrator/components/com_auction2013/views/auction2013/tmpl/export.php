@@ -54,7 +54,7 @@ $userId	= $user->get('id');?>
 			if(count($source_prods)):?>
         <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)-1?><div id="wrong_data"></div></h4>
 			<?	// собственно, экспорт файла:	
-				$filename=Export::createCSV($catnames,$source_prods);?>
+				$filename=$this->Export->createCSV($catnames,$source_prods);?>
             <h4 style="margin-bottom:14px; font-weight:200;">
             	Данные успешно экспортированы и сохранены в <a href="<?=JUri::root().$filename?>" title="Просмотреть контент">файле</a>: 
             	<span style="padding:8px; background-color:#FFFF99;"><?=JPATH_SITE.$filename?></span>
@@ -91,7 +91,7 @@ $userId	= $user->get('id');?>
 				// var_dump($source_prods); 
 				foreach($source_prods as $i=>$data):
 					if ($i):
-						$images=Export::getImagesToExport($data['id']);
+						$images=$this->Export->getImagesToExport($data['id']);
 						$im=0;
 						//var_dump($images);
 					endif;
@@ -131,7 +131,7 @@ $userId	= $user->get('id');?>
 									endif;
 								endif;
 							else:
-								echo Export::handleDataFormat($i,$key,$rvalue,$wrong);
+								echo $this->Export->handleDataFormat($i,$key,$rvalue,$wrong);
 								
 							endif;?>
             </td>
