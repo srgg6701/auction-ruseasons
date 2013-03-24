@@ -72,6 +72,39 @@ class Export{
 		return "(  SELECT category_id FROM #__geodesic_categories WHERE category_name = '".$parent_category_name."'  )";
 	}	
 /**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public function handleDataFormat($i,$key,$rvalue,&$wrong){
+
+		if(strstr($key,'date')&&$rvalue){ //echo "date row(".gettype($rvalue)."): $rvalue<br>";
+			if(is_int($rvalue)
+			   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
+			){
+				if(!is_int($rvalue))
+					(int)$rvalue;
+				return date('Y-m-d H:i:s',$rvalue);
+			}else{
+				if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)){
+					$ardate=explode('+',$rvalue);
+					$bDate=explode('.',$ardate[0]);
+					return // date:
+						$bDate[2].'-'.$bDate[1].'-'.$bDate[0].
+					 // time:
+						' '.$ardate[1].':00';
+				}else{ 
+					// сохраним данные проблемной строки:
+					$wrong[]=$tblHeaders[$j].':'.$i+1;
+					return '<a name="'.$tblHeaders[$j].':'.$i.'" style="color:red">'.$rvalue.'</a>';
+				}
+			}
+		}else{
+			return $rvalue;
+		}	
+	}
+
+/**
  * Получить данные для экспорта
  * @package
  * @subpackage
@@ -213,22 +246,21 @@ ORDER BY cats.category_name, prods.title";
  WHERE cats.parent_id = ".$this->getParentIdQuery($section_name);
 		
 		$query.=" 
-   ORDER BY category_name";
-		// echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+   ORDER BY category_name"; // echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadAssocList(); 	
 	}
 /**
- * Описание
+ * Создать и сохранить CSV-файл 
  * @package
  * @subpackage
  */
 	function createCSV($catnames,$source_prods){
-		$filename='/_docs/get_csv/'.array_shift($catnames)."___".array_pop($catnames).'.csv';
+		$filename='/_docs/csv_saved/'.array_shift($catnames)."___".array_pop($catnames).'.csv';
 		$filename=str_replace(" ","_",$filename);
 		$winfilename=iconv("UTF-8","windows-1251",$filename);
-			$make_file=false;
+			$make_file=true;
 		//var_dump($source_prods); 
 		if($make_file){
 			$fp = fopen(JPATH_SITE.$winfilename, 'w');

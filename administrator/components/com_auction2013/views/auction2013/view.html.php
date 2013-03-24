@@ -51,6 +51,7 @@ class Auction2013ViewAuction2013 extends JView
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
+		// data export
 		if($this->_layout=='export')
 			$this->handleExport();
 		$this->addToolbar($this->_layout);
@@ -157,4 +158,3 @@ function setSectionValue(section_value){
 		ob_clean();
 	}
 }
-

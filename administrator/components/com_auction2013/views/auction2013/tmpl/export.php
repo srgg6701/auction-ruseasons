@@ -39,10 +39,9 @@ $userId	= $user->get('id');?>
 		$active_cats=$this->active_categories;
 		//var_dump($this->active_categories);//die(); ?>    
 <div>
-
-<?	// ВНИМАНИЕ! 
-	// Задачу не создаём, т.к. экспорт данных из старой БД, по сути, является одноразовой акцией и в дальнейшем эту процедуру можно удалить.?>
-
+<?	// ВНИМАНИЕ! ********************************************* 
+	// Задачу не создаём, т.к. экспорт данных из старой БД, по сути, является одноразовой акцией и в дальнейшем эту процедуру можно удалить.
+	// *******************************************************	?>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013&view=auction2013&layout=export'); ?>" method="post" name="adminForm" id="adminForm">
     <?	foreach($cats as $n=>$data):
 			$catid=$data['category_id'];
@@ -54,8 +53,8 @@ $userId	= $user->get('id');?>
 			//var_dump($source_prods);
 			if(count($source_prods)):?>
         <h4 style="padding:6px 10px; margin:8px 0; background-color: #FF6; display:inline-block; clear:both;">Получено <a id="show_recs" href="javascript:location.href='#tbl_recs'" title="Показать таблицу экспортированных записей">записей</a>: <?=count($source_prods)-1?><div id="wrong_data"></div></h4>
-        
-			<?	$filename=Export::createCSV($catnames,$source_prods);?>
+			<?	// собственно, экспорт файла:	
+				$filename=Export::createCSV($catnames,$source_prods);?>
             <h4 style="margin-bottom:14px; font-weight:200;">
             	Данные успешно экспортированы и сохранены в <a href="<?=JUri::root().$filename?>" title="Просмотреть контент">файле</a>: 
             	<span style="padding:8px; background-color:#FFFF99;"><?=JPATH_SITE.$filename?></span>
@@ -110,7 +109,7 @@ $userId	= $user->get('id');?>
 					  'images' => string '3'
 					  'id' => string '2985'
 					*/?>
-    	<tr title="Строка # <? echo $i+1; ?>">
+    	<tr title="Запись # <? echo $i; ?>">
         	<td align="right"><?=$i+1?></td>
 					<?	if(!$i):	
 							foreach ($source_prods[0] as $index=>$header):?>
@@ -122,7 +121,7 @@ $userId	= $user->get('id');?>
 							$key=$source_prods[0][$j];
 							$value=$data[$key];
 							$rvalue=$value;?>
-			<td title="<?="count=".$len.", j=".$j.", i=".$i ?>">			
+			<td>			
 					<?		if($key=='img'):
 								if($im!==false):
 									if($images[$im]):
@@ -132,31 +131,8 @@ $userId	= $user->get('id');?>
 									endif;
 								endif;
 							else:
-							
-								if(strstr($key,'date')&&$rvalue): //echo "date row(".gettype($rvalue)."): $rvalue<br>";
-									if(is_int($rvalue)
-								   	   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
-								  	):
-								  		if(!is_int($rvalue))
-											(int)$rvalue;
-										echo date('Y-m-d H:i:s',$rvalue);
-									else:
-										if(preg_match("/\b[0-9]{2}\.[0-9]{2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}\b/", $rvalue)):
-											$ardate=explode('+',$rvalue);
-											$bDate=explode('.',$ardate[0]);
-											echo // date:
-												$bDate[2].'-'.$bDate[1].'-'.$bDate[0].
-											 // time:
-											 	' '.$ardate[1].':00';
-										else: 
-											// сохраним данные проблемной строки:
-											$wrong[]=$tblHeaders[$j].':'.$i;
-											echo '<a name="'.$tblHeaders[$j].':'.$i.'" style="color:red">'.$rvalue.'</a>';
-										endif;
-									endif;
-								else:
-									echo $rvalue;
-								endif;
+								echo Export::handleDataFormat($i,$key,$rvalue,$wrong);
+								
 							endif;?>
             </td>
 					<?	endfor;?>
@@ -176,7 +152,7 @@ $( function(){
 <?	if($wrong):
 		$clmn=(count($wrong)>1)? 'ячейки':'ячейку';?>
 	$('table#tblRecs').show();
-	$('#wrong_data').html('<h4>Внимание! Есть <span style="color:brown" title="Вам необходимо привести их к стандартному. В противном случае возможна ошибка при импорте этих данных.">проблемные записи</span>.</h4><div style="font-weight:200">См. <?=$clmn?> (выделены <span style="color:red">красным</span>): <?
+	$('#wrong_data').html('<h4>Внимание! Есть <span style="color:brown" title="Вам необходимо привести их к стандартному формату. В противном случае возможна ошибка при импорте этих данных.">проблемные записи</span>.</h4><div style="font-weight:200">См. <?=$clmn?> (записи выделены <span style="color:red">красным</span>): <?
 		foreach($wrong as $w=>$cell){
 			if ($w) echo ', ';
 			echo '<a href="#'.$cell.'">'.$cell.'</a>';
