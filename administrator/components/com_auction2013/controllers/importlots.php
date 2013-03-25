@@ -25,6 +25,67 @@ class Auction2013ControllerImportlots extends JControllerForm
 		$view->display(); 
 	}
 /**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function clear(){
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$data	= JRequest::get('post');
+		$sections=$data['section'];
+		/*'section' => 
+			array
+			  'online' => string 'Онлайн торги' (length=23)
+			  'fulltime' => string 'Очные торги' (length=21)
+			  'shop' => string 'Магазин' (length=14)*/
+		
+		/*'jform' => 
+			array
+			  'fulltime' => string 'fulltime' (length=8)
+			  'shop' => string 'shop' (length=4)
+		  'fulltime' => 
+			array
+			  24 => string '24' (length=2)
+			  25 => string '25' (length=2)
+			  26 => string '26' (length=2)
+			  27 => string '27' (length=2)
+			  28 => string '28' (length=2)
+			  29 => string '29' (length=2)
+			  30 => string '30' (length=2)
+		  'shop' => 
+			array
+			  1 => string '1' (length=1)
+			  2 => string '2' (length=1)
+			  51 => string '51' (length=2)
+			  3 => string '3' (length=1)
+			  50 => string '50' (length=2)
+			  4 => string '4' (length=1)
+			  5 => string '5' (length=1)
+			  6 => string '6' (length=1)
+			  7 => string '7' (length=1)
+			  8 => string '8' (length=1)
+			  9 => string '9' (length=1)
+			  10 => string '10' (length=2)
+			  11 => string '11' (length=2)
+			  12 => string '12' (length=2)
+			  13 => string '13' (length=2)
+			  14 => string '14' (length=2)
+			  16 => string '16' (length=2)
+			  15 => string '15' (length=2)
+			  19 => string '19' (length=2)
+			  20 => string '20' (length=2)
+		*/
+		$model	= $this->getModel('Auction2013');
+		foreach($sections as $layout=>$name){
+			if(!empty($data[$layout]))
+				$model->deleteProducts($data[$layout]);
+		}
+		//var_dump($data); 
+		//var_dump($sections); 
+		die();
+	
+	}
+/**
  * Импорт данных предметов из .csv-файла. 
  * *********************************************************************
  * См. схему таблиц для импорта в _docs/структура и бизнес-процессы.xlsx 

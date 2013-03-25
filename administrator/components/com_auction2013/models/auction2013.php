@@ -41,6 +41,113 @@ class Auction2013ModelAuction2013 extends JModelList
 		}
 		parent::__construct($config);
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public function deleteProducts($categories){
+		// get id id products to delete:
+		$products_ids=$this->getProductsIdsConnected($categories);
+		/*	Универсальный запрос обнаружения 
+			НЕПУСТЫХ таблиц virtuemart'а,
+			содержащих поля с id продукта:
+			==============================
+			SELECT DISTINCT
+			  TABLES.TABLE_NAME,
+			  TABLES.DATA_LENGTH,
+			  COLUMNS.COLUMN_NAME --, COLUMNS.TABLE_NAME,
+			FROM information_schema.TABLES
+			  INNER JOIN information_schema.COLUMNS
+				ON TABLES.TABLE_NAME = COLUMNS.TABLE_NAME
+			WHERE TABLES.TABLE_SCHEMA = "auctionru_2013" 
+			  AND TABLES.TABLE_NAME LIKE '%virtuemart%' 
+			  AND TABLES.DATA_LENGTH > 0 
+			  AND ( COLUMNS.COLUMN_NAME LIKE '%product_id%' 
+					OR 
+					COLUMNS.COLUMN_NAME LIKE '%products_id%'
+				  ) ORDER BY TABLES.DATA_LENGTH DESC
+		
+			РЕЗУЛЬТАТ:
+			==============================
+			auc13_virtuemart_product_categories			
+			auc13_virtuemart_product_customfields
+			auc13_virtuemart_product_medias
+			auc13_virtuemart_product_prices
+			auc13_virtuemart_product_manufacturers
+			auc13_virtuemart_product_shoppergroups
+			auc13_virtuemart_products
+			auc13_virtuemart_products_ru_ru
+			=======================================
+		*/		
+		$queries=array(
+				'product_categories',
+				'product_customfields',
+				'product_manufacturers',
+				'product_medias',
+				'product_prices',
+				'product_shoppergroups',
+				'products',
+				'products_ru_ru',
+		);
+
+		$inIds=" virtuemart_product_id IN (".implode(",",$categories).") ";
+		foreach($queries as $i=>$vm_table){	
+			$tbl='#__virtuemart_'.$vm_table;		
+			$db	= JFactory::getDBO();
+			if ($vm_table=='product_medias'){
+				$query = $db->getQuery(true);
+				$query->select("virtuemart_media_id"); 
+				$query->from($db->quoteName($tbl));
+				$query->where($inIds);
+				$db->setQuery($query); // а иначе вытащит старый запрос!
+				echo "<blockquote>query[".__LINE__."]= ".$query."</blockquote>";
+				$media_ids=$db->loadResultArray();
+			}
+			$query	= $db->getQuery(true);
+			$query->delete();
+			$query->from($db->quoteName($tbl));
+			$query->where($inIds);
+			$db->setQuery((string) $query);
+			echo "<div class=''>query[".__LINE__."]= ".$query."</div>";
+			//if (!$db->query())
+				//JError::raiseError(500, $db->getErrorMsg());
+		}
+		if (is_array($media_ids)&&!empty($media_ids)){
+			var_dump($media_ids);
+			$db	= JFactory::getDBO();
+			$query	= $db->getQuery(true);
+			$query->delete();
+			$query->from($db->quoteName('#__virtuemart_medias'));
+			$query->where(" media_id IN (".implode(",",$media_ids).") ");
+			$db->setQuery((string) $query);
+			echo "<hr><div class=''>query[".__LINE__."]= ".$query."</div>";
+			//if (!$db->query())
+				//JError::raiseError(500, $db->getErrorMsg());
+		}
+		//var_dump($products_ids); 
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	private function getProductsIdsConnected($categories){
+		// Create a new query object.
+        $db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		// Select fields from the table.
+		$query->select("PRODS.virtuemart_product_id"); 
+		$query->from($db->quoteName('#__virtuemart_products').' as PRODS');
+		$query->join('INNER', $db->quoteName('#__virtuemart_product_categories') . ' AS CATS ON PRODS.virtuemart_product_id = CATS.virtuemart_product_id');
+		$query->where('CATS.virtuemart_category_id IN ('.implode(",",$categories).')');
+		// Add the list ordering clause.
+		$db->setQuery($query); // а иначе вытащит старый запрос!
+		echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>";
+		$result=$db->loadResultArray();
+		return $result;  
+	}
+
 	/**
 	 * Overrides the getItems method to attach additional metrics to the list.
 	 *

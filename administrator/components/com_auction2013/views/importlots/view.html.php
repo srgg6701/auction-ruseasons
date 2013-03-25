@@ -46,9 +46,13 @@ class Auction2013ViewImportlots extends JView {
 	protected function addToolbar($layout=false)
 	{	
 		require_once JPATH_COMPONENT . '/helpers/auction2013.php';
-		$user = JFactory::getUser();
-		JToolBarHelper::title(JText::_('Импорт данных предметов аукциона'), 'csv.png');
-		JToolBarHelper::custom('', 'publish', '', JText::_('Импортировать!'), false);
+		if($layout=='clear'){
+			JToolBarHelper::title(JText::_('Очистка таблиц предметов'), 'trash.png');
+			JToolBarHelper::custom('', 'trash', '', JText::_('Очистить!'), false);
+		}else{
+			JToolBarHelper::title(JText::_('Импорт данных предметов аукциона'), 'csv.png');
+			JToolBarHelper::custom('', 'publish', '', JText::_('Импортировать!'), false);
+		}
 	}
 }
 

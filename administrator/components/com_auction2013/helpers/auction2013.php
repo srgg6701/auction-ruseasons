@@ -57,6 +57,7 @@ class Auction2013Helper
 	{
 		//die('addSubmenu');
 		$common_link_segment='index.php?option=com_auction2013&view=';
+		JSubMenuHelper::addEntry(JText::_('Очистка таблиц предметов'),$common_link_segment.'importlots&layout=clear');
 		JSubMenuHelper::addEntry(JText::_('Импорт предметов'),$common_link_segment.'importlots');
 		JSubMenuHelper::addEntry(JText::_('Экспорт предметов'),$common_link_segment.'auction2013&layout=export');
 	}	
