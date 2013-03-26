@@ -98,7 +98,7 @@ ORDER BY cats.ordering';
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
 				 $order;
-			// echo "<div class=''><pre>q= ".$q."</pre></div>"; die();
+			// echo "<div class=''><pre>q= ".str_replace("#_","auc13",$q)."</pre></div>"; //die();
 			$db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(

@@ -76,14 +76,17 @@ class Auction2013ControllerImportlots extends JControllerForm
 			  20 => string '20' (length=2)
 		*/
 		$model	= $this->getModel('Auction2013');
+		$ok=0;
 		foreach($sections as $layout=>$name){
-			if(!empty($data[$layout]))
-				$model->deleteProducts($data[$layout]);
+			if(!empty($data[$layout])){
+				// var_dump($data[$layout]); 
+				// $data[$layout] == category_id
+				if($model->deleteProducts($data[$layout]))
+					$ok++;
+			}
 		}
-		//var_dump($data); 
-		//var_dump($sections); 
-		die();
-	
+		$message=($ok)? 'Данные успешно удалены.':'Не обнаружено данных для удаления...';
+		$this->setRedirect('index.php?option=com_auction2013&view=importlots&layout=clear', $message);	
 	}
 /**
  * Импорт данных предметов из .csv-файла. 
@@ -114,7 +117,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 					$this->getLastId('virtuemart_media_id','virtuemart_medias',$db) .
 					', '. $order
 				); //if ($test) echo "<div style='color:brown'><pre>addProductMedia query= ".$query."</pre></div>";
-		$db->setQuery($query);
+	 // $db->setQuery($query);
+		$db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));
 		if(!$db->execute())
 			return array('query', $query);
 		else return true;	

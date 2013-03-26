@@ -5,19 +5,19 @@
   <Properties>
     <Type>SQL Document Design</Type>
     <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
-    <ProviderVersion>6.0.26.0</ProviderVersion>
+    <ProviderVersion>6.0.46.0</ProviderVersion>
     <SchemaVersion>2.0</SchemaVersion>
   </Properties>
   <Connection Name="LocalHost">
     <ConnectionString>User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</ConnectionString>
     <Database />
   </Connection>
-  <Views ShowAdditionalViews="True" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="64">
+  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="57">
     <View Name="Design" Visible="True">
       <Data>
         <StatementType>Select</StatementType>
         <ActiveQuery>0</ActiveQuery>
-        <SubQuery Id="0" Open="0" LocationX="-10.3448275295081" LocationY="-108.045976419306" Scale="0.87">
+        <SubQuery Id="0" Open="0" LocationX="-463.716816116083" LocationY="214.159292939107" Scale="1.13">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
             <VerticalOverlap>0</VerticalOverlap>
@@ -35,19 +35,20 @@
             </PaperSize>
           </PageOptions>
           <Tables>
-            <Table Name="auc13_virtuemart_products" Left="16" Top="-120" Width="300.3038" Height="736" Collapsed="False" />
-            <Table Name="auc13_virtuemart_products_ru_ru" Left="760" Top="-152" Width="306.8741" Height="210" Collapsed="False" />
-            <Table Name="auc13_virtuemart_categories" Left="336" Top="184" Width="266.1319" Height="462" Collapsed="False" />
-            <Table Name="auc13_virtuemart_categories_ru_ru" Left="1048" Top="352" Width="318.1111" Height="192" Collapsed="False" />
-            <Table Name="auc13_virtuemart_product_categories_1" Left="784" Top="112" Width="333.3389" Height="138" Collapsed="False" />
+            <Table Name="prods" Left="41" Top="555" Width="300.3038" Height="228" Collapsed="False" />
+            <Table Name="ru_ru" Left="-11.73303" Top="290" Width="356.6071" Height="210" Collapsed="False" />
+            <Table Name="prod_cats" Left="399" Top="324" Width="333.3389" Height="138" Collapsed="False" />
+            <Table Name="cats" Left="783" Top="39" Width="271.1319" Height="228" Collapsed="False" />
+            <Table Name="cats_ru_ru" Left="409" Top="54" Width="318.1111" Height="192" Collapsed="False" />
+            <Table Name="auc13_virtuemart_product_prices" Left="-336" Top="400" Width="302.7791" Height="228" Collapsed="False" />
           </Tables>
         </SubQuery>
       </Data>
     </View>
-    <View Name="Code" Visible="True">
+    <View Name="Code" Active="True" Visible="True">
       <Data />
     </View>
-    <View Name="Data" Active="True" Visible="True" />
+    <View Name="Data" Visible="True" />
     <View Name="Profiler" Visible="False" />
     <View Name="PivotGrid" Visible="False" />
   </Views>

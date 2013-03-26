@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), SQL document design file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<Document>
+  <Properties>
+    <Type>SQL Document Design</Type>
+    <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
+    <ProviderVersion>6.0.46.0</ProviderVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </Properties>
+  <Connection Name="LocalHost">
+    <ConnectionString>User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</ConnectionString>
+    <Database />
+  </Connection>
+  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="False" MainViewAttribute="Code" MainViewScale="50">
+    <View Name="Design" Visible="True">
+      <Data>
+        <StatementType>Select</StatementType>
+        <ActiveQuery>0</ActiveQuery>
+        <SubQuery Id="0" Open="0" LocationX="-1535.14782343535" LocationY="43.4475799085477" Scale="0.06904873">
+          <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <HorizontalOverlap>0</HorizontalOverlap>
+            <VerticalOverlap>0</VerticalOverlap>
+            <TopLeftMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </TopLeftMargins>
+            <BottomRightMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </BottomRightMargins>
+            <PaperSize>
+              <Width>210 mm</Width>
+              <Height>297 mm</Height>
+            </PaperSize>
+          </PageOptions>
+          <Tables>
+            <Table Name="prods" Left="39" Top="40" Width="315.2126" Height="228" Collapsed="False" />
+            <Table Name="cats" Left="560" Top="40" Width="405.792" Height="426" Collapsed="False" />
+          </Tables>
+        </SubQuery>
+        <SubQuery Id="1" Open="1" LocationX="-10.3448275295081" LocationY="-10.3448275295081" Scale="0.87">
+          <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <HorizontalOverlap>0</HorizontalOverlap>
+            <VerticalOverlap>0</VerticalOverlap>
+            <TopLeftMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </TopLeftMargins>
+            <BottomRightMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </BottomRightMargins>
+            <PaperSize>
+              <Width>210 mm</Width>
+              <Height>297 mm</Height>
+            </PaperSize>
+          </PageOptions>
+        </SubQuery>
+      </Data>
+    </View>
+    <View Name="Code" Visible="True">
+      <Data />
+    </View>
+    <View Name="Data" Active="True" Visible="True" />
+    <View Name="Profiler" Visible="False" />
+    <View Name="PivotGrid" Visible="False" />
+  </Views>
+</Document>

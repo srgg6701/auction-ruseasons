@@ -70,7 +70,10 @@ class Export{
  * @subpackage
  */
 	public function getParentIdQuery($parent_category_name){
-		return "(  SELECT category_id FROM #__geodesic_categories WHERE category_name = '".$parent_category_name."'  )";
+		return "(  SELECT category_id 
+					 FROM #__geodesic_categories 
+					WHERE category_name = '".$parent_category_name."'  
+                )";
 	}	
 /**
  * Обработать дату, представленную в виде числа
@@ -228,7 +231,7 @@ ORDER BY cats.category_name, prods.title";
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		$prods=$db->loadAssocList();
-		//echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+		echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$headers=$this->getActualFields();
 		array_unshift($prods,$headers);
 		return $prods;
@@ -294,7 +297,7 @@ ORDER BY cats.category_name, prods.title";
  WHERE cats.parent_id = ".$this->getParentIdQuery($section_name);
 		
 		$query.=" 
-   ORDER BY category_name"; // echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+   ORDER BY category_name"; echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadAssocList(); 	
@@ -312,6 +315,10 @@ ORDER BY cats.category_name, prods.title";
 			$make_file=true;
 		$headers_count=count($source_prods[0]);
 		if($make_file){
+			$full_file_path=JPATH_SITE.$winfilename;
+			// rewrite file:
+			if(file_exists($full_file_path))
+				unlink($full_file_path);
 			$fp = fopen(JPATH_SITE.$winfilename, 'w');
 			foreach ($source_prods as $i=>$fields){
 				// строки:
