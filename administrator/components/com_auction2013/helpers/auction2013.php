@@ -60,6 +60,7 @@ class Auction2013Helper
 		JSubMenuHelper::addEntry(JText::_('Очистка таблиц предметов'),$common_link_segment.'importlots&layout=clear');
 		JSubMenuHelper::addEntry(JText::_('Импорт предметов'),$common_link_segment.'importlots');
 		JSubMenuHelper::addEntry(JText::_('Экспорт предметов'),$common_link_segment.'auction2013&layout=export');
+		JSubMenuHelper::addEntry(JText::_('Управление категориями предметов'), 'index.php?option=com_virtuemart&view=category');
 	}	
 }
 
