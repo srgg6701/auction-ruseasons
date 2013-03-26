@@ -231,7 +231,7 @@ ORDER BY cats.category_name, prods.title";
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		$prods=$db->loadAssocList();
-		echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+		// echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$headers=$this->getActualFields();
 		array_unshift($prods,$headers);
 		return $prods;
@@ -297,7 +297,7 @@ ORDER BY cats.category_name, prods.title";
  WHERE cats.parent_id = ".$this->getParentIdQuery($section_name);
 		
 		$query.=" 
-   ORDER BY category_name"; echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+   ORDER BY category_name"; // echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadAssocList(); 	

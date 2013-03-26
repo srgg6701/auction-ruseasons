@@ -147,7 +147,7 @@ class Auction2013ModelAuction2013 extends JModelList
 		$query->where('CATS.virtuemart_category_id IN ('.implode(",",$categories).')');
 		// Add the list ordering clause.
 		$db->setQuery($query); // а иначе вытащит старый запрос!
-		echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>";
+		// echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>";
 		$result=$db->loadResultArray();
 		return $result;  
 	}
