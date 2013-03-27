@@ -4,6 +4,10 @@ SELECT
   prods.description,
   cats.category_id,
   cats.category_name,
+  ( SELECT category_name 
+        FROM geodesic_categories
+      WHERE category_id = cats.parent_id
+  ) AS parent,
   prods.price,
   prods.image,
   ( SELECT COUNT(*) FROM geodesic_classifieds_images_urls 
@@ -50,4 +54,6 @@ SELECT
 FROM geodesic_classifieds_cp prods
   INNER JOIN geodesic_categories cats
     ON prods.category = cats.category_id
-ORDER BY cats.category_name, prods.title
+   WHERE prods.optional_field_3 REGEXP '\%E4\%E5\%EA' AND cats.category_name = 'Западноевропейская  живопись'
+ORDER BY parent, cats.category_name, prods.title
+  

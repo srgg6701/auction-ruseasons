@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), compare document file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<CompareDocument>
+  <Properties>
+    <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
+    <ProviderVersion>6.0.46.0</ProviderVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </Properties>
+  <Source Type="Database">
+    <DataConnection>LocalHost</DataConnection>
+    <ConnectionString>User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</ConnectionString>
+    <Schema>auctionru_2013</Schema>
+  </Source>
+  <Target Type="Database">
+    <DataConnection>auction web</DataConnection>
+    <ConnectionString>User Id=auctionru_2013;Host=VIP-32.spaceweb.ru;Database=auctionru_2013;Ping Interval=240;Character Set=utf8;</ConnectionString>
+    <Schema>auctionru_2013</Schema>
+  </Target>
+  <Filter Value="0" />
+  <HideUnmodifiedColumns>False</HideUnmodifiedColumns>
+  <Options>
+    <PropertyValue Name="MappingIgnoreSpaces">true</PropertyValue>
+    <PropertyValue Name="IgnoreBlobColumns">false</PropertyValue>
+    <PropertyValue Name="HideSystemSchemas">false</PropertyValue>
+    <PropertyValue Name="MappingIgnoreCase">false</PropertyValue>
+    <PropertyValue Name="MappingIgnoreUnderscores">false</PropertyValue>
+    <PropertyValue Name="IgnoreColumnsByMask">false</PropertyValue>
+    <PropertyValue Name="MappingColumnsMask" xml:space="preserve">*ModifiedDate*,*CreatedOn*,*UpdatedBy*</PropertyValue>
+    <PropertyValue Name="ExcludeObjectsByMask">false</PropertyValue>
+    <PropertyValue Name="ExcludeObjectsMask" xml:space="preserve">*Table*</PropertyValue>
+    <PropertyValue Name="IncludeObjectsByMask">false</PropertyValue>
+    <PropertyValue Name="IncludeObjectsMask" xml:space="preserve">*</PropertyValue>
+    <PropertyValue Name="CompareTables">true</PropertyValue>
+    <PropertyValue Name="CompareViews">false</PropertyValue>
+    <PropertyValue Name="RoundFloatTypes">false</PropertyValue>
+    <PropertyValue Name="RoundFloatTypesUpTo" xml:space="preserve">3</PropertyValue>
+    <PropertyValue Name="IgnoreTrailingSpaces">false</PropertyValue>
+    <PropertyValue Name="IgnoreCase">false</PropertyValue>
+    <PropertyValue Name="IsEmptyStringEqualsNull">false</PropertyValue>
+    <PropertyValue Name="IsIgnoreTime">false</PropertyValue>
+    <PropertyValue Name="CheckDifferent">true</PropertyValue>
+    <PropertyValue Name="CheckOnlyInSource">true</PropertyValue>
+    <PropertyValue Name="CheckOnlyInTarget">true</PropertyValue>
+    <PropertyValue Name="CheckIdentical">true</PropertyValue>
+  </Options>
+  <ModifiedObjects>
+    <Object Name="auc13_acymailing_fields" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_acymailing_history" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_acymailing_list" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_acymailing_listsub" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_acymailing_mail" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_acymailing_subscriber" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_acymailing_template" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_assets" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_categories" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_extensions" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_finder_taxonomy" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_finder_terms_common" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_geodesic_categories" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_geodesic_classifieds_cp" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_geodesic_classifieds_images_urls" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_geodesic_logins" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_geodesic_users_backup" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_languages" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_menu" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_menu_types" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_messages" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_modules" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_modules_menu" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_product_favorites" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_redirect_links" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_schemas" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_template_styles" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_updates" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_update_sites_extensions" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_usergroups" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_user_profiles" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_user_usergroup_map" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_viewlevels" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_adminmenuentries" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_categories" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_categories_ru_ru" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_category_categories" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_category_medias" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_configs" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_countries" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_currencies" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_customs" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_manufacturercategories" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_manufacturercategories_ru_ru" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_manufacturers" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_manufacturers_ru_ru" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_modules" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_orderstates" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_permgroups" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_product_customfields" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_product_shoppergroups" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_shoppergroups" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_states" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_userfields" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_userfield_values" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_vendors" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_vendors_ru_ru" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_vmusers" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_virtuemart_vmuser_shoppergroups" Type="Table" InSource="False" Different="False" InTarget="False" />
+    <Object Name="auc13_wf_profiles" Type="Table" InSource="False" Different="False" InTarget="False" />
+  </ModifiedObjects>
+  <SynchronizationOptions>
+    <PropertyValue Name="BulkInsert">true</PropertyValue>
+    <PropertyValue Name="DisableForeignKeys">true</PropertyValue>
+    <PropertyValue Name="DropCheckConstraints">false</PropertyValue>
+    <PropertyValue Name="DisableDmlTriggers">true</PropertyValue>
+    <PropertyValue Name="BackupDatabase">false</PropertyValue>
+    <PropertyValue Name="ExecuteAsSingleTransaction">true</PropertyValue>
+    <PropertyValue Name="GenerateScriptHeader">true</PropertyValue>
+    <PropertyValue Name="UseSchemaNamePrefix">false</PropertyValue>
+    <PropertyValue Name="UseDelimiter">true</PropertyValue>
+    <PropertyValue Name="DisableObjectKeys">false</PropertyValue>
+    <PropertyValue Name="DropKeys">false</PropertyValue>
+    <PropertyValue Name="DisableDdlTriggers">false</PropertyValue>
+    <PropertyValue Name="ExcludeComments">false</PropertyValue>
+    <PropertyValue Name="SynchronizeViaFiles">false</PropertyValue>
+    <PropertyValue Name="CheckConcurrencyUpdates">false</PropertyValue>
+    <PropertyValue Name="SynchronizeType">0</PropertyValue>
+    <PropertyValue Name="SynchronizationFileName" xml:space="preserve">D:\WebServers\home\localhost\www\~auction.test\_docs\_db\auctionru_base\auctionru_2013 (localhost-3306 vs VIP-32_spaceweb_ru-3306)_20130327-1513.sql</PropertyValue>
+    <PropertyValue Name="SynchronizationEditorFileName" xml:space="preserve" />
+    <PropertyValue Name="OpenScriptInEditor">false</PropertyValue>
+    <PropertyValue Name="RefreshAfterSynchronization">false</PropertyValue>
+    <PropertyValue Name="CommitToVersionControl">false</PropertyValue>
+    <PropertyValue Name="CommentString" xml:space="preserve" />
+    <PropertyValue Name="PureScript">false</PropertyValue>
+    <PropertyValue Name="BackupPathName" xml:space="preserve" />
+    <PropertyValue Name="UseCommitMode">false</PropertyValue>
+    <PropertyValue Name="CommitPageLength" xml:space="preserve">200</PropertyValue>
+  </SynchronizationOptions>
+  <Mapping>
+    <ComparedObjects>
+      <Object SourceName="auc13_acymailing_config" TargetName="auc13_acymailing_config" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_acymailing_fields" TargetName="auc13_acymailing_fields" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_filter" TargetName="auc13_acymailing_filter" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_history" TargetName="auc13_acymailing_history" SourceType="Table" TargetType="Table" IncludedInScript="False">
+        <Key Name="Columns">
+          <Column OrderIndex="0" ColumnIndex="0" />
+          <Column OrderIndex="1" ColumnIndex="1" />
+          <Column OrderIndex="2" ColumnIndex="2" />
+          <Column OrderIndex="3" ColumnIndex="3" />
+          <Column OrderIndex="4" ColumnIndex="6" />
+        </Key>
+      </Object>
+      <Object SourceName="auc13_acymailing_list" TargetName="auc13_acymailing_list" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_listcampaign" TargetName="auc13_acymailing_listcampaign" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_listmail" TargetName="auc13_acymailing_listmail" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_listsub" TargetName="auc13_acymailing_listsub" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_mail" TargetName="auc13_acymailing_mail" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_queue" TargetName="auc13_acymailing_queue" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_rules" TargetName="auc13_acymailing_rules" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_stats" TargetName="auc13_acymailing_stats" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_subscriber" TargetName="auc13_acymailing_subscriber" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_template" TargetName="auc13_acymailing_template" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_url" TargetName="auc13_acymailing_url" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_urlclick" TargetName="auc13_acymailing_urlclick" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_acymailing_userstats" TargetName="auc13_acymailing_userstats" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_assets" TargetName="auc13_assets" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_associations" TargetName="auc13_associations" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_auction2013" TargetName="auc13_auction2013" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_banners" TargetName="auc13_banners" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_banner_clients" TargetName="auc13_banner_clients" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_banner_tracks" TargetName="auc13_banner_tracks" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_categories" TargetName="auc13_categories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_contact_details" TargetName="auc13_contact_details" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_content" TargetName="auc13_content" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_content_frontpage" TargetName="auc13_content_frontpage" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_content_rating" TargetName="auc13_content_rating" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_core_log_searches" TargetName="auc13_core_log_searches" SourceType="Table" TargetType="Table" IncludedInScript="False">
+        <Key Name="Columns">
+          <Column OrderIndex="0" ColumnIndex="0" />
+          <Column OrderIndex="1" ColumnIndex="1" />
+        </Key>
+      </Object>
+      <Object SourceName="auc13_extensions" TargetName="auc13_extensions" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_filters" TargetName="auc13_finder_filters" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links" TargetName="auc13_finder_links" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms0" TargetName="auc13_finder_links_terms0" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms1" TargetName="auc13_finder_links_terms1" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms2" TargetName="auc13_finder_links_terms2" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms3" TargetName="auc13_finder_links_terms3" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms4" TargetName="auc13_finder_links_terms4" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms5" TargetName="auc13_finder_links_terms5" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms6" TargetName="auc13_finder_links_terms6" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms7" TargetName="auc13_finder_links_terms7" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms8" TargetName="auc13_finder_links_terms8" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_terms9" TargetName="auc13_finder_links_terms9" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_termsa" TargetName="auc13_finder_links_termsa" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_termsb" TargetName="auc13_finder_links_termsb" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_termsc" TargetName="auc13_finder_links_termsc" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_termsd" TargetName="auc13_finder_links_termsd" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_termse" TargetName="auc13_finder_links_termse" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_links_termsf" TargetName="auc13_finder_links_termsf" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_taxonomy" TargetName="auc13_finder_taxonomy" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_taxonomy_map" TargetName="auc13_finder_taxonomy_map" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_terms" TargetName="auc13_finder_terms" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_finder_terms_common" TargetName="auc13_finder_terms_common" SourceType="Table" TargetType="Table" IncludedInScript="False">
+        <Key Name="Columns">
+          <Column OrderIndex="0" ColumnIndex="0" />
+          <Column OrderIndex="1" ColumnIndex="1" />
+        </Key>
+      </Object>
+      <Object SourceName="auc13_finder_tokens" TargetName="auc13_finder_tokens" SourceType="Table" TargetType="Table" IncludedInScript="False">
+        <Key Name="Columns">
+          <Column OrderIndex="0" ColumnIndex="0" />
+          <Column OrderIndex="1" ColumnIndex="1" />
+          <Column OrderIndex="2" ColumnIndex="2" />
+          <Column OrderIndex="3" ColumnIndex="3" />
+          <Column OrderIndex="4" ColumnIndex="4" />
+          <Column OrderIndex="5" ColumnIndex="5" />
+        </Key>
+      </Object>
+      <Object SourceName="auc13_finder_tokens_aggregate" TargetName="auc13_finder_tokens_aggregate" SourceType="Table" TargetType="Table" IncludedInScript="False">
+        <Key Name="Columns">
+          <Column OrderIndex="0" ColumnIndex="0" />
+          <Column OrderIndex="1" ColumnIndex="1" />
+          <Column OrderIndex="2" ColumnIndex="2" />
+          <Column OrderIndex="3" ColumnIndex="3" />
+          <Column OrderIndex="4" ColumnIndex="4" />
+          <Column OrderIndex="5" ColumnIndex="5" />
+          <Column OrderIndex="6" ColumnIndex="6" />
+          <Column OrderIndex="7" ColumnIndex="7" />
+          <Column OrderIndex="8" ColumnIndex="8" />
+          <Column OrderIndex="9" ColumnIndex="9" />
+        </Key>
+      </Object>
+      <Object SourceName="auc13_finder_types" TargetName="auc13_finder_types" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_geodesic_categories" TargetName="auc13_geodesic_categories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_geodesic_classifieds_cp" TargetName="auc13_geodesic_classifieds_cp" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_geodesic_classifieds_images_urls" TargetName="auc13_geodesic_classifieds_images_urls" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_geodesic_logins" TargetName="auc13_geodesic_logins" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_geodesic_users" TargetName="auc13_geodesic_users" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_geodesic_users_backup" TargetName="auc13_geodesic_users_backup" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_languages" TargetName="auc13_languages" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_menu" TargetName="auc13_menu" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_menu_types" TargetName="auc13_menu_types" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_messages" TargetName="auc13_messages" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_messages_cfg" TargetName="auc13_messages_cfg" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_modules" TargetName="auc13_modules" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_modules_menu" TargetName="auc13_modules_menu" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_newsfeeds" TargetName="auc13_newsfeeds" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_overrider" TargetName="auc13_overrider" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_product_favorites" TargetName="auc13_product_favorites" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_redirect_links" TargetName="auc13_redirect_links" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_schemas" TargetName="auc13_schemas" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_session" TargetName="auc13_session" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_template_styles" TargetName="auc13_template_styles" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_updates" TargetName="auc13_updates" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_update_categories" TargetName="auc13_update_categories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_update_sites" TargetName="auc13_update_sites" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_update_sites_extensions" TargetName="auc13_update_sites_extensions" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_usergroups" TargetName="auc13_usergroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_users" TargetName="auc13_users" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_user_notes" TargetName="auc13_user_notes" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_user_profiles" TargetName="auc13_user_profiles" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_user_usergroup_map" TargetName="auc13_user_usergroup_map" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_viewlevels" TargetName="auc13_viewlevels" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_adminmenuentries" TargetName="auc13_virtuemart_adminmenuentries" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_calcs" TargetName="auc13_virtuemart_calcs" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_calc_categories" TargetName="auc13_virtuemart_calc_categories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_calc_countries" TargetName="auc13_virtuemart_calc_countries" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_calc_shoppergroups" TargetName="auc13_virtuemart_calc_shoppergroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_calc_states" TargetName="auc13_virtuemart_calc_states" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_categories" TargetName="auc13_virtuemart_categories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_categories_ru_ru" TargetName="auc13_virtuemart_categories_ru_ru" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_category_categories" TargetName="auc13_virtuemart_category_categories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_category_medias" TargetName="auc13_virtuemart_category_medias" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_configs" TargetName="auc13_virtuemart_configs" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_countries" TargetName="auc13_virtuemart_countries" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_coupons" TargetName="auc13_virtuemart_coupons" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_currencies" TargetName="auc13_virtuemart_currencies" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_customs" TargetName="auc13_virtuemart_customs" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_invoices" TargetName="auc13_virtuemart_invoices" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_manufacturercategories" TargetName="auc13_virtuemart_manufacturercategories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_manufacturercategories_ru_ru" TargetName="auc13_virtuemart_manufacturercategories_ru_ru" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_manufacturers" TargetName="auc13_virtuemart_manufacturers" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_manufacturers_ru_ru" TargetName="auc13_virtuemart_manufacturers_ru_ru" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_manufacturer_medias" TargetName="auc13_virtuemart_manufacturer_medias" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_medias" TargetName="auc13_virtuemart_medias" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_virtuemart_migration_oldtonew_ids" TargetName="auc13_virtuemart_migration_oldtonew_ids" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_modules" TargetName="auc13_virtuemart_modules" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_orders" TargetName="auc13_virtuemart_orders" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_orderstates" TargetName="auc13_virtuemart_orderstates" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_order_calc_rules" TargetName="auc13_virtuemart_order_calc_rules" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_order_histories" TargetName="auc13_virtuemart_order_histories" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_order_items" TargetName="auc13_virtuemart_order_items" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_order_userinfos" TargetName="auc13_virtuemart_order_userinfos" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_paymentmethods" TargetName="auc13_virtuemart_paymentmethods" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_paymentmethods_ru_ru" TargetName="auc13_virtuemart_paymentmethods_ru_ru" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_paymentmethod_shoppergroups" TargetName="auc13_virtuemart_paymentmethod_shoppergroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_permgroups" TargetName="auc13_virtuemart_permgroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_products" TargetName="auc13_virtuemart_products" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_virtuemart_products_ru_ru" TargetName="auc13_virtuemart_products_ru_ru" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_virtuemart_product_categories" TargetName="auc13_virtuemart_product_categories" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_virtuemart_product_customfields" TargetName="auc13_virtuemart_product_customfields" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_product_manufacturers" TargetName="auc13_virtuemart_product_manufacturers" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_virtuemart_product_medias" TargetName="auc13_virtuemart_product_medias" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_virtuemart_product_prices" TargetName="auc13_virtuemart_product_prices" SourceType="Table" TargetType="Table" />
+      <Object SourceName="auc13_virtuemart_product_relations" TargetName="auc13_virtuemart_product_relations" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_product_shoppergroups" TargetName="auc13_virtuemart_product_shoppergroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_ratings" TargetName="auc13_virtuemart_ratings" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_rating_reviews" TargetName="auc13_virtuemart_rating_reviews" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_rating_votes" TargetName="auc13_virtuemart_rating_votes" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_shipmentmethods" TargetName="auc13_virtuemart_shipmentmethods" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_shipmentmethods_ru_ru" TargetName="auc13_virtuemart_shipmentmethods_ru_ru" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_shipmentmethod_shoppergroups" TargetName="auc13_virtuemart_shipmentmethod_shoppergroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_shoppergroups" TargetName="auc13_virtuemart_shoppergroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_states" TargetName="auc13_virtuemart_states" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_userfields" TargetName="auc13_virtuemart_userfields" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_userfield_values" TargetName="auc13_virtuemart_userfield_values" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_userinfos" TargetName="auc13_virtuemart_userinfos" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_vendors" TargetName="auc13_virtuemart_vendors" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_vendors_ru_ru" TargetName="auc13_virtuemart_vendors_ru_ru" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_vendor_medias" TargetName="auc13_virtuemart_vendor_medias" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_vmusers" TargetName="auc13_virtuemart_vmusers" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_vmuser_shoppergroups" TargetName="auc13_virtuemart_vmuser_shoppergroups" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_waitingusers" TargetName="auc13_virtuemart_waitingusers" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_virtuemart_worldzones" TargetName="auc13_virtuemart_worldzones" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_weblinks" TargetName="auc13_weblinks" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+      <Object SourceName="auc13_wf_profiles" TargetName="auc13_wf_profiles" SourceType="Table" TargetType="Table" IncludedInScript="False" />
+    </ComparedObjects>
+  </Mapping>
+</CompareDocument>

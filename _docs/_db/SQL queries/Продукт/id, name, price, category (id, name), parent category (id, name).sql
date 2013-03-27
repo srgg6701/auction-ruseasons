@@ -20,3 +20,4 @@ FROM auc13_virtuemart_categories cats
     ON prods_ruru.virtuemart_product_id = prod_cats.virtuemart_product_id
   INNER JOIN auc13_virtuemart_product_prices
     ON auc13_virtuemart_product_prices.virtuemart_product_id = prods_ruru.virtuemart_product_id
+ WHERE cats.virtuemart_category_id = 2
