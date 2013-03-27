@@ -27,7 +27,6 @@ class Auction2013Controller extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{	
-		$layout = JRequest::getVar( 'layout', 'default' );
 		if(!$tview=JRequest::getVar('view'))
 			$tview='importlots';
 		$view=$this->getView($tview, 'html'); 

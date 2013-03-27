@@ -1,11 +1,13 @@
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access'); 
-require_once dirname(__FILE__).DS."helper.php";
+require_once "helper.php";
+
 require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 // загрузить класс Helper (расширяющий JModuleHelper)
 // получить путь к файлу для размещения контента (по умолчанию - tmpl/default.php)
 // $params - object(JRegistry)
+
 require modVlotscatsHelper::getLayoutPath('mod_vlotscats', $params->get('layout', 'default'));
 if (JRequest::getVar('help')):?>
 <ol>
