@@ -128,6 +128,30 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
+	function addSalesRecord($virtuemart_product_id,$sales_price){
+		$db=JFactory::getDBO();		
+		$query = $db->getQuery(true);
+		$query->clear();
+		$query->insert($db->quoteName('#__dev_sales_price'));
+		$query->columns(
+					array( $db->quoteName('virtuemart_product_id'), 
+						   $db->quoteName('sales_price'),
+						 )
+				);
+		$query->values( 
+					$virtuemart_product_id . ', ' . $sales_price
+				); //if ($test) echo "<div style='color:brown'><pre>addProductMedia query= ".$query."</pre></div>";
+	 // $db->setQuery($query);
+		$db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));
+		if(!$db->execute())
+			return array('query', $query);
+		else return true;	
+	}	
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
 	public function getLastId($id,$table,$db=false){
 		$query="SELECT MAX($id) FROM #__".$table;
 		if(!$db) $db=JFactory::getDBO();
@@ -217,13 +241,14 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'date_hide'=>'product_available_date_closed',
 							'price'=>'product_price', 
 							// #__virtuemart_orders:
-							//'sales_price'=>'salesPrice'
+							'sales_price'=>'sales_price'
 						);
 				// go ahead!
 				$data=array();
 				$columns_names=array();
 				$col_count=0;
 				$imgExt=array('gif','jpg','png','wbmp');
+				// извлечь данные из импортируемого файла во временный:
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
 					// $cells - колич. ячеек в строке
 					for ($i=0, $j=count($cells); $i < $j; $i++) {
@@ -268,9 +293,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'price':
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
 									break;
-									case 'sales_price':
-									$data[$data_index]['mprices']['salesPrice'][0]=$cell_content;
-									break;
+									// case 'sales_price':
+									// $data[$data_index]['mprices']['salesPrice'][0]=$cell_content;
+									// break;
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
 								} 
@@ -308,6 +333,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 			// additional "static" fields:
 			$arrDataToUpdate=array(
 							'product_sku' => '',
+							// 'slug' => '',
 							'product_weight' => '',
 							'product_weight_uom' => 'KG',
 							'product_length' => '0,0000',
@@ -348,6 +374,11 @@ class Auction2013ControllerImportlots extends JControllerForm
 				if( //$virtuemart_product_id = 35+$i
 					$virtuemart_product_id = $VmController->import($model,$data_stream)
 				){
+					// var_dump($data_stream);
+					if($data_stream['sales_price'])
+						if(!$this->addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
+							echo "<div><b style='color:red'>ОШИБКА!</b>
+						Не добавлена запись в таблицу #__dev_sales_price...</div>";
 					// add images:
 					// #__virtuemart_medias, then #__virtuemart_product_medias
 					//echo "<BR><div class=''>IMAGES:</div>";
@@ -493,7 +524,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 						echo $imgErrors[$e];	
 				}
 				die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
-			}else
+			}else 
 				$this->setRedirect(JRoute::_($redir), $msg);
 		}
 	}

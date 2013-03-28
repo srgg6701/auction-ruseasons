@@ -533,11 +533,13 @@ class VmTable extends JTable{
 				if(!empty($this->$slugAutoName)){ // VmTableData()->product_name
 					$this->$slugName = $this->$slugAutoName;
 				} else {
-					echo "<div class=''>slugAutoName= ".$slugAutoName."</div>";
-					var_dump($this->$slugAutoName);
-					var_dump($this);
-					echo ('LINE: '.__LINE__);
+					// !$this->product
+					//echo "<div class=''>slugAutoName= ".$slugAutoName."</div>";
+					//var_dump($this->$slugAutoName);
+					//var_dump($this);
+					//echo ('LINE: '.__LINE__);
 					vmError('VmTable '.$checkTable.' Check not passed. Neither slug nor obligatory value at '.$slugAutoName.' for auto slug creation is given');
+					// .'<br>slugName = '.$slugName.', slugAutoName var_name = '.$slugAutoName 
 					return false;
 				}
 

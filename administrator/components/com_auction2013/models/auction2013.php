@@ -126,6 +126,17 @@ class Auction2013ModelAuction2013 extends JModelList
 				if (!$db->query())
 					JError::raiseError(500, $db->getErrorMsg());
 			}
+			// delete from sales:
+			$db	= JFactory::getDBO();
+			$query	= $db->getQuery(true);
+			$query->delete();
+			$query->from($db->quoteName('#__dev_sales_price'));
+			$query->where($inIds);
+			$db->setQuery((string) $query);
+			//echo "<hr><div class=''>query[".__LINE__."]= ".$query."</div>";
+			if (!$db->query())
+				JError::raiseError(500, $db->getErrorMsg());
+								
 			return true;
 		}else
 			return false;
