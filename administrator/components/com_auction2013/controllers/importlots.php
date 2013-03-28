@@ -217,7 +217,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'date_hide'=>'product_available_date_closed',
 							'price'=>'product_price', 
 							// #__virtuemart_orders:
-							'sales_price'=>'salesPrice'
+							//'sales_price'=>'salesPrice'
 						);
 				// go ahead!
 				$data=array();
