@@ -17,7 +17,7 @@ require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'contro
  */
 class Auction2013ControllerImportlots extends JControllerForm
 {
-    function __construct() {
+    public function __construct() {
         parent::__construct();
     }
 	public function display($view=false)
@@ -25,11 +25,30 @@ class Auction2013ControllerImportlots extends JControllerForm
 		$view->display(); 
 	}
 /**
+ * Обработать текст названия, сохранить как slug
+ * @package
+ * @subpackage
+ */
+	public function handleSlug($slug,&$words,&$allwords){
+		$noquote=mb_ereg_replace("&quot;","",$slug);
+		$handled=mb_ereg_replace("[^A-Za-zА-Яа-я0-9\.,\-\s]","", $noquote);
+		$handled=mb_ereg_replace(" ","-",$handled);
+		if($key=array_search($handled,$allwords)!==false){
+			if(!isset($words[$handled])){ 
+				$words[$handled]=1;
+			}else{ 
+				$words[$handled]+=1;
+			}
+			$handled=$handled.'-'.$words[$handled];
+		}
+		$allwords[]=$handled;	
+	}
+/**
  * Описание
  * @package
  * @subpackage
  */
-	function clear(){
+	public function clear(){
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$data	= JRequest::get('post');
 		$sections=$data['section'];
@@ -101,7 +120,7 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
-	function addProductMedia($virtuemart_product_id, $order, $test=false){
+	private function addProductMedia($virtuemart_product_id, $order, $test=false){
 		$db=JFactory::getDBO();		
 		$query = $db->getQuery(true);
 		$query->clear();
@@ -128,7 +147,7 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
-	function addSalesRecord($virtuemart_product_id,$sales_price){
+	private function addSalesRecord($virtuemart_product_id,$sales_price){
 		$db=JFactory::getDBO();		
 		$query = $db->getQuery(true);
 		$query->clear();
@@ -170,7 +189,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 	// TODO: прояснить таки момент с недобавлением картинок с неуникальными URL:
 	// - при отработке данного скрипта записи в 2 последние таблицы просто не добавляются. Какие параметры и как можно использовать, чтобы были возможны другие варианты, те, что доступны при управлении изображениями товара через интерфейс VirtueMart'а?
 	
-	function import(){
+	public function import(){
 		
 		$test=false;
 
@@ -370,10 +389,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$data_stream['mprices']['product_price_publish_up']=array('0000-00-00 0:00:00');
 				$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
 				$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
-
-				if( //$virtuemart_product_id = 35+$i
-					$virtuemart_product_id = $VmController->import($model,$data_stream)
-				){
+				//$virtuemart_product_id = 35+$i	
+				if($virtuemart_product_id=$VmController->import($model,$data_stream)){
 					// var_dump($data_stream);
 					if($data_stream['sales_price'])
 						if(!$this->addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
@@ -453,8 +470,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 									if (!$MediasTable->store(true)){
 										echo $MediasTable->getError();
 										$imgErrors[].="<div>Не сохранена запись в таблице Medias.</div>";
-									}
-									else{
+									}else{
 										
 										if($test)
 											echo "<div style='color:blue;'>Добавлена запись в таблицу Medias; line: ".__LINE__."</div>";
