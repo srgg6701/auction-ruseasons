@@ -42,6 +42,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 			$handled=$handled.'-'.$words[$handled];
 		}
 		$allwords[]=$handled;	
+		return $handled;
 	}
 /**
  * Описание
@@ -296,6 +297,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 							$data_index=$row_count-1;
 							if (isset($enc_from)&&isset($enc_to))
 								$cell_content=iconv($enc_from,$enc_to,$cell_content);							
+								if(!$data[$data_index]['slug'])
+									$data[$data_index]['slug']=$this->handleSlug($cell_content,$words,$allwords);
 							// если не кончились уникальные заголовки:
 							if($col_count>$i){
 								//имя текущего столбца, в том порядке, в котором расположены в файле:
@@ -312,9 +315,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'price':
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
 									break;
-									// case 'sales_price':
-									// $data[$data_index]['mprices']['salesPrice'][0]=$cell_content;
-									// break;
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
 								} 
