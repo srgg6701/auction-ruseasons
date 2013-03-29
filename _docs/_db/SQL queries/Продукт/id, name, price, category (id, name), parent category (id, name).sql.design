@@ -17,7 +17,7 @@
       <Data>
         <StatementType>Select</StatementType>
         <ActiveQuery>0</ActiveQuery>
-        <SubQuery Id="0" Open="0" LocationX="-3761.08853244771" LocationY="-173.588701497587" Scale="0.03456446">
+        <SubQuery Id="0" Open="0" LocationX="183.673465812966" LocationY="-7.14285700383757" Scale="0.98">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
             <VerticalOverlap>0</VerticalOverlap>
@@ -63,10 +63,10 @@
         </SubQuery>
       </Data>
     </View>
-    <View Name="Code" Visible="True">
+    <View Name="Code" Active="True" Visible="True">
       <Data />
     </View>
-    <View Name="Data" Active="True" Visible="True" />
+    <View Name="Data" Visible="True" />
     <View Name="Profiler" Visible="False" />
     <View Name="PivotGrid" Visible="False" />
   </Views>

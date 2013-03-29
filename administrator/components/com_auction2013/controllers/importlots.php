@@ -41,7 +41,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 			}
 			$handled=$handled.'-'.$words[$handled];
 		}
-		$allwords[]=$handled;	
+		$allwords[]=$handled;
+		echo "<div class=''>handled slug: ".$handled."</div>";	
 		return $handled;
 	}
 /**
@@ -268,6 +269,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$columns_names=array();
 				$col_count=0;
 				$imgExt=array('gif','jpg','png','wbmp');
+				$words=$allwords=array();
 				// извлечь данные из импортируемого файла во временный:
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
 					// $cells - колич. ячеек в строке
@@ -297,13 +299,13 @@ class Auction2013ControllerImportlots extends JControllerForm
 							$data_index=$row_count-1;
 							if (isset($enc_from)&&isset($enc_to))
 								$cell_content=iconv($enc_from,$enc_to,$cell_content);							
-								if(!$data[$data_index]['slug'])
-									$data[$data_index]['slug']=$this->handleSlug($cell_content,$words,$allwords);
 							// если не кончились уникальные заголовки:
 							if($col_count>$i){
 								//имя текущего столбца, в том порядке, в котором расположены в файле:
 								$column_name=$columns_names[$i];
 								//echo "<div class=''>column_name= ".$column_name."</div>";
+								if($column_name=='title')
+									$data[$data_index]['slug']=$this->handleSlug($cell_content,$words,$allwords);									
 								switch($column_name){
 									case 'date_show':
 									case 'date_hide':
@@ -540,8 +542,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 						echo $imgErrors[$e];	
 				}
 				die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
-			}else 
+			}else{ 
+				//var_dump($words); 
+				//var_dump($allwords); 
+				//die();
 				$this->setRedirect(JRoute::_($redir), $msg);
+			}
 		}
 	}
 /**
