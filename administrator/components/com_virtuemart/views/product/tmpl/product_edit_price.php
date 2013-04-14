@@ -178,23 +178,25 @@ $rowColor = 0;
 			echo VmHtml::radioList ('mprices[override][' . $this->priceCounter . ']', $this->tempProduct->override, $options);
 			?>
         </td>
-        <td>
-            <div style="font-weight: bold;">
-				<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_PRICE_QUANTITY_RANGE') ?>
+        <td colspan="2">
+        <?	/*	MODIFIED START */?>
+            <div style="font-weight: bold;margin-bottom: 4px;">
+				Предварительная оценка
+				<?php //echo JText::_ ('COM_VIRTUEMART_PRODUCT_PRICE_QUANTITY_RANGE') ?>
             </div>
-            <input type="text"
+            От <input type="text"
                    size="12"
                    style="text-align:right;" name="mprices[price_quantity_start][]"
-                   value="<?php echo $this->tempProduct->price_quantity_start ?>"/>
-        </td>
-        <td>
-            <br/>
-            <input type="text"
+                   value="<?php echo $this->tempProduct->price_quantity_start ?>"/> руб.
+			<br>
+            До <input type="text"
                    size="12"
                    style="text-align:right;" name="mprices[price_quantity_end][]"
-                   value="<?php echo $this->tempProduct->price_quantity_end  ?>"/>
+                   value="<?php echo $this->tempProduct->price_quantity_end  ?>"/> руб.
+         <?	/*	MODIFIED END	*/?>
         </td>
     </tr>
+
 </table>
 
 

@@ -2,7 +2,7 @@ SELECT
   auc13_virtuemart_products_ru_ru.virtuemart_product_id, 
   auc13_virtuemart_products_ru_ru.product_name,
   auc13_virtuemart_product_prices.product_price,
-  
+ 
   CONCAT(cats.virtuemart_category_id, ':', cats_ruru.virtuemart_category_id, ':', prod_cats.virtuemart_category_id, ':', cat_cats.category_child_id) AS 'category_id',
   cats_ruru.category_name,
   

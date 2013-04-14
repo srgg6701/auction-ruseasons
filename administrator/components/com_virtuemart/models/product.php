@@ -631,6 +631,7 @@ FROM #__virtuemart_product_categories AS cats
 		if (!array_key_exists ($productKey, $_products)) {
 
 			$child = $this->getProductSingle ($virtuemart_product_id, $front,$quantity);
+			// var_dump($child); 
 			if (!$child->published && $onlyPublished) {
 				vmdebug('getProduct child is not published, returning zero');
 				return FALSE;
@@ -726,8 +727,7 @@ FROM #__virtuemart_product_categories AS cats
 				$_products[$productKey] = $child;
 			}
 
-		}
-
+		} //var_dump($_products[$productKey]);
 		return $_products[$productKey];
 	}
 

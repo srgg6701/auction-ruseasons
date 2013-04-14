@@ -278,6 +278,36 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 	}
 
 /**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function getProductPrices($virtuemart_product_id){
+		// Create a new query object.
+        $db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		// Select fields from the table.
+		$query->select("price_quantity_start,  price_quantity_end"); 
+		$query->from($db->quoteName('#__virtuemart_product_prices'));
+		$query->where('virtuemart_product_id = '.$virtuemart_product_id);
+		$db->setQuery($query); // а иначе вытащит старый запрос!
+		//echo "<div class=''><pre>query: ".str_replace("#_","auc13",$query)."</pre></div>";
+		$result=$db->loadRow();
+		if(!$result[0]) $result[0]='?';
+		if(!$result[1]) $result[1]='?';
+		return $result;  
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function writeProductPrices($virtuemart_product_id){
+		$prices=self::getProductPrices($virtuemart_product_id);
+		echo $prices[0].' - '.$prices[1];
+	}
+	
+/**
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
  * @package
  * @subpackage
@@ -667,6 +697,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 </div>	
 <?	}
 }
+
 class DateAndTime{
 	private $datetime;
 /**

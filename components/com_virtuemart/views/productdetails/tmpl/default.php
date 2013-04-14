@@ -32,7 +32,7 @@ $templateUrl=JUri::root().'templates/auction/';?>
 <link href="<?=$templateUrl?>magic_zoom/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
 <script src="<?=$templateUrl?>magic_zoom/magiczoomplus.js" type="text/javascript"></script>
 <?
-require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
+require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product); die();
 $virtuemart_category_id=$this->product->virtuemart_category_id;
 $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
 if($router = JFactory::getApplication()->getRouter()){
@@ -128,7 +128,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 
   <div class="box_desc">
     <div class="bord_bottom">
-      <b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
+      <b><?=$this->product->product_name?></b>
     </div>
     <div class="o_o">
        <span style="color:#000">
@@ -154,31 +154,21 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
     <div class="o_o">
       Начало торгов:................. 
       <span class="span_o_o">
-          <b>
-   		      <?=$this->product->auction_date_start?>
-          </b>
+          <b><?=JHTML::_('date', $this->product->auction_date_start, JText::_('DATE_FORMAT_LC2'))?></b>
       </span>
     </div>		   
     <div class="o_o">
       Конец торгов:................... 
       <span class="span_o_o">
-          <b>
-   		      <?=$this->product->auction_date_finish?>
-          </b>
+          <b><?=JHTML::_('date', $this->product->auction_date_finish, JText::_('DATE_FORMAT_LC2'))?></b>
       </span>
     </div>				  
     <div class="o_o">
       Предварительная оценка: 
       <span class="span_o_o">
           <b>
-   		      <?
-	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
-          </b>  
-          <b>
-       	      - ? ? ? ?
-             <!-- - 150000-->
-          </b>   
-          рублей
+	  <? AuctionStuff::writeProductPrices($this->product->virtuemart_product_id);?>
+          </b> 
       </span>
     </div>
   </div>        

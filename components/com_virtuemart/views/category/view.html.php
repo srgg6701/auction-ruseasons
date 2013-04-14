@@ -177,6 +177,7 @@ class VirtuemartViewCategory extends VmView {
 		/*	MODIFIED END	*/		
 		// Load the products in the given category
 	    $products = $productModel->getProductsInCategory($categoryId);
+		//var_dump($products); die();
 	    $productModel->addImages($products,1);
 
 	    $this->assignRef('products', $products);

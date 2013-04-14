@@ -21,7 +21,7 @@ HTML::pageHead(
 			$this->vmPagination
 		);
 if(JRequest::getVar('spag'))
-	var_dump($this->vmPagination); ?>
+	var_dump($this->vmPagination); // var_dump($this); //die();?>
 <div class="item-page-shop fulltime">
 <br>
 <?
@@ -72,7 +72,8 @@ if ($this->search !== NULL):?>
 <?	endif;
 
 // here all rock & roll begins! Yo.
-if (!empty($this->products)) {?>
+if (!empty($this->products)) { 
+	// var_dump($this->products);?>
 	<table>
 <?
 	// array => object
@@ -87,9 +88,17 @@ if (!empty($this->products)) {?>
             </td>
 			<td class="desc">
             	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
-	<?	if (!empty($product->product_s_desc)):?>
-	  <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
-<?php 	endif; 
+	<?	
+		if (!empty($product->product_s_desc)):
+			$prod_desc='product_s_desc';
+		else:
+			$prod_desc='product_desc';
+		endif; ?>
+	  <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->$prod_desc, 140, '...')?></p>
+      <p class="txtBrown">Предварительная оценка: 
+	<?	AuctionStuff::writeProductPrices($product->virtuemart_product_id);?></p>
+      <p><a href="<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>">Сделать заочный бид</a></p>
+<?php 	
 
 		if ($this->show_prices == '1') {
 

@@ -265,8 +265,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 							// выставлять на сайте с/пд:
 							'date_show'=>'product_available_date', 
 							'date_hide'=>'product_available_date_closed',
-							'price'=>'product_price', 
-							// #__virtuemart_orders:
+							'price'=>'product_price', // БУДЕТ скопировано 
+							// и ДОБАВЛЕНО в массив $data в блоке switch ниже 
+							// и записано как .price_quantity_start:
+							'max_price'=>'price_quantity_end',
+							// будет записано методом $this->addSalesRecord()
+							// в #__dev_sales_price, NOT #__virtuemart_orders!:
 							'sales_price'=>'sales_price'
 						);
 				// go ahead!
@@ -329,10 +333,17 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'date_start':
 									case 'date_stop':
 										$dt=explode('.',$cell_content_decoded);
-										$data[$data_index][$arrFields[$column_name]]=trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
+										//echo "<div class=''>DATES</div>";
+										//var_dump($dt);
+										$data[$data_index][$arrFields[$column_name]]=$dt[0];
+										//trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
 									break;
 									case 'price':
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content_decoded;
+										$data[$data_index]['mprices']['price_quantity_start'][0]=$cell_content_decoded;
+									break;
+									case 'max_price':
+										$data[$data_index]['mprices']['price_quantity_end'][0]=$cell_content_decoded;
 									break;
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content_decoded;
@@ -351,7 +362,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 					$row_count++;
 				}
                 fclose($handle);
-			} // //var_dump($images);//die(); //echo "<hr><hr>";
+			} //var_dump($data);die(); //echo "<hr><hr>";
 			
 			$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
@@ -393,20 +404,20 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'published' => '1',
 							'created_on' => date('Y-m-d H:i:s'),
 							'product_unit' => 'KG',
-							'price_quantity_start'=>array(''),
-							'price_quantity_end'=>array(''),
+							//'price_quantity_start'=>array(''),
+							//'price_quantity_end'=>array(''),
 							'categories' => array($virtuemart_category_id),
 						); /*?>
             <h4>Импортированные предметы:</h4>
 			<?*/	// var_dump($data); //die(); echo "<hr><hr>";
 			foreach($data as $i=>$data_stream){ 
 				
-				echo "<h1>index = ".$i."</h1>";
+				/*echo "<h1>index = ".$i."</h1>";
 				foreach($data_stream as $key=>$val)
 					if($key=='product_name')
 						echo "<h3>$key => $val</h3>";
 					else
-						echo "<div>$key => $val</div>";
+						echo "<div>$key => $val</div>";*/
 							
 				foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;

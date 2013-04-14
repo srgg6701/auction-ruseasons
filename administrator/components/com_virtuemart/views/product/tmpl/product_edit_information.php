@@ -32,16 +32,16 @@ $i=0;
         <td width="50%">
 			<table width="100%" class="adminform">
 				<tr class="row<?php echo $i?>">
-					<td ><div style="text-align: right; font-weight: bold;">
+					<td><div style="text-align: right; font-weight: bold;">
 					<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_PUBLISH') ?></div>
 					</td>
-					<td >
+					<td>
 						<?php echo  VmHTML::checkbox('published', $this->product->published); ?>
 					</td>
-                    <td ><div style="text-align:right;font-weight:bold;">
+                    <td><div style="text-align:right;font-weight:bold;">
 						<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_SPECIAL') ?></div>
                     </td>
-                    <td >
+                    <td>
 						<?php echo VmHTML::checkbox('product_special', $this->product->product_special); ?>
                     </td>
 				</tr>
@@ -65,7 +65,7 @@ $i=0;
 				</tr>
 				<?php $i = 1 - $i; ?>
 				<tr class="row<?php echo $i?>">
-					<td " height="18"><div style="text-align:right;font-weight:bold;">
+					<td height="18"><div style="text-align:right;font-weight:bold;">
 						<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_ALIAS') ?></div>
 					</td>
 					<td  height="18" colspan="3" >
@@ -260,7 +260,7 @@ $i=0;
     </table>
     <div class="button2-left">
         <div class="blank">
-            <a href="#" id="add_new_price" "><?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_ADD_PRICE') ?> </a>
+            <a href="#" id="add_new_price"><?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_ADD_PRICE') ?> </a>
         </div>
     </div>
 
