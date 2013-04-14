@@ -9,6 +9,11 @@
 
 // No direct access
 defined('_JEXEC') or die;
+header('Content-Type: text/html; charset=utf-8');
+//mb_internal_encoding("UTF-8");
+
+setlocale(LC_ALL, 'ru_RU.CP1251');
+
 jimport('joomla.application.component.controllerform');
 // подключить главный контроллер компонента:
 require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'controller.php';
@@ -31,7 +36,7 @@ class Auction2013ControllerImportlots extends JControllerForm
  */
 	public function handleSlug($slug,&$words,&$allwords){
 		$noquote=mb_ereg_replace("&quot;","",$slug);
-		$handled=mb_ereg_replace("[^A-Za-zА-Яа-я0-9\.,\-\s]","", $noquote);
+		$handled=mb_ereg_replace("[^A-Za-zА-Яа-я0-9\.,\-\s\(\)]","", $noquote);
 		$handled=mb_ereg_replace(" ","-",$handled);
 		if($key=array_search($handled,$allwords)!==false){
 			if(!isset($words[$handled])){ 
@@ -274,20 +279,20 @@ class Auction2013ControllerImportlots extends JControllerForm
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
 					// $cells - колич. ячеек в строке
 					for ($i=0, $j=count($cells); $i < $j; $i++) {
+						$csv_cell_content=$cells[$i];
 						
-						$cell_content=$cells[$i];
 						// если первая строка файла - собираем заголовки:
 						if(!$row_count){ 
 							// если поле не было добавлено ранее. 
 							// нужно, чтобы предотвратить более одного добавления
 							// картинок, т.к., остальные должны добавляться
 							// ПОСЛЕ добавления записи в БД:
-							if( !in_array($cell_content,$columns_names)
-							    && $cell_content
-								&& $cell_content != 'img'
+							if( !in_array($csv_cell_content,$columns_names)
+							    && $csv_cell_content
+								&& $csv_cell_content != 'img'
 							  ) { 
 							  	// сформировать порядок полей в пришедшем файле:
-								$columns_names[]=$cell_content;
+								$columns_names[]=$csv_cell_content;
 								// $columns_names[0] = 'date_hide';
 								// $columns_names[1] = 'contract_number';
 								if(!$row_count)
@@ -296,35 +301,47 @@ class Auction2013ControllerImportlots extends JControllerForm
 							
 						}else{
 							
+							//if($i==7) echo "<hr><div>ENCODED($i): ".$csv_cell_content."</div>";
+							
+							
 							$data_index=$row_count-1;
 							if (isset($enc_from)&&isset($enc_to))
-								$cell_content=iconv($enc_from,$enc_to,$cell_content);							
+								$cell_content_decoded=iconv($enc_from,$enc_to,$csv_cell_content);					
+							else $cell_content_decoded=$csv_cell_content;				
+							
+							
+							//if($i==7) echo "<div style='color:green'>DECODED($i): ".$cell_content_decoded."</div>";
+							
+							
 							// если не кончились уникальные заголовки:
 							if($col_count>$i){
 								//имя текущего столбца, в том порядке, в котором расположены в файле:
 								$column_name=$columns_names[$i];
 								//echo "<div class=''>column_name= ".$column_name."</div>";
-								if($column_name=='title')
-									$data[$data_index]['slug']=$this->handleSlug($cell_content,$words,$allwords);									
+								//echo "<br><div>column_name = $column_name</div><hr>";
+								if($column_name=='title'){
+									$data[$data_index]['slug']=$this->handleSlug($cell_content_decoded,$words,$allwords);
+								}
+								//if($i==7){ echo "<h4>column_name= ".$column_name."</h4>"; echo "<div style='color:orange'><b>cell_content_decoded:</b> ".$cell_content_decoded."</div>"; }
 								switch($column_name){
 									case 'date_show':
 									case 'date_hide':
 									case 'date_start':
 									case 'date_stop':
-										$dt=explode('.',$cell_content);
+										$dt=explode('.',$cell_content_decoded);
 										$data[$data_index][$arrFields[$column_name]]=trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
 									break;
 									case 'price':
-										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
+										$data[$data_index]['mprices']['product_price'][0]=$cell_content_decoded;
 									break;
 									default:
-										$data[$data_index][$arrFields[$column_name]]=$cell_content;
+										$data[$data_index][$arrFields[$column_name]]=$cell_content_decoded;
 								} 
 							}else{
 								// сформировать массив вторичных картинок:
-								$picExt=array_pop(explode('.',$cell_content));
+								$picExt=array_pop(explode('.',$cell_content_decoded));
 								if(in_array(strtolower($picExt),$imgExt)){
-									$images[$data_index][]=$cell_content;
+									$images[$data_index][]=$cell_content_decoded;
 								}
 							}
 							if(!$images[$data_index])
@@ -382,7 +399,15 @@ class Auction2013ControllerImportlots extends JControllerForm
 						); /*?>
             <h4>Импортированные предметы:</h4>
 			<?*/	// var_dump($data); //die(); echo "<hr><hr>";
-			foreach($data as $i=>$data_stream){ //var_dump($data_stream);//die();
+			foreach($data as $i=>$data_stream){ 
+				
+				echo "<h1>index = ".$i."</h1>";
+				foreach($data_stream as $key=>$val)
+					if($key=='product_name')
+						echo "<h3>$key => $val</h3>";
+					else
+						echo "<div>$key => $val</div>";
+							
 				foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
 
@@ -543,11 +568,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 				}
 				die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
 			}else{ 
-				//var_dump($words); 
-				//var_dump($allwords); 
-				//die();
 				$this->setRedirect(JRoute::_($redir), $msg);
-			}
+			}	//die();
 		}
 	}
 /**

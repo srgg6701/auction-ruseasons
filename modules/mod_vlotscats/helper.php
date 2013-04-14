@@ -26,7 +26,8 @@ WHERE cat_cats.category_parent_id = 0';
 		if($published)
 			$query.=' AND cats.`published` = "1"';
 		$query.='
-ORDER BY cats.ordering'; 
+ORDER BY cats.ordering';  // echo "<div class=''><hr>getTopCategories()<pre><b>query:</b> ".str_replace("#_","auc13",$query)."</pre><hr></div>"; //die();
+
 		if(!$db) 
 			$db=JFactory::getDBO();
 		$db->setQuery($query);
@@ -98,7 +99,7 @@ ORDER BY cats.ordering';
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
 				 $order;
-			// echo "<div class=''><pre>q= ".str_replace("#_","auc13",$q)."</pre></div>"; //die();
+			//echo "<div class=''><hr><pre>q= ".str_replace("#_","auc13",$q)."</pre><hr></div>"; //die();
 			$db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(

@@ -41,7 +41,8 @@ class Auction2013Helper
 				'title'=>'Название лота',
 				'short_desc'=>'Краткое описание лота',
 				'desc'=>'Описание лота',
-				'price'=>'Стартовая цена|только цифры', // ?
+				'price'=>'Минимальная предварительная цена|только цифры', // ?
+				'max_price'=>'Максимальная предварительная цена|только цифры', 
 				'sales_price'=>'Конечная цена|только цифры',
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.|имя.расширение',
 			);
@@ -183,25 +184,27 @@ class Export{
   REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
   '' AS 'short_desc',
-  prods.description AS 'desc',
-  prods.current_bid AS 'price',
-  prods.final_price AS 'sales_price', 
+  prods.description AS 'desc', 
+  prods.price, 								-- min price
+  prods.optional_field_2 AS 'max_price',	-- max price
+  prods.final_price AS 'sales_price', 		-- final price
   prods.image AS 'images',
   prods.id";
-  /*-- cats.category_name,
-  -- cats.category_id,
-  -- prods.order_item_id,
-  -- prods.item_type,
-  -- prods.quantity,
-  -- prods.auction_type,
-  -- prods.price_plan_id,
-  -- prods.seller,
-  -- prods.live,
-  -- prods.precurrency,
-  -- prods.postcurrency,
-  -- prods.duration,
+/*,
+  prods.current_bid AS 'price', 
+  cats.category_name,
+  cats.category_id,
+  prods.order_item_id,
+  prods.item_type,
+  prods.quantity,
+  prods.auction_type,
+  prods.price_plan_id,
+  prods.seller,
+  prods.live,
+  prods.precurrency,
+  prods.postcurrency,
+  prods.duration,
   
-  prods.optional_field_2 AS 'optf-1',
   prods.optional_field_1 AS 'optf-2',
   prods.optional_field_3 AS 'optf-3',
   prods.optional_field_4 AS 'optf-4',
@@ -232,7 +235,7 @@ ORDER BY cats.category_name, prods.title";
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		$prods=$db->loadAssocList();
-		// echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+		//echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; die();
 		$headers=$this->getActualFields();
 		array_unshift($prods,$headers);
 		return $prods;
@@ -342,6 +345,7 @@ ORDER BY cats.category_name, prods.title";
 							'short_desc' => string '' (length=0)
 							'desc' => string 'Живопись на кости, 1820-е годы, 7.7х5.5 см, рамка дерево, металл, 14.2х12 см' (length=119)
 							'price' => string '0' (length=1)
+							'max_price' => ?
 							'sales_price' => string '0' (length=1)
 							'category_id' => string '313' (length=3)
 							================================================
@@ -367,6 +371,7 @@ ORDER BY cats.category_name, prods.title";
 					}
 					unset($images);
 				}else{
+					// получить столбцы:
 					$data=$fields;
 				}
 				unset($data['id']);

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), export template file-->
+<!-- Modifying this generated file will probably render it invalid -->
+<ExportTemplate FormatVersion="1">
+  <LastSuccessfullDate>0001-01-01T00:00:00</LastSuccessfullDate>
+  <ConnectionName>auction ruse</ConnectionName>
+  <ConnectionString>User Id=auctionru_ruse;Host=VIP-32.spaceweb.ru;Database=auctionru_ruse;Ping Interval=240;Character Set=utf8</ConnectionString>
+  <Database>auctionru_ruse</Database>
+  <OutputDirectory>C:\Users\Srgg\Documents\dbForge Studio for MySQL\Export</OutputDirectory>
+  <BaseFileName>auctionru_ruse</BaseFileName>
+  <Mode>All</Mode>
+  <AppendTimestamp>True</AppendTimestamp>
+  <MaxDays>0</MaxDays>
+  <MaxFilesCount>0</MaxFilesCount>
+  <Compression />
+  <DatabaseObjects>
+    <DatabaseObjectType ObjectType="Table">
+      <DatabaseObject>geodesic_classifieds_cp</DatabaseObject>
+    </DatabaseObjectType>
+  </DatabaseObjects>
+  <Options>
+    <PropertyValue Name="LockTables">false</PropertyValue>
+    <PropertyValue Name="IncludeUserInfo">false</PropertyValue>
+    <PropertyValue Name="DisableConstraints">false</PropertyValue>
+    <PropertyValue Name="UseDelayedInsert">false</PropertyValue>
+    <PropertyValue Name="PlaceDataJustAfterTableDefinition">false</PropertyValue>
+    <PropertyValue Name="InsertCommit">false</PropertyValue>
+    <PropertyValue Name="InsertCommitAfter" xml:space="preserve">100</PropertyValue>
+    <PropertyValue Name="IncludeColumnNames">false</PropertyValue>
+    <PropertyValue Name="BulkInsert">true</PropertyValue>
+    <PropertyValue Name="UseHexForBinary">false</PropertyValue>
+    <PropertyValue Name="FormatDdlText">false</PropertyValue>
+    <PropertyValue Name="SingleTransaction">false</PropertyValue>
+    <PropertyValue Name="LockAllTablesForRead">false</PropertyValue>
+    <PropertyValue Name="FlushLogs">false</PropertyValue>
+    <PropertyValue Name="IncludeEngine">false</PropertyValue>
+    <PropertyValue Name="IncludePartitionClause">true</PropertyValue>
+    <PropertyValue Name="ListIndividualHashPartitions">true</PropertyValue>
+    <PropertyValue Name="IgnoreDefiner">false</PropertyValue>
+    <PropertyValue Name="ResetTimestampToCurrentTimestamp">false</PropertyValue>
+    <PropertyValue Name="UseCreateOrReplace">true</PropertyValue>
+    <PropertyValue Name="IncludeConstraints">true</PropertyValue>
+    <PropertyValue Name="IncludeTriggers">true</PropertyValue>
+    <PropertyValue Name="IncludeIndexes">true</PropertyValue>
+    <PropertyValue Name="IncludeComments">true</PropertyValue>
+    <PropertyValue Name="DisableForeignKeys">true</PropertyValue>
+    <PropertyValue Name="IncludeAdditional">true</PropertyValue>
+    <PropertyValue Name="IgnoreColumnDefaultValues">false</PropertyValue>
+    <PropertyValue Name="IgnoreUdfs">true</PropertyValue>
+    <PropertyValue Name="WriteLog">false</PropertyValue>
+    <PropertyValue Name="LogFileName" xml:space="preserve">C:\Users\Srgg\Documents\dbForge Studio for MySQL\Export\Backup.log</PropertyValue>
+    <PropertyValue Name="ErrorHandlingMode">0</PropertyValue>
+    <PropertyValue Name="IncludeDrop">true</PropertyValue>
+    <PropertyValue Name="IncludeIfExists">true</PropertyValue>
+    <PropertyValue Name="IncludeIfNotExists">false</PropertyValue>
+    <PropertyValue Name="IncludeCreateDatabase">false</PropertyValue>
+    <PropertyValue Name="IncludeUseDatabase">true</PropertyValue>
+    <PropertyValue Name="IncludeGrants">false</PropertyValue>
+    <PropertyValue Name="UseSchemaNamePrefix">false</PropertyValue>
+    <PropertyValue Name="GenerateComments">true</PropertyValue>
+    <PropertyValue Name="IncludePurge">false</PropertyValue>
+    <PropertyValue Name="IncludeCascadeConstraints">false</PropertyValue>
+    <PropertyValue Name="UseDelimiter">false</PropertyValue>
+    <PropertyValue Name="SplitAlterTable">false</PropertyValue>
+    <PropertyValue Name="IncludeColumnsOnly">false</PropertyValue>
+    <PropertyValue Name="IncludeEncryptedPassword">true</PropertyValue>
+    <PropertyValue Name="IncludeObjectGrants">false</PropertyValue>
+  </Options>
+</ExportTemplate>

@@ -1,7 +1,7 @@
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
+$test=(JRequest::getVar('test'))? true:false;
 $session =JFactory::getSession();
 if(!$session->get('section_links')){?>
 <script>location.reload();</script>
@@ -59,6 +59,7 @@ foreach($lots as $top_cat_id => $array){
 		foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):
+					//var_dump($category_data);
 					$product_count=(int)$category_data['product_count'];
 					$top_cat_count+=$product_count;
 	
