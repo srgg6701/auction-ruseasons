@@ -43,7 +43,8 @@ class VirtueMartViewProductdetails extends VmView {
 //		$dispatcher	= JDispatcher::getInstance();
 //		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-	$show_prices = VmConfig::get('show_prices', 1);
+	$show_prices = VmConfig::get('show_prices', 1); // 1
+	
 	if ($show_prices == '1') {
 	    if (!class_exists('calculationHelper'))
 		require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'calculationh.php');
@@ -313,7 +314,7 @@ class VirtueMartViewProductdetails extends VmView {
 
 
 	$showBasePrice = Permissions::getInstance()->check('admin'); //todo add config settings
-	$this->assignRef('showBasePrice', $showBasePrice);
+	$this->assignRef('showBasePrice', $showBasePrice); // true / false
 
 	$productDisplayShipments = array();
 	$productDisplayPayments = array();
@@ -341,9 +342,8 @@ class VirtueMartViewProductdetails extends VmView {
 	$this->assignRef('currency', $currency);
 
 	if(JRequest::getCmd( 'layout', 'default' )=='notify') $this->setLayout('notify'); //Added by Seyi Awofadeju to catch notify layout
-
-
-	parent::display($tpl);
+		// var_dump($this->currency); die();
+		parent::display($tpl);
     }
 
 	function renderMailLayout ($doVendor, $recipient) {

@@ -20,7 +20,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-			
+$test=JRequest::getVar('test');
+$show=JRequest::getVar('show');			
 			if(JRequest::getVar('source')):
 				require_once 'source/default.php';
 			
@@ -328,6 +329,8 @@ require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
 				  ...	*/
 $virtuemart_category_id=$this->product->virtuemart_category_id;
 $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
+$currency=AuctionStuff::getProductCurrency($virtuemart_product_id).'.';
+
 if($router = JFactory::getApplication()->getRouter()){
 	$session=&JFactory::getSession();
 	$links=$session->get('section_links');
@@ -424,19 +427,26 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 
   <div class="box_desc">
     <div class="bord_bottom txtBrown">
-    <? $dots=".................";?>
-      <b><?=$this->product->product_name?></b>
+    <? $dots=".................";
+	if($test){?><h3>Очные торги, Магазин:</h3>
+    	<p>Наименование</p>
+    	<p>Описание</p>
+<? 	}?>
+		<b><?=$this->product->product_name?></b>
     </div>
     <div class="o_o">
        <span style="color:#000">
    	      <?=$this->product->product_s_desc?>
        </span>
     </div>
-<? 	if($top_layout == 'fulltime'){
-		if(date('Y-m-d') > $this->product->auction_date_finish):
-				$auction_closed=true;?>
-    <div><b>Торги по данному лоту окончены</b></div>
-		<?	endif;?>
+<? 	if(date('Y-m-d')>$this->product->auction_date_finish)
+				$auction_closed=true;
+	// Варианты отображения данных:
+		// fulltime. Если есть данные:
+			// * История ставок
+			// * Последняя ставка
+	if($top_layout == 'fulltime'){
+		if($test){?><h3>Очные торги:</h3><? }?>
     <div class="o_o">
           Номер аукциона: 
       <span class="span_o_o">
@@ -468,29 +478,39 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
     <div class="o_o">
       Предварительная оценка: 
       <span class="span_o_o">
-          <b>
-	  <? AuctionStuff::writeProductPrices($this->product->virtuemart_product_id);?>
-          </b> 
+          <b><? AuctionStuff::writeProductPrices($this->product->virtuemart_product_id);?></b> <?=$currency?>
       </span>
     </div>
-	<?	if($auction_closed):?>
+	<?	
+	}elseif($top_layout == 'shop'){
+		if($test){?><h3>Магазин:</h3><? }
+		// shop
+		// Если предмет продан 
+		// ИЛИ
+		// Истёк период продажи:
+			// * "Торги по данному лоту окончены"
+		// Если предмет продан:
+			// * Цена продажи
+		// Иначе - 
+		//	// * Кнопка "Купить"
+	if($auction_closed||$this->product->sales_price):?>
+    <div><b>Торги по данному лоту окончены</b></div>
+<?	endif;
+	if($this->product->sales_price):?>
     <div class="o_o">
       Цена продажи:<?=$dots?> 
       <span class="span_o_o">
-          <b>
-	  <?=$this->product->sales_price?>
-          </b> 
+          <b><?=$this->product->sales_price?></b> <?=$currency?>
       </span>
-    </div>    
-    <?	endif;
-	}elseif($top_layout == 'shop'){?>
+    </div>
+<?	endif;?>        
 	<div class="o_o">
       Категория:<?=$dots?>
       <span class="span_o_o">
           <b><?=$this->product->category_name?></b>
       </span>
     </div>
-
+	<?	if(!$this->product->sales_price):?>    
 	<div class="o_o">
       Цена:<?=$dots?>
       <span class="span_o_o">
@@ -498,12 +518,12 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 		  if($product_price=$this->product->product_price)
 		  	if (preg_match("/\.{1}[0]/", $product_price))
 				unset($product_price);
-          echo ($product_price)? $product_price:'Не назначена'; ?></b>
+          echo ($product_price)? $product_price:'Не назначена'; ?></b> <? echo $currency;?>
       </span>
     </div>
 	<button type="button" class="buttonSandCool txtBrown" onclick="location.href='<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>'">Купить</button>
-
-<?	}?>
+	<?	endif;
+	}?>
   </div>        
 </div><?
 			

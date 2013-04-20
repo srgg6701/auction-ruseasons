@@ -302,6 +302,25 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
  * @package
  * @subpackage
  */
+	public static function getProductCurrency($virtuemart_product_id){
+		// Create a new query object.
+        $db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		// Select fields from the table.
+		$query->select("currency_symbol"); 
+		$query->from($db->quoteName(array('#__virtuemart_currencies','#__virtuemart_product_prices' )));
+		$query->where('virtuemart_product_id = '.$virtuemart_product_id . ' AND virtuemart_currency_id = product_currency' );
+		$db->setQuery($query); // а иначе вытащит старый запрос!
+		// echo "<div class=''><pre>query: ".str_replace("#_","auc13",$query)."</pre></div>";
+		if(!$result=$db->loadResult()) $result='руб';
+		return $result;
+	}
+	
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
 	public static function writeProductPrices($virtuemart_product_id){
 		$prices=self::getProductPrices($virtuemart_product_id);
 		echo $prices[0].' - '.$prices[1];
