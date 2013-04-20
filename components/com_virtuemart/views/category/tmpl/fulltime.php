@@ -73,7 +73,8 @@ if ($this->search !== NULL):?>
 
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) { 
-	// var_dump($this->products);?>
+	
+	//var_dump($this->products);?>
 	<table>
 <?
 	// array => object

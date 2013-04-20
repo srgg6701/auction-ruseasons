@@ -96,6 +96,7 @@ if($SefMode=$router->getMode()){
 $section_links=array();
 //
 foreach($lots as $top_cat_id => $array){
+	//if ($array){}
 	$section_links[$top_cats_aliases[$a]]=array();
 	
 	if($top_cats_aliases[$a]!='online'){
@@ -189,6 +190,7 @@ foreach($lots as $top_cat_id => $array){
 	}
 	
 	$a++;
+
 }
 if ($test) die(); 
 $session->set('section_links',$section_links);

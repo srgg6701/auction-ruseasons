@@ -8,16 +8,16 @@
     <ProviderVersion>6.0.61.0</ProviderVersion>
     <SchemaVersion>2.0</SchemaVersion>
   </Properties>
-  <Connection Name="LocalHost">
-    <ConnectionString>User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</ConnectionString>
+  <Connection Name="auction web">
+    <ConnectionString>User Id=auctionru_2013;Host=VIP-32.spaceweb.ru;Database=auctionru_2013;Ping Interval=240;Character Set=utf8;</ConnectionString>
     <Database />
   </Connection>
-  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="False" MainViewAttribute="Design" MainViewScale="50">
+  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Data" MainViewScale="50">
     <View Name="Design" Visible="True">
       <Data>
         <StatementType>Select</StatementType>
         <ActiveQuery>0</ActiveQuery>
-        <SubQuery Id="0" Open="0" LocationX="-43.3407745620286" LocationY="34.6726196496229" Scale="0.2307296">
+        <SubQuery Id="0" Open="0" LocationX="-10.3448275295081" LocationY="-10.3448275295081" Scale="0.87">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
             <VerticalOverlap>0</VerticalOverlap>
@@ -35,17 +35,16 @@
             </PaperSize>
           </PageOptions>
           <Tables>
-            <Table Name="auc13_virtuemart_categories" Left="441" Top="40" Width="271.1319" Height="228" Collapsed="False" />
-            <Table Name="auc13_virtuemart_categories_ru_ru" Left="771" Top="58" Width="318.1111" Height="192" Collapsed="False" />
-            <Table Name="auc13_virtuemart_category_categories" Left="41" Top="85" Width="340.1813" Height="138" Collapsed="False" />
+            <Table Name="media" Left="40" Top="74" Width="310.9041" Height="138" Collapsed="False" />
+            <Table Name="ruru" Left="409" Top="38" Width="306.8741" Height="210" Collapsed="False" />
           </Tables>
         </SubQuery>
       </Data>
     </View>
-    <View Name="Code" Visible="True">
+    <View Name="Code" Active="True" Visible="True">
       <Data />
     </View>
-    <View Name="Data" Active="True" Visible="True" />
+    <View Name="Data" Visible="True" />
     <View Name="Profiler" Visible="False" />
     <View Name="PivotGrid" Visible="False" />
   </Views>

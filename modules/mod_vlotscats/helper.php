@@ -47,20 +47,32 @@ ORDER BY cats.ordering';  // echo "<div class=''><hr>getTopCategories()<pre><b>q
 		$session->set('products_data',$prods);
 		
 		$top_cats=modVlotscatsHelper::getTopCategories($db);
-		$topLayouts=AuctionStuff::getTopCatsLayouts();
-		/* 0 => 
+		//var_dump($top_cats); die();
+	/*	array
+		  0 => 
 			array
 			  'virtuemart_category_id' => string '21' (length=2)
 			  'category_name' => string 'Онлайн торги' (length=23)
+			  'alias' => string 'onlajn-torgi' (length=12)
 		  1 => 
 			array
 			  'virtuemart_category_id' => string '22' (length=2)
 			  'category_name' => string 'Очные торги' (length=21)
+			  'alias' => string 'торги-в-помещении' (length=32)
 		  2 => 
 			array
 			  'virtuemart_category_id' => string '23' (length=2)
 			  'category_name' => string 'Магазин' (length=14)
-	  	*/
+			  'alias' => string 'магазин' (length=14)
+			*/
+		$topLayouts=AuctionStuff::getTopCatsLayouts();
+		//var_dump($topLayouts); die();
+	/*	array
+		  0 => string 'online' (length=6)
+		  1 => string 'fulltime' (length=8)
+		  2 => string 'shop' (length=4)
+			*/
+			
 			$query='SELECT cats.virtuemart_category_id, 
         cats_ru.category_name,
         cats_ru.slug AS "alias",
@@ -82,10 +94,9 @@ ORDER BY cats.ordering';  // echo "<div class=''><hr>getTopCategories()<pre><b>q
                AND p.`product_in_stock` > 0';
 			// НЕ отображать проданные предметы!:
 			$query.='
-               AND p.virtuemart_product_id NOT IN ( 
-                     IF ( ( SELECT COUNT(*) FROM #__dev_sales_price ),
-                         ( SELECT virtuemart_product_id FROM #__dev_sales_price ),0 )
-                  ) ';
+               AND ( SELECT COUNT(*) FROM #__dev_sales_price 
+                      WHERE virtuemart_product_id = p.virtuemart_product_id 
+                   ) = 0 ';
 			$query.='	  
         ) AS "product_count"
    FROM #__virtuemart_categories AS cats
@@ -103,9 +114,10 @@ ORDER BY cats.ordering';  // echo "<div class=''><hr>getTopCategories()<pre><b>q
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
 				 $order;
-			// echo "<div class=''><hr><pre>q= ".str_replace("#_","auc13",$q)."</pre><hr></div>"; 
+			//echo "<div class=''><hr><pre>q= ".str_replace("#_","auc13",$q)."</pre><hr></div>"; 
 			$db->setQuery($q);
 			$children=$db->loadAssocList();
+			//var_dump($children); 
 			$records[$top_cat['virtuemart_category_id']]=array(
 						'top_category_alias'=>$top_cat['alias'],
 						'top_category_name'=>$top_cat['category_name'],
@@ -113,14 +125,15 @@ ORDER BY cats.ordering';  // echo "<div class=''><hr>getTopCategories()<pre><b>q
 						'children'=>$children
 				);
 			$prods[$topLayouts[$i]]['prod_count']=0;
-			foreach ($children as $c=>$child){
-				if ($child['alias']){
-					$prods[$topLayouts[$i]]['prod_count']+=(int)$child['product_count'];
-					$prods[$topLayouts[$i]][$child['alias']]=$child;
+			//if($children)
+				foreach ($children as $c=>$child){
+					if ($child['alias']){
+						$prods[$topLayouts[$i]]['prod_count']+=(int)$child['product_count'];
+						$prods[$topLayouts[$i]][$child['alias']]=$child;
+					}
 				}
-			}
 		}
-		$session->set('products_data',$prods); // die();
+		$session->set('products_data',$prods); //die();
 		return $records;
 	}
 }

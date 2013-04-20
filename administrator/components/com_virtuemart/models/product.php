@@ -283,10 +283,10 @@ class VirtueMartModelProduct extends VmModel {
 			}
 			
 			/*	MODIFIED START */
-			$where[] = ' p.virtuemart_product_id NOT IN ( 
-                     IF ( ( SELECT COUNT(*) FROM #__dev_sales_price ),
-                         ( SELECT virtuemart_product_id FROM #__dev_sales_price ),0 )
-                  ) ';
+			$where[] = '
+                ( SELECT COUNT(*) FROM #__dev_sales_price 
+                      WHERE virtuemart_product_id = p.virtuemart_product_id 
+                   ) = 0 ';
 			/*	MODIFIED END	*/
 
 
@@ -511,7 +511,8 @@ FROM #__virtuemart_product_categories AS cats
 		}
 		//vmdebug ( $joinedTables.' joined ? ',$select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir );		/* jexit();  */
 		$this->orderByString = $orderBy;
-		// $query = '<hr><pre>SELECT ' . $select."\n" . $joinedTables."\n" . $whereString."\n" . $groupBy."\n" . $orderBy."\n" . '</pre><hr>'; die("<div class=''>query= <pre>".str_replace("#__","auc13_",$query)."</pre></div>");
+		
+		//$query = '<hr><pre>SELECT ' . $select."\n" . $joinedTables."\n" . $whereString."\n" . $groupBy."\n" . $orderBy."\n" . '</pre><hr>'; die("<div class=''>query= <pre>".str_replace("#__","auc13_",$query)."</pre></div>");
 		
 		$product_ids = $this->exeSortSearchListQuery (2, $select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir, $nbrReturnProducts);
 
@@ -1295,10 +1296,10 @@ FROM #__virtuemart_product_categories AS cats
 			}
 			
 			/*	MODIFIED START */
-			$q.=' AND p.virtuemart_product_id NOT IN ( 
-                     IF ( ( SELECT COUNT(*) FROM #__dev_sales_price ),
-                         ( SELECT virtuemart_product_id FROM #__dev_sales_price ),0 ) 
-                  ) ';
+			$q.='
+               AND ( SELECT COUNT(*) FROM #__dev_sales_price 
+                      WHERE virtuemart_product_id = p.virtuemart_product_id 
+                   ) = 0 ';
 			/*	MODIFIED END	*/
 
 			if(!empty($this->orderByString)){
@@ -1873,10 +1874,10 @@ FROM #__virtuemart_product_categories AS cats
 				$query .= ' AND c.`virtuemart_category_id` =' . (int)$virtuemart_category_id;
 			}
 			/*	MODIFIED START */
-			$query .=' AND p.virtuemart_product_id NOT IN ( 
-                     IF ( ( SELECT COUNT(*) FROM #__dev_sales_price ),
-                         ( SELECT virtuemart_product_id FROM #__dev_sales_price ),0 )
-                  ) ';
+			$query .='
+               AND ( SELECT COUNT(*) FROM #__dev_sales_price 
+                      WHERE virtuemart_product_id = p.virtuemart_product_id 
+                   ) = 0 ';
 			/*	MODIFIED END	*/
 
 			$query .= ' ORDER BY l.`mf_name`';

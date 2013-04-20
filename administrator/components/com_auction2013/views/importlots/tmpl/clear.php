@@ -22,6 +22,7 @@ foreach($lots as $top_cat_id => $categories){
             <div class="clearfix"></div>
             <div class="children">
 <?	//var_dump($array);
+	// if($categories['children'])
 	foreach($categories['children'] as $i=>$category){
 		if((int)$category['product_count']){?>
 		<label>
