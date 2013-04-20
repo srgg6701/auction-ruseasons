@@ -34,6 +34,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 				 public 'city' => string 'Санкт-Петербург' (length=29)
 				 public 'phone_number' => string '8 921 8566897' (length=13)
 			*/
+			$virtuemart_product_id=$requestData['product_id'];
 			$subject = "Заявка на покупку предмета аукциона";
 			$body = 'Имя клиента: 
 <p>'.$user->name.'</p>
@@ -46,10 +47,20 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 Наименование предмета: 
 <p>'.$requestData['product_name'].'</p>
 <p> Ссылка на стр. предмета: 
-<a href="'.JUri::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='.$requestData['product_id'].'&Itemid='.$requestData['menu_itemid'].'">'.$requestData['product_name'].'</a></p>';
-			echo "<div class=''>subject= ".$subject."</div>";
-			echo "<div class=''>body= ".$body."</div>";
-			die();
+<a href="'.JUri::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='.$virtuemart_product_id.'&Itemid='.$requestData['menu_itemid'].'">'.$requestData['product_name'].'</a></p>';
+			// echo "<div class=''>subject= ".$subject."</div>";
+			// echo "<div class=''>body= ".$body."</div>";
+			$thanx='&layout=application&virtuemart_product_id='.$virtuemart_product_id.'&thanx_menu_id='.$requestData['menu_itemid'];
+			// выставить статус "Продано":
+			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS."helpers".DS."auction2013.php";
+			// получить стоимость продукта:
+			$product=AuctionStuff::getSingleProductData(
+						$virtuemart_product_id,
+						'p_prices.product_price'
+					);	
+			// добавить запись в таблицу проданных:
+			return Auction2013Helper::addSalesRecord($virtuemart_product_id,$product['product_price']);
+			//die();
 		}else{
 		/*	'name' => string 'dfdsfsd' (length=7)
 			'city' => string 'sdfsdf' (length=6)
@@ -71,7 +82,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 <p>'.$requestData['short_description'].'</p>
 Пожелания по цене: 
 <p>'.$requestData['price_wiches'].'</p>';
-
+			$thanx='&layout=thanx_for_lot';
 		// $cc = false;
 		// $bcc[] = false;
 		}
@@ -100,7 +111,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 		if ($send !== true) 
 			die("Сообщение не было отправлено из-за возникшей ошибки.<hr>".$send->message);
 		else
-			$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=thanx_for_lot', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_auction2013'.$thanx, false));
 		//http://docs.joomla.org/Sending_email_from_extensions			//http://api.joomla.org/__filesource/fsource_Joomla-Platform_Mail_librariesjoomlamailmail.php.html#a290
 	}
 

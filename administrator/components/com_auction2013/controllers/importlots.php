@@ -155,7 +155,8 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @subpackage
  */
 	private function addSalesRecord($virtuemart_product_id,$sales_price){
-		$db=JFactory::getDBO();		
+		return Auction2013Helper::addSalesRecord($virtuemart_product_id,$sales_price);
+		/*$db=JFactory::getDBO();		
 		$query = $db->getQuery(true);
 		$query->clear();
 		$query->insert($db->quoteName('#__dev_sales_price'));
@@ -171,7 +172,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 		$db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));
 		if(!$db->execute())
 			return array('query', $query);
-		else return true;	
+		else return true;*/	
 	}	
 /**
  * Описание

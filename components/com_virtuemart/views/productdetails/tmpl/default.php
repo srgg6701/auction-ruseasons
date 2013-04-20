@@ -330,9 +330,10 @@ require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
 $virtuemart_category_id=$this->product->virtuemart_category_id;
 $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
 $currency=AuctionStuff::getProductCurrency($virtuemart_product_id).'.';
-$Itemid=JRequest::getVar('Itemid');
+//var_dump(JRequest::get('get')); die(JRequest::getVar('Itemid'));
+if(!$Itemid=JRequest::getVar('Itemid')) die('Не получен Itemid...');
 
-HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
+HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
@@ -385,7 +386,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
     <input type="submit" name="btn_favor" id="btn_favor" value="добавить в избранное">
 	<input type="hidden" name="option" value="com_auction2013" />
 	<input type="hidden" name="task" value="auction2013.addToFavorites" />
-    <input type="hidden" name="virtuemart_product_id" value="<?=$this->product->virtuemart_product_id?>" />
+    <input type="hidden" name="virtuemart_product_id" value="<?=$virtuemart_product_id?>" />
 	  <?php echo JHtml::_('form.token');?>        
 </form>  
 </div>
@@ -479,7 +480,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
     <div class="o_o">
       Предварительная оценка: 
       <span class="span_o_o">
-          <b><? AuctionStuff::writeProductPrices($this->product->virtuemart_product_id);?></b> <?=$currency?>
+          <b><? AuctionStuff::writeProductPrices($virtuemart_product_id);?></b> <?=$currency?>
       </span>
     </div>
 	<?	
@@ -494,14 +495,15 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 			// * Цена продажи
 		// Иначе - 
 		//	// * Кнопка "Купить"
-	if($auction_closed||$this->product->sales_price):?>
+	$sales_price=AuctionStuff::getProductSalesPrice($virtuemart_product_id);
+	if($auction_closed||$sales_price):?>
     <div><b>Торги по данному лоту окончены</b></div>
 <?	endif;
-	if($this->product->sales_price):?>
+	if($sales_price):?>
     <div class="o_o">
       Цена продажи:<?=$dots?> 
       <span class="span_o_o">
-          <b><?=$this->product->sales_price?></b> <?=$currency?>
+          <b><?=$sales_price?></b> <?=$currency?>
       </span>
     </div>
 <?	endif;?> 
@@ -511,7 +513,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
           <b><?=$this->product->category_name?></b>
       </span>
     </div>
-	<?	if(!$this->product->sales_price):?>    
+	<?	if(!$sales_price):?>    
 	<div class="o_o">
       Цена:<?=$dots?>
       <span class="span_o_o">
@@ -522,7 +524,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
           echo ($product_price)? $product_price:'Не назначена'; ?></b> <? echo $currency;?>
       </span>
     </div>
-	<button type="button" class="buttonSandCool txtBrown" onclick="location.href='<?=JRoute::_("index.php?option=com_auction2013&layout=application&virtuemart_product_id=".$this->product->virtuemart_product_id.'&menu_itemid='.$Itemid, false)?>'">Купить</button>
+	<button type="button" class="buttonSandCool txtBrown" onclick="location.href='<?=JRoute::_("index.php?option=com_auction2013&layout=application&virtuemart_product_id=".$virtuemart_product_id.'&menu_itemid='.$Itemid, false)?>'">Купить</button>
 	<?	endif;
 	}?>
   </div>        

@@ -302,6 +302,22 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
  * @package
  * @subpackage
  */
+	public static function getProductSalesPrice($virtuemart_product_id){
+		$db=JFactory::getDBO();	
+		// Select fields from the table.
+		$query->select("sales_price"); 
+		$query->from($db->quoteName('#__dev_sales_price'));
+		$query->where('virtuemart_product_id = '.$virtuemart_product_id);
+		// Add the list ordering clause.
+		$db->setQuery($query); // а иначе вытащит старый запрос!
+		$result=$db->loadResult();
+		return $result;  	
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
 	public static function getProductCurrency($virtuemart_product_id){
 		// Create a new query object.
         $db = JFactory::getDBO();

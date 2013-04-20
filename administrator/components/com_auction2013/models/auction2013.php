@@ -41,6 +41,7 @@ class Auction2013ModelAuction2013 extends JModelList
 		}
 		parent::__construct($config);
 	}
+
 /**
  * Описание
  * @package

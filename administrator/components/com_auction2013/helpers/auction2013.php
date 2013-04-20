@@ -47,7 +47,28 @@ class Auction2013Helper
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.|имя.расширение',
 			);
 	}
-	
+/**
+ * Добавить запись о продаже товара
+ */	
+	public function addSalesRecord($virtuemart_product_id,$sales_price){
+		$db=JFactory::getDBO();		
+		$query = $db->getQuery(true);
+		$query->clear();
+		$query->insert($db->quoteName('#__dev_sales_price'));
+		$query->columns(
+					array( $db->quoteName('virtuemart_product_id'), 
+						   $db->quoteName('sales_price'),
+						 )
+				);
+		$query->values( 
+					$virtuemart_product_id . ', ' . $sales_price
+				); //if ($test) echo "<div style='color:brown'><pre>addProductMedia query= ".$query."</pre></div>";
+	 // $db->setQuery($query);
+		$db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));
+		if(!$db->execute())
+			return array('query', $query);
+		else return true;	
+	}		
 	/**
 	 * Configure the Linkbar.
 	 *

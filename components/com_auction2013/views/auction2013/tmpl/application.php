@@ -12,24 +12,60 @@ $menu_itemid=JRequest::getVar('menu_itemid'); // comes from button "Купить
   'menu_itemid' => string '115' (length=3)
   'Itemid' => null
 */
-$user = JFactory::getUser();
-if($user->guest):
-	$session = JFactory::getSession();
-	$session->set('product_id_purchasing',$virtuemart_product_id);
-	JFactory::getApplication()->redirect('index.php?option=com_users&view=login');
-endif;?>
-<div class="item-page<?php echo $this->params->pageclass_sfx?>">
-<?	if ($this->params->get('show_page_heading')) : 
-	
-	?><h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
-<?php endif; ?>
-<h2 class="title thinBrownHeader">Оформление заявки на покупку</h2>
-<?
+
 // Получить данные предмета:
 $product=AuctionStuff::getSingleProductData(
 						$virtuemart_product_id,
 						'p_ru_ru.product_name, p_prices.product_price'
 					);	
+$price=round((int)$product['product_price']);?>
+<div class="item-page<?php echo $this->params->pageclass_sfx?>">
+<?
+if($Itemid=JRequest::getVar('thanx_menu_id')){
+	// var_dump($this); die();
+if ($this->params->get('show_page_heading')) : 
+	
+	?><h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
+<?php endif; 
+
+$category_id=AuctionStuff::getCategoryIdByProductId($virtuemart_product_id);?>
+
+<h2 class="title thinBrownHeader">Ваша заявка принята!</h2>
+<p>Название предмета:  <? echo $product['product_name'];?></p>
+<p>Цена: <?
+	echo $price;?> <?=AuctionStuff::getProductCurrency($virtuemart_product_id)?>.
+<br><br>
+<div align="center"><b class="txtBrown"><?
+
+$article=AuctionStuff::getArticleContent(25);	
+echo $article['introtext'];?></b>
+<br><br>
+<button type="button" class="buttonSandCool txtBrown" onclick="location.href='index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=<?=$virtuemart_product_id?>&virtuemart_category_id=<?=$category_id?>&Itemid=<?=$Itemid?>'">Назад к предмету</button> 
+&nbsp;
+<?	$menu = JFactory::getApplication()->getMenu();
+	$menus = $menu->getMenu();
+	$top_layout=$menus[$Itemid]->query['layout']; ?>
+<button type="button" class="buttonSandCool txtBrown" onclick="location.href='index.php?option=com_virtuemart&view=category&virtuemart_category_id=0&layout=<?=$top_layout?>&Itemid=<?=$Itemid?>'">Назад в категорию</button>
+</div>
+<br><br>
+<?
+
+}else{
+$user = JFactory::getUser();
+if($user->guest):
+	$session = JFactory::getSession();
+	$session->set('product_id_purchasing',$virtuemart_product_id);
+	JFactory::getApplication()->redirect('index.php?option=com_users&view=login');
+endif;
+
+if ($this->params->get('show_page_heading')) : 
+	
+	?>
+</p>
+<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
+<?php endif; ?>
+<h2 class="title thinBrownHeader">Оформление заявки на покупку</h2>
+<?
 // var_dump($product); 
 /*	array
 	'product_name' => string '10 розеток «Цветы»' (length=32)
@@ -44,11 +80,10 @@ echo $article['introtext'];
 <br>
 <br>
 	<div align="center">Цена лота: <b><?
-	$price=round((int)$product['product_price']);
 	echo $price;?></b> <?=AuctionStuff::getProductCurrency($virtuemart_product_id)?>.
 <br>
 <br>
-		<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.sendApplication'); ?>" method="post" class="form-validate">
+	  <form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.sendApplication'); ?>" method="post" class="form-validate">
         	<input type="hidden" name="option" value="com_auction2013" />
 			<input type="hidden" name="task" value="auction2013.sendApplication" />
             <input type="hidden" name="application_type" value="purchasing" />
@@ -66,3 +101,5 @@ echo $article['introtext'];
 		</form>
     </div>
 </div>
+<?
+}

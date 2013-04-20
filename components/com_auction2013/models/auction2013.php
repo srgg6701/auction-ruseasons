@@ -69,4 +69,13 @@ class Auction2013ModelAuction2013 extends JModelLegacy
 		$params = $app->getParams();
 		$this->setState('params', $params);
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	function setProductStatusSold(){
+		
+	
+	}	
 }
