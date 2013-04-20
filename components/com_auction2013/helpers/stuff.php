@@ -317,16 +317,6 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 	}
 	
 /**
- * Описание
- * @package
- * @subpackage
- */
-	public static function writeProductPrices($virtuemart_product_id){
-		$prices=self::getProductPrices($virtuemart_product_id);
-		echo $prices[0].' - '.$prices[1];
-	}
-	
-/**
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
  * @package
  * @subpackage
@@ -377,7 +367,7 @@ FROM #__virtuemart_products AS p
     ON p_prices.virtuemart_product_id = p_ru_ru.virtuemart_product_id AND p_prices.virtuemart_product_id = p.virtuemart_product_id
 WHERE p.virtuemart_product_id = ".$product_id;
 		$db=JFactory::getDBO();
-		$db->setQuery($query);
+		$db->setQuery($query); // echo "<div class=''>query= <pre>".str_replace("#__","auc13_",$query)."</pre></div>";
 		return $db->loadAssoc(); 
 	}
 	
@@ -518,6 +508,24 @@ WHERE p.virtuemart_product_id = ".$product_id;
 		ob_clean();
 		return $fields;
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function roundProductPrice($raw_product_price){
+		// с успехом решается непосредственно на месте...
+		return round((int)$raw_product_price);
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public static function writeProductPrices($virtuemart_product_id){
+		$prices=self::getProductPrices($virtuemart_product_id);
+		echo $prices[0].' - '.$prices[1];
+	}	
 }
 
 class HTML{

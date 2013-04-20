@@ -10,7 +10,7 @@ endif;
 $article=AuctionStuff::getArticleContent(13);	
 // var_dump($article);	
 echo $article['introtext'];?>
-<form method="post" id="proposal_form" name="proposal_form" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.sendApplication'); ?>" enctype="multipart/form-data">  
+<form method="post" id="proposal_form" name="proposal_form" action="<?php echo 'index.php?option=com_auction2013&task=auction2013.sendApplication'; ?>" enctype="multipart/form-data">  
 <?=AuctionStuff::createForm(
 			array(	'name'=>array('Ваше имя',1),
 					'city'=>array('Город',1),

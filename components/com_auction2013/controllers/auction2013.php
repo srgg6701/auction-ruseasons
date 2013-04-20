@@ -22,8 +22,35 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 	public function sendApplication(){
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-		$requestData = JRequest::getVar('jform', array(), 'post', 'array');		
-		
+		$requestData = JRequest::get('jform', array(), 'post', 'array');				
+		//var_dump($requestData); die();
+		if($requestData['application_type']=='purchasing'){
+			$user = JFactory::getUser();
+			//var_dump($user); die();
+			/*	public 'id' => string '204' (length=3)
+				public 'name' => string 'Денис' (length=10)
+				public 'username' => string '100084' (length=6)
+				public 'email' => string 'Gutenberg-2@yandex.ru' (length=21)
+				 public 'city' => string 'Санкт-Петербург' (length=29)
+				 public 'phone_number' => string '8 921 8566897' (length=13)
+			*/
+			$subject = "Заявка на покупку предмета аукциона";
+			$body = 'Имя клиента: 
+<p>'.$user->name.'</p>
+Город проживания: 
+<p>'.$user->city.'</p>
+Емэйл: 
+<p>'.$user->email1.'</p>
+Контактный телефон: 
+<p>'.$user->phone_number.'</p>
+Наименование предмета: 
+<p>'.$requestData['product_name'].'</p>
+<p> Ссылка на стр. предмета: 
+<a href="'.JUri::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='.$requestData['product_id'].'&Itemid='.$requestData['menu_itemid'].'">'.$requestData['product_name'].'</a></p>';
+			echo "<div class=''>subject= ".$subject."</div>";
+			echo "<div class=''>body= ".$body."</div>";
+			die();
+		}else{
 		/*	'name' => string 'dfdsfsd' (length=7)
 			'city' => string 'sdfsdf' (length=6)
 			'email1' => string 'sdfsdf' (length=6)
@@ -31,8 +58,8 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 			'short_description' => string 'sdfsdf' (length=6)
 			'price_wiches' => string 'ssdfsdf' (length=7)
 		*/
-		$subject = "Предложение предмета для аукциона";
-		$body = 'Имя клиента: 
+			$subject = "Предложение предмета для аукциона";
+			$body = 'Имя клиента: 
 <p>'.$requestData['name'].'</p>
 Город проживания: 
 <p>'.$requestData['city'].'</p>
@@ -47,7 +74,8 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 
 		// $cc = false;
 		// $bcc[] = false;
-
+		}
+		
 		$mail = JFactory::getMailer();
 		$mail->setSender(array($requestData['email1'],$requestData['name']));
 		$config =& JFactory::getConfig();

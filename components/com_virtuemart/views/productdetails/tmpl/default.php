@@ -330,21 +330,22 @@ require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
 $virtuemart_category_id=$this->product->virtuemart_category_id;
 $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
 $currency=AuctionStuff::getProductCurrency($virtuemart_product_id).'.';
+$Itemid=JRequest::getVar('Itemid');
 
-if($router = JFactory::getApplication()->getRouter()){
-	$session=&JFactory::getSession();
-	$links=$session->get('section_links');
-}
 HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
-<?	if($SefMode=$router->getMode()):
-		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
+<?	$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
+	if($router = JFactory::getApplication()->getRouter()){
+		$SefMode=$router->getMode();
+		$session=&JFactory::getSession();
+		$links=$session->get('section_links');
 		$menu = JFactory::getApplication()->getMenu();
 		$menus = $menu->getMenu();
-		$top_layout=$menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime die('top_layout='.$top_layout);
-	endif;
+		$top_layout=$menus[$Itemid]->query['layout']; // shop, fulltime die('top_layout='.$top_layout);
+		//if():endif;
+	}
 	// получить предыдущий-следующий предметы в категории:	
 	$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
 	$hide=' style="visibility:hidden"';
@@ -361,7 +362,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 	?>>&lt; &lt; Предыдущий <!--(<?=$trinityIds[0]?>)-->></a></li>
 <?	
 	if(!$category_link): // if no SEF only:
-		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.JRequest::getVar('Itemid'),false);
+		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.$Itemid,false);
 	endif;?>	
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
 <?	if($trinityIds[2]) 
@@ -503,7 +504,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
           <b><?=$this->product->sales_price?></b> <?=$currency?>
       </span>
     </div>
-<?	endif;?>        
+<?	endif;?> 
 	<div class="o_o">
       Категория:<?=$dots?>
       <span class="span_o_o">
@@ -521,7 +522,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
           echo ($product_price)? $product_price:'Не назначена'; ?></b> <? echo $currency;?>
       </span>
     </div>
-	<button type="button" class="buttonSandCool txtBrown" onclick="location.href='<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>'">Купить</button>
+	<button type="button" class="buttonSandCool txtBrown" onclick="location.href='<?=JRoute::_("index.php?option=com_auction2013&layout=application&virtuemart_product_id=".$this->product->virtuemart_product_id.'&menu_itemid='.$Itemid, false)?>'">Купить</button>
 	<?	endif;
 	}?>
   </div>        

@@ -164,6 +164,7 @@ $( function(){
   		$hide_left_panel=false;
 		//echo "<div class=''>$layout, ".$option.", $view, ".$user->guest."</div>";
   		if( $layout=='register'
+			|| $layout=='application'
 		  	|| $layout=='askaboutlot'
 			|| ( $option=='com_users'
 			   	 && $view=='login'
@@ -198,6 +199,7 @@ $( function(){
   <?php if ( $this->countModules('usermenu')
 			 && $user->get('guest') != 1
 		   	 && $layout!='register'
+			 && $layout!='application'
 			 && $layout!='askaboutlot'
 			 && ($option=='com_auction2013'
 			 	 || $option=='com_users')

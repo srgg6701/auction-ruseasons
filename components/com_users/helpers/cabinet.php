@@ -19,6 +19,14 @@ class UserCabinet
 {
 	public function buildCabinet($JUser,$logout_params,$layout=false){
 		
+		$session = JFactory::getSession();
+		// клацали "Купить":
+		if($product_id_purchasing=$session->get('product_id_purchasing')){
+			$redirect='index.php?option=com_auction2013&layout=application&virtuemart_product_id='.$product_id_purchasing;
+			//die($redirect);
+			$session->clear('product_id_purchasing');
+			JFactory::getApplication()->redirect($redirect);
+		}
 		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 				
 		if (!$layout)
@@ -99,12 +107,11 @@ class UserCabinet
  */
 	function layout_lots($user_id){
 		// Проверить закрома:
-		$session = JFactory::getSession();
 		//echo "<div class=''>favorite_product_id= ".$session->get('favorite_product_id')."</div>"; die();
 		if($virtuemart_product_id=$session->get('favorite_product_id')){
+			$app =JFactory::getApplication();
 			// добавить запись в таблицу, перенаправить в Избранное:
 			AuctionStuff::addToFavorites($virtuemart_product_id,$user_id);
-			$app =JFactory::getApplication();
 			$uMenus=AuctionStuff::getTopCatsMenuItemIds(	
 						'usermenu',
 						'profile',
