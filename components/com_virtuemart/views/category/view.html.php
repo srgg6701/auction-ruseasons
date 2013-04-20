@@ -37,7 +37,7 @@ require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
 class VirtuemartViewCategory extends VmView {
 
 	public function display($tpl = null) {
-
+		//var_dump($this->products); die(); 
 		$show_prices  = VmConfig::get('show_prices',1);
 		if($show_prices == '1'){
 			if(!class_exists('calculationHelper')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'calculationh.php');
@@ -177,7 +177,8 @@ class VirtuemartViewCategory extends VmView {
 		/*	MODIFIED END	*/		
 		// Load the products in the given category
 	    $products = $productModel->getProductsInCategory($categoryId);
-		//var_dump($products); die();
+		
+		// var_dump($products); die();
 	    $productModel->addImages($products,1);
 
 	    $this->assignRef('products', $products);
@@ -245,7 +246,7 @@ class VirtuemartViewCategory extends VmView {
 	    }
 
 	    shopFunctionsF::setVmTemplate($this,$category->category_template,0,$category->category_layout);
-
+		//var_dump($this->products); die();
 		parent::display($tpl);
 	}
 /*	MODIFIED START */

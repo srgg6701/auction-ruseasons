@@ -279,8 +279,16 @@ class VirtueMartModelProduct extends VmModel {
 			}
 
 			if ($onlyPublished) {
-				$where[] = ' p.`published`="1" ';
+				$where[] = ' p.`published` = "1" ';
 			}
+			
+			/*	MODIFIED START */
+			$where[] = ' p.virtuemart_product_id NOT IN ( 
+                     IF ( ( SELECT COUNT(*) FROM #__dev_sales_price ),
+                         ( SELECT virtuemart_product_id FROM #__dev_sales_price ),0 )
+                  ) ';
+			/*	MODIFIED END	*/
+
 
 			if($isSite and !VmConfig::get('use_as_catalog',0)) {
 				if (VmConfig::get('stockhandle','none')=='disableit_children') {
@@ -503,7 +511,7 @@ FROM #__virtuemart_product_categories AS cats
 		}
 		//vmdebug ( $joinedTables.' joined ? ',$select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir );		/* jexit();  */
 		$this->orderByString = $orderBy;
-		//echo '<hr><pre>SELECT ', $select."\n", $joinedTables."\n", $whereString."\n", $groupBy."\n", $orderBy."\n", '</pre><hr>'; die();
+		// $query = '<hr><pre>SELECT ' . $select."\n" . $joinedTables."\n" . $whereString."\n" . $groupBy."\n" . $orderBy."\n" . '</pre><hr>'; die("<div class=''>query= <pre>".str_replace("#__","auc13_",$query)."</pre></div>");
 		
 		$product_ids = $this->exeSortSearchListQuery (2, $select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir, $nbrReturnProducts);
 
@@ -1188,7 +1196,7 @@ FROM #__virtuemart_product_categories AS cats
 	 * @param boolean $onlyPublished
 	 */
 	public function getProducts ($productIds, $front = TRUE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE) {
-
+		//var_dump($productIds); die();
 		if (empty($productIds)) {
 			// 			vmdebug('getProducts has no $productIds','No ids given to get products');
 			// 			vmTrace('getProducts has no $productIds');
@@ -1285,6 +1293,13 @@ FROM #__virtuemart_product_categories AS cats
 			if ($onlyPublished) {
 				$q .= ' AND p.`published`= 1';
 			}
+			
+			/*	MODIFIED START */
+			$q.=' AND p.virtuemart_product_id NOT IN ( 
+                     IF ( ( SELECT COUNT(*) FROM #__dev_sales_price ),
+                         ( SELECT virtuemart_product_id FROM #__dev_sales_price ),0 ) 
+                  ) ';
+			/*	MODIFIED END	*/
 
 			if(!empty($this->orderByString)){
 				$orderBy = $this->orderByString;
@@ -1857,6 +1872,13 @@ FROM #__virtuemart_product_categories AS cats
 			if ($virtuemart_category_id) {
 				$query .= ' AND c.`virtuemart_category_id` =' . (int)$virtuemart_category_id;
 			}
+			/*	MODIFIED START */
+			$query .=' AND p.virtuemart_product_id NOT IN ( 
+                     IF ( ( SELECT COUNT(*) FROM #__dev_sales_price ),
+                         ( SELECT virtuemart_product_id FROM #__dev_sales_price ),0 )
+                  ) ';
+			/*	MODIFIED END	*/
+
 			$query .= ' ORDER BY l.`mf_name`';
 			$this->_db->setQuery ($query);
 			$manufacturers = $this->_db->loadObjectList ();
