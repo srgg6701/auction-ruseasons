@@ -312,8 +312,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 							if (isset($enc_from)&&isset($enc_to))
 								$cell_content_decoded=iconv($enc_from,$enc_to,$csv_cell_content);					
 							else $cell_content_decoded=$csv_cell_content;				
-							
-							
 							//if($i==7) echo "<div style='color:green'>DECODED($i): ".$cell_content_decoded."</div>";
 							
 							
@@ -332,11 +330,30 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'date_hide':
 									case 'date_start':
 									case 'date_stop':
-										$dt=explode('.',$cell_content_decoded);
-										//echo "<div class=''>DATES</div>";
-										//var_dump($dt);
-										$data[$data_index][$arrFields[$column_name]]=$dt[0];
-										//trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
+										$tt=explode(' ',$cell_content_decoded);
+										// 2012
+										// 18:15:40
+										foreach($tt as $t=>$bunch){
+											if(strstr($bunch,":"))
+												$time=$bunch;
+											if(strstr($bunch,".")){
+												$dt=explode('.',$bunch);
+											}elseif(strstr($bunch,"-")){
+												$dt=explode('-',$bunch);
+											}
+										}
+										if (strlen($dt[0])==4) {
+											$year=$dt[0];
+											$day=$dt[2];
+										}else{
+											$year=$dt[2];
+											$day=$dt[0];
+										}
+										$month=$dt[1];								
+										// assemble the whole date:
+										$datetime=$year.'-'.$month.'-'.$day.' '.$time;										
+										$data[$data_index][$arrFields[$column_name]]=$datetime;
+										// echo '<hr>'.$datetime;
 									break;
 									case 'price':
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content_decoded;
@@ -362,7 +379,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 					$row_count++;
 				}
                 fclose($handle);
-			} //var_dump($data);die(); //echo "<hr><hr>";
+			} // var_dump($data);die(); //echo "<hr><hr>";
 			
 			$adm_com_path=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_virtuemart';
 			defined('JPATH_VM_ADMINISTRATOR') or define('JPATH_VM_ADMINISTRATOR', $adm_com_path);
