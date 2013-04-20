@@ -340,7 +340,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
 		$menu = JFactory::getApplication()->getMenu();
 		$menus = $menu->getMenu();
-		$top_layout=$menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime
+		$top_layout=$menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime die('top_layout='.$top_layout);
 	endif;
 	// получить предыдущий-следующий предметы в категории:	
 	$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
