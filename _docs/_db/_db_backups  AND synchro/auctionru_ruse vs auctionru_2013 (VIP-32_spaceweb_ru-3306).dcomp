@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), compare document file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<CompareDocument>
+  <Properties>
+    <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
+    <ProviderVersion>6.0.61.0</ProviderVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </Properties>
+  <Source Type="Database">
+    <DataConnection>auction ruse</DataConnection>
+    <ConnectionString>User Id=auctionru_ruse;Host=VIP-32.spaceweb.ru;Database=auctionru_ruse;Ping Interval=240;Character Set=utf8;</ConnectionString>
+    <Schema>auctionru_ruse</Schema>
+  </Source>
+  <Target Type="Database">
+    <DataConnection>auction web</DataConnection>
+    <ConnectionString>User Id=auctionru_2013;Host=VIP-32.spaceweb.ru;Database=auctionru_2013;Ping Interval=240;Character Set=utf8;</ConnectionString>
+    <Schema>auctionru_2013</Schema>
+  </Target>
+  <Filter Value="0" />
+  <HideUnmodifiedColumns>False</HideUnmodifiedColumns>
+  <Options>
+    <PropertyValue Name="MappingIgnoreSpaces">true</PropertyValue>
+    <PropertyValue Name="IgnoreBlobColumns">false</PropertyValue>
+    <PropertyValue Name="HideSystemSchemas">false</PropertyValue>
+    <PropertyValue Name="MappingIgnoreCase">false</PropertyValue>
+    <PropertyValue Name="MappingIgnoreUnderscores">false</PropertyValue>
+    <PropertyValue Name="IgnoreColumnsByMask">false</PropertyValue>
+    <PropertyValue Name="MappingColumnsMask" xml:space="preserve">*ModifiedDate*,*CreatedOn*,*UpdatedBy*</PropertyValue>
+    <PropertyValue Name="ExcludeObjectsByMask">false</PropertyValue>
+    <PropertyValue Name="ExcludeObjectsMask" xml:space="preserve">*Table*</PropertyValue>
+    <PropertyValue Name="IncludeObjectsByMask">false</PropertyValue>
+    <PropertyValue Name="IncludeObjectsMask" xml:space="preserve">*</PropertyValue>
+    <PropertyValue Name="CompareTables">true</PropertyValue>
+    <PropertyValue Name="CompareViews">false</PropertyValue>
+    <PropertyValue Name="RoundFloatTypes">false</PropertyValue>
+    <PropertyValue Name="RoundFloatTypesUpTo" xml:space="preserve">3</PropertyValue>
+    <PropertyValue Name="IgnoreTrailingSpaces">false</PropertyValue>
+    <PropertyValue Name="IgnoreCase">false</PropertyValue>
+    <PropertyValue Name="IsEmptyStringEqualsNull">false</PropertyValue>
+    <PropertyValue Name="IsIgnoreTime">false</PropertyValue>
+    <PropertyValue Name="CheckDifferent">true</PropertyValue>
+    <PropertyValue Name="CheckOnlyInSource">true</PropertyValue>
+    <PropertyValue Name="CheckOnlyInTarget">true</PropertyValue>
+    <PropertyValue Name="CheckIdentical">true</PropertyValue>
+  </Options>
+  <ModifiedObjects>
+    <Object Name="geodesic_classifieds_cp с auc13_geodesic_classifieds_cp" Type="Table" InSource="False" Different="False" InTarget="False" />
+  </ModifiedObjects>
+  <SynchronizationOptions>
+    <PropertyValue Name="BulkInsert">true</PropertyValue>
+    <PropertyValue Name="DisableForeignKeys">true</PropertyValue>
+    <PropertyValue Name="DropCheckConstraints">false</PropertyValue>
+    <PropertyValue Name="DisableDmlTriggers">true</PropertyValue>
+    <PropertyValue Name="BackupDatabase">false</PropertyValue>
+    <PropertyValue Name="ExecuteAsSingleTransaction">true</PropertyValue>
+    <PropertyValue Name="GenerateScriptHeader">true</PropertyValue>
+    <PropertyValue Name="UseSchemaNamePrefix">false</PropertyValue>
+    <PropertyValue Name="UseDelimiter">false</PropertyValue>
+    <PropertyValue Name="DisableObjectKeys">false</PropertyValue>
+    <PropertyValue Name="DropKeys">false</PropertyValue>
+    <PropertyValue Name="DisableDdlTriggers">false</PropertyValue>
+    <PropertyValue Name="ExcludeComments">false</PropertyValue>
+    <PropertyValue Name="SynchronizeViaFiles">false</PropertyValue>
+    <PropertyValue Name="CheckConcurrencyUpdates">false</PropertyValue>
+    <PropertyValue Name="SynchronizeType">2</PropertyValue>
+    <PropertyValue Name="SynchronizationFileName" xml:space="preserve" />
+    <PropertyValue Name="SynchronizationEditorFileName" xml:space="preserve" />
+    <PropertyValue Name="OpenScriptInEditor">false</PropertyValue>
+    <PropertyValue Name="RefreshAfterSynchronization">false</PropertyValue>
+    <PropertyValue Name="CommitToVersionControl">false</PropertyValue>
+    <PropertyValue Name="CommentString" xml:space="preserve" />
+    <PropertyValue Name="PureScript">false</PropertyValue>
+    <PropertyValue Name="BackupPathName" xml:space="preserve" />
+    <PropertyValue Name="UseCommitMode">false</PropertyValue>
+    <PropertyValue Name="CommitPageLength" xml:space="preserve">200</PropertyValue>
+  </SynchronizationOptions>
+  <Mapping>
+    <ComparedObjects>
+      <Object SourceName="geodesic_classifieds_cp" TargetName="auc13_geodesic_classifieds_cp" SourceType="Table" TargetType="Table" IncludedInScript="False" CustomMapped="True" />
+      <Object SourceName="geodesic_classifieds_credit_choices" TargetName="auc13_geodesic_classifieds_images_urls" SourceType="Table" TargetType="Table" IncludedInScript="False" CustomMapped="True" Unmapped="True" />
+    </ComparedObjects>
+  </Mapping>
+</CompareDocument>

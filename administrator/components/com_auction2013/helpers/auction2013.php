@@ -402,6 +402,7 @@ ORDER BY cats.category_name, prods.title";
 				$i++;
 			}
 			fclose($fp);
+			@chmod(JPATH_SITE.$winfilename,0777);
 		}
 		return $filename;	
 	}	
