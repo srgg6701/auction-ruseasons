@@ -10,14 +10,14 @@
   </Properties>
   <Connection Name="LocalHost">
     <ConnectionString>User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</ConnectionString>
-    <Database>auctionru_ruse</Database>
+    <Database>auctionru_2013</Database>
   </Connection>
-  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="False" MainViewAttribute="Design" MainViewScale="50">
+  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="48">
     <View Name="Design" Visible="True">
       <Data>
         <StatementType>Select</StatementType>
         <ActiveQuery>0</ActiveQuery>
-        <SubQuery Id="0" Open="0" LocationX="-2066.19618419969" LocationY="-112.701610047256" Scale="0.05323793">
+        <SubQuery Id="0" Open="0" LocationX="-10.3448275295081" LocationY="-10.3448275295081" Scale="0.87">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
             <VerticalOverlap>0</VerticalOverlap>
@@ -35,9 +35,27 @@
             </PaperSize>
           </PageOptions>
           <Tables>
-            <Table Name="prods" Left="128" Top="-112" Width="315.2126" Height="552" Collapsed="False" />
-            <Table Name="cats" Left="624" Top="16" Width="405.792" Height="426" Collapsed="False" />
+            <Table Name="prods" Left="40" Top="40" Width="315.2126" Height="228" Collapsed="False" />
+            <Table Name="cat" Left="40" Top="312" Width="405.792" Height="228" Collapsed="False" />
           </Tables>
+        </SubQuery>
+        <SubQuery Id="1" Open="1" LocationX="-10.3448275295081" LocationY="-10.3448275295081" Scale="0.87">
+          <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <HorizontalOverlap>0</HorizontalOverlap>
+            <VerticalOverlap>0</VerticalOverlap>
+            <TopLeftMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </TopLeftMargins>
+            <BottomRightMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </BottomRightMargins>
+            <PaperSize>
+              <Width>210 mm</Width>
+              <Height>297 mm</Height>
+            </PaperSize>
+          </PageOptions>
         </SubQuery>
       </Data>
     </View>

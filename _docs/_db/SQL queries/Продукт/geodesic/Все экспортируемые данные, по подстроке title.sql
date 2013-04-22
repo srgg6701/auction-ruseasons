@@ -6,7 +6,8 @@ SELECT REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
   REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
   REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
-  '' AS 'short_desc',
+  SUBSTRING(prods.description, 1, 70) AS 'short_desc',
+  -- '' AS 'short_desc',
   prods.description AS 'desc', 
   prods.price, 								-- min price
   prods.optional_field_2 AS 'max_price',	-- max price
@@ -14,4 +15,5 @@ SELECT REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
   prods.image AS 'images',
   prods.id 
   FROM auctionru_ruse.geodesic_classifieds_cp prods
-  WHERE title LIKE '%Натюрморт с розами и маком%'
+  -- WHERE title LIKE '%Натюрморт с розами и маком%'
+  ORDER BY title

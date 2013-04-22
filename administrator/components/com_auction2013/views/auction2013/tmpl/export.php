@@ -137,7 +137,11 @@ $userId	= $user->get('id');?>
 								endif;
 							else:
 								//echo "<div class=''>tblHeaders= ".$tblHeaders[$j]."</div>";
-								echo $this->Export->handleDataFormat($i, $key, $rvalue, $tblHeaders[$j], $wrong);								
+								if(preg_match("[(E[0-9])|(FF)]",$rvalue)):
+									$rvalue=iconv("windows-1251","UTF-8",urldecode($rvalue));
+									echo $this->Export->makeLinkToProblemCell($rvalue,$i,$tblHeaders[$j],$wrong);
+								else: echo $this->Export->handleDataFormat($i, $key, $rvalue, $tblHeaders[$j], $wrong);		
+								endif;						
 							endif;?>
             </td>
 					<?	endfor;?>

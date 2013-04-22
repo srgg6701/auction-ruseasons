@@ -10,6 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 // require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'tables'.DS.'table_name.php';
+setlocale(LC_ALL, 'ru_RU.CP1251');
 /**
  *auction2013 helper.
  */
@@ -141,6 +142,16 @@ class Export{
 			return false;
 		}
 	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public function makeLinkToProblemCell($raw_date,$i,$header_name,&$wrong){
+		$wrong[]=$header_name.':'.($i+1);
+		return '<a name="'.$header_name.':'.($i+1).'" style="color:red">'.$raw_date.'</a>';
+	
+	}
 
 /**
  * Проверить формат данных, по возможности - исправить.
@@ -171,8 +182,9 @@ class Export{
 				if(!$rvalue=$this->handleDateFormatDate($raw_date)){
 					//echo "<div class=''>raw_date= ".$raw_date."</div>";//die(); 
 					// сохраним данные проблемной строки:
-					$wrong[]=$header_name.':'.($i+1);
-					return '<a name="'.$header_name.':'.($i+1).'" style="color:red">'.$raw_date.'</a>';
+					// $wrong[]=$header_name.':'.($i+1);
+					//return '<a name="'.$header_name.':'.($i+1).'" style="color:red">'.$raw_date.'</a>';
+					return $this->makeLinkToProblemCell($raw_date,$i,$header_name,$wrong);
 				}
 			}
 			if(!$rvalue) $rvalue=$raw_date;
@@ -204,7 +216,7 @@ class Export{
   REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
   REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
-  '' AS 'short_desc',
+  SUBSTRING(prods.description, 1, 70) AS 'short_desc',
   prods.description AS 'desc', 
   prods.price, 								-- min price
   prods.optional_field_2 AS 'max_price',	-- max price
@@ -333,7 +345,22 @@ ORDER BY cats.category_name, prods.title";
  * @subpackage
  */
 	public function createCSV($catnames,$source_prods,$section){
-		//var_dump(JRequest::get('post')); die('section='.$section);		
+		//var_dump(JRequest::get('post')); die('section='.$section);
+	/*	  'auction_number' => string '1' (length=1)
+		  'lot_number' => string '1000118' (length=7)
+		  'contract_number' => string '' (length=0)
+		  'date_show' => string '1293829200' (length=10)
+		  'date_hide' => string '1296507600' (length=10)
+		  'date_start' => string '14.11.2010+12:00' (length=16)
+		  'date_stop' => string '14.11.2010+17:00' (length=16)
+		  'title' => string 'Лот 118. Тарелка из сервиза ордена Св. князя Владимира. Завод Ф.Я. Гарднера. 1783-1785 годы.' (length=152)
+		  'short_desc' => string '' (length=0)
+		  'desc' => string 'Фарфор, роспись полихромная, надглазурная, золочение. Автор декоративного оформления Козлов Г.И. Марка синяя, подглазурная «G». Диаметр 23 см   В 1777 году императрица Екатерина II впервые заказала на знаменитом фарфоровом заводе Гарднера орденские сервизы, которые должны были использоваться в Зимнем дворце в дни орденских праздников. В XVIII веке продукция завода Ф.Я. Гарднера успешно конкурировала с дорогими изделиями Невской порцелиновой мануфактуры, которая при Екатерине II получила название Императорского фарфорового завода. 22 сентября 1782 года по случаю двадцатилетия царствования императрицы Екатерины II был учрежден новый российский орден, получивший имя св. Владимира. В 1783 году в связи с учреждением ордена был заказан огромный Владимирский сервиз на 140 кувертов, обошедшийся в колоссальную по тем временам сумму - 15 тысяч рублей.' (length=1538)
+		  'price' => string '360' (length=3)
+		  'max_price' => string '450+000' (length=7)
+		  'sales_price' => string '0' (length=1)
+		  'images' => string '2' (length=1)
+		  'id' => string '115359' (length=6)	*/	
 		$filename='/_docs/csv_saved/['.$section.']'.array_shift($catnames)."___".array_pop($catnames).'.csv';
 		$filename=str_replace(" ","_",$filename);
 		$winfilename=iconv("UTF-8","windows-1251",$filename);
@@ -373,11 +400,20 @@ ORDER BY cats.category_name, prods.title";
 							'images' => string '2' (length=1)
 							'id' => string '1429' (length=4)	*/
 						$im++;
-						if(strstr($key,'date') && $content){
-							if(!$data[$key]=$this->handleDateFormatInteger($content))
-								if(!$data[$key]=$this->handleDateFormatDate($content))
-									$data[$key]=$content;
+						if(strstr($key,'date_') && $content){
+							//echo "<div class=''>DATE: ".$content."</div>";
+							if(preg_match("[(E[0-9])|(FF)]",$content)){
+								$decoded=urldecode($content);
+								$data[$key]=$decoded;
+								//$data[$key]=iconv("windows-1251","UTF-8",$decoded);
+								// echo "<div>date: ".$content."</div><hr>";
+							}else{
+								if(!$data[$key]=$this->handleDateFormatInteger($content))
+									if(!$data[$key]=$this->handleDateFormatDate($content))
+										$data[$key]=$content;
+							}
 						}else{
+							
 							if($key=='images'){
 								$icount=0;
 								while($im<$headers_count){
@@ -386,7 +422,11 @@ ORDER BY cats.category_name, prods.title";
 										$icount++;
 									$im++;
 								}
+							}elseif(strstr($key,"price")){
+								
+									
 							}
+							
 							$data[$key]=iconv("UTF-8","windows-1251",$content);
 						}
 					}
@@ -401,7 +441,7 @@ ORDER BY cats.category_name, prods.title";
 					fputcsv($fp, $data, ";"); 
 				$i++;
 			}
-			fclose($fp);
+			fclose($fp); //die();
 			@chmod(JPATH_SITE.$winfilename,0777);
 		}
 		return $filename;	
