@@ -23,10 +23,12 @@ SELECT REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
   prods.id 
   FROM auc13_geodesic_classifieds_cp prods
     LEFT JOIN  auc13_geodesic_categories AS cat ON cat.category_id = prods.category 
+  WHERE prods.optional_field_2 LIKE '%+%'
+  -- WHERE prods.optional_field_5 = '1002114'
   -- WHERE title LIKE '%Натюрморт с розами и маком%'
   -- ################ ВЫБРАТЬ НЕФОРМАТНЫЕ ДАННЫЕ ДЛЯ ДАТ: #################################
-  WHERE ( prods.optional_field_3 REGEXP '(E[0-9])|(FF)' AND prods.optional_field_3 <> '' ) 
-     OR ( prods.optional_field_4 REGEXP '(E[0-9])|(FF)' AND  prods.optional_field_4 <> '' )
+  -- WHERE ( prods.optional_field_3 REGEXP '(E[0-9])|(FF)' AND prods.optional_field_3 <> '' ) 
+     -- OR ( prods.optional_field_4 REGEXP '(E[0-9])|(FF)' AND  prods.optional_field_4 <> '' )
   -- ######################################################################################
   -- WHERE prods.optional_field_3 = ''
   ORDER BY parent_category_name, title

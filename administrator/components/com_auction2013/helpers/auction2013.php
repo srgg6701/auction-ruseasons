@@ -105,14 +105,17 @@ class Export{
  * @subpackage
  */
 	public function handleDateFormatInteger($rvalue){
-		if(is_int($rvalue)
-			   ||preg_match("/\b[0-9]{10}\b/", $rvalue)
-			){
+		// echo "<div style='color:blue'>handleDateFormatInteger()</div>";
+		if(//is_int($rvalue) ||
+			   preg_match("/[0-9]{10}/", $rvalue)
+			){ 
 			if(!is_int($rvalue))
 				(int)$rvalue;
+				//echo "<div style='color:navy'>MATCH! Date: ".date('Y-m-d H:i:s',$rvalue)."</div>";
 			return date('Y-m-d H:i:s',$rvalue);
-		}else
+		}else{ 
 			return false;
+		}
 	}
 /**
  * Обработать дату, представленную в виде datetime без секунд
@@ -122,6 +125,7 @@ class Export{
 	public function handleDateFormatDate($rvalue){
 
 		if(preg_match("/\b[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}\+[0-9]{2}:[0-9]{2}[:0-9]{0,3}\b/", $rvalue)){ 
+			// echo "<div style='color:orange'>MATCH: handleDateFormatDate();</div>";
 			$ardate=explode('+',$rvalue); // 10.02.2012 9:12
 			$bDate=explode('.',$ardate[0]); // 10 02 2012
 			$rTime=explode(":",$ardate[1]);
@@ -138,7 +142,7 @@ class Export{
 			 // time: //9:12
 				' '.implode(":",$rTime);
 		}else{
-			//echo "<div class=''>NO MATCH</div>";
+			// echo "<div  style='color:orange'>NO MATCH: $rvalue</div>";
 			return false;
 		}
 	}
@@ -401,17 +405,16 @@ ORDER BY cats.category_name, prods.title";
 							'id' => string '1429' (length=4)	*/
 						$im++;
 						if(strstr($key,'date_') && $content){
-							//echo "<div class=''>DATE: ".$content."</div>";
+							// echo "<div class=''>DATE(".gettype($content)."): ".$content."</div>";
 							if(preg_match("[(E[0-9])|(FF)]",$content)){
 								$decoded=urldecode($content);
-								$data[$key]=$decoded;
-								//$data[$key]=iconv("windows-1251","UTF-8",$decoded);
-								// echo "<div>date: ".$content."</div><hr>";
+								$content=$decoded;
 							}else{
-								if(!$data[$key]=$this->handleDateFormatInteger($content))
-									if(!$data[$key]=$this->handleDateFormatDate($content))
-										$data[$key]=$content;
-							}
+								if(preg_match("/\b[0-9]{10}\b/",$content))
+									$content=$this->handleDateFormatInteger($content);
+								else
+									$content=$this->handleDateFormatDate($content);
+							} // echo "<div style='color:green'>$key => ".$content."</div><hr>";
 						}else{
 							
 							if($key=='images'){
@@ -422,13 +425,12 @@ ORDER BY cats.category_name, prods.title";
 										$icount++;
 									$im++;
 								}
-							}elseif(strstr($key,"price")){
-								
-									
+							}elseif($key=="max_price"){
+								// & content, & data
+								$this->handlePrice($content,$data); 
 							}
-							
-							$data[$key]=iconv("UTF-8","windows-1251",$content);
 						}
+						$data[$key]=iconv("UTF-8","windows-1251",$content);
 					}
 					unset($images);
 				}else{
@@ -437,15 +439,27 @@ ORDER BY cats.category_name, prods.title";
 				}
 				unset($data['id']);
 				unset($data['images']);
-				if($make_file)
+				if($make_file)	
 					fputcsv($fp, $data, ";"); 
 				$i++;
 			}
-			fclose($fp); //die();
+			fclose($fp);  // die();
 			@chmod(JPATH_SITE.$winfilename,0777);
-		}
+		} 
 		return $filename;	
-	}	
+	}
+/**
+ * Описание
+ * @package
+ * @subpackage
+ */
+	public function handlePrice(&$content,&$data){ 
+		if(strstr($content,"+000")){							
+			$content=str_replace("+","",$content);
+			$data['price'].="000";
+		}
+	}
+	
 /**
  * Описание
  * @package

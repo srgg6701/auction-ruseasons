@@ -124,10 +124,9 @@ $userId	= $user->get('id');?>
 						if($i)
 						for($j=0,$len=count($source_prods[0]);$j<$len;$j++):
 							$key=$source_prods[0][$j];
-							$value=$data[$key];
-							$rvalue=$value;?>
+							$rvalue=$data[$key];?>
 			<td>			
-					<?		if($key=='img'):
+						<?	if($key=='img'):
 								if($im!==false):
 									if($images[$im]):
 										echo $images[$im];
@@ -135,12 +134,22 @@ $userId	= $user->get('id');?>
 									else: $im=false;
 									endif;
 								endif;
-							else:
-								//echo "<div class=''>tblHeaders= ".$tblHeaders[$j]."</div>";
-								if(preg_match("[(E[0-9])|(FF)]",$rvalue)):
-									$rvalue=iconv("windows-1251","UTF-8",urldecode($rvalue));
-									echo $this->Export->makeLinkToProblemCell($rvalue,$i,$tblHeaders[$j],$wrong);
-								else: echo $this->Export->handleDataFormat($i, $key, $rvalue, $tblHeaders[$j], $wrong);		
+							else: //echo "<div class=''>tblHeaders= ".$tblHeaders[$j]."</div>";
+								if(strstr($key,"date_")):
+									if(preg_match("[(E[0-9])|(FF)]",$rvalue)):
+										$rvalue=iconv("windows-1251","UTF-8",urldecode($rvalue));
+										echo $this->Export->makeLinkToProblemCell($rvalue,$i,$tblHeaders[$j],$wrong);
+									else: echo $this->Export->handleDataFormat($i, $key, $rvalue, $tblHeaders[$j], $wrong);	
+									endif;
+								else: 
+									if($key=="price"):
+										if(strstr($data['max_price'],"+000")){							
+											$data['max_price']=str_replace("+","",$data['max_price']);
+											$rvalue.="000";
+											$data['price']=$rvalue;
+										}
+									endif;	
+									echo $rvalue;
 								endif;						
 							endif;?>
             </td>
