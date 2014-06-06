@@ -513,13 +513,14 @@ class HTML{
 								$pagination=false
 							){
 		$category_id=JRequest::getVar('virtuemart_category_id');
-?>
+        $session=&JFactory::getSession();
+        $products_data=$session->get('products_data'); //var_dump("<pre>",$products_data,"<pre/>");
+        $section_data=$products_data[$layout]; // layout: shop, online...
+        ?>
 <div class="top_list">
     <h2><? echo $section;
-		$session=&JFactory::getSession();
-		$products_data=$session->get('products_data');
-		$section_data=$products_data[$layout];
-		if((int)$category_id>0){
+
+        if((int)$category_id>0){
 			$cat=$section_data[$slug];
 			$subcat="<div style='font-weight:200;font-size: 16px;
 margin-top: 8px;'>".$cat['category_name']."</div>";

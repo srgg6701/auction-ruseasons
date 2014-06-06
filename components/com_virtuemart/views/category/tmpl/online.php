@@ -14,7 +14,10 @@ vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 
-HTML::pageHead("Онлайн торги",$this);	?>
+HTML::pageHead("Онлайн торги",
+                "online",
+                $this->category->slug,
+                $this->vmPagination);	?>
 <div class="item-page-shop">
 <br>
 <?
