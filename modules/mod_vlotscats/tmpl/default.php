@@ -8,10 +8,10 @@ if(!$session->get('section_links')){?>
 <? 
 }
 
-	//var_dump($section_links); die();
+//var_dump($section_links); die();
 // get categories:
 $lots=modVlotscatsHelper::getCategoriesData(true);
-//var_dump($lots); die();
+//print_r($lots); die();
 $router = $app->getRouter();
 
 if($SefMode=$router->getMode()){
@@ -34,34 +34,35 @@ if($SefMode=$router->getMode()){
 	$top_layout=$menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime
 }?>
 <br/>
-<?	$top_cats_menu_ids=AuctionStuff::getTopCatsMenuItemIds();	
-	// get top categories aliases to substitute them as layouts:
-	$top_cats_aliases=AuctionStuff::getTopCatsLayouts();
-	// online, fulltime, shop
-	$a=0;
-	// TODO: extract a whole link from the top cat menu params!
-	// See data above: $top_cats_menu_ids
-	$common_link_segment='index.php?option=com_virtuemart&view=category&virtuemart_category_id=';
+<?
+$top_cats_menu_ids=AuctionStuff::getTopCatsMenuItemIds();
+// get top categories aliases to substitute them as layouts:
+$top_cats_aliases=AuctionStuff::getTopCatsLayouts();
+// online, fulltime, shop
+$a=0;
+// TODO: extract a whole link from the top cat menu params!
+// See data above: $top_cats_menu_ids
+$common_link_segment='index.php?option=com_virtuemart&view=category&virtuemart_category_id=';
 $section_links=array();
 //
+$show_online = true; // TODO: УБРАТЬ это доп. условие после окончания работ
 foreach($lots as $top_cat_id => $array){
 	$section_links[$top_cats_aliases[$a]]=array();
 	
-	if($top_cats_aliases[$a]!='online'){
-	
-		
+	if($top_cats_aliases[$a]!='online'||$show_online){
 		//var_dump($array); //die();
 		$top_cat_count=0; 
 		$andLayout='&layout='.$top_cats_aliases[$a];
 		$sub_cats='
 	<ul>';
+        $test = false;
 		// top cat layout (online, fulltime, shop)	
 		foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):
 					$product_count=(int)$category_data['product_count'];
 					$top_cat_count+=$product_count;
-	
+
 					if ($test){?>Имя категории<? }
 	
 					$category_link=$common_link_segment.$category_data['virtuemart_category_id'];
@@ -113,22 +114,15 @@ foreach($lots as $top_cat_id => $array){
 		  ) {
 	?>
 <h3><? 
-
-	
 			if ($test){?>Имя раздела категорий<? }
-		
 				?><a href="<?=JRoute::_($link)?>"><?=$array['top_category_name']?></a>
 	<span class="lots_count">(<?=$top_cat_count?>)</span>
 </h3>
-			<?	echo $sub_cats;	
-	
-			}
-	
+			<?	echo $sub_cats;
 		}
-	
+	}
 	
 	$a++;
-	
 }
  
 $session->set('section_links',$section_links);
