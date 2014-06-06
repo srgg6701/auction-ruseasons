@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041827717730000" remote="130089432600000000" />
-<file name="es-ES.com_virtuemart.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717460000" remote="130089432600000000" />
-<file name="es-ES.com_virtuemart.menu.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717480000" remote="130089432600000000" />
-<file name="es-ES.com_virtuemart.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717500000" remote="130089432600000000" />
-<file name="es-ES.com_virtuemart_media.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717510000" remote="130089432600000000" />
-<file name="es-ES.plg_editors-xtd_modulesanywhere.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742976950000" remote="130089432600000000" />
-<file name="es-ES.plg_editors-xtd_modulesanywhere.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742976970000" remote="130089432600000000" />
-<file name="es-ES.plg_system_modulesanywhere.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742977210000" remote="130089432600000000" />
-<file name="es-ES.plg_system_modulesanywhere.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742977230000" remote="130089432600000000" />
-<file name="es-ES.plg_system_nnframework.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742990490000" remote="130089432600000000" />
-<file name="es-ES.plg_system_nnframework.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130049742990540000" remote="130089432600000000" />
-<file name="es-ES.plg_vmcustom_specification.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717530000" remote="130089432600000000" />
-<file name="es-ES.plg_vmcustom_specification.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717550000" remote="130089432600000000" />
-<file name="es-ES.plg_vmcustom_stockable.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717560000" remote="130089432600000000" />
-<file name="es-ES.plg_vmcustom_stockable.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717580000" remote="130089432600000000" />
-<file name="es-ES.plg_vmcustom_textinput.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717590000" remote="130089432600000000" />
-<file name="es-ES.plg_vmcustom_textinput.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717600000" remote="130089432600000000" />
-<file name="es-ES.plg_vmpayment_paypal.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717620000" remote="130089432600000000" />
-<file name="es-ES.plg_vmpayment_paypal.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717630000" remote="130089432600000000" />
-<file name="es-ES.plg_vmpayment_standard.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717660000" remote="130089432600000000" />
-<file name="es-ES.plg_vmpayment_standard.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717680000" remote="130089432600000000" />
-<file name="es-ES.plg_vmshipment_weight_countries.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717700000" remote="130089432600000000" />
-<file name="es-ES.plg_vmshipment_weight_countries.sys.ini" server="2013.auction-ruseasons.ru/public_html/" local="130041827717720000" remote="130089432600000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041827717730000" remote="130089432600000000" Dst="-1" />
+<file name="es-ES.com_virtuemart.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.com_virtuemart.menu.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.com_virtuemart.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.com_virtuemart_media.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_editors-xtd_modulesanywhere.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_editors-xtd_modulesanywhere.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_system_modulesanywhere.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_system_modulesanywhere.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_system_nnframework.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_system_nnframework.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_specification.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_specification.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_stockable.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_stockable.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_textinput.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_textinput.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmpayment_paypal.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmpayment_paypal.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmpayment_standard.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmpayment_standard.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmshipment_weight_countries.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.plg_vmshipment_weight_countries.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
 </dwsync>
