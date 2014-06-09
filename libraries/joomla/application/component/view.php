@@ -594,8 +594,8 @@ class JView extends JObject
 		$gAll=JRequest::getVar('gall');
         if($tpl=='price') {
             $tmpl = true;
-            $dpbt = str_replace("#", "<br>#", debug_print_backtrace());
-            echo("<pre>" . $dpbt . "</pre>");
+            //$dpbt = str_replace("#", "<br>#", debug_print_backtrace());
+            //echo("<pre>" . $dpbt . "</pre>");
         }
 		// Clear prior output
 		$this->_output = null;
@@ -665,8 +665,10 @@ class JView extends JObject
 			
 			// profiling:
 			if(JRequest::getVar('ginc')||$gAll){
-                if($tmpl)
-                    echo "<h2>include template file path= ".$this->_template."</h2>";
+                if($tmpl){
+                    //echo "<div>_template = </div>";
+                    echo "<h2>include template file path= ".$this->_template."</h2>"; //die();
+                }
                 //die();
             }
 			

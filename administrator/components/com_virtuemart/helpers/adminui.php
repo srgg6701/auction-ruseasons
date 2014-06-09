@@ -147,7 +147,7 @@ class AdminUIHelper {
 		$html = '<div id="admin-ui-tabs">';
 
 		foreach ( $load_template as $tab_content => $tab_title ) {
-			$html .= '<div class="tabs" title="' . JText::_ ( $tab_title ) . '">';
+            $html .= '<div class="tabs" title="' . JText::_ ( $tab_title ) . '">';
 			/*	$tab_content => $tab_title :
 				----------------------------
 				information = COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_INFO_LBL
@@ -163,14 +163,14 @@ class AdminUIHelper {
 				VmView 					extends JView
 				
 			*/
+            // см. выше^
 			//echo ('tab_content = '.$tab_content.'<hr>');
-			
-			$html .= $view->loadTemplate ( $tab_content );
-			
+            $html .= $view->loadTemplate ( $tab_content );
+
 			$html .= '<div class="clear"></div></div>';
 		}
 		$html .= '</div>';
-		echo $html;
+		echo $html; die();
 	}
 
 	/**

@@ -38,8 +38,12 @@ $tabarray['images'] = 'COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_IMAGES_LBL';
 $tabarray['custom'] = 'COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_CUSTOM_TAB';
 //$tabarray['emails'] = 'COM_VIRTUEMART_PRODUCT_FORM_EMAILS_TAB';
 // $tabarray['customer'] = 'COM_VIRTUEMART_PRODUCT_FORM_CUSTOMER_TAB';
-
-AdminUIHelper::buildTabs ( $this,  $tabarray, $this->product->virtuemart_product_id ); 
+//unset($this->product->prices[0]['product_override_price']);
+//var_dump("<pre>",$this/*->product->prices*/,"</pre>"); die();
+AdminUIHelper::buildTabs ( $this, // VirtuemartViewProduct
+                           $tabarray,
+                           $this->product->virtuemart_product_id );
+//die(__FILE__);
 // Loading Templates in Tabs END ?>
 
 

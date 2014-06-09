@@ -269,7 +269,7 @@ $i=0;
 				<?php //echo JText::_ ('COM_VIRTUEMART_PRODUCT_PRICE_ORDER'); ?>
 				<?php echo $this->loadTemplate ('price'); ?>
             </td>
-        </tr>
+        </tr><?	?>
 			<?php
 			$this->priceCounter++;
 		}

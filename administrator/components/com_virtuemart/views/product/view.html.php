@@ -30,7 +30,6 @@ if(!class_exists('VmView'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmvie
 class VirtuemartViewProduct extends VmView {
 
 	function display($tpl = null) {
-
 		// Get the task
 		$task = JRequest::getWord('task',$this->getLayout());
 		vmdebug('VirtuemartViewProduct '.$task);
@@ -47,20 +46,17 @@ class VirtuemartViewProduct extends VmView {
 		switch ($task) {
 			case 'add':
 			case 'edit':
-
 				//this was in the controller for the edit tasks, I dont know if it is still needed,
 				$this->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'product'.DS.'tmpl');
-
 				$virtuemart_product_id = JRequest::getVar('virtuemart_product_id', array());
-
 				if(is_array($virtuemart_product_id) && count($virtuemart_product_id) > 0){
 					$virtuemart_product_id = (int)$virtuemart_product_id[0];
 				} else {
 					$virtuemart_product_id = (int)$virtuemart_product_id;
 				}
-
 				$product = $model->getProductSingle($virtuemart_product_id,false);
-				//var_dump('<h1>product</h1><pre>',$product,'</pre>'); die();
+				// см. ниже
+				//var_dump('<h1>product</h1><pre>',$product,'</pre>'); // die();
 				$product_parent= $model->getProductParent($product->product_parent_id);
 
 				$mf_model = VmModel::getModel('manufacturer');
@@ -185,6 +181,9 @@ class VirtuemartViewProduct extends VmView {
 
 
 				$this->assignRef('product', $product);
+
+                var_dump('<h1>this.product</h1><pre>',$this->product,'</pre>');
+
 				$product_empty_price = array(
 					'virtuemart_product_price_id' => 0
 				, 'virtuemart_product_id'         => $virtuemart_product_id
@@ -271,104 +270,104 @@ class VirtuemartViewProduct extends VmView {
 
 				break;
 
-		default:
-			if ($product_parent_id=JRequest::getInt('product_parent_id',false) ) {
-				$product_parent= $model->getProductSingle($product_parent_id,false);
+		    default:
+                if ($product_parent_id=JRequest::getInt('product_parent_id',false) ) {
+                    $product_parent= $model->getProductSingle($product_parent_id,false);
 
-				if($product_parent){
-					$title='PRODUCT_CHILDREN_LIST' ;
-					$link_to_parent =  JHTML::_('link', JRoute::_('index.php?view=product&task=edit&virtuemart_product_id='.$product_parent->virtuemart_product_id.'&option=com_virtuemart'), $product_parent->product_name, array('title' => JText::_('COM_VIRTUEMART_EDIT_PARENT').' '.$product_parent->product_name));
-					$msg= JText::_('COM_VIRTUEMART_PRODUCT_OF'). " ".$link_to_parent;
-				} else {
-					$title='PRODUCT_CHILDREN_LIST' ;
-					$msg= 'Parent with product_parent_id '.$product_parent_id.' not found';
-				}
+                    if($product_parent){
+                        $title='PRODUCT_CHILDREN_LIST' ;
+                        $link_to_parent =  JHTML::_('link', JRoute::_('index.php?view=product&task=edit&virtuemart_product_id='.$product_parent->virtuemart_product_id.'&option=com_virtuemart'), $product_parent->product_name, array('title' => JText::_('COM_VIRTUEMART_EDIT_PARENT').' '.$product_parent->product_name));
+                        $msg= JText::_('COM_VIRTUEMART_PRODUCT_OF'). " ".$link_to_parent;
+                    } else {
+                        $title='PRODUCT_CHILDREN_LIST' ;
+                        $msg= 'Parent with product_parent_id '.$product_parent_id.' not found';
+                    }
 
-			} else {
-				$title='PRODUCT';
-				$msg="";
-			}
-			$this->db = JFactory::getDBO();
+                } else {
+                    $title='PRODUCT';
+                    $msg="";
+                }
+                $this->db = JFactory::getDBO();
 
-			$this->SetViewTitle($title, $msg );
+                $this->SetViewTitle($title, $msg );
 
-			$this->addStandardDefaultViewLists($model,'created_on');
+                $this->addStandardDefaultViewLists($model,'created_on');
 
-			/* Get the list of products */
-			$productlist = $model->getProductListing(false,false,false,false,true);
+                /* Get the list of products */
+                $productlist = $model->getProductListing(false,false,false,false,true);
 
-			//The pagination must now always set AFTER the model load the listing
-			$pagination = $model->getPagination();
-			$this->assignRef('pagination', $pagination);
+                //The pagination must now always set AFTER the model load the listing
+                $pagination = $model->getPagination();
+                $this->assignRef('pagination', $pagination);
 
-			/* Get the category tree */
-			$categoryId = $model->virtuemart_category_id; //OSP switched to filter in model, was JRequest::getInt('virtuemart_category_id');
-			$category_tree = ShopFunctions::categoryListTree(array($categoryId));
-			$this->assignRef('category_tree', $category_tree);
+                /* Get the category tree */
+                $categoryId = $model->virtuemart_category_id; //OSP switched to filter in model, was JRequest::getInt('virtuemart_category_id');
+                $category_tree = ShopFunctions::categoryListTree(array($categoryId));
+                $this->assignRef('category_tree', $category_tree);
 
-			/* Load the product price */
-			if(!class_exists('calculationHelper')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'calculationh.php');
+                /* Load the product price */
+                if(!class_exists('calculationHelper')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'calculationh.php');
 
-			$vendor_model = VmModel::getModel('vendor');
-			$productreviews = VmModel::getModel('ratings');
+                $vendor_model = VmModel::getModel('vendor');
+                $productreviews = VmModel::getModel('ratings');
 
-			foreach ($productlist as $virtuemart_product_id => $product) {
-				$product->mediaitems = count($product->virtuemart_media_id);
-				$product->reviews = $productreviews->countReviewsForProduct($product->virtuemart_product_id);
+                foreach ($productlist as $virtuemart_product_id => $product) {
+                    $product->mediaitems = count($product->virtuemart_media_id);
+                    $product->reviews = $productreviews->countReviewsForProduct($product->virtuemart_product_id);
 
-				$vendor_model->setId($product->virtuemart_vendor_id);
-				$vendor = $vendor_model->getVendor();
+                    $vendor_model->setId($product->virtuemart_vendor_id);
+                    $vendor = $vendor_model->getVendor();
 
-				$currencyDisplay = CurrencyDisplay::getInstance($vendor->vendor_currency,$vendor->virtuemart_vendor_id);
+                    $currencyDisplay = CurrencyDisplay::getInstance($vendor->vendor_currency,$vendor->virtuemart_vendor_id);
 
-				if(!empty($product->product_price) && !empty($product->product_currency) ){
-					$product->product_price_display = $currencyDisplay->priceDisplay($product->product_price,(int)$product->product_currency,1,true);
-				}
+                    if(!empty($product->product_price) && !empty($product->product_currency) ){
+                        $product->product_price_display = $currencyDisplay->priceDisplay($product->product_price,(int)$product->product_currency,1,true);
+                    }
 
-				/* Write the first 5 categories in the list */
-				$product->categoriesList = shopfunctions::renderGuiList('virtuemart_category_id','#__virtuemart_product_categories','virtuemart_product_id',$product->virtuemart_product_id,'category_name','#__virtuemart_categories','virtuemart_category_id','category');
+                    /* Write the first 5 categories in the list */
+                    $product->categoriesList = shopfunctions::renderGuiList('virtuemart_category_id','#__virtuemart_product_categories','virtuemart_product_id',$product->virtuemart_product_id,'category_name','#__virtuemart_categories','virtuemart_category_id','category');
 
-			}
+                }
 
-			$mf_model = VmModel::getModel('manufacturer');
-			$manufacturers = $mf_model->getManufacturerDropdown();
-			$this->assignRef('manufacturers',	$manufacturers);
+                $mf_model = VmModel::getModel('manufacturer');
+                $manufacturers = $mf_model->getManufacturerDropdown();
+                $this->assignRef('manufacturers',	$manufacturers);
 
-			/* add Search filter in lists*/
-			/* Search type */
-			$options = array( '' => JText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'),
-		    				'parent' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_PARENT_PRODUCT'),
-							'product' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT'),
-							'price' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE'),
-							'withoutprice' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE')
-			);
-			$this->lists['search_type'] = VmHTML::selectList('search_type', JRequest::getVar('search_type'),$options);
+                /* add Search filter in lists*/
+                /* Search type */
+                $options = array( '' => JText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'),
+                                'parent' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_PARENT_PRODUCT'),
+                                'product' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT'),
+                                'price' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE'),
+                                'withoutprice' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE')
+                );
+                $this->lists['search_type'] = VmHTML::selectList('search_type', JRequest::getVar('search_type'),$options);
 
-			/* Search order */
-			$options = array( 'bf' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_BEFORE'),
-								  'af' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_AFTER')
-			);
-			$this->lists['search_order'] = VmHTML::selectList('search_order', JRequest::getVar('search_order'),$options);
+                /* Search order */
+                $options = array( 'bf' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_BEFORE'),
+                                      'af' => JText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_AFTER')
+                );
+                $this->lists['search_order'] = VmHTML::selectList('search_order', JRequest::getVar('search_order'),$options);
 
-			// Toolbar
+                // Toolbar
 
-			//JToolBarHelper::save('sentproductemailtoshoppers', JText::_('COM_VIRTUEMART_PRODUCT_EMAILTOSHOPPERS'));
-			JToolBarHelper::custom('massxref_cats', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT'), true);
-			JToolBarHelper::custom('massxref_sgrps', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS'), true);
-			JToolBarHelper::custom('createchild', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_CHILD'), true);
-			JToolBarHelper::custom('cloneproduct', 'copy', 'copy', JText::_('COM_VIRTUEMART_PRODUCT_CLONE'), true);
-			JToolBarHelper::custom('addrating', 'default', '', JText::_('COM_VIRTUEMART_ADD_RATING'), true);
-			$this->addStandardDefaultViewCommands();
+                //JToolBarHelper::save('sentproductemailtoshoppers', JText::_('COM_VIRTUEMART_PRODUCT_EMAILTOSHOPPERS'));
+                JToolBarHelper::custom('massxref_cats', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT'), true);
+                JToolBarHelper::custom('massxref_sgrps', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS'), true);
+                JToolBarHelper::custom('createchild', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_CHILD'), true);
+                JToolBarHelper::custom('cloneproduct', 'copy', 'copy', JText::_('COM_VIRTUEMART_PRODUCT_CLONE'), true);
+                JToolBarHelper::custom('addrating', 'default', '', JText::_('COM_VIRTUEMART_ADD_RATING'), true);
+                $this->addStandardDefaultViewCommands();
 
 
-			$this->assignRef('productlist', $productlist);
-			$this->assignRef('virtuemart_category_id', $categoryId);
-			$this->assignRef('model', $model);
-
+                $this->assignRef('productlist', $productlist);
+                $this->assignRef('virtuemart_category_id', $categoryId);
+                $this->assignRef('model', $model);
+                //echo "<div>this:</div>";
+                //var_dump("<pre>",$this,"</pre>");
 			break;
 		}
-
-		parent::display($tpl);
+        parent::display($tpl);
 	}
 
 	/**
