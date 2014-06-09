@@ -21,7 +21,9 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php echo $this->langList;
 $i=0;
-?>
+
+//var_dump("<pre>",$this->loadTemplate('price'),"<pre/>");
+//die();?>
 
 
 <fieldset>
