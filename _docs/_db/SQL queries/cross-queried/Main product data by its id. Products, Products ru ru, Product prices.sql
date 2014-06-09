@@ -12,9 +12,9 @@ SELECT
   CONCAT( DATE_FORMAT(prod_prices.product_price_publish_up, "%d.%m.%Y"), "-", 
           DATE_FORMAT(prod_prices.product_price_publish_down, "%d.%m.%Y")
         ) AS 'show period',
-  -- prod.product_availability AS 'available from', 
-  prod.product_available_date AS 'auction date',
-  -- prod.product_available_date_closed 'TO'
+  prod.product_available_date AS 'date_start',
+  prod.product_availability AS 'date_from', 
+  prod.product_available_date_closed 'date_to',
   medias.file_title, 
   medias.file_description,
   medias.file_url,
