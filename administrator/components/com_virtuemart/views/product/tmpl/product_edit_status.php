@@ -23,14 +23,13 @@ defined('_JEXEC') or die('Restricted access');
 				<legend><?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_PRODUCT_STATUS_LBL'); ?></legend>
 <table class="adminform" width="100%">
 	<tr class="row0">
-		<td width="25%" >
+		<td width="25%">
 			<div style="text-align:right;font-weight:bold;">
 			<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_IN_STOCK') ?></div>
 		</td>
-		<td width="20%">
-			<input  type="text" class="inputbox js-change-stock"  name="product_in_stock" value="<?php echo $this->product->product_in_stock; ?>" size="10" />
-
-			<?php 
+		<td colspan="3">
+			<input  type="text" class="inputbox js-change-stock"  name="product_in_stock" value="<?php echo $this->product->product_in_stock; ?>" size="10" /><?php 
+			
 			/*if (isset($this->waitinglist) && count($this->waitinglist) > 0) { 
 				$link=JROUTE::_('index.php?option=com_virtuemart&view=product&task=sentproductemailtoshoppers&virtuemart_product_id='.$this->product->virtuemart_product_id.'&token='.JUtility::getToken() ); 
 
@@ -40,8 +39,9 @@ defined('_JEXEC') or die('Restricted access');
 					</a>
 
 
-			}*/ ?>
+			}<?	*/?>
 		</td>
+		<?	/* ?>
 		<td width="20%" >
 			<div style="text-align:right;font-weight:bold;">
 			<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_ORDERED_STOCK') ?></div>
@@ -50,7 +50,9 @@ defined('_JEXEC') or die('Restricted access');
 			<input type="text" class="inputbox js-change-stock"  name="product_ordered" value="<?php echo $this->product->product_ordered; ?>" size="10" />
 		</td>
 	</tr>
+    <?	*/?>
 	<!-- low stock notification -->
+    <?	/*?>
 	<tr class="row1">
 		<td>
 			<div style="text-align:right;font-weight:bold;">
@@ -61,7 +63,9 @@ defined('_JEXEC') or die('Restricted access');
 			<input type="text" class="inputbox" name="low_stock_notification" value="<?php echo $this->product->low_stock_notification; ?>" size="3" />
 		</td>
 	</tr>
+    <?	*/?>
 	<!-- end low stock notification -->
+    <?	/* ?>
 	<tr class="row0">
 		<td>
 			<div style="text-align:right;font-weight:bold;">
@@ -80,10 +84,11 @@ defined('_JEXEC') or die('Restricted access');
 			<input type="text" class="inputbox"  name="max_order_level" value="<?php echo $this->product->max_order_level; ?>" size="10" />
 		</td>
 	</tr>
+    <?	*/?>
 	<tr class="row1">
 		<td >
 			<div style="text-align:right;font-weight:bold;">
-				<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_AVAILABLE_DATE') ?>
+				<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_AUCTION_DATE_OPEN') ?>
 			</div>
 		</td>
 		<td<?
@@ -95,15 +100,17 @@ defined('_JEXEC') or die('Restricted access');
 			echo vmJsApi::jDate($this->product->product_available_date, 'product_available_date'); ?>
 		</td>
         <?	/*	MODIFIED START */?>
-        <td nowrap>
+        <td style="text-align:right;"><? /*?>
         Начало аукциона:
-        <?	echo vmJsApi::jDate($this->product->auction_date_start, 'auction_date_start');?>
+        <?	echo vmJsApi::jDate($this->product->auction_date_start, 'auction_date_start');	*/
+		echo '<b>'.JText::_('COM_VIRTUEMART_PRODUCT_FORM_AUCTION_DATE_CLOSE').'</b>';?>
         </td>
-        <td nowrap>
-        Окончание аукциона:
-        <?	echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');?></td>
+        <td nowrap><?
+        echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');	?>
+        </td>
         <?	/*	MODIFIED END	*/?>
 	</tr>
+    <?	/*?>
 	<tr class="row0">
 		<td valign="top" >
 			<div style="text-align:right;font-weight:bold;">
@@ -119,15 +126,15 @@ defined('_JEXEC') or die('Restricted access');
 		</td>
 		<td><img border="0" id="imagelib" alt="<?php echo JText::_('COM_VIRTUEMART_PREVIEW'); ?>" name="imagelib" src="<?php if ($this->product->product_availability) echo JURI::root(true).$this->imagePath.$this->product->product_availability;?>"/></td>
 
-	</tr>
+	</tr><?	*/?>
 </table>
 </fieldset>
-
+<?	/*?>
 <fieldset>
 	<legend><?php echo JText::_('COM_VIRTUEMART_PRODUCT_SHOPPERS'); ?></legend>
 		<?php echo $this->loadTemplate('customer'); ?>
 </fieldset>
-
+<?	*/?>
 
 
 

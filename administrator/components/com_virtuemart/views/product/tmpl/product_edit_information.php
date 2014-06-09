@@ -65,14 +65,15 @@ $i=0;
 				</tr>
 				<?php $i = 1 - $i; ?>
 				<tr class="row<?php echo $i?>">
-					<td " height="18"><div style="text-align:right;font-weight:bold;">
+					<td height="18"><div style="text-align:right;font-weight:bold;">
 						<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_ALIAS') ?></div>
 					</td>
 					<td  height="18" colspan="3" >
 						<input type="text" class="inputbox"  name="slug" id="slug" value="<?php echo $this->product->slug; ?>" size="32" maxlength="255" />
 					</td>
 				</tr>
-				<?php $i = 1 - $i; ?>
+				<?php $i = 1 - $i; 
+				/*?>
 				<tr class="row<?php echo $i?>">
 					<td ><div style="text-align:right;font-weight:bold;">
 						<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_URL') ?></div>
@@ -81,11 +82,59 @@ $i=0;
 						<input type="text" class="inputbox" name="product_url" value="<?php echo $this->product->product_url; ?>" size="32" maxlength="255" />
 					</td>
 				</tr>
+                <? */	?>
+                
+                <tr class="row<?php echo $i?>">
+					<td  valign="top">
+						<div style="text-align:right;font-weight:bold;">
+						<?php echo JText::_('COM_VIRTUEMART_CATEGORY_S') ?></div>
+					</td>
+					<td colspan="3">
+						<select class="inputbox" id="categories" name="categories[]" multiple="multiple" size="10">
+							<option value=""><?php echo JText::_('COM_VIRTUEMART_UNCATEGORIZED')  ?></option>
+							<?php echo $this->category_tree; ?>
+						</select>
+					</td>
+					<?php
+					// It is important to have all product information in the form, since we do not preload the parent
+					// I place the ordering here, maybe we make it editable later.
+						if(!isset($this->product->ordering)) $this->product->ordering = 0;
+					?>
+					<input type="hidden" value="<?php echo $this->product->ordering ?>" name="ordering">
+				</tr>
+                
             </table>
     </td>
 	<td>
         <table width="100%" class="adminform">
-						<?php $i = 1 - $i; ?>
+<?php
+	//$product = $this->product;
+
+	if (empty($this->product->prices)) {
+		$this->product->prices[] = array();
+	}
+	$this->i = 0;
+	$rowColor = 0;
+	if (!class_exists ('calculationHelper')) {
+		require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'calculationh.php');
+	}
+	$calculator = calculationHelper::getInstance ();
+	$currency_model = VmModel::getModel ('currency');
+	$currencies = $currency_model->getCurrencies ();
+	$nbPrice = count ($this->product->prices);
+	$this->priceCounter = 0;
+	$this->product->prices[$nbPrice] = $this->product_empty_price;
+
+
+
+	if (!class_exists ('calculationHelper')) {
+		require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'calculationh.php');
+	}
+	$calculator = calculationHelper::getInstance ();
+	?>        	
+			
+			<?php /*
+			$i = 1 - $i; ?>
 			<?php	if(Vmconfig::get('multix','none')!=='none'){ ?>
 				<tr class="row<?php echo $i?>">
 					<td ><div style="text-align:right;font-weight:bold;">
@@ -97,8 +146,6 @@ $i=0;
 				</tr>
 				<?php $i = 1 - $i; ?>
 				<?php } ?>
-
-
 				<?php if(isset($this->lists['manufacturers'])){?>
 				<tr class="row<?php echo $i?>">
 					<td ><div style="text-align:right;font-weight:bold;">
@@ -138,14 +185,7 @@ $i=0;
 					</td>
 				</tr>
 				<?php $i = 1 - $i; ?>
-				<tr class="row<?php echo $i?>">
-					<td><div style="text-align:right;font-weight:bold;">
-						<?php echo JText::_('COM_VIRTUEMART_PRODUCT_DETAILS_PAGE') ?></div>
-					</td>
-					<td colspan="3">
-						<?php echo JHTML::_('Select.genericlist', $this->productLayouts, 'layout', 'size=1', 'value', 'text', $this->product->layout); ?>
-					</td>
-				</tr>
+				<?	*/?>                
             </table>
 		</td>
         </tr>
@@ -154,36 +194,12 @@ $i=0;
 
 		<td valign="top">
 			<!-- Product pricing -->
-          <fieldset>
-    <legend><?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICES'); ?></legend>
-
-	<?php
-	//$product = $this->product;
-
-	if (empty($this->product->prices)) {
-		$this->product->prices[] = array();
-	}
-	$this->i = 0;
-	$rowColor = 0;
-	if (!class_exists ('calculationHelper')) {
-		require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'calculationh.php');
-	}
-	$calculator = calculationHelper::getInstance ();
-	$currency_model = VmModel::getModel ('currency');
-	$currencies = $currency_model->getCurrencies ();
-	$nbPrice = count ($this->product->prices);
-	$this->priceCounter = 0;
-	$this->product->prices[$nbPrice] = $this->product_empty_price;
-
-
-
-	if (!class_exists ('calculationHelper')) {
-		require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'calculationh.php');
-	}
-	$calculator = calculationHelper::getInstance ();
-	?>
+<fieldset>
+    <legend><?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_MAIN_DATA'); ?></legend>	
     <table border="0" width="100%" cellpadding="2" cellspacing="3" id="mainPriceTable" class="adminform">
+        
         <tbody id="productPriceBody">
+		
 		<?php
 		//vmdebug('grummel ',$this->product->prices);
 		foreach ($this->product->prices as $sPrices) {
@@ -245,7 +261,7 @@ $i=0;
 			?>
         <tr id="<?php echo $tmpl ?>" class="removable row<?php echo $rowColor?>">
             <td width="100%">
-                  <span class="vmicon vmicon-16-move price_ordering"></span>
+                <span class="vmicon vmicon-16-move price_ordering"></span>
                 <span class="vmicon vmicon-16-new price-clone" ></span>
                 <span class="vmicon vmicon-16-remove price-remove"></span>
 				<?php //echo JText::_ ('COM_VIRTUEMART_PRODUCT_PRICE_ORDER'); ?>
@@ -260,7 +276,7 @@ $i=0;
     </table>
     <div class="button2-left">
         <div class="blank">
-            <a href="#" id="add_new_price" "><?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_ADD_PRICE') ?> </a>
+            <a href="#" id="add_new_price" ><?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_ADD_PRICE') ?> </a>
         </div>
     </div>
 
@@ -287,8 +303,10 @@ $i=0;
 						</div>
 				</td>
 
-				<td width="29%"><div style="text-align:right; font-weight: bold;">
+				<td width="29%">
+                	<div style="text-align:right; font-weight: bold;">
 					<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_PARENT') ?>
+                    </div>
 				</td>
 				<td width="71%"> <?php
 				if ($this->product->product_parent_id) {
