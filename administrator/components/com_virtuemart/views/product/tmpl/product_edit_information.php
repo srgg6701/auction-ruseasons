@@ -286,7 +286,8 @@ $i=0;
 </tr>
 		</td>
 	</tr>
-	<tr>
+	<? /*?>
+    <tr>
 	<td colspan="2" >
 	<fieldset>
 		<legend>
@@ -393,7 +394,7 @@ $i=0;
 		</table>
 	</fieldset>
 	</tr>
-
+	<? */?>
 	<tr>
 		<td
 			width="100%"

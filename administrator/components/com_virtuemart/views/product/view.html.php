@@ -179,10 +179,12 @@ class VirtuemartViewProduct extends VmView {
 					$delete_message = JText::_('COM_VIRTUEMART_PRODUCT_FORM_DELETE_PRODUCT_MSG');
 				}
 
-
 				$this->assignRef('product', $product);
 
-                var_dump('<h1>this.product</h1><pre>',$this->product,'</pre>');
+                if(JRequest::getVar('prod')){
+                    var_dump('<h1>this.product</h1><pre>',$this->product,'</pre>');
+                    die(__FILE__);
+                }
 
 				$product_empty_price = array(
 					'virtuemart_product_price_id' => 0

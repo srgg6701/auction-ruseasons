@@ -164,13 +164,15 @@ class AdminUIHelper {
 				
 			*/
             // см. выше^
-			//echo ('tab_content = '.$tab_content.'<hr>');
-            $html .= $view->loadTemplate ( $tab_content );
+			// echo ('tab_content = '.$tab_content.'<hr>');
+            if($tab_content!='status'&&$tab_content!='custom')
+                $html .= $view->loadTemplate ( $tab_content );
 
 			$html .= '<div class="clear"></div></div>';
 		}
 		$html .= '</div>';
-		echo $html; die();
+		echo $html;
+        if(JRequest::getVar('die')) die();
 	}
 
 	/**
