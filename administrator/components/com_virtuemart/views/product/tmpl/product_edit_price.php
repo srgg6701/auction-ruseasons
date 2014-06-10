@@ -56,7 +56,8 @@ $rowColor = 0;
 			<?php echo $this->lists['shoppergroups'];  ?>
         </td>
     </tr>
-	<?php $rowColor = 1 - $rowColor; ?>
+	<?php /*
+	$rowColor = 1 - $rowColor; ?>
     <tr class="row<?php echo $rowColor?>">
         <td>
             <div style="text-align: right; font-weight: bold;">
@@ -78,7 +79,8 @@ $rowColor = 0;
         </td>
 		<?php /*    <td width="17%"><div style="text-align: right; font-weight: bold;">
 							<?php echo JText::_('COM_VIRTUEMART_RATE_FORM_VAT_ID') ?></div>
-                        </td> */ ?>
+                        </td> */ 
+						/*?>
         <td colspan="2">
 			<?php echo $this->lists['taxrates']; ?><br/>
         </td>
@@ -94,7 +96,8 @@ $rowColor = 0;
 			<?php   ?>
         </td>
     </tr>
-	<?php $rowColor = 1 - $rowColor; ?>
+	<?php */
+	$rowColor = 1 - $rowColor; ?>
     <tr class="row<?php echo $rowColor?>">
         <td>
             <div style="text-align: right; font-weight: bold;">
@@ -140,7 +143,8 @@ $rowColor = 0;
         </td>
     </tr>
 
-<?php $rowColor = 1 - $rowColor; ?>
+<?php /*
+$rowColor = 1 - $rowColor; ?>
     <tr class="row<?php echo $rowColor?>">
         <td colspan="2">
 	          <strong>
@@ -195,6 +199,7 @@ $rowColor = 0;
                    value="<?php echo $this->tempProduct->price_quantity_end  ?>"/>
         </td>
     </tr>
+<?php */?>    
 </table>
 
 
