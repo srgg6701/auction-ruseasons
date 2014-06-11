@@ -100,7 +100,16 @@ input[name="mprices[salesPrice][]"]{
 				<span
                         class="hasTip"
                         title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
-					<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL') ?>
+					<?php 
+		
+		if($this->product->top_category_slug==='onlajn-torgi'){
+			$text="COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL";
+			$mprice=$this->product->minimal_price;
+		}else{			
+			$text="COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE";
+			$mprice=$this->calculatedPrices['basePrice'];
+		}
+		echo JText::_($text) ?>
 				</span>
             </div>
         </td>
@@ -109,8 +118,8 @@ input[name="mprices[salesPrice][]"]{
                 name="mprices[salesPrice][]"
                 size="12"
                 style="text-align:right;"
-                value="<?php echo $this->calculatedPrices['salesPriceTemp']; ?>"/>
-			<?php echo $this->vendor_currency;   ?>
+                value="<?php echo $mprice; ?>"/>
+			<?php echo $this->vendor_currency; ?>
         </td>
 		<?php /*  <td width="17%"><div style="text-align: right; font-weight: bold;">
 							<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_DISCOUNT_TYPE') ?></div>
