@@ -206,7 +206,7 @@ $rowColor = 1 - $rowColor; ?>
         </td>
     	<td>
 			<div style="text-align:right;font-weight:bold;">
-				<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_AUCTION_DATE_PERION') ?>
+				<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_AUCTION_DATE_PERIOD') ?>
 			</div>
 		</td>
 		<td>
