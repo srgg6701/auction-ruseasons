@@ -110,13 +110,13 @@ class Auction2013ControllerImportlots extends JControllerForm
 /**
  * Импорт данных предметов из .csv-файла. 
  * *********************************************************************
- * См. схему таблиц для импорта в _docs/структура и бизнес-процессы.xlsx 
+ * См. схему таблиц для импорта в _docs/schemas.xlsx
  * *********************************************************************
  * @package
  * @subpackage
  */
 /**
- * Описание
+ * Добавить записи о медиа-файлах для предмета
  * @package
  * @subpackage
  */
@@ -143,7 +143,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 		else return true;	
 	}
 /**
- * Описание
+ * Добавить запись о минимальной цене предмета в доп. таблицу
  * @package
  * @subpackage
  */

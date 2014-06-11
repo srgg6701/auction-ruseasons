@@ -749,9 +749,20 @@ FROM #__virtuemart_product_categories AS cats
 		$this->_now = $jnow->toMySQL();
 
 		$productId = $this->_id===0? $product->virtuemart_product_id:$this->_id;
-		$q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" ';
+        /* MODIFIED START */
+        /**
+        Original query:
+        $q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" '; */
+        // модифицированный запрос:
+        $q = 'SELECT prod.*,
+                    sales_prices.sales_price AS minimal_price
+                FROM `#__virtuemart_product_prices` AS prod
+            LEFT JOIN `#__dev_sales_price` AS sales_prices
+          ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
+        WHERE prod.`virtuemart_product_id` = "'.$productId.'" ';
+        /* MODIFIED END */
 
-		if($front){
+        if($front){
 			if(count($virtuemart_shoppergroup_ids)>0){
 				$q .= ' AND (';
 				$sqrpss = '';
@@ -776,7 +787,7 @@ FROM #__virtuemart_product_categories AS cats
 			vmError('getProductSingle '.$err);
 		} else {
 			//vmdebug('getProductSingle getPrice query',$q);
-		//	vmdebug('getProductSingle ',$quantity);
+		    //vmdebug('getProductSingle ',$quantity);
 			//vmTrace('hmpf');
 		}
 
@@ -809,16 +820,19 @@ FROM #__virtuemart_product_categories AS cats
 	}
 
 	public function getProductSingle ($virtuemart_product_id = NULL, $front = TRUE, $quantity = 1) {
-
+        //echo "<div>".__METHOD__."</div>"; die("this._id = ".$this->_id);
 		//$this->fillVoidProduct($front);
 		if (!empty($virtuemart_product_id)) {
-			$virtuemart_product_id = $this->setId ($virtuemart_product_id);
+            /* TODO: разобраться, для чего нижележащее извращение, если $virtuemart_product_id далее нигде не используется?
+               Достаточно просто сохранить значение $this->setId */
+            $virtuemart_product_id = $this->setId ($virtuemart_product_id);
 		}
-
 		//		if(empty($this->_data)){
 		if (!empty($this->_id)) {
-
-// 			$joinIds = array('virtuemart_product_price_id' =>'#__virtuemart_product_prices','virtuemart_manufacturer_id' =>'#__virtuemart_product_manufacturers','virtuemart_customfield_id' =>'#__virtuemart_product_customfields');
+ 			/*$joinIds = array(
+ 			        'virtuemart_product_price_id' =>'#__virtuemart_product_prices',
+                    'virtuemart_manufacturer_id' =>'#__virtuemart_product_manufacturers',
+ 			        'virtuemart_customfield_id' =>'#__virtuemart_product_customfields');*/
 			$joinIds = array('virtuemart_manufacturer_id' => '#__virtuemart_product_manufacturers', 'virtuemart_customfield_id' => '#__virtuemart_product_customfields');
 
 			$product = $this->getTable ('products');

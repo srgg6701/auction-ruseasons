@@ -54,6 +54,7 @@ class VirtuemartViewProduct extends VmView {
 				} else {
 					$virtuemart_product_id = (int)$virtuemart_product_id;
 				}
+                // Model: VirtueMartModelProduct (/*com/models/product.php) ::
 				$product = $model->getProductSingle($virtuemart_product_id,false);
 				// см. ниже
 				//var_dump('<h1>product</h1><pre>',$product,'</pre>'); // die();

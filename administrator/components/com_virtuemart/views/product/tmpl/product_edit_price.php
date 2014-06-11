@@ -1,4 +1,5 @@
 <?php
+// Секция Информация / Стоимость и сроки
 /**
  *
  * Main product information
@@ -17,7 +18,6 @@
  * @version $Id: product_edit_price.php 6669 2012-11-14 12:16:55Z alatak $
  * http://www.seomoves.org/blog/web-design-development/dynotable-a-jquery-plugin-by-bob-tantlinger-2683/
  */
-
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access'); ?>
 <style>
@@ -29,18 +29,15 @@ input[name="mprices[salesPrice][]"]{
 	width:60px;
 }
 </style>
-<?php
-$rowColor = 0;
-?>
+<?php   $rowColor = 0;  ?>
 <table class="adminform productPriceTable">
-
     <tr class="row<?php echo $rowColor?>">
         <td>
             <div style="text-align: right; font-weight: bold;">
                 <span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST_TIP'); ?>">
                     <?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?>
                 </span>
-</div>
+            </div>
         </td>
         <td><input type="text" class="inputbox" name="mprices[product_price][]" size="12" style="text-align:right;" value="<?php echo $this->calculatedPrices['costPrice']; ?>"/>
             <input type="hidden" name="mprices[virtuemart_product_price_id][]" value="<?php echo  $this->tempProduct->virtuemart_product_price_id; ?>"/>
@@ -121,7 +118,8 @@ $rowColor = 0;
         <td style="text-align:right;">
         	<strong><?=JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PUBLISH_PERIOD')?></strong>
 			<?php //echo $this->lists['discounts']; <br/>?> 
-        </td><? /*?>
+        </td><?
+        /*?>
         <td>
 	                    <span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_RULES_EFFECTING_TIP') ?>">
 						<?php if (!empty($this->DBTaxRules)) {
@@ -144,7 +142,6 @@ $rowColor = 0;
             <input type="time" name="publish_time_to" />
         </td>
     </tr>
-
 <?php /*
 $rowColor = 1 - $rowColor; ?>
     <tr class="row<?php echo $rowColor?>">

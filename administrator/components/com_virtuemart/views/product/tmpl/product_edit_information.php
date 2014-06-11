@@ -1,4 +1,6 @@
 <?php
+// Секция Информация / Информация о товаре id: $товар_id
+// TODO: Удалить закомментированный код из файлов шаблонов
 /**
  *
  * Main product information
@@ -16,16 +18,12 @@
  * other free or open source software licenses.
  * @version $Id: product_edit_information.php 6547 2012-10-16 10:55:06Z alatak $
  */
-
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php echo $this->langList;
 $i=0;
-
 //var_dump("<pre>",$this->loadTemplate('price'),"<pre/>");
 //die();?>
-
-
 <fieldset>
 	<legend>
 	<?php echo JText::_('COM_VIRTUEMART_PRODUCT_INFORMATION'); echo ' id: '.$this->product->virtuemart_product_id ?></legend>
@@ -193,7 +191,6 @@ $i=0;
         </tr>
 	</table>
 </fieldset>
-
 		<td valign="top">
 			<!-- Product pricing -->
 <fieldset>
@@ -408,7 +405,6 @@ $i=0;
 			</fieldset>
 		</td>
 	</tr>
-
 </table>
 <script type="text/javascript">
     jQuery(document).ready(function () {
@@ -432,9 +428,7 @@ $i=0;
             }
         });
     });
-
 </script>
-
 <script type="text/javascript">
 var tax_rates = new Array();
 <?php
@@ -444,7 +438,6 @@ if( property_exists($this, 'taxrates') && is_array( $this->taxrates )) {
 	}
 }
 ?>
-
 </script>
 
 
