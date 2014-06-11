@@ -93,7 +93,8 @@ input[name="mprices[salesPrice][]"]{
         </td>
     </tr>
 	<?php */
-	$rowColor = 1 - $rowColor; ?>
+	$rowColor = 1 - $rowColor; 
+	?>
     <tr class="row<?php echo $rowColor?>">
         <td>
             <div style="text-align: right; font-weight: bold;">
@@ -149,6 +150,7 @@ input[name="mprices[salesPrice][]"]{
         <td  nowrap>
 			<?php echo  vmJsApi::jDate ($this->tempProduct->product_price_publish_down, 'mprices[product_price_publish_down][]'); ?>
             <input type="time" name="publish_time_to" />
+            <input  type="hidden" name="product_in_stock" value="1" size="10" />
         </td>
     </tr>
 <?php /*
@@ -208,10 +210,11 @@ $rowColor = 1 - $rowColor; ?>
         </td>
     </tr>
 <?php */?>    
-	<tr class="row1">
+<?	if($this->product->top_category_slug==='onlajn-torgi'):
+?>
+	<tr class="row0">
     	<td></td>
-        <td>
-        <input  type="hidden" name="product_in_stock" value="1" size="10" />
+        <td>        
         </td>
     	<td>
 			<div style="text-align:right;font-weight:bold;">
@@ -228,6 +231,8 @@ $rowColor = 1 - $rowColor; ?>
         	<input type="time" name="auction_time_to" />
         </td>
 	</tr>
+<?	endif;
+?>    
 </table>
 
 
