@@ -754,12 +754,28 @@ FROM #__virtuemart_product_categories AS cats
         Original query:
         $q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" '; */
         // модифицированный запрос:
-        $q = 'SELECT prod.*,
+        /*$q = 'SELECT prod.*,
                     sales_prices.sales_price AS minimal_price
                 FROM `#__virtuemart_product_prices` AS prod
             LEFT JOIN `#__dev_sales_price` AS sales_prices
           ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
-        WHERE prod.`virtuemart_product_id` = "'.$productId.'" ';
+        WHERE prod.`virtuemart_product_id` = "'.$productId.'" '; */
+        $q = '
+SELECT prod.*,
+       sales_prices.sales_price AS minimal_price,
+       ( SELECT slug
+           FROM `#__virtuemart_category_categories` AS cats_cats
+      LEFT JOIN `#__virtuemart_categories_ru_ru`    AS cats_ruru
+             ON cats_ruru.virtuemart_category_id = cats_cats.id
+    WHERE id IN ( SELECT virtuemart_category_id
+                    FROM `#__virtuemart_product_categories`
+                  WHERE virtuemart_product_id = "'.$productId.'" )
+            AND category_parent_id = 0 ) AS top_category_slug
+       FROM `#__virtuemart_product_prices`  AS prod
+  LEFT JOIN #__dev_sales_price              AS sales_prices
+         ON sales_prices.virtuemart_product_id = prod.virtuemart_product_id
+      WHERE prod.`virtuemart_product_id` = "'.$productId.'" ';
+
         /* MODIFIED END */
 
         if($front){
