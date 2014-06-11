@@ -754,14 +754,15 @@ FROM #__virtuemart_product_categories AS cats
         Original query:
         $q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" '; */
         // модифицированный запрос:
+        // без извлечения алиаса ТОП-категории предмета:
         /*$q = 'SELECT prod.*,
                     sales_prices.sales_price AS minimal_price
                 FROM `#__virtuemart_product_prices` AS prod
             LEFT JOIN `#__dev_sales_price` AS sales_prices
           ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
         WHERE prod.`virtuemart_product_id` = "'.$productId.'" '; */
-        $q = '
-SELECT prod.*,
+        // с извлечением алиаса ТОП-категории предмета:
+        $q = 'SELECT prod.*,
        sales_prices.sales_price AS minimal_price,
        ( SELECT slug
            FROM `#__virtuemart_category_categories` AS cats_cats
