@@ -28,16 +28,24 @@ defined ('_JEXEC') or die('Restricted access'); ?>
 input[name="mprices[salesPrice][]"]{
 	width:60px;
 }
+tr[class^="row"] td:first-child{
+	font-weight:bold;
+	text-align:right;
+}
+table.adminform.productPriceTable 
+	legend{
+	font-size: 13px;
+	margin: 6px auto;
+	text-align:center;
+}
 </style>
 <?php   $rowColor = 0;  ?>
 <table class="adminform productPriceTable">
     <tr class="row<?php echo $rowColor?>">
         <td>
-            <div style="text-align: right; font-weight: bold;">
-                <span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST_TIP'); ?>">
-                    <?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?>
-                </span>
-            </div>
+            <span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST_TIP'); ?>">
+                <?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_COST') ?>
+            </span>
         </td>
         <td><input type="text" class="inputbox" name="mprices[product_price][]" size="12" style="text-align:right;" value="<?php echo $this->calculatedPrices['costPrice']; ?>"/>
             <input type="hidden" name="mprices[virtuemart_product_price_id][]" value="<?php echo  $this->tempProduct->virtuemart_product_price_id; ?>"/>
@@ -45,34 +53,21 @@ input[name="mprices[salesPrice][]"]{
         <td colspan="3">
 			<?php echo $this->lists['currencies']; ?>
         </td>
-        <?	/*?>
-        <td colspan="2">
-
-			<?php echo $this->lists['shoppergroups'];  ?>
-        </td>
-        <?	*/?>
     </tr>
 <?php	
 		$rowColor = 1 - $rowColor; 
 	?>
     <tr class="row<?php echo $rowColor?>">
         <td>
-            <div style="text-align: right; font-weight: bold;">
-				<span
-                        class="hasTip"
-                        title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
-					<?php 
-		// TODO: разобраться, можно ли изменить TOP slug с кириллицы на латиницу (торги-в-помещении, магазин)
-		if($this->product->top_category_slug==='onlajn-torgi'){
-			$text="COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL";
-			$mprice=$this->product->minimal_price;
-		}else{			
-			$text="COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE";
-			$mprice=$this->calculatedPrices['basePrice'];
-		}
-		echo JText::_($text) ?>
-				</span>
-            </div>
+            <span
+                    class="hasTip"
+                    title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
+                <?php 
+    // TODO: разобраться, можно ли изменить TOP slug с кириллицы на латиницу (торги-в-помещении, магазин)
+    //if($this->product->top_category_slug==='onlajn-torgi'){
+    //}else			
+    echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE"); ?>
+            </span>
             <input type="hidden" name="top_category_slug" value="<?=$this->product->top_category_slug?>"/>
         </td>
         <td nowrap><input
@@ -80,7 +75,7 @@ input[name="mprices[salesPrice][]"]{
                 name="mprices[salesPrice][]"
                 size="12"
                 style="text-align:right;"
-                value="<?php echo $mprice; ?>"/>
+                value="<?php echo $this->calculatedPrices['basePrice']; ?>"/>
 			<?php echo $this->vendor_currency; ?>
         </td>
         <td style="text-align:right;">
@@ -97,11 +92,24 @@ input[name="mprices[salesPrice][]"]{
             <input  type="hidden" name="product_in_stock" value="1" size="10" />
         </td>
     </tr>
-<?	if($this->product->top_category_slug==='onlajn-torgi'):
+<?	//if($this->product->top_category_slug==='onlajn-torgi'):
 ?>
 	<tr class="row0">
-    	<td></td>
-        <td>        
+    	<td colspan="5">
+        	<legend>Информация для аукциона</legend>
+        </td>
+	</tr>
+	<tr class="row1">
+    	<td><?php echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL");
+        ?>
+        </td>
+        <td><input
+                type="text"
+                name="minimal_price"
+                size="12"
+                style="text-align:right;"
+                value="<?php echo $this->product->minimal_price; ?>"/>
+			<?php echo $this->vendor_currency; ?>
         </td>
     	<td>
 			<div style="text-align:right;font-weight:bold;">
@@ -118,7 +126,7 @@ input[name="mprices[salesPrice][]"]{
         	<input type="time" name="auction_time_to" />
         </td>
 	</tr>
-<?	endif;
+<?	//endif;
 ?>    
 </table>
 

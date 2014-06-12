@@ -1425,8 +1425,6 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 
 		JRequest::checkToken () or jexit ('Invalid Token');
 		
-		//var_dump($product); die('VirtueMartModelProduct::store()');
-		
 		if ($product) {
 			$data = (array)$product;
 		}
@@ -1445,7 +1443,22 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 		}
 		// Setup some place holders
 		/*	MODIFIED START 	*/
-		if (!$product_data) /*	MODIFIED END	*/
+        // скорректировать дату/время:
+        $time_zero = "00:00:00";
+        $zero_zero = ":00";
+        $data['mprices']['product_price_publish_up'][0]     = str_replace($time_zero,$data['publish_time_from'] .$zero_zero, $data['mprices']['product_price_publish_up'][0]);
+        $data['mprices']['product_price_publish_down'][0]   = str_replace($time_zero,$data['publish_time_to']   .$zero_zero, $data['mprices']['product_price_publish_down'][0]);
+        $data['product_available_date']                     = str_replace($time_zero,$data['auction_time_from'] .$zero_zero, $data['product_available_date']);
+        $data['auction_date_finish']                        = str_replace($time_zero,$data['auction_time_to']   .$zero_zero, $data['auction_date_finish']);
+        unset( $data['publish_time_from'],$data['publish_time_to'],
+               $data['auction_time_from'], $data['publish_time_to'],
+               $time_zero, $zero_zero );
+        //echo  __FILE__."<br>line: ".__LINE__."<pre>"; var_dump($data); die('</pre>');
+        // минимальная цена для аукциона:
+        $min_price = $data["mprices"]["minimal_price"];
+        unset($data["mprices"]["minimal_price"]);
+
+        if (!$product_data) /*	MODIFIED END	*/
 			$product_data = $this->getTable ('products');
 		//var_dump($product_data); die();
 		//Set the product packaging
@@ -1455,8 +1468,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 
 		// with the true, we do preloading and preserve so old values note by Max Milbers
 	    // $product_data->bindChecknStore ($data, $isChild);
-
-		$stored = $product_data->bindChecknStore ($data, TRUE);
+        $stored = $product_data->bindChecknStore ($data, TRUE);
 
 		$errors = $product_data->getErrors ();
 		if(!$stored or count($errors)>0){
@@ -1480,7 +1492,6 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         // изменить/добавить запись в #__dev_sales_price
         require_once JPATH_ADMINISTRATOR.'/components/com_auction2013/controllers/importlots.php';
         $tbl= "#__dev_sales_price";
-        $min_price = $data["mprices"]["salesPrice"][0];
         // добавить запись, если не существует:
         if(!$min_price_rec_id=JFactory::getDBO ()->setQuery("SELECT id FROM $tbl
             WHERE virtuemart_product_id = ".$this->_id)->loadResult()){
