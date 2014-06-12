@@ -730,7 +730,9 @@ FROM #__virtuemart_product_categories AS cats
 
 		return $_products[$productKey];
 	}
-
+    /**
+     * Назначить цены
+     */
 	public function getProductPrices(&$product,$quantity,$virtuemart_shoppergroup_ids,$front){
 
 		$product->product_price = null;
@@ -749,35 +751,15 @@ FROM #__virtuemart_product_categories AS cats
 		$this->_now = $jnow->toMySQL();
 
 		$productId = $this->_id===0? $product->virtuemart_product_id:$this->_id;
-        /* MODIFIED START */
-        /**
-        Original query:
-        $q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" '; */
-        // модифицированный запрос:
-        // без извлечения алиаса ТОП-категории предмета:
-        /*$q = 'SELECT prod.*,
-                    sales_prices.sales_price AS minimal_price
-                FROM `#__virtuemart_product_prices` AS prod
-            LEFT JOIN `#__dev_sales_price` AS sales_prices
-          ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
-        WHERE prod.`virtuemart_product_id` = "'.$productId.'" '; */
-        // с извлечением алиаса ТОП-категории предмета:
+        // оригинальный запрос
+        //$q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" ';
+        // модифицированный запрос с учётом резервной цены:
         $q = 'SELECT prod.*,
-       sales_prices.sales_price AS minimal_price,
-       ( SELECT slug
-           FROM `#__virtuemart_category_categories` AS cats_cats
-      LEFT JOIN `#__virtuemart_categories_ru_ru`    AS cats_ruru
-             ON cats_ruru.virtuemart_category_id = cats_cats.id
-    WHERE id IN ( SELECT virtuemart_category_id
-                    FROM `#__virtuemart_product_categories`
-                  WHERE virtuemart_product_id = "'.$productId.'" )
-            AND category_parent_id = 0 ) AS top_category_slug
-       FROM `#__virtuemart_product_prices`  AS prod
-  LEFT JOIN #__dev_sales_price              AS sales_prices
-         ON sales_prices.virtuemart_product_id = prod.virtuemart_product_id
-      WHERE prod.`virtuemart_product_id` = "'.$productId.'" ';
-
-        /* MODIFIED END */
+                     sales_prices.sales_price AS minimal_price
+                FROM `#__virtuemart_product_prices` AS prod
+           LEFT JOIN `#__dev_sales_price` AS sales_prices
+                     ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
+               WHERE prod.`virtuemart_product_id` = "'.$productId.'" ';
 
         if($front){
 			if(count($virtuemart_shoppergroup_ids)>0){
@@ -835,7 +817,9 @@ FROM #__virtuemart_product_categories AS cats
 			}
 		}
 	}
-
+    /**
+     * Получить все данные продукта по его id
+     */
 	public function getProductSingle ($virtuemart_product_id = NULL, $front = TRUE, $quantity = 1) {
         //echo "<div>".__METHOD__."</div>"; die("this._id = ".$this->_id);
 		//$this->fillVoidProduct($front);
@@ -883,6 +867,11 @@ FROM #__virtuemart_product_categories AS cats
 			}
 
 			$this->getProductPrices($product,$quantity,$virtuemart_shoppergroup_ids,$front);
+
+            /* MODIFIED START */
+            // назначить алиас родительской категории:
+            $this->getProductParentSlug($product,$this->_id);
+            /* MODIFIED END */
 
 			//$product = array_merge ($prices, (array)$product);
 			//$product = (object)array_merge ((array)$prices, (array)$product);
@@ -995,8 +984,6 @@ FROM #__virtuemart_product_categories AS cats
 				}
 			}
 			else {
-
-
 				//only needed in FE productdetails, is now loaded in the view.html.php
 				//				/* Load the neighbours */
 				//				$product->neighbours = $this->getNeighborProducts($product);
@@ -1042,6 +1029,29 @@ FROM #__virtuemart_product_categories AS cats
 		$this->product = $product;
 		return $product;
 	}
+
+    /* MODIFIED START */
+    /**
+     * Получить алиас ТОП-категории предмета
+     */
+    private function getProductParentSlug($product,$product_id){
+        $q= "SELECT
+  ( SELECT slug FROM #__virtuemart_categories_ru_ru
+     WHERE virtuemart_category_id = cats_cats.category_parent_id
+  ) AS parent_slug
+      FROM #__virtuemart_product_categories        AS cats
+INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
+           ON cats_ruru.virtuemart_category_id = cats.virtuemart_category_id
+ LEFT JOIN #__virtuemart_category_categories       AS cats_cats
+           ON cats_cats.id = cats.virtuemart_category_id
+     WHERE cats.virtuemart_product_id = $product_id
+     LIMIT 1";
+        $db = JFactory::getDbo();
+        $db->setQuery($q);
+        $product->top_category_slug=$db->loadResult();
+        return true;
+    }
+    /* MODIFIED END */
 	/**
 	 * This fills the empty properties of a product
 	 * todo add if(!empty statements

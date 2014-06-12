@@ -54,7 +54,8 @@ class VirtuemartViewProduct extends VmView {
 				} else {
 					$virtuemart_product_id = (int)$virtuemart_product_id;
 				}
-                // Model: VirtueMartModelProduct (/*com/models/product.php) ::
+                /**
+                 * Model: VirtueMartModelProduct (/*com/models/product.php) ::  */
 				$product = $model->getProductSingle($virtuemart_product_id,false);
 				// см. ниже
 				//var_dump('<h1>product</h1><pre>',$product,'</pre>'); // die();
@@ -183,8 +184,11 @@ class VirtuemartViewProduct extends VmView {
 				$this->assignRef('product', $product);
 
                 if(JRequest::getVar('prod')){
-                    var_dump('<h1>this.product</h1><pre>',$this->product,'</pre>');
-                    die(__FILE__);
+                    echo __FILE__;
+                    echo "<div>line: ".__LINE__."</div>";
+                    echo '<h1>product id: '.$product->virtuemart_product_id.'</h1><pre>';
+                    var_dump($this->product);
+                    die('</pre>');
                 }
 
 				$product_empty_price = array(

@@ -132,7 +132,6 @@ $i=0;
 	}
 	$calculator = calculationHelper::getInstance ();
 	?>        	
-			
 			<?php /*
 			$i = 1 - $i; ?>
 			<?php	if(Vmconfig::get('multix','none')!=='none'){ ?>
