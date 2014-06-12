@@ -147,7 +147,7 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
-	private function addSalesRecord($virtuemart_product_id,$sales_price){
+	public static function addSalesRecord($virtuemart_product_id,$sales_price){
 		$db=JFactory::getDBO();		
 		$query = $db->getQuery(true);
 		$query->clear();
@@ -393,7 +393,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				if($virtuemart_product_id=$VmController->import($model,$data_stream)){
 					// var_dump($data_stream);
 					if($data_stream['sales_price'])
-						if(!$this->addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
+						if(!Auction2013ControllerImportlots::addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
 							echo "<div><b style='color:red'>ОШИБКА!</b>
 						Не добавлена запись в таблицу #__dev_sales_price...</div>";
 					// add images:
