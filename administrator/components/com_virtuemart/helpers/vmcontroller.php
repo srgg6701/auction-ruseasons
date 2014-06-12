@@ -170,7 +170,6 @@ class VmController extends JController{
 		if($data===0) $data = JRequest::get('post');
         // /models/product.php -> VirtueMartModelProduct
 		$model = VmModel::getModel($this->_cname);
-
 		// VirtueMartModelProduct::store();
 		$id = $model->store($data);
 

@@ -680,7 +680,7 @@ class VmTable extends JTable{
 	}
 
 	/**
-	 * As shortcat, Important the & MUST be there, even in php5.3
+	 * As shortcut, Important the & MUST be there, even in php5.3
 	 *
 	 * @author Max Milbers
 	 * @param array/obj $data input data as assoc array or obj
@@ -694,7 +694,8 @@ class VmTable extends JTable{
 		$ok = true;
 		if($this->_translatable){ // 1
 			// components\com_virtuemart\helpers\vmtabledata.php:
-			if(!class_exists('VmTableData'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmtabledata.php');
+			if(!class_exists('VmTableData'))
+                require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmtabledata.php');
 			$db = JFactory::getDBO();
 
 			$langTable = new VmTableData($this->_tbl_lang,$tblKey,$db);

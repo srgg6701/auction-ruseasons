@@ -148,7 +148,16 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @subpackage
  */
 	public static function addSalesRecord($virtuemart_product_id,$sales_price){
-		$db=JFactory::getDBO();		
+        echo "<div>добавляем запись...</div>";
+        // Create and populate an object.
+        $object = new stdClass();
+        $object->virtuemart_product_id=$virtuemart_product_id;
+        $object->sales_price=$sales_price;
+        // Insert the object into the user profile table.
+        //$result =
+        //JFactory::getDbo()->insertObject('#__dev_sales_price', $object);
+
+        /*$db=JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->clear();
 		$query->insert($db->quoteName('#__dev_sales_price'));
@@ -159,17 +168,22 @@ class Auction2013ControllerImportlots extends JControllerForm
 				);
 		$query->values( 
 					$virtuemart_product_id . ', ' . $sales_price
-				); //if ($test) echo "<div style='color:brown'><pre>addProductMedia query= ".$query."</pre></div>";
-	 // $db->setQuery($query);
-		$db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));
-		if(!$db->execute())
-			return array('query', $query);
-		else return true;	
+				);
+        $db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));*/
+		try{
+            //$db->execute();
+            JFactory::getDbo()->insertObject('#__dev_sales_price', $object);
+        }catch(Exception $e){
+            echo "<hr>Error: ".$e->getMessage();
+            return false;
+        }
+		return true;
 	}
 /**
  *  Обновить запись о минимальной цене предмета в доп. таблице
  */
     public static function updateSalesRecord($min_price_rec_id,$min_price){
+        echo "<div>обновляем запись...</div>";
         $tbl= "#__dev_sales_price";
         $object = new stdClass();
         $object->id = $min_price_rec_id;

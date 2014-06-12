@@ -39,7 +39,7 @@ table.adminform.productPriceTable
 	text-align:center;
 }
 </style>
-<?php   $rowColor = 0;  ?>
+<?php   $rowColor = 0;  //var_dump("<pre>",$this->product,"</pre>"); die();?>
 <table class="adminform productPriceTable">
     <tr class="row<?php echo $rowColor?>">
         <td>
@@ -84,11 +84,13 @@ table.adminform.productPriceTable
         </td>
 		<td  nowrap>
 			<?php echo  vmJsApi::jDate ($this->tempProduct->product_price_publish_up, 'mprices[product_price_publish_up][]'); ?>
-            <input type="time" name="publish_time_from" />
+            <input type="time" name="publish_time_from" value="<?php
+                echo substr($this->tempProduct->product_price_publish_up,11,5);?>"/>
         </td>
         <td  nowrap>
 			<?php echo  vmJsApi::jDate ($this->tempProduct->product_price_publish_down, 'mprices[product_price_publish_down][]'); ?>
-            <input type="time" name="publish_time_to" />
+            <input type="time" name="publish_time_to" value="<?php
+                echo substr($this->tempProduct->product_price_publish_down,11,5);?>" />
             <input  type="hidden" name="product_in_stock" value="1" size="10" />
         </td>
     </tr>
@@ -118,12 +120,16 @@ table.adminform.productPriceTable
 		</td>
 		<td>
 			<?php
-			echo vmJsApi::jDate($this->product->product_available_date, 'product_available_date'); ?>
-        	<input type="time" name="auction_time_from" />
+		$start_date = ($this->product->virtuemart_product_id)?
+			$this->product->product_available_date : "0000-00-00 00:00:00";
+		echo vmJsApi::jDate($start_date, 'product_available_date'); ?>
+        	<input type="time" name="auction_time_from" value="<?php
+                echo substr($this->product->product_available_date,11,5);?>" />
 		</td>
         <td nowrap><?
         echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');	?>
-        	<input type="time" name="auction_time_to" />
+        	<input type="time" name="auction_time_to" value="<?php
+                echo substr($this->product->auction_date_finish,11,5);?>" />
         </td>
 	</tr>
 <?	//endif;

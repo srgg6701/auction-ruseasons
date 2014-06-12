@@ -1444,18 +1444,36 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 		// Setup some place holders
 		/*	MODIFIED START 	*/
         // скорректировать дату/время:
+        //echo "<hr><pre>";var_dump($data['mprices']); echo "</pre><hr>";
         $time_zero = "00:00:00";
         $zero_zero = ":00";
-        $data['mprices']['product_price_publish_up'][0]     = str_replace($time_zero,$data['publish_time_from'] .$zero_zero, $data['mprices']['product_price_publish_up'][0]);
-        $data['mprices']['product_price_publish_down'][0]   = str_replace($time_zero,$data['publish_time_to']   .$zero_zero, $data['mprices']['product_price_publish_down'][0]);
-        $data['product_available_date']                     = str_replace($time_zero,$data['auction_time_from'] .$zero_zero, $data['product_available_date']);
-        $data['auction_date_finish']                        = str_replace($time_zero,$data['auction_time_to']   .$zero_zero, $data['auction_date_finish']);
-        unset( $data['publish_time_from'],$data['publish_time_to'],
-               $data['auction_time_from'], $data['publish_time_to'],
-               $time_zero, $zero_zero );
-        //echo  __FILE__."<br>line: ".__LINE__."<pre>"; var_dump($data); die('</pre>');
+
+        $handle_datetime = function(&$dt,$dt_plus) use($time_zero,$zero_zero){
+            //echo "<div>dt = $dt, dt_plus = $dt_plus</div>";
+            if(strstr($dt,':')){
+                //echo "<div>ZEROS FOUND!</div>";
+                $dt = str_replace($time_zero, $dt_plus . $zero_zero, $dt);
+            }else{
+                //echo "<div>no ZEROS...</div>";
+                $dt.=" ".$dt_plus.$zero_zero;
+            }
+        };
+
+        $handle_datetime($data['mprices']['product_price_publish_up'][0],$data['publish_time_from']);
+        $handle_datetime($data['mprices']['product_price_publish_down'][0],$data['publish_time_to']);
+        $handle_datetime($data['product_available_date'],$data['auction_time_from']);
+        $handle_datetime($data['auction_date_finish'],$data['auction_time_to']);
+
+        /*$data['mprices']['product_price_publish_up'][0]     = str_replace($time_zero, $data['publish_time_from'] . $zero_zero, $data['mprices']['product_price_publish_up'][0]);
+        $data['mprices']['product_price_publish_down'][0]   = str_replace($time_zero, $data['publish_time_to']   . $zero_zero, $data['mprices']['product_price_publish_down'][0]);
+        $data['product_available_date']                     = str_replace($time_zero, $data['auction_time_from'] . $zero_zero, $data['product_available_date']);
+        $data['auction_date_finish']                        = str_replace($time_zero, $data['auction_time_to']   . $zero_zero, $data['auction_date_finish']);
+        /*unset( $data['publish_time_from'],$data['publish_time_to'],
+               $data['auction_time_from'], $data['auction_date_finish'],
+               $time_zero, $zero_zero );*/
+        //echo  __FILE__."<br>line: ".__LINE__."<pre>"; var_dump($data); // die('</pre>');
         // минимальная цена для аукциона:
-        $min_price = $data["mprices"]["minimal_price"];
+        $min_price = $data["minimal_price"];
         unset($data["mprices"]["minimal_price"]);
 
         if (!$product_data) /*	MODIFIED END	*/
@@ -1493,13 +1511,11 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         require_once JPATH_ADMINISTRATOR.'/components/com_auction2013/controllers/importlots.php';
         $tbl= "#__dev_sales_price";
         // добавить запись, если не существует:
-        if(!$min_price_rec_id=JFactory::getDBO ()->setQuery("SELECT id FROM $tbl
+        if(!$min_price_rec_id=JFactory::getDbo ()->setQuery("SELECT id FROM $tbl
             WHERE virtuemart_product_id = ".$this->_id)->loadResult()){
-            $result=Auction2013ControllerImportlots::addSalesRecord(
-                $this->_id, $min_price);
-            if($result!==true) {
+            if(!Auction2013ControllerImportlots::addSalesRecord($this->_id, $min_price)) {
                 die("<div style='color:red'>
-                Ошибка добавления записи в табл. $tbl.</div>Запрос: ".$result);
+                Ошибка добавления записи в табл. $tbl.</div>");
             }
         }   // обновить запись
         elseif(!$result = Auction2013ControllerImportlots::updateSalesRecord(
@@ -1507,6 +1523,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             die("<div style='color:red'>
                 Ошибка обновления записи в табл. $tbl.</div>id записи:
                     ".$min_price_rec_id);
+        //die('<hr>line: '.__LINE__);
         /* MODIFIED END */
 
         //We may need to change this, the reason it is not in the other list of commands for parents
@@ -1524,7 +1541,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 		$old_price_ids = $this->_db->loadResultArray();
 
 		foreach($data['mprices']['product_price'] as $k => $product_price){
-
+            //echo "<div>line: ".__LINE__.", $k => $product_price</div>";
 			$pricesToStore = array();
 			$pricesToStore['virtuemart_product_id'] = $this->_id;
 			$pricesToStore['virtuemart_product_price_id'] = (int)$data['mprices']['virtuemart_product_price_id'][$k];
@@ -1624,8 +1641,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 				vmError ($error);
 			}
 
-		}
-
+		} //die('<hr>line: '.__LINE__);
 		return $product_data->virtuemart_product_id;
 	}
 
