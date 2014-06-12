@@ -231,7 +231,7 @@ class VirtuemartViewProduct extends VmView {
 				$this->SetViewTitle('PRODUCT',$text);
 				//JToolBarHelper::custom('sentproductemailtocustomer', 'email_32', 'email_32',  'COM_VIRTUEMART_PRODUCT_EMAILTOSHOPPER' ,false);
 				$this->addStandardEditViewCommands ($product->virtuemart_product_id);
-				break;
+		    break;
 
 			case 'massxref_cats':
 			case 'massxref_cats_exe':
@@ -258,7 +258,7 @@ class VirtuemartViewProduct extends VmView {
 
 				JToolBarHelper::custom('massxref_cats_exe', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT_EXE'), false);
 
-				break;
+			break;
 
 			case 'massxref_sgrps':
 			case 'massxref_sgrps_exe':
@@ -275,7 +275,7 @@ class VirtuemartViewProduct extends VmView {
 
 				JToolBarHelper::custom('massxref_sgrps_exe', 'new', 'new', JText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS_EXE'), false);
 
-				break;
+			break;
 
 		    default:
                 if ($product_parent_id=JRequest::getInt('product_parent_id',false) ) {

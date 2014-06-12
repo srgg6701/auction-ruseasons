@@ -102,7 +102,7 @@ input[name="mprices[salesPrice][]"]{
                         class="hasTip"
                         title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
 					<?php 
-		
+		// TODO: разобраться, можно ли изменить TOP slug с кириллицы на латиницу (торги-в-помещении, магазин)
 		if($this->product->top_category_slug==='onlajn-torgi'){
 			$text="COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL";
 			$mprice=$this->product->minimal_price;
@@ -113,6 +113,7 @@ input[name="mprices[salesPrice][]"]{
 		echo JText::_($text) ?>
 				</span>
             </div>
+            <input type="hidden" name="top_category_slug" value="<?=$this->product->top_category_slug?>"/>
         </td>
         <td nowrap><input
                 type="text"

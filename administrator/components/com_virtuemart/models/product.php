@@ -1445,8 +1445,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 		}
 		// Setup some place holders
 		/*	MODIFIED START 	*/
-		if (!$product_data)
-		/*	MODIFIED END	*/
+		if (!$product_data) /*	MODIFIED END	*/
 			$product_data = $this->getTable ('products');
 		//var_dump($product_data); die();
 		//Set the product packaging
@@ -1454,8 +1453,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 			$data['product_packaging'] = str_replace(',','.',$data['product_packaging']);
 		}
 
-		//with the true, we do preloading and preserve so old values note by Max Milbers
-	//	$product_data->bindChecknStore ($data, $isChild);
+		// with the true, we do preloading and preserve so old values note by Max Milbers
+	    // $product_data->bindChecknStore ($data, $isChild);
 
 		$stored = $product_data->bindChecknStore ($data, TRUE);
 
@@ -1470,15 +1469,36 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 			return FALSE;
 		}
 
-
-		$this->_id = $data['virtuemart_product_id'] = (int)$product_data->virtuemart_product_id;
+        $this->_id = $data['virtuemart_product_id'] = (int)$product_data->virtuemart_product_id;
 
 		if (empty($this->_id)) {
 			vmError('Product not stored, no id');
 			return FALSE;
 		}
 
-		//We may need to change this, the reason it is not in the other list of commands for parents
+        /* MODIFIED START */
+        // изменить/добавить запись в #__dev_sales_price
+        require_once JPATH_ADMINISTRATOR.'/components/com_auction2013/controllers/importlots.php';
+        $tbl= "#__dev_sales_price";
+        $min_price = $data["mprices"]["salesPrice"][0];
+        // добавить запись, если не существует:
+        if(!$min_price_rec_id=JFactory::getDBO ()->setQuery("SELECT id FROM $tbl
+            WHERE virtuemart_product_id = ".$this->_id)->loadResult()){
+            $result=Auction2013ControllerImportlots::addSalesRecord(
+                $this->_id, $min_price);
+            if($result!==true) {
+                die("<div style='color:red'>
+                Ошибка добавления записи в табл. $tbl.</div>Запрос: ".$result);
+            }
+        }   // обновить запись
+        elseif(!$result = Auction2013ControllerImportlots::updateSalesRecord(
+                    $min_price_rec_id,$min_price) )
+            die("<div style='color:red'>
+                Ошибка обновления записи в табл. $tbl.</div>id записи:
+                    ".$min_price_rec_id);
+        /* MODIFIED END */
+
+        //We may need to change this, the reason it is not in the other list of commands for parents
 		if (!$isChild) {
 			if (!empty($data['save_customfields'])) {
 				if (!class_exists ('VirtueMartModelCustomfields')) {

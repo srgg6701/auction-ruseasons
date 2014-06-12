@@ -20,13 +20,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 if(!class_exists('VmController'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmcontroller.php');
-$test=0;
+
+$test=false;
+// данные сохраняются в /helpers/vmcontroller.php -> save()
 if ($test){
 	if ($post=JRequest::get('post')){
 		if($post['task']=='apply'){
 			echo "<h1>task = $post[task]</h1> <H2>DATA:</H2>";
+            echo '<pre>';
 			var_dump($post);
-			die('<hr>'); 
+			die('</pre><hr>');
 		}
 	}	
 }

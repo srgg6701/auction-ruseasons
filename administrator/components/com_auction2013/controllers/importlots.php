@@ -165,7 +165,23 @@ class Auction2013ControllerImportlots extends JControllerForm
 		if(!$db->execute())
 			return array('query', $query);
 		else return true;	
-	}	
+	}
+/**
+ *  Обновить запись о минимальной цене предмета в доп. таблице
+ */
+    public static function updateSalesRecord($min_price_rec_id,$min_price){
+        $tbl= "#__dev_sales_price";
+        $object = new stdClass();
+        $object->id = $min_price_rec_id;
+        $object->sales_price = $min_price;
+        try{
+            JFactory::getDbo()->updateObject($tbl, $object, 'id');
+        }catch(Exception $e){
+            echo "<hr>Error: ".$e->getMessage();
+            return false;
+        }
+        return true;
+    }
 /**
  * Описание
  * @package

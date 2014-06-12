@@ -167,9 +167,9 @@ class VmController extends JController{
 
 		JRequest::checkToken() or jexit( 'Invalid Token save' );
 
-		if($data===0)$data = JRequest::get('post');
-		
-		$model = VmModel::getModel($this->_cname); // VirtueMartModelProduct
+		if($data===0) $data = JRequest::get('post');
+        // /models.php -> VirtueMartModelProduct
+		$model = VmModel::getModel($this->_cname);
 		
 		//echo "<h2>Model name = ".$this->_cname."</h2>";
 		//var_dump($model);	
