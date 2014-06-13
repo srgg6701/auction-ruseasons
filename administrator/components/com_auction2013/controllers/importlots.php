@@ -153,6 +153,7 @@ class Auction2013ControllerImportlots extends JControllerForm
         $object = new stdClass();
         $object->virtuemart_product_id=$virtuemart_product_id;
         $object->sales_price=$sales_price;
+        // todo: удалить закомментированный код:
         // Insert the object into the user profile table.
         //$result =
         //JFactory::getDbo()->insertObject('#__dev_sales_price', $object);

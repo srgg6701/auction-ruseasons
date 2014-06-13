@@ -150,7 +150,7 @@ $( function(){
             
             <div id="clock"></div>  
             
-            <a href="#" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
+            <a href="<?=$this->baseurl?>" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
             <a href="#" id="logo_text"><img src="<?php echo $templateUrl; ?>/images/logo_text.png" width="266" height="50" alt="" /></a>
     	</div>
                 
