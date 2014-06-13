@@ -3,12 +3,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 $session =JFactory::getSession();
-if(!$session->get('section_links')){?>
+
+if(!$session->get('section_links')) :?>
     <script>location.reload();</script>
 <?
-}
-
-$session->clear('section_links');
+endif;
+// todo: использовать только во время тестирования:
+// $session->clear('section_links');
 
 
 //var_dump($section_links); die();
@@ -39,7 +40,7 @@ if($SefMode=$router->getMode()){
     <br/>
 <?
 $top_cats_menu_ids=AuctionStuff::getTopCatsMenuItemIds();
-var_dump("<pre>",$top_cats_menu_ids,"</pre>");
+//var_dump("<pre>",$top_cats_menu_ids,"</pre>");
 // get top categories aliases to substitute them as layouts:
 /**
     "online", "fulltime", "shop" */
@@ -85,9 +86,10 @@ foreach($lots as $top_cat_id => $array){
                     $category_link=JUri::base();
                     if ($top_cats_aliases[$a]!='shop'){
                         $category_link.= $menus[$menus[$top_cats_menu_ids[$a]]->parent_id]->alias.'/';
-                        echo "<div>menu_id = $top_cats_menu_ids[$a]</div>";
-                        echo "<div>category_link = $category_link</div>";
+                        //echo "<div>menu_id = $top_cats_menu_ids[$a]</div>";
+                        //echo "<div>category_link = $category_link</div>";
                     }
+                    //echo "<div>next: ".$menus[$top_cats_menu_ids[$a]]->alias.'/'.$category_data['alias']."</div>";
                     $category_link.= $menus[$top_cats_menu_ids[$a]]->alias.'/'.$category_data['alias'];
                 }
 
@@ -135,4 +137,4 @@ foreach($lots as $top_cat_id => $array){
 }
 
 $session->set('section_links',$section_links);
-echo "<pre>"; var_dump($section_links); die('</pre>');?>
+//echo "<pre>"; var_dump($section_links); die('</pre>');?>
