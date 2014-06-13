@@ -39,7 +39,7 @@ foreach($lots as $top_cat_id => $categories){
         	<input name="<?=$categories['top_category_layout']?>[<?=$category['virtuemart_category_id']?>]" type="checkbox" value="<?=$category['virtuemart_category_id']?>"><?=$category['category_name']?> (<?=$category['product_count']?>)
         </label>
 <?
-/*	'top_category_alias' => string 'onlajn-torgi' (length=12)
+/*	'top_category_alias' => string 'онлайн-торги' (length=12)
   	'top_category_name' => string 'Онлайн торги' (length=23)
   	'top_category_layout' => string 'online' (length=6)
   	'children' => 

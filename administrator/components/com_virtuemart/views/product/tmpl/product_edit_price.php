@@ -64,7 +64,7 @@ table.adminform.productPriceTable
                     title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
                 <?php 
     // TODO: разобраться, можно ли изменить TOP slug с кириллицы на латиницу (торги-в-помещении, магазин)
-    //if($this->product->top_category_slug==='onlajn-torgi'){
+    //if($this->product->top_category_slug==='онлайн-торги'){
     //}else			
     echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE"); ?>
             </span>
@@ -94,7 +94,7 @@ table.adminform.productPriceTable
             <input  type="hidden" name="product_in_stock" value="1" size="10" />
         </td>
     </tr>
-<?	//if($this->product->top_category_slug==='onlajn-torgi'):
+<?	//if($this->product->top_category_slug==='онлайн-торги'):
 ?>
 	<tr class="row0">
     	<td colspan="5">
