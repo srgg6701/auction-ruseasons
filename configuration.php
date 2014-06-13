@@ -12,11 +12,9 @@ class JConfig {
 	public $debug = '0';
 	public $debug_lang = '0';
 	public $dbtype = 'mysql';
-	public $host = 'localhost';	
-    public $user = 'root';
+	public $host = 'localhost';
+	public $user = 'root';
 	public $password = '';
-    //public $user = 'auctionru_2013';
-	//public $password = 'history2013';
 	public $db = 'auctionru_2013';
 	public $dbprefix = 'auc13_';
 	public $live_site = '';
@@ -50,7 +48,7 @@ class JConfig {
 	public $MetaAuthor = '1';
 	public $MetaVersion = '0';
 	public $robots = '';
-	public $sef = '0';
+	public $sef = '1';
 	public $sef_rewrite = '1';
 	public $sef_suffix = '0';
 	public $unicodeslugs = '1';

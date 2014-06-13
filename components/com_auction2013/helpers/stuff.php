@@ -400,7 +400,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
 		$ItemIds=array();
 		foreach($layouts as $i=>$layout){
 			$query=$query_start.$layout.$query_end;
-			//echo "<div class=''>query= <pre>".$query."</pre></div>";
+			echo "<div class=''>query= <pre>".$query."</pre></div>";
 			$db->setQuery($query);
 			$ItemId=$db->loadResult();
 			$ItemIds[]=$ItemId;

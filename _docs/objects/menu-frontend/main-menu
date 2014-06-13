@@ -1,0 +1,253 @@
+  [125]=>	"online-torgi"
+  object(stdClass)#111 (21) 
+    ["id"]=>
+    string(3) "125"
+    ["menutype"]=>
+    string(8) "mainmenu"
+    ["title"]=>
+    string(23) "Онлайн торги"
+    ["alias"]=>
+    string(12) "online-torgi"
+    ["note"]=>
+    string(45) "не факт, что virtuemart однако"
+    ["route"]=>
+    string(27) "аукцион/online-torgi"
+    ["link"]=>
+    string(71) "index.php?option=com_virtuemart&view=category&virtuemart_category_id=21"
+    ["type"]=>
+    string(9) "component"
+    ["level"]=>
+    string(1) "2"
+    ["language"]=>
+    string(1) "*"
+    ["browserNav"]=>
+    string(1) "0"
+    ["access"]=>
+    string(1) "1"
+    ["params"]=>
+    object(JRegistry)#188 (1) 
+      ["data":protected]=>
+      object(stdClass)#189 (12) 
+        ["menu-anchor_title"]=>
+        string(0) ""
+        ["menu-anchor_css"]=>
+        string(0) ""
+        ["menu_image"]=>
+        string(0) ""
+        ["menu_text"]=>
+        int(1)
+        ["page_title"]=>
+        string(0) ""
+        ["show_page_heading"]=>
+        int(0)
+        ["page_heading"]=>
+        string(0) ""
+        ["pageclass_sfx"]=>
+        string(0) ""
+        ["menu-meta_description"]=>
+        string(0) ""
+        ["menu-meta_keywords"]=>
+        string(0) ""
+        ["robots"]=>
+        string(0) ""
+        ["secure"]=>
+        int(0)
+      
+    
+    ["home"]=>
+    string(1) "0"
+    ["img"]=>
+    string(0) ""
+    ["template_style_id"]=>
+    string(1) "0"
+    ["component_id"]=>
+    string(5) "10004"
+    ["parent_id"]=>
+    string(3) "113"
+    ["component"]=>
+    string(14) "com_virtuemart"
+    ["tree"]=>
+    array(2) 
+      [0]=>
+      string(3) "113"
+      [1]=>
+      string(3) "125"
+    
+    ["query"]=>
+    array(3) 
+      ["option"]=>
+      string(14) "com_virtuemart"
+      ["view"]=>
+      string(8) "category"
+      ["virtuemart_category_id"]=>
+      string(2) "21"    
+    
+  [126]=>	"очные-торги"
+  object(stdClass)#161 (21) 
+    ["id"]=>
+    string(3) "126"
+    ["menutype"]=>
+    string(8) "mainmenu"
+    ["title"]=>
+    string(21) "Очные торги"
+    ["alias"]=>
+    string(21) "очные-торги"
+    ["note"]=>
+    string(0) ""
+    ["route"]=>
+    string(36) "аукцион/очные-торги"
+    ["link"]=>
+    string(86) "index.php?option=com_virtuemart&view=category&layout=fulltime&virtuemart_category_id=0"
+    ["type"]=>
+    string(9) "component"
+    ["level"]=>
+    string(1) "2"
+    ["language"]=>
+    string(1) "*"
+    ["browserNav"]=>
+    string(1) "0"
+    ["access"]=>
+    string(1) "1"
+    ["params"]=>
+    object(JRegistry)#192 (1) 
+      ["data":protected]=>
+      object(stdClass)#193 (12) 
+        ["menu-anchor_title"]=>
+        string(0) ""
+        ["menu-anchor_css"]=>
+        string(0) ""
+        ["menu_image"]=>
+        string(0) ""
+        ["menu_text"]=>
+        int(1)
+        ["page_title"]=>
+        string(0) ""
+        ["show_page_heading"]=>
+        int(0)
+        ["page_heading"]=>
+        string(0) ""
+        ["pageclass_sfx"]=>
+        string(0) ""
+        ["menu-meta_description"]=>
+        string(0) ""
+        ["menu-meta_keywords"]=>
+        string(0) ""
+        ["robots"]=>
+        string(0) ""
+        ["secure"]=>
+        int(0)
+      
+    
+    ["home"]=>
+    string(1) "0"
+    ["img"]=>
+    string(0) ""
+    ["template_style_id"]=>
+    string(1) "0"
+    ["component_id"]=>
+    string(5) "10004"
+    ["parent_id"]=>
+    string(3) "113"
+    ["component"]=>
+    string(14) "com_virtuemart"
+    ["tree"]=>
+    array(2) 
+      [0]=>
+      string(3) "113"
+      [1]=>
+      string(3) "126"
+    
+    ["query"]=>
+    array(4) 
+      ["option"]=>
+      string(14) "com_virtuemart"
+      ["view"]=>
+      string(8) "category"
+      ["layout"]=>
+      string(8) "fulltime"
+      ["virtuemart_category_id"]=>
+      string(1) "0"  
+  
+  [115]=>	"магазин-антиквариата"
+  object(stdClass)#166 (21) 
+    ["id"]=>
+    string(3) "115"
+    ["menutype"]=>
+    string(8) "mainmenu"
+    ["title"]=>
+    string(14) "Магазин"
+    ["alias"]=>
+    string(39) "магазин-антиквариата"
+    ["note"]=>
+    string(126) "необходимо вмешательство для адаптации URL с уже проиндексированными"
+    ["route"]=>
+    string(39) "магазин-антиквариата"
+    ["link"]=>
+    string(82) "index.php?option=com_virtuemart&view=category&layout=shop&virtuemart_category_id=0"
+    ["type"]=>
+    string(9) "component"
+    ["level"]=>
+    string(1) "1"
+    ["language"]=>
+    string(1) "*"
+    ["browserNav"]=>
+    string(1) "0"
+    ["access"]=>
+    string(1) "1"
+    ["params"]=>
+    object(JRegistry)#202 (1) 
+      ["data":protected]=>
+      object(stdClass)#203 (12) 
+        ["menu-anchor_title"]=>
+        string(0) ""
+        ["menu-anchor_css"]=>
+        string(0) ""
+        ["menu_image"]=>
+        string(0) ""
+        ["menu_text"]=>
+        int(1)
+        ["page_title"]=>
+        string(0) ""
+        ["show_page_heading"]=>
+        int(0)
+        ["page_heading"]=>
+        string(0) ""
+        ["pageclass_sfx"]=>
+        string(5) "-shop"
+        ["menu-meta_description"]=>
+        string(0) ""
+        ["menu-meta_keywords"]=>
+        string(0) ""
+        ["robots"]=>
+        string(0) ""
+        ["secure"]=>
+        int(0)
+      
+    
+    ["home"]=>
+    string(1) "0"
+    ["img"]=>
+    string(0) ""
+    ["template_style_id"]=>
+    string(1) "0"
+    ["component_id"]=>
+    string(5) "10004"
+    ["parent_id"]=>
+    string(1) "1"
+    ["component"]=>
+    string(14) "com_virtuemart"
+    ["tree"]=>
+    array(1) 
+      [0]=>
+      string(3) "115"
+    
+    ["query"]=>
+    array(4) 
+      ["option"]=>
+      string(14) "com_virtuemart"
+      ["view"]=>
+      string(8) "category"
+      ["layout"]=>
+      string(4) "shop"
+      ["virtuemart_category_id"]=>
+      string(1) "0"
