@@ -57,7 +57,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 			  'online' => string 'Онлайн торги' (length=23)
 			  'fulltime' => string 'Очные торги' (length=21)
 			  'shop' => string 'Магазин' (length=14)*/
-		
 		/*'jform' => 
 			array
 			  'fulltime' => string 'fulltime' (length=8)
@@ -210,16 +209,25 @@ class Auction2013ControllerImportlots extends JControllerForm
 		//echo "<div class=''>query = $query<br>last_id= ".$last_id."</div>";
 		return $last_id; 
 	}
-	// Импорт товара. Добавляет данные в таблицы:
-	// #__virtuemart_products				
-	// #__virtuemart_products_ru_ru	
-	// #__virtuemart_product_prices
-	// #__virtuemart_product_categories				
-	// #__virtuemart_medias
-	// #__virtuemart_product_medias
-	// TODO: прояснить таки момент с недобавлением картинок с неуникальными URL:
-	// - при отработке данного скрипта записи в 2 последние таблицы просто не добавляются. Какие параметры и как можно использовать, чтобы были возможны другие варианты, те, что доступны при управлении изображениями товара через интерфейс VirtueMart'а?
-	
+	/**
+	 * Импорт товара. Добавляет данные в таблицы:
+	    #__virtuemart_products
+	    #__virtuemart_products_ru_ru
+	    #__virtuemart_product_prices
+	    #__virtuemart_product_categories
+	    #__virtuemart_medias
+            @Для каждого изображения создаётся новая запись.
+            Поля:
+            * id
+            * virtuemart_product_id
+            * virtuemart_media_id
+            * ordering  - порядок отобржаения в карточке товара в VM (?ещё где-то)
+	    #__virtuemart_product_medias
+	    TODO: прояснить таки момент с недобавлением картинок с неуникальными URL:
+	    При отработке данного скрипта записи в 2 последние таблицы просто не добавляются.
+        Какие параметры и как можно использовать, чтобы были возможны другие варианты, те,
+        что доступны при управлении изображениями товара через интерфейс VirtueMart'а?
+	*/
 	public function import(){
 		
 		$test=false;
@@ -407,7 +415,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'product_unit' => 'KG',
 							'price_quantity_start'=>array(''),
 							'price_quantity_end'=>array(''),
-							'categories' => array($virtuemart_category_id),
+							'categories' => array(${'virtuemart_category_id'}), // TODO: проконтролировать (добавлено через ${})
 						); /*?>
             <h4>Импортированные предметы:</h4>
 			<?*/	// var_dump($data); //die(); echo "<hr><hr>";
@@ -500,6 +508,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 									}
 									if (!$MediasTable->store(true)){
 										echo $MediasTable->getError();
+                                        if(!isset($imgErrors)) $imgErrors=array();
 										$imgErrors[].="<div>Не сохранена запись в таблице Medias.</div>";
 									}else{
 										

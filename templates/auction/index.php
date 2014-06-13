@@ -6,7 +6,6 @@ $baseUrl = $this->baseurl;
 $templateUrl = $this->baseurl . '/templates/' . $this->template;
 //artxComponentWrapper($document);
 // var_dump($this);//die();
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -149,7 +148,6 @@ $( function(){
             </div>
             
             <div id="clock"></div>  
-            
             <a href="<?=$this->baseurl?>" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
             <a href="#" id="logo_text"><img src="<?php echo $templateUrl; ?>/images/logo_text.png" width="266" height="50" alt="" /></a>
     	</div>

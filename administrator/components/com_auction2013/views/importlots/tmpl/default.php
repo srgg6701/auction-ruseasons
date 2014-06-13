@@ -22,9 +22,7 @@ $catsHTML=array();?>
 <?	//var_dump($lots['22']); die();
 foreach($lots as $top_cat_id => $array){?>
 	<label class="top_section">
-    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$top_cat_id?>, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories"<? 
-	if(strstr($array['top_category_name'],"Онлайн торги"))
-		{?> disabled title="Опция в разработке"<? }?>><?=$array['top_category_name']?> &nbsp; </label>
+    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$top_cat_id?>, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories"><?=$array['top_category_name']?> &nbsp; </label>
 	<?	foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):
