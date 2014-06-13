@@ -2,6 +2,15 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');?>
+<style>
+.c-empty{
+	background-color: gainsboro;
+	height: 26px;
+	line-height: 26px;
+	margin: auto;
+	text-align:center;
+}
+</style>
 <h2>Отметьте категории предметов, таблицы с которыми вы хотите очистить:</h2>
 <?	$lots=$this->categories_data; 
 $catsHTML=array();?>
@@ -22,8 +31,10 @@ foreach($lots as $top_cat_id => $categories){
             <div class="clearfix"></div>
             <div class="children">
 <?	//var_dump($array);
-	foreach($categories['children'] as $i=>$category){
-		if((int)$category['product_count']){?>
+	$ccnt=0;
+    foreach($categories['children'] as $i=>$category){
+		if((int)$category['product_count']){
+            $ccnt++;?>
 		<label>
         	<input name="<?=$categories['top_category_layout']?>[<?=$category['virtuemart_category_id']?>]" type="checkbox" value="<?=$category['virtuemart_category_id']?>"><?=$category['category_name']?> (<?=$category['product_count']?>)
         </label>
@@ -46,7 +57,9 @@ foreach($lots as $top_cat_id => $categories){
 			  'alias' => string 'sovetskaya-zhivopis2013-02-12-08-49-59_' (length=39)
 			  'product_count' => string '0' (length=1)	*/
 		}
-	}?>
+	}   if(!$ccnt):?>
+        <div class="c-empty">Пусто...</div>
+<?php   endif; ?>
     		</div>
     	</td>
 <?	
