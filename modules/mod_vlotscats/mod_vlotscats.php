@@ -18,5 +18,4 @@ if (JRequest::getVar('help')):?>
   <li>Зайти в раздел <strong>Module Manager: Modules</strong></li>
   <li>Щёлкнуть <strong>New</strong></li>
   <li>В раскрывшемся окне выбрать установленный модуль.</li>
-</ol><?
-endif;?>
+</ol><?php endif;?>

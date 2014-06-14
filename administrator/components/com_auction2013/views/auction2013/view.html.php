@@ -114,13 +114,11 @@ class Auction2013ViewAuction2013 extends JView
 	private function chooseSectionBlock(){
 		//var_dump($this->section);die();
 		ob_start();?>
-	<?	foreach($this->top_categories as $i=>$data):?>
-	<a href="javascript:void()" onclick="return setSectionValue('<?=$data['category_name'].':'.$data['virtuemart_category_id']?>');"><? 	
-			if($this->section[1]!=$data['virtuemart_category_id']){
+	<?php foreach($this->top_categories as $i=>$data):?>
+	<a href="javascript:void()" onclick="return setSectionValue('<?=$data['category_name'].':'.$data['virtuemart_category_id']?>');"><?php if($this->section[1]!=$data['virtuemart_category_id']){
 				echo $data['category_name'];		
-			}else{?><span style="color:#000;">[ <?=$data['category_name']?> ]</span><?	
-			}?></a> &nbsp;
-	<?	endforeach;
+			}else{?><span style="color:#000;">[ <?=$data['category_name']?> ]</span><?php }?></a> &nbsp;
+	<?php endforeach;
 		$this->html_sections=ob_get_contents();	
 		ob_clean();	
 	}
@@ -129,12 +127,10 @@ class Auction2013ViewAuction2013 extends JView
 		ob_start();?>
       <form method="post" name="export_start" id="export_start" action="index.php?option=com_auction2013&view=auction2013&layout=export">  
 		  <div id="dbs" style="padding:8px;display:inline-block">
-        	<input name="db_name" id="db_auctionru_ruse" type="radio" value="auctionru_ruse"<?
-		if($this->source_db=='auctionru_ruse'){?> checked<? }?> disabled>
+        	<input name="db_name" id="db_auctionru_ruse" type="radio" value="auctionru_ruse"<?php if($this->source_db=='auctionru_ruse'){?> checked<?php }?> disabled>
         auctionru_ruse (<span style="color:brown">старый</span> сайт, префикс таблиц &mdash; <b>geodesic</b>)
         <br>
-        	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?
-		/*if($this->source_db=='auctionru_2013'){?> checked<? }*/?> checked>
+        	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?php /*if($this->source_db=='auctionru_2013'){?> checked<?php }*/?> checked>
         auctionru_2013 (<span style="color:navy">новый</span> сайт, префикс таблиц &mdash; <b>auc13</b>)
         </div>
     	<input id="active_section" name="section" type="hidden" value="">        
@@ -154,7 +150,7 @@ function setSectionValue(section_value){
 		$('form#export_start').submit();
 }
 </script>    
-<?		$this->source_db_boxes_html=ob_get_contents();
+<?php $this->source_db_boxes_html=ob_get_contents();
 		ob_clean();
 	}
 }

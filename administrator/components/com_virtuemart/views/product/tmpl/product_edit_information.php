@@ -82,7 +82,7 @@ $i=0;
 						<input type="text" class="inputbox" name="product_url" value="<?php echo $this->product->product_url; ?>" size="32" maxlength="255" />
 					</td>
 				</tr>
-                <? */	?>
+                <?php */	?>
                 
                 <tr class="row<?php echo $i?>">
 					<td  valign="top">
@@ -184,7 +184,7 @@ $i=0;
 					</td>
 				</tr>
 				<?php $i = 1 - $i; ?>
-				<?	*/?>                
+				<?php */?>                
             </table>
 		</td>
         </tr>
@@ -265,7 +265,7 @@ $i=0;
 				<?php //echo JText::_ ('COM_VIRTUEMART_PRODUCT_PRICE_ORDER'); ?>
 				<?php echo $this->loadTemplate ('price'); ?>
             </td>
-        </tr><?	?>
+        </tr><?php ?>
 			<?php
 			$this->priceCounter++;
 		}
@@ -282,7 +282,7 @@ $i=0;
 </tr>
 		</td>
 	</tr>
-	<? /*?>
+	<?php /*?>
     <tr>
 	<td colspan="2" >
 	<fieldset>
@@ -390,7 +390,7 @@ $i=0;
 		</table>
 	</fieldset>
 	</tr>
-	<? */?>
+	<?php */?>
 	<tr>
 		<td
 			width="100%"

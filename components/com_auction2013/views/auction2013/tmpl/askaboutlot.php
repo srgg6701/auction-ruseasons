@@ -1,13 +1,9 @@
-<?
-defined('_JEXEC') or die('Restricted access');?>
-<h2 class="title thinBrownHeader">Задать вопрос по лоту<?
-			if (JRequest::getVar('result')=='thanx'){
+<?php defined('_JEXEC') or die('Restricted access');?>
+<h2 class="title thinBrownHeader">Задать вопрос по лоту<?php if (JRequest::getVar('result')=='thanx'){
 				$result='thanx';
-			?>: <b>Ваш вопрос принят!</b><?
-            }
+			?>: <b>Ваш вопрос принят!</b><?php }
 ?></h2>
-<?
-if ($this->params->get('show_page_heading')) : 
+<?php if ($this->params->get('show_page_heading')) : 
 	
 	?><h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
 <?php 	
@@ -23,16 +19,14 @@ if($result=='thanx'){?>
 <br>
 <br>
 <br>
-<?
-}else{
+<?php }else{
 // выведем статью "Задать вопрос по лоту":
 $article=AuctionStuff::getArticleContent(22);	
 // var_dump($article);	
 echo $article['introtext'];?>
 <form method="post" id="ask_form" name="ask_form" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.askQuestion'); ?>" enctype="multipart/form-data"> 
 
-	<h4>Название лота: <? 
-	$lot_id=JRequest::getVar('lot_id');
+	<h4>Название лота: <?php $lot_id=JRequest::getVar('lot_id');
 	$prod_array=AuctionStuff::getSingleProductData($lot_id,'p_ru_ru.product_name');
 	echo $prod_array['product_name'];?></h4>
  
@@ -93,5 +87,4 @@ jQuery(function($){
 	});
 });
 </script>
-<?
-}?>
+<?php }?>

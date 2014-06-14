@@ -24,11 +24,10 @@ if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
 <div class="item-page-shop fulltime">
 <br>
-<?
-if (empty($this->keyword)):?>
+<?php if (empty($this->keyword)):?>
 	<div class="category_description"><?=$this->category->category_description; ?>
 	</div>
-<?	endif;
+<?php endif;
 
 if ( VmConfig::get ('showCategory', 1) && 
 	 empty($this->keyword)
@@ -39,7 +38,7 @@ if ( VmConfig::get ('showCategory', 1) &&
 		if ($this->category->haschildren) :
 			echo '<h1>Has children! Do something, Dude...</h1>';?>
 		<div>
-		<?	foreach ($this->category->children as $category) :
+		<?php foreach ($this->category->children as $category) :
 				// Category Link
 				$caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id);
 				// Show Category?>
@@ -48,9 +47,9 @@ if ( VmConfig::get ('showCategory', 1) &&
 						<a href="<?=$caturl?>"><?=$category->images[0]->displayMediaThumb ("", FALSE)?></a>
 					</div>
 				</h2>
-		<?	endforeach;?>
+		<?php endforeach;?>
 		</div>
-	<?	endif;
+	<?php endif;
 	} // /show_children
 
 endif;
@@ -69,25 +68,24 @@ if ($this->search !== NULL):?>
 	<input type="hidden" name="view" value="category"/>
 </form>
 <!-- End Search Box -->
-<?	endif;
+<?php endif;
 
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {?>
 	<table>
-<?
-	// array => object
+<?php // array => object
 	foreach($this->products as $i=>$product){
 		// if SEF has been switched off, returns just the same as gets:
 		$product->link=HTML::setDetailedLink($product,'fulltime');?>
 		<tr>
         	<td class="box">
             	<div class="img">
-                	<a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
+                	<a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
                 </div>
             </td>
 			<td class="desc">
             	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
-	<?	if (!empty($product->product_s_desc)):?>
+	<?php if (!empty($product->product_s_desc)):?>
 	  <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 
 
@@ -129,14 +127,13 @@ if (!empty($this->products)) {?>
 		$show_button=false;
 		if ($show_button):// Product Details Button?>
 	  <p><?=JHTML::link ($product->link, JText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'product-details'))?></p>
-	<?	endif;?>
+	<?php endif;?>
 			</td>
         </tr>
-<?	}?>
+<?php }?>
     </table>
-<?
-}elseif ($this->search !== NULL) {
+<?php }elseif ($this->search !== NULL) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
-<? HTML::setVmPagination()?>
+<?php HTML::setVmPagination()?>

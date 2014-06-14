@@ -31,8 +31,7 @@ $base_path=JUri::root();
 $templateUrl=JUri::root().'templates/auction/';?>
 <link href="<?=$templateUrl?>magic_zoom/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
 <script src="<?=$templateUrl?>magic_zoom/magiczoomplus.js" type="text/javascript"></script>
-<?
-require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
+<?php require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
 $virtuemart_category_id=$this->product->virtuemart_category_id;
 $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
 if($router = JFactory::getApplication()->getRouter()){
@@ -43,7 +42,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
-<?	if($SefMode=$router->getMode())
+<?php if($SefMode=$router->getMode())
 		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
 	
 	// получить предыдущий-следующий предметы в категории:	
@@ -55,31 +54,25 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 		$prev_prod_link=AuctionStuff::buildProdNeighborLink($trinityIds[0],$category_link,$SefMode);
 	else: $prev_prod_link=false;
 	endif;?>    
-        <li><a href="<?=$prev_prod_link?>"<?
-    
-	if(!$prev_prod_link) echo $hide;
+        <li><a href="<?=$prev_prod_link?>"<?php if(!$prev_prod_link) echo $hide;
 	
 	?>>&lt; &lt; Предыдущий <!--(<?=$trinityIds[0]?>)-->></a></li>
-<?	
-	if(!$category_link): // if no SEF only:
+<?php if(!$category_link): // if no SEF only:
 		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.JRequest::getVar('Itemid'),false);
 	endif;?>	
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
-<?	if($trinityIds[2]) 
+<?php if($trinityIds[2]) 
 		$next_prod_id=$trinityIds[2];
 	elseif((int)$trinityIds[1]>$virtuemart_product_id) 
 		$next_prod_id=$trinityIds[1];
 	if($next_prod_id):	
 		$next_prod_link=AuctionStuff::buildProdNeighborLink($next_prod_id,$category_link,$SefMode);
 	endif;?>
-        <li><a href="<?=$next_prod_link?>"<? 
-		
-		if(!$next_prod_id) echo $hide;
+        <li><a href="<?=$next_prod_link?>"<?php if(!$next_prod_id) echo $hide;
         
 		?>>Следующий <!--(<?=$next_prod_id?>)-->&gt; &gt;</a></li>
     </ul>
-  </div><?
-  			// var_dump($this->product->images); die();
+  </div><?php // var_dump($this->product->images); die();
   ?>
 <form method="post" id="add_to_favorite" name="add_to_favorite" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.addToFavorites'); ?>">    
     <input type="submit" name="btn_favor" id="btn_favor" value="добавить в избранное">
@@ -91,7 +84,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 </div>
 <div>
   <div class="gallery_lot">
-      <div id="galleryContainer"<? //style="clear: both;"?>>
+      <div id="galleryContainer"<?php //style="clear: both;"?>>
           <div class="main_im_lot">
               <div id="galleryBigImage">
                   <div id="bigLeadImage">
@@ -107,7 +100,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
           </div>
           <div id="galleryThumbs">
               <div> 														
-	<? 	foreach($this->product->images as $i => $stuff):?>	
+	<?php foreach($this->product->images as $i => $stuff):?>	
 
                   <div class="th_imgage">
                       <div class="inside_image_preview">
@@ -116,7 +109,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
                       </div>
                   </div>
                                 
-    <?	endforeach;?>                       
+    <?php endforeach;?>                       
             </div>
         </div>
                     
@@ -171,8 +164,7 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
       Предварительная оценка: 
       <span class="span_o_o">
           <b>
-   		      <?
-	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
+   		      <?php echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
           </b>  
           <b>
        	      - ? ? ? ?
@@ -182,7 +174,4 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
       </span>
     </div>
   </div>        
-</div><?
-			
-			
-			endif;
+</div><?php endif;

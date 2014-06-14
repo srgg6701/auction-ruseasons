@@ -33,24 +33,24 @@ $saveOrder	= $listOrder == 'a.ordering';
 		</div>
 		<div class="filter-select fltrt">
 
-        <? 	$allow_state=false;
+        <?php $allow_state=false;
 			if($allow_state)
 				if($state=$this->state):?>
                 <select name="filter_published" class="inputbox" onchange="this.form.submit()">
                     <option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
                     <?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), "value", "text", $state->get('filter.state'), true);?>
                 </select>
-          	<?	endif;?>      
+          	<?php endif;?>      
 
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
-	<? $cnt=0;?>
+	<?php $cnt=0;?>
   <table class="adminlist">
 		<thead>
 			<tr>
 				<th width="1%">
-					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" /><? ++$cnt;?>
+					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" /><?php ++$cnt;?>
 				</th>
 
 				<th>
@@ -79,7 +79,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				</td>
 			</tr>
 		</tfoot>
-        <?	if ($items=$this->items){?>
+        <?php if ($items=$this->items){?>
 		<tbody>
 		<?php 
 			foreach ($items as $i => $item) {
@@ -117,11 +117,11 @@ $saveOrder	= $listOrder == 'a.ordering';
 			</tr>
 	<?php 	} ?>
 		</tbody>
-	<?	}?>
+	<?php }?>
   </table>
-	<?	if(!$items):?>
+	<?php if(!$items):?>
     	<h4>Нет данных для отображения...</h4>
-    <?	endif;?>
+    <?php endif;?>
   <div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

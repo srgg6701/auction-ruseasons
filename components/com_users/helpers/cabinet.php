@@ -49,9 +49,7 @@ class UserCabinet
             <div class="content_box">
             </div>
             <div class="content_box highlight_links">
-        		<h2 class="title"><?
-				
-				switch($layout){
+        		<h2 class="title"><?php switch($layout){
 					case 'favorites':
 						echo 'Избранное';
 						$params=$JUser->id;
@@ -69,12 +67,12 @@ class UserCabinet
 				}
 				
 				echo $section;?></h2>
-		<?	UserCabinet::$method($params);?>            	
+		<?php UserCabinet::$method($params);?>            	
             </div>   
           </div>
             <!-- END CONTENT BLOCK -->
     </div>
-<?		$cabinet=ob_get_contents();
+<?php $cabinet=ob_get_contents();
 		ob_clean();
 		return $cabinet;
 	}
@@ -92,7 +90,7 @@ class UserCabinet
     <div class="para">
         Ваши предметы: <?="[]"?>
     </div>
-<?	}
+<?php }
 /**
  * @package
  * @subpackage
@@ -115,7 +113,7 @@ class UserCabinet
 			$app->redirect($redirect);
 		}else{?>
     <H1>LOTS</H1>
-<?		}
+<?php }
 	}	
 /**
  * Описание
@@ -133,28 +131,21 @@ class UserCabinet
 				if ($field=='country_id'){
 					$countries=AuctionStuff::getCountries();?>
     <select name="jform[country_id]" id="jform_country_id">
-    			<?	foreach($countries as $id=>$name):?>
-    	<option value="<?=$id?>"<?
-						if($value==$id):
-							?> selected<? 
-						endif;
+    			<?php foreach($countries as $id=>$name):?>
+    	<option value="<?=$id?>"<?php if($value==$id):
+							?> selected<?php endif;
 		?>><?=$name?></option>
-                <?	endforeach;?>
+                <?php endforeach;?>
     </select>
-			<?	}else{?>
-	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?
-					if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
-					echo $value;?>"<?
-					if( $field!="corpus_number"
+			<?php }else{?>
+	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?php if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
+					echo $value;?>"<?php if( $field!="corpus_number"
 						&& $field!="flat_office_number"
 						&& !strstr($field,'password')
 						//&& !strstr($field,'email')
-					  ):?> class="required" required="required"<? 
-					endif;?> size="30"<? 
-					if($field=='username'||$field=='registerDate'):
-						?> disabled<? 
-					endif;?>>
-			<?	}
+					  ):?> class="required" required="required"<?php endif;?> size="30"<?php if($field=='username'||$field=='registerDate'):
+						?> disabled<?php endif;?>>
+			<?php }
 			else:
 				echo $data;
 			endif;
@@ -179,7 +170,7 @@ Email				email
 				'email1'=>'Email',
 			);?>
 <form style="display:inline-block;" id="member-profile" action="index.php?option=com_users&task=profile.save" method="post" class="form-validate" enctype="multipart/form-data">
-		<?	$pAlCenter='';
+		<?php $pAlCenter='';
 			if($edit_mode=JRequest::getVar('mode')):
 				$userData['email2']='Подтверждение e-mail';
 				$userData['password1']='Новый пароль (опционально)';
@@ -201,12 +192,12 @@ Email				email
 						);?>
         <p<?=$pAlCenter?> style="margin-top:13px;">Ваши данные:</p>
         <table class="alignRight verticalTop">
-        <?	foreach ($userData as $user_field=>$data_header){?>
-		<?		if ($user_field!='Адрес'){?>
+        <?php foreach ($userData as $user_field=>$data_header){?>
+		<?php if ($user_field!='Адрес'){?>
         	<tr>
             	<td nowrap><?=$data_header?>:</td>
         		<td>
-				<?	$user_data=(!strstr($user_field,'email'))? 
+				<?php $user_data=(!strstr($user_field,'email'))? 
 						$user->$user_field:$user->email;
 					
 					if($user_field=='registerDate')
@@ -217,12 +208,12 @@ Email				email
 					setField($field,$edit_mode);?>
 				</td>
 			</tr>
-			<?	}else{
+			<?php }else{
 					if(!$edit_mode){?>
             <tr>
             	<td nowrap><?=$user_field?>:</td>
                 <td>
-			<?			$i=0;						
+			<?php $i=0;						
 						foreach ($data_header as $address_field=>$address_data):
 							$set_data=($address_field=='country_id')?
 								$country:$user->$address_field;
@@ -232,27 +223,27 @@ Email				email
 						endforeach;?>
             	</td>
             </tr>
-			<?		}else{
+			<?php }else{
 						foreach ($data_header as $address_field=>$address_data):?>
             <tr>
             	<td nowrap><?=$address_data?>:</td>
-        		<td><?	$user_data=(!strstr($address_field,'email'))? 
+        		<td><?php $user_data=(!strstr($address_field,'email'))? 
 							$user->$address_field:$user->email;	
 						setField(array($address_field,$user_data),true);?>
 				</td>
             </tr>
-					<?	endforeach;
+					<?php endforeach;
 					}?>
-			<?	}
+			<?php }
 			}?>
 		</table>
         <br>
         <hr size="1" color="#851719">
-        <?	if ($edit_mode){?>
+        <?php if ($edit_mode){?>
 <input type="hidden" name="option" value="com_users">
 <input type="hidden" name="task" value="profile.save">
 <input type="hidden" name="return" value="option=com_users&view=profile&layout=data&Itemid=<?=JRequest::getVar('Itemid')?>">
-		<?		echo JHtml::_('form.token');
+		<?php echo JHtml::_('form.token');
 				$btnType='submit';
 				$btnValue='Сохранить данные!';
 			}else{
@@ -260,13 +251,11 @@ Email				email
 				$btnValue='Редактировать данные...';
 			}?>
         <div<?=$pAlCenter?>>
-        	<button type="<?=$btnType?>" class="buttonSandCool"<?
-		if(!$edit_mode):
-			?> onClick="location.href='index.php?option=com_users&view=profile&layout=data&Itemid=<?=JRequest::getVar('Itemid')?>&mode=edit'"<? 
-		endif;?>><?=$btnValue?></button>
+        	<button type="<?=$btnType?>" class="buttonSandCool"<?php if(!$edit_mode):
+			?> onClick="location.href='index.php?option=com_users&view=profile&layout=data&Itemid=<?=JRequest::getVar('Itemid')?>&mode=edit'"<?php endif;?>><?=$btnValue?></button>
         </div>
 </form>
-<?	}	
+<?php }	
 /**
  * Описание
  * @package
@@ -285,24 +274,18 @@ Email				email
             	<th>Окончание</th>
             	<th title="Дней, часов, минут"><div style='border-bottom:dotted 1px;'>Осталось</div></th>
             </tr>
-		<?	$DateAndTime=new DateAndTime();
+		<?php $DateAndTime=new DateAndTime();
 			foreach($favorites as $virtuemart_product_id => $product_data){?>
-			<tr<?	
-			if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?	
-			}?> valign="top">
-            	<td><?
-                $product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug'],$virtuemart_product_id);  
-				?><a href="<? 
-				
-				echo $product_link; 
+			<tr<?php if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?php }?> valign="top">
+            	<td><?php $product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug'],$virtuemart_product_id);  
+				?><a href="<?php echo $product_link; 
 				
 				?>"><?=$product_data['product_name']?></a>
                 <button value="<?=$virtuemart_product_id?>">Удалить из избранного</button></td>
             	<td><?=substr($product_data['product_price'],0,strpos($product_data['product_price'],"."))?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_start'], JText::_('DATE_FORMAT_LC2'));?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_finish'], JText::_('DATE_FORMAT_LC2'));?></td>
-            	<td><? 
-				$delta=$DateAndTime->getDaysDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
+            	<td><?php $delta=$DateAndTime->getDaysDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
 				$s=0;
 				foreach ($delta as $k=>$t){
 					if($s) echo ($s==1)? "&nbsp;":":";
@@ -313,7 +296,7 @@ Email				email
 					$s++;
 				}?></td>
             </tr>
-		<?	}?>
+		<?php }?>
         </table>
 			<input type="hidden" id="virtuemart_product_id" name="virtuemart_product_id" value="" />
 			<input type="hidden" name="option" value="com_auction2013" />
@@ -331,9 +314,9 @@ $(function(){
 			});
 });
 </script>
-	<?	}else{?>
+	<?php }else{?>
         <p><b>У Вас нет избранных лотов.</b></p>
-	<? 	}
+	<?php }
 	}	
 /**
  * Описание
@@ -342,5 +325,5 @@ $(function(){
  */
 	function layout_bids(){?>
     <H1>MY BIDS</H1>
-<?	}	
+<?php }	
 }

@@ -39,9 +39,9 @@ defined('_JEXEC') or die('Restricted access');
 					</a>
 
 
-			}<?	*/?>
+			}<?php */?>
 		</td>
-		<?	/* ?>
+		<?php /* ?>
 		<td width="20%" >
 			<div style="text-align:right;font-weight:bold;">
 			<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_ORDERED_STOCK') ?></div>
@@ -50,9 +50,9 @@ defined('_JEXEC') or die('Restricted access');
 			<input type="text" class="inputbox js-change-stock"  name="product_ordered" value="<?php echo $this->product->product_ordered; ?>" size="10" />
 		</td>
 	</tr>
-    <?	*/?>
+    <?php */?>
 	<!-- low stock notification -->
-    <?	/*?>
+    <?php /*?>
 	<tr class="row1">
 		<td>
 			<div style="text-align:right;font-weight:bold;">
@@ -63,9 +63,9 @@ defined('_JEXEC') or die('Restricted access');
 			<input type="text" class="inputbox" name="low_stock_notification" value="<?php echo $this->product->low_stock_notification; ?>" size="3" />
 		</td>
 	</tr>
-    <?	*/?>
+    <?php */?>
 	<!-- end low stock notification -->
-    <?	/* ?>
+    <?php /* ?>
 	<tr class="row0">
 		<td>
 			<div style="text-align:right;font-weight:bold;">
@@ -84,33 +84,31 @@ defined('_JEXEC') or die('Restricted access');
 			<input type="text" class="inputbox"  name="max_order_level" value="<?php echo $this->product->max_order_level; ?>" size="10" />
 		</td>
 	</tr>
-    <?	*/?>
+    <?php */?>
 	<tr class="row1">
 		<td >
 			<div style="text-align:right;font-weight:bold;">
 				<?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_AUCTION_DATE_OPEN') ?>
 			</div>
 		</td>
-		<td<?
-		/*	MODIFIED START */
+		<td<?php /*	MODIFIED START */
 		 //colspan="3"
 		/*	MODIFIED END	*/?>>
 			<?php
 
 			echo vmJsApi::jDate($this->product->product_available_date, 'product_available_date'); ?>
 		</td>
-        <?	/*	MODIFIED START */?>
-        <td style="text-align:right;"><? /*?>
+        <?php /*	MODIFIED START */?>
+        <td style="text-align:right;"><?php /*?>
         Начало аукциона:
-        <?	echo vmJsApi::jDate($this->product->auction_date_start, 'auction_date_start');	*/
+        <?php echo vmJsApi::jDate($this->product->auction_date_start, 'auction_date_start');	*/
 		echo '<b>'.JText::_('COM_VIRTUEMART_PRODUCT_FORM_AUCTION_DATE_CLOSE').'</b>';?>
         </td>
-        <td nowrap><?
-        echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');	?>
+        <td nowrap><?php echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');	?>
         </td>
-        <?	/*	MODIFIED END	*/?>
+        <?php /*	MODIFIED END	*/?>
 	</tr>
-    <?	/*?>
+    <?php /*?>
 	<tr class="row0">
 		<td valign="top" >
 			<div style="text-align:right;font-weight:bold;">
@@ -126,15 +124,15 @@ defined('_JEXEC') or die('Restricted access');
 		</td>
 		<td><img border="0" id="imagelib" alt="<?php echo JText::_('COM_VIRTUEMART_PREVIEW'); ?>" name="imagelib" src="<?php if ($this->product->product_availability) echo JURI::root(true).$this->imagePath.$this->product->product_availability;?>"/></td>
 
-	</tr><?	*/?>
+	</tr><?php */?>
 </table>
 </fieldset>
-<?	/*?>
+<?php /*?>
 <fieldset>
 	<legend><?php echo JText::_('COM_VIRTUEMART_PRODUCT_SHOPPERS'); ?></legend>
 		<?php echo $this->loadTemplate('customer'); ?>
 </fieldset>
-<?	*/?>
+<?php */?>
 
 
 

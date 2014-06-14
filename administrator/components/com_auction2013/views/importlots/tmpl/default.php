@@ -14,16 +14,15 @@ defined('_JEXEC') or die('Restricted access');?>
 <span style="font-size:15px;">(если вы не видите здесь нужную категорию, вам необходимо создать её в разделе <a href="?option=com_virtuemart&view=category">VirtueMart</a>.)</span>
 <hr>
 <br>
-<?	
-$lots=$this->categories_data; 
+<?php $lots=$this->categories_data; 
 $catsHTML=array();?>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div id="top_radios">
-<?	//var_dump($lots['22']); die();
+<?php //var_dump($lots['22']); die();
 foreach($lots as $top_cat_id => $array){?>
 	<label class="top_section">
     	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$top_cat_id?>, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories"><?=$array['top_category_name']?> &nbsp; </label>
-	<?	foreach($array as $key=>$array_data):
+	<?php foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):
 					$catsHTML[$top_cat_id].='	<label>
@@ -31,13 +30,12 @@ foreach($lots as $top_cat_id => $array){?>
 				endforeach;
 			endif;
 		endforeach;?>
-	<?
-}?>
+	<?php }?>
 </div>
 <br/><br/>
 <hr class="light"/>
 <br/>
-<?	foreach($catsHTML as $top_category_id=>$child_categories_html):?>
+<?php foreach($catsHTML as $top_category_id=>$child_categories_html):?>
 <div id="top-<?=$top_category_id?>" class="hiddenRadios" style="display:none;">
     <div class="radiocats">
     <?=$child_categories_html?>
@@ -46,37 +44,36 @@ foreach($lots as $top_cat_id => $array){?>
 <hr class="light"/>
 <br/>
 </div>
-<?	endforeach;?>
+<?php endforeach;?>
 <p><img style="margin-left:-6px;" src="<?=JUri::root()?>administrator/templates/bluestork/images/admin/publish_y.png" width="16" height="16" align="absmiddle" /> <span id="check_flds" title="Щёлкните, чтобы увидеть набор/формат допустимых полей">Сверьтесь с названиями полей импортируемого файла</span></p>
-<? $av_fields=Auction2013Helper::getImportFields();?>
+<?php $av_fields=Auction2013Helper::getImportFields();?>
 <div id="csv_pattern">
 <h4 style="margin:auto auto 8px 4px;">Имя столбца, предназначение поля, обязательный (если указан) формат ввода данных <span style="font-weight:200;">(ЧЧ:ММ:CC &#8212; не обязательно для даты/времени)</span>:</h4>
 <table id="make_fields_control">
 	<tr>
-<?	foreach($av_fields as $field=>$desc):?>
+<?php foreach($av_fields as $field=>$desc):?>
     	<td><?=$field?></td>
-<?	endforeach;?>
+<?php endforeach;?>
     </tr>
     <tr bgcolor="#FFF">
-<?	foreach($av_fields as $field=>$desc):?>
-        <td><?
-		$adesc=explode("|",$desc);
+<?php foreach($av_fields as $field=>$desc):?>
+        <td><?php $adesc=explode("|",$desc);
 		$av_fields[$field]=$adesc[1];
 		echo $adesc[0];
 		?></td>
-<?	endforeach;?>
+<?php endforeach;?>
     </tr>
     <tr bgcolor="lightgoldenrodyellow">
-<?	foreach($av_fields as $field=>$desc):?>
+<?php foreach($av_fields as $field=>$desc):?>
         <td><?=$desc?></td>
-<?	endforeach;?>
+<?php endforeach;?>
     </tr>
 </table>
 </div>
 Выберите файл для импорта данных (формат <b style="color:red" title="Commas Separated Values">.CSV</b>):
 	<input id="import_file" name="import_file" type="file" required>
     	<input type="hidden" name="task" value="importlots.import" />
-		<? //<input type="hidden" name="boxchecked" value="0" /> ?>
+		<?php //<input type="hidden" name="boxchecked" value="0" /> ?>
 		<?php echo JHtml::_('form.token'); ?>
         <br/>
         <br/>

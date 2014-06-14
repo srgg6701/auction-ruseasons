@@ -37,8 +37,7 @@ defined('_JEXEC') or die('Restricted access');?>
 	});
 	//]]>
 </script>
-<?
-//var_dump(JRequest::get('get'));
+<?php //var_dump(JRequest::get('get'));
 /*
 
   'Itemid' => string '115' (length=3)
@@ -63,7 +62,7 @@ $path=JUri::root().'templates/auction/magic_zoom/';
 	/*?>
 <link href="<?=$path?>magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
 <script src="<?=$path?>magiczoomplus.js" type="text/javascript"></script>
-<?	*/
+<?php */
 
 $addtocart=false;
 	if($addtocart=="show_old"):
@@ -80,11 +79,11 @@ $addtocart=false;
 		<noscript><input type="hidden" name="task" value="add"/></noscript>
 		<input type="hidden" name="virtuemart_product_id[]" value="<?=$this->product->virtuemart_product_id?>">
 </form>
-<?	endif;?>
+<?php endif;?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
-<?	if($SefMode=$router->getMode())
+<?php if($SefMode=$router->getMode())
 		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
 	
 	// получить предыдущий-следующий предметы в категории:	
@@ -96,26 +95,21 @@ $addtocart=false;
 		$prev_prod_link=AuctionStuff::buildProdNeighborLink($trinityIds[0],$category_link,$SefMode);
 	else: $prev_prod_link=false;
 	endif;?>    
-        <li><a href="<?=$prev_prod_link?>"<?
-    
-	if(!$prev_prod_link) echo $hide;
+        <li><a href="<?=$prev_prod_link?>"<?php if(!$prev_prod_link) echo $hide;
 	
 	?>>&lt; &lt; Предыдущий <!--(<?=$trinityIds[0]?>)-->></a></li>
-<?	
-	if(!$category_link): // if no SEF only:
+<?php if(!$category_link): // if no SEF only:
 		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.JRequest::getVar('Itemid'),false);
 	endif;?>	
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
-<?	if($trinityIds[2]) 
+<?php if($trinityIds[2]) 
 		$next_prod_id=$trinityIds[2];
 	elseif((int)$trinityIds[1]>$virtuemart_product_id) 
 		$next_prod_id=$trinityIds[1];
 	if($next_prod_id):	
 		$next_prod_link=AuctionStuff::buildProdNeighborLink($next_prod_id,$category_link,$SefMode);
 	endif;?>
-        <li><a href="<?=$next_prod_link?>"<? 
-		
-		if(!$next_prod_id) echo $hide;
+        <li><a href="<?=$next_prod_link?>"<?php if(!$next_prod_id) echo $hide;
         
 		?>>Следующий <!--(<?=$next_prod_id?>)-->&gt; &gt;</a></li>
     </ul>
@@ -132,7 +126,7 @@ $addtocart=false;
 </div>
 
 <div>
-<? $base_path=JUri::root();?>
+<?php $base_path=JUri::root();?>
 	<div class="gallery_lot">
         <div id="galleryContainer" style="clear: both;">
             <div class="main_im_lot">
@@ -158,13 +152,13 @@ $addtocart=false;
             </div>
             <div id="galleryThumbs">
                 <div class="tumb">
-	<? 	foreach($this->product->images as $i => $stuff):?>	
+	<?php foreach($this->product->images as $i => $stuff):?>	
                     <div class="th_imgage">
                         <div class="inside_image_preview">
                         	<a href="<?=$base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?=$base_path.$this->product->images[$i]->file_url;?>" style="outline: none; " class="MagicThumb-swap"><img src="<?=$base_path.$this->product->images[$i]->file_url;?>" height="82" width="82"></a>
                     	</div>
                 	</div>
-	<?	endforeach;?>																	
+	<?php endforeach;?>																	
 				</div>
 			</div>
 			<div class="clr"></div>
@@ -215,8 +209,7 @@ $addtocart=false;
             Предварительная оценка: 
             <span class="span_o_o">
                 <b>
-             		<?
-	echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
+             		<?php echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
                 </b>  
                 <b>
                 	- ? ? ? ?
@@ -227,9 +220,7 @@ $addtocart=false;
         </div>
     </div>
 </div>
-<?	
-
-// product:
+<?php // product:
 
 /*virtuemart_product_id 
 virtuemart_vendor_id 
@@ -378,7 +369,7 @@ if (empty($this->product)) {
 	<div class="back-to-category">
     	<a href="<?php echo $catURL ?>" class="product-details" title="<?php echo $categoryName ?>"><?php echo JText::sprintf('COM_VIRTUEMART_CATEGORY_BACK_TO',$categoryName) ?></a>
 	</div>
-<?	*/?>
+<?php */?>
     <?php // Product Title   ?>
     <h1><?php echo $this->product->product_name ?></h1>
     <?php // Product Title END   ?>
@@ -433,19 +424,19 @@ if (empty($this->product)) {
     ?>
 
     <div id="prod_content">
-    <?	$show=false;
+    <?php $show=false;
 		if($show):?>
     	IMAGE COMES HERE!
-    <?	endif;?>
+    <?php endif;?>
     <div>
 		<div id="bigLeadImage" class="width60 floatleft">
 <?php	
 		echo $this->loadTemplate('images');
 ?>
 		</div>
-    <?	if($show):?>
+    <?php if($show):?>
     	IMAGE ENDS HERE!
-    <?	endif;?>
+    <?php endif;?>
 		<!-- -->
 		<div class="width40 floatright">
 	    	<div class="spacer-buy-area">
@@ -613,5 +604,4 @@ echo $this->product->event->afterDisplayContent; ?>
 echo $this->loadTemplate('reviews');
 ?>
 </div>
-<?
-}?>
+<?php }?>

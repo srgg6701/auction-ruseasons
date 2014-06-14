@@ -66,12 +66,12 @@ if ($show_fields):
 DT;
 endif;?>
 <form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="adminForm">
-	<? $cnt=0;?>
+	<?php $cnt=0;?>
   <table class="adminlist">
 		<thead>
 			<tr>
 				<th width="1%">
-					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" /><? ++$cnt;?>
+					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" /><?php ++$cnt;?>
 				</th>
 				<th>Username (id)</th>
 				<th>Password</th>
@@ -82,7 +82,7 @@ endif;?>
 				<th>RegisterDate</th>
 			</tr>
 		</thead>
-     <?	if (count($items)){?>
+     <?php if (count($items)){?>
 		<tbody>
 		<?php 
 			foreach ($items as $i => $item) {?>
@@ -114,7 +114,7 @@ endif;?>
 			</tr>
 	<?php 	} ?>
 		</tbody>
-	<?	}	?>
+	<?php }	?>
   </table>
   <div>
 		<input type="hidden" name="task" value="" />

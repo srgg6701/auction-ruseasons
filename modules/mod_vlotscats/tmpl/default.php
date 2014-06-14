@@ -71,7 +71,7 @@ foreach ($lots as $top_cat_id => $array) {
                 $product_count = (int) $category_data['product_count'];
                 $top_cat_count+=$product_count;
 
-                /* if ($test){?>Имя категории--><? } */
+                /* if ($test){?>Имя категории--><?php } */
 
                 $category_link = $common_link_segment . $category_data['virtuemart_category_id'];
                 $category_link.='&Itemid=' . $top_cats_menu_ids[$a];

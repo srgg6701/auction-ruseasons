@@ -418,23 +418,21 @@ WHERE p.virtuemart_product_id = ".$product_id;
 		ob_start();
 		foreach($arrFields as $value=>$fieldArray){?>
 			<div>
-				<label for="<?=$value?>"><?
-				if (isset($fieldArray[1])){
-					?><span class="req">*</span><? 
-					$req=' required';
+				<label for="<?=$value?>"><?php if (isset($fieldArray[1])){
+					?><span class="req">*</span><?php $req=' required';
 				}else{
 					$req='';
 				}
 				echo $fieldArray[0];?>:</label>	
-		<?	if($value=='country_id'){?>
+		<?php if($value=='country_id'){?>
 				<select id="country" name="jform[country_id]"<?=$req?>>
                     <option value="none">Выберите страну</option>
-			<?	$countries=AuctionStuff::getCountries();
+			<?php $countries=AuctionStuff::getCountries();
 				foreach($countries as $code=>$country):?>
 					<option value="<?=$code?>"><?=$country?></option>
-			<?	endforeach;?>		
+			<?php endforeach;?>		
 			</select>
-		<?	}else{
+		<?php }else{
 				if (isset($fieldArray[3])):
 					if($fieldArray[3]=='textarea'):
                 		echo "<".$fieldArray[3]." id=\"{$value}\" name=\"jform[".$value."]\"";
@@ -443,8 +441,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
 						echo $req."></".$fieldArray[3].">";
 					endif;
             	else:?>
-                <input type="<?=(strstr($value,"password"))? "password":"text"?>" autocomplete="off" maxlength="50" size="30" value="<?
-					if ($getValue=JRequest::getVar($value))
+                <input type="<?=(strstr($value,"password"))? "password":"text"?>" autocomplete="off" maxlength="50" size="30" value="<?php if ($getValue=JRequest::getVar($value))
 						echo $getValue;
 					elseif(JRequest::getVar('test')){
 						switch($value){
@@ -459,12 +456,12 @@ WHERE p.virtuemart_product_id = ".$product_id;
 						}
 					}
 				?>" name="jform[<?=$value?>]" id="<?=$value?>"<?=$req?>>					
-        	<?	endif;
+        	<?php endif;
 				if(isset($fieldArray[2])) 
 					echo $fieldArray[2];
 			}?>
 			</div>
-	<?	}
+	<?php }
 		$fields=ob_get_contents();
 		ob_clean();
 		return $fields;
@@ -518,7 +515,7 @@ class HTML{
         $section_data=$products_data[$layout]; // layout: shop, online...
         ?>
 <div class="top_list">
-    <h2><? echo $section;
+    <h2><?php echo $section;
 
         if((int)$category_id>0){
 			$cat=$section_data[$slug];
@@ -529,10 +526,9 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 			$lots=$section_data['prod_count'];
 		}
 		echo ". <div class=\"weak\">Лотов: ".$lots."</div>";?></h2>
-<?		HTML::setCommonInnerMenu(array('user','take_lot'));?>    
+<?php HTML::setCommonInnerMenu(array('user','take_lot'));?>    
 </div>    
-<?		
-		$arrMenus=self::setBaseLink($layout);//
+<?php $arrMenus=self::setBaseLink($layout);//
 		//var_dump($arrMenus); 
 		//echo "<div class=''>arrMenus['base']= ".$arrMenus['base']."<br>layout = $layout</div>";
 		HTML::setVmPagination($arrMenus['base'],$pagination);
@@ -545,8 +541,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
  */
 	public static function innerMenu($content_type,$link,$obj=false){?>
         <div class="your_cab">
-            <a href="<?=$link?>"><?
-		$lts=' &lt; &lt; ';
+            <a href="<?=$link?>"><?php $lts=' &lt; &lt; ';
 		$gts=' &gt;&gt; ';
 		switch($content_type){
 			case 'user':
@@ -564,7 +559,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 			break;
 		}?></a>
         </div>	
-<?	}	
+<?php }	
 /**
  * Описание
  * @package
@@ -590,12 +585,12 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		}?>
 		
 	<div class="top_list_mn">
-    <?	// расположить в обратном порядке, ибо float:right
+    <?php // расположить в обратном порядке, ибо float:right
 		if(isset($prop_link)) HTML::innerMenu('take_lot',JRoute::_($prop_link,false));
 		if(isset($ask_link)) HTML::innerMenu('ask_about_lot',JRoute::_($ask_link,false));
 		if(isset($cab_link)) HTML::innerMenu('user',JRoute::_($cab_link,false),$user);?>
     </div>
-<?	}
+<?php }
 
 /**
  * Построить правильную ссылку
@@ -624,8 +619,7 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 							){?>	
 <div class="lots_listing">
 	Лотов на странице: 
-    <?	
-		$router = JFactory::getApplication()->getRouter();
+    <?php $router = JFactory::getApplication()->getRouter();
 		static $lnk;
 		static $pag;
 		if($link) 
@@ -653,20 +647,19 @@ margin-top: 8px;'>".$cat['category_name']."</div>";
 		
 		
 		foreach($arrLimits as $i=>$limit){?>
-    <a href="<?
-			if($router->getMode()){
+    <a href="<?php if($router->getMode()){
 				echo $lnk.'/?limit='.$limit;
 			}else{
 				echo JRoute::_($lnk.'&limit='.$limit);
 				
 			}?>"><?=$limit?></a>
      &nbsp; 
-	<?	}?>
+	<?php }?>
     <div class="vmPag">
 		<?=$pag?>
     </div>
 </div>	
-<?	}
+<?php }
 }
 class DateAndTime{
 	private $datetime;

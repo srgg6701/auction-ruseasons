@@ -17,16 +17,14 @@ JHtml::_('behavior.noframes');
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 	<?php endif; ?>
-<?	$bold='';
+<?php $bold='';
 	if($favorite_product_id=JRequest::getVar('virtuemart_product_id')):
 		$bold=' style="font-weight:bold;"';
 		// add to session
 		// именно в сессию, чтобы не потерять после авторизации. Как только юзер будет авторизован - первым делом проверим, что там у него сохранилось и добавим в таблицу.
 		$session = JFactory::getSession();
 		$session->set('favorite_product_id',$favorite_product_id);?>
-	<p<?=$bold?>>Чтобы добавить выбранный вами предмет в избранное,<br><?
-	else:?>Добро пожаловать! Чтобы получить доступ ко всем функциям аукциона,<?	
-	endif;?> пожалуйста, введите ниже свой клиентский номер и пароль.</p>
+	<p<?=$bold?>>Чтобы добавить выбранный вами предмет в избранное,<br><?php else:?>Добро пожаловать! Чтобы получить доступ ко всем функциям аукциона,<?php endif;?> пожалуйста, введите ниже свой клиентский номер и пароль.</p>
 <br><br>
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	<div class="login-description">
@@ -80,13 +78,13 @@ JHtml::_('behavior.noframes');
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>"><?php echo JText::_('COM_USERS_LOGIN_RESET'); ?> Нажмите сюда</a>
             </div>
 		</li>
-	<?	$rem_login=false;
+	<?php $rem_login=false;
 		if ($rem_login):?>	
         <li>
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
 			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a>
 		</li>
-	<?	endif;?>
+	<?php endif;?>
 		<?php
 		$usersConfig = JComponentHelper::getParams('com_users');
 		if ($usersConfig->get('allowUserRegistration')) : ?>

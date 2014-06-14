@@ -1,6 +1,4 @@
-﻿<?
-
-/**
+﻿<?php /**
  * Описание
  * @package
  * @subpackage
@@ -14,7 +12,7 @@
     <div class="para">
         Ваши предметы: 8
     </div>
-<?	}
+<?php }
 /**
  * Описание
  * @package
@@ -22,7 +20,7 @@
  */
 	function layout_lots(){?>
     <H1>LOTS</H1>
-<?	}	
+<?php }	
 /**
  * Описание
  * @package
@@ -30,7 +28,7 @@
  */
 	function layout_data(){?>
     <H1>ACCOUNT DATA</H1>
-<?	}	
+<?php }	
 /**
  * Описание
  * @package
@@ -38,7 +36,7 @@
  */
 	function layout_favorites($user_id){?>
     <H1>FAVORITES</H1>
-<?		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+<?php require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 		$favorites=AuctionStuff::getFavorites($user_id);
 		//if($go) 
 		if(!empty($favorites)){?>
@@ -50,18 +48,18 @@
             	<th>Окончание</th>
             	<th>Осталось</th>
             </tr>
-		<?	foreach($favorites as $virtuemart_product_id => $product_data){?>
+		<?php foreach($favorites as $virtuemart_product_id => $product_data){?>
 			<tr>
             	<td><?=$product_data['product_name']?></td>
             	<td><?=$product_data['product_price']?></td>
             	<td><?=$product_data['auction_date_start']?></td>
             	<td><?=$product_data['auction_date_start']?></td>
-            	<td><? //=?></td>
+            	<td><?php //=?></td>
             </tr>
-		<?	}?>
-	<?	}else{?>
+		<?php }?>
+	<?php }else{?>
         <p><b>У Вас нет избранных лотов.</b></p>
-	<? 	}
+	<?php }
 	}	
 /**
  * Описание
@@ -70,7 +68,7 @@
  */
 	function layout_bids(){?>
     <H1>MY BIDS</H1>
-<?	}	
+<?php }	
 
 
 ?>

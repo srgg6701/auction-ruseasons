@@ -1,24 +1,22 @@
-<?
-defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die('Restricted access');
 // die('pageclass_sfx')?>
 <div class="item-page<?php echo $this->params->pageclass_sfx?>">
-<?	if ($this->params->get('show_page_heading')) : 
+<?php if ($this->params->get('show_page_heading')) : 
 	
 	?><h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
 <?php endif; ?>
 <h2 class="title thinBrownHeader">Регистрация</h2>
-<?
-// выведем статью "Предложить предмет":
+<?php // выведем статью "Предложить предмет":
 $article=AuctionStuff::getArticleContent(19);	
 echo $article['introtext'];?>
 	<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.registerOnAuction'); ?>" method="post" class="form-validate">
 		<div class="divider"></div>
-<?	$dWidth='642px';
+<?php $dWidth='642px';
 	if(JRequest::getVar('err')=='wrong_captcha'):?>
 		<div align="center" style="background:#FFFF99; padding:10px; border:solid 2px #FFCC00;width:<?=$dWidth?>;margin-bottom:10px;">
         	Неправильно указан контрольный код (CAPTCHA).
         </div>
-<?	endif;
+<?php endif;
 	// JRequest::getVar('test') - substitutes test values
 	echo AuctionStuff::createForm(
 			array(	'name'=>array('Имя',1),
@@ -41,7 +39,7 @@ echo $article['introtext'];?>
 				)
 			);?>
 		<div align="center" style="width:<?=$dWidth?>;">
-<?	require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'third_party'.DS.'recaptchalib.php';
+<?php require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'third_party'.DS.'recaptchalib.php';
   	$publickey = "6Lest90SAAAAAA8qVb_-_ShDWrEjq433w9-egFbA"; // you got this from the signup page
   	echo recaptcha_get_html($publickey);	
 ?>    

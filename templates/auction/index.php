@@ -14,15 +14,15 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
 
 <link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
-<?	if(JRequest::getVar('option')=='com_users'):?>
+<?php if(JRequest::getVar('option')=='com_users'):?>
 <link href="<?php echo $templateUrl; ?>/less/styles_user.less" rel="stylesheet/less" type="text/css">
-<?	endif;
+<?php endif;
 	if(JRequest::getVar('option')=='com_virtuemart'):?>
 <link href="<?php echo $templateUrl; ?>/less/vm.less" rel="stylesheet/less" type="text/css">
-<?	endif;
+<?php endif;
 	if(JRequest::getVar('view')=='productdetails'):?>
 <link href="<?php echo $templateUrl; ?>/less/img_zoom.less" rel="stylesheet/less" type="text/css">
-<?	endif;?>
+<?php endif;?>
 <script src="<?php echo $templateUrl; ?>/less/less.js" type="text/javascript"></script> 
 <!--[if lte IE 6]>
 	<script src="<?php echo $templateUrl; ?>/js/DD_belatedPNG.js"></script>
@@ -32,7 +32,7 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <!--
 <script type="text/javascript" src="<?php echo $templateUrl; ?>/js/mootools.js"></script>
 <script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>-->
-<?	if(JRequest::getVar('option')!=='com_component'):?> 
+<?php if(JRequest::getVar('option')!=='com_component'):?> 
 <!-- Not com_content, include exmplicitly: -->
  <script src="<?=$baseUrl?>/media/system/js/mootools-core.js" type="text/javascript"></script>
   <script src="<?=$baseUrl?>/media/system/js/core.js" type="text/javascript"></script>
@@ -42,7 +42,7 @@ window.addEvent('load', function() {
 				new JCaption('img.caption');
 			});
   </script>
-<?	endif;
+<?php endif;
 	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
 <script type="text/javascript">
 <!--
@@ -75,24 +75,24 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
-<?	}?>
+<?php }?>
 <!---->
 <script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
-<?	/*?>
+<?php /*?>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<?	*/	
+<?php */	
 	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
 <!-- Yandex.Metrika -->
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
-<?	}?>
+<?php }?>
 <div style="display:none;"><script type="text/javascript">
 try { var yaCounter1106646 = new Ya.Metrika(1106646); } catch(e){}
 </script></div>
 <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1106646" alt="" /></div></noscript>
-<?	// СПЕЦИАЛЬНО ДЛЯ АЦЦКОГО FF:
+<?php // СПЕЦИАЛЬНО ДЛЯ АЦЦКОГО FF:
 	if(strstr($_SERVER['HTTP_USER_AGENT'],'Firefox')):
 	// hello, community! 
 	// Thank you for the inventation to the HELL:?>
@@ -130,7 +130,7 @@ $( function(){
 		});
 });
 </script>
-<?	endif;?>
+<?php endif;?>
 </head>
 <body>
 	<div id="page">
@@ -222,10 +222,10 @@ $( function(){
         	
         	<div id="bottom_menu">
 				<div id="padd_bot_menu">
-                	<? // ul ?>
+                	<?php // ul ?>
             		<jdoc:include type="modules" name="footer" />
 					<div id="mailru_counter">
-<?	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
+<?php if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
                         <!--Rating@Mail.ru counter-->
                         <script language="javascript" type="text/javascript">//<![CDATA[
                         d=document;var a='';a+=';r='+escape(d.referrer);js=10;//]]></script>
@@ -246,18 +246,18 @@ $( function(){
                         <script language="javascript" type="text/javascript">//<![CDATA[
                         if(11<js)d.write('--'+'&#062');//]]></script>
                         <!--// Rating@Mail.ru counter-->
-<?	}?>                        
+<?php }?>                        
 					</div>
 				</div>	
             </div>
         </div>
     </div>
-<?	//TEST: 
+<?php //TEST: 
 	/*?>
 <div id="dOutput">
-<?	//showDebugTrace();?>
+<?php //showDebugTrace();?>
 </div>
-<?	*/
+<?php */
 	//TEST?>
 <script>
 jQuery( function($){

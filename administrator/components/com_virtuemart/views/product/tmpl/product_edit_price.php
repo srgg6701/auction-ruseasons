@@ -94,7 +94,7 @@ table.adminform.productPriceTable
             <input  type="hidden" name="product_in_stock" value="1" size="10" />
         </td>
     </tr>
-<?	//if($this->product->top_category_slug==='онлайн-торги'):
+<?php //if($this->product->top_category_slug==='онлайн-торги'):
 ?>
 	<tr class="row0">
     	<td colspan="5">
@@ -126,13 +126,12 @@ table.adminform.productPriceTable
         	<input type="time" name="auction_time_from" value="<?php
                 echo substr($this->product->product_available_date,11,5);?>" />
 		</td>
-        <td nowrap><?
-        echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');	?>
+        <td nowrap><?php echo vmJsApi::jDate($this->product->auction_date_finish, 'auction_date_finish');	?>
         	<input type="time" name="auction_time_to" value="<?php
                 echo substr($this->product->auction_date_finish,11,5);?>" />
         </td>
 	</tr>
-<?	//endif;
+<?php //endif;
 ?>    
 </table>
 

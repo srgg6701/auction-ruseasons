@@ -1,4 +1,4 @@
-﻿<?	require 'template_functions.php'; 
+﻿<?php require 'template_functions.php'; 
 
 //	,
 //	false,
@@ -46,9 +46,7 @@ $method='layout_'.$layout;
             <div class="content_box">
             </div>
             <div class="content_box highlight_links">
-        		<h2 class="title"><?
-				
-				switch($layout){
+        		<h2 class="title"><?php switch($layout){
 					case 'favorites':
 						echo 'Избранное';
 						$params=$user->id;
@@ -65,7 +63,7 @@ $method='layout_'.$layout;
 				
 				//echo $section;?></h2>
                 
-		<?	//$method($params);
+		<?php //$method($params);
 		
 require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 		$favorites=AuctionStuff::getFavorites($user->id);
@@ -75,13 +73,13 @@ require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
     	<tr>
     		<th>HEADER</th>
         </tr>
-	<?	foreach($favorites as $virtuemart_product_id => $product_data){
+	<?php foreach($favorites as $virtuemart_product_id => $product_data){
 			//echo "<div class=''>virtuemart_product_id= ".$virtuemart_product_id."</div>";
 			foreach($product_data as $key => $value)
 				echo "<div class=''>key => ".$value."</div>";
 		}?>
     </table>
-	<? 	*/	
+	<?php */	
 	//$favorites=array();
 		//if($go) 
 		if(!empty($favorites)){?>
@@ -93,20 +91,20 @@ require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
             	<th>Окончание</th>
             	<th>Осталось</th>
             </tr>
-		<?	//if (1>2)
+		<?php //if (1>2)
 			foreach($favorites as $virtuemart_product_id => $product_data){?>
 			<tr>
             	<td><?=$product_data['product_name']?></td>
             	<td><?=$product_data['product_price']?></td>
             	<td><?=$product_data['auction_date_start']?></td>
             	<td><?=$product_data['auction_date_start']?></td>
-            	<td><? //=?></td>
+            	<td><?php //=?></td>
             </tr>
-		<?	}?>
+		<?php }?>
         </table>
-	<?	}else{?>
+	<?php }else{?>
         <p><b>У Вас нет избранных лотов.</b></p>
-	<? 	}
+	<?php }
 		
 		
 		

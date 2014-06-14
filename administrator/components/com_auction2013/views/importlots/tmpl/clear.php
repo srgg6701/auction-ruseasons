@@ -12,25 +12,23 @@ defined('_JEXEC') or die('Restricted access');?>
 }
 </style>
 <h2>Отметьте категории предметов, таблицы с которыми вы хотите очистить:</h2>
-<?	$lots=$this->categories_data; 
+<?php $lots=$this->categories_data; 
 $catsHTML=array();?>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div id="delete_products">
 <table id="trash_products">
 	<tr valign="top">
-<?	
-$cols=0;
+<?php $cols=0;
 foreach($lots as $top_cat_id => $categories){
 	$cols++;?>
 		<td>
     		<label class="header">
-            	<h4><input name="jform[<?=$categories['top_category_layout']?>]" type="checkbox" value="<?=$categories['top_category_layout']?>"><?
-	echo $categories['top_category_name'];?></h4>
+            	<h4><input name="jform[<?=$categories['top_category_layout']?>]" type="checkbox" value="<?=$categories['top_category_layout']?>"><?php echo $categories['top_category_name'];?></h4>
     		</label>
             <input name="section[<?=$categories['top_category_layout']?>]" type="hidden" value="<?=$categories['top_category_name']?>">
             <div class="clearfix"></div>
             <div class="children">
-<?	//var_dump($array);
+<?php //var_dump($array);
 	$ccnt=0;
     foreach($categories['children'] as $i=>$category){
 		if((int)$category['product_count']){
@@ -38,8 +36,7 @@ foreach($lots as $top_cat_id => $categories){
 		<label>
         	<input name="<?=$categories['top_category_layout']?>[<?=$category['virtuemart_category_id']?>]" type="checkbox" value="<?=$category['virtuemart_category_id']?>"><?=$category['category_name']?> (<?=$category['product_count']?>)
         </label>
-<?
-/*	'top_category_alias' => string 'онлайн-торги' (length=12)
+<?php /*	'top_category_alias' => string 'онлайн-торги' (length=12)
   	'top_category_name' => string 'Онлайн торги' (length=23)
   	'top_category_layout' => string 'online' (length=6)
   	'children' => 
@@ -62,15 +59,14 @@ foreach($lots as $top_cat_id => $categories){
 <?php   endif; ?>
     		</div>
     	</td>
-<?	
-} ?>
+<?php } ?>
 	</tr>
 </table>
 </div>
 <br/><br/>
 <hr class="light"/>
 <br/>
-<?	foreach($catsHTML as $top_category_id=>$child_categories_html):?>
+<?php foreach($catsHTML as $top_category_id=>$child_categories_html):?>
 <div id="top-<?=$top_category_id?>" class="hiddenRadios" style="display:none;">
     <div class="radiocats">
     <?=$child_categories_html?>
@@ -79,9 +75,9 @@ foreach($lots as $top_cat_id => $categories){
 <hr class="light"/>
 <br/>
 </div>
-<?	endforeach;?>
+<?php endforeach;?>
     	<input type="hidden" name="task" value="importlots.clear" />
-		<? //<input type="hidden" name="boxchecked" value="0" /> ?>
+		<?php //<input type="hidden" name="boxchecked" value="0" /> ?>
 		<?php echo JHtml::_('form.token'); ?>
 </form>
 <script>
