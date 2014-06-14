@@ -1,0 +1,462 @@
+object(vmrouterHelper)#238 (18) 
+  ["lang"]=>
+  NULL
+  ["langTag"]=>
+  string(5) "ru_ru"
+  ["query"]=>
+  NULL
+  ["menu"]=>
+  array(2) 
+    ["virtuemart_category_id"]=>
+    array(1) 
+      [0]=>
+      string(3) "126"
+    
+    ["virtuemart"]=>
+    string(3) "126"
+  
+  ["activeMenu"]=>
+  object(stdClass)#233 (6) 
+    ["view"]=>
+    string(8) "category"
+    ["virtuemart_category_id"]=>
+    int(0)
+    ["virtuemart_product_id"]=>
+    NULL
+    ["virtuemart_manufacturer_id"]=>
+    NULL
+    ["virtuemart_vendor_id"]=>
+    NULL
+    ["Component"]=>
+    string(14) "com_virtuemart"
+  
+  ["menuVmitems"]=>
+  array(4) 
+    [0]=>
+    object(stdClass)#237 (25) 
+      ["id"]=>
+      string(3) "123"
+      ["menutype"]=>
+      string(11) "bottom-menu"
+      ["title"]=>
+      string(27) "Проданные лоты"
+      ["alias"]=>
+      string(15) "prodannyje-loty"
+      ["note"]=>
+      string(0) ""
+      ["path"]=>
+      string(15) "prodannyje-loty"
+      ["link"]=>
+      string(70) "index.php?option=com_virtuemart&view=category&virtuemart_category_id=0"
+      ["type"]=>
+      string(9) "component"
+      ["published"]=>
+      string(1) "1"
+      ["parent_id"]=>
+      string(1) "1"
+      ["level"]=>
+      string(1) "1"
+      ["component_id"]=>
+      string(5) "10004"
+      ["ordering"]=>
+      string(1) "0"
+      ["checked_out"]=>
+      string(1) "0"
+      ["checked_out_time"]=>
+      string(19) "0000-00-00 00:00:00"
+      ["browserNav"]=>
+      string(1) "0"
+      ["access"]=>
+      string(1) "1"
+      ["img"]=>
+      string(0) ""
+      ["template_style_id"]=>
+      string(1) "0"
+      ["params"]=>
+      string(224) ""menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0"
+      ["lft"]=>
+      string(2) "91"
+      ["rgt"]=>
+      string(2) "92"
+      ["home"]=>
+      string(1) "0"
+      ["language"]=>
+      string(1) "*"
+      ["client_id"]=>
+      string(1) "0"
+    
+    [1]=>
+    object(stdClass)#241 (25) 
+      ["id"]=>
+      string(3) "115"
+      ["menutype"]=>
+      string(8) "mainmenu"
+      ["title"]=>
+      string(14) "Магазин"
+      ["alias"]=>
+      string(39) "магазин-антиквариата"
+      ["note"]=>
+      string(126) "необходимо вмешательство для адаптации URL с уже проиндексированными"
+      ["path"]=>
+      string(39) "магазин-антиквариата"
+      ["link"]=>
+      string(82) "index.php?option=com_virtuemart&view=category&layout=shop&virtuemart_category_id=0"
+      ["type"]=>
+      string(9) "component"
+      ["published"]=>
+      string(1) "1"
+      ["parent_id"]=>
+      string(1) "1"
+      ["level"]=>
+      string(1) "1"
+      ["component_id"]=>
+      string(5) "10004"
+      ["ordering"]=>
+      string(1) "0"
+      ["checked_out"]=>
+      string(1) "0"
+      ["checked_out_time"]=>
+      string(19) "0000-00-00 00:00:00"
+      ["browserNav"]=>
+      string(1) "0"
+      ["access"]=>
+      string(1) "1"
+      ["img"]=>
+      string(0) ""
+      ["template_style_id"]=>
+      string(1) "0"
+      ["params"]=>
+      string(229) ""menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"-shop","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0"
+      ["lft"]=>
+      string(2) "67"
+      ["rgt"]=>
+      string(2) "68"
+      ["home"]=>
+      string(1) "0"
+      ["language"]=>
+      string(1) "*"
+      ["client_id"]=>
+      string(1) "0"
+    
+    [2]=>
+    object(stdClass)#240 (25) 
+      ["id"]=>
+      string(3) "125"
+      ["menutype"]=>
+      string(8) "mainmenu"
+      ["title"]=>
+      string(23) "Онлайн торги"
+      ["alias"]=>
+      string(23) "онлайн-торги"
+      ["note"]=>
+      string(45) "не факт, что virtuemart однако"
+      ["path"]=>
+      string(38) "аукцион/онлайн-торги"
+      ["link"]=>
+      string(84) "index.php?option=com_virtuemart&view=category&layout=online&virtuemart_category_id=0"
+      ["type"]=>
+      string(9) "component"
+      ["published"]=>
+      string(1) "1"
+      ["parent_id"]=>
+      string(3) "113"
+      ["level"]=>
+      string(1) "2"
+      ["component_id"]=>
+      string(5) "10004"
+      ["ordering"]=>
+      string(1) "0"
+      ["checked_out"]=>
+      string(1) "0"
+      ["checked_out_time"]=>
+      string(19) "0000-00-00 00:00:00"
+      ["browserNav"]=>
+      string(1) "0"
+      ["access"]=>
+      string(1) "1"
+      ["img"]=>
+      string(0) ""
+      ["template_style_id"]=>
+      string(1) "0"
+      ["params"]=>
+      string(224) ""menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0"
+      ["lft"]=>
+      string(2) "52"
+      ["rgt"]=>
+      string(2) "53"
+      ["home"]=>
+      string(1) "0"
+      ["language"]=>
+      string(1) "*"
+      ["client_id"]=>
+      string(1) "0"
+    
+    [3]=>
+    object(stdClass)#239 (25) 
+      ["id"]=>
+      string(3) "126"
+      ["menutype"]=>
+      string(8) "mainmenu"
+      ["title"]=>
+      string(21) "Очные торги"
+      ["alias"]=>
+      string(21) "очные-торги"
+      ["note"]=>
+      string(0) ""
+      ["path"]=>
+      string(36) "аукцион/очные-торги"
+      ["link"]=>
+      string(86) "index.php?option=com_virtuemart&view=category&layout=fulltime&virtuemart_category_id=0"
+      ["type"]=>
+      string(9) "component"
+      ["published"]=>
+      string(1) "1"
+      ["parent_id"]=>
+      string(3) "113"
+      ["level"]=>
+      string(1) "2"
+      ["component_id"]=>
+      string(5) "10004"
+      ["ordering"]=>
+      string(1) "0"
+      ["checked_out"]=>
+      string(1) "0"
+      ["checked_out_time"]=>
+      string(19) "0000-00-00 00:00:00"
+      ["browserNav"]=>
+      string(1) "0"
+      ["access"]=>
+      string(1) "1"
+      ["img"]=>
+      string(0) ""
+      ["template_style_id"]=>
+      string(1) "0"
+      ["params"]=>
+      string(224) ""menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0"
+      ["lft"]=>
+      string(2) "56"
+      ["rgt"]=>
+      string(2) "57"
+      ["home"]=>
+      string(1) "0"
+      ["language"]=>
+      string(1) "*"
+      ["client_id"]=>
+      string(1) "0"
+    
+  
+  ["use_id"]=>
+  string(1) "0"
+  ["seo_translate"]=>
+  string(1) "0"
+  ["orderings":"vmrouterHelper":private]=>
+  NULL
+  ["router_disabled"]=>
+  string(1) "0"
+  ["CategoryName"]=>
+  array(0) 
+  
+  ["dbview":"vmrouterHelper":private]=>
+  array(7) 
+    ["vendor"]=>
+    string(6) "vendor"
+    ["category"]=>
+    string(8) "category"
+    ["virtuemart"]=>
+    string(10) "virtuemart"
+    ["productdetails"]=>
+    string(7) "product"
+    ["cart"]=>
+    string(4) "cart"
+    ["manufacturer"]=>
+    string(12) "manufacturer"
+    ["user"]=>
+    string(4) "user"
+  
+  ["counter"]=>
+  int(0)
+  ["vmlang"]=>
+  string(5) "ru_ru"
+  ["Jlang"]=>
+  object(JLanguage)#128 (19) 
+    ["debug":protected]=>
+    string(1) "0"
+    ["default":protected]=>
+    string(5) "en-GB"
+    ["orphans":protected]=>
+    array(0) 
+    
+    ["metadata":protected]=>
+    array(5) 
+      ["name"]=>
+      string(7) "Russian"
+      ["tag"]=>
+      string(5) "ru-RU"
+      ["rtl"]=>
+      string(1) "0"
+      ["locale"]=>
+      string(87) "ru-RU.utf8, ru-RU.UTF-8, ru_RU.utf8, ru-RU.UTF-8, ru-RU, ru_RU, ru, russian, russian-ru"
+      ["firstDay"]=>
+      string(1) "1"
+    
+    ["locale":protected]=>
+    NULL
+    ["lang":protected]=>
+    string(5) "ru-RU"
+    ["paths":protected]=>
+    array(6) 
+      ["joomla"]=>
+      array(1) 
+        ["Z:\home\localhost\www\auction-ruseasons/language/ru-RU/ru-RU.ini"]=>
+        bool(true)
+      
+      ["plg_system_logout"]=>
+      array(1) 
+        ["Z:\home\localhost\www\auction-ruseasons/administrator/language/ru-RU/ru-RU.plg_system_logout.ini"]=>
+        bool(true)
+      
+      ["lib_joomla"]=>
+      array(1) 
+        ["Z:\home\localhost\www\auction-ruseasons/language/ru-RU/ru-RU.lib_joomla.ini"]=>
+        bool(true)
+      
+      ["plg_system_modulesanywhere"]=>
+      array(2) 
+        ["Z:\home\localhost\www\auction-ruseasons/administrator/language/en-GB/en-GB.plg_system_modulesanywhere.ini"]=>
+        bool(true)
+        ["Z:\home\localhost\www\auction-ruseasons/administrator/language/ru-RU/ru-RU.plg_system_modulesanywhere.ini"]=>
+        bool(true)
+      
+      ["tpl_auction"]=>
+      array(4) 
+        ["Z:\home\localhost\www\auction-ruseasons/language/ru-RU/ru-RU.tpl_auction.ini"]=>
+        bool(false)
+        ["Z:\home\localhost\www\auction-ruseasons/templates/auction/language/ru-RU/ru-RU.tpl_auction.ini"]=>
+        bool(false)
+        ["Z:\home\localhost\www\auction-ruseasons/language/en-GB/en-GB.tpl_auction.ini"]=>
+        bool(false)
+        ["Z:\home\localhost\www\auction-ruseasons/templates/auction/language/en-GB/en-GB.tpl_auction.ini"]=>
+        bool(false)
+      
+      ["com_virtuemart"]=>
+      array(2) 
+        ["Z:\home\localhost\www\auction-ruseasons/language/ru-RU/ru-RU.com_virtuemart.ini"]=>
+        bool(true)
+        ["Z:\home\localhost\www\auction-ruseasons/language/en-GB/en-GB.com_virtuemart.ini"]=>
+        bool(true)
+      
+    
+    ["errorfiles":protected]=>
+    array(0) 
+    
+    ["strings":protected]=>
+    array(1573) 
+      ["JERROR_PARSING_LANGUAGE_FILE"]=>
+      string(55) "  имеются ошибки в строках %s"
+      ["ERROR"]=>
+      string(12) "Ошибка"
+      ["MESSAGE"]=>
+      string(18) "Сообщение"
+      ["NOTICE"]=>
+      string(16) "Внимание"
+      ["WARNING"]=>
+      string(28) "Предупреждение"
+      ["J1"]=>
+      string(1) "1"
+      ["J2"]=>
+      string(1) "2"
+      ["J3"]=>
+      string(1) "3"
+      ["J4"]=>
+      string(1) "4"
+      ["J5"]=>
+      string(1) "5"
+      ["J10"]=>
+      string(2) "10"
+      ["J15"]=>
+      string(2) "15"
+      ["J20"]=>
+      string(2) "20"
+      ["J25"]=>
+      string(2) "25"
+      ["J30"]=>
+      string(2) "30"
+      ["J50"]=>
+      string(2) "50"
+      ["J100"]=>
+      string(3) "100"
+      ["JACTION_ADMIN"]=>
+      string(22) "Настраивать"
+      ["JACTION_ADMIN_GLOBAL"]=>
+      string(36) "Суперадминистратор"
+      ["JACTION_COMPONENT_SETTINGS"]=>
+      string(39) "Параметры компонента"
+      ["JACTION_CREATE"]=>
+      string(14) "Создать"
+      ["JACTION_DELETE"]=>
+      string(14) "Удалить"
+      ["JACTION_EDIT"]=>
+      string(16) "Изменить"
+      ["JACTION_EDITOWN"]=>
+      string(25) "Изменять свои"
+      ["JACTION_EDITSTATE"]=>
+      string(35) "Изменять состояние"
+      ["JACTION_LOGIN_ADMIN"]=>
+      string(45) "Вход в панель управления"
+      ["JACTION_LOGIN_SITE"]=>
+      string(22) "Вход на сайт"
+      ["JACTION_MANAGE"]=>
+      string(43) "Управление компонентом"
+      ["JADMINISTRATOR"]=>
+      string(33) "Панель управления"
+      ["JALL"]=>
+      string(6) "Все"
+      ["JALL_LANGUAGE"]=>
+      string(6) "Все"
+      ["JARCHIVED"]=>
+      string(15) "В архиве"
+      ["JAUTHOR"]=>
+      string(10) "Автор"
+      ["JCANCEL"]=>
+      string(12) "Отмена"
+      ["JCATEGORY"]=>
+      string(18) "Категория"
+      ["JDATE"]=>
+      string(8) "Дата"
+      ["JDEFAULT"]=>
+      string(23) "По умолчанию"
+      ["JDETAILS"]=>
+      string(22) "Подробности"
+      ["JDISABLED"]=>
+      string(18) "Отключено"
+      ["JEDITOR"]=>
+      string(16) "Редактор"
+      ["JENABLED"]=>
+      string(14) "Включен"
+      ["JFALSE"]=>
+      string(5) "False"
+      ["JFEATURED"]=>
+      string(18) "Избранные"
+      ["JHIDE"]=>
+      string(12) "Скрыть"
+      ["JINVALID_TOKEN"]=>
+      string(33) "Неверный параметр"
+      ["JLOGIN"]=>
+      string(10) "Войти"
+      ["JLOGOUT"]=>
+      string(10) "Выйти"
+      ["JNEW"]=>
+      string(10) "Новый"
+      ["JNEXT"]=>
+      string(12) "Вперёд"
+      ["JNO"]=>
+      string(6) "Нет"
+      ["JNONE"]=>
+      string(19) "Не найдено"
+      ["JNOTICE"]=>
+      string(16) "Внимание"
+      ["JOFF"]=>
+      string(9) "Выкл."
+      ["JOFFLINE_MESSAGE"]=>
+      string(129) "Сайт закрыт на техническое обслуживание.
+Z:\home\localhost\www\auction-ruseasons\components\com_virtuemart\router.php
