@@ -36,7 +36,7 @@ background-image: -moz-linear-gradient(bottom, #5A99AB 21%, #b3cfd7 58%) !import
 background-image: -webkit-linear-gradient(bottom, #5A99AB 21%, #b3cfd7 58%) !important;
 background-image: -ms-linear-gradient(bottom, #5A99AB 21%, #b3cfd7 58%) !important;
 
-  background: -ms-linear-gradient(top, ellipse cover, #5A99AB 0%, #b3cfd7100%); 
+  background: -ms-linear-gradient(top, ellipse cover, #5A99AB 0%, #b3cfd7100); 
   background: radial-gradient(top, ellipse cover,#5A99AB 0%, #b3cfd7 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3cfd7', endColorstr='#5A99AB',GradientType=0 ) !important; 
 }

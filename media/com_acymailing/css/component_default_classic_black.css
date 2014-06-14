@@ -27,7 +27,7 @@
 	border-right: 1px solid #666!important
 	}
 
-#acyarchivelisting .inputbox:focus; #acyuserinfo .inputbox:focus{
+#acyarchivelisting .inputbox:focus #acyuserinfo .inputbox:focus{
 	border:1px solid #bbb !important;
 	background-color:#f5f5f5 !important;}
 
@@ -380,7 +380,7 @@ border:1px solid #ddd;}
 	border:1px solid #ccc;
 	width:100%;
 	margin-bottom: 10px;
-	background-color::#fff;
+	background-color:#fff;
 }
 
 #unsubpage .unsubsurvey textarea:hover{
