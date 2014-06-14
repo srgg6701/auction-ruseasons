@@ -165,7 +165,8 @@ function vmError($descr, $publicdescr = '') {
 
     if (VmConfig::$maxMessageCount < VmConfig::$maxMessage) {
         if (empty($descr)) {
-            vmTrace('vmError message empty');
+			echo "line: ".__LINE__.", file: ".__FILE__."<HR>";
+			vmTrace('vmError message empty');
         }
         $lang = JFactory::getLanguage();
         if (!class_exists('Permissions')) {
@@ -238,6 +239,7 @@ function vmTrace($notice, $force = FALSE) {
     if ($force || (VMConfig::showDebug() )) {
         //$app = JFactory::getApplication();
         //
+		die(__LINE__.", ".__FILE__);
 		ob_start();
         echo '<pre>';
         debug_print_backtrace();
@@ -423,7 +425,7 @@ class VmConfig {
      * @param $force boolean Forces the function to load the config from the db
      */
     static public function loadConfig($force = FALSE, $fresh = FALSE) {
-        echo "<div style='color:blue;'>line: ".__LINE__.", file: ".__FILE__."</div>";
+        //echo "<div style='color:blue;'>line: ".__LINE__.", file: ".__FILE__."</div>";
         if ($fresh) {
             return self::$_jpConfig = new VmConfig();
         }

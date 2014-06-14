@@ -716,8 +716,8 @@ FROM #__virtuemart_product_categories AS cats
 			
 			$child->link = JRoute::_ (  'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                                         $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id,
-                                        false, false, true,
-                                        true // test
+                                        false, false, true
+                                        // true // test
                                      );
 			
 			
@@ -1272,7 +1272,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 			foreach ($productIds as $id) {
 				if ($product = $this->getProduct ((int)$id, $front, $withCalc, $onlyPublished)) {
 					$products[] = $product;
-					echo "<h3>product:</h3>";var_dump('<pre>',$product, '</pre>');
+					//echo "<h3>product:</h3>";var_dump('<pre>',$product, '</pre>');
 					$i++;
 				}
 				if ($i > $maxNumber) {

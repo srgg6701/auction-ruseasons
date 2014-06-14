@@ -143,7 +143,7 @@ function virtuemartBuildRoute(&$query, $show = false) {
                 unset($query['virtuemart_category_id']);
             }
             
-            echo "<div>line ".__LINE__.", file: ".__FILE__." Itemid = " . $query['Itemid'] . "</div>";            
+            //echo "<div>line ".__LINE__.", file: ".__FILE__." Itemid = " . $query['Itemid'] . "</div>";            
             
             if (isset($jmenu['category']))
                 $query['Itemid'] = $jmenu['category'];
@@ -205,8 +205,8 @@ function virtuemartBuildRoute(&$query, $show = false) {
             //echo('<hr>LINE: '.__LINE__.'<hr color="#0000FF">');//die($show);
             //var_dump($segments); //die();
             //echo "</div>";
-                echo "<h4>view= " . $view . "</h4>";
-                echo "<div>line ".__LINE__.", Itemid = " . $query['Itemid'] . "</div>";
+                //echo "<h4>view= " . $view . "</h4>";
+                //echo "<div>line ".__LINE__.", Itemid = " . $query['Itemid'] . "</div>";
                 return $segments;
             break;
         /* Shop product details view  */
@@ -255,8 +255,8 @@ function virtuemartBuildRoute(&$query, $show = false) {
                     $segments[] = $helper->getProductName($virtuemart_product_id);
             }
             
-                echo "<h4>view= " . $view . "</h4>";
-                echo "<div>line ".__LINE__.", Itemid = " . $query['Itemid'] . "</div>";
+                //echo "<h4>view= " . $view . "</h4>";
+                //echo "<div>line ".__LINE__.", Itemid = " . $query['Itemid'] . "</div>";
 
             if (!count($query))
                 return $segments;
@@ -399,8 +399,8 @@ function virtuemartBuildRoute(&$query, $show = false) {
       unset($query['tmpl']);
       } die(); */
     //echo "<pre>"; var_dump($segments); echo "</pre>"; // die();
-    echo "<div>line ".__LINE__.", Itemid = " . $query['Itemid'] . "</div>";
-    die(__FILE__);
+    //echo "<div>line ".__LINE__.", Itemid = " . $query['Itemid'] . "</div>";
+    //die(__FILE__);
     return $segments;
 }
 
@@ -772,12 +772,12 @@ class vmrouterHelper {
     }
 
     public static function getInstance(&$query = null) {
-        echo "<div>line ".__LINE__.", file ".__FILE__."</div>";echo "<pre>";var_dump($query);echo "</pre>";
+        //echo "<div>line ".__LINE__.", file ".__FILE__."</div>";echo "<pre>";var_dump($query);echo "</pre>";
         if (!class_exists('VmConfig')) {
             require(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart' . DS . 'helpers' . DS . 'config.php');
             VmConfig::loadConfig();
         }
-        echo "<div style='color:brown'>line ".__LINE__.", file ".__FILE__."</div>";echo "<pre>";var_dump($query);echo "</pre>"; // die();
+        //echo "<div style='color:brown'>line ".__LINE__.", file ".__FILE__."</div>";echo "<pre>";var_dump($query);echo "</pre>"; // die();
         
         if (isset($query['langswitch'])) {
             if ($query['langswitch'] != VMLANG)
@@ -830,8 +830,9 @@ class vmrouterHelper {
         $cache = JFactory::getCache('_virtuemart', '');
         $key = $virtuemart_category_id . $this->vmlang; // internal cache key
         if (!($CategoryRoute = $cache->get($key))) {
-            //echo "<div style='color:violet'>call getCategoryRouteNocache($virtuemart_category_id)</div>";
+            //echo "<div style='padding:10px; background:lightyellow;'><div style='color:violet'>call getCategoryRouteNocache($virtuemart_category_id)</div>";
             $CategoryRoute = $this->getCategoryRouteNocache($virtuemart_category_id);
+            //echo "<div>CategoryRoute:<pre>";var_dump($CategoryRoute);echo "</pre></div></div>"; // die();
             $cache->store($CategoryRoute, $key);
         }
         return $CategoryRoute;
@@ -849,14 +850,15 @@ class vmrouterHelper {
                             5. vmrouterHelper->getCategoryRoute(21)
                                 6. vmrouterHelper->getCategoryRouteNocache(21)
         } */
-        //echo "<pre>";var_dump(debug_print_backtrace());echo "</pre>"; die();
+        //echo "<div>line: ".__LINE__.", file: ".__FILE__."<br>self::\$_catRoute</div><pre style='color:navy'>";var_dump(self::$_catRoute);echo "</pre>";
         if (!array_key_exists($virtuemart_category_id . $this->vmlang, self::$_catRoute)) {
             $category = new stdClass();
             $category->route = '';
             $category->itemId = 0;
             $menuCatid = 0;
             $ismenu = false;
-            echo "<div style='color:red'>line ".__LINE__.", file ".__FILE__."</div>";echo "<pre><b>\$this->menu</b><br>";var_dump($this->menu); echo "</pre>"; // die();
+            //echo "<div style='border:solid 2px orange'><div style='color:red'>line ".__LINE__.", file ".__FILE__."</div>";
+            //echo "<pre><b>\$this->menu</b><br>";var_dump($this->menu); echo "</pre></div>"; // die();
             // control if category is joomla menu
             if (isset($this->menu['virtuemart_category_id'])) {
 

@@ -101,6 +101,7 @@ class JRoute
 		{
 			$url = htmlspecialchars($url);
 		}
+        //echo "<pre>";var_dump(debug_print_backtrace());echo "</pre>"; // die();
 		if($test) die("<div>url = $url<hr>".__FILE__."</div>");
 		return $url;
 	}

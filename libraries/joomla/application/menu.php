@@ -245,7 +245,7 @@ class JMenu extends JObject
 				continue;
 			}
 
-			$test = true;
+			//$test = true;
 			for ($i = 0, $count = count($attributes); $i < $count; $i++)
 			{
 				if (is_array($values[$i]))
