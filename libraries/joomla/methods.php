@@ -30,7 +30,7 @@ class JRoute
 	 *
 	 * @since   11.1
 	 */
-	public static function _($url, $xhtml = true, $ssl = null, $show = false, $ok=false)
+	public static function _( $url, $xhtml = true, $ssl = null, $show = false, $test=false )
 	{
 		// Get the router.
 		$app = JFactory::getApplication();
@@ -48,11 +48,17 @@ class JRoute
 			return $url;
 		}
 
+        // raw url: index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=2706&virtuemart_category_id=35
+        //if($test) die("<div>url = $url<hr>".__FILE__."</div>");
+
 		// Build route.
 		if ($show) $show='JRoute:_';
 		
-		$uri = $router->build($url,$show); 
-		
+		$uri = $router->build($url,$show);
+
+        // Тут уже получаем ЧПУ:
+        //if($test) die("<div>uri = $uri<hr>".__FILE__."</div>");
+
 		$show=null;
 		
 		$url = $uri->toString(array('path', 'query', 'fragment'));
@@ -95,7 +101,7 @@ class JRoute
 		{
 			$url = htmlspecialchars($url);
 		}
-			
+		if($test) die("<div>url = $url<hr>".__FILE__."</div>");
 		return $url;
 	}
 }

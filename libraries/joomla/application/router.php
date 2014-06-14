@@ -190,6 +190,7 @@ class JRouter extends JObject
 	{
 		// Create the URI object
 		$uri = $this->_createURI($url);
+
 		//if ($show=='JRoute:_') echo "<h4 style='color:green'>/libraries/joomla/application/router.php <br>JRouter::build() :<br>uri LINE ".__LINE__." = ".$uri."</h4>";
 
 		// Process the uri information based on custom defined rules
@@ -206,9 +207,14 @@ class JRouter extends JObject
 		{	// calls JRouterSite::_buildSefRoute
 			if ($show=='JRoute:_')
 				$show='JRouter::build';
+            /**
+             * Здесь происходит преобразование роутинга в ЧПУ.
+             */
 			$this->_buildSefRoute($uri,$show);
+            //die("<div>uri = $uri<hr>".__LINE__.':'.__FILE__."</div>");
 		}
-		
+        //var_dump("<pre>",$this,"</pre>");
+        //die("<div>uri = $uri<hr>".__FILE__."</div>");
 		// if ($show=='JRoute:_') echo "<h4 style='color:orange'>uri LINE ".__LINE__." = ".$uri."</h4>";
 		return $uri;
 	}
@@ -390,7 +396,7 @@ class JRouter extends JObject
 	 * @since   11.1
 	 */
 	protected function _buildSefRoute(&$uri)
-	{
+	{   // См. includes/router.php -> _buildSefRoute().
 	}
 
 	/**

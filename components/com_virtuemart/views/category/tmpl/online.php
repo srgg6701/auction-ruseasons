@@ -8,13 +8,12 @@
  * @author RolandD 
  * @author srgg6701
  */
-
-//vmdebug('$this->category',$this->category);
-vmdebug ('$this->category ' . $this->category->category_name);
+// this: VirtuemartViewCategory
+//var_dump("<pre>",$this,"</pre>"); die();
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 
-HTML::pageHead("Онлайн торги",
+HTML::pageHead( "Онлайн торги",
                 "online",
                 $this->category->slug,
                 $this->vmPagination);	?>
@@ -37,7 +36,11 @@ if ( VmConfig::get ('showCategory', 1) &&
 		<div>
 		<?	foreach ($this->category->children as $category) :
 				// Category Link
-				$caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id);
+            // $url, $xhtml = true, $ssl = null, $show = false, $test=false
+                echo "<div>url: ".JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' .
+                        $category->virtuemart_category_id, true, null, false, true)."</div>";
+
+                $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id);
 				// Show Category?>
 				<h2><a href="<?=$caturl?>" title="<?=$category->category_name?>"><?=$category->category_name?></a>
 					<div class="img" title="<?=$category->category_name?>">
@@ -48,7 +51,6 @@ if ( VmConfig::get ('showCategory', 1) &&
 		</div>
 	<?	endif;
 	} // /show_children
-
 endif;
 	
 if ($this->search !== NULL):?>
@@ -71,7 +73,7 @@ if ($this->search !== NULL):?>
 if (!empty($this->products)) {
 
 	// array => object
-	foreach($this->products as $i=>$product){?>
+	foreach($this->products as $i=>$product){ //var_dump("<pre>",$product,"</pre>");?>
 <div class="box">
   <div class="img">	
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><? if(isset($test)){?>PRODUCT<? }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>

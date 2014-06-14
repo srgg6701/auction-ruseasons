@@ -41,11 +41,12 @@ function virtuemartBuildRoute(&$query,$show=false) {
 	//TEST:
 	$session =JFactory::getSession();
 	//TEST
-	
+
 	$segments = array();
 	
 	$helper = vmrouterHelper::getInstance($query);
-	/* simple route , no work , for very slow server or test purpose */
+
+	/* simple route, no work, for very slow server or test purpose */
 	if ($helper->router_disabled) {
 		foreach ($query as $key => $value){
 			if  ($key != 'option')  {
@@ -73,8 +74,8 @@ function virtuemartBuildRoute(&$query,$show=false) {
 		$view = $query['view'];
 		unset($query['view']);
 	}
-	
-	//echo "<h3>view= ".$view."</h3>";
+
+	echo "<h3>view= ".$view."</h3>";
 	switch ($view) {
 		case 'virtuemart';
 			$query['Itemid'] = $jmenu['virtuemart'] ;
@@ -188,7 +189,7 @@ function virtuemartBuildRoute(&$query,$show=false) {
 			/*	string '115' (length=3)
 			*/
 			//var_dump($query['Itemid']);
-			
+
 			//echo "<b>segments: </b>";
 			/*	array
   			  		empty
@@ -387,7 +388,9 @@ function virtuemartBuildRoute(&$query,$show=false) {
 		$segments[] = $query['tmpl'] ;
 		unset($query['tmpl']);
 	} die();*/
-	//var_dump($segments);
+	var_dump($segments);
+    var_dump($query);
+    die(__FILE__);
 	return $segments;
 }
 

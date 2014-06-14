@@ -612,7 +612,12 @@ FROM #__virtuemart_product_categories AS cats
 	 * @param boolean $front for frontend use
 	 * @param boolean $withCalc calculate prices?
 	 */
-	public function getProduct ($virtuemart_product_id = NULL, $front = TRUE, $withCalc = TRUE, $onlyPublished = TRUE, $quantity = 1) {
+	public function getProduct (
+                        $virtuemart_product_id = NULL,
+                        $front = TRUE,
+                        $withCalc = TRUE,
+                        $onlyPublished = TRUE,
+                        $quantity = 1 ) {
 
 		if (isset($virtuemart_product_id)) {
 			$virtuemart_product_id = $this->setId ($virtuemart_product_id);
@@ -631,6 +636,7 @@ FROM #__virtuemart_product_categories AS cats
 		if (!array_key_exists ($productKey, $_products)) {
 
 			$child = $this->getProductSingle ($virtuemart_product_id, $front,$quantity);
+            //var_dump("<pre>",$child,"</pre>");die(__FILE__);
 			if (!$child->published && $onlyPublished) {
 				vmdebug('getProduct child is not published, returning zero');
 				return FALSE;
@@ -708,10 +714,14 @@ FROM #__virtuemart_product_categories AS cats
 			//var_dump($child);
 			//echo "<div class=''>child->virtuemart_category_id= ".$child->virtuemart_category_id."</div>";
 			
-			$child->link = JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id, false, false, true);
+			$child->link = JRoute::_ (  'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
+                                        $virtuemart_product_id . '&virtuemart_category_id=' . $child->virtuemart_category_id,
+                                        false, false, true,
+                                        true // test
+                                     );
 			
 			
-			//echo "<div style='color:red'>child->link= ".$child->link."</div>";
+			//echo "<div style='color:red'>child->link= ".$child->link."</div>"; die(__FILE__);
 
 			/*if (empty($child->layout)) {
 				// product_layout ?
@@ -1152,6 +1162,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 	public function getProductsInCategory ($categoryId) {
 		$ids = $this->sortSearchListQuery (TRUE, $categoryId);
 		$this->products = $this->getProducts ($ids);
+        //var_dump("<pre>",$this->products,"</pre>"); die(__FILE__);
 		return $this->products;
 	}
 	/**
@@ -1228,7 +1239,12 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 	 * @param boolean $withCalc
 	 * @param boolean $onlyPublished
 	 */
-	public function getProducts ($productIds, $front = TRUE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE) {
+	public function getProducts (
+                            $productIds,
+                            $front = TRUE,
+                            $withCalc = TRUE,
+                            $onlyPublished = TRUE,
+                            $single = FALSE ) {
 
 		if (empty($productIds)) {
 			// 			vmdebug('getProducts has no $productIds','No ids given to get products');
@@ -1256,14 +1272,14 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 			foreach ($productIds as $id) {
 				if ($product = $this->getProduct ((int)$id, $front, $withCalc, $onlyPublished)) {
 					$products[] = $product;
-					//echo "<h3>product:</h3>";var_dump($product);
+					echo "<h3>product:</h3>";var_dump('<pre>',$product, '</pre>');
 					$i++;
 				}
 				if ($i > $maxNumber) {
 					vmdebug ('Better not to display more than ' . $maxNumber . ' products');
 					return $products;
 				}
-			}
+			}   //die(__FILE__);
 		}
 
 		return $products;

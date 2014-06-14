@@ -320,9 +320,16 @@ class JRouterSite extends JRouter
 
 		// Get the query data
 		$query = $uri->getQuery(true);
-			
-		//TEST:	
+        /**
+        ["option"]=>                    "com_virtuemart"
+        ["view"]=>                      "category"
+        ["virtuemart_category_id"]=>    "21"
+        ["Itemid"]=>                    "125"
+         */
+		//var_dump("<pre>",$query,"</pre>"); die(__LINE__.':'.__FILE__);
+		//TEST:
 		//setDebugTrace('includes/router.php','JRouterSite::_buildSefRoute',__LINE__,'',$query,'backtrace true');
+		//die(__LINE__.':'.__FILE__);
 		//TEST
 		
 		if (!isset($query['option'])) {
@@ -331,7 +338,8 @@ class JRouterSite extends JRouter
 
 		$app	= JApplication::getInstance('site');
 		$menu	= $app->getMenu(); // JMenuSite
-		
+        // Itemid = 125
+        //echo "<div>".__LINE__.": Itemid = ".$query['Itemid']."</div>";
 		/*
 		 * Build the component route
 		 */
@@ -344,14 +352,14 @@ class JRouterSite extends JRouter
 		// Use the custom routing handler if it exists
 		if (file_exists($path) && !empty($query)) {
 			require_once $path;
+
 			$function	= substr($component, 4).'BuildRoute'; // virtuemartBuildRoute
 			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>function= ".$function."</h1>";
 			$function   = str_replace(array("-", "."), "", $function); // virtuemartBuildRoute
 			//if ($show=='JRouter::build') echo "<h1 style='color:lime'>function= ".$function."</h1>";
-
-
+            // $function = virtuemartBuildRoute();
 			$parts		= $function($query,'called from includes/router.php');
-
+            // Itemid: 125 -> 126
 			// encode the route segments
 			if ($component != 'com_search') {
 				// Cheep fix on searches
@@ -375,6 +383,7 @@ class JRouterSite extends JRouter
 		 * Build the application route
 		 */
 		$built = false;
+
 		if (isset($query['Itemid']) && !empty($query['Itemid'])) {
 			/*if ($show=='JRouter::build'){
 				echo "<h4 class=''>query['Itemid']= ".$query['Itemid']."</h4>
@@ -384,6 +393,9 @@ class JRouterSite extends JRouter
 				<blockquote style='padding:10px; background-color:white'>"; 
 			}*/
 			$item = $menu->getItem($query['Itemid'],'JRouter::_buildSefRoute');
+            /*echo "<div>Itemid = ".$query['Itemid']."</div>";
+            var_dump("<pre>",$item,"</pre>");
+            die(__LINE__.':'.__FILE__);*/
 			/*if ($show=='JRouter::build'){
 				echo "</blockquote>"; 
 			}*/

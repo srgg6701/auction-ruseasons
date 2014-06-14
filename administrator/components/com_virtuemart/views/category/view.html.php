@@ -34,7 +34,7 @@ jimport('joomla.html.pane');
 class VirtuemartViewCategory extends VmView {
 
 	function display($tpl = null) {
-
+        //die(__FILE__);
 		$this->loadHelper('html');
 
 		$model = VmModel::getModel();
@@ -46,7 +46,7 @@ class VirtuemartViewCategory extends VmView {
 		if(!class_exists('Permissions')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'permissions.php');
 		$perms = Permissions::getInstance();
 		$this->assignRef('perms', $perms);
-
+        //echo "<div>layoutName = $layoutName</div>"; die();
 		if ($layoutName == 'edit') {
 
 			$category = $model->getCategory('',false);
