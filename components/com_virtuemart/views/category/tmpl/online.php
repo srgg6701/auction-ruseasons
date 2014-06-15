@@ -16,13 +16,19 @@ defined ('_JEXEC') or die('Restricted access');
 HTML::pageHead( "Онлайн торги",
                 "online",
                 $this->category->slug,
-                $this->vmPagination);	?>
+                $this->vmPagination);
+if(JRequest::getVar('spag'))
+	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">
 <br>
-<?php if (empty($this->keyword)):?>
-	<div class="category_description"><?=$this->category->category_description; ?>
+<?php if (empty($this->keyword)):
+        if($this->category->category_description):?>
+	<div class="category_description"><?=$this->category->category_description; 
+	// проверить, включено ли отображение категории (для теста):
+	//echo 'showCategory: '.VmConfig::get ('showCategory', 1);?>
 	</div>
-<?php endif;
+<?php   endif;
+      endif;
 
 if ( VmConfig::get ('showCategory', 1) && 
 	 empty($this->keyword)
@@ -128,3 +134,4 @@ if (!empty($this->products)) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
+<?php HTML::setVmPagination()?>

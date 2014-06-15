@@ -63,7 +63,7 @@ foreach ($lots as $top_cat_id => $array) {
     $andLayout = '&layout=' . $top_cats_aliases[$a];
     $sub_cats = '
 	<ul>';
-    $test = false;
+    $test = true;
     // top cat layout (online, fulltime, shop)
     foreach ($array as $key => $array_data):
         if ($key == 'children'):
@@ -82,7 +82,7 @@ foreach ($lots as $top_cat_id => $array) {
                 // TODO: разобраться-таки с долбанным роутером!!!!!!!!
                 // кто косячит - Joomla OR VirtueMart?!
                 // КАСТРИРОВАТЬ П******стов!!!!!!
-                if ($SefMode && 1>1) {
+                /*if ($SefMode) {
                     $category_link = JUri::base();
                     if ($top_cats_aliases[$a] != 'shop') {
                         $category_link.= $menus[$menus[$top_cats_menu_ids[$a]]->parent_id]->alias . '/';
@@ -91,7 +91,7 @@ foreach ($lots as $top_cat_id => $array) {
                     }
                     //echo "<div>next: ".$menus[$top_cats_menu_ids[$a]]->alias.'/'.$category_data['alias']."</div>";
                     $category_link.= $menus[$top_cats_menu_ids[$a]]->alias . '/' . $category_data['alias'];
-                }
+                }*/
 
                 $sub_cats.='
     <li><a ';
@@ -125,11 +125,20 @@ foreach ($lots as $top_cat_id => $array) {
          || !in_array($top_layout, $top_cats_aliases 
        )
     ) {
+        if ($test) { ?><div title="<?php 
+        echo $link; ?>"><b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
+        echo $link; ?>');">Ссылка раздела<br>hover, click</a></b></div><?php }
+        /**
+         index.php?
+         option                 = com_virtuemart
+         view                   = category
+         virtuemart_category_id = 0
+         Itemid=125 */
         ?>
-        <h3><?php if ($test) { ?>Имя раздела категорий<?php }
-                ?><a href="<?= JRoute::_($link) ?>"><?= $array['top_category_name'] ?></a>
+        <h3>
+            <a href="<?= JRoute::_($link) ?>"><?= $array['top_category_name'] ?></a>
                 <span class="lots_count">(<?= $top_cat_count ?>)</span>
-            </h3>
+        </h3>
             <?php
             echo $sub_cats;
         }
