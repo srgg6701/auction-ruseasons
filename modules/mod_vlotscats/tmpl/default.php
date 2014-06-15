@@ -9,8 +9,8 @@ if (!$session->get('section_links')) :
     <script>location.reload();</script>
     <?php
 endif;
-// todo: использовать только во время тестирования:
-// $session->clear('section_links');
+// Использовать только во время тестирования:
+$session->clear('section_links');
 //var_dump($section_links); die();
 // get categories:
 $lots = modVlotscatsHelper::getCategoriesData(true);
@@ -82,7 +82,7 @@ foreach ($lots as $top_cat_id => $array) {
                 // TODO: разобраться-таки с долбанным роутером!!!!!!!!
                 // кто косячит - Joomla OR VirtueMart?!
                 // КАСТРИРОВАТЬ П******стов!!!!!!
-                if ($SefMode) {
+                if ($SefMode && 1>1) {
                     $category_link = JUri::base();
                     if ($top_cats_aliases[$a] != 'shop') {
                         $category_link.= $menus[$menus[$top_cats_menu_ids[$a]]->parent_id]->alias . '/';
@@ -120,7 +120,10 @@ foreach ($lots as $top_cat_id => $array) {
         $link.=$andLayout;
     $link.='&Itemid=' . $top_cats_menu_ids[$a];
 
-    if (!$top_layout || $top_cats_aliases[$a] == $top_layout || !in_array($top_layout, $top_cats_aliases)
+    if (!$top_layout 
+         || $top_cats_aliases[$a] == $top_layout 
+         || !in_array($top_layout, $top_cats_aliases 
+       )
     ) {
         ?>
         <h3><?php if ($test) { ?>Имя раздела категорий<?php }
@@ -133,7 +136,11 @@ foreach ($lots as $top_cat_id => $array) {
         $a++;
     }
     $session->set('section_links', $section_links);
-    /* echo "<pre>"; 
-     * var_dump($section_links); 
-     * die('</pre>');
-     */    
+    // test session links:
+    if(JRequest::getVar('slinks')){
+        echo "<pre>"; 
+        var_dump($section_links); 
+        echo '</pre>';
+        if(JRequest::getVar('stop'))
+            die();
+    }
