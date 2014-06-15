@@ -189,6 +189,25 @@ class VirtueMartModelProduct extends VmModel {
     function sortSearchListQuery($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE
     ) {
 
+        /* 	MODIFIED START */
+        if ($this->top_category) {
+            $query = "SELECT prices.virtuemart_product_id
+        FROM #__virtuemart_product_categories        AS cats 
+        INNER JOIN #__virtuemart_category_categories AS cat_cats
+                   ON cats.virtuemart_category_id = cat_cats.category_child_id
+        INNER JOIN #__virtuemart_product_prices      AS prices
+                   ON prices.virtuemart_product_id = cats.virtuemart_product_id                    
+             WHERE cat_cats.category_parent_id = ".$this->top_category. "
+               AND prices.product_price_publish_up < NOW() 
+               AND prices.product_price_publish_down > NOW()  
+          ORDER BY prices.product_price_publish_up ";
+            echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+            echo "<div>this.top_category = ".$this->top_category."</div>";
+            echo "<div>query = ".$query."</div>";
+            return JFactory::getDbo()->setQuery($query)->loadColumn();
+        }
+        /* 	MODIFIED END	 */
+
         $app = JFactory::getApplication();
 
         //User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
@@ -469,38 +488,6 @@ class VirtueMartModelProduct extends VmModel {
             $joinedTables .= ' LEFT OUTER JOIN `#__virtuemart_products` children ON p.`virtuemart_product_id` = children.`product_parent_id` ';
         }
 
-        /* 	MODIFIED START */
-        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        //echo "<div>this.top_category = ".$this->top_category."</div>";
-        if ($this->top_category) {
-            /*$where[] = "\np.`virtuemart_product_id` IN (
-        SELECT
-  cats.virtuemart_product_id
-FROM #__virtuemart_product_categories AS cats
-  INNER JOIN #__virtuemart_category_categories AS catcats
-    ON cats.virtuemart_category_id = catcats.category_child_id
-  WHERE category_parent_id = " . $this->top_category . "
-      )"; */
-            $select = "
-        prices.virtuemart_product_id
-        FROM #__virtuemart_product_categories            cats ";
-            $joinedTables="
-        INNER JOIN #__virtuemart_category_categories   cat_cats
-                   ON cats.virtuemart_category_id = cat_cats.category_child_id
-        INNER JOIN #__virtuemart_product_prices        prices
-                   ON prices.virtuemart_product_id = cats.virtuemart_product_id ";
-            $where = array(
-                "cat_cats.category_parent_id = ".$this->top_category,
-                "prices.product_price_publish_up < NOW() ",
-                "prices.product_price_publish_down > NOW() "
-            );            
-            $orderBy = "ORDER BY prices.product_price_publish_up ";
-            $groupBy = false;
-            $nbrReturnProducts = true;
-        }
-
-        /* 	MODIFIED END	 */
-
         if (count($where) > 0) {
             $whereString = ' WHERE (' . implode(' AND ', $where) . ') ';
         } else {
@@ -528,8 +515,6 @@ FROM #__virtuemart_product_categories AS cats
           }
           $product_ids = $tmp;
           } */
-        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        echo "<pre>";var_dump($product_ids);echo "</pre>"; // die();
         //vmdebug('my product ids',$product_ids);
         
         return $product_ids;
@@ -1157,11 +1142,10 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
      * @return array containing product objects
      */
     public function getProductsInCategory($categoryId) {
+        //echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
         $ids = $this->sortSearchListQuery(TRUE, $categoryId);
-        echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
-        echo "<pre>";
-        var_dump($ids);
-        echo "</pre>"; // die();
+        //echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
+        //echo "<pre>"; var_dump($ids); echo "</pre>"; // die();
         $this->products = $this->getProducts($ids);
         //var_dump("<pre>",$this->products,"</pre>"); die(__FILE__);
         return $this->products;

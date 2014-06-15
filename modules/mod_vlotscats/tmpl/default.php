@@ -46,10 +46,10 @@ $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
 /**
   "online", "fulltime", "shop" */
 //$top_cats_aliases = AuctionStuff::getTopCatsLayouts();
-echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+//echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
 //echo "<pre>";var_dump($top_cats_menu_ids);echo "</pre>"; // die();
 //echo "<pre>";var_dump($top_cats_aliases);echo "</pre>"; // die();
-echo "<pre>";var_dump($lots);echo "</pre>"; die();
+//echo "<pre>";var_dump($lots);echo "</pre>"; die();
 // online, fulltime, shop
 //$a = 0;
 // TODO: extract a whole link from the top cat menu params!
@@ -126,8 +126,8 @@ foreach ($lots as $top_cat_id => $array) {
     if (!$SefMode)
         $link.=$andLayout;
     $link.='&Itemid=' . $top_cats_menu_ids[$top_category_layout];
-    echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-    echo "<div>top_category_layout = ".$top_category_layout."</div>";
+    //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+    //echo "<div>top_category_layout = ".$top_category_layout."</div>";
     //$top_cats_menu_ids[$a];
     
     if ( !$top_layout // Загружен раздел ТОП-категории
