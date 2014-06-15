@@ -261,6 +261,9 @@ class VirtuemartViewCategory extends VmView {
         // test start
         //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
         //echo "<pre>";var_dump($get);echo "</pre>"; // die();
+        /*  параметр true позволяет излвечь ассоциативный массив id => layout 
+            любой другой аргумент, имеющий значение - массив id id
+        */
         $top_cats=AuctionStuff::getTopCatsLayouts(true); // from component's router
         echo "<pre>";var_dump($top_cats);echo "</pre>"; die();
         // test end

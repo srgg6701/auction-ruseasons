@@ -337,9 +337,9 @@ WHERE p.virtuemart_product_id = ".$product_id;
  * @package
  * @subpackage
  */
-	public static function getTopCatsLayouts($ids=NULL){
+	public static function getTopCatsLayouts($array=NULL){
         $query = "SELECT ";
-        if($ids)
+        if($array)
             $query.= "
   cats.virtuemart_category_id,";
             
@@ -357,13 +357,19 @@ FROM #__virtuemart_categories AS cats
 WHERE cats_cats.category_parent_id = 0";
             $db = JFactory::getDbo();
             $db->setQuery($query);
-        if($ids){ // здесь получим ids топовых категорий
-            return $db->loadResultArray(); 
-            // loadAssoc[List] 
-            // loadObject[List]
-            // loadArray
-            // loadColumn
-            // loadRow[List]
+        if($array){ // здесь получим ids топовых категорий
+            if($array===true) {
+                $layouts=array();
+                foreach($db->loadAssocList() as $i=>$data)
+                    $layouts[$data['virtuemart_category_id']]=$data['layout'];
+                return $layouts;
+            }else
+                return $db->loadColumn(); 
+            /*  loadAssoc[List] 
+                loadObject[List]
+                loadArray
+                loadColumn
+                loadRow[List] */
         }else
             return $db->loadColumn();
             //array('online','fulltime','shop');
