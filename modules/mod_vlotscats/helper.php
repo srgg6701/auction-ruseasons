@@ -68,12 +68,23 @@ ORDER BY cats.ordering';
 			  'virtuemart_category_id' => string '23' (length=2)
 			  'category_name' => string 'Магазин' (length=14)
 	  	*/
-			$query='SELECT cats.virtuemart_category_id, 
+            // добавить подзапрос извлечения предметов с подходящим периодом публикации:
+			$table = '';
+            $subquery = '';
+            if($published){
+                $table3.= ",\n        `#__virtuemart_product_prices`      AS prices";
+                $subquery = "
+               AND prices.virtuemart_product_id = pc.virtuemart_product_id
+               AND prices.product_price_publish_up < NOW() 
+               AND prices.product_price_publish_down > NOW() ";
+            }
+            $query='SELECT cats.virtuemart_category_id, 
         cats_ru.category_name,
         cats_ru.slug AS "alias",
         (   SELECT count(p.virtuemart_product_id)
               FROM `#__virtuemart_products` AS p,
-                   `#__virtuemart_product_categories` AS pc
+                   `#__virtuemart_product_categories` AS pc'
+                    .$table3.'
              WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
                AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`';
 			if($published){
@@ -88,7 +99,7 @@ ORDER BY cats.ordering';
 				$query.='
                AND p.`product_in_stock` > 0';
 
-			$query.='
+			$query.= $subquery . '
         ) AS "product_count"
    FROM #__virtuemart_categories AS cats
    LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru 
@@ -113,7 +124,8 @@ ORDER BY cats.ordering';
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
 				 $order;
-			// echo "<div class=''><pre>q= ".str_replace("#_","auc13",$q)."</pre></div>"; //die();
+            //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+			//echo "<div class=''><pre>q= ".str_replace("#_","auc13",$q)."</pre></div>"; die();
 			$db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(

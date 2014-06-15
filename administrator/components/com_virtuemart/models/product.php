@@ -191,7 +191,7 @@ class VirtueMartModelProduct extends VmModel {
 
         /* 	MODIFIED START */
         if ($this->top_category) {
-            $query = "SELECT prices.virtuemart_product_id
+            $query = "SELECT DISTINCT prices.virtuemart_product_id
         FROM #__virtuemart_product_categories        AS cats 
         INNER JOIN #__virtuemart_category_categories AS cat_cats
                    ON cats.virtuemart_category_id = cat_cats.category_child_id
@@ -201,9 +201,9 @@ class VirtueMartModelProduct extends VmModel {
                AND prices.product_price_publish_up < NOW() 
                AND prices.product_price_publish_down > NOW()  
           ORDER BY prices.product_price_publish_up ";
-            echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-            echo "<div>this.top_category = ".$this->top_category."</div>";
-            echo "<div>query = ".$query."</div>";
+            //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+            //echo "<div>this.top_category = ".$this->top_category."</div>";
+            //echo "<div>query = ".$query."</div>";
             return JFactory::getDbo()->setQuery($query)->loadColumn();
         }
         /* 	MODIFIED END	 */
