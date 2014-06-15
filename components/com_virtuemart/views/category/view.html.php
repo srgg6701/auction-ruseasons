@@ -176,7 +176,9 @@ class VirtuemartViewCategory extends VmView {
 		$this->setTopCatId($productModel);
 		/*	MODIFIED END	*/		
 		// Load the products in the given category
+        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
 	    $products = $productModel->getProductsInCategory($categoryId);
+        echo "categoryId = $categoryId<pre>";var_dump($products);echo "</pre>"; die();
 
         $productModel->addImages($products,1);
 
@@ -256,13 +258,21 @@ class VirtuemartViewCategory extends VmView {
  */
 	private function setTopCatId($productModel) {
 		$get=JRequest::get('get');
+        // test start
+        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        //echo "<pre>";var_dump($get);echo "</pre>"; // die();
+        $top_cats=AuctionStuff::getTopCatsLayouts(true); // from component's router
+        echo "<pre>";var_dump($top_cats);echo "</pre>"; die();
+        // test end
+        
 		if( $get['view'] == 'category'
-			&& $get['virtuemart_category_id'] == '0'
-			&& $layout=$get['layout']
+            
+			//&& $get['virtuemart_category_id'] == '0'
+			//&& $layout=$get['layout']
 		  ){
 			// извлечь id id топовых категорий по порядку их расположения в таблице
 			$top_cats=AuctionStuff::getTopCatsLayouts(); // from component's router
-			$found_layout=false;
+            $found_layout=false;
 			foreach($top_cats as $i => $get_layout){
 				if ($layout==$get_layout){
 					$category_id_index=$i;

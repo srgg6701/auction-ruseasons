@@ -337,8 +337,36 @@ WHERE p.virtuemart_product_id = ".$product_id;
  * @package
  * @subpackage
  */
-	public static function getTopCatsLayouts(){
-		return array('online','fulltime','shop');
+	public static function getTopCatsLayouts($ids=NULL){
+        $query = "SELECT ";
+        if($ids)
+            $query.= "
+  cats.virtuemart_category_id,";
+            
+        $query.= "
+  LEFT((
+  SUBSTRING(menu.link,
+    LOCATE('&layout=', menu.link)+8)
+            ), LOCATE('&virtuemart_category_id=', menu.link)-LOCATE('&layout=', menu.link)-8
+  ) AS 'layout'
+FROM #__virtuemart_categories AS cats
+  INNER JOIN #__virtuemart_category_categories AS cats_cats
+    ON cats.virtuemart_category_id = cats_cats.category_child_id
+  INNER JOIN #__menu AS menu
+    ON menu.link LIKE CONCAT('%&virtuemart_category_id=',cats.virtuemart_category_id)
+WHERE cats_cats.category_parent_id = 0";
+            $db = JFactory::getDbo();
+            $db->setQuery($query);
+        if($ids){ // здесь получим ids топовых категорий
+            return $db->loadResultArray(); 
+            // loadAssoc[List] 
+            // loadObject[List]
+            // loadArray
+            // loadColumn
+            // loadRow[List]
+        }else
+            return $db->loadColumn();
+            //array('online','fulltime','shop');
 	}
 /**
  * Описание
@@ -346,6 +374,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
  * @subpackage
  */
 	public static function getCatProdCount(){
+        // todo: удалить On production!
 		/*$query="SELECT 
 		-- cats.virtuemart_category_id, 
         -- cats_ru.category_name,

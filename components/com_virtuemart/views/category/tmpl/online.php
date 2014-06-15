@@ -8,7 +8,9 @@
  * @author RolandD 
  * @author srgg6701
  */
-// this: VirtuemartViewCategory
+/** 
+ * this: VirtuemartViewCategory
+ */
 //var_dump("<pre>",$this,"</pre>"); die();
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
@@ -76,7 +78,7 @@ if ($this->search !== NULL):?>
 
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
-
+        //echo "<h3>this->products:</h3><pre>";var_dump($this->products);echo "</pre>"; // die();
 	// array => object
 	foreach($this->products as $i=>$product){ //var_dump("<pre>",$product,"</pre>");?>
 <div class="box">
