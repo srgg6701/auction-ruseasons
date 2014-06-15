@@ -5,9 +5,9 @@ defined('_JEXEC') or die('Restricted access');
 $session = JFactory::getSession();
 
 if (!$session->get('section_links')) :
-    ?>
+    /*?>
     <script>location.reload();</script>
-    <?php
+    <?php */
 endif;
 // Использовать только во время тестирования:
 $session->clear('section_links');
@@ -39,8 +39,9 @@ if ($SefMode = $router->getMode()) {
 ?>
 <br/>
 <?php
-$top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds();
-//var_dump("<pre>",$top_cats_menu_ids,"</pre>");
+$top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
+var_dump("<pre>",$top_cats_menu_ids,"</pre>");
+echo "<pre>";var_dump($lots);echo "</pre>"; die();
 // get top categories aliases to substitute them as layouts:
 /**
   "online", "fulltime", "shop" */
@@ -126,8 +127,9 @@ foreach ($lots as $top_cat_id => $array) {
        )
     ) {
         if ($test) { ?><div title="<?php 
-        echo $link; ?>"><b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
-        echo $link; ?>');">Ссылка раздела<br>hover, click</a></b></div><?php }
+            echo $link; ?>"><b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
+            echo $link; ?>');">Ссылка раздела<br>hover, click</a></b></div><?php         
+        }
         /**
          index.php?
          option                 = com_virtuemart

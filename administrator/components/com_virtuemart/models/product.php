@@ -431,7 +431,6 @@ class VirtueMartModelProduct extends VmModel {
 // 			$joinLang = false;
             }
         }
-
         //write the query, incldue the tables
         //$selectFindRows = 'SELECT SQL_CALC_FOUND_ROWS * FROM `#__virtuemart_products` ';
         //$selectFindRows = 'SELECT COUNT(*) FROM `#__virtuemart_products` ';
@@ -442,7 +441,6 @@ class VirtueMartModelProduct extends VmModel {
             $select = ' p.`virtuemart_product_id` FROM `#__virtuemart_products` as p';
             $joinedTables = '';
         }
-
         if ($joinCategory == TRUE) {
             $joinedTables .= ' LEFT JOIN `#__virtuemart_product_categories` as pc ON p.`virtuemart_product_id` = `pc`.`virtuemart_product_id`
 			 LEFT JOIN `#__virtuemart_categories_' . VMLANG . '` as c ON c.`virtuemart_category_id` = `pc`.`virtuemart_category_id`';
@@ -451,7 +449,6 @@ class VirtueMartModelProduct extends VmModel {
             $joinedTables .= ' LEFT JOIN `#__virtuemart_product_manufacturers` ON p.`virtuemart_product_id` = `#__virtuemart_product_manufacturers`.`virtuemart_product_id`
 			 LEFT JOIN `#__virtuemart_manufacturers_' . VMLANG . '` as m ON m.`virtuemart_manufacturer_id` = `#__virtuemart_product_manufacturers`.`virtuemart_manufacturer_id` ';
         }
-
         if ($joinPrice == TRUE) {
             $joinedTables .= ' LEFT JOIN `#__virtuemart_product_prices` as pp ON p.`virtuemart_product_id` = pp.`virtuemart_product_id` ';
         }
@@ -468,23 +465,38 @@ class VirtueMartModelProduct extends VmModel {
             $joinedTables .= ' LEFT JOIN `#__virtuemart_product_shoppergroups` ON p.`virtuemart_product_id` = `#__virtuemart_product_shoppergroups`.`virtuemart_product_id`
 			 LEFT  OUTER JOIN `#__virtuemart_shoppergroups` as s ON s.`virtuemart_shoppergroup_id` = `#__virtuemart_product_shoppergroups`.`virtuemart_shoppergroup_id`';
         }
-
         if ($joinChildren) {
             $joinedTables .= ' LEFT OUTER JOIN `#__virtuemart_products` children ON p.`virtuemart_product_id` = children.`product_parent_id` ';
         }
 
         /* 	MODIFIED START */
-        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        echo "<div>this.top_category = ".$this->top_category."</div>";
+        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        //echo "<div>this.top_category = ".$this->top_category."</div>";
         if ($this->top_category) {
-            $where[] = "p.`virtuemart_product_id` IN (
+            /*$where[] = "\np.`virtuemart_product_id` IN (
         SELECT
   cats.virtuemart_product_id
 FROM #__virtuemart_product_categories AS cats
   INNER JOIN #__virtuemart_category_categories AS catcats
     ON cats.virtuemart_category_id = catcats.category_child_id
   WHERE category_parent_id = " . $this->top_category . "
-      )";
+      )"; */
+            $select = "
+        prices.virtuemart_product_id
+        FROM #__virtuemart_product_categories            cats ";
+            $joinedTables="
+        INNER JOIN #__virtuemart_category_categories   cat_cats
+                   ON cats.virtuemart_category_id = cat_cats.category_child_id
+        INNER JOIN #__virtuemart_product_prices        prices
+                   ON prices.virtuemart_product_id = cats.virtuemart_product_id ";
+            $where = array(
+                "cat_cats.category_parent_id = ".$this->top_category,
+                "prices.product_price_publish_up < NOW() ",
+                "prices.product_price_publish_down > NOW() "
+            );            
+            $orderBy = "ORDER BY prices.product_price_publish_up ";
+            $groupBy = false;
+            $nbrReturnProducts = true;
         }
 
         /* 	MODIFIED END	 */
@@ -496,8 +508,9 @@ FROM #__virtuemart_product_categories AS cats
         }
         //vmdebug ( $joinedTables.' joined ? ',$select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir );		/* jexit();  */
         $this->orderByString = $orderBy;
-        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        echo '<hr><pre>SELECT ', $select."\n", $joinedTables."\n", $whereString."\n", $groupBy."\n", $orderBy."\n", '</pre><hr>'; die();
+        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        //echo "<div>top_category = ".$this->top_category."</div>";
+        //echo '<hr><pre>SELECT ', $select."\n", $joinedTables."\n", $whereString."\n", $groupBy."\n", $orderBy."\n", '</pre><hr>'; die();
 
         $product_ids = $this->exeSortSearchListQuery(2, $select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir, $nbrReturnProducts);
 
@@ -515,9 +528,10 @@ FROM #__virtuemart_product_categories AS cats
           }
           $product_ids = $tmp;
           } */
-
+        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        echo "<pre>";var_dump($product_ids);echo "</pre>"; // die();
         //vmdebug('my product ids',$product_ids);
-
+        
         return $product_ids;
     }
 

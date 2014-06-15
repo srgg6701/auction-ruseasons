@@ -351,7 +351,8 @@ class VmModel extends JModel {
 		} else {
 			$q = 'SELECT '.$select.$joinedTables;
 		}
-
+        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        echo "<div>q = ".$q."</div>";
 		if($this->_noLimit or empty($limit)){
 // 			vmdebug('exeSortSearchListQuery '.get_class($this).' no limit');
 			$this->_db->setQuery($q);

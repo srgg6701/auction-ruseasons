@@ -415,8 +415,15 @@ WHERE cats_cats.category_parent_id = 0";
 										$view=false,
 										$layout=false
 									){
-		$query_start="SELECT id 
-  FROM  `#__menu` 
+		$query_start="SELECT `#__menu`.id ";
+        $table2='';
+        if($menutype==='main'){
+            $menutype='mainmenu';
+            $query_start.=', cats.category_layout';
+            $table2=', #__virtuemart_categories cats';
+        }            
+        $query_start.="
+  FROM  `#__menu`".$table2."
  WHERE  `menutype` =  '".$menutype."'";
    		
 		if ($view)
@@ -434,12 +441,21 @@ WHERE cats_cats.category_parent_id = 0";
 		}
 		$ItemIds=array();
 		foreach($layouts as $i=>$layout){
-			$query=$query_start.$layout.$query_end;
-			//echo "<div class=''>query= <pre>".$query."</pre></div>";
+            $query=$query_start.$layout.$query_end;
+            if($table2)
+                $query.="
+            AND  cats.category_layout = '".$layout."'
+        LIMIT 1";
+			// echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+            // echo "<div class=''>query= <pre>".$query."</pre></div>";
 			$db->setQuery($query);
-			$ItemId=$db->loadResult();
-			$ItemIds[]=$ItemId;
-			//echo "<div class=''>ItemId= ".$ItemId."</div>"; 
+            if($table2){
+                $ItemId=$db->loadAssoc();
+                $ItemIds[$ItemId['category_layout']]=$ItemId['id'];
+            }else{
+                $ItemId=$db->loadResult();
+                $ItemIds[]=$ItemId;
+            } //echo "<div class=''>ItemId= ".$ItemId."</div>"; 
 		}//die();
 		return $ItemIds;
 	}

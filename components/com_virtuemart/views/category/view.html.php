@@ -176,9 +176,9 @@ class VirtuemartViewCategory extends VmView {
 		$this->setTopCatId($productModel);
 		/*	MODIFIED END	*/		
 		// Load the products in the given category
-        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
+        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
 	    $products = $productModel->getProductsInCategory($categoryId);
-        echo "categoryId = $categoryId<pre>";var_dump($products);echo "</pre>"; die();
+        //echo "categoryId = $categoryId<pre>";var_dump($products);echo "</pre>"; die();
 
         $productModel->addImages($products,1);
 
@@ -258,59 +258,22 @@ class VirtuemartViewCategory extends VmView {
  */
 	private function setTopCatId($productModel) {
 		$get=JRequest::get('get');
+        $top_cats=AuctionStuff::getTopCatsLayouts(1); 
+        // from component's router
         // test start
         //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
         //echo "<pre>";var_dump($get);echo "</pre>"; // die();
-        /*  параметр true позволяет излвечь ассоциативный массив id => layout 
+        //echo "<div>virtuemart_category_id = ".$get['virtuemart_category_id']."</div>";
+		/*  параметр true позволяет излвечь ассоциативный массив id => layout 
             любой другой аргумент, имеющий значение - массив id id
         */
-        $top_cats=AuctionStuff::getTopCatsLayouts(true); // from component's router
-        echo "<pre>";var_dump($top_cats);echo "</pre>"; die();
         // test end
-        
-		if( $get['view'] == 'category'
-            
-			//&& $get['virtuemart_category_id'] == '0'
-			//&& $layout=$get['layout']
-		  ){
-			// извлечь id id топовых категорий по порядку их расположения в таблице
-			$top_cats=AuctionStuff::getTopCatsLayouts(); // from component's router
-            $found_layout=false;
-			foreach($top_cats as $i => $get_layout){
-				if ($layout==$get_layout){
-					$category_id_index=$i;
-					$found_layout=true;
-					break;
-				}
-			}
-			if (!$found_layout)
-				die('ОШИБКА: Не определено имя top_category!');
-			/*switch($layout){ // см. /components/com_virtuemart/views/category/tmpl/
-				case 'online':
-					// Онлайн торги
-					$category_id_index='0';
-				break;
-				case 'fulltime':
-					// Очные торги
-					$category_id_index='1';
-				break;
-				case 'shop':
-					// Магазин
-					$category_id_index='2';
-				break;
-				default:
-					die('ОШИБКА: Не определено имя top_category!');			
-			}*/
-			$query="SELECT category_child_id 
-  FROM #__virtuemart_category_categories
-  WHERE category_parent_id = 0 ORDER BY category_child_id ASC";
-			$db = JFactory::getDBO();
-			$db->setQuery($query);
-			$catsIds=$db->loadResultArray();
-			$productModel->top_category=$catsIds[$category_id_index];
-			return true;
-		}
-	}	
+        if($get['view'] == 'category'&&in_array($get['virtuemart_category_id'], $top_cats)){
+            $productModel->top_category=$get['virtuemart_category_id'];
+            //die('TOP category: '.$productModel->top_category);            
+            return true;
+        }	
+    }
 /*	MODIFIED END	*/		
 	/*
 	 * generate custom fields list to display as search in FE
