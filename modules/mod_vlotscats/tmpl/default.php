@@ -14,7 +14,6 @@ $session->clear('section_links');
 //var_dump($section_links); die();
 // get categories:
 $lots = modVlotscatsHelper::getCategoriesData(true);
-//print_r($lots); die();
 $router = $app->getRouter();
 
 if ($SefMode = $router->getMode()) {
@@ -34,21 +33,25 @@ if ($SefMode = $router->getMode()) {
           'virtuemart_category_id' => int 0 */
         $loaded_category_id = AuctionStuff::getCategoryIdByProductId(JRequest::getVar('virtuemart_product_id')); // 9
     }
+    // если загружена какая либо категория внутри основной:
     $top_layout = $menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime
+    //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+    //echo "<pre>";var_dump($top_layout);echo "</pre>"; die();
 }
 ?>
 <br/>
 <?php
 $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
-var_dump("<pre>",$top_cats_menu_ids,"</pre>");
-echo "<pre>";var_dump($lots);echo "</pre>"; die();
 // get top categories aliases to substitute them as layouts:
 /**
   "online", "fulltime", "shop" */
-$top_cats_aliases = AuctionStuff::getTopCatsLayouts();
-
+//$top_cats_aliases = AuctionStuff::getTopCatsLayouts();
+echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+//echo "<pre>";var_dump($top_cats_menu_ids);echo "</pre>"; // die();
+//echo "<pre>";var_dump($top_cats_aliases);echo "</pre>"; // die();
+echo "<pre>";var_dump($lots);echo "</pre>"; die();
 // online, fulltime, shop
-$a = 0;
+//$a = 0;
 // TODO: extract a whole link from the top cat menu params!
 // See data above: $top_cats_menu_ids
 $common_link_segment = 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=';
@@ -56,12 +59,13 @@ $section_links = array();
 //
 $show_online = true; // TODO: УБРАТЬ это доп. условие после окончания работ
 foreach ($lots as $top_cat_id => $array) {
-    $section_links[$top_cats_aliases[$a]] = array();
-
+    $top_category_layout = $array['top_category_layout'];
+    //$section_links[$top_cats_aliases[$a]] = array();
+    $section_links[$top_category_layot] = array();
     //if($top_cats_aliases[$a]!='online'||$show_online){
     //echo '$array:<pre>'; var_dump($array); echo '</pre>';//die();
     $top_cat_count = 0;
-    $andLayout = '&layout=' . $top_cats_aliases[$a];
+    $andLayout = '&layout=' . $top_category_layout;//$top_cats_aliases[$a];
     $sub_cats = '
 	<ul>';
     $test = true;
@@ -75,9 +79,11 @@ foreach ($lots as $top_cat_id => $array) {
                 /* if ($test){?>Имя категории--><?php } */
 
                 $category_link = $common_link_segment . $category_data['virtuemart_category_id'];
-                $category_link.='&Itemid=' . $top_cats_menu_ids[$a];
+                $category_link.='&Itemid=' . $top_cats_menu_ids[$top_category_layout];
+                //$top_cats_menu_ids[$a];
 
-                if ($top_cats_aliases[$a] == 'shop')
+                //if ($top_cats_aliases[$a] == 'shop') 
+                if ($top_category_layout == 'shop')
                     $category_link.=$andLayout;
 
                 // TODO: разобраться-таки с долбанным роутером!!!!!!!!
@@ -103,7 +109,7 @@ foreach ($lots as $top_cat_id => $array) {
                 $sub_cats.='href="';
 
                 $sub_cats.=$category_link;
-                $section_links[$top_cats_aliases[$a]][$category_data['virtuemart_category_id']] = $category_link;
+                $section_links[$top_category_layout/*$top_cats_aliases[$a]*/][$category_data['virtuemart_category_id']] = $category_link;
 
                 $sub_cats.='">' . $category_data['category_name'] . '</a> (' . $product_count . ')<br>
     </li>';
@@ -119,13 +125,16 @@ foreach ($lots as $top_cat_id => $array) {
     $link = $common_link_segment . '0';
     if (!$SefMode)
         $link.=$andLayout;
-    $link.='&Itemid=' . $top_cats_menu_ids[$a];
-
-    if (!$top_layout 
-         || $top_cats_aliases[$a] == $top_layout 
-         || !in_array($top_layout, $top_cats_aliases 
-       )
-    ) {
+    $link.='&Itemid=' . $top_cats_menu_ids[$top_category_layout];
+    echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+    echo "<div>top_category_layout = ".$top_category_layout."</div>";
+    //$top_cats_menu_ids[$a];
+    
+    if ( !$top_layout // Загружен раздел ТОП-категории
+         || $top_category_layout == $top_layout // 
+         || !key_exists($top_layout, $top_cats_menu_ids)
+         //|| !in_array($top_layout, $top_cats_aliases 
+       ) {
         if ($test) { ?><div title="<?php 
             echo $link; ?>"><b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
             echo $link; ?>');">Ссылка раздела<br>hover, click</a></b></div><?php         

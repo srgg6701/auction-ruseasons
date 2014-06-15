@@ -43,10 +43,18 @@ ORDER BY cats.ordering';
 		
 		$session =& JFactory::getSession();
 		$prods=array();
-		$session->set('products_data',$prods);
-		
+		$session->set('products_data',$prods);		
 		$top_cats=modVlotscatsHelper::getTopCategories($db);
-		$topLayouts=AuctionStuff::getTopCatsLayouts();
+        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        //echo "<pre>";var_dump($top_cats);echo "</pre>"; die();
+		$topLayouts=AuctionStuff::getTopCatsLayouts(true);
+        /**
+            [23]=> "shop"
+            [21]=> "online"
+            [22]=> "fulltime"
+         */
+        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        //echo "<pre>";var_dump($topLayouts);echo "</pre>"; die();
 		/* 0 => 
 			array
 			  'virtuemart_category_id' => string '21' (length=2)
@@ -93,7 +101,14 @@ ORDER BY cats.ordering';
   ORDER BY cat_cats.category_parent_id,cats.ordering';
 
 		foreach($top_cats as $i=>$top_cat){
-			$prods[$topLayouts[$i]]=array();
+            /**
+             $top_cat:
+                ["virtuemart_category_id"]=> "21"
+                ["category_name"]=> "Онлайн торги"
+                ["alias"]=> "онлайн-торги"                 
+             */
+            $layout = $topLayouts[$top_cat['virtuemart_category_id']];
+			$prods[$layout]=array();
 			$q = $query .
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
@@ -102,16 +117,16 @@ ORDER BY cats.ordering';
 			$db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(
-						'top_category_alias'=>$top_cat['alias'],
-						'top_category_name'=>$top_cat['category_name'],
-						'top_category_layout' => $topLayouts[$i],
-						'children'=>$children
+						'top_category_alias'    => $top_cat['alias'],
+						'top_category_name'     => $top_cat['category_name'],
+						'top_category_layout'   => $layout,
+						'children'              => $children
 				);
-			$prods[$topLayouts[$i]]['prod_count']=0;
+			$prods[$layout]['prod_count']=0;
 			foreach ($children as $c=>$child){
 				if ($child['alias']){
-					$prods[$topLayouts[$i]]['prod_count']+=(int)$child['product_count'];
-					$prods[$topLayouts[$i]][$child['alias']]=$child;
+					$prods[$layout]['prod_count']+=(int)$child['product_count'];
+					$prods[$layout][$child['alias']]=$child;
 				}
 			}
 		}
