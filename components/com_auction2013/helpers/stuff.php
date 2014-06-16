@@ -72,7 +72,11 @@ class AuctionStuff{
  * @subpackage
  */
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
-		if(!$links){
+		if(!isset($cntr))
+            static $cntr=1;
+        else $cntr++;
+        echo "<h1 class='test' style='color:red;'>cntr = ".$cntr."</h1>";
+        if(!$links){
 			$session=JFactory::getSession();
 			$links=$session->get('section_links');
 			//var_dump($links); echo('links?!');

@@ -10,6 +10,8 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
+<script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <jdoc:include type="head" />
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -76,9 +78,6 @@ window.addEvent('domready', function() {
 -->
 </script>
 <?php }?>
-<!---->
-<script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
-<script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <?php /*?>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
