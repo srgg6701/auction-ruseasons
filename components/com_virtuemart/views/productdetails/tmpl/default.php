@@ -46,9 +46,12 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
-<?php if($SefMode=JFactory::getApplication()->getRouter()->getMode())
-		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
-	
+<?php
+    $SefMode=JFactory::getApplication()->getRouter()->getMode();
+    // возвращает ссылку уже в нужном (обычный/ЧПУ) виде:
+    $category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
+	//echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+    //die('link: '.$category_link);
 	// получить предыдущий-следующий предметы в категории:	
 	$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
 	$hide=' style="visibility:hidden"';

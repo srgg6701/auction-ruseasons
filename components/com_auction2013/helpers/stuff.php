@@ -77,20 +77,18 @@ class AuctionStuff{
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
 		// todo: разобраться в целесообразности...
         $links = self::handleSessionCategoriesData();
-        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        echo "<div>virtuemart_category_id = ".$virtuemart_category_id."</div>";
-        commonDebug(__FILE__, __LINE__, $links, true);
-        foreach($top_cats as $layout=>$data){
-            
-            foreach($data['child_links'] as $layout=>$categories_links):
-                if(array_key_exists($virtuemart_category_id,$categories_links)){
-                    $category_link=$categories_links[$virtuemart_category_id];
-                    //echo "<div class=''>category_link= ".$category_link."</div>";
-                    break;
-                }
-            endforeach;
+        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        //echo "<div>virtuemart_category_id = ".$virtuemart_category_id."</div>";
+        //commonDebug(__FILE__, __LINE__, $links, true);
+        foreach($links as $layout=>$data){
+            // если таки есть категория с таким id
+            if(array_key_exists($virtuemart_category_id, $data['child_links'])){
+                $link_type=(JApplication::getRouter()->getMode())?
+                    'sef':'link';
+                return $data['child_links'][$virtuemart_category_id][$link_type];
+            }
         }
-		return $category_link;
+		return false;
 	}
 /**
  * Описание
