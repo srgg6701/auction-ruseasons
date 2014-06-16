@@ -83,8 +83,14 @@ if (!empty($this->products)) {?>
                 	<a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
                 </div>
             </td>
-			<td class="desc">
-            	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
+			<td class="desc"><?php
+	//commonDebug(__FILE__, __LINE__, $product, false);
+            	?><h2><?php 
+	// проставим ссылку
+	//echo JHTML::link ($product->link, $product->product_name); 
+	echo JHTML::link (JRoute::_($product->canonical), $product->product_name); 
+	//
+	?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
 	  <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 

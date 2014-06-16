@@ -99,7 +99,12 @@ if (!empty($this->products)) {
   <div class="img">
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>&nbsp;</a>
 </div>
-	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
+	<h2><?php 
+	
+	//echo JHTML::link ($product->link, $product->product_name); 
+	echo JHTML::link (JRoute::_($product->canonical), $product->product_name);
+	
+	?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
 	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 

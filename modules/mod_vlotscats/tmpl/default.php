@@ -41,43 +41,59 @@ if ($SefMode = $router->getMode()) {
           'virtuemart_category_id' => int 0 */
         $loaded_category_id = AuctionStuff::getCategoryIdByProductId(JRequest::getVar('virtuemart_product_id')); // 9
     }
-    // если загружена какая либо категория внутри основной:
+    // алиас ТОП-категории - если есть, значит внутри какой-либо из них (или во вложенной)
     $top_layout = $menus[JRequest::getVar('Itemid')]->query['layout'];
+    //commonDebug(__FILE__, __LINE__, $top_layout);
 }
-foreach ($session_links as $layout => $data) :
-    if ($test) { ?><div title="<?php 
-        echo $top_category_link; ?>"><b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
-        echo $top_category_link; ?>');">Ссылка раздела<br>hover, click</a></b></div><?php         
-    }?>
+foreach ($session_links as $layout => $data):
+    //commonDebug(__FILE__, __LINE__, $layout);
+    /** 
+     * Отобразить все категории, если не выбрана ни одна из них (включая ТОП)
+     * или только текущую ТОП-овую. */
+    if(!$top_layout||$top_layout==$layout):
+        /*if ($test):?>
+            <div title="<?php echo $top_category_link; ?>">
+                <b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
+            echo $top_category_link; ?>');">Ссылка раздела<br>hover, click</a></b>
+            </div><?php         
+        endif;*/
+    ?>
     <h3>
         <a href="<?php echo JRoute::_($data['parent_link']);?>"><?php 
-    echo $data['category_name']; ?></a>
+        echo $data['category_name']; ?></a>
             <span class="lots_count">(<?php echo $data['product_count']; ?>)</span>
     </h3>
     <ul>
-        <?php   
-    //commonDebug(__FILE__, __LINE__, $data['child_links']);
-    foreach ($data['child_links'] as $category_id => $category_data):?>
-        <li><a <?php   
-            if ($loaded_category_id && $loaded_category_id == $category_data['virtuemart_category_id']):
-                ?> style="color:brown;"<?php
-            endif;
-            ?> href="<?php 
-            // ссылка
-            echo ($SefMode)? 
-                    JRoute::_($category_data['sef'])
-                    : JRoute::_($category_data['link']);?>"><?php 
-            // имя категории
-            echo $category_data['category_name'];
-                ?></a>(<?php
-            // количество опубликованных предметов
-            echo $category_data['product_count'];
-                ?>)</li>
-<?php        
-    endforeach;
+    <?php   //commonDebug(__FILE__, __LINE__, $data['child_links']);
+        foreach ($data['child_links'] as $category_id => $category_data):
+            //commonDebug(__FILE__, __LINE__, $category_data);
+            /**
+                ["category_name"]=> "Русская живопись"
+                ["link"]=> "index.php?option=com_virtuemart&view=category&Itemid=125&virtuemart_category_id=31"
+                ["sef"]=> "/auction-ruseasons/аукцион/онлайн-торги/живопись-руси"
+                ["product_count"]=> "0"
+         */?>
+        <li><a <?php 
+            
+                if ($loaded_category_id && $loaded_category_id == $category_id):
+                    ?> style="color:brown;"<?php
+                endif;
+                ?> href="<?php 
+                // ссылка
+                echo ($SefMode)? 
+                        JRoute::_($category_data['sef'])
+                        : JRoute::_($category_data['link']);?>"><?php 
+                // имя категории
+                echo $category_data['category_name'];
+                    ?></a> (<?php
+                // количество опубликованных предметов
+                echo $category_data['product_count'];
+                    ?>)</li>
+<?php   endforeach;
     ?>
-    </ul>
+        </ul>
 <?php
+    endif;
 endforeach; ?>
 <br/>
 <?php

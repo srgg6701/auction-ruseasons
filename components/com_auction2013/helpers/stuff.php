@@ -569,6 +569,7 @@ WHERE cats_cats.category_parent_id = 0";
                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=
                 $products_count=0;
                 $section_links[$top_alias] = array(
+                                                'top_category_id'=>$top_cat_id,
                                                 'category_name'=>$array['top_category_name'],
                                                 'parent_link'=>$common_link .'0',
                                                 'product_count'=>$products_count,
@@ -654,21 +655,32 @@ class HTML{
 							){
 		$category_id=JRequest::getVar('virtuemart_category_id');
         $session=&JFactory::getSession();
-        $products_data=$session->get('products_data'); //var_dump("<pre>",$products_data,"<pre/>");
-        $section_data=$products_data[$layout]; // layout: shop, online...
+        $sections_data=$session->get('section_links');
+        //commonDebug(__FILE__, __LINE__, func_get_args());
+        $category_data=$sections_data[$layout];
+        //commonDebug(__FILE__, __LINE__, $category_data, false);        
+        //echo "<div>category_id = ".$category_id."</div>";
+        $section_data=$category_data[$layout]; // layout: shop, online...
         ?>
 <div class="top_list">
-    <h2><?php echo $section;
-
-        if((int)$category_id>0){
-			$cat=$section_data[$slug];
-			$subcat="<div style='font-weight:200;font-size: 16px;
-margin-top: 8px;'>".$cat['category_name']."</div>";
-			$lots = $cat['product_count'];
-		}else{
-			$lots=$section_data['prod_count'];
-		}
-		echo ". <div class=\"weak\">Лотов: ".$lots."</div>";?></h2>
+    <h2><div class="weak"><?php 
+        $lots = "Лотов";
+        // раздел вложенной категории
+        if($category_data['top_category_id']!=$category_id){
+			$category_data = $category_data['child_links'][$category_id];
+            ?><span style="color:#456;"><?php 
+                echo $category_data['category_name'];
+            ?>.</span>
+        <?php   
+		}else {
+            $lots.=" всего";
+            //echo $section; // ТОП категория
+        }
+        ?><span style="white-space:nowrap"><?php 
+                echo $lots;?>: <?php 
+                echo $category_data['product_count'];?></span>
+        </div>
+    </h2>
 <?php HTML::setCommonInnerMenu(array('user','take_lot'));?>    
 </div>    
 <?php $arrMenus=self::setBaseLink($layout);//
