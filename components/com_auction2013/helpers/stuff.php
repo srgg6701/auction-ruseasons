@@ -76,7 +76,7 @@ class AuctionStuff{
  */
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
 		// todo: разобраться в целесообразности...
-        $links = self::handleSessionLinks();
+        $links = self::handleSessionCategoriesData();
 		foreach($links as $layout=>$categories_links):
 			if(array_key_exists($virtuemart_category_id,$categories_links)){
 				$category_link=$categories_links[$virtuemart_category_id];
@@ -520,7 +520,7 @@ WHERE cats_cats.category_parent_id = 0";
 /**
  * Проверить наличие ранее сохранённых ссылок в сессии - извлечь или создать
  */    
-    public static function handleSessionLinks($file=false, $line=false){        
+    public static function handleSessionCategoriesData($file=false, $line=false){        
         static $cntr=1;
         
         $test=false;
@@ -562,9 +562,10 @@ WHERE cats_cats.category_parent_id = 0";
                 
                 $common_link.=self::$vm_category_id;
                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=
-                
+                $products_count=0;
                 $section_links[$top_alias] = array(
-                                                'parent_link'=>$common_link .'0', 
+                                                'parent_link'=>$common_link .'0',
+                                                'product_count'=>$products_count,
                                                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=0
                                                 'child_links'=>array() );
                 foreach ($array as $key => $array_data){
@@ -581,10 +582,14 @@ WHERE cats_cats.category_parent_id = 0";
                                 $child_category_link.=$andLayout;
                                 //testLinks($child_category_link,__LINE__, true);
                             }               
-                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']] = $child_category_link;                
+                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['link'] = $child_category_link;
+                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['product_count']=$category_data['product_count'];
+                            // будем подставлять в ТОП-категорию
+                            $products_count+=(int)$category_data['product_count'];
                         }
                     }
                 }
+                $section_links[$top_alias]['product_count']=$products_count;
             }
             JFactory::getSession()->set('section_links', $section_links);
             //commonDebug($file,$line,$section_links);
