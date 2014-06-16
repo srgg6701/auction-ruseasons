@@ -4,7 +4,8 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * test link function
  */
-$test=true;
+$test=false;
+require_once JPATH_BASE.'/tests.php';
 
 function testLinks($category_link,$line, $shop=false){
     $test=true;
@@ -22,21 +23,10 @@ function testLinks($category_link,$line, $shop=false){
     echo "</div>";
 }
 
-function commonDebug($line, $array=NULL, $stop=false){
-    $test=true;
-    if(!$test) return false;
-    echo "<div><b>file:</b> ".__FILE__."<br>
-    line: <span style='color:green'>".$line."</span></div>";
-    if($array){
-        echo "<div style='display: inline-block;padding:10px; background-color:#eee;margin-bottom:20px;'><pre>";
-        var_dump($array);
-        echo "</pre></div>"; 
-    }
-    if($stop) die();
-}
-
 $session = JFactory::getSession();
-
+/**
+    Сохранение ссылок в сессии необходимо для того, чтобы не 
+ */
 if (!$session->get('section_links') && !$test) :
     ?>
     <script>location.reload();</script>
@@ -52,8 +42,6 @@ $router = $app->getRouter();
 if ($SefMode = $router->getMode()) {
     $menu = JFactory::getApplication()->getMenu();
     $menus = $menu->getMenu();
-    //var_dump(JRequest::get('get'));
-    // var_dump($menus); die();
     // Не получим virtuemart_category_id в режиме ЧПУ при загрузке профайла предмета. Используем другой способ извлечения...
     if (!$loaded_category_id = JRequest::getVar('virtuemart_category_id')) {
         /* array
@@ -67,26 +55,15 @@ if ($SefMode = $router->getMode()) {
         $loaded_category_id = AuctionStuff::getCategoryIdByProductId(JRequest::getVar('virtuemart_product_id')); // 9
     }
     // если загружена какая либо категория внутри основной:
-    $top_layout = $menus[JRequest::getVar('Itemid')]->query['layout']; // shop, fulltime
-    //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-    //echo "<pre>";var_dump($top_layout);echo "</pre>"; die();
+    $top_layout = $menus[JRequest::getVar('Itemid')]->query['layout'];
 }
 ?>
 <br/>
 <?php
+// получить ассоциативный массив разделов ТОП-категорий вида [id]=>alias
 $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
-// get top categories aliases to substitute them as layouts:
 /**
   "online", "fulltime", "shop" */
-//echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-//$top_cats_aliases = AuctionStuff::getTopCatsLayouts();
-//echo "<pre>";var_dump($top_cats_menu_ids);echo "</pre>"; // die();
-//echo "<pre>";var_dump($top_cats_aliases);echo "</pre>"; // die();
-//echo "<pre>";var_dump($lots);echo "</pre>"; die();
-// online, fulltime, shop
-//$a = 0;
-// TODO: extract a whole link from the top cat menu params!
-// See data above: $top_cats_menu_ids
 $common_link_segment = 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=';
 $section_links = array();
 //
@@ -101,7 +78,7 @@ foreach ($lots as $top_cat_id => $array) {
 	<ul>';
     $test = true;
     // top cat layout (online, fulltime, shop)
-    commonDebug(__LINE__);
+    //commonDebug(__FILE__,__LINE__);
     foreach ($array as $key => $array_data):
         /**
             Вложенные категории: */
@@ -110,7 +87,7 @@ foreach ($lots as $top_cat_id => $array) {
                 
                 $layout = $top_cats_menu_ids[$top_category_layout];
         
-                //commonDebug(__LINE__,$category_data);
+                //commonDebug(__FILE__,__LINE__,$category_data);
                 
                 $product_count = (int) $category_data['product_count'];
                 $top_cat_count+=$product_count;
@@ -138,7 +115,7 @@ foreach ($lots as $top_cat_id => $array) {
                     testLinks($category_data['alias'],__LINE__);
                     testLinks($child_category_link,__LINE__);                
                 }*/
-                testLinks($child_category_link,__LINE__); 
+                //testLinks($child_category_link,__LINE__); 
 
                 $sub_cats_html.='
     <li><a ';
@@ -150,7 +127,7 @@ foreach ($lots as $top_cat_id => $array) {
                 $sub_cats_html.=JRoute::_($child_category_link);
                 $section_links[$top_category_layout][$category_data['virtuemart_category_id']] = $child_category_link;
                 //            [online, fulltime, shop][55] = 
-                //testLinks($child_category_link, __LINE__);
+                testLinks($child_category_link, __LINE__);
                 $sub_cats_html.='">' . $category_data['category_name'] . '</a> (' . $product_count . ')<br>
     </li>';
             endforeach;
