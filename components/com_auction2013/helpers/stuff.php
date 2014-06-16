@@ -7,7 +7,7 @@
  */
 
 defined('_JEXEC') or die;
-
+require_once JPATH_BASE.'/tests.php';
 /**
  * Users Route Helper
  *
@@ -77,13 +77,19 @@ class AuctionStuff{
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
 		// todo: разобраться в целесообразности...
         $links = self::handleSessionCategoriesData();
-		foreach($links as $layout=>$categories_links):
-			if(array_key_exists($virtuemart_category_id,$categories_links)){
-				$category_link=$categories_links[$virtuemart_category_id];
-				//echo "<div class=''>category_link= ".$category_link."</div>";
-				break;
-			}
-		endforeach;
+        echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+        echo "<div>virtuemart_category_id = ".$virtuemart_category_id."</div>";
+        commonDebug(__FILE__, __LINE__, $links, true);
+        foreach($top_cats as $layout=>$data){
+            
+            foreach($data['child_links'] as $layout=>$categories_links):
+                if(array_key_exists($virtuemart_category_id,$categories_links)){
+                    $category_link=$categories_links[$virtuemart_category_id];
+                    //echo "<div class=''>category_link= ".$category_link."</div>";
+                    break;
+                }
+            endforeach;
+        }
 		return $category_link;
 	}
 /**
@@ -525,13 +531,13 @@ WHERE cats_cats.category_parent_id = 0";
         
         $test=false;
         
-        if($file&&$line&&$test)
+        if($file&&$line&&$test){
             echo "<div>
                 <div style='padding:10px; background-color:yellow'>call: <b>".__METHOD__."</b></div>
                 <b>file:</b> ".$file."<br>line: <span style='color:green'>".$line."</span>
             </div>";
-        echo "<h1 class='test' style='color:red;'>cntr = ".$cntr."</h1>"; //die();
-        
+            echo "<h1 class='test' style='color:red;'>cntr = ".$cntr."</h1>"; //die();
+        }
         /** 
          * если метод вызывается впервые в течение загрузки страницы, 
          * сгенерировать набор ссылок на категории/разделы_предметов
@@ -542,9 +548,10 @@ WHERE cats_cats.category_parent_id = 0";
         if($cntr==1){
             //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
             $section_links = array();
-            $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');   
+            $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
+            require_once JPATH_BASE.'/modules/mod_vlotscats/helper.php';
             $lots = modVlotscatsHelper::getCategoriesData(true);
-            commonDebug(__FILE__,__LINE__,$lots);
+            //commonDebug(__FILE__,__LINE__,$lots);
             $section_links = array();
             $sefMode = JApplication::getRouter()->getMode();
             foreach ($lots as $top_cat_id => $array){ 
@@ -564,6 +571,7 @@ WHERE cats_cats.category_parent_id = 0";
                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=
                 $products_count=0;
                 $section_links[$top_alias] = array(
+                                                'category_name'=>$array['top_category_name'],
                                                 'parent_link'=>$common_link .'0',
                                                 'product_count'=>$products_count,
                                                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=0
@@ -572,17 +580,15 @@ WHERE cats_cats.category_parent_id = 0";
                     if ($key == 'children'){
                         foreach ($array_data as $i => $category_data){
                             // index.php?option=com_virtuemart&view=category&Itemid=31&virtuemart_category_id=
-                            $child_category_link =  self::$common_link_segment . 
-                                                    $category_data['virtuemart_category_id'] . 
-                                                    self::$vm_category_id .
-                                                    $parentItemId;
+                            $child_category_link =  self::$common_link_segment . $parentItemId 
+                                                    . self::$vm_category_id 
+                                                    . $category_data['virtuemart_category_id'];
                             //testLinks($child_category_link,__LINE__);
-                            if ($top_alias == 'shop' && $sefMode){  
-                                // добавить ссылку на HTML-шаблон магазина:
-                                $child_category_link.=$andLayout;
-                                //testLinks($child_category_link,__LINE__, true);
-                            }               
-                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['link'] = $child_category_link;
+                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['category_name'] = $category_data['category_name'];
+                            // http://2013.auction-ruseasons.ru/index.php?option=com_virtuemart&view=category&virtuemart_category_id=26&Itemid=126
+                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['link'] = $child_category_link;                            
+                            if($sefMode)
+                                $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['sef'] = JRoute::_($section_links[$top_alias]['parent_link']).'/'.$category_data['alias'];
                             $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['product_count']=$category_data['product_count'];
                             // будем подставлять в ТОП-категорию
                             $products_count+=(int)$category_data['product_count'];

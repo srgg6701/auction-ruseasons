@@ -23,13 +23,11 @@ function testLinks($category_link,$line, $shop=false){
     echo "</div>";
 }
 
-$session = JFactory::getSession();
+//$session = JFactory::getSession();
+//$session->clear('section_links');
 
-$session->clear('section_links');
-
-//AuctionStuff::handleSessionLinks(__FILE__,__LINE__);
 $session_links=AuctionStuff::handleSessionCategoriesData();
-commonDebug(__FILE__,__LINE__,$session_links, true); 
+//commonDebug(__FILE__,__LINE__,$session_links); 
 
 /**
     Сохранение ссылок в сессии необходимо для того, чтобы не 
@@ -44,9 +42,8 @@ endif;*/
 //$session->clear('section_links');
 //var_dump($section_links); die();
 // get categories:
-$lots = modVlotscatsHelper::getCategoriesData(true);
+//$lots = modVlotscatsHelper::getCategoriesData(true);
 $router = $app->getRouter();
-
 if ($SefMode = $router->getMode()) {
     $menu = JFactory::getApplication()->getMenu();
     $menus = $menu->getMenu();
@@ -65,11 +62,46 @@ if ($SefMode = $router->getMode()) {
     // если загружена какая либо категория внутри основной:
     $top_layout = $menus[JRequest::getVar('Itemid')]->query['layout'];
 }
-?>
+foreach ($session_links as $layout => $data) :
+    if ($test) { ?><div title="<?php 
+        echo $top_category_link; ?>"><b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
+        echo $top_category_link; ?>');">Ссылка раздела<br>hover, click</a></b></div><?php         
+    }?>
+    <h3>
+        <a href="<?php echo JRoute::_($data['parent_link']);?>"><?php 
+    echo $data['category_name']; ?></a>
+            <span class="lots_count">(<?php echo $data['product_count']; ?>)</span>
+    </h3>
+    <ul>
+        <?php   
+    //commonDebug(__FILE__, __LINE__, $data['child_links']);
+    foreach ($data['child_links'] as $category_id => $category_data):?>
+        <li><a <?php   
+            if ($loaded_category_id && $loaded_category_id == $category_data['virtuemart_category_id']):
+                ?> style="color:brown;"<?php
+            endif;
+            ?> href="<?php 
+            // ссылка
+            echo ($SefMode)? 
+                    JRoute::_($category_data['sef'])
+                    : JRoute::_($category_data['link']);?>"><?php 
+            // имя категории
+            echo $category_data['category_name'];
+                ?></a>(<?php
+            // количество опубликованных предметов
+            echo $category_data['product_count'];
+                ?>)</li>
+<?php        
+    endforeach;
+    ?>
+    </ul>
+<?php
+endforeach; ?>
 <br/>
 <?php
 $old=false;
 if($old):
+    $lots = modVlotscatsHelper::getCategoriesData(true);
     // получить ассоциативный массив разделов ТОП-категорий вида [id]=>alias
     //*
     $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');

@@ -34,15 +34,19 @@ $templateUrl=JUri::root().'templates/auction/';?>
 <?php require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
 $virtuemart_category_id=$this->product->virtuemart_category_id;
 $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
-if($router = JFactory::getApplication()->getRouter()){
+
+/*if($router = JFactory::getApplication()->getRouter()){
 	$session=&JFactory::getSession();
 	$links=$session->get('section_links');
-}
+}*/
+
+//commonDebug(__FILE__, __LINE__, $this->product, false);
+
 HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
-<?php if($SefMode=$router->getMode())
+<?php if($SefMode=JFactory::getApplication()->getRouter()->getMode())
 		$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
 	
 	// получить предыдущий-следующий предметы в категории:	
