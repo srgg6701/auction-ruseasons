@@ -12,7 +12,7 @@
 // require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS."helpers".DS."helper_name.php";
 // No direct access
 defined('_JEXEC') or die;
-
+require_once JPATH_BASE.'/tests.php';
 class Auction2013Controller extends JController
 {
 	/**

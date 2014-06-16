@@ -24,16 +24,24 @@ function testLinks($category_link,$line, $shop=false){
 }
 
 $session = JFactory::getSession();
+
+$session->clear('section_links');
+
+//AuctionStuff::handleSessionLinks(__FILE__,__LINE__);
+$session_links=AuctionStuff::handleSessionLinks();
+commonDebug(__FILE__,__LINE__,$session_links, true); 
+
 /**
     Сохранение ссылок в сессии необходимо для того, чтобы не 
  */
+/*
 if (!$session->get('section_links') && !$test) :
     ?>
     <script>location.reload();</script>
     <?php 
-endif;
+endif;*/
 // Использовать только во время тестирования:
-$session->clear('section_links');
+//$session->clear('section_links');
 //var_dump($section_links); die();
 // get categories:
 $lots = modVlotscatsHelper::getCategoriesData(true);
@@ -61,19 +69,22 @@ if ($SefMode = $router->getMode()) {
 <br/>
 <?php
 // получить ассоциативный массив разделов ТОП-категорий вида [id]=>alias
+//*
 $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
 /**
   "online", "fulltime", "shop" */
-$common_link_segment = 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=';
+//*
+$common_link_segment = AuctionStuff::$common_link_segment;
 $section_links = array();
 //
 $show_online = true; // TODO: УБРАТЬ это доп. условие после окончания работ
 foreach ($lots as $top_cat_id => $array) {
     $top_category_layout = $array['top_category_layout'];
-    $section_links[$top_category_layot] = array();
+    $section_links[$top_category_layout] = array();
     $top_cat_count = 0;
     // HTML-шаблон:
-    $andLayout = '&layout=' . $top_category_layout;//$top_cats_aliases[$a];
+    //*
+    $andLayout =  AuctionStuff::$andLayout. $top_category_layout;
     $sub_cats_html = '
 	<ul>';
     $test = true;
@@ -83,21 +94,19 @@ foreach ($lots as $top_cat_id => $array) {
         /**
             Вложенные категории: */
         if ($key == 'children'):
-            foreach ($array_data as $i => $category_data):
-                
-                $layout = $top_cats_menu_ids[$top_category_layout];
-        
-                //commonDebug(__FILE__,__LINE__,$category_data);
-                
+            foreach ($array_data as $i => $category_data):                
+                $parentItemId = $top_cats_menu_ids[$top_category_layout];        
+                //commonDebug(__FILE__,__LINE__,$category_data);                
                 $product_count = (int) $category_data['product_count'];
                 $top_cat_count+=$product_count;
-                
+                //*
                 $child_category_link = $common_link_segment . $category_data['virtuemart_category_id'];
                 //testLinks($child_category_link,__LINE__);
-                
-                $child_category_link.='&Itemid=' . $layout;
+                //*
+                $child_category_link.='&Itemid=' . $parentItemId;
                 //testLinks($child_category_link,__LINE__);
                 
+                //*
                 if ($top_category_layout == 'shop'){  
                     // добавить ссылку на HTML-шаблон магазина:
                     $child_category_link.=$andLayout;
@@ -106,12 +115,12 @@ foreach ($lots as $top_cat_id => $array) {
                 
                 /*if ($SefMode) {
                     $child_category_link = JUri::base();
-                    if ($layout != 'shop') {
-                        $child_category_link.= $menus[$menus[$layout]->parent_id]->alias . '/';
+                    if ($parentItemId != 'shop') {
+                        $child_category_link.= $menus[$menus[$parentItemId]->parent_id]->alias . '/';
                         testLinks($child_category_link,__LINE__);                                    
                     }
-                    $child_category_link.= $menus[$layout]->alias . '/' . $category_data['alias'];
-                    testLinks($menus[$layout]->alias,__LINE__); 
+                    $child_category_link.= $menus[$parentItemId]->alias . '/' . $category_data['alias'];
+                    testLinks($menus[$parentItemId]->alias,__LINE__); 
                     testLinks($category_data['alias'],__LINE__);
                     testLinks($child_category_link,__LINE__);                
                 }*/
@@ -145,13 +154,9 @@ foreach ($lots as $top_cat_id => $array) {
     if (!$SefMode)
         $top_category_link.=$andLayout;
     
-    $top_category_link.='&Itemid=' . $layout;
-    //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-    //echo "<div>top_category_layout = ".$top_category_layout."</div>";
-    //$layout;
+    $top_category_link.='&Itemid=' . $parentItemId;
     
     if ( !$top_layout // Загружен раздел ТОП-категории
-         || $top_category_layout == $top_layout // 
          || !key_exists($top_layout, $top_cats_menu_ids)
          //|| !in_array($top_layout, $top_cats_aliases 
        ) {
@@ -168,19 +173,20 @@ foreach ($lots as $top_cat_id => $array) {
          Itemid=125 */
         ?>
         <h3>
-            <a href="<?= JRoute::_($top_category_link) ?>"><?= $array['top_category_name'] ?></a>
+            <a href="<?php 
+        //JRoute::_($top_category_link) ?>"><?php 
+        //$array['top_category_name'] ?></a>
                 <span class="lots_count">(<?= $top_cat_count ?>)</span>
         </h3>
             <?php
             echo $sub_cats_html;
         }
-        $a++;
+        
     }
-    $session->set('section_links', $section_links);
     // test session links:
     if(JRequest::getVar('slinks')){
         echo "<pre>"; 
-        var_dump($section_links); 
+        var_dump($session_links); 
         echo '</pre>';
         if(JRequest::getVar('stop'))
             die();

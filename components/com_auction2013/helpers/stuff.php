@@ -16,6 +16,9 @@ defined('_JEXEC') or die;
  * @since		1.6
  */
 class AuctionStuff{
+    static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
+    static $andLayout = '&layout=';
+    static $vm_category_id = '&virtuemart_category_id=';
 /**
  * Добавить предмет в избранное
  * @package
@@ -72,15 +75,8 @@ class AuctionStuff{
  * @subpackage
  */
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
-		if(!isset($cntr))
-            static $cntr=1;
-        else $cntr++;
-        echo "<h1 class='test' style='color:red;'>cntr = ".$cntr."</h1>";
-        if(!$links){
-			$session=JFactory::getSession();
-			$links=$session->get('section_links');
-			//var_dump($links); echo('links?!');
-		}
+		// todo: разобраться в целесообразности...
+        $links = self::handleSessionLinks();
 		foreach($links as $layout=>$categories_links):
 			if(array_key_exists($virtuemart_category_id,$categories_links)){
 				$category_link=$categories_links[$virtuemart_category_id];
@@ -521,6 +517,89 @@ WHERE cats_cats.category_parent_id = 0";
 		ob_clean();
 		return $fields;
 	}
+/**
+ * Проверить наличие ранее сохранённых ссылок в сессии - извлечь или создать
+ */    
+    public static function handleSessionLinks($file=false, $line=false){        
+        static $cntr=1;
+        
+        $test=false;
+        
+        if($file&&$line&&$test)
+            echo "<div>
+                <div style='padding:10px; background-color:yellow'>call: <b>".__METHOD__."</b></div>
+                <b>file:</b> ".$file."<br>line: <span style='color:green'>".$line."</span>
+            </div>";
+        echo "<h1 class='test' style='color:red;'>cntr = ".$cntr."</h1>"; //die();
+        
+        /** 
+         * если метод вызывается впервые в течение загрузки страницы, 
+         * сгенерировать набор ссылок на категории/разделы_предметов
+         * и сохранить в сессии, чтобы не вызывать процедуру генерации
+         * повторно на случай, если метод будет вызыван снова (если потребуется
+         * получить ссылки ещё раз).
+         */
+        if($cntr==1){
+            //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
+            $section_links = array();
+            $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');   
+            $lots = modVlotscatsHelper::getCategoriesData(true);
+            commonDebug(__FILE__,__LINE__,$lots);
+            $section_links = array();
+            $sefMode = JApplication::getRouter()->getMode();
+            foreach ($lots as $top_cat_id => $array){ 
+                $top_alias = $array['top_category_layout']; // online, fulltime, shop
+                $parentItemId = $top_cats_menu_ids[$top_alias];
+                $common_link =  self::$common_link_segment . 
+                                //index.php?option=com_virtuemart&view=category&Itemid= 
+                                $parentItemId; // 115
+                
+                $andLayout = self::$andLayout . $top_alias;
+                
+                if (!$sefMode)
+                    $common_link.=$andLayout;
+                // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop
+                
+                $common_link.=self::$vm_category_id;
+                // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=
+                
+                $section_links[$top_alias] = array(
+                                                'parent_link'=>$common_link .'0', 
+                                                // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=0
+                                                'child_links'=>array() );
+                foreach ($array as $key => $array_data){
+                    if ($key == 'children'){
+                        foreach ($array_data as $i => $category_data){
+                            // index.php?option=com_virtuemart&view=category&Itemid=31&virtuemart_category_id=
+                            $child_category_link =  self::$common_link_segment . 
+                                                    $category_data['virtuemart_category_id'] . 
+                                                    self::$vm_category_id .
+                                                    $parentItemId;
+                            //testLinks($child_category_link,__LINE__);
+                            if ($top_alias == 'shop' && $sefMode){  
+                                // добавить ссылку на HTML-шаблон магазина:
+                                $child_category_link.=$andLayout;
+                                //testLinks($child_category_link,__LINE__, true);
+                            }               
+                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']] = $child_category_link;                
+                        }
+                    }
+                }
+            }
+            JFactory::getSession()->set('section_links', $section_links);
+            //commonDebug($file,$line,$section_links);
+            $cntr++;
+        }else{
+            /*  если метод вызывается повторно в течение загрузки страницы и при
+                этом ссылки уже были сгенерированы - извлечь их из сессии */
+            //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
+            if(!$section_links=JFactory::getSession()->get('section_links')){
+                die("Не получены ссылки предметов из сессии.<br>file: ".__FILE__."<br>".__METHOD__);
+                return false;
+            }
+        }
+        return $section_links;
+    }
 }
 
 class HTML{
