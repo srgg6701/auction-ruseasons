@@ -9,8 +9,6 @@
  * @author srgg6701
  */
 
-//vmdebug('$this->category',$this->category);
-vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 //var_dump(JRequest::get('get'));

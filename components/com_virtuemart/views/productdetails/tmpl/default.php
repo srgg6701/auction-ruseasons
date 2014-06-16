@@ -21,28 +21,21 @@
 defined('_JEXEC') or die('Restricted access');
 
 			
-			if(JRequest::getVar('source')):
-				require_once 'source/default.php';
-			
-			else:
+if(JRequest::getVar('source')):
+    require_once 'source/default.php';
 
-
-$base_path=JUri::root();
-$templateUrl=JUri::root().'templates/auction/';?>
+else:
+    $base_path=JUri::root();
+    $templateUrl=JUri::root().'templates/auction/';?>
 <link href="<?=$templateUrl?>magic_zoom/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen">
 <script src="<?=$templateUrl?>magic_zoom/magiczoomplus.js" type="text/javascript"></script>
-<?php require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
-$virtuemart_category_id=$this->product->virtuemart_category_id;
-$virtuemart_product_id=(int)$this->product->virtuemart_product_id;
+<?php 
+    require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
+    $virtuemart_category_id=$this->product->virtuemart_category_id;
+    $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
 
-/*if($router = JFactory::getApplication()->getRouter()){
-	$session=&JFactory::getSession();
-	$links=$session->get('section_links');
-}*/
-
-//commonDebug(__FILE__, __LINE__, $this->product, false);
-
-HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));?>
+    HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));
+    ?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
@@ -50,9 +43,6 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
     $SefMode=JFactory::getApplication()->getRouter()->getMode();
     // возвращает ссылку уже в нужном (обычный/ЧПУ) виде:
     $category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
-	//echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-    //die('link: '.$category_link);
-	// получить предыдущий-следующий предметы в категории:	
 	$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
 	$hide=' style="visibility:hidden"';
 
@@ -79,15 +69,15 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
         
 		?>>Следующий <!--(<?=$next_prod_id?>)-->&gt; &gt;</a></li>
     </ul>
-  </div><?php // var_dump($this->product->images); die();
+</div><?php // var_dump($this->product->images); die();
   ?>
-<form method="post" id="add_to_favorite" name="add_to_favorite" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.addToFavorites'); ?>">    
-    <input type="submit" name="btn_favor" id="btn_favor" value="добавить в избранное">
-	<input type="hidden" name="option" value="com_auction2013" />
-	<input type="hidden" name="task" value="auction2013.addToFavorites" />
-    <input type="hidden" name="virtuemart_product_id" value="<?=$this->product->virtuemart_product_id?>" />
-	  <?php echo JHtml::_('form.token');?>        
-</form>  
+    <form method="post" id="add_to_favorite" name="add_to_favorite" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.addToFavorites'); ?>">    
+        <input type="submit" name="btn_favor" id="btn_favor" value="добавить в избранное">
+        <input type="hidden" name="option" value="com_auction2013" />
+        <input type="hidden" name="task" value="auction2013.addToFavorites" />
+        <input type="hidden" name="virtuemart_product_id" value="<?=$this->product->virtuemart_product_id?>" />
+          <?php echo JHtml::_('form.token');?>        
+    </form>  
 </div>
 <div>
   <div class="gallery_lot">
@@ -122,10 +112,8 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
                     
             
         <div class="clr"></div>
-   	</div>
-    
+   	</div>   
   </div>
-
   <div class="box_desc">
     <div class="bord_bottom">
       <b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
@@ -181,4 +169,5 @@ HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_abo
       </span>
     </div>
   </div>        
-</div><?php endif;
+</div><?php 
+endif;

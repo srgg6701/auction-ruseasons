@@ -43,7 +43,7 @@ if ( VmConfig::get ('showCategory', 1) &&
 		<div>
 		<?php foreach ($this->category->children as $category) :
 				// Category Link
-            // $url, $xhtml = true, $ssl = null, $show = false, $test=false
+                // $url, $xhtml = true, $ssl = null, $show = false, $test=false
                 echo "<div>url: ".JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' .
                         $category->virtuemart_category_id, true, null, false, true)."</div>";
 

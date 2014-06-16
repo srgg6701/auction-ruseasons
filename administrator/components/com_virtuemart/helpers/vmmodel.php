@@ -718,6 +718,4 @@ class VmPagination extends JPagination {
 		}
 		return $html;
 	}
-
-
 }
