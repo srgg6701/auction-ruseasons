@@ -14,6 +14,10 @@
        -- product_prices. override, product_prices. product_override_price,
        product_prices. product_price_publish_up   AS publish_up,
        product_prices. product_price_publish_down AS publish_down,
+  DATE_FORMAT(products.product_available_date,"%d.%m.%Y %h:%i")       
+                                                  AS 'auction_start',
+  DATE_FORMAT(products.auction_date_finish,"%d.%m.%Y %h:%i")              
+                                                  AS 'auction_finish',
        IF ( product_prices.created_on <> product_prices.modified_on, 
              CONCAT( DATE_FORMAT(product_prices.created_on, '%d.%m.%Y %h:%i'), 
                      ", ", 
