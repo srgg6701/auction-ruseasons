@@ -190,6 +190,7 @@ class VirtueMartModelProduct extends VmModel {
     ) {
 
         /* 	MODIFIED START */
+        include_once JPATH_SITE.DS.'tests.php';
         if ($this->top_category) {
             $query = "SELECT DISTINCT prices.virtuemart_product_id
         FROM #__virtuemart_product_categories        AS cats 
@@ -201,9 +202,19 @@ class VirtueMartModelProduct extends VmModel {
                AND prices.product_price_publish_up < NOW() 
                AND prices.product_price_publish_down > NOW()  
           ORDER BY prices.product_price_publish_up ";
-            //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-            //echo "<div>this.top_category = ".$this->top_category."</div>";
-            //echo "<div>query = ".$query."</div>";
+            //testSQL($query, __FILE__, __LINE__, true);
+            return JFactory::getDbo()->setQuery($query)->loadColumn();
+        }elseif($virtuemart_category_id){
+            $query="SELECT  p.virtuemart_product_id
+  FROM `#__virtuemart_products`            AS p,
+       `#__virtuemart_product_categories`  AS pc,
+       `#__virtuemart_product_prices`      AS prices
+ WHERE pc.    `virtuemart_category_id` = $virtuemart_category_id
+   AND p.     `virtuemart_product_id`  = pc. `virtuemart_product_id`
+   AND prices.`virtuemart_product_id`  = pc. `virtuemart_product_id`
+   AND p.     `published` = '1'
+   AND prices.`product_price_publish_up`  < NOW() 
+   AND prices.`product_price_publish_down`> NOW()";
             return JFactory::getDbo()->setQuery($query)->loadColumn();
         }
         /* 	MODIFIED END	 */
@@ -1143,6 +1154,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
      */
     public function getProductsInCategory($categoryId) {
         //echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
+        //echo "<div>categoryId = ".$categoryId."</div>"; die();
         $ids = $this->sortSearchListQuery(TRUE, $categoryId);
         //echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
         //echo "<pre>"; var_dump($ids); echo "</pre>"; // die();
@@ -1443,6 +1455,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         if (isset($data['intnotes'])) {
             $data['intnotes'] = trim($data['intnotes']);
         }
+        // todo: убрать закомментированный код:
         // Setup some place holders
         /* 	MODIFIED START 	 */
         // скорректировать дату/время:

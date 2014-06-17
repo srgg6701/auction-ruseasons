@@ -5,6 +5,7 @@ defined('_JEXEC') or die('Restricted access');
  * получим методы основного класса:
  */
 require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+require_once JPATH_SITE.DS.'tests.php';
 
 class modVlotscatsHelper extends JModuleHelper
 {	
@@ -33,7 +34,8 @@ ORDER BY cats.ordering';
 		return $db->loadAssocList(); 
 	}
 /**
- * Извлечь все (или только опубликованные) категории
+ * Извлечь данные всех или только опубликованных предметов в категориях
+ * @published - если передан - извлечь данные только опубликованных предметов
  * @package
  * @subpackage
  */
@@ -124,9 +126,8 @@ ORDER BY cats.ordering';
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
 				 $order;
-            //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-			//echo "<div class=''><pre>q= ".str_replace("#_","auc13",$q)."</pre></div>"; die();
-			$db->setQuery($q);
+            //testSQL($q,__FILE__,__LINE__,true);
+            $db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(
 						'top_category_alias'    => $top_cat['alias'],

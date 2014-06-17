@@ -38,7 +38,7 @@ SELECT
               ON prod_prices.virtuemart_product_id = prod_ru_ru.virtuemart_product_id
              AND prod_prices.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_dev_sales_price                    AS sales_prices
-              ON sales_prices.virtuemart_product_id = prod.virtuemart_product_id
+              ON sales_prices.virtuemart_product_id = prod_prices.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_product_categories      AS prod_cats
               ON prod_cats.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_categories_ru_ru        AS cats_ruru

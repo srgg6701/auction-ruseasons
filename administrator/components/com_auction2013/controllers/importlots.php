@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 // подключить главный контроллер компонента:
 require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'controller.php';
-require_once JPATH_SITE.DS.'tests.php';
+include_once JPATH_SITE.DS.'tests.php';
 /**
  * Customer_orders controller class.
  */

@@ -22,3 +22,13 @@ function commonDebug($file, $line, $object=NULL, $stop=false){
     echo "</pre></div>"; 
     if($stop) die();
 }
+/**
+ * Вывести запрос в виде, подходящем для прямого тестирования
+ */
+function testSQL($query,$file=false,$line=false,$stop=false,$class='test'){
+    if($file&&$line)
+        echo "<div><b>file:</b> ".$file."<br>line: <span style='color:green'>".$line."</span></div>";			
+    echo "<div class='$class' style='padding:10px; background-color:rgb(254, 239, 242); display: inline-block; margin-bottom:20px;'>
+            <pre><b>query:</b><br>".str_replace("#_","auc13",$query)."</pre></div>"; 
+    if($stop) die();
+}

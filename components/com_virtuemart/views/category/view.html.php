@@ -18,6 +18,7 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+include_once JPATH_SITE.DS.'tests.php';
 
 // Load the view framework
 if(!class_exists('VmView'))require(JPATH_VM_SITE.DS.'helpers'.DS.'vmview.php');
@@ -178,7 +179,7 @@ class VirtuemartViewCategory extends VmView {
 		// Load the products in the given category
         //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
 	    $products = $productModel->getProductsInCategory($categoryId);
-        //echo "categoryId = $categoryId<pre>";var_dump($products);echo "</pre>"; die();
+        //commonDebug(__FILE__, __LINE__, $products, true);
 
         $productModel->addImages($products,1);
 

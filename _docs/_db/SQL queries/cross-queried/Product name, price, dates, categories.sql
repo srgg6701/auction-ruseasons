@@ -4,13 +4,22 @@
        products.                                     contract_number,
        products.                                     lot_number,
     -- product_categories. virtuemart_category_id     AS category_id,
-     CONCAT( (select category_name 
+     CONCAT( 
+        CONCAT( (select virtuemart_category_id 
+                FROM auc13_virtuemart_categories_ru_ru    AS ctsru, 
+                    auc13_virtuemart_category_categories AS catscats
+              WHERE ctsru.virtuemart_category_id = catscats.category_parent_id
+                AND catscats.category_child_id = product_categories. virtuemart_category_id), 
+                 ":", 
+                (select category_name 
                 FROM auc13_virtuemart_categories_ru_ru    AS ctsru, 
                     auc13_virtuemart_category_categories AS catscats
               WHERE ctsru.virtuemart_category_id = catscats.category_parent_id
                 AND catscats.category_child_id = product_categories. virtuemart_category_id
-            ),"/",
-     categories_ru_ru.             category_name) AS categories,
+            )
+        ),"/",
+        CONCAT( categories_ru_ru.virtuemart_category_id, ":", 
+     categories_ru_ru.             category_name)) AS categories,
        -- product_prices. override, product_prices. product_override_price,
        product_prices. product_price_publish_up   AS publish_up,
        product_prices. product_price_publish_down AS publish_down,
