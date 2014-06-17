@@ -1421,7 +1421,11 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
     ) {
 
         JRequest::checkToken() or jexit('Invalid Token');
-
+        /* 	MODIFIED START 	 */ 
+        require_once JPATH_SITE.DS.'tests.php';
+        commonDebug(__FILE__, __LINE__, $product, false);
+        //commonDebug(__FILE__, __LINE__, $product_data, true);
+        /* 	MODIFIED END	 */
         if ($product) {
             $data = (array) $product;
         }
@@ -1443,7 +1447,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         /* 	MODIFIED START 	 */
         // скорректировать дату/время:
         //echo "<hr><pre>";var_dump($data['mprices']); echo "</pre><hr>";
-        $time_zero = "00:00:00";
+        /*$time_zero = "00:00:00";
         $zero_zero = ":00";
 
         $handle_datetime = function(&$dt, $dt_plus) use($time_zero, $zero_zero) {
@@ -1457,10 +1461,10 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             }
         };
 
-        $handle_datetime($data['mprices']['product_price_publish_up'][0], $data['publish_time_from']);
-        $handle_datetime($data['mprices']['product_price_publish_down'][0], $data['publish_time_to']);
+        $handle_datetime($data['mprices']['product_price_publish_up'], $data['publish_time_from']);
+        $handle_datetime($data['mprices']['product_price_publish_down'], $data['publish_time_to']);
         $handle_datetime($data['product_available_date'], $data['auction_time_from']);
-        $handle_datetime($data['auction_date_finish'], $data['auction_time_to']);
+        $handle_datetime($data['auction_date_finish'], $data['auction_time_to']); */
 
         /* $data['mprices']['product_price_publish_up'][0]     = str_replace($time_zero, $data['publish_time_from'] . $zero_zero, $data['mprices']['product_price_publish_up'][0]);
           $data['mprices']['product_price_publish_down'][0]   = str_replace($time_zero, $data['publish_time_to']   . $zero_zero, $data['mprices']['product_price_publish_down'][0]);
@@ -1482,6 +1486,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             $data['product_packaging'] = str_replace(',', '.', $data['product_packaging']);
         }
 
+        //commonDebug(__FILE__, __LINE__, $data, true);
         // with the true, we do preloading and preserve so old values note by Max Milbers
         // $product_data->bindChecknStore ($data, $isChild);
         $stored = $product_data->bindChecknStore($data, TRUE);

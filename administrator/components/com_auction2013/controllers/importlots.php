@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 // подключить главный контроллер компонента:
 require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'controller.php';
-require_once JPATH_BASE.DS.'tests.php';
+require_once JPATH_SITE.DS.'tests.php';
 /**
  * Customer_orders controller class.
  */
@@ -321,10 +321,11 @@ class Auction2013ControllerImportlots extends JControllerForm
 						$cell_content=$cells[$i];
 						// если первая строка файла - собираем заголовки:
 						if(!$row_count){ 
-							// если поле не было добавлено ранее. 
-							// нужно, чтобы предотвратить более одного добавления
-							// картинок, т.к., остальные должны добавляться
-							// ПОСЛЕ добавления записи в БД:
+							/** 
+                            если поле не было добавлено ранее. 
+							нужно, чтобы предотвратить более одного добавления
+							картинок, т.к., остальные должны добавляться
+							ПОСЛЕ добавления записи в БД: */
 							if( !in_array($cell_content,$columns_names)
 							    && $cell_content
 								&& $cell_content != 'img'
@@ -338,7 +339,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							} 
 							
 						}else{
-							
+							// назначим индекс поля с данными
 							$data_index=$row_count-1;
 							if (isset($enc_from)&&isset($enc_to))
 								$cell_content=iconv($enc_from,$enc_to,$cell_content);							
@@ -352,8 +353,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'date_hide':   // дата окончания публикации
                                     case 'date_start':  // начало аукциона (для разделов "Онлайн/Очные торги")
                                     case 'date_stop':   // конец аукциона
-										$dt=explode('.',$cell_content);
-										$data[$data_index][$arrFields[$column_name]]=trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
+										$dt     = explode('.',$cell_content);
+                                        $yt     = explode(' ',$dt[2]);
+                                        $year   = trim($yt[0]);
+                                        $time   = trim($yt[1]);
+										$data[$data_index][$arrFields[$column_name]]=$year.'-'.trim($dt[1]).'-'.trim($dt[0]).' '.$time;
+                                        
 									break;
 									case 'price':       // основная цена
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
@@ -363,20 +368,22 @@ class Auction2013ControllerImportlots extends JControllerForm
 									// break;
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
-								} 
+								}
+                                //echo "<div>line: ".__LINE__.", \$data[$data_index][".$arrFields[$column_name]."] = ".$cell_content."</div>";
+                                //if($column_name=='sales_price') echo "<hr color='orange'>";
 							}else{
 								// сформировать массив вторичных картинок:
 								$picExt=array_pop(explode('.',$cell_content));
 								if(in_array(strtolower($picExt),$imgExt)){
 									$images[$data_index][]=$cell_content;
 								}
-							}
+							}   
 							if(!$images[$data_index])
 								$images[$data_index]=array();
-						}
+						}   //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div><hr color='orange'>";
 					}
-					$row_count++;
-				}
+					$row_count++;                    
+				}   
                 fclose($handle);
 			} // //var_dump($images);//die(); //echo "<hr><hr>";
 			
@@ -426,8 +433,9 @@ class Auction2013ControllerImportlots extends JControllerForm
 						); /*?>
             <h4>Импортированные предметы:</h4>
 			<?*/	// var_dump($data); //die(); echo "<hr><hr>";
-			foreach($data as $i=>$data_stream){ //var_dump($data_stream);//die();
-				/**
+			foreach($data as $i=>$data_stream){ 
+                // commonDebug(__FILE__, __LINE__, $data_stream);
+                /**
                  Конвертировать статические данные массива $arrDataToUpdate
                  в данные массива $data_stream: */
                 foreach($arrDataToUpdate as $field => $content)
@@ -435,10 +443,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 				$data_stream['mprices']['product_currency']=array('131');
 				$data_stream['mprices']['product_override_price']=array('0,00000');
-				$data_stream['mprices']['product_price_publish_up']=array('0000-00-00 0:00:00');
-				$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
-				//$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
-				//$virtuemart_product_id = 35+$i	
+				$data_stream['mprices']['product_price_publish_up']=array($data_stream['product_price_publish_up']);
+                $data_stream['mprices']['product_price_publish_down']=array($data_stream['product_price_publish_down']);
+                
+                unset($data_stream['product_price_publish_up'],$data_stream['product_price_publish_down']);
+                // commonDebug(__FILE__, __LINE__, $data_stream, true);
+                //$virtuemart_product_id = 35+$i	
 				/**
                  ИМПОРТИРОВАТЬ данные                 */
                 if($virtuemart_product_id=$VmController->import($model,$data_stream)){

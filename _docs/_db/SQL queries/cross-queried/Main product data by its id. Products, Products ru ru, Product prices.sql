@@ -1,8 +1,11 @@
 SELECT
-  DISTINCT prod.virtuemart_product_id  AS product_id,
-  prod.product_sku AS 'contract',
-  prod_ru_ru.product_name AS 'item name',
-  prod.product_in_stock AS 'count', -- колич. предметов  
+  DISTINCT prod.virtuemart_product_id   AS product_id,
+  prod.                                    auction_number,
+  prod. product_sku                     AS 'артикул',
+  prod.                                    contract_number,
+  prod.                                    lot_number,
+  prod_ru_ru.product_name               AS 'item name',
+  prod.product_in_stock                 AS 'count', -- колич. предметов  
   CONCAT(( SELECT CONCAT(cats_ruru_p.virtuemart_category_id,":",cats_ruru_p.category_name)
       FROM auc13_virtuemart_categories_ru_ru AS cats_ruru_p
      WHERE cats_ruru_p.virtuemart_category_id = (
@@ -10,16 +13,20 @@ SELECT
          WHERE id = cats_ruru.virtuemart_category_id )
                                   ), "/",
   CONCAT(cats_ruru.virtuemart_category_id,":",cats_ruru.category_name)) 
-                                    AS 'categories',       -- prod_ru_ru.product_s_desc, prod_ru_ru.product_desc, prod_ru_ru.slug,
-  prod_prices.product_price,
-  sales_prices.sales_price          AS 'minimal_price',           -- prod_prices.product_override_price AS 'final_price',
-  CONCAT( prod_prices.product_price_publish_up, " - ", prod_prices.product_price_publish_down) 
-                                    AS 'show period',
-  prod.product_available_date       AS 'auction_start',
-  prod.auction_date_finish          AS 'auction_finish',           -- prod.product_availability AS 'date_from', prod.product_available_date_closed 'date_to',  
+                                        AS 'categories',       -- prod_ru_ru.product_s_desc, prod_ru_ru.product_desc, prod_ru_ru.slug,
+  TRUNCATE(prod_prices.product_price,0) AS product_price,
+  TRUNCATE(sales_prices.sales_price,0)  AS 'minimal_price',           -- prod_prices.product_override_price AS 'final_price',
+  CONCAT( DATE_FORMAT(prod_prices.product_price_publish_up,"%d.%m.%Y %h:%i"), 
+          " - ", 
+          DATE_FORMAT(prod_prices.product_price_publish_down,"%d.%m.%Y %h:%i")
+        )                               AS 'show period',
+  DATE_FORMAT(prod.product_available_date,"%d.%m.%Y %h:%i")       
+                                        AS 'auction_start',
+  DATE_FORMAT(prod.auction_date_finish,"%d.%m.%Y %h:%i")              
+                                        AS 'auction_finish',           -- prod.product_availability AS 'date_from', prod.product_available_date_closed 'date_to',  
   ( SELECT COUNT(*) FROM auc13_virtuemart_product_medias 
      WHERE virtuemart_product_id = prod.virtuemart_product_id )
-                                    AS 'imgs' /* ,
+                                        AS 'imgs' /* ,
   medias.                               file_title, 
   medias.                               file_description,
   medias.                               file_url,
@@ -40,5 +47,5 @@ SELECT
               ON prod_medias.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  WHERE prod_ru_ru.product_name LIKE '%Икона%'
+  -- WHERE prod_ru_ru.product_name LIKE '%Икона%'
   ORDER BY prod_ru_ru.product_name
