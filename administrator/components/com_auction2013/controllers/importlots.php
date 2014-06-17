@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 // подключить главный контроллер компонента:
 require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'controller.php';
+require_once JPATH_BASE.DS.'tests.php';
 /**
  * Customer_orders controller class.
  */
@@ -279,27 +280,33 @@ class Auction2013ControllerImportlots extends JControllerForm
 			
 			//"files/Bronze.csv";
 			if (($handle = fopen($importfile, "r")) !== FALSE) {
-				// synchronyze fields: file => tables:
+				/**
+                 СИНХРОНИЗИРОВАТЬ ПОЛЯ .csv и ТАБЛИЦ: */
 				$arrFields=array(
 							// #__virtuemart_products:
-							'auction_number'=>'auction_number', 
-							'lot_number'=>'lot_number',
-							'contract_number'=>'contract_number',
-							// дата начала аукциона
-							'date_start'=>'auction_date_start',
-							// дата окончания аукциона
-							'date_stop'=>'auction_date_finish',
-							// #__virtuemart_products_ru_ru:
-							'title'=>'product_name', 
-							'short_desc'=>'product_s_desc', 
-							'desc'=>'product_desc', 
-							// #__virtuemart_product_prices:
-							// выставлять на сайте с/пд:
-							'date_show'=>'product_available_date', 
-							'date_hide'=>'product_available_date_closed',
-							'price'=>'product_price', 
-							// #__virtuemart_orders:
-							'sales_price'=>'sales_price'
+							'auction_number'    => 'auction_number', 
+							'lot_number'        => 'lot_number',
+							'contract_number'   => 'contract_number',
+                            // Даты аукциона:
+							// НАЧАЛО
+							'date_start'        => 'product_available_date',
+							// КОНЕЦ
+							'date_stop'         => 'auction_date_finish',
+							
+                            // #__virtuemart_products_ru_ru:
+							'title'             => 'product_name', 
+							'short_desc'        => 'product_s_desc', 
+							'desc'              => 'product_desc', 
+							
+                            // #__virtuemart_product_prices:
+							// Доступность предмета на сайте:
+                            // НАЧАЛО
+							'date_show'         => 'product_price_publish_up', 
+                            // КОНЕЦ
+							'date_hide'         => 'product_price_publish_down',
+							'price'             => 'product_price', 
+                            // #__dev_sales_price
+                            'sales_price'       => 'sales_price'    // OK
 						);
 				// go ahead!
 				$data=array();
@@ -341,14 +348,14 @@ class Auction2013ControllerImportlots extends JControllerForm
 								$column_name=$columns_names[$i];
 								//echo "<div class=''>column_name= ".$column_name."</div>";
 								switch($column_name){
-									case 'date_show':
-									case 'date_hide':
-									case 'date_start':
-									case 'date_stop':
+									case 'date_show':   // дата начала публикации (доступности на сайте) предмета
+									case 'date_hide':   // дата окончания публикации
+                                    case 'date_start':  // начало аукциона (для разделов "Онлайн/Очные торги")
+                                    case 'date_stop':   // конец аукциона
 										$dt=explode('.',$cell_content);
 										$data[$data_index][$arrFields[$column_name]]=trim($dt[2]).'-'.trim($dt[1]).'-'.trim($dt[0]);
 									break;
-									case 'price':
+									case 'price':       // основная цена
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
 									break;
 									// case 'sales_price':
@@ -420,16 +427,21 @@ class Auction2013ControllerImportlots extends JControllerForm
             <h4>Импортированные предметы:</h4>
 			<?*/	// var_dump($data); //die(); echo "<hr><hr>";
 			foreach($data as $i=>$data_stream){ //var_dump($data_stream);//die();
-				foreach($arrDataToUpdate as $field => $content)
+				/**
+                 Конвертировать статические данные массива $arrDataToUpdate
+                 в данные массива $data_stream: */
+                foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
 
 				$data_stream['mprices']['product_currency']=array('131');
 				$data_stream['mprices']['product_override_price']=array('0,00000');
 				$data_stream['mprices']['product_price_publish_up']=array('0000-00-00 0:00:00');
 				$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
-				$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
+				//$data_stream['mprices']['product_price_publish_down']=array('0000-00-00 0:00:00');				
 				//$virtuemart_product_id = 35+$i	
-				if($virtuemart_product_id=$VmController->import($model,$data_stream)){
+				/**
+                 ИМПОРТИРОВАТЬ данные                 */
+                if($virtuemart_product_id=$VmController->import($model,$data_stream)){
 					// var_dump($data_stream);
 					if($data_stream['sales_price'])
 						if(!Auction2013ControllerImportlots::addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
@@ -478,6 +490,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 				echo "<div class=''>\$data is empty, line: ".__LINE__."</div>";
 				
 			$all_pix_count=0;
+            /**
+             * Сохранить медиа-данные предмета             */
 			foreach($arrMediaData as $index => $mediadata){
 
 				if(count($mediadata)>1){

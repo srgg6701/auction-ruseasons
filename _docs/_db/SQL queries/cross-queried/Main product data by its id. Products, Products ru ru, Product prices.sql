@@ -40,4 +40,5 @@ SELECT
               ON prod_medias.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
+  WHERE prod_ru_ru.product_name LIKE '%»кона%'
   ORDER BY prod_ru_ru.product_name

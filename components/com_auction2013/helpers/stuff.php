@@ -7,7 +7,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_BASE.'/tests.php';
+require_once JPATH_SITE.DS.'tests.php';
 /**
  * Users Route Helper
  *
