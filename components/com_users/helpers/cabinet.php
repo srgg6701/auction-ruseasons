@@ -19,15 +19,19 @@ require_once JPATH_SITE.'/tests.php';
  */
 class UserCabinet
 {
-	public function buildCabinet($JUser,$logout_params,$layout=false){
+	/**
+     * Инициализировать построение кабинета юзера (common html; вызывается по умолчанию).
+     * Вызвать метод построения соответствующего шаблона для юзера (layout_[template_name])
+     //todo: Заменить на singleton! 
+     */
+    public function initUserCabinet($JUser,$logout_params,$layout=false){
 		
 		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
-				
 		if (!$layout)
 			$layout='default';
 		
 		$method='layout_'.$layout;
-		
+		//commonDebug(__FILE__, __LINE__, $method, true);				
 		ob_start();?>
 <div class="content_shell left private_room">
         <div id="your_order">
@@ -125,8 +129,10 @@ class UserCabinet
 	function layout_data($user){		 
 		// Построить поля ввода редактируемых данных или разместить данные в ячейках таблицы, в зависимости от текущего режима:
 		function setField($data,$required=true){
+            
 			if(is_array($data)):
-				$field=$data[0];
+				//commonDebug(__FILE__, __LINE__, $data, true);
+                $field=$data[0];
 				$value=$data[1];
 				$fType=(strstr($field,'password'))? 'password':'text';
 				if ($field=='country_id'){
