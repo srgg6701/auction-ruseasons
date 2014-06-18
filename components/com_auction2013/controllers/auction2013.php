@@ -75,7 +75,6 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 			$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=thanx_for_lot', false));
 		//http://docs.joomla.org/Sending_email_from_extensions			//http://api.joomla.org/__filesource/fsource_Joomla-Platform_Mail_librariesjoomlamailmail.php.html#a290
 	}
-
 /**
  * Описание
  * @package
@@ -83,6 +82,8 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
  */
 	function addToFavorites(){
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        // подключить тестовые функции:
+        require_once JPATH_SITE.'/tests.php';
 		$data=JRequest::get('post');
 		$virtuemart_product_id=$data['virtuemart_product_id'];
 		$user = JFactory::getUser();
@@ -103,9 +104,14 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 							'profile',
 							'favorites'
 						);
-				$link='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id;;
-				//echo "<div class=''>link= ".$link."</div>";die();
-				$this->setRedirect($link, false);
+				$link='index.php?option=com_users&amp;view=profile';
+				//commonDebug(__FILE__, __LINE__, JRoute::_($link), true);
+                /**
+                 * Sorry for such the ugly link appearance... :( 
+                 * Но иначе придётся роутер дербанить. А это - отдельный геморрой.
+                 * В конце концов такие ссылки может видеть только заавторизованный юзер. 
+                 * Потерпит. */
+				$this->setRedirect(JRoute::_($link).'&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id, false);
 			}
 		}
 	}

@@ -7,7 +7,9 @@
  */
 
 defined('_JEXEC') or die;
-
+// Подключить функции тестирования:
+require_once JPATH_SITE.'/tests.php'; 
+//  commonDebug, testSQL
 /**
  * Users Route Helper
  *
@@ -49,7 +51,8 @@ class UserCabinet
             <div class="content_box">
             </div>
             <div class="content_box highlight_links">
-        		<h2 class="title"><?php switch($layout){
+        		<h2 class="title"><?php 
+                switch($layout){
 					case 'favorites':
 						echo 'Избранное';
 						$params=$JUser->id;
@@ -65,8 +68,7 @@ class UserCabinet
 						echo 'Ваши лоты';
 						$params=$JUser->id;
 				}
-				
-				echo $section;?></h2>
+                echo $section;?></h2>
 		<?php UserCabinet::$method($params);?>            	
             </div>   
           </div>
@@ -120,8 +122,7 @@ class UserCabinet
  * @package
  * @subpackage
  */
-	function layout_data($user){
-		 
+	function layout_data($user){		 
 		// Построить поля ввода редактируемых данных или разместить данные в ячейках таблицы, в зависимости от текущего режима:
 		function setField($data,$required=true){
 			if(is_array($data)):
@@ -143,8 +144,10 @@ class UserCabinet
 						&& $field!="flat_office_number"
 						&& !strstr($field,'password')
 						//&& !strstr($field,'email')
-					  ):?> class="required" required="required"<?php endif;?> size="30"<?php if($field=='username'||$field=='registerDate'):
-						?> disabled<?php endif;?>>
+					  ):?> class="required" required="required"<?php endif;?> size="30"<?php 
+                      if($field=='username'||$field=='registerDate'):
+						?> disabled<?php 
+                      endif;?>>
 			<?php }
 			else:
 				echo $data;
