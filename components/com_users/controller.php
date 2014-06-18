@@ -28,7 +28,7 @@ class UsersController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		/*	MODIFIED START */
+		/*	MODIFIED START */ 
 		/*
 			'view' => string 'registration' (length=12)
 		  	'layout' => string 'complete' (length=8)
@@ -47,10 +47,13 @@ class UsersController extends JControllerLegacy
 		$vName=($user->get('guest') == 1)? JRequest::getCmd('view', 'login'):'profile';
 		$vFormat = $document->getType();
 		$lName	 = JRequest::getCmd('layout', 'default');
-
+		/** 
+			если юзер заавторизован и view = login: 
+			lName = default
+			vName = profile
+		*/
 		if ($view = $this->getView($vName, $vFormat)) {
 			// Do any specific processing by view.
-			// die('vName: '.$vName);
 			switch ($vName) {
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
@@ -86,6 +89,7 @@ class UsersController extends JControllerLegacy
 
 				// Handle the default views.
 				case 'login':
+					
 					$model = $this->getModel($vName);
 					break;
 
@@ -120,8 +124,12 @@ class UsersController extends JControllerLegacy
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
+			/** 
+				по умолчанию для заавторизованного юзера:
+				layout:  default
+				view:	 profile
+			*/
 			$view->setLayout($lName);
-
 			// Push document object into the view.
 			$view->assignRef('document', $document);
 

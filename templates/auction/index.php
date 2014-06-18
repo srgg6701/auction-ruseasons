@@ -199,9 +199,9 @@ $( function(){
 			 && ($option=='com_auction2013'
 			 	 || $option=='com_users')
 		   ): ?>
-  						<div id="usermenu">		
+                        	<h1>ЗДЕСЬ.ДОЛЖНО.БЫТЬ.НАЧАЛО.МЕНЮ!</h1>		
   							<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
-                        </div>           
+                            <h1>ЗДЕСЬ.ДОЛЖЕН.БЫТЬ.КОНЕЦ.МЕНЮ!</h1>		
   <?php endif; ?>
                     </div>
                 </div>

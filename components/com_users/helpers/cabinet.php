@@ -66,18 +66,18 @@ class UserCabinet
         		<h2 class="title"><?php 
                 switch($layout){
 					case 'favorites':
-						echo 'Избранное';
+						?>Избранное<?php
 						$params=$JUser->id;
 					break;
 					case 'bids':
-						echo 'Мои ставки';
+						?>Мои ставки<?php
 					break;					
 					case 'data': 
-						echo 'Моя персональная информация';
+						?>Моя персональная информация<?php
 						$params=$JUser;
 					break;					
 					default: 
-						echo 'Ваши лоты';
+						?>Ваши лоты<?php
 						$params=$JUser->id;
 				}
                 echo $section;?></h2>
@@ -86,7 +86,7 @@ class UserCabinet
           </div>
             <!-- END CONTENT BLOCK -->
     </div>
-<?php $cabinet=ob_get_contents();
+<?php   $cabinet=ob_get_contents();
 		ob_clean();
 		return $cabinet;
 	}
@@ -106,6 +106,7 @@ class UserCabinet
     </div>
 <?php }
 /**
+ * Ставки
  * @package
  * @subpackage
  */
@@ -120,15 +121,16 @@ class UserCabinet
 						'profile',
 						'favorites'
 					);
-			$redirect='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id;
+			$redirect='index.php?option=com_users&view=profile&layout=favorites&Itemid='
+                        . $uMenus[0] . '&added=' . $virtuemart_product_id;
 			//echo "<div class=''>redirect= ".$redirect."</div>";die();
 			JFactory::getApplication()->redirect($redirect);
 		}else{?>
     <H1>LOTS</H1>
-<?		}
+<?php   }
 	}	
 /**
- * Описание
+ * Данные юзера
  * @package
  * @subpackage
  */
@@ -150,7 +152,7 @@ class UserCabinet
 		?>><?=$name?></option>
                 <?php endforeach;?>
     </select>
-			<?php }else{?>
+			<?php }else{ ?>
 	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?php 
 					if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
 					echo $value;?>"<?php 
@@ -278,7 +280,7 @@ Email				email
 </form>
 <?php }	
 /**
- * Описание
+ * Избранное
  * @package
  * @subpackage
  */
