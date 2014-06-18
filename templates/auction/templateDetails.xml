@@ -32,21 +32,6 @@
     <fileName>index.php</fileName>
     <fileName>html/index.html</fileName>
     <fileName>html/modules.php</fileName>
-    <!--
-		извращение, как следствие использования первоначальным умельцем устаревшей версии artisteer:
-	<fileName>html/com_content/index.html</fileName>
-    <fileName>html/com_content/article/default.php</fileName>
-    <fileName>html/com_content/article/form.php</fileName>
-    <fileName>html/com_content/article/index.html</fileName>
-    <fileName>html/com_content/category/blog.php</fileName>
-    <fileName>html/com_content/category/blog_item.php</fileName>
-    <fileName>html/com_content/category/index.html</fileName>
-    <fileName>html/com_content/frontpage/default.php</fileName>
-    <fileName>html/com_content/frontpage/default_item.php</fileName>
-    <fileName>html/com_content/frontpage/index.html</fileName>
-    <fileName>html/com_content/section/blog.php</fileName>
-    <fileName>html/com_content/section/blog_item.php</fileName>
-    <fileName>html/com_content/section/index.html</fileName>-->
     <fileName>html/mod_mainmenu/default.php</fileName>
     <fileName>html/mod_mainmenu/index.html</fileName>
     <fileName>html/mod_syndicate/default.php</fileName>

@@ -39,17 +39,16 @@ class UserCabinet
 			$layout='default';
 		
 		$method='layout_'.$layout;
-		//commonDebug(__FILE__, __LINE__, $method, true);				
+        //commonDebug(__FILE__, __LINE__, $method, true);				
 		ob_start();?>
 <div class="content_shell left private_room">
         <div id="your_order">
             <span class="text_highlight">Ваш клиентский № 
                 <?=$JUser->get('username')?></span>
-        </div>
+        </div>  
         <!-- START LEFT COLUMN -->
         <div id="user_column">		
-            <div class="content_box">
-            	&nbsp;
+            <div class="content_box" id="user_menu_box">
             </div>
             <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
 			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
@@ -83,7 +82,7 @@ class UserCabinet
                 echo $section;?></h2>
 		<?php UserCabinet::$method($params);?>            	
             </div>   
-          </div>
+        </div>
             <!-- END CONTENT BLOCK -->
     </div>
 <?php   $cabinet=ob_get_contents();

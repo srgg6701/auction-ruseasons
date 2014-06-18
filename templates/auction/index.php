@@ -173,8 +173,7 @@ $( function(){
           <div id="left_part">
 			<jdoc:include type="modules" name="left_panel" style="xhtml" />  
   	<?php	if ($this->countModules('left')): ?>
-    		<!--<h1>got it again!</h1>-->
-            <jdoc:include type="modules" name="left" style="xhtml" />
+    		<jdoc:include type="modules" name="left" style="xhtml" />
   	<?php 	endif; ?>
           </div>
   <?php else: $style.=" leftLess";
@@ -202,6 +201,13 @@ $( function(){
 			 	 || $option=='com_users')
 		   ): ?>
   						<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
+<script>
+$(function(){
+	var umenu = $('#usermenu-container');
+	$('#user_menu_box').append(umenu);
+	$(umenu).fadeIn(300);
+});
+</script>
   <?php endif; ?>
                     </div>
                 </div>

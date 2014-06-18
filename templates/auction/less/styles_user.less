@@ -7,7 +7,7 @@
 	list-style: none;
 	padding:10px 0 9px 0;
 	text-align: left;
-	a{
+	a:not(.H2){
 		font-size: 12px;
 		font-weight: bold;
 		color: black;
@@ -41,6 +41,17 @@ div#usermenu{
 		}
 	}
 }
+#usermenu-container{
+    display:none;
+	li{
+		.liUserMenu;
+		a.H2{
+			.thinBrownHeader;
+			padding-top:5px !important;
+			padding-bottom: 5px !important;
+		}		
+	}
+}
 
 div#main_content.left{
 	margin-left:-20px;
@@ -70,7 +81,7 @@ div#main_content.left{
 			min-height:157px;
 			width:138px;
 			ul{
-				margin-top:-10px;
+				margin-top:-3px;
 				li{
 					.liUserMenu;
 				}
