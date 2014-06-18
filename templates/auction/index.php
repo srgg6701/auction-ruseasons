@@ -161,17 +161,19 @@ $( function(){
   		$hide_left_panel=false;
 		//echo "<div class=''>$layout, ".$option.", $view, ".$user->guest."</div>";
   		if( $layout=='register'
+			//|| $layout=='application'
 		  	|| $layout=='askaboutlot'
 			|| ( $option=='com_users'
 			   	 && $view=='login'
 				 && $user->guest
 			   )
 		  ): $hide_left_panel=true;
-  		endif;
+  		endif; //die('hide_left_panel= '.$hide_left_panel);
   		if ($this->countModules('left_panel')&&!$hide_left_panel): ?>
           <div id="left_part">
 			<jdoc:include type="modules" name="left_panel" style="xhtml" />  
   	<?php	if ($this->countModules('left')): ?>
+    		<!--<h1>got it again!</h1>-->
             <jdoc:include type="modules" name="left" style="xhtml" />
   	<?php 	endif; ?>
           </div>
@@ -199,9 +201,7 @@ $( function(){
 			 && ($option=='com_auction2013'
 			 	 || $option=='com_users')
 		   ): ?>
-                        	<h1>ЗДЕСЬ.ДОЛЖНО.БЫТЬ.НАЧАЛО.МЕНЮ!</h1>		
-  							<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
-                            <h1>ЗДЕСЬ.ДОЛЖЕН.БЫТЬ.КОНЕЦ.МЕНЮ!</h1>		
+  						<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
   <?php endif; ?>
                     </div>
                 </div>
