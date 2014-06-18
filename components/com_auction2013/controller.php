@@ -12,7 +12,7 @@
 // require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS."helpers".DS."helper_name.php";
 // No direct access
 defined('_JEXEC') or die;
-require_once JPATH_BASE.'/tests.php';
+include_once JPATH_SITE.'/tests.php';
 class Auction2013Controller extends JController
 {
 	/**
@@ -26,17 +26,25 @@ class Auction2013Controller extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{	
-		$document	= JFactory::getDocument();
+		//include_once JPATH_SITE.''
+        $document	= JFactory::getDocument();
 		// Set the default view name and format from the Request.
 		$vName	 = JRequest::getCmd('view', 'auction2013');
 		$vFormat = $document->getType(); 
 		$lName	 = JRequest::getCmd('layout', 'default');
 		if ($view = $this->getView($vName, $vFormat)) {
-			$model = $this->getModel('auction2013');
-			$view->setModel($model, true);
-			$view->setLayout($lName);
-			$view->assignRef('document', $document);
-			$view->display();
+            /** 
+            если юзер залогинен, не надо показывать форму регистрации - 
+            перенаправить в личный кабинет! */
+            if($lName=='register'&&!JFactory::getUser()->guest)
+                $this->setRedirect(JRoute::_('index.php?option=com_users&view=login'));
+            else{
+                $model = $this->getModel('auction2013');
+                $view->setModel($model, true);
+                $view->setLayout($lName);
+                $view->assignRef('document', $document);
+                $view->display();
+            }
 		} 
 	}
 }

@@ -54,6 +54,6 @@
      AS dsprices           ON dsprices.           virtuemart_product_id =
                               product_prices.     virtuemart_product_id
 
-where products_ru_ru.product_name LIKE '%Икона%'
+-- where products_ru_ru.product_name LIKE '%Икона%'
 
   ORDER BY products_ru_ru.product_name

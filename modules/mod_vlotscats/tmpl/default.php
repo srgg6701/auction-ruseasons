@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
  * test link function
  */
 $test=false;
-require_once JPATH_BASE.'/tests.php';
+require_once JPATH_SITE.'/tests.php';
 
 function testLinks($category_link,$line, $shop=false){
     $test=true;
