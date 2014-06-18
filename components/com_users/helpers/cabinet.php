@@ -26,6 +26,14 @@ class UserCabinet
      */
     public function initUserCabinet($JUser,$logout_params,$layout=false){
 		
+		$session = JFactory::getSession();
+		// клацали "Купить":
+		if($product_id_purchasing=$session->get('product_id_purchasing')){
+			$redirect='index.php?option=com_auction2013&layout=application&virtuemart_product_id='.$product_id_purchasing;
+			//die($redirect);
+			$session->clear('product_id_purchasing');
+			JFactory::getApplication()->redirect($redirect);
+		}
 		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 		if (!$layout)
 			$layout='default';
@@ -103,12 +111,10 @@ class UserCabinet
  */
 	function layout_lots($user_id){
 		// Проверить закрома:
-		$session = JFactory::getSession();
 		//echo "<div class=''>favorite_product_id= ".$session->get('favorite_product_id')."</div>"; die();
-		if($virtuemart_product_id=$session->get('favorite_product_id')){
+		if($virtuemart_product_id=JFactory::getSession()->get('favorite_product_id')){
 			// добавить запись в таблицу, перенаправить в Избранное:
 			AuctionStuff::addToFavorites($virtuemart_product_id,$user_id);
-			$app =JFactory::getApplication();
 			$uMenus=AuctionStuff::getTopCatsMenuItemIds(	
 						'usermenu',
 						'profile',
@@ -116,10 +122,10 @@ class UserCabinet
 					);
 			$redirect='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id;
 			//echo "<div class=''>redirect= ".$redirect."</div>";die();
-			$app->redirect($redirect);
+			JFactory::getApplication()->redirect($redirect);
 		}else{?>
     <H1>LOTS</H1>
-<?php }
+<?		}
 	}	
 /**
  * Описание
@@ -145,15 +151,18 @@ class UserCabinet
                 <?php endforeach;?>
     </select>
 			<?php }else{?>
-	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?php if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
-					echo $value;?>"<?php if( $field!="corpus_number"
+	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?php 
+					if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
+					echo $value;?>"<?php 
+					if( $field!="corpus_number"
 						&& $field!="flat_office_number"
 						&& !strstr($field,'password')
 						//&& !strstr($field,'email')
-					  ):?> class="required" required="required"<?php endif;?> size="30"<?php 
-                      if($field=='username'||$field=='registerDate'):
+					  ):?> class="required" required="required"<?php 
+					endif;?> size="30"<?php 
+                    if($field=='username'||$field=='registerDate'):
 						?> disabled<?php 
-                      endif;?>>
+                    endif;?>>
 			<?php }
 			else:
 				echo $data;
@@ -179,7 +188,8 @@ Email				email
 				'email1'=>'Email',
 			);?>
 <form style="display:inline-block;" id="member-profile" action="index.php?option=com_users&task=profile.save" method="post" class="form-validate" enctype="multipart/form-data">
-		<?php $pAlCenter='';
+		<?php 
+			$pAlCenter='';
 			if($edit_mode=JRequest::getVar('mode')):
 				$userData['email2']='Подтверждение e-mail';
 				$userData['password1']='Новый пароль (опционально)';
@@ -241,7 +251,8 @@ Email				email
 						setField(array($address_field,$user_data),true);?>
 				</td>
             </tr>
-					<?php endforeach;
+					<?php 
+						endforeach;
 					}?>
 			<?php }
 			}?>
@@ -260,7 +271,8 @@ Email				email
 				$btnValue='Редактировать данные...';
 			}?>
         <div<?=$pAlCenter?>>
-        	<button type="<?=$btnType?>" class="buttonSandCool"<?php if(!$edit_mode):
+        	<button type="<?=$btnType?>" class="buttonSandCool"<?php 
+			if(!$edit_mode):
 			?> onClick="location.href='index.php?option=com_users&view=profile&layout=data&Itemid=<?=JRequest::getVar('Itemid')?>&mode=edit'"<?php endif;?>><?=$btnValue?></button>
         </div>
 </form>
@@ -285,8 +297,10 @@ Email				email
             </tr>
 		<?php $DateAndTime=new DateAndTime();
 			foreach($favorites as $virtuemart_product_id => $product_data){?>
-			<tr<?php if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?php }?> valign="top">
-            	<td><?php $product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug'],$virtuemart_product_id);  
+			<tr<?php 
+			if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?php }?> valign="top">
+            	<td><?php 
+				$product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug'],$virtuemart_product_id);  
 				?><a href="<?php echo $product_link; 
 				
 				?>"><?=$product_data['product_name']?></a>
@@ -294,7 +308,8 @@ Email				email
             	<td><?=substr($product_data['product_price'],0,strpos($product_data['product_price'],"."))?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_start'], JText::_('DATE_FORMAT_LC2'));?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_finish'], JText::_('DATE_FORMAT_LC2'));?></td>
-            	<td><?php $delta=$DateAndTime->getDaysDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
+            	<td><?php 
+				$delta=$DateAndTime->getDaysDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
 				$s=0;
 				foreach ($delta as $k=>$t){
 					if($s) echo ($s==1)? "&nbsp;":":";
