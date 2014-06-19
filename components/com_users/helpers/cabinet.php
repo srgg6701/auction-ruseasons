@@ -19,6 +19,12 @@ require_once JPATH_SITE.'/tests.php';
  */
 class UserCabinet
 {
+    static $cabinet_menu = array(
+					'lots'=>        array("Ваш кабинет","H2",           "Ваши лоты", 'id'),
+					'favorites'=>   array("Избранное",  "first-point",  false, 'id'),
+					'bids'=>        array("Мои ставки", false,          false, 'id'),
+					'data'=>        array("Настройки",  false,          "Моя персональная информация", true)
+            );
 	/**
      * Инициализировать построение кабинета юзера (common html; вызывается по умолчанию).
      * Вызвать метод построения соответствующего шаблона для юзера (layout_[template_name])
@@ -49,26 +55,7 @@ class UserCabinet
         <!-- START LEFT COLUMN -->
         <div id="user_column">		
             <div class="content_box" id="user_menu_box">
-                <ul class="menu" id="usermenu-container" style="display: block;">
-            	<?php
-			foreach(array(
-					'lots'=>array("Ваш кабинет","H2"),
-					'favorites'=>array("Избранное","first-point"),
-					'bids'=>"Мои ставки",
-					'data'=>"Настройки",
-				) as $tmpl=>$header):?>
-                    <li>
-                        <a<?php
-					if(is_array($header)):
-						$hd = $header[0];
-					?> class="<?php echo $header[1];?>"<?php 
-					else:
-						$hd = $header;
-					endif;?> href="index.php?option=com_users&view=cabinet&layout=<?php echo $tmpl;?>"><?php echo $hd;?></a>
-                    </li>
-				<?php
-            endforeach;?>
-                </ul>            
+        <?php   UserCabinet::buildUserMenu(); ?>
             </div>
             <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
 			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
@@ -82,23 +69,14 @@ class UserCabinet
             <div class="content_box">
             </div>
             <div class="content_box highlight_links">
-        		<h2 class="title"><?php 
-                switch($layout){
-					case 'favorites':
-						?>Избранное<?php
-						$params=$JUser->id;
-					break;
-					case 'bids':
-						?>Мои ставки<?php
-					break;					
-					case 'data': 
-						?>Моя персональная информация<?php
-						$params=$JUser;
-					break;					
-					default: 
-						?>Ваши лоты<?php
-						$params=$JUser->id;
-				}
+        		<h2 class="title"><?php
+                $cabinet_data = UserCabinet::$cabinet_menu[$layout];
+                echo ($cabinet_data[2])? $cabinet_data[2]:$cabinet_data[0];
+                if($cabinet_data[3]){
+                    $params=($cabinet_data[3]===true)?
+                        $JUser:$JUser->$cabinet_data[3];
+                }
+                // вывести заголовок раздела
                 echo $section;?></h2>
 		<?php UserCabinet::$method($params);?>            	
             </div>   
@@ -368,7 +346,24 @@ $(function(){
  * @package
  * @subpackage
  */
-	function layout_bids(){?>
+	function layout_bids($user_id){?>
     <H1>MY BIDS</H1>
 <?php }	
+/**
+ * Построить меню юзера
+ */
+    static public function buildUserMenu() {?>
+    <ul class="menu" id="usermenu-container" style="display: block;">
+            <?php
+        foreach(self::$cabinet_menu as $tmpl=>$header):?>
+        <li>
+            <a<?php
+        if($header[1]):?> class="<?php echo $header[1];?>"<?php endif;
+        ?> href="index.php?option=com_users&view=cabinet&layout=<?php echo $tmpl;?>"><?php echo $header[0];?></a>
+        </li>
+            <?php
+        endforeach;?>
+    </ul>    
+    <?php
+    }
 }
