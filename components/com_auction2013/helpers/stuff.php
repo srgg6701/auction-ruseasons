@@ -163,7 +163,6 @@ class AuctionStuff{
 		$db->setQuery($query);
 		return $db->loadResultArray();
 	}
-
 /**
  * Описание
  * @package
@@ -205,7 +204,6 @@ FROM #__virtuemart_products_ru_ru
 		}
 		return $favorites;
 	}
-
 /**
  * Описание
  * @package
@@ -226,7 +224,6 @@ FROM #__virtuemart_products_ru_ru
 		$db->setQuery($query);
 		return $db->loadResult();
 	}
-
 /**
  * Описание
  * @package
@@ -280,7 +277,6 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 		//echo "<div class=''><pre>".$query."</pre></div>"; var_dump($db->loadResultArray());die();
 		return $db->loadResultArray();
 	}
-
 /**
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
  * @package
@@ -297,7 +293,6 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
 		$db->setQuery($query);
 		return $db->loadResult(); 
 	}
-
 /**
  * Описание
  * @package
@@ -316,7 +311,6 @@ FROM #__virtuemart_categories cats
 		$db->setQuery($query);
 		return $db->loadResult(); 
 	}
-
 /**
  * Описание
  * @package
@@ -334,8 +328,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadAssoc(); 
-	}
-	
+	}	
 /**
  * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
  * @package
@@ -408,7 +401,6 @@ WHERE cats_cats.category_parent_id = 0";
   ORDER BY cat_cats.category_parent_id,cats.ordering";		
 */	
 	}
-
 /**
  * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е
  * @package
@@ -611,7 +603,6 @@ WHERE cats_cats.category_parent_id = 0";
         return $section_links;
     }
 }
-
 class HTML{
 /**
  * Описание

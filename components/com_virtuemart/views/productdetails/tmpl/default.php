@@ -19,11 +19,13 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+ $Itemid = JRequest::getVar('Itemid');
+$topItem = AuctionStuff::getTopCatsMenuItemIds('main', false, 'shop');
+//commonDebug(__FILE__, __LINE__, key($topItem));
+//commonDebug(__FILE__, __LINE__, $topItem, true);
 
-			
 if(JRequest::getVar('source')):
     require_once 'source/default.php';
-
 else:
     $base_path=JUri::root();
     $templateUrl=JUri::root().'templates/auction/';?>
@@ -35,7 +37,7 @@ else:
     $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
     //echo "<h4>setCommonInnerMenu</h4>";
     HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));
-    ?>
+    //commonDebug(__FILE__, __LINE__, $this->product, true);?>
 <div class="lots_listing">
   <div class="width70 inBlock" style="margin-left:-8px;">    
     <ul class="table inline weak">
@@ -55,7 +57,7 @@ else:
 	
 	?>>&lt; &lt; Предыдущий <!--(<?=$trinityIds[0]?>)-->></a></li>
 <?php if(!$category_link): // if no SEF only:
-		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.JRequest::getVar('Itemid'),false);
+		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.$Itemid,false);
 	endif;?>	
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
 <?php if($trinityIds[2]) 
@@ -115,6 +117,11 @@ else:
    	</div>   
   </div>
   <div class="box_desc">
+<?php 
+    if(key($topItem)=='shop'): 
+        echo "<h1>Shop</h1>";
+    else:
+?>      
     <div class="bord_bottom">
       <b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
     </div>
@@ -168,6 +175,8 @@ else:
           рублей
       </span>
     </div>
+<?php    
+    endif;?>      
   </div>        
 </div><?php 
 endif;

@@ -17,7 +17,7 @@ function testLinks($category_link,$line, $shop=false){
     <b>file:</b> ".__FILE__."<br>
     line: <span style='color:green'>".$line."</span>";
     echo "<div style='background:lightskyblue; padding:10px;'>category_link(line ".$line.") = ".$category_link."</div>";
-    echo "<div style='background:lightgreen; padding:10px;'>чпу: ".JRoute::_($category_link)."</div>";                    
+    echo "<div style='background:lightgreen; padding:10px;'>С‡РїСѓ: ".JRoute::_($category_link)."</div>";                    
     if($shop)
         echo "</div>";
     echo "</div>";
@@ -29,7 +29,7 @@ $router = $app->getRouter();
 if ($SefMode = $router->getMode()) {
     $menu = JFactory::getApplication()->getMenu();
     $menus = $menu->getMenu();
-    // Не получим virtuemart_category_id в режиме ЧПУ при загрузке профайла предмета. Используем другой способ извлечения...
+    // РќРµ РїРѕР»СѓС‡РёРј virtuemart_category_id РІ СЂРµР¶РёРјРµ Р§РџРЈ РїСЂРё Р·Р°РіСЂСѓР·РєРµ РїСЂРѕС„Р°Р№Р»Р° РїСЂРµРґРјРµС‚Р°. РСЃРїРѕР»СЊР·СѓРµРј РґСЂСѓРіРѕР№ СЃРїРѕСЃРѕР± РёР·РІР»РµС‡РµРЅРёСЏ...
     if (!$loaded_category_id = JRequest::getVar('virtuemart_category_id')) {
         /* array
           'Itemid' => string '115' (length=3)
@@ -41,7 +41,7 @@ if ($SefMode = $router->getMode()) {
           'virtuemart_category_id' => int 0 */
         $loaded_category_id = AuctionStuff::getCategoryIdByProductId(JRequest::getVar('virtuemart_product_id')); // 9
     }
-    // алиас ТОП-категории - если есть, значит внутри какой-либо из них (или во вложенной)
+    // Р°Р»РёР°СЃ РўРћРџ-РєР°С‚РµРіРѕСЂРёРё - РµСЃР»Рё РµСЃС‚СЊ, Р·РЅР°С‡РёС‚ РІРЅСѓС‚СЂРё РєР°РєРѕР№-Р»РёР±Рѕ РёР· РЅРёС… (РёР»Рё РІРѕ РІР»РѕР¶РµРЅРЅРѕР№)
     $top_layout = $menus[JRequest::getVar('Itemid')]->query['layout'];
     //commonDebug(__FILE__, __LINE__, $top_layout);
 }   //commonDebug(__FILE__, __LINE__, JRequest::getVar('option'), false);
@@ -50,8 +50,8 @@ foreach ($session_links as $layout => $data):
     //commonDebug(__FILE__, __LINE__, $layout);
     //commonDebug(__FILE__, __LINE__, $session_links);
     /** 
-     * Отобразить все категории, если не выбрана ни одна из них (включая ТОП)
-     * или только текущую ТОП-овую. */
+     * РћС‚РѕР±СЂР°Р·РёС‚СЊ РІСЃРµ РєР°С‚РµРіРѕСЂРёРё, РµСЃР»Рё РЅРµ РІС‹Р±СЂР°РЅР° РЅРё РѕРґРЅР° РёР· РЅРёС… (РІРєР»СЋС‡Р°СЏ РўРћРџ)
+     * РёР»Рё С‚РѕР»СЊРєРѕ С‚РµРєСѓС‰СѓСЋ РўРћРџ-РѕРІСѓСЋ. */
     if(!$top_layout
        || $top_layout==$layout
        || JRequest::getVar('option')=='com_users'
@@ -59,7 +59,7 @@ foreach ($session_links as $layout => $data):
         /*if ($test):?>
             <div title="<?php echo $top_category_link; ?>">
                 <b><a style="color:blue;" href="javascript:void(0)" onclick="alert('<?php 
-            echo $top_category_link; ?>');">Ссылка раздела<br>hover, click</a></b>
+            echo $top_category_link; ?>');">РЎСЃС‹Р»РєР° СЂР°Р·РґРµР»Р°<br>hover, click</a></b>
             </div><?php         
         endif;*/
     ?>
@@ -73,9 +73,9 @@ foreach ($session_links as $layout => $data):
         foreach ($data['child_links'] as $category_id => $category_data):
             //commonDebug(__FILE__, __LINE__, $category_data);
             /**
-                ["category_name"]=> "Русская живопись"
+                ["category_name"]=> "Р СѓСЃСЃРєР°СЏ Р¶РёРІРѕРїРёСЃСЊ"
                 ["link"]=> "index.php?option=com_virtuemart&view=category&Itemid=125&virtuemart_category_id=31"
-                ["sef"]=> "/auction-ruseasons/аукцион/онлайн-торги/живопись-руси"
+                ["sef"]=> "/auction-ruseasons/Р°СѓРєС†РёРѕРЅ/РѕРЅР»Р°Р№РЅ-С‚РѕСЂРіРё/Р¶РёРІРѕРїРёСЃСЊ-СЂСѓСЃРё"
                 ["product_count"]=> "0"
          */?>
         <li><a <?php 
@@ -84,14 +84,14 @@ foreach ($session_links as $layout => $data):
                     ?> style="color:brown;"<?php
                 endif;
                 ?> href="<?php 
-                // ссылка
+                // СЃСЃС‹Р»РєР°
                 echo ($SefMode)? 
                         JRoute::_($category_data['sef'])
                         : JRoute::_($category_data['link']);?>"><?php 
-                // имя категории
+                // РёРјСЏ РєР°С‚РµРіРѕСЂРёРё
                 echo $category_data['category_name'];
                     ?></a> (<?php
-                // количество опубликованных предметов
+                // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅС‹С… РїСЂРµРґРјРµС‚РѕРІ
                 echo $category_data['product_count'];
                     ?>)</li>
 <?php   endforeach;
