@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title=":: Настройки аккаунта" option="com_user_cabinet_data_option">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_USER_CABINET_DATA"
+		/>
+		<message>
+			<![CDATA[com_user_cabinet_data_default_desc]]>
+		</message>
+	</layout>
+</metadata>

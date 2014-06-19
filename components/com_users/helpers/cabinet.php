@@ -49,32 +49,26 @@ class UserCabinet
         <!-- START LEFT COLUMN -->
         <div id="user_column">		
             <div class="content_box" id="user_menu_box">
-<ul class="menu" id="usermenu-container" style="display: block;">
-	<li>
-    <?php // class="item-155 current active" /auction-ruseasons/lots?>
-    	<a class="H2" href="<?php 
-		JRoute::_('index.php?option=com_users&view=profile&layout=lots');
-			?>">Ваш кабинет</a>
-    </li>
-    <li>
-    <?php // class="item-152" /auction-ruseasons/favorites?>
-    	<a class="first-point" href="<?php 
-		JRoute::_('index.php?option=com_users&view=profile&layout=favorites');
-			?>">Избранное</a>
-    </li>
-    <li>
-    <?php // class="item-153" /auction-ruseasons/bids?>
-    	<a href="<?php 
-		JRoute::_('index.php?option=com_users&view=profile&layout=bids');
-			?>">Мои ставки</a>
-    </li>
-    <li>
-    <?php // class="item-154" /auction-ruseasons/data?>
-        <a href="<?php 
-		JRoute::_('index.php?option=com_users&view=profile&layout=data');
-			?>">Настройки аккаунта</a>
-    </li>
-</ul>            
+                <ul class="menu" id="usermenu-container" style="display: block;">
+            	<?php
+			foreach(array(
+					'lots'=>array("Ваш кабинет","H2"),
+					'favorites'=>array("Избранное","first-point"),
+					'bids'=>"Мои ставки",
+					'data'=>"Настройки",
+				) as $tmpl=>$header):?>
+                    <li>
+                        <a<?php
+					if(is_array($header)):
+						$hd = $header[0];
+					?> class="<?php echo $header[1];?>"<?php 
+					else:
+						$hd = $header;
+					endif;?> href="index.php?option=com_users&view=cabinet&layout=<?php echo $tmpl;?>"><?php echo $hd;?></a>
+                    </li>
+				<?php
+            endforeach;?>
+                </ul>            
             </div>
             <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
 			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
