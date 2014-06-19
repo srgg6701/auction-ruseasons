@@ -721,7 +721,8 @@ class HTML{
  * @subpackage
  */
 	public static function setCommonInnerMenu($params=false,$params_xtra=false){
-		
+		//commonDebug(__FILE__, __LINE__, $params);
+        //commonDebug(__FILE__, __LINE__, $params_xtra);
 		$session=&JFactory::getSession();
 		$user=&JFactory::getUser();
 		$pre_link='index.php?option=com_';
@@ -745,7 +746,8 @@ class HTML{
 		if(isset($ask_link)) HTML::innerMenu('ask_about_lot',JRoute::_($ask_link,false));
 		if(isset($cab_link)) HTML::innerMenu('user',JRoute::_($cab_link,false),$user);?>
     </div>
-<?php }
+<?php   //commonDebug(__FILE__, __LINE__, $prop_link.", ".$ask_link.", ".$cab_link, true);
+    }
 
 /**
  * Построить правильную ссылку

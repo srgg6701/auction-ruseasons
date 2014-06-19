@@ -33,7 +33,7 @@ else:
     require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';	//var_dump($this->product->images); die();
     $virtuemart_category_id=$this->product->virtuemart_category_id;
     $virtuemart_product_id=(int)$this->product->virtuemart_product_id;
-
+    //echo "<h4>setCommonInnerMenu</h4>";
     HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));
     ?>
 <div class="lots_listing">

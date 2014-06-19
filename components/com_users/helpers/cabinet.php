@@ -19,6 +19,11 @@ require_once JPATH_SITE.'/tests.php';
  */
 class UserCabinet
 {
+    /** Данные кабинета: 
+        - Текст ссылки
+        - Класс ссылки
+        - Заголовок раздела
+        - Параметр объекта JUser, передаваемого методу генерации HTML-раздела   */
     static $cabinet_menu = array(
 					'lots'=>        array("Ваш кабинет","H2",           "Ваши лоты", 'id'),
 					'favorites'=>   array("Избранное",  "first-point",  false, 'id'),
