@@ -7,7 +7,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE.DS.'tests.php'; 
+require_once JPATH_SITE.DS.'tests.php';
 /**
  * Users Route Helper
  *
@@ -20,7 +20,7 @@ class AuctionStuff{
     static $andLayout = '&layout=';
     static $vm_category_id = '&virtuemart_category_id=';
 /**
- * Добавить предмет в избранное
+ * Р”РѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚ РІ РёР·Р±СЂР°РЅРЅРѕРµ
  * @package
  * @subpackage
  */
@@ -40,24 +40,24 @@ class AuctionStuff{
 			// Check that the data is valid
 			if ($table->check()){
 				if (!$table->bind($data)){
-				  echo "<div class=''>Ошибка связи полей таблицы...</div>";
+				  echo "<div class=''>РћС€РёР±РєР° СЃРІСЏР·Рё РїРѕР»РµР№ С‚Р°Р±Р»РёС†С‹...</div>";
 				  // handle bind failure
 				  echo $table->getError();
 				}
 				// Store the data in the table
 				if (!$table->store(true))
-				{	JError::raiseWarning(100, JText::_('Не удалось сохранить данные для id '.$pk.'...'));
+				{	JError::raiseWarning(100, JText::_('РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕС…СЂР°РЅРёС‚СЊ РґР°РЅРЅС‹Рµ РґР»СЏ id '.$pk.'...'));
 					$errors++;
 				}else{
 					$session = JFactory::getSession();
 					$session->clear('favorite_product_id');
 				}
-			}else die("Данные не валидны...");
+			}else die("Р”Р°РЅРЅС‹Рµ РЅРµ РІР°Р»РёРґРЅС‹...");
 			return true;
 		}else return 'exists'; // reserved meaning
 	}	
 /**
- * Построить ссылку на соседний предмет
+ * РџРѕСЃС‚СЂРѕРёС‚СЊ СЃСЃС‹Р»РєСѓ РЅР° СЃРѕСЃРµРґРЅРёР№ РїСЂРµРґРјРµС‚
  * @package
  * @subpackage
  */
@@ -70,18 +70,18 @@ class AuctionStuff{
 			.'&Itemid='.JRequest::getVar('Itemid'));	
 	}
 /**
- * Извлечь ЧПУ-ссылку для категории из ранее сохранённого массива в сессии
+ * РР·РІР»РµС‡СЊ Р§РџРЈ-СЃСЃС‹Р»РєСѓ РґР»СЏ РєР°С‚РµРіРѕСЂРёРё РёР· СЂР°РЅРµРµ СЃРѕС…СЂР°РЅС‘РЅРЅРѕРіРѕ РјР°СЃСЃРёРІР° РІ СЃРµСЃСЃРёРё
  * @package
  * @subpackage
  */
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
-		// todo: разобраться в целесообразности...
+		// todo: СЂР°Р·РѕР±СЂР°С‚СЊСЃСЏ РІ С†РµР»РµСЃРѕРѕР±СЂР°Р·РЅРѕСЃС‚Рё...
         $links = self::handleSessionCategoriesData();
         //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
         //echo "<div>virtuemart_category_id = ".$virtuemart_category_id."</div>";
         //commonDebug(__FILE__, __LINE__, $links, true);
         foreach($links as $layout=>$data){
-            // если таки есть категория с таким id
+            // РµСЃР»Рё С‚Р°РєРё РµСЃС‚СЊ РєР°С‚РµРіРѕСЂРёСЏ СЃ С‚Р°РєРёРј id
             if(array_key_exists($virtuemart_category_id, $data['child_links'])){
                 $link_type=(JApplication::getRouter()->getMode())?
                     'sef':'link';
@@ -91,7 +91,7 @@ class AuctionStuff{
 		return false;
 	}
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -106,7 +106,7 @@ class AuctionStuff{
 		}
 	}
 /**
- * Получить контент статьи
+ * РџРѕР»СѓС‡РёС‚СЊ РєРѕРЅС‚РµРЅС‚ СЃС‚Р°С‚СЊРё
  * @package
  * @subpackage
  */
@@ -118,15 +118,15 @@ class AuctionStuff{
 		return $db->loadAssoc();
 	}
 /**
- * Получить страны
+ * РџРѕР»СѓС‡РёС‚СЊ СЃС‚СЂР°РЅС‹
  * @package
  * @subpackage
  */
 	public static function getCountries(){
-		return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');	
+		return array('7'=>'Р РѕСЃСЃРёСЏ','380'=>'РЈРєСЂР°РёРЅР°','375'=>'Р‘РµР»РѕСЂСѓСЃСЃРёСЏ');	
 	}
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -165,7 +165,7 @@ class AuctionStuff{
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -207,7 +207,7 @@ FROM #__virtuemart_products_ru_ru
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -228,7 +228,7 @@ FROM #__virtuemart_products_ru_ru
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -282,7 +282,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 	}
 
 /**
- * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
+ * РџРѕР»СѓС‡РёС‚СЊ slug РїСЂРѕРґСѓРєС‚Р°. Р’ С‡Р°СЃС‚РЅРѕСЃС‚Рё, С‡С‚РѕР±С‹ РґРѕРїРёСЃР°С‚СЊ СЃСЃС‹Р»РєСѓ РЅР° РїСЂРµРґС‹РґСѓС‰РёР№ РїСЂРѕРґСѓРєС‚ РІ РїСЂРѕС„Р°Р№Р»Рµ С‚РµРєСѓС‰РµРіРѕ. 
  * @package
  * @subpackage
  */
@@ -299,7 +299,7 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -318,7 +318,7 @@ FROM #__virtuemart_categories cats
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -337,7 +337,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
 	}
 	
 /**
- * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
+ * РР·РІР»РµС‡СЊ Layouts СЂР°Р·РґРµР»РѕРІ Р°СѓРєС†РёРѕРЅР°, С‡С‚РѕР±С‹ СЂР°Р·РѕР±СЂР°С‚СЊСЃСЏ СЃ СЂРѕСѓС‚РµСЂРѕРј Рё РїСЂРѕС‡.
  * @package
  * @subpackage
  */
@@ -361,7 +361,7 @@ FROM #__virtuemart_categories AS cats
 WHERE cats_cats.category_parent_id = 0";
             $db = JFactory::getDbo();
             $db->setQuery($query);
-        if($array){ // здесь получим ids топовых категорий
+        if($array){ // Р·РґРµСЃСЊ РїРѕР»СѓС‡РёРј ids С‚РѕРїРѕРІС‹С… РєР°С‚РµРіРѕСЂРёР№
             if($array===true) {
                 $layouts=array();
                 foreach($db->loadAssocList() as $i=>$data)
@@ -379,12 +379,12 @@ WHERE cats_cats.category_parent_id = 0";
             //array('online','fulltime','shop');
 	}
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
 	public static function getCatProdCount(){
-        // todo: удалить On production!
+        // todo: СѓРґР°Р»РёС‚СЊ On production!
 		/*$query="SELECT 
 		-- cats.virtuemart_category_id, 
         -- cats_ru.category_name,
@@ -410,7 +410,7 @@ WHERE cats_cats.category_parent_id = 0";
 	}
 
 /**
- * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е
+ * РџРѕР»СѓС‡РёС‚СЊ ItemIds РјРµРЅСЋ СЃ layout-Р°РјРё Р°СѓРєС†РёРѕРЅР° РІ Virtuemart'Рµ
  * @package
  * @subpackage
  */
@@ -481,7 +481,7 @@ WHERE cats_cats.category_parent_id = 0";
 				echo $fieldArray[0];?>:</label>	
 		<?php if($value=='country_id'){?>
 				<select id="country" name="jform[country_id]"<?=$req?>>
-                    <option value="none">Выберите страну</option>
+                    <option value="none">Р’С‹Р±РµСЂРёС‚Рµ СЃС‚СЂР°РЅСѓ</option>
 			<?php $countries=AuctionStuff::getCountries();
 				foreach($countries as $code=>$country):?>
 					<option value="<?=$code?>"><?=$country?></option>
@@ -522,7 +522,7 @@ WHERE cats_cats.category_parent_id = 0";
 		return $fields;
 	}
 /**
- * Проверить наличие ранее сохранённых ссылок в сессии - извлечь или создать
+ * РџСЂРѕРІРµСЂРёС‚СЊ РЅР°Р»РёС‡РёРµ СЂР°РЅРµРµ СЃРѕС…СЂР°РЅС‘РЅРЅС‹С… СЃСЃС‹Р»РѕРє РІ СЃРµСЃСЃРёРё - РёР·РІР»РµС‡СЊ РёР»Рё СЃРѕР·РґР°С‚СЊ
  */    
     public static function handleSessionCategoriesData($file=false, $line=false){        
         static $cntr=1;
@@ -537,11 +537,11 @@ WHERE cats_cats.category_parent_id = 0";
             echo "<h1 class='test' style='color:red;'>cntr = ".$cntr."</h1>"; //die();
         }
         /** 
-         * если метод вызывается впервые в течение загрузки страницы, 
-         * сгенерировать набор ссылок на категории/разделы_предметов
-         * и сохранить в сессии, чтобы не вызывать процедуру генерации
-         * повторно на случай, если метод будет вызыван снова (если потребуется
-         * получить ссылки ещё раз).
+         * РµСЃР»Рё РјРµС‚РѕРґ РІС‹Р·С‹РІР°РµС‚СЃСЏ РІРїРµСЂРІС‹Рµ РІ С‚РµС‡РµРЅРёРµ Р·Р°РіСЂСѓР·РєРё СЃС‚СЂР°РЅРёС†С‹, 
+         * СЃРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РЅР°Р±РѕСЂ СЃСЃС‹Р»РѕРє РЅР° РєР°С‚РµРіРѕСЂРёРё/СЂР°Р·РґРµР»С‹_РїСЂРµРґРјРµС‚РѕРІ
+         * Рё СЃРѕС…СЂР°РЅРёС‚СЊ РІ СЃРµСЃСЃРёРё, С‡С‚РѕР±С‹ РЅРµ РІС‹Р·С‹РІР°С‚СЊ РїСЂРѕС†РµРґСѓСЂСѓ РіРµРЅРµСЂР°С†РёРё
+         * РїРѕРІС‚РѕСЂРЅРѕ РЅР° СЃР»СѓС‡Р°Р№, РµСЃР»Рё РјРµС‚РѕРґ Р±СѓРґРµС‚ РІС‹Р·С‹РІР°РЅ СЃРЅРѕРІР° (РµСЃР»Рё РїРѕС‚СЂРµР±СѓРµС‚СЃСЏ
+         * РїРѕР»СѓС‡РёС‚СЊ СЃСЃС‹Р»РєРё РµС‰С‘ СЂР°Р·).
          */
         if($cntr==1){
             //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
@@ -589,7 +589,7 @@ WHERE cats_cats.category_parent_id = 0";
                             if($sefMode)
                                 $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['sef'] = JRoute::_($section_links[$top_alias]['parent_link']).'/'.$category_data['alias'];
                             $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['product_count']=$category_data['product_count'];
-                            // будем подставлять в ТОП-категорию
+                            // Р±СѓРґРµРј РїРѕРґСЃС‚Р°РІР»СЏС‚СЊ РІ РўРћРџ-РєР°С‚РµРіРѕСЂРёСЋ
                             $products_count+=(int)$category_data['product_count'];
                         }
                     }
@@ -600,11 +600,11 @@ WHERE cats_cats.category_parent_id = 0";
             //commonDebug($file,$line,$section_links);
             $cntr++;
         }else{
-            /*  если метод вызывается повторно в течение загрузки страницы и при
-                этом ссылки уже были сгенерированы - извлечь их из сессии */
+            /*  РµСЃР»Рё РјРµС‚РѕРґ РІС‹Р·С‹РІР°РµС‚СЃСЏ РїРѕРІС‚РѕСЂРЅРѕ РІ С‚РµС‡РµРЅРёРµ Р·Р°РіСЂСѓР·РєРё СЃС‚СЂР°РЅРёС†С‹ Рё РїСЂРё
+                СЌС‚РѕРј СЃСЃС‹Р»РєРё СѓР¶Рµ Р±С‹Р»Рё СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅС‹ - РёР·РІР»РµС‡СЊ РёС… РёР· СЃРµСЃСЃРёРё */
             //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
             if(!$section_links=JFactory::getSession()->get('section_links')){
-                die("Не получены ссылки предметов из сессии.<br>file: ".__FILE__."<br>".__METHOD__);
+                die("РќРµ РїРѕР»СѓС‡РµРЅС‹ СЃСЃС‹Р»РєРё РїСЂРµРґРјРµС‚РѕРІ РёР· СЃРµСЃСЃРёРё.<br>file: ".__FILE__."<br>".__METHOD__);
                 return false;
             }
         }
@@ -614,7 +614,7 @@ WHERE cats_cats.category_parent_id = 0";
 
 class HTML{
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  * layout = shop | fulltime | online
@@ -643,7 +643,7 @@ class HTML{
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -664,8 +664,8 @@ class HTML{
         ?>
 <div class="top_list">
     <h2><div class="weak"><?php 
-        $lots = "Лотов";
-        // раздел вложенной категории
+        $lots = "Р›РѕС‚РѕРІ";
+        // СЂР°Р·РґРµР» РІР»РѕР¶РµРЅРЅРѕР№ РєР°С‚РµРіРѕСЂРёРё
         if($category_data['top_category_id']!=$category_id){
 			$category_data = $category_data['child_links'][$category_id];
             ?><span style="color:#456;"><?php 
@@ -673,8 +673,8 @@ class HTML{
             ?>.</span>
         <?php   
 		}else {
-            $lots.=" всего";
-            //echo $section; // ТОП категория
+            $lots.=" РІСЃРµРіРѕ";
+            //echo $section; // РўРћРџ РєР°С‚РµРіРѕСЂРёСЏ
         }
         ?><span style="white-space:nowrap"><?php 
                 echo $lots;?>: <?php 
@@ -690,7 +690,7 @@ class HTML{
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -702,21 +702,21 @@ class HTML{
 			case 'user':
 				if(!$obj)
 					$obj = JFactory::getUser();
-				echo($obj->guest)? "Регистрация":"Ваш кабинет";
+				echo($obj->guest)? "Р РµРіРёСЃС‚СЂР°С†РёСЏ":"Р’Р°С€ РєР°Р±РёРЅРµС‚";
 				echo $gts;
 			break;
 			case 'take_lot':
-				echo "Прием на торги";
+				echo "РџСЂРёРµРј РЅР° С‚РѕСЂРіРё";
 				echo $gts;
 			break;
 			case 'ask_about_lot':
-				echo "Задать вопрос по лоту";
+				echo "Р—Р°РґР°С‚СЊ РІРѕРїСЂРѕСЃ РїРѕ Р»РѕС‚Сѓ";
 			break;
 		}?></a>
         </div>	
 <?php }	
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -740,7 +740,7 @@ class HTML{
 		}?>
 		
 	<div class="top_list_mn">
-    <?php // расположить в обратном порядке, ибо float:right
+    <?php // СЂР°СЃРїРѕР»РѕР¶РёС‚СЊ РІ РѕР±СЂР°С‚РЅРѕРј РїРѕСЂСЏРґРєРµ, РёР±Рѕ float:right
 		if(isset($prop_link)) HTML::innerMenu('take_lot',JRoute::_($prop_link,false));
 		if(isset($ask_link)) HTML::innerMenu('ask_about_lot',JRoute::_($ask_link,false));
 		if(isset($cab_link)) HTML::innerMenu('user',JRoute::_($cab_link,false),$user);?>
@@ -748,7 +748,7 @@ class HTML{
 <?php }
 
 /**
- * Построить правильную ссылку
+ * РџРѕСЃС‚СЂРѕРёС‚СЊ РїСЂР°РІРёР»СЊРЅСѓСЋ СЃСЃС‹Р»РєСѓ
  * @package
  * @subpackage
  */
@@ -764,7 +764,7 @@ class HTML{
 	}
 
 /**
- * Описание
+ * РћРїРёСЃР°РЅРёРµ
  * @package
  * @subpackage
  */
@@ -773,7 +773,7 @@ class HTML{
 								$pagination = false
 							){?>	
 <div class="lots_listing">
-	Лотов на странице: 
+	Р›РѕС‚РѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ: 
     <?php $router = JFactory::getApplication()->getRouter();
 		static $lnk;
 		static $pag;
@@ -819,7 +819,7 @@ class HTML{
 class DateAndTime{
 	private $datetime;
 /**
- * Получить и сохранить как член класса массив из 2-х массивов - даты и времени
+ * РџРѕР»СѓС‡РёС‚СЊ Рё СЃРѕС…СЂР°РЅРёС‚СЊ РєР°Рє С‡Р»РµРЅ РєР»Р°СЃСЃР° РјР°СЃСЃРёРІ РёР· 2-С… РјР°СЃСЃРёРІРѕРІ - РґР°С‚С‹ Рё РІСЂРµРјРµРЅРё
  * @package
  * @subpackage
  */
@@ -829,7 +829,7 @@ class DateAndTime{
 		$this->datetime=$this->splitDateToArrays($row_datetime);
 	}	
 /**
- * Разбить дату и время на массивы даты и времени
+ * Р Р°Р·Р±РёС‚СЊ РґР°С‚Сѓ Рё РІСЂРµРјСЏ РЅР° РјР°СЃСЃРёРІС‹ РґР°С‚С‹ Рё РІСЂРµРјРµРЅРё
  * @package
  * @subpackage
  */
@@ -840,7 +840,7 @@ class DateAndTime{
 					);
 	}	
 /**
- * Получить массив даты/времени с ключами для простой подстановки значений
+ * РџРѕР»СѓС‡РёС‚СЊ РјР°СЃСЃРёРІ РґР°С‚С‹/РІСЂРµРјРµРЅРё СЃ РєР»СЋС‡Р°РјРё РґР»СЏ РїСЂРѕСЃС‚РѕР№ РїРѕРґСЃС‚Р°РЅРѕРІРєРё Р·РЅР°С‡РµРЅРёР№
  * @package
  * @subpackage
  */
@@ -858,7 +858,7 @@ class DateAndTime{
 				);	
 	}
 /**
- * Получить массив даты/времени как mktime
+ * РџРѕР»СѓС‡РёС‚СЊ РјР°СЃСЃРёРІ РґР°С‚С‹/РІСЂРµРјРµРЅРё РєР°Рє mktime
  * @package
  * @subpackage
  */
@@ -877,32 +877,32 @@ class DateAndTime{
 		return $mktime; 
 	}
 /**
- * Получить разницу дат
+ * РџРѕР»СѓС‡РёС‚СЊ СЂР°Р·РЅРёС†Сѓ РґР°С‚
  * @package
  * @subpackage
  */
 	function getDaysDiff($date_start,$date_finish=false){
-		// получить дату начала отсчёта как mktime:
+		// РїРѕР»СѓС‡РёС‚СЊ РґР°С‚Сѓ РЅР°С‡Р°Р»Р° РѕС‚СЃС‡С‘С‚Р° РєР°Рє mktime:
 		$mktime_start=$this->getMkTime($date_start,true);
-		// получить метку времени конца отсчёта:
+		// РїРѕР»СѓС‡РёС‚СЊ РјРµС‚РєСѓ РІСЂРµРјРµРЅРё РєРѕРЅС†Р° РѕС‚СЃС‡С‘С‚Р°:
 		$mktime_finish=($date_finish)? 
 			$this->getMkTime($date_finish,true):time();
-		// получить разницу в секундах:		
+		// РїРѕР»СѓС‡РёС‚СЊ СЂР°Р·РЅРёС†Сѓ РІ СЃРµРєСѓРЅРґР°С…:		
 		$mktime_delta=$mktime_finish-$mktime_start;
 		$delta=array();
 		$days=60*60*24;
 		$hours=60*60;
 		$minutes=60;
-		// остаток дней:
-		$delta['дней']=floor($mktime_delta/$days);
-		$seconds_in_days=$delta['дней']*$days;
-		// остаток часов:
+		// РѕСЃС‚Р°С‚РѕРє РґРЅРµР№:
+		$delta['РґРЅРµР№']=floor($mktime_delta/$days);
+		$seconds_in_days=$delta['РґРЅРµР№']*$days;
+		// РѕСЃС‚Р°С‚РѕРє С‡Р°СЃРѕРІ:
 		$calc_hours=$mktime_delta-$seconds_in_days;
-		$delta['часов']=floor($calc_hours/$hours); // 2 h
-		$seconds_in_hours=$delta['часов']*$hours;
-		// остаток минут:
+		$delta['С‡Р°СЃРѕРІ']=floor($calc_hours/$hours); // 2 h
+		$seconds_in_hours=$delta['С‡Р°СЃРѕРІ']*$hours;
+		// РѕСЃС‚Р°С‚РѕРє РјРёРЅСѓС‚:
 		$seconds_in_minutes=$mktime_delta-$seconds_in_hours-$seconds_in_days;
-		$delta['минут']=floor($seconds_in_minutes/$minutes);		
+		$delta['РјРёРЅСѓС‚']=floor($seconds_in_minutes/$minutes);		
 		return $delta;
 	}
 }
