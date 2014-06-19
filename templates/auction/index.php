@@ -193,29 +193,11 @@ $( function(){
                 <div class="Post">
                     <div class="Post-body">
                 		<jdoc:include type="component" />
-  <?php if ( $this->countModules('usermenu')
-			 && $user->get('guest') != 1
-		   	 && $layout!='register'
-			 && $layout!='askaboutlot'
-			 && ($option=='com_auction2013'
-			 	 || $option=='com_users')
-		   ): ?>
-  						<jdoc:include type="modules" name="usermenu" style="xhtml" /> 
-<script>
-$(function(){
-	var umenu = $('#usermenu-container');
-	$('#user_menu_box').append(umenu);
-	$(umenu).fadeIn(300);
-});
-</script>
-  <?php endif; ?>
                     </div>
                 </div>
             </div>
         	
         </div>
-        
-        
         <div id="footer">
             <div id="copyright">
 			<?php if ($this->countModules('copyright') == 0): ?>
