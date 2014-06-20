@@ -506,7 +506,11 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 
 		$usr = JFactory::getUser();
 		$prices = $cart->getCartPrices();
-		if (($orderID = $this->_createOrder($cart, $usr, $prices)) == 0) {
+
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$cart, true);
+
+        if (($orderID = $this->_createOrder($cart, $usr, $prices)) == 0) {
 			vmError('Couldn\'t create order','Couldn\'t create order');
 			return false;
 		}
@@ -538,6 +542,8 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 	 */
 	private function _createOrder($_cart, $_usr, $_prices)
 	{
+		//include_once JPATH_SITE.DS.'tests.php';
+		//commonDebug(__FILE__,__LINE__,$_cart, true);
 		//		TODO We need tablefields for the new values:
 		//		Shipment:
 		//		$_prices['shipmentValue']		w/out tax
@@ -1086,14 +1092,14 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 
 		    foreach($_cart->cartData[$calculation_kind] as $rule){
 			    $orderCalcRules = $this->getTable('order_calc_rules');
-			     $orderCalcRules->virtuemart_order_calc_rule_id = null;
-			     $orderCalcRules->calc_rule_name= $rule['calc_name'];
-			     $orderCalcRules->calc_amount =  $_cart->pricesUnformatted[$rule['virtuemart_calc_id'].'Diff'];
-			     $orderCalcRules->calc_kind=$calculation_kind;
-			     $orderCalcRules->calc_mathop=$rule['calc_value_mathop'];
-			     $orderCalcRules->virtuemart_order_id=$order_id;
-			     $orderCalcRules->calc_params=$rule['calc_params'];
-			     if (!$orderCalcRules->check()) {
+			    $orderCalcRules->virtuemart_order_calc_rule_id = null;
+			    $orderCalcRules->calc_rule_name= $rule['calc_name'];
+			    $orderCalcRules->calc_amount =  $_cart->pricesUnformatted[$rule['virtuemart_calc_id'].'Diff'];
+			    $orderCalcRules->calc_kind=$calculation_kind;
+			    $orderCalcRules->calc_mathop=$rule['calc_value_mathop'];
+			    $orderCalcRules->virtuemart_order_id=$order_id;
+			    $orderCalcRules->calc_params=$rule['calc_params'];
+			    if (!$orderCalcRules->check()) {
 				    vmError('_createOrderCalcRules store bill rule '.$this->getError());
 				    return false;
 			    }

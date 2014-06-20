@@ -97,9 +97,12 @@ class Auction2013ModelAuction2013 extends JModelLegacy
             $cart->skip_stockhandle_checking=true;
             if ($cart->add($post['product_id'],$success)) {
                 $sessionCart = JFactory::getSession()->get('vmcart', null, 'vm');
-                commonDebug(__FILE__, __LINE__, $sessionCart, true);
-                $result['msg']='Заявка на покупку предмета оформлена';
-				$result['type']='';
+                commonDebug(__FILE__, __LINE__, unserialize($sessionCart));
+                $orderModel = VmModel::getModel('orders');
+                if ($orderID = $orderModel->createOrderFromCart($cart)){
+                    $result['msg']='Заявка на покупку предмета оформлена';
+                    $result['type']='';
+                }
 			} 
 		}
         return $result;

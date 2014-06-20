@@ -165,7 +165,6 @@ function vmError($descr, $publicdescr = '') {
 
     if (VmConfig::$maxMessageCount < VmConfig::$maxMessage) {
         if (empty($descr)) {
-			echo "line: ".__LINE__.", file: ".__FILE__."<HR>";
 			vmTrace('vmError message empty');
         }
         $lang = JFactory::getLanguage();
@@ -239,7 +238,6 @@ function vmTrace($notice, $force = FALSE) {
     if ($force || (VMConfig::showDebug() )) {
         //$app = JFactory::getApplication();
         //
-		die(__LINE__.", ".__FILE__);
 		ob_start();
         echo '<pre>';
         debug_print_backtrace();
