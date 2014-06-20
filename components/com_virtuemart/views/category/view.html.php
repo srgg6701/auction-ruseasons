@@ -57,8 +57,8 @@ class VirtuemartViewCategory extends VmView {
 		$this->loadHelper('image');
 		$categoryModel = VmModel::getModel('category');
 		$productModel = VmModel::getModel('product');
-
-
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$productModel, true);
 		$categoryId = JRequest::getInt('virtuemart_category_id', false);
 		$vendorId = 1;
 		$category = $categoryModel->getCategory($categoryId);
@@ -174,11 +174,18 @@ class VirtuemartViewCategory extends VmView {
 
 	    /*	MODIFIED START */
 		// 	Получить и передать модели Id топовой категории:
-		$this->setTopCatId($productModel);
-		/*	MODIFIED END	*/		
+		$this->setTopCatItemId($productModel);
+        //AuctionStuff::getTopCatsMenuItemIds();
+
+        /*	MODIFIED END	*/
 		// Load the products in the given category
-        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
-	    $products = $productModel->getProductsInCategory($categoryId);
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$categoryId, true);
+        $products = $productModel->getProductsInCategory($categoryId);
+        $session=JFactory::getSession();
+        //$session->clear('vmcart', null, 'vm');
+        //$session->set('vmcart', null, 'vm');
+        //commonDebug(__FILE__, __LINE__, unserialize($session->get('vmcart', null, 'vm')), true);
         //commonDebug(__FILE__, __LINE__, $products, true);
 
         $productModel->addImages($products,1);
@@ -257,19 +264,26 @@ class VirtuemartViewCategory extends VmView {
  * @package
  * @subpackage
  */
-	private function setTopCatId($productModel) {
+	private function setTopCatItemId($productModel) {
 		$get=JRequest::get('get');
         $top_cats=AuctionStuff::getTopCatsLayouts(1); 
+        $topCatItemIds = AuctionStuff::getTopCatsMenuItemIds();
+        //commonDebug(__FILE__,__LINE__,JRequest::getVar('Itemid'));
+        //commonDebug(__FILE__,__LINE__,$topCatItemIds, true);
         // from component's router
         // test start
-        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        //echo "<pre>";var_dump($get);echo "</pre>"; // die();
-        //echo "<div>virtuemart_category_id = ".$get['virtuemart_category_id']."</div>";
-		/*  параметр true позволяет излвечь ассоциативный массив id => layout 
+        // 23, 21, 22
+        //commonDebug(__FILE__,__LINE__,$top_cats, true);
+
+        /*  параметр true позволяет излвечь ассоциативный массив id => layout
             любой другой аргумент, имеющий значение - массив id id
         */
         // test end
-        if($get['view'] == 'category'&&in_array($get['virtuemart_category_id'], $top_cats)){
+        $itemId=JRequest::getVar('Itemid');
+        if(in_array($itemId,$topCatItemIds))
+            $productModel->auction_section=$itemId;
+        if($get['view'] == 'category'
+            && in_array($get['virtuemart_category_id'], $top_cats)){
             $productModel->top_category=$get['virtuemart_category_id'];
             //die('TOP category: '.$productModel->top_category);            
             return true;

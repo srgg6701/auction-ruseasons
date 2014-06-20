@@ -87,8 +87,8 @@ if ($this->search !== NULL):?>
 <!-- End Search Box -->
 <?php endif; //var_dump($this); die();
 
-// include_once JPATH_SITE.DS.'tests.php';
-commonDebug(__FILE__,__LINE__,$this->products, true);
+//commonDebug(__FILE__,__LINE__,JRequest::get('get'));
+//commonDebug(__FILE__,__LINE__,$this->products);
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
 

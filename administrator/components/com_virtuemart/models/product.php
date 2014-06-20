@@ -617,7 +617,11 @@ class VirtueMartModelProduct extends VmModel {
      * @param boolean $withCalc calculate prices?
      */
     public function getProduct(
-    $virtuemart_product_id = NULL, $front = TRUE, $withCalc = TRUE, $onlyPublished = TRUE, $quantity = 1) {
+                $virtuemart_product_id = NULL,
+                $front = TRUE,
+                $withCalc = TRUE,
+                $onlyPublished = TRUE,
+                $quantity = 1) {
 
         if (isset($virtuemart_product_id)) {
             $virtuemart_product_id = $this->setId($virtuemart_product_id);
@@ -636,6 +640,9 @@ class VirtueMartModelProduct extends VmModel {
             $child = $this->getProductSingle($virtuemart_product_id, $front, $quantity);
             //var_dump("<pre>",$child,"</pre>");die(__FILE__);
             if (!$child->published && $onlyPublished) {
+                //echo "<div style='margin-bottom: 10px;'>file: <span style='color:blue;'>".__file__."</span><br>line: <span style='background-color:#666; color:white; padding: 2px 4px;'>".__line__."</span></div>";
+                //commonDebug(__FILE__,__LINE__,$productKey);
+                //echo "<div style='margin-bottom: 10px;'>file: <span style='color:blue;'>".__file__."</span><br>line: <span style='background-color:#666; color:white; padding: 2px 4px;'>".__line__."</span></div>";
                 vmdebug('getProduct child is not published, returning zero');
                 return FALSE;
             }
@@ -723,14 +730,20 @@ class VirtueMartModelProduct extends VmModel {
               } */
 
             $app = JFactory::getApplication();
-            if ($app->isSite() and VmConfig::get('stockhandle', 'none') == 'disableit' and ($child->product_in_stock - $child->product_ordered) <= 0) {
-                vmdebug('STOCK 0', VmConfig::get('use_as_catalog', 0), VmConfig::get('stockhandle', 'none'), $child->product_in_stock);
-                return FALSE;
+            if ($app->isSite() and VmConfig::get('stockhandle', 'none') == 'disableit'
+                and ($child->product_in_stock - $child->product_ordered) <= 0
+               ) {
+                /* MODIFIED START */
+                if($this->auction_section)
+                    $_products[$productKey] = $child;
+                else /* MODIFIED END */
+                    //vmdebug('STOCK 0', VmConfig::get('use_as_catalog', 0), VmConfig::get('stockhandle', 'none'), $child->product_in_stock);
+                    return FALSE;
             } else {
                 $_products[$productKey] = $child;
             }
         }
-
+        //else commonDebug(__FILE__,__LINE__,$_products, true);
         return $_products[$productKey];
     }
 
@@ -839,9 +852,12 @@ class VirtueMartModelProduct extends VmModel {
               'virtuemart_product_price_id' =>'#__virtuemart_product_prices',
               'virtuemart_manufacturer_id' =>'#__virtuemart_product_manufacturers',
               'virtuemart_customfield_id' =>'#__virtuemart_product_customfields'); */
-            $joinIds = array('virtuemart_manufacturer_id' => '#__virtuemart_product_manufacturers', 'virtuemart_customfield_id' => '#__virtuemart_product_customfields');
+            $joinIds = array('virtuemart_manufacturer_id' => '#__virtuemart_product_manufacturers',
+                             'virtuemart_customfield_id' => '#__virtuemart_product_customfields' );
 
             $product = $this->getTable('products');
+            // include_once JPATH_SITE.DS.'tests.php';
+            //commonDebug(__FILE__,__LINE__,$joinIds);
             $product->load($this->_id, 0, 0, $joinIds);
 
             $xrefTable = $this->getTable('product_medias');
@@ -1022,7 +1038,7 @@ class VirtueMartModelProduct extends VmModel {
             return $this->fillVoidProduct($front);
         }
         //		}
-
+        //commonDebug(__FILE__,__LINE__,$product, true);
         $this->product = $product;
         return $product;
     }
@@ -1156,8 +1172,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         //echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
         //echo "<div>categoryId = ".$categoryId."</div>"; die();
         $ids = $this->sortSearchListQuery(TRUE, $categoryId);
-        //echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
-        //echo "<pre>"; var_dump($ids); echo "</pre>"; // die();
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$ids, true);
         $this->products = $this->getProducts($ids);
         //var_dump("<pre>",$this->products,"</pre>"); die(__FILE__);
         return $this->products;
@@ -1237,7 +1253,11 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
      * @param boolean $onlyPublished
      */
     public function getProducts(
-    $productIds, $front = TRUE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE) {
+                            $productIds,
+                            $front = TRUE,
+                            $withCalc = TRUE,
+                            $onlyPublished = TRUE,
+                            $single = FALSE ) {
 
         if (empty($productIds)) {
             // 			vmdebug('getProducts has no $productIds','No ids given to get products');
@@ -1246,11 +1266,13 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         }
 
         $maxNumber = VmConfig::get('absMaxProducts', 700);
-        $products = array();
+        $products = array(); //$single=true;
         if ($single) {
             foreach ($productIds as $id) {
                 $i = 0;
-                if ($product = $this->getProductSingle((int) $id, $front)) {
+                $product = $this->getProductSingle((int) $id, $front);
+                //commonDebug(__FILE__,__LINE__,$product, true);
+                if ($product) {
                     $products[] = $product;
                     $i++;
                 }
@@ -1262,7 +1284,9 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         } else {
             $i = 0;
             foreach ($productIds as $id) {
-                if ($product = $this->getProduct((int) $id, $front, $withCalc, $onlyPublished)) {
+                $product = $this->getProduct((int) $id, $front, $withCalc, $onlyPublished);
+                //commonDebug(__FILE__,__LINE__,$product, true);
+                if ($product) {
                     $products[] = $product;
                     //echo "<h3>product:</h3>";var_dump('<pre>',$product, '</pre>');
                     $i++;
