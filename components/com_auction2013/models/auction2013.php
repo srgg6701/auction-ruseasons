@@ -73,38 +73,31 @@ class Auction2013ModelAuction2013 extends JModelLegacy
      * Добавить предмет в корзину юзера через VM
      */
     public function makePurchase($post) {
-        // Дополнительные поля для модели VM:
-        // <input type="hidden" name="view" value="cart"/>
-        // task = add
-        /*  ["option"]=> "com_auction2013"
-            ["task"]=> "purchase"
-            ["product_id"]=> "2708"
-            ["4698319123368c7b56a8c213973a888f"]=>  "1" */
-		$mainframe = JFactory::getApplication();
-        $path = DS .   'components' .
-                DS .   'com_virtuemart' .
-                DS .   'helpers';
-        require_once JPATH_ADMINISTRATOR .$path . DS .   'config.php';
-        require_once JPATH_SITE .$path . DS .   'cart.php';
-		$result=array();
-        $result['msg']=JText::_('COM_VIRTUEMART_PRODUCT_NOT_ADDED_SUCCESSFULLY');
-        $result['type']='error';
-        if ($cart = VirtueMartCart::getCart()) {
-            commonDebug(__FILE__, __LINE__, $post);
-            // сохранить данные предмета в корзине и сразу же оформить как заказ:
-            $success=true;
-            // отключить ненужную проверку для избежания тупика:
-            $cart->skip_stockhandle_checking=true;
-            if ($cart->add($post['product_id'],$success)) {
-                $sessionCart = JFactory::getSession()->get('vmcart', null, 'vm');
-                commonDebug(__FILE__, __LINE__, unserialize($sessionCart));
-                $orderModel = VmModel::getModel('orders');
-                if ($orderID = $orderModel->createOrderFromCart($cart)){
-                    $result['msg']='Заявка на покупку предмета оформлена';
-                    $result['type']='';
-                }
-			} 
-		}
+        /* ["option"]                   => "com_auction2013"
+           ["task"]                     => "purchase"
+           ["menuitemid"]               => "115"
+            // на всякий случай массив, патаму что в VM так
+           ["virtuemart_product_id"]    => array(1) {
+                                            [0]=> "2708"
+                                           }
+           ["8dfc8567bfc27829cbc4328674ab6d74"]=> "1"   */
+		commonDebug(__FILE__,__LINE__,$post, true);
+        $result=array();
+        // Create and populate an object.
+        $data = new stdClass();
+        $data->user_id = JFactory::getUser()->id;
+        $data->virtuemart_product_id=$post['virtuemart_product_id'][0];
+        // status by default = 0
+        // Insert the object into the user profile table.
+        try{
+            JFactory::getDbo()->insertObject('#__dev_shop_orders', $data);
+            $result['msg']=JText::_('ОШИБКА... Заказ не оформлен');
+            $result['type']='error';
+        }catch(Exception $e){
+            die('Error: '.$e->getMessage());
+            $result['msg']=JText::_('ОШИБКА... Заказ не оформлен');
+            $result['type']='error';
+        }
         return $result;
     }
 }

@@ -86,7 +86,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         if($result=$model->makePurchase($post)){
             $redirect_link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                             $post['product_id'] . '&virtuemart_category_id='. $post['category_id'] .
-                            '&Itemid=' .$post['menuitemid'];
+                            '&Itemid=' .$post['menuitemid'].'&result=ok';
             commonDebug(__FILE__, __LINE__, $redirect_link.'<br>чпу: '.JRoute::_($redirect_link), true);
             $this->setRedirect(JRoute::_($redirect_link),$result['msg'],$result['type']);
         }

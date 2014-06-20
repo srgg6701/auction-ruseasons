@@ -146,21 +146,10 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
         <input type="text" name="task" value="auction2013.purchase" />
         <input type="text" name="menuitemid" value="<?php echo $Itemid;?>" />
         <input type="text" name="category_id" value="<?php echo $this->product->virtuemart_category_id;?>" />
-    <?php /*
-        <input type="text" name="product_id" value="<?=$this->product->virtuemart_product_id?>" />
-    */
-    // поля для VM: ?>
     <h4>VM fields</h4>
-    <input type="text" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
-    <?php /*
-    <input type="text" name="option" value="com_virtuemart"/>
-    <noscript><input type="text" name="task" value="add"/></noscript>
-    <input type="text" name="view" value="cart"/>
-    */?>
-    <input type="text" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
-    <input type="text" name="quantity[]" value="1"/>
-
-        <?php echo JHtml::_('form.token');?>
+        <input type="text" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
+        <input type="text" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
+    <?php echo JHtml::_('form.token');?>
     <button type="submit" class="buttonSandCool">Купить</button>
 </form>  
 <?php        
