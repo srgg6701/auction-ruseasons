@@ -325,13 +325,15 @@ class VmModel extends JModel {
 
 	public function exeSortSearchListQuery($object, $select, $joinedTables, $whereString = '', $groupBy = '', $orderBy = '', $filter_order_Dir = '', $nbrReturnProducts = false){
 
+        include_once JPATH_SITE.DS.'tests.php';
+
 		// 		vmSetStartTime('exe');
 		// 		if(USE_SQL_CALC_FOUND_ROWS){
 
 		//and the where conditions
 		$joinedTables .= $whereString .$groupBy .$orderBy .$filter_order_Dir ;
 		// 			$joinedTables .= $whereString .$groupBy .$orderBy;
-
+        //commonDebug(__FILE__,__LINE__,$select.$joinedTables, true);
 		if($nbrReturnProducts){
 			$limitStart = 0;
 			$limit = $nbrReturnProducts;
@@ -350,9 +352,10 @@ class VmModel extends JModel {
 			$q = 'SELECT SQL_CALC_FOUND_ROWS '.$select.$joinedTables;
 		} else {
 			$q = 'SELECT '.$select.$joinedTables;
+            // SELECT * FROM `#__virtuemart_orderstates` order by `ordering`
 		}
-        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        //echo "<div>q = ".$q."</div>";
+        //commonDebug(__FILE__,__LINE__,$q);
+        //commonDebug(__FILE__,__LINE__,debug_print_backtrace(), true);
 		if($this->_noLimit or empty($limit)){
 // 			vmdebug('exeSortSearchListQuery '.get_class($this).' no limit');
 			$this->_db->setQuery($q);

@@ -235,7 +235,20 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 		} else {
 			$ordering = ' order by o.modified_on DESC';
 		}
-
+        include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$select.$from.$whereString, true);
+        /* SELECT o.*,
+CONCAT_WS(' ',u.first_name,u.middle_name,u.last_name)
+                AS order_name,
+u.email         AS order_email,
+pm.payment_name AS payment_method
+     FROM auc13_virtuemart_orders               AS o
+LEFT JOIN auc13_virtuemart_order_userinfos      AS u
+          ON  u.virtuemart_order_id = o.virtuemart_order_id
+              AND u.address_type="BT"
+LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
+          ON  o.virtuemart_paymentmethod_id = pm.virtuemart_paymentmethod_id
+    WHERE ( o.virtuemart_vendor_id = "1" )   */
 		$this->_data = $this->exeSortSearchListQuery(0,$select,$from,$whereString,'',$ordering);
 
 
@@ -541,7 +554,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 
 		$_orderData->virtuemart_order_id = null;
 		$_orderData->virtuemart_user_id = $_usr->get('id');
-		$_orderData->virtuemart_vendor_id = $_cart->vendorId;
+		$_orderData->virtuemart_vendor_id = $_cart->vendorId; //1
 
 		//Note as long we do not have an extra table only storing addresses, the virtuemart_userinfo_id is not needed.
 		//The virtuemart_userinfo_id is just the id of a stored address and is only necessary in the user maintance view or for choosing addresses.
@@ -622,6 +635,101 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 
 		return $_orderID;
 	}
+
+/* MODIFIED START */
+/**
+ * Сохранить заказ
+ */
+    /*private function storeAuctionShopOrder($_usr)
+    {
+        //		TODO We need tablefields for the new values:
+        //		Shipment:
+        //		$_prices['shipmentValue']		w/out tax
+        //		$_prices['shipmentTax']			Tax
+        //		$_prices['salesPriceShipment']	Total
+        //
+        //		Payment:
+        //		$_prices['paymentValue']		w/out tax
+        //		$_prices['paymentTax']			Tax
+        //		$_prices['paymentDiscount']		Discount
+        //		$_prices['salesPricePayment']	Total
+
+        $_orderData = new stdClass();
+
+        $_orderData->virtuemart_order_id = null;
+        $_orderData->virtuemart_user_id = $_usr->get('id');
+        $_orderData->virtuemart_vendor_id = 1;
+            //$_cart->vendorId; //1
+
+        //Note as long we do not have an extra table only storing addresses, the virtuemart_userinfo_id is not needed.
+        //The virtuemart_userinfo_id is just the id of a stored address and is only necessary in the user maintance view or for choosing addresses.
+        //the saved order should be an snapshot with plain data written in it.
+        //		$_orderData->virtuemart_userinfo_id = 'TODO'; // $_cart['BT']['virtuemart_userinfo_id']; // TODO; Add it in the cart... but where is this used? Obsolete?
+        $q_prices =
+        $_prices = '';
+        //$_orderData->order_total                = $_prices['billTotal'];
+        $_orderData->order_salesPrice           = $_prices['salesPrice']; */
+/*        $_orderData->order_billTaxAmount        = $_prices['billTaxAmount'];
+        $_orderData->order_billDiscountAmount   = $_prices['billDiscountAmount'];
+        $_orderData->order_discountAmount       = $_prices['discountAmount'];
+        $_orderData->order_subtotal             = $_prices['priceWithoutTax'];
+        $_orderData->order_tax                  = $_prices['taxAmount'];
+        $_orderData->order_shipment             = $_prices['shipmentValue'];
+        $_orderData->order_shipment_tax         = $_prices['shipmentTax'];
+        $_orderData->order_payment              = $_prices['paymentValue'];
+        $_orderData->order_payment_tax          = $_prices['paymentTax']; */
+
+        /*$_orderData->order_status = 'P';
+        $_orderData->order_currency = $this->getVendorCurrencyId($_orderData->virtuemart_vendor_id);
+        /*
+        if (isset($_cart->pricesCurrency)) {
+            $_orderData->user_currency_id = $_cart->paymentCurrency ;//$this->getCurrencyIsoCode($_cart->pricesCurrency);
+            $currency = CurrencyDisplay::getInstance($_orderData->user_currency_id);
+            if($_orderData->user_currency_id != $_orderData->order_currency){
+                $_orderData->user_currency_rate =   $currency->convertCurrencyTo($_orderData->user_currency_id ,1.0,false);
+            } else {
+                $_orderData->user_currency_rate=1.0;
+            }
+        }*/
+        //$_orderData->virtuemart_paymentmethod_id = $_cart->virtuemart_paymentmethod_id;
+        //$_orderData->virtuemart_shipmentmethod_id = $_cart->virtuemart_shipmentmethod_id;
+
+        /*$_filter = JFilterInput::getInstance (array('br', 'i', 'em', 'b', 'strong'), array(), 0, 0, 1);
+        //$_orderData->customer_note = $_filter->clean($_cart->customer_comment);
+        $_orderData->ip_address = $_SERVER['REMOTE_ADDR'];
+
+        $_orderData->order_number ='';
+        JPluginHelper::importPlugin('vmshopper');
+        $dispatcher = JDispatcher::getInstance();
+        $plg_datas = $dispatcher->trigger('plgVmOnUserOrder',array(&$_orderData));
+        foreach($plg_datas as $plg_data){
+            // 				$data = array_merge($plg_data,$data);
+        }
+        if(empty($_orderData->order_number)){
+            $_orderData->order_number = $this->generateOrderNumber($_usr->get('id'),4,$_orderData->virtuemart_vendor_id);
+        }
+        if(empty($_orderData->order_pass)){
+            $_orderData->order_pass = 'p_'.substr( md5((string)time().rand(1,1000).$_orderData->order_number ), 0, 5);
+        }
+
+        $orderTable =  $this->getTable('orders');
+        $orderTable -> bindChecknStore($_orderData);
+        $errors = $orderTable->getErrors();
+        foreach($errors as $error){
+            vmError($error);
+        }
+
+        $db = JFactory::getDBO();
+        $_orderID = $db->insertid();
+
+        // the order number is saved into the session to make sure that the correct cart is emptied with the payment notification
+        $_cart->order_number=$_orderData->order_number;
+        $_cart->setCartIntoSession ();
+
+        return $_orderID;
+    }*/
+
+    /* MODIFIED END */
 
 
 	private function getVendorCurrencyId($vendorId){

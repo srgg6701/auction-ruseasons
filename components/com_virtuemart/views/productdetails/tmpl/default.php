@@ -47,7 +47,6 @@ else:
     $category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
 	$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
 	$hide=' style="visibility:hidden"';
-
 	
 	if((int)$trinityIds[0]<$virtuemart_product_id):	
 		$prev_prod_link=AuctionStuff::buildProdNeighborLink($trinityIds[0],$category_link,$SefMode);
@@ -118,8 +117,53 @@ else:
   </div>
   <div class="box_desc">
 <?php 
-    if(key($topItem)=='shop'): 
-        echo "<h1>Shop</h1>";
+    if((int)$topItem['shop']===(int)$Itemid): //echo "<h1>Shop</h1>";
+        ?>
+<form id="purchase_app_form" action="<?php 
+echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase'); 
+    ?>" method="post">
+      <span><b><?php echo $this->product->product_sku;?>
+                <?php echo $this->product->product_name;?>
+            </b></span>
+      <div class="product_s_desc"><?php echo $this->product->product_s_desc;?></div>
+    <div class="o_o">
+      Категория:................... 
+      <span class="span_o_o">
+          <b><?php
+          echo $this->product->category_name;
+          ?></b>
+      </span>
+    </div>
+    <div class="o_o">
+      Цена:........................... 
+      <span class="span_o_o">
+          <b><?php 
+          echo $this->product->prices['basePriceVariant'];
+          ?> руб.</b>
+      </span>
+    </div>
+        <input type="text" name="option" value="com_auction2013" />
+        <input type="text" name="task" value="auction2013.purchase" />
+        <input type="text" name="menuitemid" value="<?php echo $Itemid;?>" />
+        <input type="text" name="category_id" value="<?php echo $this->product->virtuemart_category_id;?>" />
+    <?php /*
+        <input type="text" name="product_id" value="<?=$this->product->virtuemart_product_id?>" />
+    */
+    // поля для VM: ?>
+    <h4>VM fields</h4>
+    <input type="text" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
+    <?php /*
+    <input type="text" name="option" value="com_virtuemart"/>
+    <noscript><input type="text" name="task" value="add"/></noscript>
+    <input type="text" name="view" value="cart"/>
+    */?>
+    <input type="text" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
+    <input type="text" name="quantity[]" value="1"/>
+
+        <?php echo JHtml::_('form.token');?>
+    <button type="submit" class="buttonSandCool">Купить</button>
+</form>  
+<?php        
     else:
 ?>      
     <div class="bord_bottom">

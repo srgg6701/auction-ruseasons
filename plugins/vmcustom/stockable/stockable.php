@@ -638,9 +638,11 @@ class plgVmCustomStockable extends vmCustomPlugin {
 		if ($customPlugin) {
 			$db = JFactory::getDBO();
 			$query = 'SELECT  C.* , field.*
-				FROM `#__virtuemart_customs` AS C
-				LEFT JOIN `#__virtuemart_product_customfields` AS field ON C.`virtuemart_custom_id` = field.`virtuemart_custom_id`
-				WHERE `virtuemart_product_id` =' . $product->virtuemart_product_id.' and `custom_element`="'.$this->_name.'"';
+      FROM `#__virtuemart_customs` AS C
+ LEFT JOIN `#__virtuemart_product_customfields` AS field
+           ON C.`virtuemart_custom_id` = field.`virtuemart_custom_id`
+     WHERE `virtuemart_product_id` =' . $product->virtuemart_product_id.'
+           and `custom_element`="'.$this->_name.'"';
 			$query .=' and is_cart_attribute = 1';
 			$db->setQuery($query);
 			$productCustomsPrice = $db->loadObject();
