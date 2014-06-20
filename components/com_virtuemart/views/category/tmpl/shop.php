@@ -8,7 +8,7 @@
  * @author RolandD 
  * @author srgg6701
  */
-
+//
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 //var_dump(JRequest::get('get'));
@@ -70,7 +70,7 @@ if ( VmConfig::get ('showCategory', 1) &&
 	} // /show_children
 
 endif;
-	
+
 if ($this->search !== NULL):?>
 <form action="<?=JRoute::_('index.php?option=com_virtuemart&view=category&limitstart=0&virtuemart_category_id=' . $this->category->virtuemart_category_id); ?>" method="get">
 	<!--BEGIN Search Box -->
@@ -86,6 +86,9 @@ if ($this->search !== NULL):?>
 </form>
 <!-- End Search Box -->
 <?php endif; //var_dump($this); die();
+
+// include_once JPATH_SITE.DS.'tests.php';
+commonDebug(__FILE__,__LINE__,$this->products, true);
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
 
@@ -104,6 +107,7 @@ if (!empty($this->products)) {
 	
 	?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
+
 	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 
 
