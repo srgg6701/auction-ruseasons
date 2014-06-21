@@ -76,23 +76,20 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 		//http://docs.joomla.org/Sending_email_from_extensions			//http://api.joomla.org/__filesource/fsource_Joomla-Platform_Mail_librariesjoomlamailmail.php.html#a290
 	}
 /**
- * Оформить заказ предмета. Фактически - добавить в корзину VM.
+ * Оформить заказ предмета. Таблица: auc13_dev_shop_orders
  */    
     function purchase(){
         JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         $model=$this->getModel(); // Auction2013ModelAuction2013
         $post = JRequest::get('post');
+        //commonDebug(__FILE__,__LINE__,$post['link'], true);
         /* см. состав $post в модели */
         if($result=$model->makePurchase($post)){
-            $redirect_link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
-                            $post['product_id'] . '&virtuemart_category_id='. $post['category_id'] .
-                            '&Itemid=' .$post['menuitemid'].'&result=ok';
-            commonDebug(__FILE__, __LINE__, $redirect_link.'<br>чпу: '.JRoute::_($redirect_link), true);
-            $this->setRedirect(JRoute::_($redirect_link),$result['msg'],$result['type']);
+            $this->setRedirect($post['link'].'?result=ok',$result['msg'],$result['type']);
         }
     }
 /**
- * Описание
+ * Добавить предмет в избранное
  * @package
  * @subpackage
  */
@@ -132,7 +129,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 		}
 	}
 /**
- * Описание
+ * Удалить из избранного
  * @package
  * @subpackage
  */

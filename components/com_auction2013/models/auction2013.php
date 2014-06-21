@@ -81,7 +81,7 @@ class Auction2013ModelAuction2013 extends JModelLegacy
                                             [0]=> "2708"
                                            }
            ["8dfc8567bfc27829cbc4328674ab6d74"]=> "1"   */
-		commonDebug(__FILE__,__LINE__,$post, true);
+		//commonDebug(__FILE__,__LINE__,$post, true);
         $result=array();
         // Create and populate an object.
         $data = new stdClass();

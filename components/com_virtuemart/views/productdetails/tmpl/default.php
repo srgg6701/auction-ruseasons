@@ -149,6 +149,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
     <h4>VM fields</h4>
         <input type="text" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
         <input type="text" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
+        <input type="text" name="link" value="<?php echo $this->product->link; ?>"/>
     <?php echo JHtml::_('form.token');?>
     <button type="submit" class="buttonSandCool">Купить</button>
 </form>  
