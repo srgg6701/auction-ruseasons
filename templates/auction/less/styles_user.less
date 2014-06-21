@@ -66,13 +66,6 @@ div#main_content.left{
 			margin:20px 0;
 		}
 	}
-	div#your_order{
-		margin-bottom:16px;
-		margin-top:6px;
-		span.text_highlight{
-			font-size:13px;
-		}
-	}
 	div#user_column{
 		.fleft;
 		.mxWidth(140px);
@@ -114,7 +107,8 @@ div#main_content.left{
 			}
 		}
 		
-		table#tblFavorites{
+		table.cabinet{
+            border-spacing: 0;
 			tr{
 				th{
 					text-align:left;
@@ -132,9 +126,16 @@ div#main_content.left{
 					&:hover{
 						background-color:#FFFFE1;
 					}
-					td{
-						border-bottom:dashed 1px @brown;
-					}
+                    &:not(:last-child){
+                      td{
+                        border-bottom:dashed 1px @brown;
+                      }
+                    }
+                    td:last-child{
+                      span{
+                        color: #666; /* На оформлении */
+                      }
+                    }
 				}
 				td{
 					&:not(:first-child){
@@ -155,6 +156,20 @@ div#main_content.left{
 					}
 				}
 			}
+            &.border{
+              border:solid 1px @brownDark;
+              th{
+                border-bottom:solid 1px @brownDark;
+              }
+              th,td{
+                padding:2px 4px;
+              }
+              tr{
+                td:nth-child(2){
+                  font-weight: normal;
+                }
+              }
+            }
 		}
 
 	div#login_area{
@@ -215,4 +230,12 @@ div#main_content.left{
 			margin:4px; 
 		}
 	}
+}
+#your_order{
+  margin-bottom: 2px;
+  text-align: right;
+  padding-top: 10px;
+  span.text_highlight{
+    font-size:13px;
+  }
 }

@@ -95,7 +95,7 @@ class AuctionStuff{
  * @package
  * @subpackage
  */
-	public static function extractProductLink($virtuemart_category_id,$slug,$virtuemart_product_id=false){
+	public static function extractProductLink($virtuemart_category_id,$slug){
 		$app=&JFactory::getApplication();
 		$router = $app->getRouter();
 		if($SefMode=$router->getMode()){
@@ -117,14 +117,62 @@ class AuctionStuff{
 		$db->setQuery($query);
 		return $db->loadAssoc();
 	}
-/**
- * Получить страны
- * @package
- * @subpackage
- */
-	public static function getCountries(){
-		return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');	
-	}
+    /**
+     * Описание
+     * @package
+     * @subpackage
+     */
+    public static function getCategoryIdByProductId($virtuemart_product_id){
+        $query="SELECT cats.virtuemart_category_id
+FROM #__virtuemart_categories cats
+  INNER JOIN #__virtuemart_category_categories cat_cats
+    ON cats.virtuemart_category_id = cat_cats.category_child_id
+  INNER JOIN #__virtuemart_product_categories prod_cats
+    ON cats.virtuemart_category_id = prod_cats.virtuemart_category_id
+   AND prod_cats.virtuemart_category_id = cat_cats.category_child_id
+   AND prod_cats.virtuemart_product_id = ".$virtuemart_product_id;
+        $db=JFactory::getDBO();
+        $db->setQuery($query);
+        return $db->loadResult();
+    }
+    /**
+     * Получить страны
+     * @package
+     * @subpackage
+     */
+    public static function getCountries(){
+        return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');
+    }
+    /**
+     * Описание
+     * @package
+     * @subpackage
+     */
+    public static function getCatProdCount(){
+        // todo: удалить On production!
+        /*$query="SELECT
+        -- cats.virtuemart_category_id,
+        -- cats_ru.category_name,
+        -- cats_ru.slug AS 'alias',
+        (   SELECT count(p.virtuemart_product_id)
+              FROM `#__virtuemart_products` AS p,
+                   `#__virtuemart_product_categories` AS pc
+             WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
+               AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`
+               AND p.`published` = '1'
+               AND p.`product_in_stock` > 0
+        ) AS 'product_count'
+   FROM #__virtuemart_categories AS cats
+   LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru
+     ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
+   LEFT JOIN #__virtuemart_category_categories AS cat_cats
+     ON cat_cats.id = cats.virtuemart_category_id
+  WHERE cats.`published` = '1'
+        AND cats_ru.slug = '".$alias."'
+        AND cat_cats.category_parent_id = ".$category_parent_id."
+  ORDER BY cat_cats.category_parent_id,cats.ordering";
+*/
+    }
 /**
  * Описание
  * @package
@@ -294,23 +342,55 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
 		return $db->loadResult(); 
 	}
 /**
- * Описание
- * @package
- * @subpackage
+ * Получить покупки - все/выбранного юзера
  */
-	public static function getCategoryIdByProductId($virtuemart_product_id){
-		$query="SELECT cats.virtuemart_category_id
-FROM #__virtuemart_categories cats
-  INNER JOIN #__virtuemart_category_categories cat_cats
-    ON cats.virtuemart_category_id = cat_cats.category_child_id
-  INNER JOIN #__virtuemart_product_categories prod_cats
-    ON cats.virtuemart_category_id = prod_cats.virtuemart_category_id 
-   AND prod_cats.virtuemart_category_id = cat_cats.category_child_id
-   AND prod_cats.virtuemart_product_id = ".$virtuemart_product_id;
-		$db=JFactory::getDBO();
-		$db->setQuery($query);
-		return $db->loadResult(); 
-	}
+    public static function getPurchases($user_id=false){
+        $query = "SELECT  prod_ru.  virtuemart_product_id,
+        cats_ru.  category_name,
+TRUNCATE
+      ( prices.   sales_price, 0)
+               AS price,
+        prod_ru.  product_s_desc,
+        prod_ru.  product_desc,
+        prod_ru.  product_name,
+        cats_ru.  virtuemart_category_id,
+        cats_ru.  category_name,
+        prod_ru.  slug,
+        orders.   user_id,
+        orders.   status,
+        users.    name,
+        users.    middlename,
+        users.    lastname,
+        users.    username
+FROM #__virtuemart_products_ru_ru  prod_ru
+  INNER JOIN #__dev_shop_orders    orders
+          ON prod_ru.virtuemart_product_id = orders.virtuemart_product_id
+   LEFT JOIN #__virtuemart_product_categories prod_cats
+          ON prod_cats.virtuemart_product_id = orders.virtuemart_product_id
+
+   LEFT JOIN #__virtuemart_categories        cats
+          ON cats.virtuemart_category_id = prod_cats.virtuemart_category_id
+
+   LEFT JOIN #__virtuemart_categories_ru_ru  cats_ru
+          ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
+
+  INNER JOIN #__users              users
+          ON orders.user_id = users.id
+  INNER JOIN #__dev_sales_price    prices
+          ON prices.virtuemart_product_id = orders.virtuemart_product_id";
+        if($user_id){
+            if($user_id===true){
+                $user=JFactory::getUser();
+                if(!$user->guest)
+                    $query.="
+  WHERE user_id = ".$user->id;
+            }
+        }
+        //testSQL($query); die();
+        $query.="
+  ORDER BY orders.id DESC";
+        return JFactory::getDbo()->setQuery($query)->loadAssocList();
+    }
 /**
  * Описание
  * @package
@@ -370,36 +450,6 @@ WHERE cats_cats.category_parent_id = 0";
         }else
             return $db->loadColumn();
             //array('online','fulltime','shop');
-	}
-/**
- * Описание
- * @package
- * @subpackage
- */
-	public static function getCatProdCount(){
-        // todo: удалить On production!
-		/*$query="SELECT 
-		-- cats.virtuemart_category_id, 
-        -- cats_ru.category_name,
-        -- cats_ru.slug AS 'alias',
-        (   SELECT count(p.virtuemart_product_id)
-              FROM `#__virtuemart_products` AS p,
-                   `#__virtuemart_product_categories` AS pc
-             WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
-               AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`
-               AND p.`published` = '1'
-               AND p.`product_in_stock` > 0
-        ) AS 'product_count'
-   FROM #__virtuemart_categories AS cats
-   LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru 
-     ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
-   LEFT JOIN #__virtuemart_category_categories AS cat_cats 
-     ON cat_cats.id = cats.virtuemart_category_id
-  WHERE cats.`published` = '1'
-        AND cats_ru.slug = '".$alias."'
-        AND cat_cats.category_parent_id = ".$category_parent_id." 
-  ORDER BY cat_cats.category_parent_id,cats.ordering";		
-*/	
 	}
 /**
  * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е

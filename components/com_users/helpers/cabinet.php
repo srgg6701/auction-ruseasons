@@ -28,6 +28,7 @@ class UserCabinet
 					'lots'=>        array("Ваш кабинет","H2",           "Ваши лоты", 'id'),
 					'favorites'=>   array("Избранное",  "first-point",  false, 'id'),
 					'bids'=>        array("Мои ставки", false,          false, 'id'),
+                    'purchases'=>   array("Мои Покупки",    false,          false, 'id'),
 					'data'=>        array("Настройки",  false,          "Моя персональная информация", true)
             );
 	/**
@@ -46,8 +47,11 @@ class UserCabinet
 			JFactory::getApplication()->redirect($redirect);
 		}
 		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
-		if (!$layout)
-			$layout='default';
+		if (!$layout||$layout==='default'){
+            $default_section = UserCabinet::$cabinet_menu;
+            reset($default_section);
+            $layout=key($default_section);
+        }
 		
 		$method='layout_'.$layout;
         //commonDebug(__FILE__, __LINE__, $method, true);				
@@ -63,7 +67,7 @@ class UserCabinet
         <?php   UserCabinet::buildUserMenu(); ?>
             </div>
             <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
-			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
+			<button type="submit" class="buttonSandCool" style="margin: 16px auto;"><?php echo JText::_('JLOGOUT'); ?></button>
 			<input type="hidden" name="return" value="<?php echo base64_encode($logout_params); ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 	</form>           
@@ -80,9 +84,7 @@ class UserCabinet
                 if($cabinet_data[3]){
                     $params=($cabinet_data[3]===true)?
                         $JUser:$JUser->$cabinet_data[3];
-                }
-                // вывести заголовок раздела
-                echo $section;?></h2>
+                }?></h2>
 		<?php UserCabinet::$method($params);?>            	
             </div>   
         </div>
@@ -291,7 +293,7 @@ Email				email
 		$favorites=AuctionStuff::getFavorites($user_id);
 		if(!empty($favorites)){?>
             <form id="deleteFromFavorites" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.deleteFromFavorites'); ?>" method="post">
-        <table id="tblFavorites" cellpadding="2" cellspacing="1">
+        <table id="tblFavorites" class="cabinet" cellpadding="2" cellspacing="1">
         	<tr>
             	<th>Предмет</th>
             	<th>Цена</th>
@@ -303,8 +305,7 @@ Email				email
 			foreach($favorites as $virtuemart_product_id => $product_data){?>
 			<tr<?php 
 			if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?php }?> valign="top">
-            	<td><?php 
-				$product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug'],$virtuemart_product_id);  
+            	<td><?php $product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug']); //,$virtuemart_product_id
 				?><a href="<?php echo $product_link; 
 				
 				?>"><?=$product_data['product_name']?></a>
@@ -347,14 +348,50 @@ $(function(){
 	<?php }
 	}	
 /**
- * Описание
+ * Заявки на аукционе
  * @package
  * @subpackage
  */
 	function layout_bids($user_id){?>
-    <H1>MY BIDS</H1>
-<?php }	
-/**
+    <H1>Мои лоты</H1>
+<?php }
+    /**
+     * Покупки (заявленные, закрытые)
+     * @package
+     * @subpackage
+     */
+    function layout_purchases($user_id){
+        if($purchases=AuctionStuff::getPurchases(true)){
+			?>
+        <table class="cabinet border">
+        	<tr>
+            	<th>#</th>
+            	<th>Наименование</th>
+                <th>Категория</th>
+            	<th>Цена</th>
+            	<th>Статус</th>
+            </tr>
+		<?php //commonDebug(__FILE__,__LINE__,$purchases);
+			foreach ($purchases as $i=>$data_array) {
+			?>
+        	<tr>
+            	<td><?php echo $i+1;?></td>
+            	<td><a href="<?php echo AuctionStuff::extractProductLink($data_array['virtuemart_category_id'],$data_array['slug']);?>"><?php echo $data_array['product_name'];?></a></td>
+                <td><?php echo $data_array['category_name'];?></td>
+            	<td align="right"><?php echo $data_array['price'];?></td>
+            	<td nowrap><?php echo ((int)$data_array['status'])? 'Приобретено':'<span>На оформлении</span>';?></td>
+            </tr>
+		<?php		
+			}?>
+		</table>
+		<?php
+		}else{?>
+        <h4>Покупок нет.</h4>
+		<?php 
+		}
+		
+    }
+    /**
  * Построить меню юзера
  */
     static public function buildUserMenu() {?>
