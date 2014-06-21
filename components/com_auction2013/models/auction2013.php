@@ -87,6 +87,7 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         $data = new stdClass();
         $data->user_id = JFactory::getUser()->id;
         $data->virtuemart_product_id=$post['virtuemart_product_id'][0];
+        $data->event_datetime = 'NOW()';
         // status by default = 0
         // Insert the object into the user profile table.
         try{

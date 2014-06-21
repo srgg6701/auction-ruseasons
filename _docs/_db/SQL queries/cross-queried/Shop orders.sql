@@ -3,14 +3,16 @@
         prod_ru.  product_name,
         cats_ru.  virtuemart_category_id,
         cats_ru.  category_name,
-        cats_ru.  slug,
+        prod_ru.  slug,
 TRUNCATE
       ( prices.   sales_price, 0) 
                AS price,
         prod_ru.  product_s_desc,
         prod_ru.  product_desc,
-        orders.   user_id,
+        IF(orders.   user_id<>385,0,orders.user_id) AS user_id,
         orders.   status,
+DATE_FORMAT(
+        orders.event_datetime,'%d.%m.%Y %H:%i') AS 'datetime',
         users.    name,
         users.    middlename,
         users.    lastname,
@@ -29,8 +31,9 @@ FROM auc13_virtuemart_products_ru_ru             prod_ru
           ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
 
   INNER JOIN auc13_users                        users
-          ON orders.user_id = users.id
+          ON orders.user_id = users.id  
   INNER JOIN auc13_dev_sales_price              prices
           ON prices.virtuemart_product_id = orders.virtuemart_product_id
  -- WHERE user_id = 385
+ -- WHERE virtuemart_product_id = 2773
   ORDER BY orders.id DESC

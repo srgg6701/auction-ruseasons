@@ -344,8 +344,33 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
 /**
  * Получить покупки - все/выбранного юзера
  */
-    public static function getPurchases($user_id=false){
-        $query = "SELECT  prod_ru.  virtuemart_product_id,
+    public static function getPurchases($params=array()){//$user_id=false
+        $virtuemart_product_id = $subquery = $user_id = '';
+        if(!empty($params)){
+            $subquery=array();
+            if(isset($params['user_id'])){
+                $user=JFactory::getUser();
+                if($params['user_id']){
+                    if($params['user_id']===true){ // юзер в своём кабинете
+                        if(!$user->guest)
+                            $subquery[]="user_id = ".$user->id;
+                    }
+                }
+            }
+            if(isset($params['virtuemart_product_id'])){
+                /** публичный раздел, неизвестно, заавторизован ли юзер */
+                if($params['user_id']=='?') {
+                    $user_id = ($user->guest)? "
+        'unknown'":"
+        IF(orders.   user_id<>".$user->id.",0,orders.user_id)";
+                    $user_id.=" AS user_id,";
+                }
+                if($params['virtuemart_product_id'])
+                    $subquery[]= "prod_ru.  virtuemart_product_id = " . $params['virtuemart_product_id'];
+            }else
+                $virtuemart_product_id='prod_ru.  virtuemart_product_id,';
+        }
+        $query = "SELECT  $virtuemart_product_id
         cats_ru.  category_name,
 TRUNCATE
       ( prices.   sales_price, 0)
@@ -356,8 +381,10 @@ TRUNCATE
         cats_ru.  virtuemart_category_id,
         cats_ru.  category_name,
         prod_ru.  slug,
-        orders.   user_id,
+        $user_id
         orders.   status,
+DATE_FORMAT(
+        orders.event_datetime,'%d.%m.%Y %H:%i') AS 'datetime',
         users.    name,
         users.    middlename,
         users.    lastname,
@@ -378,15 +405,10 @@ FROM #__virtuemart_products_ru_ru  prod_ru
           ON orders.user_id = users.id
   INNER JOIN #__dev_sales_price    prices
           ON prices.virtuemart_product_id = orders.virtuemart_product_id";
-        if($user_id){
-            if($user_id===true){
-                $user=JFactory::getUser();
-                if(!$user->guest)
-                    $query.="
-  WHERE user_id = ".$user->id;
-            }
-        }
-        //testSQL($query); die();
+        if(!empty($subquery))
+            $query.="
+  WHERE " . implode(" AND ", $subquery);
+        //testSQL($query); //die();
         $query.="
   ORDER BY orders.id DESC";
         return JFactory::getDbo()->setQuery($query)->loadAssocList();

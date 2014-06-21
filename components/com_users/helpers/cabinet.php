@@ -361,7 +361,7 @@ $(function(){
      * @subpackage
      */
     function layout_purchases($user_id){
-        if($purchases=AuctionStuff::getPurchases(true)){
+        if($purchases=AuctionStuff::getPurchases(array('user_id'=>true))){
 			?>
         <table class="cabinet border">
         	<tr>
@@ -370,6 +370,7 @@ $(function(){
                 <th>Категория</th>
             	<th>Цена</th>
             	<th>Статус</th>
+                <th>Дата/время</th>
             </tr>
 		<?php //commonDebug(__FILE__,__LINE__,$purchases);
 			foreach ($purchases as $i=>$data_array) {
@@ -380,6 +381,7 @@ $(function(){
                 <td><?php echo $data_array['category_name'];?></td>
             	<td align="right"><?php echo $data_array['price'];?></td>
             	<td nowrap><?php echo ((int)$data_array['status'])? 'Приобретено':'<span>На оформлении</span>';?></td>
+                <td><?php echo $data_array['datetime'];?></td>
             </tr>
 		<?php		
 			}?>

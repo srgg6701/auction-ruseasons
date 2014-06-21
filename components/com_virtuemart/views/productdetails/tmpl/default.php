@@ -142,16 +142,46 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
           ?> руб.</b>
       </span>
     </div>
-        <input type="text" name="option" value="com_auction2013" />
-        <input type="text" name="task" value="auction2013.purchase" />
-        <input type="text" name="menuitemid" value="<?php echo $Itemid;?>" />
-        <input type="text" name="category_id" value="<?php echo $this->product->virtuemart_category_id;?>" />
-    <h4>VM fields</h4>
-        <input type="text" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
-        <input type="text" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
-        <input type="text" name="link" value="<?php echo $this->product->link; ?>"/>
+<?php   if(!$bought = AuctionStuff::getPurchases(
+                        array('virtuemart_product_id'=>$this->product->virtuemart_product_id,
+                              'user_id'=>'?' ) )):
+        //commonDebug(__FILE__,__LINE__,$bought[0], true);
+?>
+        <input type="hidden" name="option" value="com_auction2013" />
+        <input type="hidden" name="task" value="auction2013.purchase" />
+        <input type="hidden" name="menuitemid" value="<?php echo $Itemid;?>" />
+        <input type="hidden" name="category_id" value="<?php echo $this->product->virtuemart_category_id;?>" />
+        <input type="hidden" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
+        <input type="hidden" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
+        <input type="hidden" name="link" value="<?php echo $this->product->link; ?>"/>
     <?php echo JHtml::_('form.token');?>
     <button type="submit" class="buttonSandCool">Купить</button>
+<?php
+        else:
+			$item = $bought[0];
+	?>
+	<h4><?php
+			// подана заявка на покупку данного предмета
+			if(!(int)$item['status']):
+		 		// юзер на идентифицирован или заявка подана другим юзером
+				if($item['user_id']==='unknown'||!(int)$item['user_id']):
+					?>Предмет недоступен<?php
+				// заявка подана текущим юзером
+			  	else:
+		?>Вы подали заявку на приобретение данного предмета <?php echo $item['datetime'];
+              	endif;
+		    // предмет продан
+			else:
+				// юзер не идентифицирован или предмет подан другому юзеру
+				if($item['user_id']==='unknown'||!(int)$item['user_id']):
+					?>Предмет продан<?
+				// продан текущему юзеру
+				else:
+		?>Вы приобрели данный предмет <?php echo $item['datetime'];
+				endif;
+			endif;?>.</h4>
+<?php	endif;
+    ?>
 </form>  
 <?php        
     else:
