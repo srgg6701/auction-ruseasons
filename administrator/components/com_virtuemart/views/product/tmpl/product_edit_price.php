@@ -39,7 +39,7 @@ table.adminform.productPriceTable
 	text-align:center;
 }
 </style>
-<?php   $rowColor = 0;  //var_dump("<pre>",$this->product,"</pre>"); die();?>
+<?php   $rowColor = 0;?>
 <table class="adminform productPriceTable">
     <tr class="row<?php echo $rowColor?>">
         <td>
@@ -63,9 +63,6 @@ table.adminform.productPriceTable
                     class="hasTip"
                     title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
                 <?php 
-    // TODO: разобраться, можно ли изменить TOP slug с кириллицы на латиницу (торги-в-помещении, магазин)
-    //if($this->product->top_category_slug==='онлайн-торги'){
-    //}else			
     echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE"); ?>
             </span>
             <input type="hidden" name="top_category_slug" value="<?=$this->product->top_category_slug?>"/>
@@ -80,7 +77,6 @@ table.adminform.productPriceTable
         </td>
         <td style="text-align:right;">
         	<strong><?=JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PUBLISH_PERIOD')?></strong>
-			<?php //echo $this->lists['discounts']; <br/>?> 
         </td>
 		<td  nowrap>
 			<?php echo  vmJsApi::jDate ($this->tempProduct->product_price_publish_up, 'mprices[product_price_publish_up][]'); ?>
@@ -94,8 +90,6 @@ table.adminform.productPriceTable
             <input  type="hidden" name="product_in_stock" value="1" size="10" />
         </td>
     </tr>
-<?php //if($this->product->top_category_slug==='онлайн-торги'):
-?>
 	<tr class="row0">
     	<td colspan="5">
         	<legend>Информация для аукциона</legend>
@@ -131,8 +125,6 @@ table.adminform.productPriceTable
                 echo substr($this->product->auction_date_finish,11,5);?>" />
         </td>
 	</tr>
-<?php //endif;
-?>    
 </table>
 
 

@@ -46,8 +46,8 @@ if ($this->params->get('highContrast')) {
 <?php if(JRequest::getVar('option')=='com_auction2013'):?>
 <link href="templates/<?php echo $this->template; ?>/less/import_export.less" rel="stylesheet/less" type="text/css">
 <?php endif;?>
-<script src="templates/<?php echo $this->template; ?>/less/less.js" type="text/javascript"></script> 
-
+<link href="components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
+<script src="templates/<?php echo $this->template; ?>/less/less.js" type="text/javascript"></script>
 <script src="templates/<?php echo $this->template; ?>/js/jquery-1.7.1.min.js"></script>
 <script src="templates/<?php echo $this->template; ?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 

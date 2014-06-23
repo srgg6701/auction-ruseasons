@@ -99,6 +99,7 @@ class Auction2013ModelAuction2013 extends JModelLegacy
             $result['msg']=JText::_('ОШИБКА... Заказ не оформлен');
             $result['type']='error';
         }
+        // todo: Добавить отправку сообщений админу о покупке
         return $result;
     }
 }

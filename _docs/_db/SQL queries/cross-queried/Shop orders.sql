@@ -9,7 +9,7 @@ TRUNCATE
                AS price,
         prod_ru.  product_s_desc,
         prod_ru.  product_desc,
-        IF(orders.   user_id<>385,0,orders.user_id) AS user_id,
+        -- IF(orders.   user_id<>385,0,orders.user_id) AS user_id,        
         orders.   status,
 DATE_FORMAT(
         orders.event_datetime,'%d.%m.%Y %H:%i') AS 'datetime',

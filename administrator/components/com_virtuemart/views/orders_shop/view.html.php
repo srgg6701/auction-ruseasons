@@ -17,7 +17,9 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
+//\auction-ruseasons\components\com_auction2013\helpers\stuff.php
+//\auction-ruseasons/administrator\components\com_auction2013\helpers\stuff.php
+require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 // Load the view framework
 if(!class_exists('VmView'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmview.php');
 

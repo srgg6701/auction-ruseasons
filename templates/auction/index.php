@@ -14,7 +14,7 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <jdoc:include type="head" />
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
-
+<link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
 <?php if(JRequest::getVar('option')=='com_users'):?>
 <link href="<?php echo $templateUrl; ?>/less/styles_user.less" rel="stylesheet/less" type="text/css">

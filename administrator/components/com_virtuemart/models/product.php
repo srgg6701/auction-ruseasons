@@ -1479,38 +1479,6 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         if (isset($data['intnotes'])) {
             $data['intnotes'] = trim($data['intnotes']);
         }
-        // todo: убрать закомментированный код:
-        // Setup some place holders
-        /* 	MODIFIED START 	 */
-        // скорректировать дату/время:
-        //echo "<hr><pre>";var_dump($data['mprices']); echo "</pre><hr>";
-        /*$time_zero = "00:00:00";
-        $zero_zero = ":00";
-
-        $handle_datetime = function(&$dt, $dt_plus) use($time_zero, $zero_zero) {
-            //echo "<div>dt = $dt, dt_plus = $dt_plus</div>";
-            if (strstr($dt, ':')) {
-                //echo "<div>ZEROS FOUND!</div>";
-                $dt = str_replace($time_zero, $dt_plus . $zero_zero, $dt);
-            } else {
-                //echo "<div>no ZEROS...</div>";
-                $dt.=" " . $dt_plus . $zero_zero;
-            }
-        };
-
-        $handle_datetime($data['mprices']['product_price_publish_up'], $data['publish_time_from']);
-        $handle_datetime($data['mprices']['product_price_publish_down'], $data['publish_time_to']);
-        $handle_datetime($data['product_available_date'], $data['auction_time_from']);
-        $handle_datetime($data['auction_date_finish'], $data['auction_time_to']); */
-
-        /* $data['mprices']['product_price_publish_up'][0]     = str_replace($time_zero, $data['publish_time_from'] . $zero_zero, $data['mprices']['product_price_publish_up'][0]);
-          $data['mprices']['product_price_publish_down'][0]   = str_replace($time_zero, $data['publish_time_to']   . $zero_zero, $data['mprices']['product_price_publish_down'][0]);
-          $data['product_available_date']                     = str_replace($time_zero, $data['auction_time_from'] . $zero_zero, $data['product_available_date']);
-          $data['auction_date_finish']                        = str_replace($time_zero, $data['auction_time_to']   . $zero_zero, $data['auction_date_finish']);
-          /*unset( $data['publish_time_from'],$data['publish_time_to'],
-          $data['auction_time_from'], $data['auction_date_finish'],
-          $time_zero, $zero_zero ); */
-        //echo  __FILE__."<br>line: ".__LINE__."<pre>"; var_dump($data); // die('</pre>');
         // минимальная цена для аукциона:
         $min_price = $data["minimal_price"];
         unset($data["mprices"]["minimal_price"]);

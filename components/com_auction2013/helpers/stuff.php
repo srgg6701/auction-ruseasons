@@ -77,8 +77,6 @@ class AuctionStuff{
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
 		// todo: разобраться в целесообразности...
         $links = self::handleSessionCategoriesData();
-        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        //echo "<div>virtuemart_category_id = ".$virtuemart_category_id."</div>";
         //commonDebug(__FILE__, __LINE__, $links, true);
         foreach($links as $layout=>$data){
             // если таки есть категория с таким id
@@ -142,36 +140,6 @@ FROM #__virtuemart_categories cats
      */
     public static function getCountries(){
         return array('7'=>'Россия','380'=>'Украина','375'=>'Белоруссия');
-    }
-    /**
-     * Описание
-     * @package
-     * @subpackage
-     */
-    public static function getCatProdCount(){
-        // todo: удалить On production!
-        /*$query="SELECT
-        -- cats.virtuemart_category_id,
-        -- cats_ru.category_name,
-        -- cats_ru.slug AS 'alias',
-        (   SELECT count(p.virtuemart_product_id)
-              FROM `#__virtuemart_products` AS p,
-                   `#__virtuemart_product_categories` AS pc
-             WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
-               AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`
-               AND p.`published` = '1'
-               AND p.`product_in_stock` > 0
-        ) AS 'product_count'
-   FROM #__virtuemart_categories AS cats
-   LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru
-     ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
-   LEFT JOIN #__virtuemart_category_categories AS cat_cats
-     ON cat_cats.id = cats.virtuemart_category_id
-  WHERE cats.`published` = '1'
-        AND cats_ru.slug = '".$alias."'
-        AND cat_cats.category_parent_id = ".$category_parent_id."
-  ORDER BY cat_cats.category_parent_id,cats.ordering";
-*/
     }
 /**
  * Описание
@@ -346,6 +314,7 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
  */
     public static function getPurchases($params=array()){//$user_id=false
         $virtuemart_product_id = $subquery = $user_id = '';
+        $query="SELECT ";
         if(!empty($params)){
             $subquery=array();
             if(isset($params['user_id'])){
@@ -369,8 +338,14 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
                     $subquery[]= "prod_ru.  virtuemart_product_id = " . $params['virtuemart_product_id'];
             }else
                 $virtuemart_product_id='prod_ru.  virtuemart_product_id,';
+
+            $query.= $virtuemart_product_id;
+        }else{
+            $query.= "prod_ru.  virtuemart_product_id,
+        users.id AS user_id, ";
         }
-        $query = "SELECT  $virtuemart_product_id
+
+        $query.="
         cats_ru.  category_name,
 TRUNCATE
       ( prices.   sales_price, 0)
@@ -408,9 +383,9 @@ FROM #__virtuemart_products_ru_ru  prod_ru
         if(!empty($subquery))
             $query.="
   WHERE " . implode(" AND ", $subquery);
-        //testSQL($query); //die();
         $query.="
   ORDER BY orders.id DESC";
+        //testSQL($query); //die();
         return JFactory::getDbo()->setQuery($query)->loadAssocList();
     }
 /**

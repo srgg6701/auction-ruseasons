@@ -12,12 +12,12 @@
     <ConnectionString>User Id=root;Host=localhost;Character Set=utf8</ConnectionString>
     <Database>auctionru_2013</Database>
   </Connection>
-  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="50">
+  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="73">
     <View Name="Design" Visible="True">
       <Data>
         <StatementType>Select</StatementType>
         <ActiveQuery>0</ActiveQuery>
-        <SubQuery Id="0" Open="0" LocationX="-515" LocationY="-75" Scale="1">
+        <SubQuery Id="0" Open="0" LocationX="-2288.05808305115" LocationY="20.0706849390452" Scale="0.04982391">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
             <VerticalOverlap>0</VerticalOverlap>
@@ -35,9 +35,13 @@
             </PaperSize>
           </PageOptions>
           <Tables>
-            <Table Name="auc13_dev_shop_orders" Left="-319" Top="-4" Width="249.0408" Height="138" Collapsed="False" />
-            <Table Name="auc13_virtuemart_products_ru_ru" Left="72" Top="16" Width="306.8741" Height="210" Collapsed="False" />
-            <Table Name="auc13_users" Left="-264" Top="216" Width="228.2791" Height="228" Collapsed="False" />
+            <Table Name="prod_ru" Left="40" Top="193" Width="306.8741" Height="210" Collapsed="False" />
+            <Table Name="orders" Left="448" Top="220" Width="249.0408" Height="156" Collapsed="False" />
+            <Table Name="prod_cats" Left="406" Top="436" Width="333.3389" Height="138" Collapsed="False" />
+            <Table Name="cats" Left="435" Top="634" Width="271.1319" Height="228" Collapsed="False" />
+            <Table Name="cats_ru" Left="412" Top="922" Width="318.1111" Height="192" Collapsed="False" />
+            <Table Name="users" Left="799" Top="184" Width="228.2791" Height="228" Collapsed="False" />
+            <Table Name="prices" Left="448" Top="40" Width="249.0408" Height="120" Collapsed="False" />
           </Tables>
         </SubQuery>
       </Data>
