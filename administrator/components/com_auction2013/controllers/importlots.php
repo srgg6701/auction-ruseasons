@@ -136,8 +136,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 					$this->getLastId('virtuemart_media_id','virtuemart_medias',$db) .
 					', '. $order
 				); //if ($test) echo "<div style='color:brown'><pre>addProductMedia query= ".$query."</pre></div>";
-	 // $db->setQuery($query);
-		$db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));
+	 	$db->setQuery(str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query));
 		if(!$db->execute())
 			return array('query', $query);
 		else return true;	
@@ -154,7 +153,6 @@ class Auction2013ControllerImportlots extends JControllerForm
         $object->virtuemart_product_id=$virtuemart_product_id;
         $object->sales_price=$sales_price;
 		try{
-            //$db->execute();
             JFactory::getDbo()->insertObject('#__dev_sales_price', $object);
         }catch(Exception $e){
             echo "<hr>Error: ".$e->getMessage();
@@ -214,8 +212,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 	public function import(){
 
 		$test=false;
+        $skip_import=false;
 
-		$db = JFactory::getDBO();
 		$user = JFactory::getUser();
 		$user_id=$user->id;
 		// for your safety, please, use condoms :)
@@ -335,12 +333,33 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'date_hide':   // дата окончания публикации
                                     case 'date_start':  // начало аукциона (для разделов "Онлайн/Очные торги")
                                     case 'date_stop':   // конец аукциона
+                                        $apdate = explode(' ',$cell_content);
+                                        //commonDebug(__FILE__,__LINE__,$apdate);
 										$dt     = explode('.',$cell_content);
-                                        $yt     = explode(' ',$dt[2]);
-                                        $year   = trim($yt[0]);
-                                        $time   = trim($yt[1]);
-										$data[$data_index][$arrFields[$column_name]]=$year.'-'.trim($dt[1]).'-'.trim($dt[0]).' '.$time;
-
+                                        // проверить, не конвертировано ли значение сразу в нужный формат:
+                                        $test_date=false; //echo "<div>match? - ".preg_match("/\d\d\d\d\-\d\d\-\d\d/",$apdate[0])."</div>";
+                                        if(!preg_match("/\d\d\d\d\-\d\d\-\d\d/",$apdate[0])){ // если нет - конвертировать
+                                            $yt     = explode(' ',$dt[2]);
+                                            $year   = trim($yt[0]);
+                                            $time   = trim($yt[1]);
+                                            $data[$data_index][$arrFields[$column_name]]=$year.'-'.trim($dt[1]).'-'.trim($dt[0]).' '.$time;
+                                            if($test_date) {
+                                                echo "<div style='padding:10px; border: solid 2px orange; margin-bottom:10px'>";
+                                                echo "<div><b>cell_content:</b> $cell_content</div>";
+                                                echo "<div style='color:blue'>year: $year</div>";
+                                                echo "<div style='color:violet'>month: ".trim($dt[1])."</div>";
+                                                echo "<div style='color:darkviolet'>day: ".trim($dt[0])."</div>";
+                                                echo "<div style='color:brown'>time: $time</div>";
+                                                echo "</div>";
+                                            }
+                                        }else{ // если уже в нужном формате, просто сохраним данные в переменной:
+                                            $data[$data_index][$arrFields[$column_name]]=$cell_content;
+                                            //if(!isset($apdate[1])) $data[$data_index][$arrFields[$column_name]].=" 00:00:00";
+                                        }
+                                        if($test_date){
+                                            echo "<div style='color:red'>".$column_name.": ".$data[$data_index][$arrFields[$column_name]]."</div>";
+                                            echo "<div>apdate2 = ".isset($apdate[2])."</div>";
+                                        }
 									break;
 									case 'price':       // основная цена
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
@@ -381,7 +400,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 			$model = VmModel::getModel('Product','VirtueMartModel'); // VirtueMartModelProduct
 
 			//
-			if(!$model = VmModel::getModel('Product','VirtueMartModel'))
+			if(!$model)
 				echo "<div class=''>Не создан экземпляр Модели продукта \$model; line: ".__LINE__."</div>";
 
 			// additional "static" fields:
@@ -431,163 +450,169 @@ class Auction2013ControllerImportlots extends JControllerForm
                 unset($data_stream['product_price_publish_up'],$data_stream['product_price_publish_down']);
                 // commonDebug(__FILE__, __LINE__, $data_stream, true);
                 //$virtuemart_product_id = 35+$i
-				/**
-                 ИМПОРТИРОВАТЬ данные                 */
-                if($virtuemart_product_id=$VmController->import($model,$data_stream)){
-					// var_dump($data_stream);
-					if($data_stream['sales_price'])
-						if(!Auction2013ControllerImportlots::addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
-							echo "<div><b style='color:red'>ОШИБКА!</b>
+				if($skip_import){
+                    commonDebug(__FILE__,__LINE__,$data_stream);
+                }else{
+                    /**
+                    ИМПОРТИРОВАТЬ данные                 */
+                    if($virtuemart_product_id=$VmController->import($model,$data_stream)){
+                        // var_dump($data_stream);
+                        if($data_stream['sales_price'])
+                            if(!Auction2013ControllerImportlots::addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
+                                echo "<div><b style='color:red'>ОШИБКА!</b>
 						Не добавлена запись в таблицу #__dev_sales_price...</div>";
-					// add images:
-					// #__virtuemart_medias, then #__virtuemart_product_medias
-					//echo "<BR><div class=''>IMAGES:</div>";
-					//var_dump($images[$i]);
-					$arrMediaData[$i]=array('virtuemart_product_id' => $virtuemart_product_id);
-					foreach($images[$i] as $icount=>$pic){
-						$arrIm=explode('.',$pic);
-						$pic_ext=array_pop($arrIm);
-						switch($pic_ext){
-							// see above: $imgExt=array('gif','jpg','png','wbmp');
-							case 'jpg':case 'jpeg':
-								$mimetype='jpeg';
-							break;
-							case 'gif':
-								$mimetype='gif';
-							break;
-							case 'png':
-								$mimetype='png';
-							break;
-							case 'wbmp':
-								$mimetype='x-windows-bmp';
-							break;
-						}
-						$arrMediaData[$i][]=array(
-							'virtuemart_vendor_id' => '1',
-							'file_title' => $pic,
-							'file_mimetype' => 'image/'.$mimetype,
-							'file_type' => 'product',
-							'file_url' => 'images/stories/virtuemart/product/'.$pic,
-							'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
-							'file_params' => '',
-							'published' => '1',
-							'created_on' => date('Y-m-d H:i:s'),
-							'created_by' => $user_id,
-						);
-					}
-				}//else echo "<div class=''>Не сохранено...</div>";
-				$errors[]= $model->getErrors();
+                        // add images:
+                        // #__virtuemart_medias, then #__virtuemart_product_medias
+                        //echo "<BR><div class=''>IMAGES:</div>";
+                        //var_dump($images[$i]);
+                        $arrMediaData[$i]=array('virtuemart_product_id' => $virtuemart_product_id);
+                        foreach($images[$i] as $icount=>$pic){
+                            $arrIm=explode('.',$pic);
+                            $pic_ext=array_pop($arrIm);
+                            switch($pic_ext){
+                                // see above: $imgExt=array('gif','jpg','png','wbmp');
+                                case 'jpg':case 'jpeg':
+                                $mimetype='jpeg';
+                                break;
+                                case 'gif':
+                                    $mimetype='gif';
+                                    break;
+                                case 'png':
+                                    $mimetype='png';
+                                    break;
+                                case 'wbmp':
+                                    $mimetype='x-windows-bmp';
+                                    break;
+                            }
+                            $arrMediaData[$i][]=array(
+                                'virtuemart_vendor_id' => '1',
+                                'file_title' => $pic,
+                                'file_mimetype' => 'image/'.$mimetype,
+                                'file_type' => 'product',
+                                'file_url' => 'images/stories/virtuemart/product/'.$pic,
+                                'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
+                                'file_params' => '',
+                                'published' => '1',
+                                'created_on' => date('Y-m-d H:i:s'),
+                                'created_by' => $user_id,
+                            );
+                        }
+                    }//else echo "<div class=''>Не сохранено...</div>";
+                    $errors[]= $model->getErrors();
+                }
 			}
-			if($test&&empty($data))
-				echo "<div class=''>\$data is empty, line: ".__LINE__."</div>";
+            if(!$skip_import){
+                if($test&&empty($data))
+                    echo "<div class=''>\$data is empty, line: ".__LINE__."</div>";
 
-			$all_pix_count=0;
-            /**
-             * Сохранить медиа-данные предмета             */
-			foreach($arrMediaData as $index => $mediadata){
+                $all_pix_count=0;
+                /**
+                 * Сохранить медиа-данные предмета             */
+                foreach($arrMediaData as $index => $mediadata){
 
-				if(count($mediadata)>1){
-					foreach($mediadata as $order => $media){
-						if(!$MediasTable = $model->getTable('medias'))
-							echo "<div class=''>Не создан экземпляр класса $MediasTable; line: ".__LINE__."</div>";
+                    if(count($mediadata)>1){
+                        foreach($mediadata as $order => $media){
+                            if(!$MediasTable = $model->getTable('medias'))
+                                echo "<div class=''>Не создан экземпляр класса $MediasTable; line: ".__LINE__."</div>";
 
-						$MediasTable->reset();
+                            $MediasTable->reset();
 
-						if(is_array($media)){
-							foreach($media as $field => $value){
-								$MediasTable->set($field,$value);
-							}
-							$doit=true;
-							if($doit) {
-								$data_check_bind=array_values(array_flip($media));
-								if(!empty($media)){
-									// Bind the data to the table
-									if (!$MediasTable->bind($data_check_bind)){
-										echo $MediasTable->getError();
-										echo "<div class=''>Bind error; line: ".__LINE__."</div>";
-									}
-									// Check that the data is valid
-									if (!$MediasTable->check()){
-										echo $MediasTable->getError();
-										echo "<div class=''>Check error; line: ".__LINE__."</div>";
-										// Store the data in the table
-									}
-									if (!$MediasTable->store(true)){
-										echo $MediasTable->getError();
-                                        if(!isset($imgErrors)) $imgErrors=array();
-										$imgErrors[].="<div>Не сохранена запись в таблице Medias.</div>";
-									}else{
+                            if(is_array($media)){
+                                foreach($media as $field => $value){
+                                    $MediasTable->set($field,$value);
+                                }
+                                $doit=true;
+                                if($doit) {
+                                    $data_check_bind=array_values(array_flip($media));
+                                    if(!empty($media)){
+                                        // Bind the data to the table
+                                        if (!$MediasTable->bind($data_check_bind)){
+                                            echo $MediasTable->getError();
+                                            echo "<div class=''>Bind error; line: ".__LINE__."</div>";
+                                        }
+                                        // Check that the data is valid
+                                        if (!$MediasTable->check()){
+                                            echo $MediasTable->getError();
+                                            echo "<div class=''>Check error; line: ".__LINE__."</div>";
+                                            // Store the data in the table
+                                        }
+                                        if (!$MediasTable->store(true)){
+                                            echo $MediasTable->getError();
+                                            if(!isset($imgErrors)) $imgErrors=array();
+                                            $imgErrors[].="<div>Не сохранена запись в таблице Medias.</div>";
+                                        }else{
 
-										if($test)
-											echo "<div style='color:blue;'>Добавлена запись в таблицу Medias; line: ".__LINE__."</div>";
+                                            if($test)
+                                                echo "<div style='color:blue;'>Добавлена запись в таблицу Medias; line: ".__LINE__."</div>";
 
-										$result=$this->addProductMedia($mediadata['virtuemart_product_id'], $order+1, $test);
-										if($test)
-											echo "<div style='color:violet'>result = ".$result.", line: ".__LINE__."</div>";
-										if($result===true){
-											$all_pix_count++;
-											if($test)
-												echo "<div style='color:blue;'>Добавлена запись в таблицу Product Medias; line: ".__LINE__."</div>";
-										}else{
-											if(is_array($result)){
-												if(!$mediadata['virtuemart_product_id'])
-													$imgErrors[].="<div>Не получен id предмета.</div>";
-												else
-													$imgErrors[].="<div>Id предмета: ".$mediadata['virtuemart_product_id']."</div>";
+                                            $result=$this->addProductMedia($mediadata['virtuemart_product_id'], $order+1, $test);
+                                            if($test)
+                                                echo "<div style='color:violet'>result = ".$result.", line: ".__LINE__."</div>";
+                                            if($result===true){
+                                                $all_pix_count++;
+                                                if($test)
+                                                    echo "<div style='color:blue;'>Добавлена запись в таблицу Product Medias; line: ".__LINE__."</div>";
+                                            }else{
+                                                if(is_array($result)){
+                                                    if(!$mediadata['virtuemart_product_id'])
+                                                        $imgErrors[].="<div>Не получен id предмета.</div>";
+                                                    else
+                                                        $imgErrors[].="<div>Id предмета: ".$mediadata['virtuemart_product_id']."</div>";
 
-												$imgErrors[].= "<hr>
+                                                    $imgErrors[].= "<hr>
 													<h5>Не добавлены данные:</h5>";
-												$lErr='';
-												foreach($media as $field => $value)
-													$lErr.= "<div class=''>{$field}: ".$value."</div>";
-												$imgErrors[].= $lErr. "<hr>
+                                                    $lErr='';
+                                                    foreach($media as $field => $value)
+                                                        $lErr.= "<div class=''>{$field}: ".$value."</div>";
+                                                    $imgErrors[].= $lErr. "<hr>
 												<b>Текст запроса:</b>
 												<div>
 													<pre>".$result[1]."</pre>
 												</div>
 												<hr>";
-											}else{
-												echo "<div style='color:orange'>\$result is not an array! It is ".gettype($result).", {$result}</div>";
-											}
-										}
-									}
-								}elseif ($test)
-									echo "<div style='color:#666;'>\$media array is empty; line: ".__LINE__."</div>";
-							}
-						}elseif($test){
-							if ($order!="virtuemart_product_id"){
-								echo "<div class=''>\$media is not an array; type: ".gettype($media).";, line: ".__LINE__."</div>";
-								echo "<br><br>\$mediadata:"; var_dump($mediadata);
-								echo "<hr>line: ".__LINE__."</div>";
-							}
-						}
-					}
-				}//else echo "<h3>NO images at all</h3>";
-				//echo "</div><hr>";
-			}
-			if (empty($arrMediaData)&&$test)
-				echo "<div style='color:navy'>\$arrMediaData is empty, line: ".__LINE__."</div>";
+                                                }else{
+                                                    echo "<div style='color:orange'>\$result is not an array! It is ".gettype($result).", {$result}</div>";
+                                                }
+                                            }
+                                        }
+                                    }elseif ($test)
+                                        echo "<div style='color:#666;'>\$media array is empty; line: ".__LINE__."</div>";
+                                }
+                            }elseif($test){
+                                if ($order!="virtuemart_product_id"){
+                                    echo "<div class=''>\$media is not an array; type: ".gettype($media).";, line: ".__LINE__."</div>";
+                                    echo "<br><br>\$mediadata:"; var_dump($mediadata);
+                                    echo "<hr>line: ".__LINE__."</div>";
+                                }
+                            }
+                        }
+                    }//else echo "<h3>NO images at all</h3>";
+                    //echo "</div><hr>";
+                }
+                if (empty($arrMediaData)&&$test)
+                    echo "<div style='color:navy'>\$arrMediaData is empty, line: ".__LINE__."</div>";
 
-			if($errors)
-			foreach($errors as $error){
-				foreach($error as $err):
-					var_dump($err);
-				endforeach;
-			}
-			$msg='Импортировано '.($i+1).' записей.';
-			$redir='index.php?option=com_auction2013';
-			//
-			if(count($imgErrors)||$test){
-				echo('Импортировано: записей - '.($i+1).', изображений - '.$all_pix_count);
-				if(count($imgErrors)) {
-					echo "<hr><h5 style='color:red'>Ошибки добавления записей в табл. #__virtuemart_product_medias:</h5>";
+                if($errors)
+                    foreach($errors as $error){
+                        foreach($error as $err):
+                            var_dump($err);
+                        endforeach;
+                    }
+                $msg='Импортировано '.($i+1).' записей.';
+                $redir='index.php?option=com_auction2013';
+                //
+                if(count($imgErrors)||$test){
+                    echo('Импортировано: записей - '.($i+1).', изображений - '.$all_pix_count);
+                    if(count($imgErrors)) {
+                        echo "<hr><h5 style='color:red'>Ошибки добавления записей в табл. #__virtuemart_product_medias:</h5>";
 
-					foreach($imgErrors as $e=>$ms)
-						echo $imgErrors[$e];
-				}
-				die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
-			}else
-				$this->setRedirect(JRoute::_($redir), $msg);
+                        foreach($imgErrors as $e=>$ms)
+                            echo $imgErrors[$e];
+                    }
+                    die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
+                }else
+                    $this->setRedirect(JRoute::_($redir), $msg);
+            }
 		}
 	}
 /**

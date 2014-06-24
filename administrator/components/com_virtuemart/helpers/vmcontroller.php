@@ -130,7 +130,10 @@ class VmController extends JController{
 		$ProductTable=$model->getTable('products');
 		$ProductTable->reset();
 		unset($data['sales_price']); // будет добавлено отдельным методом
-		return $model->store($data,false,$ProductTable);
+        //commonDebug(__FILE__,__LINE__,$data);
+		//commonDebug(__FILE__,__LINE__,$model);
+        //commonDebug(__FILE__,__LINE__,$ProductTable, true);
+        return $model->store($data,false,$ProductTable);
 	}
 /*	MODIFIED END	*/
 	/**

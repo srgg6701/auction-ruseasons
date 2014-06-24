@@ -446,7 +446,8 @@ class VmModel extends JModel {
 
 
 	public function store(&$data){
-
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$data, true);
 		$table = $this->getTable($this->_maintablename);
 
 		$table->bindChecknStore($data);
