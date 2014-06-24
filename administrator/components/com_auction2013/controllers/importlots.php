@@ -431,52 +431,57 @@ class Auction2013ControllerImportlots extends JControllerForm
                 unset($data_stream['product_price_publish_up'],$data_stream['product_price_publish_down']);
                 // commonDebug(__FILE__, __LINE__, $data_stream, true);
                 //$virtuemart_product_id = 35+$i	
-				/**
-                 ИМПОРТИРОВАТЬ данные                 */
-                if($virtuemart_product_id=$VmController->import($model,$data_stream)){
-					// var_dump($data_stream);
-					if($data_stream['sales_price'])
-						if(!Auction2013ControllerImportlots::addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
-							echo "<div><b style='color:red'>ОШИБКА!</b>
+				$test_data=true;
+                if($test_data) {
+                    commonDebug(__FILE__,__LINE__,$data_stream);
+                }else{
+                    /**
+                    ИМПОРТИРОВАТЬ данные                 */
+                    if($virtuemart_product_id=$VmController->import($model,$data_stream)){
+                        // var_dump($data_stream);
+                        if($data_stream['sales_price'])
+                            if(!Auction2013ControllerImportlots::addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
+                                echo "<div><b style='color:red'>ОШИБКА!</b>
 						Не добавлена запись в таблицу #__dev_sales_price...</div>";
-					// add images:
-					// #__virtuemart_medias, then #__virtuemart_product_medias
-					//echo "<BR><div class=''>IMAGES:</div>";
-					//var_dump($images[$i]);
-					$arrMediaData[$i]=array('virtuemart_product_id' => $virtuemart_product_id);
-					foreach($images[$i] as $icount=>$pic){
-						$arrIm=explode('.',$pic);
-						$pic_ext=array_pop($arrIm);
-						switch($pic_ext){
-							// see above: $imgExt=array('gif','jpg','png','wbmp');
-							case 'jpg':case 'jpeg':
-								$mimetype='jpeg';
-							break;
-							case 'gif':
-								$mimetype='gif';
-							break;
-							case 'png':
-								$mimetype='png';
-							break;
-							case 'wbmp':
-								$mimetype='x-windows-bmp';
-							break;
-						}
-						$arrMediaData[$i][]=array(
-							'virtuemart_vendor_id' => '1',
-							'file_title' => $pic, 
-							'file_mimetype' => 'image/'.$mimetype,
-							'file_type' => 'product',
-							'file_url' => 'images/stories/virtuemart/product/'.$pic,
-							'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
-							'file_params' => '',
-							'published' => '1',
-							'created_on' => date('Y-m-d H:i:s'),
-							'created_by' => $user_id,
-						);
-					}
-				}//else echo "<div class=''>Не сохранено...</div>";
-				$errors[]= $model->getErrors();
+                        // add images:
+                        // #__virtuemart_medias, then #__virtuemart_product_medias
+                        //echo "<BR><div class=''>IMAGES:</div>";
+                        //var_dump($images[$i]);
+                        $arrMediaData[$i]=array('virtuemart_product_id' => $virtuemart_product_id);
+                        foreach($images[$i] as $icount=>$pic){
+                            $arrIm=explode('.',$pic);
+                            $pic_ext=array_pop($arrIm);
+                            switch($pic_ext){
+                                // see above: $imgExt=array('gif','jpg','png','wbmp');
+                                case 'jpg':case 'jpeg':
+                                $mimetype='jpeg';
+                                break;
+                                case 'gif':
+                                    $mimetype='gif';
+                                    break;
+                                case 'png':
+                                    $mimetype='png';
+                                    break;
+                                case 'wbmp':
+                                    $mimetype='x-windows-bmp';
+                                    break;
+                            }
+                            $arrMediaData[$i][]=array(
+                                'virtuemart_vendor_id' => '1',
+                                'file_title' => $pic,
+                                'file_mimetype' => 'image/'.$mimetype,
+                                'file_type' => 'product',
+                                'file_url' => 'images/stories/virtuemart/product/'.$pic,
+                                'file_url_thumb' => 'images/stories/virtuemart/product/resized/'.$pic.'_90x90.'.$pic_ext,
+                                'file_params' => '',
+                                'published' => '1',
+                                'created_on' => date('Y-m-d H:i:s'),
+                                'created_by' => $user_id,
+                            );
+                        }
+                    }//else echo "<div class=''>Не сохранено...</div>";
+                    $errors[]= $model->getErrors();
+                }
 			}
 			if($test&&empty($data))
 				echo "<div class=''>\$data is empty, line: ".__LINE__."</div>";
