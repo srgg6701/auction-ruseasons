@@ -385,7 +385,7 @@ FROM #__virtuemart_products_ru_ru  prod_ru
   WHERE " . implode(" AND ", $subquery);
         $query.="
   ORDER BY orders.id DESC";
-        //testSQL($query); //die();
+        testSQL($query); //die();
         return JFactory::getDbo()->setQuery($query)->loadAssocList();
     }
 /**

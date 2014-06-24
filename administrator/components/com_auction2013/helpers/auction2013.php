@@ -9,7 +9,9 @@
 
 // No direct access
 defined('_JEXEC') or die;
-// require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'tables'.DS.'table_name.php';
+// C:\WebServers\home\localhost\www\auction-ruseasons\components\com_auction2013\helpers\stuff.php
+//                                  auction-ruseasons\administrator\components\com_auction2013\helpers\stuff.php
+require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 /**
  *auction2013 helper.
  */
@@ -62,6 +64,63 @@ class Auction2013Helper
 		JSubMenuHelper::addEntry(JText::_('Экспорт предметов'),$common_link_segment.'auction2013&layout=export');
 		JSubMenuHelper::addEntry(JText::_('Управление категориями предметов'), 'index.php?option=com_virtuemart&view=category');
 	}	
+}
+
+class vmAuctionHTML{
+
+    private $purchases_applications=array();
+    private $purchases_paid=array();
+
+    public function __construct(){
+        $purchases=AuctionStuff::getPurchases();
+        foreach ($purchases as $i=>$data) {
+            if($data['status'])
+                $this->purchases_paid[]=$data;
+            else
+                $this->purchases_applications[]=$data;
+        }
+    }
+
+    public function makePurchasesTable($status=0){
+    ?>
+        <legend><?php
+        if(!$status):
+            $com_class="apply";
+            $title="Подтвердить покупку";
+            $purchases = $this->purchases_applications;
+            ?>Неподтверждённые<?
+        else:
+            $com_class="cancel";
+            $title="Отменить покупку";
+            $purchases = $this->purchases_paid;
+            ?>Подтверждённые<?
+        endif;
+            ?> заявки</legend>
+        <table width="100%" class="adminform">
+            <tr class="center">
+                <th>Дата заявки</th>
+                <th>Предмет</th>
+                <th>Категория</th>
+                <th>Цена</th>
+                <th>Покупатель</th>
+                <th class="cmd_<?php echo $com_class;?>" title="<?php echo $title;?>"></th>
+            </tr>
+            <?php
+            foreach($purchases as $i=>$data):
+                ?>
+                <tr class="row<?php echo $i%2?>">
+                    <td><?php echo $data['datetime'];?></td>
+                    <td><a href="index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id[]=<?php echo $data['virtuemart_product_id'];?>"><?php echo $data['product_name'];?></a></td>
+                    <td><a href="index.php?option=com_virtuemart&view=product&virtuemart_category_id=<?php echo $data['virtuemart_category_id'];?>"><?php echo $data['category_name'];?></a></td>
+                    <td style="text-align:right;"><?php echo $data['price'];?></td>
+                    <td><a href="index.php?option=com_users&view=user&layout=edit&id=<?php echo $data['user_id'];?>"><?php echo $data['name'].' '.$data['middlename'];?></a></td>
+                    <td class="cmd_<?php echo $com_class;?>">&nbsp;</td>
+                </tr>
+            <?php
+            endforeach;?>
+        </table>
+<?php
+    }
 }
 
 class Export{

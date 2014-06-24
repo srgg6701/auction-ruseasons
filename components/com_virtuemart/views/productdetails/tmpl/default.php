@@ -168,7 +168,9 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
 					?>Предмет недоступен<?php
 				// заявка подана текущим юзером
 			  	else:
-		?>Вы подали заявку на приобретение данного предмета <?php echo $item['datetime'];
+		?>Вы подали заявку на приобретение данного предмета <?php 
+					$p_datetime=explode(' ',$item['datetime']);
+					echo $p_datetime[0]." в ".$p_datetime[1];
               	endif;
 		    // предмет продан
 			else:

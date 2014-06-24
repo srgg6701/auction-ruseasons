@@ -4,3 +4,27 @@
 .warning-text{
     color: orange;
 }
+
+.cmd_apply,
+.cmd_cancel{
+    background-repeat: no-repeat !important;
+    background-position: center;
+    opacity: 0.5;
+    width: 20px;
+}
+:not(th).cmd_apply:hover,
+:not(th).cmd_cancel:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+.cmd_apply{
+    background-image: url(../../components/com_virtuemart/assets/images/admin_ui/apply.png);
+    opacity: 0.5;
+}
+.cmd_cancel{
+    background-image: url(../../components/com_virtuemart/assets/images/admin_ui/cancel.png);
+    opacity: 0.3;
+}
+tr.center th{
+    text-align: center !important;
+}

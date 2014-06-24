@@ -29,14 +29,20 @@ if(!class_exists('VmView'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmvie
  * @package		VirtueMart
  * @author
  */
+
+require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'auction2013.php';
+
 class VirtuemartViewOrders_shop extends VmView {
 
 	function display($tpl = null) {
         include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$this, true);
+        //
 		//Load helpers
-
-		$this->loadHelper('currencydisplay');
+        $this->purchases = new vmAuctionHTML();
+        //commonDebug(__FILE__,__LINE__,$purchases, true);
+		//$this->purchases->applications=$purchases->makePurchasesTable();
+        //$this->purchases->paid=$purchases->makePurchasesTable(true);
+        $this->loadHelper('currencydisplay');
 
 		$this->loadHelper('html');
 
