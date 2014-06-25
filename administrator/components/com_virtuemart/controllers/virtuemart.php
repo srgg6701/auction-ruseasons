@@ -29,7 +29,11 @@ class VirtuemartControllerVirtuemart extends JController {
 
 
 	public function __construct() {
-		parent::__construct();
+        //die(__FILE__.'<br>BeginVM = '.defined(BeginVM));
+        if(!JFactory::getSession()->get('BeginVM')){
+            JFactory::getApplication()->redirect('index.php?option=com_virtuemart&view=orders_shop');
+        }else
+		    parent::__construct();
 	}
 
 	/**

@@ -42,6 +42,9 @@ class VirtuemartControllerOrders_shop extends VmController
      */
     function __construct()
     {
+        $session = JFactory::getSession();
+        if(!$session->get('BeginVM'))
+            $session->set('BeginVM','begin');
         include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$this, true);
         parent::__construct();
