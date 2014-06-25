@@ -49,4 +49,11 @@ class VirtuemartControllerOrders_shop extends VmController
         //commonDebug(__FILE__,__LINE__,$this, true);
         parent::__construct();
     }
+    /**
+     * Изменить статус заказа
+     */
+    function handlePurchase(){
+        echo $this->getModel()->toggleOrderStatus(JRequest::getVar('virtuemart_product_id'));
+        exit;
+    }
 }

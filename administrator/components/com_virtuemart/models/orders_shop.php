@@ -45,4 +45,30 @@ class VirtueMartModelOrders_shop extends VmModel
         //$this->setMainTable('orders');
         //$this->addvalidOrderingFieldName(array('order_name', 'order_email', 'payment_method', 'virtuemart_order_id'));
     }
+
+    /**
+     * Переключить статус заказа
+     */
+    function toggleOrderStatus($virtuemart_product_id){
+        $table_name = '#__dev_shop_orders';
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(array('id', 'status')));
+        $query->from($db->quoteName($table_name));
+        $query->where($db->quoteName('virtuemart_product_id') . ' = ' .
+            $db->quote($virtuemart_product_id));
+        $db->setQuery($query);
+        $results = $db->loadAssoc(); // Result, loadAssoc, ArrayList, Column, Row, RowList
+        $status_to_set = ($results['status'])? '0':'1';
+        $record_id = $results['id'];
+        $object = new stdClass();
+        $object->id = $record_id;
+        $object->status = $status_to_set;
+        try{
+            $db->updateObject($table_name, $object, 'id');
+            return $virtuemart_product_id;
+        }catch(Exception $e){
+            echo "<div>".$e->getMessage()."</div>";
+        }
+    }
 }

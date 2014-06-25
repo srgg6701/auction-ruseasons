@@ -97,6 +97,7 @@ class vmAuctionHTML{
         endif;
             ?> заявки</legend>
         <table width="100%" class="adminform">
+          <tbody id="tbody_cmd_<?php echo $com_class;?>">
             <tr class="center">
                 <th>Дата заявки</th>
                 <th>Предмет</th>
@@ -108,7 +109,7 @@ class vmAuctionHTML{
             <?php
             foreach($purchases as $i=>$data):
                 ?>
-                <tr class="row<?php echo $i%2?>">
+                <tr class="row<?php echo $i%2?>" data-product_id="<?php echo $data['virtuemart_product_id'];?>">
                     <td><?php echo $data['datetime'];?></td>
                     <td><a href="index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id[]=<?php echo $data['virtuemart_product_id'];?>"><?php echo $data['product_name'];?></a></td>
                     <td><a href="index.php?option=com_virtuemart&view=product&virtuemart_category_id=<?php echo $data['virtuemart_category_id'];?>"><?php echo $data['category_name'];?></a></td>
@@ -118,6 +119,7 @@ class vmAuctionHTML{
                 </tr>
             <?php
             endforeach;?>
+          </tbody>
         </table>
 <?php
     }
