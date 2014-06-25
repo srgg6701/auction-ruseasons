@@ -163,8 +163,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
 	<h4><?php
             $p_datetime=explode(' ',$item['datetime']);
             $intime=$p_datetime[0]." в ".$p_datetime[1];
-	        // todo: Скрывать предмет магазина, на который поступила заявка на покупку.
-			// подана заявка на покупку данного предмета
+	        // подана заявка на покупку данного предмета
 			if(!(int)$item['status']):
 		 		// юзер на идентифицирован или заявка подана другим юзером
 				if($item['user_id']==='unknown'||!(int)$item['user_id']):

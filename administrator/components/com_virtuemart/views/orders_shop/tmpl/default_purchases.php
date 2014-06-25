@@ -1,6 +1,5 @@
 <?php
 // Секция Информация / Информация о товаре id: $товар_id
-// TODO: Удалить закомментированный код из файлов шаблонов
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php echo $this->langList;?>
 <fieldset>

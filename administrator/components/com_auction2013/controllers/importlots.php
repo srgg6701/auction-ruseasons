@@ -430,7 +430,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'product_unit' => 'KG',
 							'price_quantity_start'=>array(''),
 							'price_quantity_end'=>array(''),
-							'categories' => array(${'virtuemart_category_id'}), // TODO: проконтролировать (добавлено через ${})
+							'categories' => array(${'virtuemart_category_id'}),
 						); /*?>
             <h4>Импортированные предметы:</h4>
 			<?*/	// var_dump($data); //die(); echo "<hr><hr>";

@@ -22,7 +22,6 @@ class UserCabinet
 	/**
      * Инициализировать построение кабинета юзера (common html; вызывается по умолчанию).
      * Вызвать метод построения соответствующего шаблона для юзера (layout_[template_name])
-     //todo: Заменить на singleton! 
      */
     public function initUserCabinet($JUser,$logout_params,$layout=false){
 		
