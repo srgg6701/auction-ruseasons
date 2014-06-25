@@ -16,6 +16,8 @@ SELECT
                                         AS 'categories',       -- prod_ru_ru.product_s_desc, prod_ru_ru.product_desc, prod_ru_ru.slug,
   TRUNCATE(prod_prices.product_price,0) AS product_price,
   TRUNCATE(sales_prices.sales_price,0)  AS 'minimal_price',           -- prod_prices.product_override_price AS 'final_price',
+  IF(shop_orders.status IS NOT NULL, shop_orders.status, '') 
+                                        AS ordered,
   CONCAT( DATE_FORMAT(prod_prices.product_price_publish_up,"%d.%m.%Y %h:%i"), 
           " | ", 
           DATE_FORMAT(prod.product_available_date,"%d.%m.%Y %h:%i")       
@@ -46,6 +48,8 @@ SELECT
               ON prod_cats.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_categories_ru_ru        AS cats_ruru
               ON cats_ruru.virtuemart_category_id = prod_cats.virtuemart_category_id
+   LEFT JOIN auc13_dev_shop_orders                    AS shop_orders
+              ON shop_orders.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_product_medias          AS prod_medias
               ON prod_medias.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias

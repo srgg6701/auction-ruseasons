@@ -12,7 +12,7 @@
     <ConnectionString>User Id=root;Host=localhost;Character Set=utf8</ConnectionString>
     <Database>auctionru_2013</Database>
   </Connection>
-  <Views ShowAdditionalViews="True" IsLayoutActiveAttribute="True" MainViewAttribute="Data" MainViewScale="52">
+  <Views ShowAdditionalViews="True" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="37">
     <View Name="Design" Visible="True">
       <Data>
         <StatementType>Select</StatementType>

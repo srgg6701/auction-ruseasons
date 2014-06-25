@@ -28,7 +28,23 @@ class Auction2013ModelAuction2013 extends JModelLegacy
 	 *
 	 * @var		string
 	 */
-
+    /**
+     * Проверить доступность предмета
+     */
+    function checkItemAccessibility($virtuemart_product_id){
+        // Get a db connection.
+        $db = JFactory::getDbo();
+        $query = "SELECT COUNT(*) FROM #__dev_shop_orders WHERE virtuemart_product_id = ".$virtuemart_product_id;
+        $db->setQuery($query);
+        try{
+            $res=$db->loadResult();
+            //echo "<div>res = $res</div>";
+            //testSQL($query);die();
+            return $res;
+        }catch (Exception $e){
+            die($e->getMessage());
+        }
+    }
 	/**
 	 * Get the data for a layout.
 	 *
@@ -73,6 +89,13 @@ class Auction2013ModelAuction2013 extends JModelLegacy
      * Добавить предмет в корзину юзера через VM
      */
     public function makePurchase($post) {
+        $result=array();
+        // если предмет кем-то только что куплен:
+        if($this->checkItemAccessibility($post['virtuemart_product_id'][0])){
+            $result['msg']=JText::_('Предмет недоступен...');
+            $result['type']='warning';
+            return $result;
+        }
         /* ["option"]                   => "com_auction2013"
            ["task"]                     => "purchase"
            ["menuitemid"]               => "115"
@@ -82,7 +105,6 @@ class Auction2013ModelAuction2013 extends JModelLegacy
                                            }
            ["8dfc8567bfc27829cbc4328674ab6d74"]=> "1"   */
 		//commonDebug(__FILE__,__LINE__,$post, true);
-        $result=array();
         // Create and populate an object.
         $data = new stdClass();
         $data->user_id = JFactory::getUser()->id;
@@ -92,8 +114,32 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         // Insert the object into the user profile table.
         try{
             JFactory::getDbo()->insertObject('#__dev_shop_orders', $data);
-            $result['msg']=JText::_('ОШИБКА... Заказ не оформлен');
-            $result['type']='error';
+            $result['msg']=JText::_('Заказ оформлен');
+            $result['type']='notice';
+
+            if($_SERVER['HTTP_HOST']!='localhost'){
+                // отправить сообщение админам:
+                // get all admin users
+                $query = 'SELECT name, email, sendEmail' .
+                    ' FROM #__users' .
+                    ' WHERE sendEmail=1';
+
+                $db=JFactory::getDbo();
+                $db->setQuery( $query );
+                $rows = $db->loadObjectList();
+                $emailBodyAdmin="Поступила новая заявка на приобретение предмета в вашем магазине.";
+                $rname = "Русские Сезоны";
+                // Send mail to all superadministrators id
+                foreach( $rows as $row )
+                {
+                    JFactory::getMailer()->sendMail(
+                        "noreply@auction-ruseasons.ru",
+                        "Магазин антиквариата \"$rname\"",
+                        $row->email,
+                        "Новый заказ на покупку предмета в магазине \"$rname\"",
+                        $emailBodyAdmin );
+                }
+            }
         }catch(Exception $e){
             die('Error: '.$e->getMessage());
             $result['msg']=JText::_('ОШИБКА... Заказ не оформлен');

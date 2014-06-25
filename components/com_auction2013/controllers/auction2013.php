@@ -85,7 +85,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         //commonDebug(__FILE__,__LINE__,$post['link'], true);
         /* см. состав $post в модели */
         if($result=$model->makePurchase($post)){
-            $this->setRedirect($post['link'].'?result=ok',$result['msg'],$result['type']);
+            $this->setRedirect($post['link'].'?result='.$result['type'],$result['msg'],$result['type']);
         }
     }
 /**

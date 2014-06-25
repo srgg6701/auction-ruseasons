@@ -1,4 +1,4 @@
-<?php	
+<?php
 /**
  *
  * Show the product details page
@@ -160,7 +160,10 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
         else:
 			$item = $bought[0];
 	?>
-	<h4><?php   // todo: Скрывать предмет магазина, на который поступила заявка на покупку.
+	<h4><?php
+            $p_datetime=explode(' ',$item['datetime']);
+            $intime=$p_datetime[0]." в ".$p_datetime[1];
+	        // todo: Скрывать предмет магазина, на который поступила заявка на покупку.
 			// подана заявка на покупку данного предмета
 			if(!(int)$item['status']):
 		 		// юзер на идентифицирован или заявка подана другим юзером
@@ -168,9 +171,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
 					?>Предмет недоступен<?php
 				// заявка подана текущим юзером
 			  	else:
-		?>Вы подали заявку на приобретение данного предмета <?php 
-					$p_datetime=explode(' ',$item['datetime']);
-					echo $p_datetime[0]." в ".$p_datetime[1];
+		?>Вы подали заявку на приобретение данного предмета <?php echo $intime;
               	endif;
 		    // предмет продан
 			else:
@@ -179,7 +180,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
 					?>Предмет продан<?
 				// продан текущему юзеру
 				else:
-		?>Вы приобрели данный предмет <?php echo $item['datetime'];
+		?>Вы приобрели данный предмет <?php echo $intime;
 				endif;
 			endif;?>.</h4>
 <?php	endif;
