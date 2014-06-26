@@ -19,8 +19,9 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
- $Itemid = JRequest::getVar('Itemid');
-$topItem = AuctionStuff::getTopCatsMenuItemIds('main', false, 'shop');
+//commonDebug(__FILE__,__LINE__,$this->product, true);
+$Itemid = JRequest::getVar('Itemid');
+$topItem = AuctionStuff::getTopCatsMenuItemIds('main', false);
 //commonDebug(__FILE__, __LINE__, key($topItem));
 //commonDebug(__FILE__, __LINE__, $topItem, true);
 
@@ -116,7 +117,9 @@ else:
    	</div>   
   </div>
   <div class="box_desc">
-<?php 
+<?php
+    //commonDebug(__FILE__,__LINE__,$topItem);
+    //commonDebug(__FILE__,__LINE__,$Itemid);
     if((int)$topItem['shop']===(int)$Itemid): //echo "<h1>Shop</h1>";
         ?>
 <form id="purchase_app_form" action="<?php 
@@ -224,21 +227,28 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
       Конец торгов:................... 
       <span class="span_o_o">
           <b>
-   		      <?=$this->product->auction_date_finish?>
+<?php 			echo $this->product->auction_date_finish; ?>
           </b>
       </span>
     </div>				  
     <div class="o_o">
-      Предварительная оценка: 
+    <?php   if((int)$topItem['fulltime']===(int)$Itemid):
+        ?>Предварительная оценка<?php
+            else:
+        ?>Стартовая цена<?php
+            endif;
+        ?>:
       <span class="span_o_o">
           <b>
-   		      <?php echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
-          </b>  
-          <b>
-       	      - ? ? ? ?
-             <!-- - 150000-->
+		<?php echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
+          </b>
+    <?php   if((int)$topItem['fulltime']===(int)$Itemid):
+    ?>
+          <b> -
+       	<?php echo ($this->product->price2)? :'0'; ?>
           </b>   
-          рублей
+    <?php   endif;
+            echo $this->product->currency_symbol;?>.
       </span>
     </div>
 <?php    
@@ -246,3 +256,4 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
   </div>        
 </div><?php 
 endif;
+//commonDebug(__FILE__,__LINE__,$this->product, true);

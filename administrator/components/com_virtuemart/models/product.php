@@ -743,7 +743,7 @@ class VirtueMartModelProduct extends VmModel {
                 $_products[$productKey] = $child;
             }
         }
-        //else commonDebug(__FILE__,__LINE__,$_products, true);
+        //commonDebug(__FILE__,__LINE__,$_products[$productKey], true);
         return $_products[$productKey];
     }
 
@@ -773,7 +773,7 @@ class VirtueMartModelProduct extends VmModel {
         // модифицированный запрос с учётом резервной цены:
         $q = 'SELECT prod.*,
                      sales_prices.min_price AS minimal_price,
-                     sales_prices.price2
+                     TRUNCATE(sales_prices.price2,0) AS price2
                 FROM `#__virtuemart_product_prices` AS prod
            LEFT JOIN `#__dev_sales_price` AS sales_prices
                      ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
@@ -799,6 +799,8 @@ class VirtueMartModelProduct extends VmModel {
 
         $db->setQuery($q);
         $product->prices = $db->loadAssocList();
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$product->prices, true);
         $err = $db->getErrorMsg();
         if (!empty($err)) {
             vmError('getProductSingle ' . $err);
@@ -893,6 +895,13 @@ class VirtueMartModelProduct extends VmModel {
             /* MODIFIED START */
             // назначить алиас родительской категории:
             $this->getProductParentSlug($product, $this->_id);
+            $db=JFactory::getDbo();
+            $q="SELECT `currency_symbol`
+                  FROM #__virtuemart_currencies WHERE virtuemart_currency_id = ".$product->product_currency;
+            // получить валюту предмета
+            $product->currency_symbol=$db->setQuery($q)->loadResult();
+            //include_once JPATH_SITE.DS.'tests.php';
+            //testSQL($q,__FILE__,__LINE__,true);
             /* MODIFIED END */
 
             //$product = array_merge ($prices, (array)$product);
@@ -1039,6 +1048,7 @@ class VirtueMartModelProduct extends VmModel {
             return $this->fillVoidProduct($front);
         }
         //		}
+        //include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$product, true);
         $this->product = $product;
         return $product;

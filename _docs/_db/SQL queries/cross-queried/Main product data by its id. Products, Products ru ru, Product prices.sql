@@ -15,7 +15,8 @@ SELECT
   CONCAT(cats_ruru.virtuemart_category_id,":",cats_ruru.category_name)) 
                                         AS 'categories',       -- prod_ru_ru.product_s_desc, prod_ru_ru.product_desc, prod_ru_ru.slug,
   TRUNCATE(prod_prices.product_price,0) AS product_price,
-  TRUNCATE(sales_prices.sales_price,0)  AS 'minimal_price',           -- prod_prices.product_override_price AS 'final_price',
+  TRUNCATE(sales_prices.price2,0) AS final_price,
+  TRUNCATE(sales_prices.min_price,0)  AS 'minimal_price',           -- prod_prices.product_override_price AS 'final_price',
   IF(shop_orders.status IS NOT NULL, shop_orders.status, '') 
                                         AS ordered,
   CONCAT( DATE_FORMAT(prod_prices.product_price_publish_up,"%d.%m.%Y %h:%i"), 
