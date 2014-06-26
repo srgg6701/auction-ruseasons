@@ -12,7 +12,7 @@ function commonDebug($file, $line, $object=NULL, $stop=false){
     if(!$test) return false;
     echo "<div><b>file:</b> ".$file."<br>
     line: <span style='color:green'>".$line."</span></div>";
-    echo "<div style='display: inline-block;padding:10px; background-color:#eee;margin-bottom:20px;'".dblclck."><pre>";
+    echo "<div style='display: inline-block; border:solid 1px #ccc; border-radius:4px; padding:10px; background-color:#eee;margin-bottom:20px;'".dblclck."><pre>";
     if($object){
         if(is_array($object)||is_object($object)){
             if(!empty($object)){
@@ -36,7 +36,7 @@ function commonDebug($file, $line, $object=NULL, $stop=false){
 function testSQL($query,$file=false,$line=false,$stop=false,$class='test'){
     if($file&&$line)
         echo "<div><b>file:</b> ".$file."<br>line: <span style='color:green'>".$line."</span></div>";			
-    echo "<div class='$class' style='padding:10px; background-color:rgb(254, 239, 242); display: inline-block; margin-bottom:20px;' ".dblclck.">
+    echo "<div class='$class' style='padding:10px; border:solid 1px #ccc; border-radius:4px; background-color:rgb(254, 239, 242); display: inline-block; margin-bottom:20px;' ".dblclck.">
             <b>query:</b>
             <div style='display:none'>
                 <pre>".str_replace("#_","auc13",$query)."</pre>

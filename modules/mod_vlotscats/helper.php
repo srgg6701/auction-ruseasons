@@ -40,7 +40,9 @@ ORDER BY cats.ordering';
  * @subpackage
  */
 	function getCategoriesData($published=false,$db=false,$inStockOnly=true){
-		if (!$db)
+
+        //commonDebug(__FILE__,__LINE__,debug_print_backtrace(), true);
+        if (!$db)
 			$db=JFactory::getDBO();
 		
 		$session =& JFactory::getSession();
@@ -136,7 +138,9 @@ ORDER BY cats.ordering';
             если не магазин - проверить даты выставления на аукцион -
             чтобы были таки внутри дат публикации
              */
-            if($layout!='shop')
+            if( $layout!='shop'
+                /* если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))*/
+                && $published!==NULL )
                 $q.='
                AND p.product_available_date >= prices.product_price_publish_up
                AND p.auction_date_finish <= prices.product_price_publish_down';
@@ -145,7 +149,7 @@ ORDER BY cats.ordering';
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
                  $order;
-            //testSQL($q,__FILE__,__LINE__);
+            // testSQL($q,__FILE__,__LINE__);
             $db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(
