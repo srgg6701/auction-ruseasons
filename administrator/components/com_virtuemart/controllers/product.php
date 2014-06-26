@@ -85,7 +85,6 @@ class VirtuemartControllerProduct extends VmController {
 				unset($data['published']);
 				unset($data['childs']);
 			}
-
 		}
 		parent::save($data);
 	}
@@ -387,7 +386,5 @@ class VirtuemartControllerProduct extends VmController {
 		exit;
 		*/
 	}
-
-
 }
 // pure php no closing tag

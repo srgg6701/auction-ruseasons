@@ -772,7 +772,8 @@ class VirtueMartModelProduct extends VmModel {
         //$q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" ';
         // модифицированный запрос с учётом резервной цены:
         $q = 'SELECT prod.*,
-                     sales_prices.min_price AS minimal_price
+                     sales_prices.min_price AS minimal_price,
+                     sales_prices.price2
                 FROM `#__virtuemart_product_prices` AS prod
            LEFT JOIN `#__dev_sales_price` AS sales_prices
                      ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`

@@ -41,9 +41,10 @@ class VirtuemartViewProduct extends VmView {
 		$this->loadHelper('image');
 
 		$model = VmModel::getModel();
-
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$task, true);
 		// Handle any publish/unpublish
-		switch ($task) {
+		switch ($task) { // при загрузке профайла предмета - edit
 			case 'add':
 			case 'edit':
 				//this was in the controller for the edit tasks, I dont know if it is still needed,

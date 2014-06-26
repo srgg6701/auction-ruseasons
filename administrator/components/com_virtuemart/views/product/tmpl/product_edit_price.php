@@ -66,10 +66,10 @@ table.adminform.productPriceTable
         </td>
         <td nowrap><input
                 type="text"
-                name="mprices[salesPrice][]"
+                name="price2"
                 size="12"
                 style="text-align:right;"
-                value="<?php echo $this->calculatedPrices['basePrice']; ?>"/>
+                value="<?php echo $this->product->price2; ?>"/>
 			<?php echo $this->vendor_currency; ?>
         </td>
         <td style="text-align:right;">
