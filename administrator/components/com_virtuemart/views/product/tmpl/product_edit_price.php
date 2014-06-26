@@ -59,11 +59,8 @@ table.adminform.productPriceTable
 	?>
     <tr class="row<?php echo $rowColor?>">
         <td>
-            <span
-                    class="hasTip"
-                    title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_FINAL_TIP'); ?>">
-                <?php 
-    echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE"); ?>
+            <span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE_TITLE'); ?>"><?php 
+    		echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE"); ?>
             </span>
             <input type="hidden" name="top_category_slug" value="<?=$this->product->top_category_slug?>"/>
         </td>
@@ -96,8 +93,10 @@ table.adminform.productPriceTable
         </td>
 	</tr>
 	<tr class="row1">
-    	<td><?php echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL");
-        ?>
+    	<td>
+        	<span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL_TITLE'); ?>"><?php 
+			echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL");
+        ?></span>
         </td>
         <td><input
                 type="text"

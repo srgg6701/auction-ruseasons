@@ -348,7 +348,7 @@ WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
         $query.="
         cats_ru.  category_name,
 TRUNCATE
-      ( prices.   sales_price, 0)
+      ( prices.   min_price, 0)
                AS price,
         prod_ru.  product_s_desc,
         prod_ru.  product_desc,

@@ -146,12 +146,13 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
-	public static function addSalesRecord($virtuemart_product_id,$sales_price){
+	public static function addSalesRecord($virtuemart_product_id, $price2, $price3){
         echo "<div>добавляем запись...</div>";
         // Create and populate an object.
         $object = new stdClass();
         $object->virtuemart_product_id=$virtuemart_product_id;
-        $object->sales_price=$sales_price;
+        $object->price2=$price2;
+        $object->min_price=$price3;
 		try{
             JFactory::getDbo()->insertObject('#__dev_sales_price', $object);
         }catch(Exception $e){
@@ -161,14 +162,16 @@ class Auction2013ControllerImportlots extends JControllerForm
 		return true;
 	}
 /**
- *  Обновить запись о минимальной цене предмета в доп. таблице
+ *  Обновить запись о конечной цене для очных торгов
+ *  и минимальной цене предмета в доп. таблице
  */
-    public static function updateSalesRecord($min_price_rec_id,$min_price){
+    public static function updateSalesRecord($min_price_rec_id, $price2, $min_price){
         echo "<div>обновляем запись...</div>";
         $tbl= "#__dev_sales_price";
         $object = new stdClass();
         $object->id = $min_price_rec_id;
-        $object->sales_price = $min_price;
+        $object->price2 = $price2;
+        $object->min_price = $min_price;
         try{
             JFactory::getDbo()->updateObject($tbl, $object, 'id');
         }catch(Exception $e){
@@ -284,11 +287,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 							'date_show'         => 'product_price_publish_up',
                             // КОНЕЦ
 							'date_hide'         => 'product_price_publish_down',
-							'price'             => 'product_price',
+							'price1'            => 'product_price',
                             // #__dev_sales_price
-                            'sales_price'       => 'sales_price'    // OK
+                            'price2'            => 'price2',
+                            'price3'            => 'min_price'    // OK
 						);
-				// go ahead!
+				// контейнер для импортируемых значений
 				$data=array();
 				$columns_names=array();
 				$col_count=0;
@@ -364,14 +368,14 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'price':       // основная цена
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
 									break;
-									// case 'sales_price':
+									// case 'min_price':
 									// $data[$data_index]['mprices']['salesPrice'][0]=$cell_content;
 									// break;
 									default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
 								}
                                 //echo "<div>line: ".__LINE__.", \$data[$data_index][".$arrFields[$column_name]."] = ".$cell_content."</div>";
-                                //if($column_name=='sales_price') echo "<hr color='orange'>";
+                                //if($column_name=='min_price') echo "<hr color='orange'>";
 							}else{
 								// сформировать массив вторичных картинок:
 								$picExt=array_pop(explode('.',$cell_content));
@@ -457,8 +461,11 @@ class Auction2013ControllerImportlots extends JControllerForm
                     ИМПОРТИРОВАТЬ данные                 */
                     if($virtuemart_product_id=$VmController->import($model,$data_stream)){
                         // var_dump($data_stream);
-                        if($data_stream['sales_price'])
-                            if(!Auction2013ControllerImportlots::addSalesRecord($virtuemart_product_id,$data_stream['sales_price']))
+                        if($data_stream['min_price'])
+                            if(!Auction2013ControllerImportlots::addSalesRecord(
+                                                $virtuemart_product_id,
+                                                $data_stream['price2'],
+                                                $data_stream['min_price']) )
                                 echo "<div><b style='color:red'>ОШИБКА!</b>
 						Не добавлена запись в таблицу #__dev_sales_price...</div>";
                         // add images:

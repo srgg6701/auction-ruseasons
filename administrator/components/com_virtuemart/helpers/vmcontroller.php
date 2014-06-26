@@ -129,7 +129,7 @@ class VmController extends JController{
 	function import($model,$data){
 		$ProductTable=$model->getTable('products');
 		$ProductTable->reset();
-		unset($data['sales_price']); // будет добавлено отдельным методом
+		unset($data['min_price']); // будет добавлено отдельным методом
         //commonDebug(__FILE__,__LINE__,$data);
 		//commonDebug(__FILE__,__LINE__,$model);
         //commonDebug(__FILE__,__LINE__,$ProductTable, true);

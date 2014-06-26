@@ -772,7 +772,7 @@ class VirtueMartModelProduct extends VmModel {
         //$q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" ';
         // модифицированный запрос с учётом резервной цены:
         $q = 'SELECT prod.*,
-                     sales_prices.sales_price AS minimal_price
+                     sales_prices.min_price AS minimal_price
                 FROM `#__virtuemart_product_prices` AS prod
            LEFT JOIN `#__dev_sales_price` AS sales_prices
                      ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
@@ -1481,6 +1481,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         }
         // минимальная цена для аукциона:
         $min_price = $data["minimal_price"];
+        // todo: выяснить, что это и нужно ли оно:
         unset($data["mprices"]["minimal_price"]);
 
         if (!$product_data) /* 	MODIFIED END	 */
@@ -1519,18 +1520,18 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         require_once JPATH_ADMINISTRATOR . '/components/com_auction2013/controllers/importlots.php';
         $tbl = "#__dev_sales_price";
         // добавить запись, если не существует:
-        if (!$min_price_rec_id = JFactory::getDbo()->setQuery("SELECT id FROM $tbl
+        if (!$sales_prices_rec_id = JFactory::getDbo()->setQuery("SELECT id FROM $tbl
             WHERE virtuemart_product_id = " . $this->_id)->loadResult()) {
-            if (!Auction2013ControllerImportlots::addSalesRecord($this->_id, $min_price)) {
+            if (!Auction2013ControllerImportlots::addSalesRecord($this->_id, $data['price2'], $min_price)) {
                 die("<div style='color:red'>
                 Ошибка добавления записи в табл. $tbl.</div>");
             }
         }   // обновить запись
         elseif (!$result = Auction2013ControllerImportlots::updateSalesRecord(
-                $min_price_rec_id, $min_price))
+                $sales_prices_rec_id, $data['price2'], $min_price))
             die("<div style='color:red'>
                 Ошибка обновления записи в табл. $tbl.</div>id записи:
-                    " . $min_price_rec_id);
+                    " . $sales_prices_rec_id);
         //die('<hr>line: '.__LINE__);
         /* MODIFIED END */
 

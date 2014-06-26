@@ -43,8 +43,9 @@ class Auction2013Helper
 				'title'=>'Название лота',
 				'short_desc'=>'Краткое описание лота',
 				'desc'=>'Описание лота',
-				'price'=>'Стартовая цена|только цифры', // ?
-				'sales_price'=>'Конечная (для аукциона &#8212; резервная) цена|только цифры',
+				'price1'=>'Стартовая цена|только цифры', // ?
+                'price2'=>'Конечная цена (для очных торгов)|только цифры',
+				'prince3'=>'Минимальная цена для онлайн-торгов|только цифры',
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.|имя.расширение',
 			);
 	}
@@ -245,8 +246,8 @@ class Export{
   prods.title,
   '' AS 'short_desc',
   prods.description AS 'desc',
-  prods.current_bid AS 'price',
-  prods.final_price AS 'sales_price', 
+  prods.current_bid AS 'price1',
+  prods.final_price AS 'price2', 
   prods.image AS 'images',
   prods.id";
   /*-- cats.category_name,
@@ -315,8 +316,8 @@ ORDER BY cats.category_name, prods.title";
 		'title'=>'Название лота',
 		'short_desc'=>'Краткое описание лота',
 		'desc'=>'Описание лота',
-		'price'=>'Стартовая цена', // ?
-		'sales_price'=>'Конечная цена',
+		'price1'=>'Стартовая цена', // ?
+		'price2'=>'Конечная цена',
 		'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',*/
 		// модифицировать исходный массив для соответствия с полями CSV-файла:
 		array_pop($row_fields_set);
@@ -402,8 +403,9 @@ ORDER BY cats.category_name, prods.title";
 							'title' => string 'Миниатюра «Девушка в красной шали»' (length=64)
 							'short_desc' => string '' (length=0)
 							'desc' => string 'Живопись на кости, 1820-е годы, 7.7х5.5 см, рамка дерево, металл, 14.2х12 см' (length=119)
-							'price' => string '0' (length=1)
-							'sales_price' => string '0' (length=1)
+							'price1' => string '0' (length=1)
+							'price2' => string '0' (length=1)
+							'price3' => string '0' (length=1)
 							'category_id' => string '313' (length=3)
 							================================================
 							'images' => string '2' (length=1)
