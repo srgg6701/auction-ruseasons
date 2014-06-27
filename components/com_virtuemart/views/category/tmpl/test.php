@@ -11,10 +11,11 @@ defined ('_JEXEC') or die('Restricted access');
         <div class="main_im_lot">
             <div id="galleryBigImage">
                 <div id="bigLeadImage">
-                    <script type="text/javascript">
+                    <!--<script type="text/javascript">
                         //<![CDATA[
                         images[0] = new galleryAddImage(
                             '',
+                            // http://auction-ruseasons.ru/items_images/mini_devyshka_v_shali_01_143_09_2.jpg
                             'http://auction-ruseasons.ru/items_images/mini_devyshka_v_shali_01_143_09_1.jpg',
                             'http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_1.jpg',
                             334,
@@ -22,7 +23,7 @@ defined ('_JEXEC') or die('Restricted access');
                             '',
                             0);
                         //]]>
-                    </script>
+                    </script>-->
                     <?php // большая картинка для фрагментарного просмотра ?>
                     <a href="http://localhost/auction-ruseasons/images/stories/virtuemart/product/03_241_11_01.jpg" class="MagicZoomPlus" id="Zoomer" rel="zoom-width:450px;zoom-border:2px;zoom-height:293px;" title="" style="position: relative; display: inline-block; text-decoration: none; outline: 0px; margin: auto; width: 334px;">
                         <img src="http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_2.jpg" width="334" height="334" alt="" style="opacity: 1;">
@@ -42,13 +43,22 @@ defined ('_JEXEC') or die('Restricted access');
             <div style="padding-left: 0px; margin-left: 0px;">
                 <div class="th_imgage">
                     <div class="inside_image_preview">
-                        <a href="http://auction-ruseasons.ru/items_images/mini_devyshka_v_shali_01_143_09_1.jpg" rel="zoom-id:Zoomer" rev="http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_1.jpg" class="MagicThumb-swap" style="outline: 0px;"><img src="http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_1.jpg" height="82" width="82" alt="" title=""></a>
+                        <a href="http://auction-ruseasons.ru/items_images/mini_devyshka_v_shali_01_143_09_1.jpg" rel="zoom-id:Zoomer" rev="http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_1.jpg" class="MagicThumb-swap" style="outline: 0px;">
+                            <img src="http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_1.jpg" height="82" width="82" alt="" title="">
+                        </a>
                     </div>
                 </div>
                 <div class="th_imgage">
                     <div class="inside_image_preview">
-                        <?php // большая картинка для фрагментарного просмотра ?>
-                        <a href="http://localhost/auction-ruseasons/images/stories/virtuemart/product/03_241_11_01.jpg" rel="zoom-id:Zoomer" rev="http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_2.jpg" id="mt-990251389441" class="MagicThumb-swap" style="outline: 0px;"><img src="http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_2.jpg" height="82" width="82" alt="" title=""></a>
+                        <?php // http://auction-ruseasons.ru/items_images/preview_mini_devyshka_v_shali_01_143_09_2.jpg
+                        // картинка, загружающаюся по клику ?>
+                        <a href="http://localhost/auction-ruseasons/images/stories/virtuemart/product/03_241_11_01.jpg" rel="zoom-id:Zoomer"<?php
+                            /*  Картинка, заполняющая блок основного изображения.
+                                Должна иметь размеры, точно соответствующие его параметрам */
+                            ?>rev="http://localhost/auction-ruseasons/images/stories/virtuemart/product/resized/03_241_11_01_226x226.jpg" id="mt-990251389441" class="MagicThumb-swap" style="outline: 0px;"><?php
+                            // миниматюра
+                            ?><img src="http://localhost/auction-ruseasons/images/stories/virtuemart/product/resized/03_241_11_01_226x226.jpg" height="82" width="82" alt="" title="">
+                        </a>
                     </div>
                 </div>
 
