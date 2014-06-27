@@ -17,7 +17,6 @@
  * other free or open source software licenses.
  * @version $Id: default.php 6556 2012-10-17 18:15:30Z kkmediaproduction $
  */
-
 //vmdebug('$this->category',$this->category);
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!

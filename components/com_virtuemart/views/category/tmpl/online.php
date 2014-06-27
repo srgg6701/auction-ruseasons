@@ -80,7 +80,8 @@ if ($this->search !== NULL):?>
 if (!empty($this->products)) {
         //echo "<h3>this->products:</h3><pre>";var_dump($this->products);echo "</pre>"; // die();
 	// array => object
-	foreach($this->products as $i=>$product){ //var_dump("<pre>",$product,"</pre>");?>
+	foreach($this->products as $i=>$product){
+	    //commonDebug(__FILE__,__LINE__,$product->images);?>
 <div class="box">
   <div class="img">	
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
