@@ -18,7 +18,11 @@ include_once JPATH_SITE.DS.'tests.php';
  */
 class Auction2013ControllerImportlots extends JControllerForm
 {
+    private $contract_numbers=array();
+
     public function __construct() {
+        $this->contract_numbers=Auction2013Helper::getContractsNumbers();
+        //commonDebug(__FILE__,__LINE__,$this->contract_numbers, true);
         parent::__construct();
     }
 	public function display($view=false)
@@ -213,10 +217,10 @@ class Auction2013ControllerImportlots extends JControllerForm
         что доступны при управлении изображениями товара через интерфейс VirtueMart'а?
 	*/
 	public function import(){
-        // include_once JPATH_SITE.DS.'tests.php';
-        commonDebug(__FILE__,__LINE__,JRequest::get('post'), true);
+        //commonDebug(__FILE__,__LINE__,JRequest::get('post'), true);
 		$test=false;
-        $skip_import=true;
+        $skip_import=false;
+        $doubled_contract_numbers=array();
 
 		$user = JFactory::getUser();
 		$user_id=$user->id;
@@ -230,7 +234,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 					  'alt_encoding'
 					);
 
-			foreach($common_data_fields as $i=>$field)
+            foreach($common_data_fields as $i=>$field)
 				// $virtuemart_category_id, $encoding AND so on...
 				${$field}=JRequest::getVar($field);
 			//var_dump(JRequest::get('post'));
@@ -264,13 +268,13 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 			//"files/Bronze.csv";
 			if (($handle = fopen($importfile, "r")) !== FALSE) {
-				/**
+                /**
                  СИНХРОНИЗИРОВАТЬ ПОЛЯ .csv и ТАБЛИЦ: */
 				$arrFields=array(
 							// #__virtuemart_products:
 							'auction_number'    => 'auction_number',
 							'lot_number'        => 'lot_number',
-							'contract_number'   => 'contract_number',
+							'contract_number'   => 'product_sku',
                             // Даты аукциона:
 							// НАЧАЛО
 							'date_start'        => 'product_available_date',
@@ -302,9 +306,13 @@ class Auction2013ControllerImportlots extends JControllerForm
 				while (($cells = fgetcsv($handle, $max_length, ";")) !== FALSE) {
 					// $cells - колич. ячеек в строке
 					for ($i=0, $j=count($cells); $i < $j; $i++) {
-
-						$cell_content=$cells[$i];
-						// если первая строка файла - собираем заголовки:
+                        $cell_content=$cells[$i];
+                        if( $columns_names[$i]=='contract_number'
+                            && in_array(trim($cell_content),$this->contract_numbers)){
+                            $doubled_contract_numbers[]=$cell_content;
+                            continue 2;
+                        }
+                        // если первая строка файла - собираем заголовки:
 						if(!$row_count){
 							/**
                             если поле не было добавлено ранее.
@@ -328,6 +336,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							$data_index=$row_count-1;
 							if (isset($enc_from)&&isset($enc_to))
 								$cell_content=iconv($enc_from,$enc_to,$cell_content);
+
 							// если не кончились уникальные заголовки:
 							if($col_count>$i){
 								//имя текущего столбца, в том порядке, в котором расположены в файле:
@@ -366,13 +375,11 @@ class Auction2013ControllerImportlots extends JControllerForm
                                             echo "<div>apdate2 = ".isset($apdate[2])."</div>";
                                         }
 									break;
-									case 'price':       // основная цена
+									case 'price1':       // основная цена
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
 									break;
-									// case 'min_price':
-									// $data[$data_index]['mprices']['salesPrice'][0]=$cell_content;
-									// break;
-									default:
+
+                                    default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
 								}
                                 //echo "<div>line: ".__LINE__.", \$data[$data_index][".$arrFields[$column_name]."] = ".$cell_content."</div>";
@@ -410,7 +417,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 			// additional "static" fields:
 			$arrDataToUpdate=array(
-							'product_sku' => '',
+							//'product_sku' => '',
 							// 'slug' => '',
 							'product_weight' => '',
 							'product_weight_uom' => 'KG',
@@ -447,7 +454,10 @@ class Auction2013ControllerImportlots extends JControllerForm
                 foreach($arrDataToUpdate as $field => $content)
 					$data_stream[$field] = $content;
 
-				$data_stream['mprices']['product_currency']=array('131');
+				$currency_code=(JRequest::getVar('top_cat')=='fulltime')?
+                    '144' // usd
+                    : '131'; // rub
+                $data_stream['mprices']['product_currency']=array($currency_code);
 				$data_stream['mprices']['product_override_price']=array('0,00000');
 				$data_stream['mprices']['product_price_publish_up']=array($data_stream['product_price_publish_up']);
                 $data_stream['mprices']['product_price_publish_down']=array($data_stream['product_price_publish_down']);
@@ -456,7 +466,7 @@ class Auction2013ControllerImportlots extends JControllerForm
                 // commonDebug(__FILE__, __LINE__, $data_stream, true);
                 //$virtuemart_product_id = 35+$i
 				if($skip_import){
-                    if($data_stream['lot_number']=='1000653')
+                    //if($data_stream['lot_number']=='1000653')
                         commonDebug(__FILE__,__LINE__,$data_stream, false, false);
                 }else{
                     /**
@@ -608,6 +618,13 @@ class Auction2013ControllerImportlots extends JControllerForm
                         endforeach;
                     }
                 $msg='Импортировано '.($i+1).' записей.';
+                if(!empty($doubled_contract_numbers)){
+                    $msg.='<div class="error-text">Не импортировано записей: '.count($doubled_contract_numbers).'.</div>
+                        <div>Неуникальные номера контрактов:</div>';
+                    foreach ($doubled_contract_numbers as $contract_number) {
+                        $msg.="<div>$contract_number</div>";
+                    }
+                }
                 $redir='index.php?option=com_auction2013';
                 //
                 if(count($imgErrors)||$test){
@@ -621,7 +638,8 @@ class Auction2013ControllerImportlots extends JControllerForm
                     die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
                 }else
                     $this->setRedirect(JRoute::_($redir), $msg);
-            }
+            }else
+                commonDebug(__FILE__,__LINE__,$doubled_contract_numbers);
 		}
 	}
 /**

@@ -1,9 +1,9 @@
 SELECT
   DISTINCT prod.virtuemart_product_id   AS product_id,
   /*prod.                                    auction_number,
-  prod. product_sku                     AS 'артикул',
-  prod.                                    contract_number,
-  prod.                                    lot_number, */
+  prod. product_sku                     AS 'артикул',*/
+  prod.                                    product_sku,
+  -- prod.                                    lot_number,
   prod_ru_ru.product_name               AS 'item name',
   prod.product_in_stock                 AS 'count', -- колич. предметов  
   CONCAT(( SELECT CONCAT(cats_ruru_p.virtuemart_category_id,":",cats_ruru_p.category_name)

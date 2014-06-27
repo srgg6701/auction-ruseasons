@@ -50,6 +50,21 @@ class Auction2013Helper
 			);
 	}
 	
+    /**
+     * Получить номера контрактов
+     */
+    public static function getContractsNumbers(){
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('product_sku');
+        $query->from($db->quoteName('#__virtuemart_products'));
+        $query->where('product_sku <> \'\'');
+        // Reset the query using our newly populated query object.
+        $db->setQuery($query);
+        // Load the results as a list of stdClass objects (see later for more options on retrieving data).
+        return $db->loadColumn();
+    }
+
 	/**
 	 * Configure the Linkbar.
 	 *

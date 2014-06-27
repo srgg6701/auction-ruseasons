@@ -1226,7 +1226,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             $this->virtuemart_category_id = FALSE;
         }
         $ids = $this->sortSearchListQuery($onlyPublished, $this->virtuemart_category_id, $group, $nbrReturnProducts);
-
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$ids, true);
         //quickndirty hack for the BE list, we can do that, because in vm2.1 this is anyway fixed correctly
         $this->listing = TRUE;
         $products = $this->getProducts($ids, $front, $withCalc, $onlyPublished, $single);
@@ -1468,8 +1469,10 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
     ) {
 
         JRequest::checkToken() or jexit('Invalid Token');
-        /* 	MODIFIED START 	 */ 
+        /* 	MODIFIED START 	 */
+        $skip_storing = false;
         require_once JPATH_SITE.DS.'tests.php';
+        //if($product['lot_number']=='1000653')
         commonDebug(__FILE__, __LINE__, $product, false);
         //commonDebug(__FILE__, __LINE__, $product_data, true);
         /* 	MODIFIED END	 */
@@ -1503,10 +1506,13 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             $data['product_packaging'] = str_replace(',', '.', $data['product_packaging']);
         }
 
-        //commonDebug(__FILE__, __LINE__, $data, true);
+        //if($product['lot_number']=='1000653')
+        commonDebug(__FILE__, __LINE__, $data);
+
         // with the true, we do preloading and preserve so old values note by Max Milbers
         // $product_data->bindChecknStore ($data, $isChild);
-        $stored = $product_data->bindChecknStore($data, TRUE);
+        if(!$skip_storing)
+            $stored = $product_data->bindChecknStore($data, TRUE);
 
         $errors = $product_data->getErrors();
         if (!$stored or count($errors) > 0) {

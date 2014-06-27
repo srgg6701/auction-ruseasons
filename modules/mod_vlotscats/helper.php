@@ -138,7 +138,7 @@ ORDER BY cats.ordering';
             если не магазин - проверить даты выставления на аукцион -
             чтобы были таки внутри дат публикации
              */
-            if( $layout!='shop'
+            if( $layout=='online'
                 /* если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))*/
                 && $published!==NULL )
                 $q.='
@@ -149,7 +149,7 @@ ORDER BY cats.ordering';
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
                  $order;
-            // testSQL($q,__FILE__,__LINE__);
+            //testSQL($q,__FILE__,__LINE__);
             $db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(
