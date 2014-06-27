@@ -25,7 +25,7 @@ foreach($lots as $top_cat_id => $array){
     //commonDebug(__FILE__,__LINE__,$array);
     ?>
 	<label class="top_section">
-    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$array['top_category_layout']?>"><?=$array['top_category_name']?> &nbsp; </label>
+    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" data-top_cat_id="<?=$top_cat_id?>" type="radio" value="<?=$array['top_category_layout']?>"><?=$array['top_category_name']?> &nbsp; </label>
 	<?php foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):
@@ -102,7 +102,7 @@ $( function(){
 	$('input[id^="top_cat_"]')
 		.click( function(){
 			$('div.hiddenRadios').fadeOut(200);
-			$('div#top-'+$(this).val()).fadeIn(200);
+			$('div#top-'+$(this).attr('data-top_cat_id')).fadeIn(200);
 		});
 	$('#check_flds')
 		.click( function(){
