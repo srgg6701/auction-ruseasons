@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access');?>
 <br>
 <?php
 $lots=$this->categories_data;
+//commonDebug(__FILE__,__LINE__,$lots, true);
 $catsHTML=array();?>
 <form action="<?php echo JRoute::_('index.php?option=com_auction2013'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div id="top_radios">
@@ -24,7 +25,7 @@ foreach($lots as $top_cat_id => $array){
     //commonDebug(__FILE__,__LINE__,$array);
     ?>
 	<label class="top_section">
-    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$top_cat_id?>, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories"><?=$array['top_category_name']?> &nbsp; </label>
+    	<input name="top_cat" id="top_cat_<?=$top_cat_id?>" type="radio" value="<?=$array['top_category_layout']?>"><?=$array['top_category_name']?> &nbsp; </label>
 	<?php foreach($array as $key=>$array_data):
 			if ($key=='children'):
 				foreach($array_data as $i=>$category_data):

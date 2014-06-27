@@ -213,9 +213,10 @@ class Auction2013ControllerImportlots extends JControllerForm
         что доступны при управлении изображениями товара через интерфейс VirtueMart'а?
 	*/
 	public function import(){
-
+        // include_once JPATH_SITE.DS.'tests.php';
+        commonDebug(__FILE__,__LINE__,JRequest::get('post'), true);
 		$test=false;
-        $skip_import=false;
+        $skip_import=true;
 
 		$user = JFactory::getUser();
 		$user_id=$user->id;
@@ -455,7 +456,8 @@ class Auction2013ControllerImportlots extends JControllerForm
                 // commonDebug(__FILE__, __LINE__, $data_stream, true);
                 //$virtuemart_product_id = 35+$i
 				if($skip_import){
-                    commonDebug(__FILE__,__LINE__,$data_stream);
+                    if($data_stream['lot_number']=='1000653')
+                        commonDebug(__FILE__,__LINE__,$data_stream, false, false);
                 }else{
                     /**
                     ИМПОРТИРОВАТЬ данные                 */

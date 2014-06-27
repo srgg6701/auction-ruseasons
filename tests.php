@@ -7,7 +7,7 @@
  * Вывести состав объекта. 4-й аргумент - остановка выполнения скрипта
  */
 define('dblclck', " title='dblclick' ondblclick='this.getElementsByTagName(\"div\")[0].style.display=(this.getElementsByTagName(\"div\")[0].style.display==\"none\")? \"block\":\"none\"'");
-function commonDebug($file, $line, $object=NULL, $stop=false){
+function commonDebug($file, $line, $object=NULL, $stop=false, $collapsed=true){
     $test=true;
     if(!$test) return false;
     echo "<div><b>file:</b> ".$file."<br>
@@ -15,8 +15,11 @@ function commonDebug($file, $line, $object=NULL, $stop=false){
     echo "<div style='display: inline-block; border:solid 1px #ccc; border-radius:4px; padding:10px; background-color:#eee;margin-bottom:20px;'".dblclck."><pre>";
     if($object){
         if(is_array($object)||is_object($object)){
-            if(!empty($object)){
-                ?><div style="display:none"><?php
+            if(!empty($object)) {
+                ?><div<?php
+                if ($collapsed){
+                    ?> style="display:none"<?php
+                }?>><?php
                 var_dump($object);
                 ?></div><?php
             }
