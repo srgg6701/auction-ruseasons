@@ -235,8 +235,8 @@ class VirtuemartViewCategory extends VmView {
 			$document->setMetaData('author', $category->metaauthor);
 		}
 		if ($products) {
-		$currency = CurrencyDisplay::getInstance( );
-		$this->assignRef('currency', $currency);
+		    $currency = CurrencyDisplay::getInstance( );
+		    $this->assignRef('currency', $currency);
 		}
 
 		if(!class_exists('Permissions')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'permissions.php');

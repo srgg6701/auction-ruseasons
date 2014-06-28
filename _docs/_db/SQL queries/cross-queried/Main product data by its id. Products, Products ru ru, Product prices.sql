@@ -55,7 +55,7 @@ SELECT
               ON prod_medias.virtuemart_product_id = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  -- WHERE 
+  -- WHERE   'categories' LIKE '22:%' 
             -- prod_ru_ru.product_name LIKE '%»кона%' AND
             -- sales_prices.sales_price IS NOT null
   ORDER BY prod_ru_ru.product_name LIMIT 500

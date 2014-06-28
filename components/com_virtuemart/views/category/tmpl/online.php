@@ -84,8 +84,14 @@ if (!empty($this->products)) {
 	    //commonDebug(__FILE__,__LINE__,$product->images);?>
 <div class="box">
   <div class="img">	
-    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
-</div>
+    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php 
+	
+	if(isset($test)){
+		?>PRODUCT image<?php 
+	}
+	
+	?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
+  </div>
 	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
 	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
@@ -112,7 +118,7 @@ if (!empty($this->products)) {
 				echo $this->currency->createPriceDiv ('salesPriceWithDiscount', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITH_DISCOUNT', $product->prices);
 			endif;
 			
-			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
+			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices, false, false, '1.0', 'online', $product->virtuemart_product_id);
 			
 			echo $this->currency->createPriceDiv ('priceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
 			
@@ -138,3 +144,24 @@ if (!empty($this->products)) {
 }?>
 </div>
 <?php HTML::setVmPagination()?>
+<script>
+(function($){
+    $('span.lot').on({
+        'mouseenter': function(){
+            this.title = "Сделать ставку";
+        },
+        'click':function(){
+<?php   if(JFactory::getUser()->guest!=1):
+?>
+            location.href="<?php
+            echo JText::_("index.php?option=com_auction2013");
+            ?>&view=auction2013&layout=bid&virtuemart_product_id="+$(this).attr('data-product_id');
+<?php   else:
+?>
+            alert('Чтобы сделать ставку, вам необходимо заавторизоваться.');
+<?php   endif;
+?>
+        }
+    });
+})(jQuery);
+</script></script>
