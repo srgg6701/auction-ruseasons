@@ -340,10 +340,12 @@ class VirtueMartViewProductdetails extends VmView {
         $currency = CurrencyDisplay::getInstance();
         $this->assignRef('currency', $currency);
 
-        if(JRequest::getCmd( 'layout', 'default' )=='notify') $this->setLayout('notify'); //Added by Seyi Awofadeju to catch notify layout
-
+        if(JRequest::getCmd( 'layout', 'default' )=='notify')
+            $this->setLayout('notify'); //Added by Seyi Awofadeju to catch notify layout
+        elseif(JRequest::getCmd('layout')=='bid')
+            $this->setLayout('bid');
         // include_once JPATH_SITE.DS.'tests.php';
-        // commonDebug(__FILE__,__LINE__,$this, true);
+        //commonDebug(__FILE__,__LINE__,$this, true);
         parent::display($tpl);
     }
 
