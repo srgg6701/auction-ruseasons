@@ -69,7 +69,6 @@ class Auction2013ModelAuction2013 extends JModelLegacy
 		}
 		return $this->_item;
 	}
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -85,6 +84,41 @@ class Auction2013ModelAuction2013 extends JModelLegacy
 		$params = $app->getParams();
 		$this->setState('params', $params);
 	}
+    /**
+     * Сделать ставку
+     */
+    public function makeBid($post){
+        commonDebug(__FILE__,__LINE__,$post, true);
+        /*  ["bid_sum"]     => "125000"
+            ["bid_agree"]   => "on"
+            ["b379e7a91e6a5b624c9a828be80dc8ac"]=> "1"
+            ["option"]      => "com_auction2013"
+            ["task"]        => "makeBid"
+            ["virtuemart_product_id"]=> "2772"  */
+        // получить резервную цену
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('min_price'));
+        $query->from($db->quoteName('#__dev_sales_price'));
+        $query->where($db->quoteName('virtuemart_product_id') . ' = '. $post['virtuemart_product_id']);
+        $db->setQuery($query);
+        if((int)$post['bid_sum']>(int)$db->loadResult()){
+            $data = new stdClass();
+            $data->virtuemart_product_id=$post['virtuemart_product_id'];
+            $data->bidder_user_id = JFactory::getUser()->id;
+            $data->sum=$post['bid_sum'];
+            $data->datetime=date('Y-m-d H:i:s');
+            try{
+                JFactory::getDbo()->insertObject('#__dev_bids', $data);
+                return true;
+            }catch(Exception $e){
+                echo "<div>Ошибка добавления ставки:</div>";
+                die("<div>".$e->getMessage()."</div>");
+            }
+        }else{
+            return false;
+        }
+    }
     /**
      * Добавить предмет в корзину юзера через VM
      */
