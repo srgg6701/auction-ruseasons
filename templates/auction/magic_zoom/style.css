@@ -272,8 +272,6 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;font-
 
 .gallery_lot{width:350px;float:left;}
 
-.box_desc{float:right;width:400px;}
-
 #galleryBigImage{width:334px;height:334px; background:#fff;display:table-cell;vertical-align:middle;}
 
 #bigLeadImage{text-align:center;}
@@ -284,7 +282,12 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;font-
 
 .button {border:1px solid; background:#ead5b7;margin-bottom:5px;}
 
-.box_desc div{margin:5px 0px;}
+.box_desc div{
+    float:right;
+    margin:5px 0px;
+    overflow:hidden;
+    width:400px;
+}
 
 .private_room{width:730px;margin-top:-10px;}
 
@@ -364,9 +367,9 @@ background:#000;
 
 
 
-* html .inside_image_preview  a{  /* ��� ��� ��6 */
-
-display: block;
+* html .inside_image_preview  a {
+    display: block;
+}
 /*
 z-index: expression( 
 

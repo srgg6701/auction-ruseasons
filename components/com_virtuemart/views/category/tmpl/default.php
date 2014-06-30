@@ -137,7 +137,6 @@ if (VmConfig::get ('showCategory', 1) and empty($this->keyword)) {
 		</div>
 	<?php } ?>
 	</div>
-
 	<?php
 	}
 }

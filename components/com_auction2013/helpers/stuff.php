@@ -449,7 +449,10 @@ WHERE cats_cats.category_parent_id = 0";
             //array('online','fulltime','shop');
 	}
 /**
- * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е
+ * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е:
+    ["shop"]        => "115"
+    ["online"]      => "125"
+    ["fulltime"]    => "126"
  * @package
  * @subpackage
  */

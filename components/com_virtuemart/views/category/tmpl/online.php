@@ -13,8 +13,8 @@
  */
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
-// include_once JPATH_SITE.DS.'tests.php';
-//commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
+// commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
+//commonDebug(__FILE__,__LINE__,$this->category->parents[0]->virtuemart_category_id, true);
 $Itemid = JRequest::getVar('Itemid');
 HTML::pageHead( "Онлайн торги",
                 "online",
@@ -154,11 +154,11 @@ if (!empty($this->products)) {
         'click':function(){
 <?php   if(JFactory::getUser()->guest!=1):
 ?>
-            location.href="?option=com_virtuemart&view=productdetails&layout=bid&virtuemart_product_id="+$(this).attr('data-product_id')+"&Itemid=<?php
-            //echo JText::_("index.php?option=com_virtuemart");
-//
-            /*?>index.php?option=com_virtuemart&view=productdetails&layout=bid&virtuemart_product_id="+$(this).attr('data-product_id')+"&Itemid=<?php */
-            echo $Itemid; ?>";
+            location.href="?option=com_virtuemart&view=productdetails&virtuemart_category_id=<?php
+                    echo $this->category->parents[0]->virtuemart_category_id;
+                    ?>&Itemid=<?php
+                    echo $Itemid;
+                    ?>&virtuemart_product_id="+$(this).attr('data-product_id')+"&do=bid";
 <?php   else:
 ?>
             alert('Чтобы сделать ставку, вам необходимо заавторизоваться.');

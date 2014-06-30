@@ -24,7 +24,6 @@ $Itemid = JRequest::getVar('Itemid');
 $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false);
 //commonDebug(__FILE__, __LINE__, key($topItem));
 //commonDebug(__FILE__, __LINE__, $topItem, true);
-
 if(JRequest::getVar('source')):
     require_once 'source/default.php';
 else:
@@ -253,7 +252,20 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
     </div>
 <?php    
     endif;?>      
-  </div>        
+<?php
+	if((int)$topItem['online']===(int)$Itemid):
+		if(JFactory::getUser()->guest!=1):
+		?>
+  	<div<?php 
+  			if(!(JRequest::getVar('do')=='bid')):?> style="display:none"<?php 
+			endif;?> id="make_bid"><?php
+require_once "bid.php";            
+			?>
+	</div>        
+<?php	endif;
+	endif;
+?>          
+  </div>
 </div><?php 
 endif;
 //commonDebug(__FILE__,__LINE__,$this->product, true);
