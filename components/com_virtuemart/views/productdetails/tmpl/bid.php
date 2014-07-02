@@ -4,7 +4,17 @@
     <span>Сделать ставку</span>
 </h3>
 <form method="post" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.makeBid'); ?>" onsubmit="return checkFormFields()">
-<p id="bid-sum-p">Сумма вашей ставки: <input id="bid_sum" type="text" name="bid_sum" size="12"/></p>
+<?php 
+    // получить шаг ставки
+    $step=AuctionStuff::getPricesRange(
+                AuctionStuff::getBidSum(
+                        array(  'product_price'=>$this->product->prices['basePriceVariant'],
+                                'virtuemart_product_id'=>$this->product->virtuemart_product_id  )
+                    ));
+    //echo "<div>price, step = ".$this->product->prices['basePriceVariant'].", $step</div>";
+?>
+<p id="bid-sum-p">Минимальная сумма вашей ставки: <input id="bid_sum" type="text" name="bid_sum" size="12" value="<?php 
+    echo ((int)$this->product->prices['basePriceVariant']+(int)$step);?>"/></p>
 <input type="checkbox" id="bid_agree" name="bid_agree"/>я согласен с правилами аукциона.
 <?php echo JHtml::_('form.token');
 ?>

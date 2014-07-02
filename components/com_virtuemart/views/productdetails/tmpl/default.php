@@ -253,16 +253,18 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
 <?php    
     endif;?>      
 <?php
-	if((int)$topItem['online']===(int)$Itemid):
-		if(JFactory::getUser()->guest!=1):
-		?>
-  	<div<?php 
-  			if(!(JRequest::getVar('do')=='bid')):?> style="display:none"<?php 
-			endif;?> id="make_bid"><?php
-require_once "bid.php";            
-			?>
-	</div>        
-<?php	endif;
+	if((int)$topItem['online']===(int)$Itemid):        
+    ?>
+      <div id="make_bid">
+<?php   if(JFactory::getUser()->guest==1):            
+    ?>
+          Чтобы сделать ставку, вам необходимо <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">заавторизоваться</a>.
+<?php        
+        else: require_once "bid.php";            			
+        endif;
+?>
+      </div>   
+<?php      
 	endif;
 ?>          
   </div>

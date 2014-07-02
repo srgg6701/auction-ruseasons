@@ -103,13 +103,28 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         $query->where($db->quoteName('virtuemart_product_id') . ' = '. $post['virtuemart_product_id']);
         $db->setQuery($query);
         if((int)$post['bid_sum']>(int)$db->loadResult()){
+            $table_bids = '#__dev_bids';
+            $bidder_user_id = JFactory::getUser()->id;
+            // проверить, не выставил ли кто-нибудь из юзеров бОльшую ставку:
+            $query = $db->getQuery(true);
+            $query->select($db->quoteName('MAX(sum)>=').$post['bid_sum']);
+            $query->from($db->quoteName($table_bids));
+            $query->where($db->quoteName('virtuemart_product_id') . ' = '. $post['virtuemart_product_id']);
+            $db->setQuery($query);
+            try{
+                if((int)$db->loadResult())
+                    return 'too_low';
+            }catch(Exception $e){
+                echo "<div>Ошибка проверки максимальной ставки:</div>";
+                die("<div>".$e->getMessage()."</div>");
+            }
             $data = new stdClass();
             $data->virtuemart_product_id=$post['virtuemart_product_id'];
-            $data->bidder_user_id = JFactory::getUser()->id;
+            $data->bidder_user_id = $bidder_user_id;
             $data->sum=$post['bid_sum'];
             $data->datetime=date('Y-m-d H:i:s');
             try{
-                JFactory::getDbo()->insertObject('#__dev_bids', $data);
+                JFactory::getDbo()->insertObject($table_bids, $data);
                 return true;
             }catch(Exception $e){
                 echo "<div>Ошибка добавления ставки:</div>";

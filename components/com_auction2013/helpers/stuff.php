@@ -240,7 +240,58 @@ FROM #__virtuemart_products_ru_ru
 		$db->setQuery($query);
 		return $db->loadResult();
 	}
-/**
+    /**
+     * Получить актуальную цену лота - либо минимальную, либо текущую ставку
+     */
+    public static function getBidSum($data) {
+        if(key_exists('product_price', $data))
+            $product_price = $data['product_price'];
+        elseif(key_exists('virtuemart_product_id', $data)){
+            // получить минимальную стоимость предмета
+            // $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select($db->quoteName('min_price'));
+            $query->from($db->quoteName('#__dev_sales_price'));
+            $query->where($db->quoteName('virtuemart_product_id') . ' = '. $data['virtuemart_product_id']);
+            $db->setQuery($query);
+            $product_price=$db->loadResult();
+        }else
+            die('<div class="error-text">Не получен virtuemart_product_id.</div>');
+        if($max_bid_sum = self::getMaxBidSum($data['virtuemart_product_id']))
+            if((int)$max_bid_sum>(int)$product_price)
+                $product_price = $max_bid_sum;
+        return $product_price;
+    }
+    /**
+     * Получить последнюю ставку
+     */
+    public static function getMaxBidSum($virtuemart_product_id){
+        // получить запись из таблицы
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('MAX(sum)'));
+        $query->from($db->quoteName('#__dev_bids'));
+        $query->where($db->quoteName('virtuemart_product_id') . ' = '. $virtuemart_product_id);
+        $db->setQuery($query);
+        return $db->loadResult(); // Column, Row, Assoc[List], Object
+    }
+    /**
+     * Получить диапазон шагов ставок  
+     */
+    public static function getPricesRange($price) {
+        // получить шаги выставления цен:
+        $price_steps = json_decode(file_get_contents(JPATH_SITE . DS. 
+                                                     'components' . DS .
+                                                     'com_auction2013' . DS .
+                                                     'price_ranges.json')   );
+        foreach ($price_steps as $range=>$step) {
+            $ranges = explode('-', $range);
+            if($price>$ranges[0]&&$price<$ranges[1])
+                return $step;
+        }
+        return false;
+    }
+    /**
  * Описание
  * @package
  * @subpackage
