@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" />
-<file name="error.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" />
-<file name="exception.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" />
-<file name="log.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" />
-<file name="profiler.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" Dst="-1" />
+<file name="error.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" Dst="-1" />
+<file name="exception.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" Dst="-1" />
+<file name="log.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" Dst="-1" />
+<file name="profiler.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445800000000" Dst="-1" />
+<file name="error.php" server="I:/auction-ruseasons/" local="130419717730510000" remote="130419717740000000" Dst="0" />
+<file name="exception.php" server="I:/auction-ruseasons/" local="130419717730520000" remote="130419717740000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717730530000" remote="130419717740000000" Dst="0" />
+<file name="log.php" server="I:/auction-ruseasons/" local="130419717730970000" remote="130419717740000000" Dst="0" />
+<file name="profiler.php" server="I:/auction-ruseasons/" local="130419717730980000" remote="130419717740000000" Dst="0" />
 </dwsync>

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="adapter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="adapterinstance.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="node.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="object.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="observable.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="observer.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="tree.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="adapter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="adapterinstance.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="node.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="object.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="observable.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="observer.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="tree.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="adapter.php" server="I:/auction-ruseasons/" local="130419717708700000" remote="130419717720000000" Dst="0" />
+<file name="adapterinstance.php" server="I:/auction-ruseasons/" local="130419717708830000" remote="130419717720000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717708840000" remote="130419717720000000" Dst="0" />
+<file name="node.php" server="I:/auction-ruseasons/" local="130419717709970000" remote="130419717720000000" Dst="0" />
+<file name="object.php" server="I:/auction-ruseasons/" local="130419717709980000" remote="130419717720000000" Dst="0" />
+<file name="observable.php" server="I:/auction-ruseasons/" local="130419717709990000" remote="130419717720000000" Dst="0" />
+<file name="observer.php" server="I:/auction-ruseasons/" local="130419717710000000" remote="130419717720000000" Dst="0" />
+<file name="tree.php" server="I:/auction-ruseasons/" local="130419717710010000" remote="130419717720000000" Dst="0" />
 </dwsync>

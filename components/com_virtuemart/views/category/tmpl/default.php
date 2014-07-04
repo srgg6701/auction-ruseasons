@@ -232,12 +232,8 @@ if (!empty($this->products)) {
 		<div class="product floatleft<?php echo $Browsecellwidth . $show_vertical_separator ?>">
 			<div class="spacer">
 				<div class="width30 floatleft center">
-				    <a title="<?php echo $product->link ?>" rel="vm-additional-images" href="<?php echo $product->link; ?>">
-						<?php
-							echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
-						?>
-					 </a>
-
+				    <a title="<?php echo $product->link ?>" rel="vm-additional-images" href="<?php echo $product->link; ?>"><?php
+						echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);?></a>
 					<!-- The "Average Customer Rating" Part -->
 					<?php if ($this->showRating) { ?>
 					<span class="contentpagetitle"><?php echo JText::_ ('COM_VIRTUEMART_CUSTOMER_RATING') ?>:</span>
@@ -257,9 +253,7 @@ if (!empty($this->products)) {
 						</div>
 						<?php } ?>
 				</div>
-
 				<div class="width70 floatright">
-
 					<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
 
 					<?php // Product Short Description

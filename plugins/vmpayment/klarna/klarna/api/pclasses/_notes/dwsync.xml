@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041827740550000" remote="130089460800000000" />
-<file name="jsonstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740590000" remote="130089460800000000" />
-<file name="mysqlstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740610000" remote="130089460800000000" />
-<file name="sqlstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740640000" remote="130089460800000000" />
-<file name="storage.intf.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740660000" remote="130089460800000000" />
-<file name="xmlstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740680000" remote="130089460800000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041827740550000" remote="130089460800000000" Dst="-1" />
+<file name="jsonstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740590000" remote="130089460800000000" Dst="-1" />
+<file name="mysqlstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740610000" remote="130089460800000000" Dst="-1" />
+<file name="sqlstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740640000" remote="130089460800000000" Dst="-1" />
+<file name="storage.intf.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740660000" remote="130089460800000000" Dst="-1" />
+<file name="xmlstorage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827740680000" remote="130089460800000000" Dst="-1" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717842080000" remote="130419717860000000" Dst="0" />
+<file name="jsonstorage.class.php" server="I:/auction-ruseasons/" local="130419717842100000" remote="130419717860000000" Dst="0" />
+<file name="mysqlstorage.class.php" server="I:/auction-ruseasons/" local="130419717842120000" remote="130419717860000000" Dst="0" />
+<file name="sqlstorage.class.php" server="I:/auction-ruseasons/" local="130419717842130000" remote="130419717860000000" Dst="0" />
+<file name="storage.intf.php" server="I:/auction-ruseasons/" local="130419717842140000" remote="130419717860000000" Dst="0" />
+<file name="xmlstorage.class.php" server="I:/auction-ruseasons/" local="130419717842150000" remote="130419717860000000" Dst="0" />
 </dwsync>

@@ -17,4 +17,6 @@
 <file name="fr-FR.mod_virtuemart_search.ini" server="77.222.40.220/2013/public_html/" local="130047408000000000" remote="130047408000000000" Dst="0" />
 <file name="fr-FR.mod_virtuemart_search.sys.ini" server="77.222.40.220/2013/public_html/" local="130047408000000000" remote="130047408000000000" Dst="0" />
 <file name="fr-FR.mod_virtuemart_search_sys.ini" server="77.222.40.220/2013/public_html/" local="130047408000000000" remote="130047408000000000" Dst="0" />
+<file name="fr-FR.com_acymailing.ini" server="I:/auction-ruseasons/" local="130476590852416000" remote="130476590860000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717690240000" remote="130419717700000000" Dst="0" />
 </dwsync>

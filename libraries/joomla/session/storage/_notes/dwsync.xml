@@ -9,4 +9,13 @@
 <file name="wincache.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089448800000000" Dst="-1" />
 <file name="xcache.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089448800000000" Dst="-1" />
 <file name="memcached.php" server="77.222.40.220/2013/public_html/" local="130113936000000000" remote="130113936000000000" Dst="0" />
+<file name="apc.php" server="I:/auction-ruseasons/" local="130419717743590000" remote="130419717760000000" Dst="0" />
+<file name="database.php" server="I:/auction-ruseasons/" local="130419717743610000" remote="130419717760000000" Dst="0" />
+<file name="eaccelerator.php" server="I:/auction-ruseasons/" local="130419717743610000" remote="130419717760000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717744830000" remote="130419717760000000" Dst="0" />
+<file name="memcache.php" server="I:/auction-ruseasons/" local="130419717745520000" remote="130419717760000000" Dst="0" />
+<file name="memcached.php" server="I:/auction-ruseasons/" local="130476590855646000" remote="130476590860000000" Dst="0" />
+<file name="none.php" server="I:/auction-ruseasons/" local="130419717745850000" remote="130419717760000000" Dst="0" />
+<file name="wincache.php" server="I:/auction-ruseasons/" local="130419717746100000" remote="130419717760000000" Dst="0" />
+<file name="xcache.php" server="I:/auction-ruseasons/" local="130419717746120000" remote="130419717760000000" Dst="0" />
 </dwsync>

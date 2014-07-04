@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysql.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysqlexporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysqli.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysqliexporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysqliimporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysqlimporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysqliquery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="mysqlquery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="sqlazure.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="sqlazurequery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="sqlsrv.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="sqlsrvquery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysql.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysqlexporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysqli.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysqliexporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysqliimporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysqlimporter.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysqliquery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="mysqlquery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="sqlazure.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="sqlazurequery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="sqlsrv.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="sqlsrvquery.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717722420000" remote="130419717740000000" Dst="0" />
+<file name="mysql.php" server="I:/auction-ruseasons/" local="130419717722430000" remote="130419717740000000" Dst="0" />
+<file name="mysqlexporter.php" server="I:/auction-ruseasons/" local="130419717722440000" remote="130419717740000000" Dst="0" />
+<file name="mysqli.php" server="I:/auction-ruseasons/" local="130419717722490000" remote="130419717740000000" Dst="0" />
+<file name="mysqliexporter.php" server="I:/auction-ruseasons/" local="130419717722500000" remote="130419717740000000" Dst="0" />
+<file name="mysqliimporter.php" server="I:/auction-ruseasons/" local="130419717722500000" remote="130419717740000000" Dst="0" />
+<file name="mysqlimporter.php" server="I:/auction-ruseasons/" local="130419717722510000" remote="130419717740000000" Dst="0" />
+<file name="mysqliquery.php" server="I:/auction-ruseasons/" local="130419717722520000" remote="130419717740000000" Dst="0" />
+<file name="mysqlquery.php" server="I:/auction-ruseasons/" local="130419717722520000" remote="130419717740000000" Dst="0" />
+<file name="sqlazure.php" server="I:/auction-ruseasons/" local="130419717722550000" remote="130419717740000000" Dst="0" />
+<file name="sqlazurequery.php" server="I:/auction-ruseasons/" local="130419717722560000" remote="130419717740000000" Dst="0" />
+<file name="sqlsrv.php" server="I:/auction-ruseasons/" local="130419717722570000" remote="130419717740000000" Dst="0" />
+<file name="sqlsrvquery.php" server="I:/auction-ruseasons/" local="130419717722580000" remote="130419717740000000" Dst="0" />
 </dwsync>

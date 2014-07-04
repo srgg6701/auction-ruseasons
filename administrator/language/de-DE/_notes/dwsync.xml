@@ -27,4 +27,11 @@
 <file name="de-DE.plg_vmpayment_standard.sys.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
 <file name="de-DE.plg_vmshipment_weight_countries.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
 <file name="de-DE.plg_vmshipment_weight_countries.sys.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
+<file name="de-DE.com_virtuemart_countries.ini" server="I:/auction-ruseasons/" local="130476590828376000" remote="130476590840000000" Dst="0" />
+<file name="de-DE.com_virtuemart_media.ini" server="I:/auction-ruseasons/" local="130476590828386000" remote="130476590840000000" Dst="0" />
+<file name="de-DE.plg_vmcustom_specification.ini" server="I:/auction-ruseasons/" local="130476590828396000" remote="130476590840000000" Dst="0" />
+<file name="de-DE.plg_vmcustom_specification.sys.ini" server="I:/auction-ruseasons/" local="130476590828406000" remote="130476590840000000" Dst="0" />
+<file name="de-DE.plg_vmpayment_heidelpay.ini" server="I:/auction-ruseasons/" local="130476590828416000" remote="130476590840000000" Dst="0" />
+<file name="de-DE.plg_vmpayment_moneybookers.ini" server="I:/auction-ruseasons/" local="130476590828436000" remote="130476590840000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717476180000" remote="130419717480000000" Dst="0" />
 </dwsync>

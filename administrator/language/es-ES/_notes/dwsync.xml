@@ -23,4 +23,12 @@
 <file name="es-ES.plg_vmpayment_standard.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
 <file name="es-ES.plg_vmshipment_weight_countries.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
 <file name="es-ES.plg_vmshipment_weight_countries.sys.ini" server="77.222.40.220/2013/public_html/" local="130088880000000000" remote="130088880000000000" Dst="0" />
+<file name="es-ES.com_virtuemart.ini" server="I:/auction-ruseasons/" local="130476590831216000" remote="130476590840000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_specification.ini" server="I:/auction-ruseasons/" local="130476590831226000" remote="130476590840000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_specification.sys.ini" server="I:/auction-ruseasons/" local="130476590831246000" remote="130476590840000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_stockable.ini" server="I:/auction-ruseasons/" local="130476590831256000" remote="130476590840000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_stockable.sys.ini" server="I:/auction-ruseasons/" local="130476590831266000" remote="130476590840000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_textinput.ini" server="I:/auction-ruseasons/" local="130476590831276000" remote="130476590840000000" Dst="0" />
+<file name="es-ES.plg_vmcustom_textinput.sys.ini" server="I:/auction-ruseasons/" local="130476590831286000" remote="130476590840000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717482350000" remote="130419717500000000" Dst="0" />
 </dwsync>

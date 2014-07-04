@@ -1,24 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="default.php" server="2013.auction-ruseasons.ru/public_html/" local="130083396972212500" remote="130089441000000000" />
-<file name="default_1.php" server="2013.auction-ruseasons.ru/public_html/" local="130070557402512000" remote="130089441000000000" />
-<file name="source_default.php" server="2013.auction-ruseasons.ru/public_html/" local="130022076640000000" remote="130089441000000000" />
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041822362520000" remote="130089441000000000" />
-<file name="default.xml" server="2013.auction-ruseasons.ru/public_html/" local="130041822362290000" remote="130089441000000000" />
-<file name="pdf.xml" server="2013.auction-ruseasons.ru/public_html/" local="130041822362620000" remote="130089441000000000" />
-<file name="default.php.orig" server="2013.auction-ruseasons.ru/public_html/" local="130064514130686000" remote="130089441000000000" />
-<file name="default_addtocart.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362320000" remote="130089441000000000" />
-<file name="default_customfields.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362350000" remote="130089441000000000" />
-<file name="default_images.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362360000" remote="130089441000000000" />
-<file name="default_manufacturer.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362380000" remote="130089441000000000" />
-<file name="default_pdf.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362410000" remote="130089441000000000" />
-<file name="default_relatedcategories.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362430000" remote="130089441000000000" />
-<file name="default_relatedproducts.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362450000" remote="130089441000000000" />
-<file name="default_reviews.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362470000" remote="130089441000000000" />
-<file name="default_showcategory.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362490000" remote="130089441000000000" />
-<file name="default_showprices.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362510000" remote="130089441000000000" />
-<file name="mail_html_notify.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362540000" remote="130089441000000000" />
-<file name="mail_raw_notify.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362560000" remote="130089441000000000" />
-<file name="notify.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362580000" remote="130089441000000000" />
-<file name="pdf.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362600000" remote="130089441000000000" />
+<file name="default.php" server="2013.auction-ruseasons.ru/public_html/" local="130083396972212500" remote="130089441000000000" Dst="-1" />
+<file name="default_1.php" server="2013.auction-ruseasons.ru/public_html/" local="130070557402512000" remote="130089441000000000" Dst="-1" />
+<file name="source_default.php" server="2013.auction-ruseasons.ru/public_html/" local="130022076640000000" remote="130089441000000000" Dst="-1" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041822362520000" remote="130089441000000000" Dst="-1" />
+<file name="default.xml" server="2013.auction-ruseasons.ru/public_html/" local="130041822362290000" remote="130089441000000000" Dst="-1" />
+<file name="pdf.xml" server="2013.auction-ruseasons.ru/public_html/" local="130041822362620000" remote="130089441000000000" Dst="-1" />
+<file name="default.php.orig" server="2013.auction-ruseasons.ru/public_html/" local="130064514130686000" remote="130089441000000000" Dst="-1" />
+<file name="default_addtocart.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362320000" remote="130089441000000000" Dst="-1" />
+<file name="default_customfields.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362350000" remote="130089441000000000" Dst="-1" />
+<file name="default_images.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362360000" remote="130089441000000000" Dst="-1" />
+<file name="default_manufacturer.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362380000" remote="130089441000000000" Dst="-1" />
+<file name="default_pdf.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362410000" remote="130089441000000000" Dst="-1" />
+<file name="default_relatedcategories.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362430000" remote="130089441000000000" Dst="-1" />
+<file name="default_relatedproducts.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362450000" remote="130089441000000000" Dst="-1" />
+<file name="default_reviews.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362470000" remote="130089441000000000" Dst="-1" />
+<file name="default_showcategory.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362490000" remote="130089441000000000" Dst="-1" />
+<file name="default_showprices.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362510000" remote="130089441000000000" Dst="-1" />
+<file name="mail_html_notify.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362540000" remote="130089441000000000" Dst="-1" />
+<file name="mail_raw_notify.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362560000" remote="130089441000000000" Dst="-1" />
+<file name="notify.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362580000" remote="130089441000000000" Dst="-1" />
+<file name="pdf.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822362600000" remote="130089441000000000" Dst="-1" />
+<file name="bid.php" server="I:/auction-ruseasons/" local="130487012600956000" remote="130487012620000000" Dst="0" />
+<file name="default.php" server="I:/auction-ruseasons/" local="130486936771276000" remote="130486936780000000" Dst="0" />
+<file name="default.php.orig" server="I:/auction-ruseasons/" local="130419717621040000" remote="130419717640000000" Dst="0" />
+<file name="default.xml" server="I:/auction-ruseasons/" local="130419717621050000" remote="130419717640000000" Dst="0" />
+<file name="default_1.php" server="I:/auction-ruseasons/" local="130476590847716000" remote="130476590860000000" Dst="0" />
+<file name="default_addtocart.php" server="I:/auction-ruseasons/" local="130419717621700000" remote="130419717640000000" Dst="0" />
+<file name="default_customfields.php" server="I:/auction-ruseasons/" local="130419717621710000" remote="130419717640000000" Dst="0" />
+<file name="default_images.php" server="I:/auction-ruseasons/" local="130419717621720000" remote="130419717640000000" Dst="0" />
+<file name="default_manufacturer.php" server="I:/auction-ruseasons/" local="130419717621730000" remote="130419717640000000" Dst="0" />
+<file name="default_pdf.php" server="I:/auction-ruseasons/" local="130419717621740000" remote="130419717640000000" Dst="0" />
+<file name="default_relatedcategories.php" server="I:/auction-ruseasons/" local="130419717621750000" remote="130419717640000000" Dst="0" />
+<file name="default_relatedproducts.php" server="I:/auction-ruseasons/" local="130419717621760000" remote="130419717640000000" Dst="0" />
+<file name="default_reviews.php" server="I:/auction-ruseasons/" local="130419717621770000" remote="130419717640000000" Dst="0" />
+<file name="default_showcategory.php" server="I:/auction-ruseasons/" local="130419717621780000" remote="130419717640000000" Dst="0" />
+<file name="default_showprices.php" server="I:/auction-ruseasons/" local="130419717621790000" remote="130419717640000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717621800000" remote="130419717640000000" Dst="0" />
+<file name="mail_html_notify.php" server="I:/auction-ruseasons/" local="130419717621810000" remote="130419717640000000" Dst="0" />
+<file name="mail_raw_notify.php" server="I:/auction-ruseasons/" local="130419717621820000" remote="130419717640000000" Dst="0" />
+<file name="notify.php" server="I:/auction-ruseasons/" local="130419717621830000" remote="130419717640000000" Dst="0" />
+<file name="pdf.php" server="I:/auction-ruseasons/" local="130419717622930000" remote="130419717640000000" Dst="0" />
+<file name="pdf.xml" server="I:/auction-ruseasons/" local="130419717622940000" remote="130419717640000000" Dst="0" />
+<file name="source_default.php" server="I:/auction-ruseasons/" local="130419717624690000" remote="130419717640000000" Dst="0" />
 </dwsync>

@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="acyhistory.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414620000" remote="130087823400000000" />
-<file name="cpanel.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414650000" remote="130087823400000000" />
-<file name="fields.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414670000" remote="130087823400000000" />
-<file name="filter.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414690000" remote="130087823400000000" />
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130043541414710000" remote="130087823400000000" />
-<file name="list.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414740000" remote="130087823400000000" />
-<file name="listcampaign.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414760000" remote="130087823400000000" />
-<file name="listmail.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414780000" remote="130087823400000000" />
-<file name="listsub.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414800000" remote="130087823400000000" />
-<file name="mail.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414830000" remote="130087823400000000" />
-<file name="queue.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414850000" remote="130087823400000000" />
-<file name="rules.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414870000" remote="130087823400000000" />
-<file name="stats.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414890000" remote="130087823400000000" />
-<file name="subscriber.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414910000" remote="130087823400000000" />
-<file name="template.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414940000" remote="130087823400000000" />
+<file name="acyhistory.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414620000" remote="130087823400000000" Dst="-1" />
+<file name="cpanel.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414650000" remote="130087823400000000" Dst="-1" />
+<file name="fields.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414670000" remote="130087823400000000" Dst="-1" />
+<file name="filter.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414690000" remote="130087823400000000" Dst="-1" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130043541414710000" remote="130087823400000000" Dst="-1" />
+<file name="list.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414740000" remote="130087823400000000" Dst="-1" />
+<file name="listcampaign.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414760000" remote="130087823400000000" Dst="-1" />
+<file name="listmail.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414780000" remote="130087823400000000" Dst="-1" />
+<file name="listsub.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414800000" remote="130087823400000000" Dst="-1" />
+<file name="mail.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414830000" remote="130087823400000000" Dst="-1" />
+<file name="queue.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414850000" remote="130087823400000000" Dst="-1" />
+<file name="rules.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414870000" remote="130087823400000000" Dst="-1" />
+<file name="stats.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414890000" remote="130087823400000000" Dst="-1" />
+<file name="subscriber.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414910000" remote="130087823400000000" Dst="-1" />
+<file name="template.php" server="2013.auction-ruseasons.ru/public_html/" local="130043541414940000" remote="130087823400000000" Dst="-1" />
+<file name="acyhistory.php" server="I:/auction-ruseasons/" local="130419717379050000" remote="130419717380000000" Dst="0" />
+<file name="cpanel.php" server="I:/auction-ruseasons/" local="130419717379060000" remote="130419717380000000" Dst="0" />
+<file name="fields.php" server="I:/auction-ruseasons/" local="130419717379070000" remote="130419717380000000" Dst="0" />
+<file name="filter.php" server="I:/auction-ruseasons/" local="130419717379100000" remote="130419717380000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717379130000" remote="130419717380000000" Dst="0" />
+<file name="list.php" server="I:/auction-ruseasons/" local="130419717379140000" remote="130419717380000000" Dst="0" />
+<file name="listcampaign.php" server="I:/auction-ruseasons/" local="130419717379140000" remote="130419717380000000" Dst="0" />
+<file name="listmail.php" server="I:/auction-ruseasons/" local="130419717379160000" remote="130419717380000000" Dst="0" />
+<file name="listsub.php" server="I:/auction-ruseasons/" local="130419717379170000" remote="130419717380000000" Dst="0" />
+<file name="mail.php" server="I:/auction-ruseasons/" local="130419717379180000" remote="130419717380000000" Dst="0" />
+<file name="queue.php" server="I:/auction-ruseasons/" local="130419717379190000" remote="130419717380000000" Dst="0" />
+<file name="rules.php" server="I:/auction-ruseasons/" local="130419717379220000" remote="130419717380000000" Dst="0" />
+<file name="stats.php" server="I:/auction-ruseasons/" local="130419717379230000" remote="130419717380000000" Dst="0" />
+<file name="subscriber.php" server="I:/auction-ruseasons/" local="130419717379240000" remote="130419717380000000" Dst="0" />
+<file name="template.php" server="I:/auction-ruseasons/" local="130419717379250000" remote="130419717380000000" Dst="0" />
 </dwsync>

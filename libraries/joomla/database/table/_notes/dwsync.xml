@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="asset.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="category.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="content.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="extension.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" />
-<file name="language.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
-<file name="menu.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
-<file name="menutype.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
-<file name="module.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
-<file name="session.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
-<file name="update.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
-<file name="user.php" server="2013.auction-ruseasons.ru/public_html/" local="130044451530570000" remote="130089445200000000" />
-<file name="usergroup.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
-<file name="viewlevel.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="asset.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="category.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="content.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="extension.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089444600000000" Dst="-1" />
+<file name="language.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="menu.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="menutype.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="module.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="session.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="update.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="user.php" server="2013.auction-ruseasons.ru/public_html/" local="130044451530570000" remote="130089445200000000" Dst="-1" />
+<file name="usergroup.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="viewlevel.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089445200000000" Dst="-1" />
+<file name="asset.php" server="I:/auction-ruseasons/" local="130419717722830000" remote="130419717740000000" Dst="0" />
+<file name="category.php" server="I:/auction-ruseasons/" local="130419717722840000" remote="130419717740000000" Dst="0" />
+<file name="content.php" server="I:/auction-ruseasons/" local="130419717722850000" remote="130419717740000000" Dst="0" />
+<file name="extension.php" server="I:/auction-ruseasons/" local="130419717722860000" remote="130419717740000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717725220000" remote="130419717740000000" Dst="0" />
+<file name="language.php" server="I:/auction-ruseasons/" local="130419717725230000" remote="130419717740000000" Dst="0" />
+<file name="menu.php" server="I:/auction-ruseasons/" local="130419717725240000" remote="130419717740000000" Dst="0" />
+<file name="menutype.php" server="I:/auction-ruseasons/" local="130419717725250000" remote="130419717740000000" Dst="0" />
+<file name="module.php" server="I:/auction-ruseasons/" local="130419717725270000" remote="130419717740000000" Dst="0" />
+<file name="session.php" server="I:/auction-ruseasons/" local="130419717725280000" remote="130419717740000000" Dst="0" />
+<file name="update.php" server="I:/auction-ruseasons/" local="130419717725290000" remote="130419717740000000" Dst="0" />
+<file name="user.php" server="I:/auction-ruseasons/" local="130419717725300000" remote="130419717740000000" Dst="0" />
+<file name="usergroup.php" server="I:/auction-ruseasons/" local="130419717725310000" remote="130419717740000000" Dst="0" />
+<file name="viewlevel.php" server="I:/auction-ruseasons/" local="130419717725320000" remote="130419717740000000" Dst="0" />
 </dwsync>

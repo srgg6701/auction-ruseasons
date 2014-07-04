@@ -25,4 +25,11 @@
 <file name="fr-FR.plg_vmpayment_systempay.sys.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
 <file name="fr-FR.plg_vmshipment_weight_countries.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
 <file name="fr-FR.plg_vmshipment_weight_countries.sys.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
+<file name="fr-FR.plg_vmcustom_specification.ini" server="I:/auction-ruseasons/" local="130476590831316000" remote="130476590840000000" Dst="0" />
+<file name="fr-FR.plg_vmcustom_specification.sys.ini" server="I:/auction-ruseasons/" local="130476590831326000" remote="130476590840000000" Dst="0" />
+<file name="fr-FR.plg_vmpayment_moneybookers.ini" server="I:/auction-ruseasons/" local="130476590831336000" remote="130476590840000000" Dst="0" />
+<file name="fr-FR.plg_vmpayment_payzen.ini" server="I:/auction-ruseasons/" local="130476590831346000" remote="130476590840000000" Dst="0" />
+<file name="fr-FR.plg_vmpayment_standard.ini" server="I:/auction-ruseasons/" local="130476590831356000" remote="130476590840000000" Dst="0" />
+<file name="fr-FR.plg_vmpayment_systempay.ini" server="I:/auction-ruseasons/" local="130476590831366000" remote="130476590840000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717486600000" remote="130419717500000000" Dst="0" />
 </dwsync>

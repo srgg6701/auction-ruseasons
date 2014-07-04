@@ -1473,7 +1473,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         $skip_storing = false;
         require_once JPATH_SITE.DS.'tests.php';
         //if($product['lot_number']=='1000653')
-        commonDebug(__FILE__, __LINE__, $product, false);
+        //commonDebug(__FILE__, __LINE__, $product, false);
         //commonDebug(__FILE__, __LINE__, $product_data, true);
         /* 	MODIFIED END	 */
         if ($product) {

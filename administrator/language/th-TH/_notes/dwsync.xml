@@ -22,4 +22,12 @@
 <file name="th-TH.plg_vmpayment_standard.sys.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
 <file name="th-TH.plg_vmshipment_weight_countries.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
 <file name="th-TH.plg_vmshipment_weight_countries.sys.ini" server="77.222.40.220/2013/public_html/" local="130041360000000000" remote="130041360000000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717505920000" remote="130419717520000000" Dst="0" />
+<file name="th-TH.com_virtuemart.ini" server="I:/auction-ruseasons/" local="130476590834906000" remote="130476590840000000" Dst="0" />
+<file name="th-TH.plg_vmcustom_specification.ini" server="I:/auction-ruseasons/" local="130476590834926000" remote="130476590840000000" Dst="0" />
+<file name="th-TH.plg_vmcustom_specification.sys.ini" server="I:/auction-ruseasons/" local="130476590834936000" remote="130476590840000000" Dst="0" />
+<file name="th-TH.plg_vmcustom_stockable.ini" server="I:/auction-ruseasons/" local="130476590834936000" remote="130476590840000000" Dst="0" />
+<file name="th-TH.plg_vmcustom_stockable.sys.ini" server="I:/auction-ruseasons/" local="130476590834946000" remote="130476590840000000" Dst="0" />
+<file name="th-TH.plg_vmcustom_textinput.ini" server="I:/auction-ruseasons/" local="130476590834956000" remote="130476590840000000" Dst="0" />
+<file name="th-TH.plg_vmcustom_textinput.sys.ini" server="I:/auction-ruseasons/" local="130476590834976000" remote="130476590840000000" Dst="0" />
 </dwsync>

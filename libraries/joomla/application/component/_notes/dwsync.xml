@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089442800000000" />
-<file name="controller.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="controlleradmin.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="controllerform.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="helper.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="model.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="modeladmin.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="modelform.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="modelitem.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="modellist.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" />
-<file name="view.php" server="2013.auction-ruseasons.ru/public_html/" local="130058757272716000" remote="130089443400000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089442800000000" Dst="-1" />
+<file name="controller.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="controlleradmin.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="controllerform.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="helper.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="model.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="modeladmin.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="modelform.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="modelitem.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="modellist.php" server="2013.auction-ruseasons.ru/public_html/" local="129967394200000000" remote="130089443400000000" Dst="-1" />
+<file name="view.php" server="2013.auction-ruseasons.ru/public_html/" local="130058757272716000" remote="130089443400000000" Dst="-1" />
+<file name="controller.php" server="I:/auction-ruseasons/" local="130419717708080000" remote="130419717720000000" Dst="0" />
+<file name="controlleradmin.php" server="I:/auction-ruseasons/" local="130419717708090000" remote="130419717720000000" Dst="0" />
+<file name="controllerform.php" server="I:/auction-ruseasons/" local="130419717708140000" remote="130419717720000000" Dst="0" />
+<file name="helper.php" server="I:/auction-ruseasons/" local="130419717708150000" remote="130419717720000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717708160000" remote="130419717720000000" Dst="0" />
+<file name="model.php" server="I:/auction-ruseasons/" local="130419717708180000" remote="130419717720000000" Dst="0" />
+<file name="modeladmin.php" server="I:/auction-ruseasons/" local="130419717708190000" remote="130419717720000000" Dst="0" />
+<file name="modelform.php" server="I:/auction-ruseasons/" local="130419717708240000" remote="130419717720000000" Dst="0" />
+<file name="modelitem.php" server="I:/auction-ruseasons/" local="130419717708250000" remote="130419717720000000" Dst="0" />
+<file name="modellist.php" server="I:/auction-ruseasons/" local="130419717708260000" remote="130419717720000000" Dst="0" />
+<file name="view.php" server="I:/auction-ruseasons/" local="130476590855386000" remote="130476590860000000" Dst="0" />
 </dwsync>

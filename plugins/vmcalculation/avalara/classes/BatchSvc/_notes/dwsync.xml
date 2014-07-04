@@ -1,44 +1,85 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041827733560000" remote="130089458400000000" />
-<file name="AuditMessage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732530000" remote="130089458400000000" />
-<file name="AvaTaxBatchSvc.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732550000" remote="130089458400000000" />
-<file name="BaseResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732610000" remote="130089458400000000" />
-<file name="Batch.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732630000" remote="130089458400000000" />
-<file name="BatchDelete.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732650000" remote="130089458400000000" />
-<file name="BatchDeleteResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732670000" remote="130089458400000000" />
-<file name="BatchFetch.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732710000" remote="130089458400000000" />
-<file name="BatchFetchResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732730000" remote="130089458400000000" />
-<file name="BatchFetchResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732750000" remote="130089458400000000" />
-<file name="BatchFile.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732780000" remote="130089458400000000" />
-<file name="BatchFileDelete.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732800000" remote="130089458400000000" />
-<file name="BatchFileDeleteResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732820000" remote="130089458400000000" />
-<file name="BatchFileFetch.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732850000" remote="130089458400000000" />
-<file name="BatchFileFetchResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732870000" remote="130089458400000000" />
-<file name="BatchFileFetchResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732900000" remote="130089458400000000" />
-<file name="BatchFileSave.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732910000" remote="130089458400000000" />
-<file name="BatchFileSaveResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732940000" remote="130089458400000000" />
-<file name="BatchFileSaveResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732960000" remote="130089458400000000" />
-<file name="BatchProcess.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732990000" remote="130089458400000000" />
-<file name="BatchProcessRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733010000" remote="130089458400000000" />
-<file name="BatchProcessResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733030000" remote="130089458400000000" />
-<file name="BatchProcessResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733060000" remote="130089458400000000" />
-<file name="BatchSave.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733080000" remote="130089458400000000" />
-<file name="BatchSaveResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733100000" remote="130089458400000000" />
-<file name="BatchSaveResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733140000" remote="130089458400000000" />
-<file name="BatchSvc.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733420000" remote="130089459000000000" />
-<file name="DeleteRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733440000" remote="130089459000000000" />
-<file name="DeleteResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733460000" remote="130089459000000000" />
-<file name="FetchRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733490000" remote="130089459000000000" />
-<file name="FilterRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733510000" remote="130089459000000000" />
-<file name="FilterResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733530000" remote="130089459000000000" />
-<file name="IsAuthorized.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733580000" remote="130089459000000000" />
-<file name="IsAuthorizedResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733600000" remote="130089459000000000" />
-<file name="IsAuthorizedResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733620000" remote="130089459000000000" />
-<file name="Message.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733640000" remote="130089459000000000" />
-<file name="Ping.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733670000" remote="130089459000000000" />
-<file name="PingResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733690000" remote="130089459000000000" />
-<file name="PingResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733720000" remote="130089459000000000" />
-<file name="Profile.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733740000" remote="130089459000000000" />
-<file name="SeverityLevel.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733760000" remote="130089459000000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041827733560000" remote="130089458400000000" Dst="-1" />
+<file name="AuditMessage.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732530000" remote="130089458400000000" Dst="-1" />
+<file name="AvaTaxBatchSvc.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732550000" remote="130089458400000000" Dst="-1" />
+<file name="BaseResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732610000" remote="130089458400000000" Dst="-1" />
+<file name="Batch.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732630000" remote="130089458400000000" Dst="-1" />
+<file name="BatchDelete.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732650000" remote="130089458400000000" Dst="-1" />
+<file name="BatchDeleteResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732670000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFetch.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732710000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFetchResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732730000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFetchResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732750000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFile.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732780000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileDelete.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732800000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileDeleteResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732820000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileFetch.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732850000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileFetchResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732870000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileFetchResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732900000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileSave.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732910000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileSaveResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732940000" remote="130089458400000000" Dst="-1" />
+<file name="BatchFileSaveResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732960000" remote="130089458400000000" Dst="-1" />
+<file name="BatchProcess.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827732990000" remote="130089458400000000" Dst="-1" />
+<file name="BatchProcessRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733010000" remote="130089458400000000" Dst="-1" />
+<file name="BatchProcessResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733030000" remote="130089458400000000" Dst="-1" />
+<file name="BatchProcessResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733060000" remote="130089458400000000" Dst="-1" />
+<file name="BatchSave.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733080000" remote="130089458400000000" Dst="-1" />
+<file name="BatchSaveResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733100000" remote="130089458400000000" Dst="-1" />
+<file name="BatchSaveResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733140000" remote="130089458400000000" Dst="-1" />
+<file name="BatchSvc.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733420000" remote="130089459000000000" Dst="-1" />
+<file name="DeleteRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733440000" remote="130089459000000000" Dst="-1" />
+<file name="DeleteResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733460000" remote="130089459000000000" Dst="-1" />
+<file name="FetchRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733490000" remote="130089459000000000" Dst="-1" />
+<file name="FilterRequest.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733510000" remote="130089459000000000" Dst="-1" />
+<file name="FilterResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733530000" remote="130089459000000000" Dst="-1" />
+<file name="IsAuthorized.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733580000" remote="130089459000000000" Dst="-1" />
+<file name="IsAuthorizedResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733600000" remote="130089459000000000" Dst="-1" />
+<file name="IsAuthorizedResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733620000" remote="130089459000000000" Dst="-1" />
+<file name="Message.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733640000" remote="130089459000000000" Dst="-1" />
+<file name="Ping.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733670000" remote="130089459000000000" Dst="-1" />
+<file name="PingResponse.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733690000" remote="130089459000000000" Dst="-1" />
+<file name="PingResult.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733720000" remote="130089459000000000" Dst="-1" />
+<file name="Profile.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733740000" remote="130089459000000000" Dst="-1" />
+<file name="SeverityLevel.class.php" server="2013.auction-ruseasons.ru/public_html/" local="130041827733760000" remote="130089459000000000" Dst="-1" />
+<file name="AuditMessage.class.php" server="I:/auction-ruseasons/" local="130419717833800000" remote="130419717840000000" Dst="0" />
+<file name="AvaTaxBatchSvc.php" server="I:/auction-ruseasons/" local="130419717833810000" remote="130419717840000000" Dst="0" />
+<file name="BaseResult.class.php" server="I:/auction-ruseasons/" local="130419717833920000" remote="130419717840000000" Dst="0" />
+<file name="Batch.class.php" server="I:/auction-ruseasons/" local="130419717833930000" remote="130419717840000000" Dst="0" />
+<file name="BatchDelete.class.php" server="I:/auction-ruseasons/" local="130419717833930000" remote="130419717840000000" Dst="0" />
+<file name="BatchDeleteResponse.class.php" server="I:/auction-ruseasons/" local="130419717833940000" remote="130419717840000000" Dst="0" />
+<file name="BatchFetch.class.php" server="I:/auction-ruseasons/" local="130419717833950000" remote="130419717840000000" Dst="0" />
+<file name="BatchFetchResponse.class.php" server="I:/auction-ruseasons/" local="130419717833950000" remote="130419717840000000" Dst="0" />
+<file name="BatchFetchResult.class.php" server="I:/auction-ruseasons/" local="130419717833960000" remote="130419717840000000" Dst="0" />
+<file name="BatchFile.class.php" server="I:/auction-ruseasons/" local="130419717833960000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileDelete.class.php" server="I:/auction-ruseasons/" local="130419717833970000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileDeleteResponse.class.php" server="I:/auction-ruseasons/" local="130419717833980000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileFetch.class.php" server="I:/auction-ruseasons/" local="130419717833990000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileFetchResponse.class.php" server="I:/auction-ruseasons/" local="130419717833990000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileFetchResult.class.php" server="I:/auction-ruseasons/" local="130419717834000000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileSave.class.php" server="I:/auction-ruseasons/" local="130419717834010000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileSaveResponse.class.php" server="I:/auction-ruseasons/" local="130419717834160000" remote="130419717840000000" Dst="0" />
+<file name="BatchFileSaveResult.class.php" server="I:/auction-ruseasons/" local="130419717834170000" remote="130419717840000000" Dst="0" />
+<file name="BatchProcess.class.php" server="I:/auction-ruseasons/" local="130419717834180000" remote="130419717840000000" Dst="0" />
+<file name="BatchProcessRequest.class.php" server="I:/auction-ruseasons/" local="130419717834190000" remote="130419717840000000" Dst="0" />
+<file name="BatchProcessResponse.class.php" server="I:/auction-ruseasons/" local="130419717834200000" remote="130419717840000000" Dst="0" />
+<file name="BatchProcessResult.class.php" server="I:/auction-ruseasons/" local="130419717834210000" remote="130419717840000000" Dst="0" />
+<file name="BatchSave.class.php" server="I:/auction-ruseasons/" local="130419717834220000" remote="130419717840000000" Dst="0" />
+<file name="BatchSaveResponse.class.php" server="I:/auction-ruseasons/" local="130419717834230000" remote="130419717840000000" Dst="0" />
+<file name="BatchSaveResult.class.php" server="I:/auction-ruseasons/" local="130419717834240000" remote="130419717840000000" Dst="0" />
+<file name="BatchSvc.class.php" server="I:/auction-ruseasons/" local="130419717834590000" remote="130419717840000000" Dst="0" />
+<file name="DeleteRequest.class.php" server="I:/auction-ruseasons/" local="130419717834600000" remote="130419717840000000" Dst="0" />
+<file name="DeleteResult.class.php" server="I:/auction-ruseasons/" local="130419717834600000" remote="130419717840000000" Dst="0" />
+<file name="FetchRequest.class.php" server="I:/auction-ruseasons/" local="130419717834620000" remote="130419717840000000" Dst="0" />
+<file name="FilterRequest.class.php" server="I:/auction-ruseasons/" local="130419717834620000" remote="130419717840000000" Dst="0" />
+<file name="FilterResult.class.php" server="I:/auction-ruseasons/" local="130419717834630000" remote="130419717840000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717835320000" remote="130419717840000000" Dst="0" />
+<file name="IsAuthorized.class.php" server="I:/auction-ruseasons/" local="130419717834640000" remote="130419717840000000" Dst="0" />
+<file name="IsAuthorizedResponse.class.php" server="I:/auction-ruseasons/" local="130419717834650000" remote="130419717840000000" Dst="0" />
+<file name="IsAuthorizedResult.class.php" server="I:/auction-ruseasons/" local="130419717835140000" remote="130419717840000000" Dst="0" />
+<file name="Message.class.php" server="I:/auction-ruseasons/" local="130419717835150000" remote="130419717840000000" Dst="0" />
+<file name="Ping.class.php" server="I:/auction-ruseasons/" local="130419717835150000" remote="130419717840000000" Dst="0" />
+<file name="PingResponse.class.php" server="I:/auction-ruseasons/" local="130419717835160000" remote="130419717840000000" Dst="0" />
+<file name="PingResult.class.php" server="I:/auction-ruseasons/" local="130419717835260000" remote="130419717840000000" Dst="0" />
+<file name="Profile.class.php" server="I:/auction-ruseasons/" local="130419717835290000" remote="130419717840000000" Dst="0" />
+<file name="SeverityLevel.class.php" server="I:/auction-ruseasons/" local="130419717835300000" remote="130419717840000000" Dst="0" />
 </dwsync>
