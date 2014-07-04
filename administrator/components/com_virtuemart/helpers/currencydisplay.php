@@ -387,7 +387,8 @@ class CurrencyDisplay {
 				return $priceFormatted;
 			}
             if($forceNoLabel==='online')
-                $make_lot="<span class=\"lot\" data-product_id=\"$virtuemart_product_id\"></span>";
+                $make_lot='';
+                //$make_lot="<span class=\"lot\" data-product_id=\"$virtuemart_product_id\"></span>";
             else{
                 $make_lot=false;
                 if($forceNoLabel) {

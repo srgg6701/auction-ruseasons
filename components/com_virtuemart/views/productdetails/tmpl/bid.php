@@ -13,7 +13,7 @@
                     ));
     //echo "<div>price, step = ".$this->product->prices['basePriceVariant'].", $step</div>";
 ?>
-<p id="bid-sum-p">Минимальная ставка составляет <?php 
+<p id="bid-sum-p"><span style="font-size:2em; color:orange;">&bull;</span> Минимальная ставка составляет <?php 
     echo ((int)$this->product->prices['basePriceVariant']+(int)$step);?> руб.</p>
 <p>Ваша ставка: <input id="bid_sum" type="text" name="bid_sum" size="12" value=""/></p>    
 <input type="checkbox" id="bid_agree" name="bid_agree"/>я согласен с правилами аукциона.

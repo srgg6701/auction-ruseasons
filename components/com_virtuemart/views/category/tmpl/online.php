@@ -144,7 +144,7 @@ if (!empty($this->products)) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
-<?php HTML::setVmPagination()?>
+<?php HTML::setVmPagination(); /*?>
 <script>
 (function($){
     $('span.lot').on({
@@ -167,4 +167,4 @@ if (!empty($this->products)) {
         }
     });
 })(jQuery);
-</script></script>
+</script><?php */ ?>
