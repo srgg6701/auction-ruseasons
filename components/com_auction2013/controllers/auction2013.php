@@ -144,7 +144,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      * Сделать ставку
      */
     function makeBid(){
-        $test=true;
+        $test=false;
         $post = JRequest::get('post');
         $result = $this->getModel()->makeBid($post);
         // ставка больше минимальной резервной и максимальной текущей ставки
@@ -156,7 +156,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
                                 '&virtuemart_category_id=' .$post['virtuemart_category_id'] .
                                 '&Itemid=' . $post['Itemid'].'&result=';
             $link.=($result)? $result:'deny';
-            commonDebug(__FILE__,__LINE__,$result, true);
+            //commonDebug(__FILE__,__LINE__,$result, true);
             if(!$test)
                 $this->setRedirect($link);
         }

@@ -4,6 +4,7 @@
 @brownDarkUltra:#6d4721;
 @menuBorder: solid 1px #EAD8B0;
 @sandDark:#EAD5B7;
+@sandEven:#F0EAE2;
 @sandGrey:#eaebec;
 @veryDarkLink:#172A17;
 
@@ -618,4 +619,32 @@ div#footer{
 table#recaptcha_table{
 	//margin-left: 162px !important;
 	margin-top: 10px !important;
+}
+
+#tbl-bid-history{
+	width:100%;
+	tbody{
+		tr:not(first-child){
+			&.bold{
+				td{
+					font-weight:bold;
+				}
+			}			
+			&:nth-child(odd){
+				background-color:@sandEven;
+			}
+		}
+	}
+	th{
+		background:@sandDark;
+	}
+	th, td{
+		padding:2px 4px;
+	}
+	td:nth-child(2){
+		text-align:right;
+	}
+	td:nth-child(3){
+		text-align:center;
+	}
 }

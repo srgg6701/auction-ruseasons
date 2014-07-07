@@ -1,4 +1,13 @@
 <hr/>
+<br>
+Ставки<?php	
+if(JFactory::getUser()->guest!=1):?>
+ (ваши выделены жирным)<?php
+endif;?>:
+<div id="bids-history">
+<?php echo HTML::buildBidsHistory($this->product->virtuemart_product_id);
+?>
+</div>
 <h3 id="header_bid" class="clearfix">
     <img src="<?php echo JUri::base();?>templates/auction/images/auction_hammer_gavel_big.png">
     <span>Сделать ставку</span>
@@ -30,7 +39,6 @@
     <p>Ваша ставка: <b id="my_bid"></b> руб.
         <a href="javascript:void(0)" id="bid_cancel" class="floatright">^ Вернуться к лоту</a>
     </p>
-<!--<input type="checkbox" id="bid_agree" name="bid_agree"/>я согласен с правилами аукциона.-->
 <?php echo JHtml::_('form.token');
 ?>
 <input type="hidden" name="option" value="com_auction2013"/>

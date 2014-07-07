@@ -116,6 +116,23 @@ class AuctionStuff{
 		return $db->loadAssoc();
 	}
     /**
+     * Получить историю ставок по предмету
+     */
+    public static function getBidsHistory($virtuermart_prodict_id){
+        $db = JFactory::getDbo();
+        $query = "SELECT sum,
+    DATE_FORMAT(datetime,\"%d.%m %H:%i\") AS datetime,
+                                        users.username
+  FROM #__dev_bids AS bids, #__users AS users
+ WHERE virtuemart_product_id = $virtuermart_prodict_id
+  AND bids.bidder_user_id = users.id 
+  ORDER BY bids.id DESC";
+        $db->setQuery($query);
+        //testSQL($query,__FILE__,__LINE__,TRUE);
+        //commonDebug(__FILE__,__LINE__,$db->loadAssocList(), true);
+        return $db->loadAssocList();
+    }
+    /**
      * Описание
      * @package
      * @subpackage
@@ -290,7 +307,7 @@ WHERE prices.virtuemart_product_id = $virtuemart_product_id";
         $db->setQuery($query);
         $results = $db->loadAssoc();
         //testSQL($query);
-        //commonDebug(__FILE__,__LINE__,$results);
+        //commonDebug(__FILE__,__LINE__,$results, true);
         return $results;
     }
     /**
@@ -724,19 +741,48 @@ WHERE cats_cats.category_parent_id = 0";
 }
 class HTML{
     /**
+     * Построить историю ставок по предмету
+     */
+    public static function buildBidsHistory($virtuemart_product_id){
+        $history = AuctionStuff::getBidsHistory($virtuemart_product_id);
+        // commonDebug(__FILE__,__LINE__,$history);
+        $html = '<table id="tbl-bid-history" rules="rows" border="1">
+        <tr>
+            <th>Игрок</th>
+            <th>Ставка</th>
+            <th>Время</th>
+        </tr>';
+		$user = JFactory::getUser();
+		$username=($user->guest!=1)? $user->username:false;
+        foreach ($history as $i=>$record) {
+            $html.='<tr';
+			if($username&&(int)$username==(int)$record['username'])
+				$html.=' class="bold"';
+			$html.='>
+            <td>' . $record['username'] . '</td>
+            <td>' . $record['sum'] . '</td>
+            <td>' . $record['datetime'] . '</td>
+        </tr>';
+        }
+        $html.= '</table>';
+        return $html;
+    }
+    /**
      * Построить список ставок
      */
     public static function buildBidsSelect($virtuemart_product_id, $price, $steps = 80){
-        $min_bid_array = AuctionStuff::getMinBidSum($virtuemart_product_id);
-        $min_bid = ($min_bid_array['bid_value'])? :$min_bid_array['price'];
         $one_step = AuctionStuff::getPricesRange($price);
+        $min_bid_array = AuctionStuff::getMinBidSum($virtuemart_product_id);
+        $bid = ($min_bid_array['bid_value'])?
+                        $min_bid_array['bid_value']+$one_step
+                        : $min_bid_array['price'];
         $options = '';
-        $bid = $min_bid;
-        foreach (range(0,$steps) as $step) {
+        while($steps) {
             $options.="
             <option>$bid</option>
             ";
             $bid+=$one_step;
+            $steps--;
         }
         return $options;
     }
