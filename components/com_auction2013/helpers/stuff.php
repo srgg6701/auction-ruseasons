@@ -248,7 +248,7 @@ FROM #__virtuemart_products_ru_ru
             $product_price = $data['product_price'];
         elseif(key_exists('virtuemart_product_id', $data)){
             // получить минимальную стоимость предмета
-            // $db = JFactory::getDbo();
+            $db = JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select($db->quoteName('min_price'));
             $query->from($db->quoteName('#__dev_sales_price'));
@@ -274,6 +274,24 @@ FROM #__virtuemart_products_ru_ru
         $query->where($db->quoteName('virtuemart_product_id') . ' = '. $virtuemart_product_id);
         $db->setQuery($query);
         return $db->loadResult(); // Column, Row, Assoc[List], Object
+    }
+    /**
+     * Получить минимальную ставку
+     */
+    public static function getMinBidSum($virtuemart_product_id){
+        $db = JFactory::getDbo();
+        $query = "SELECT prices.virtuemart_product_id,
+  TRUNCATE(prices.product_price,0) AS price,
+  MAX(sum) AS bid_value
+     FROM #__virtuemart_product_prices AS prices
+LEFT JOIN auc13_dev_bids AS bids
+    ON prices.virtuemart_product_id = bids.virtuemart_product_id
+WHERE prices.virtuemart_product_id = $virtuemart_product_id";
+        $db->setQuery($query);
+        $results = $db->loadAssoc();
+        //testSQL($query);
+        //commonDebug(__FILE__,__LINE__,$results);
+        return $results;
     }
     /**
      * Получить диапазон шагов ставок  
@@ -705,35 +723,49 @@ WHERE cats_cats.category_parent_id = 0";
     }
 }
 class HTML{
-/**
- * Описание
- * @package
- * @subpackage
- * layout = shop | fulltime | online
- */
-	public static function setBaseLink($layout){
-		$category_id=JRequest::getVar('virtuemart_category_id');
-		$Itemid=JRequest::getVar('Itemid');
-		
-		$app=&JFactory::getApplication();
-		$session=&JFactory::getSession();
-		$user=&JFactory::getUser();
-		$links=$session->get('section_links');
-		$router = $app->getRouter();
-		if($SefMode=$router->getMode()){
-			if((int)$category_id>0){
-				$detail_link['base']=$links[$layout][$category_id];
-			}else{ 
-				$menu = $app->getMenu();
-				$menus = $menu->getMenu();
-				$top_alias=($layout!='shop')? 'route':'alias';
-				$detail_link['base']=JUri::root().$menus[$Itemid]->$top_alias;
-				$detail_link['top']=true;
-			}
-			return $detail_link;
-		}else return false;
-	}
-
+    /**
+     * Построить список ставок
+     */
+    public static function buildBidsSelect($virtuemart_product_id, $price, $steps = 80){
+        $min_bid_array = AuctionStuff::getMinBidSum($virtuemart_product_id);
+        $min_bid = ($min_bid_array['bid_value'])? :$min_bid_array['price'];
+        $one_step = AuctionStuff::getPricesRange($price);
+        $options = '';
+        $bid = $min_bid;
+        foreach (range(0,$steps) as $step) {
+            $options.="
+            <option>$bid</option>
+            ";
+            $bid+=$one_step;
+        }
+        return $options;
+    }
+    /**
+     * Описание
+     * @package
+     * @subpackage
+     */
+    public static function innerMenu($content_type,$link,$obj=false){?>
+        <div class="your_cab">
+            <a href="<?=$link?>"><?php $lts=' &lt; &lt; ';
+                $gts=' &gt;&gt; ';
+                switch($content_type){
+                    case 'user':
+                        if(!$obj)
+                            $obj = JFactory::getUser();
+                        echo($obj->guest)? "Регистрация":"Ваш кабинет";
+                        echo $gts;
+                        break;
+                    case 'take_lot':
+                        echo "Прием на торги";
+                        echo $gts;
+                        break;
+                    case 'ask_about_lot':
+                        echo "Задать вопрос по лоту";
+                        break;
+                }?></a>
+        </div>
+    <?php }
 /**
  * Описание
  * @package
@@ -781,32 +813,34 @@ class HTML{
 		HTML::setVmPagination($arrMenus['base'],$pagination);
 	}
 
-/**
- * Описание
- * @package
- * @subpackage
- */
-	public static function innerMenu($content_type,$link,$obj=false){?>
-        <div class="your_cab">
-            <a href="<?=$link?>"><?php $lts=' &lt; &lt; ';
-		$gts=' &gt;&gt; ';
-		switch($content_type){
-			case 'user':
-				if(!$obj)
-					$obj = JFactory::getUser();
-				echo($obj->guest)? "Регистрация":"Ваш кабинет";
-				echo $gts;
-			break;
-			case 'take_lot':
-				echo "Прием на торги";
-				echo $gts;
-			break;
-			case 'ask_about_lot':
-				echo "Задать вопрос по лоту";
-			break;
-		}?></a>
-        </div>	
-<?php }	
+    /**
+     * Описание
+     * @package
+     * @subpackage
+     * layout = shop | fulltime | online
+     */
+    public static function setBaseLink($layout){
+        $category_id=JRequest::getVar('virtuemart_category_id');
+        $Itemid=JRequest::getVar('Itemid');
+
+        $app=&JFactory::getApplication();
+        $session=&JFactory::getSession();
+        $user=&JFactory::getUser();
+        $links=$session->get('section_links');
+        $router = $app->getRouter();
+        if($SefMode=$router->getMode()){
+            if((int)$category_id>0){
+                $detail_link['base']=$links[$layout][$category_id];
+            }else{
+                $menu = $app->getMenu();
+                $menus = $menu->getMenu();
+                $top_alias=($layout!='shop')? 'route':'alias';
+                $detail_link['base']=JUri::root().$menus[$Itemid]->$top_alias;
+                $detail_link['top']=true;
+            }
+            return $detail_link;
+        }else return false;
+    }
 /**
  * Описание
  * @package
@@ -840,7 +874,6 @@ class HTML{
     </div>
 <?php   //commonDebug(__FILE__, __LINE__, $prop_link.", ".$ask_link.", ".$cab_link, true);
     }
-
 /**
  * Построить правильную ссылку
  * @package

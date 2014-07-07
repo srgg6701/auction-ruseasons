@@ -88,26 +88,30 @@ class Auction2013ModelAuction2013 extends JModelLegacy
      * Сделать ставку
      */
     public function makeBid($post){
-        commonDebug(__FILE__,__LINE__,$post, true);
-        /*  ["bid_sum"]     => "125000"
-            ["bid_agree"]   => "on"
-            ["b379e7a91e6a5b624c9a828be80dc8ac"]=> "1"
-            ["option"]      => "com_auction2013"
-            ["task"]        => "makeBid"
-            ["virtuemart_product_id"]=> "2772"  */
+        $test=true;
+        //commonDebug(__FILE__,__LINE__,$post, true);
+        /*["bids"]=>                    "900"
+          ["14e429a6cd5c1d774d06539dce403129"]=> "1"
+          ["option"]=>                  "com_auction2013"
+          ["virtuemart_product_id"]=>   "2702"
+          ["task"]=>                    "makeBid"
+          ["Itemid"]=>                  "125"
+          ["virtuemart_category_id"]=>  "33"  */
         // получить резервную цену
         $db = JFactory::getDbo();
-        $query = $db->getQuery(true);
-        $query->select($db->quoteName('min_price'));
-        $query->from($db->quoteName('#__dev_sales_price'));
-        $query->where($db->quoteName('virtuemart_product_id') . ' = '. $post['virtuemart_product_id']);
+        $query = "SELECT MAX(sum)
+             FROM #__dev_bids
+            WHERE virtuemart_product_id = ". $post['virtuemart_product_id'];
         $db->setQuery($query);
-        if((int)$post['bid_sum']>(int)$db->loadResult()){
+        if(!$current_max_bid = (int)$db->loadResult()) $current_max_bid = 0;
+        if($test) testSQL($query);
+        // если входящая ставка больше текущей максимальной:
+        if((int)$post['bids']>$current_max_bid){
             $table_bids = '#__dev_bids';
             $bidder_user_id = JFactory::getUser()->id;
             // проверить, не выставил ли кто-нибудь из юзеров бОльшую ставку:
             $query = $db->getQuery(true);
-            $query->select($db->quoteName('MAX(sum)>=').$post['bid_sum']);
+            $query->select($db->quoteName('MAX(sum)>=').$post['bids']);
             $query->from($db->quoteName($table_bids));
             $query->where($db->quoteName('virtuemart_product_id') . ' = '. $post['virtuemart_product_id']);
             $db->setQuery($query);
@@ -121,7 +125,7 @@ class Auction2013ModelAuction2013 extends JModelLegacy
             $data = new stdClass();
             $data->virtuemart_product_id=$post['virtuemart_product_id'];
             $data->bidder_user_id = $bidder_user_id;
-            $data->sum=$post['bid_sum'];
+            $data->sum=$post['bids'];
             $data->datetime=date('Y-m-d H:i:s');
             try{
                 JFactory::getDbo()->insertObject($table_bids, $data);
@@ -131,6 +135,10 @@ class Auction2013ModelAuction2013 extends JModelLegacy
                 die("<div>".$e->getMessage()."</div>");
             }
         }else{
+            if($test) {
+                echo "<div>Входящий бид (".(int)$post['bids'].")
+                НЕ больше текущей ставки (".$current_max_bid.")</div>";
+            }
             return false;
         }
     }

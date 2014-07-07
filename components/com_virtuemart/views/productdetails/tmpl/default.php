@@ -260,7 +260,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
     ?>
           Чтобы сделать ставку, вам необходимо <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">заавторизоваться</a>.
 <?php        
-        else: require_once "bid.php";            			
+        else: require_once "bid.php";
         endif;
 ?>
       </div>   
