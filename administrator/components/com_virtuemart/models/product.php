@@ -188,24 +188,18 @@ class VirtueMartModelProduct extends VmModel {
      */
     function sortSearchListQuery($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE
     ) {
-
         /* 	MODIFIED START */
         include_once JPATH_SITE.DS.'tests.php';
-        if ($this->top_category) {
-            $query = "SELECT DISTINCT prices.virtuemart_product_id
-        FROM #__virtuemart_product_categories        AS cats 
-        INNER JOIN #__virtuemart_category_categories AS cat_cats
-                   ON cats.virtuemart_category_id = cat_cats.category_child_id
-        INNER JOIN #__virtuemart_product_prices      AS prices
-                   ON prices.virtuemart_product_id = cats.virtuemart_product_id                    
-             WHERE cat_cats.category_parent_id = ".$this->top_category. "
-               AND prices.product_price_publish_up < NOW() 
-               AND prices.product_price_publish_down > NOW()  
-          ORDER BY prices.product_price_publish_up ";
-            //testSQL($query, __FILE__, __LINE__, true);
-            return JFactory::getDbo()->setQuery($query)->loadColumn();
-        }elseif($virtuemart_category_id){
-            $query="SELECT  p.virtuemart_product_id
+        /**
+        ВНИМАНИЕ!
+        Код следующих 2-х блоков должен быть проигнорирован при
+        извлечении данных с backend'а. Поэтому члену класаа $this->top_category
+        при запросе с frontend'а должно быть присвоено значение -
+        false, либо - текущей ТОПовой категории. Это выполняется в
+        VirtuemartViewCategory::setTopCatItemId(); */
+        if($this->top_category===false){
+            if($virtuemart_category_id) {
+                $query = "SELECT  p.virtuemart_product_id
   FROM `#__virtuemart_products`            AS p,
        `#__virtuemart_product_categories`  AS pc,
        `#__virtuemart_product_prices`      AS prices
@@ -213,8 +207,23 @@ class VirtueMartModelProduct extends VmModel {
    AND p.     `virtuemart_product_id`  = pc. `virtuemart_product_id`
    AND prices.`virtuemart_product_id`  = pc. `virtuemart_product_id`
    AND p.     `published` = '1'
-   AND prices.`product_price_publish_up`  < NOW() 
+   AND prices.`product_price_publish_up`  < NOW()
    AND prices.`product_price_publish_down`> NOW()";
+                //testSQL($query, __FILE__, __LINE__);
+                return JFactory::getDbo()->setQuery($query)->loadColumn();
+            }
+        }elseif ($this->top_category) {
+            $query = "SELECT DISTINCT prices.virtuemart_product_id
+        FROM #__virtuemart_product_categories        AS cats
+        INNER JOIN #__virtuemart_category_categories AS cat_cats
+                   ON cats.virtuemart_category_id = cat_cats.category_child_id
+        INNER JOIN #__virtuemart_product_prices      AS prices
+                   ON prices.virtuemart_product_id = cats.virtuemart_product_id
+             WHERE cat_cats.category_parent_id = ".$this->top_category. "
+               AND prices.product_price_publish_up < NOW()
+               AND prices.product_price_publish_down > NOW()
+          ORDER BY prices.product_price_publish_up ";
+            //testSQL($query, __FILE__, __LINE__);
             return JFactory::getDbo()->setQuery($query)->loadColumn();
         }
         /* 	MODIFIED END	 */
@@ -237,6 +246,9 @@ class VirtueMartModelProduct extends VmModel {
 
         $where = array();
         $useCore = TRUE;
+
+        //die(__FILE__.':'.__LINE__);
+
         if ($this->searchplugin !== 0) {
             //reset generic filters ! Why? the plugin can do it, if it wishes it.
             // 			if ($this->keyword ==='') $where=array();
@@ -1297,7 +1309,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             $i = 0;
             foreach ($productIds as $id) {
                 $product = $this->getProduct((int) $id, $front, $withCalc, $onlyPublished);
-                //commonDebug(__FILE__,__LINE__,$product, true);
+                //commonDebug(__FILE__,__LINE__,$product);
                 if ($product) {
                     $products[] = $product;
                     //echo "<h3>product:</h3>";var_dump('<pre>',$product, '</pre>');

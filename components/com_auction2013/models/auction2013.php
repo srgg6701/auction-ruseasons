@@ -129,7 +129,7 @@ class Auction2013ModelAuction2013 extends JModelLegacy
             $data->datetime=date('Y-m-d H:i:s');
             try{
                 JFactory::getDbo()->insertObject($table_bids, $data);
-                return true;
+                return 'ok';
             }catch(Exception $e){
                 echo "<div>Ошибка добавления ставки:</div>";
                 die("<div>".$e->getMessage()."</div>");

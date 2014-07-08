@@ -49,6 +49,7 @@ endif;?>:
 <button type="submit" class="buttonSandCool">Сделать ставку</button>
 	</section>
 </form>
+<a name="bottom"></a>
 <script>
 function switchSections(step){
     var alt_step = (step==1)? 2:1;
@@ -65,7 +66,7 @@ function switchSections(step){
         }else{
             $('#my_bid').html(my_bid);
         }
-        switchSections(1);
+        switchSections(1);	
     });
     $('#bid_cancel').on('click', function(){
         switchSections(2);

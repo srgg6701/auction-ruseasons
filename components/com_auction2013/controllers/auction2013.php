@@ -154,8 +154,8 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
             $link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                                 $post['virtuemart_product_id'] .
                                 '&virtuemart_category_id=' .$post['virtuemart_category_id'] .
-                                '&Itemid=' . $post['Itemid'].'&result=';
-            $link.=($result)? $result:'deny';
+                                '&Itemid=' . $post['Itemid'] . '&?result=';
+            $link.=($result)? :'deny';
             //commonDebug(__FILE__,__LINE__,$result, true);
             if(!$test)
                 $this->setRedirect($link);

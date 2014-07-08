@@ -287,7 +287,8 @@ class VirtuemartViewCategory extends VmView {
             $productModel->top_category=$get['virtuemart_category_id'];
             //die('TOP category: '.$productModel->top_category);            
             return true;
-        }	
+        }else
+			$productModel->top_category=false;	
     }
 /*	MODIFIED END	*/		
 	/*

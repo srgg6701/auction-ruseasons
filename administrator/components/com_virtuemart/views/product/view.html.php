@@ -39,7 +39,7 @@ class VirtuemartViewProduct extends VmView {
 		$this->loadHelper('currencydisplay');
 		$this->loadHelper('html');
 		$this->loadHelper('image');
-
+        // VirtueMartModelProduct
 		$model = VmModel::getModel();
         //include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$task, true);
@@ -293,7 +293,7 @@ class VirtuemartViewProduct extends VmView {
 
                 } else {
                     $title='PRODUCT';
-                    $msg="";
+                    $msg=""; //die(__FILE__);
                 }
                 $this->db = JFactory::getDBO();
 
@@ -302,8 +302,11 @@ class VirtuemartViewProduct extends VmView {
                 $this->addStandardDefaultViewLists($model,'created_on');
 
                 /* Get the list of products */
+                /* VirtueMartModelProduct::
+                                       getProductListing() */
                 $productlist = $model->getProductListing(false,false,false,false,true);
-
+                //include_once JPATH_SITE.DS.'tests.php';
+                //commonDebug(__FILE__,__LINE__,$model, true);
                 //The pagination must now always set AFTER the model load the listing
                 $pagination = $model->getPagination();
                 $this->assignRef('pagination', $pagination);
