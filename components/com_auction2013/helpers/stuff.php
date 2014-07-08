@@ -294,6 +294,11 @@ FROM #__virtuemart_products_ru_ru
     }
     /**
      * Получить минимальную ставку
+     * Возвращает запись в виде массива с элементами:
+     *  price       => #__virtuemart_product_prices.product_price
+     *  bid_value   => #__dev_bids.MAX(sum)
+     *  если значение второго элемента отсутствует (null),
+     *  значением минимальной ставки считается первый
      */
     public static function getMinBidSum($virtuemart_product_id){
         $db = JFactory::getDbo();
@@ -471,7 +476,7 @@ FROM #__virtuemart_products_ru_ru  prod_ru
   WHERE " . implode(" AND ", $subquery);
         $query.="
   ORDER BY orders.id DESC";
-        testSQL($query); //die();
+        //testSQL($query); //die();
         return JFactory::getDbo()->setQuery($query)->loadAssocList();
     }
 /**
@@ -745,7 +750,7 @@ class HTML{
      */
     public static function buildBidsHistory($virtuemart_product_id){
         $history = AuctionStuff::getBidsHistory($virtuemart_product_id);
-        // commonDebug(__FILE__,__LINE__,$history);
+        //commonDebug(__FILE__,__LINE__,$history);
         $html = '<table id="tbl-bid-history" rules="rows" border="1">
         <tr>
             <th>Игрок</th>
@@ -754,21 +759,26 @@ class HTML{
         </tr>';
 		$user = JFactory::getUser();
 		$username=($user->guest!=1)? $user->username:false;
-        foreach ($history as $i=>$record) {
-            $html.='<tr';
-			if($username&&(int)$username==(int)$record['username'])
-				$html.=' class="bold"';
-			$html.='>
+        if(!empty($history)){
+            foreach ($history as $i=>$record) {
+                $html.='<tr';
+                if($username&&(int)$username==(int)$record['username'])
+                    $html.=' class="bold"';
+                $html.='>
             <td>' . $record['username'] . '</td>
             <td>' . $record['sum'] . '</td>
             <td>' . $record['datetime'] . '</td>
         </tr>';
-        }
+            }
+        }else
+            $html.='<tr><td colspan="3">Ставок нет.</td></tr>';
         $html.= '</table>';
         return $html;
     }
     /**
      * Построить список ставок
+     * В качестве начальной ставки считает либо последнюю ставку, либо, если ставок
+     * не было, стоимость предмета
      */
     public static function buildBidsSelect($virtuemart_product_id, $price, $steps = 80){
         $one_step = AuctionStuff::getPricesRange($price);
@@ -1078,4 +1088,10 @@ class DateAndTime{
 		$delta['минут']=floor($seconds_in_minutes/$minutes);		
 		return $delta;
 	}
+    /**
+     * Конвертировать дату формата YYYY-mm-dd H:i:s в dd.mm H:i
+     */
+    static public function setShortDate($date=NULL){
+        if($date) echo date("d.m H:i",strtotime($date));
+    }
 }

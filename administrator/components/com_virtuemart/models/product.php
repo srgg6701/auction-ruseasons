@@ -908,11 +908,19 @@ class VirtueMartModelProduct extends VmModel {
             // назначить алиас родительской категории:
             $this->getProductParentSlug($product, $this->_id);
             $db=JFactory::getDbo();
-            $q="SELECT `currency_symbol`
-                  FROM #__virtuemart_currencies WHERE virtuemart_currency_id = ".$product->product_currency;
+            $q="SELECT     crns.  currency_symbol, prods. auction_number
+      FROM #__virtuemart_products AS prods
+INNER JOIN #__virtuemart_product_prices AS prices
+           ON prices.virtuemart_product_id = prods.virtuemart_product_id
+ LEFT JOIN #__virtuemart_currencies AS crns
+           ON crns.virtuemart_currency_id = prices.product_currency
+WHERE crns.virtuemart_currency_id = ".$product->product_currency."
+  AND prods.virtuemart_product_id = ".$this->_id;
+            $qresult = $db->setQuery($q)->loadObject();
             // получить валюту предмета
-            $product->currency_symbol=$db->setQuery($q)->loadResult();
-            //include_once JPATH_SITE.DS.'tests.php';
+            $product->currency_symbol=$qresult->currency_symbol;
+            // ...номер аукциона
+            $product->auction_number=$qresult->auction_number;
             //testSQL($q,__FILE__,__LINE__,true);
             /* MODIFIED END */
 
@@ -1060,8 +1068,7 @@ class VirtueMartModelProduct extends VmModel {
             return $this->fillVoidProduct($front);
         }
         //		}
-        //include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$product, true);
+        // commonDebug(__FILE__,__LINE__,$product, true);
         $this->product = $product;
         return $product;
     }

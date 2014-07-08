@@ -45,7 +45,19 @@ $i=0;
 						<?php echo VmHTML::checkbox('product_special', $this->product->product_special); ?>
                     </td>
 				</tr>
-				<?php $i = 1 - $i; ?>
+
+                <?php $i = 1 - $i; ?>
+                <tr class="row<?php echo $i?>">
+                    <td>
+                        <div style="text-align:right;font-weight:bold;"><?php echo JText::_('COM_VIRTUEMART_PRODUCT_AUCTION_NUMBER') ?></div>
+                    </td>
+                    <td  height="2" colspan="3" >
+                        <input type="text" class="inputbox" name="auction_number" id="auction_number" value="<?php echo $this->product->auction_number; ?>" size="32" maxlength="64" />
+                    </td>
+                </tr>
+
+
+                <?php $i = 1 - $i; ?>
 				<tr class="row<?php echo $i?>">
 					<td>
 						<div style="text-align:right;font-weight:bold;"><?php echo JText::_('COM_VIRTUEMART_PRODUCT_FORM_SKU') ?></div>

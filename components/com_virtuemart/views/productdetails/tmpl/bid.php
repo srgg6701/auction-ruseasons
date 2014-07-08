@@ -15,6 +15,7 @@ endif;?>:
 <form method="post" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.makeBid'); ?>" onsubmit="return checkFormFields()">
 	<section id="bid_step_1">
     <?php
+    //
     $options = HTML::buildBidsSelect($this->product->virtuemart_product_id,$this->product->prices['basePriceVariant']);
     ?>
     <select name="bids" id="sel_bids">

@@ -217,17 +217,13 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
     <div class="o_o">
       Начало торгов:................. 
       <span class="span_o_o">
-          <b>
-   		      <?=$this->product->auction_date_start?>
-          </b>
+          <b><?php DateAndTime::setShortDate($this->product->product_available_date); ?></b>
       </span>
     </div>		   
     <div class="o_o">
       Конец торгов:................... 
       <span class="span_o_o">
-          <b>
-<?php 			echo $this->product->auction_date_finish; ?>
-          </b>
+          <b><?php DateAndTime::setShortDate($this->product->auction_date_finish); ?></b>
       </span>
     </div>				  
     <div class="o_o">
