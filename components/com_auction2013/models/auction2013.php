@@ -100,12 +100,21 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         $table_bids = '#__dev_bids';
         // проверить, превышает ли ставка юзера минимально допустимую
         $db = JFactory::getDbo();
-        $query = "SELECT MAX(sum)
-             FROM $table_bids
-            WHERE virtuemart_product_id = ". $post['virtuemart_product_id'];
+        $query = "SELECT MAX(sum) AS current_max_bid,
+  TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
+                                  AS 'minutes_rest',
+  FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min'
+     FROM auc13_dev_bids AS bids
+LEFT JOIN auc13_virtuemart_products AS prods
+          ON prods.virtuemart_product_id = bids.virtuemart_product_id
+WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
         $db->setQuery($query);
         try{
-            if(!$current_max_bid = (int)$db->loadResult()) $current_max_bid = 0;
+            $results = $db->loadAssoc();
+            $current_max_bid = (int)$results['current_max_bid'];
+            $minutes_rest = floatval($results['minutes_rest']);
+            $plus5min = $results['plus5min'];
+            if(!$current_max_bid) $current_max_bid = 0;
         }catch(Exception $e){
             echo "<div>Ошибка проверки максимальной ставки:</div>";
             die("<div>".$e->getMessage()."</div>");
@@ -123,11 +132,24 @@ class Auction2013ModelAuction2013 extends JModelLegacy
             $data->sum=$post['bids'];
             $data->datetime=date('Y-m-d H:i:s');
             try{
-                return JFactory::getDbo()->insertObject($table_bids, $data);
+                JFactory::getDbo()->insertObject($table_bids, $data);
             }catch(Exception $e){
                 echo "<div>Ошибка добавления ставки:</div>";
                 die("<div>".$e->getMessage()."</div>");
             }
+            // если до окончания торгов осталось меньше 5 мин, продлить
+            if($minutes_rest<5){
+                try{
+                    $object = new stdClass();
+                    $object->virtuemart_product_id = $post['virtuemart_product_id'];
+                    $object->auction_date_finish = $plus5min;
+                    JFactory::getDbo()->updateObject('#__virtuemart_products', $object, 'virtuemart_product_id');
+                }catch(Exception $e){
+                    echo "<div>Ошибка обновления времени окончания аукциона:</div>";
+                    echo "<div>".$e->getMessage()."</div>";
+                }
+            }
+            return true;
         }else{
             if($test) {
                 echo "<div>Входящий бид (".(int)$post['bids'].")

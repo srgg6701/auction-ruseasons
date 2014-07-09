@@ -1,6 +1,8 @@
 <?php
 defined ('_JEXEC') or die('Restricted access');
-?>
+
+$zoom=false;
+if($zoom):?>
 <link href="http://auction.auction-ruseasons.ru/geo_templates/Lemon/external/css/style.css" rel="stylesheet" type="text/css" />
 <link href="http://auction.auction-ruseasons.ru/geo_templates/Lemon/external/magiczoomplus/magiczoomplus.css" rel="stylesheet" type="text/css" media="screen"/>
 <script src="http://auction.auction-ruseasons.ru/geo_templates/Lemon/external/magiczoomplus/magiczoomplus.js" type="text/javascript"></script>
@@ -69,3 +71,8 @@ defined ('_JEXEC') or die('Restricted access');
         <div class="clr"></div>
     </div>
 </div>
+<?php
+else:?>
+<?php
+    echo "diff: " . (floatval('5.0')-5);
+endif;

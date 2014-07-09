@@ -1,4 +1,4 @@
-﻿SELECT bids.id, prod_ru.product_name, bidder_user_id, 
+﻿SELECT bids.id, bids.virtuemart_product_id, prod_ru.product_name, bidder_user_id, 
        users.username AS login, users.name AS username, sum-- , datetime
   FROM auc13_dev_bids AS bids
   INNER JOIN auc13_virtuemart_products_ru_ru AS prod_ru 
