@@ -60,8 +60,31 @@ ul.buttons{
 	margin:0;
 	padding:0;
 }
+.floatLeft{
+  float: left;
+}
+.floatRight{
+  float: right;
+}
 .weak{
 	font-weight:200;
+}
+.mark_round{
+  background: red;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  height: 1.5em;
+  line-height: 1.5em;
+  margin-top: 2px !important;
+  margin-right: 8px !important;
+  text-align: center;
+  width: 1.5em;
+  &:after{
+    content: 'x';
+  }
 }
 .menuH{
 	display:inline-block; 
@@ -642,4 +665,10 @@ table#recaptcha_table{
 	td:nth-child(3){
 		text-align:center;
 	}
+}
+.warning_area{
+  background-color: pink;
+  border: solid 2px darkred;
+  border-radius: 4px;
+  padding: 10px;
 }

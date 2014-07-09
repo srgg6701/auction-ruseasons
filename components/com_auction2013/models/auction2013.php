@@ -97,31 +97,26 @@ class Auction2013ModelAuction2013 extends JModelLegacy
           ["task"]=>                    "makeBid"
           ["Itemid"]=>                  "125"
           ["virtuemart_category_id"]=>  "33"  */
-        // получить резервную цену
+        $table_bids = '#__dev_bids';
+        // проверить, превышает ли ставка юзера минимально допустимую
         $db = JFactory::getDbo();
         $query = "SELECT MAX(sum)
-             FROM #__dev_bids
+             FROM $table_bids
             WHERE virtuemart_product_id = ". $post['virtuemart_product_id'];
         $db->setQuery($query);
-        if(!$current_max_bid = (int)$db->loadResult()) $current_max_bid = 0;
+        try{
+            if(!$current_max_bid = (int)$db->loadResult()) $current_max_bid = 0;
+        }catch(Exception $e){
+            echo "<div>Ошибка проверки максимальной ставки:</div>";
+            die("<div>".$e->getMessage()."</div>");
+        }
         if($test) testSQL($query);
         // если входящая ставка больше текущей максимальной:
         if((int)$post['bids']>$current_max_bid){
-            $table_bids = '#__dev_bids';
             $bidder_user_id = JFactory::getUser()->id;
-            // проверить, не выставил ли кто-нибудь из юзеров бОльшую ставку:
-            $query = $db->getQuery(true);
-            $query->select($db->quoteName('MAX(sum)>=').$post['bids']);
-            $query->from($db->quoteName($table_bids));
-            $query->where($db->quoteName('virtuemart_product_id') . ' = '. $post['virtuemart_product_id']);
-            $db->setQuery($query);
-            try{
-                if((int)$db->loadResult())
-                    return 'too_low';
-            }catch(Exception $e){
-                echo "<div>Ошибка проверки максимальной ставки:</div>";
-                die("<div>".$e->getMessage()."</div>");
-            }
+            /* todo: 1. разобраться с разнесением и отображением ЗБ и ставок
+                     2. проверять время окончания аукциона, возвращать метку
+            */
             $data = new stdClass();
             $data->virtuemart_product_id=$post['virtuemart_product_id'];
             $data->bidder_user_id = $bidder_user_id;

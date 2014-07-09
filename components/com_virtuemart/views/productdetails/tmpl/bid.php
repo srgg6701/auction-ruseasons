@@ -1,5 +1,23 @@
 <hr/>
-<br>
+<?php
+/**
+ ставка не добавлена, потому что пока игрок (или система) жевали сопли,
+ минимальная ставка превысила ту, что    */
+if(($poor_bid=JRequest::getVar('poor_bid'))||($closed=JRequest::getVar('closed'))):
+?>
+    <div class="warning_area">
+        <div class="mark_round floatLeft" title="Убрать сообщение" onclick="parentNode.style.display='none';"></div>
+        Ставка не сделана, т.к. <?php
+	if($poor_bid):
+        ?>указанное вами значение (<?php echo $poor_bid;?> руб.)
+        не превышает текущей минимальной ставки<?php
+	else:
+	?>время торгов истекло в <?php echo $closed;
+	endif;?>.
+    </div>
+<?php
+endif;
+?><br>
 Ставки<?php	
 if(JFactory::getUser()->guest!=1):?>
  (ваши выделены жирным)<?php

@@ -17,7 +17,7 @@
       <Data>
         <StatementType>Select</StatementType>
         <ActiveQuery>0</ActiveQuery>
-        <SubQuery Id="0" Open="0" LocationX="42.696629899753" LocationY="150.561800172813" Scale="0.89">
+        <SubQuery Id="0" Open="0" LocationX="-1226.93460156563" LocationY="25.2976206508376" Scale="0.07905882">
           <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <HorizontalOverlap>0</HorizontalOverlap>
             <VerticalOverlap>0</VerticalOverlap>
@@ -35,18 +35,19 @@
             </PaperSize>
           </PageOptions>
           <Tables>
-            <Table Name="auc13_virtuemart_product_prices" Left="40" Top="40" Width="302.7791" Height="228" Collapsed="False" />
-            <Table Name="auc13_virtuemart_products" Left="656" Top="88" Width="300.3038" Height="228" Collapsed="False" />
-            <Table Name="auc13_virtuemart_products_ru_ru" Left="16" Top="368" Width="306.8741" Height="210" Collapsed="False" />
-            <Table Name="auc13_virtuemart_product_categories" Left="352" Top="440" Width="333.3389" Height="138" Collapsed="False" />
+            <Table Name="prices" Left="40" Top="488" Width="302.7791" Height="228" Collapsed="False" />
+            <Table Name="prods" Left="402" Top="488" Width="300.3038" Height="228" Collapsed="False" />
+            <Table Name="prods_ru" Left="761" Top="497" Width="306.8741" Height="210" Collapsed="False" />
+            <Table Name="cats" Left="386" Top="292" Width="333.3389" Height="138" Collapsed="False" />
+            <Table Name="cats_ru" Left="392" Top="41" Width="318.1111" Height="192" Collapsed="False" />
           </Tables>
         </SubQuery>
       </Data>
     </View>
-    <View Name="Code" Active="True" Visible="True">
+    <View Name="Code" Visible="True">
       <Data />
     </View>
-    <View Name="Data" Visible="True" />
+    <View Name="Data" Active="True" Visible="True" />
     <View Name="Profiler" Visible="False" />
     <View Name="PivotGrid" Visible="False" />
   </Views>
