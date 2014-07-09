@@ -203,11 +203,9 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
       <span class="span_o_o">
           ..............
       </span>
-      <a href="#">
           <span class="bold span_o_o">
    		      <?=$this->product->auction_number?>
-          </span> 
-      </a>
+          </span>
     </div>				
     <div class="o_o">
       <a href="<?=JRoute::_("index.php?option=com_content&view=article&id=23", false)?>">

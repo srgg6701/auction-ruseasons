@@ -148,15 +148,18 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         $post = JRequest::get('post');
         $result = $this->getModel()->makeBid($post);
         // ставка больше минимальной резервной и максимальной текущей ставки
-        if($result&&$result!='too_low') // ставка сделана
-            $this->setRedirect('index.php?option=com_users&view=profile&layout=bids&&Itemid=' . $post['Itemid']);
-        else{ // не превышена минимальная резервная, либо максимальная текущая ставка
+        if($result&&$result!='too_low') /**
+            * ставка сделана - загрузить раздел ставок в кабинете юзера */
+            $this->setRedirect('index.php?option=com_users&view=cabinet&layout=bids');
+        else{ /**
+                * не превышена минимальная резервная, либо максимальная текущая ставка -
+                  вернуться в профайл предмета и вывести сообщение */
             $link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                                 $post['virtuemart_product_id'] .
                                 '&virtuemart_category_id=' .$post['virtuemart_category_id'] .
-                                '&Itemid=' . $post['Itemid'] . '&?result=';
-            $link.=($result)? :'deny';
-            //commonDebug(__FILE__,__LINE__,$result, true);
+                                '&Itemid=' . $post['Itemid'] . '&result=';
+            $link.=($result)? :'deny'; // too_low || deny
+            //commonDebug(__FILE__,__LINE__,$link, true);
             if(!$test)
                 $this->setRedirect($link);
         }

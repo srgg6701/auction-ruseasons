@@ -755,7 +755,7 @@ class HTML{
         <tr>
             <th>Игрок</th>
             <th>Ставка</th>
-            <th>Время</th>
+            <th>Дата/время</th>
         </tr>';
 		$user = JFactory::getUser();
 		$username=($user->guest!=1)? $user->username:false;
