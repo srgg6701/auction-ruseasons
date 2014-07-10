@@ -193,11 +193,11 @@ class VirtueMartModelProduct extends VmModel {
         /**
         ВНИМАНИЕ!
         Код следующих 2-х блоков должен быть проигнорирован при
-        извлечении данных с backend'а. Поэтому члену класаа $this->top_category
+        извлечении данных с backend'а. Поэтому члену класса $this->top_category
         при запросе с frontend'а должно быть присвоено значение -
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
-        if($this->top_category===false){
+        if($this->top_category===false){ // категория внутри секции
             if($virtuemart_category_id) {
                 $query = "SELECT  p.virtuemart_product_id
   FROM `#__virtuemart_products`            AS p,
@@ -207,12 +207,20 @@ class VirtueMartModelProduct extends VmModel {
    AND p.     `virtuemart_product_id`  = pc. `virtuemart_product_id`
    AND prices.`virtuemart_product_id`  = pc. `virtuemart_product_id`
    AND p.     `published` = '1'
-   AND prices.`product_price_publish_up`  < NOW()
-   AND prices.`product_price_publish_down`> NOW()";
-                //testSQL($query, __FILE__, __LINE__);
+   AND prices.`product_price_publish_up`  < NOW()";
+                $online = 'online';
+                $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false, $online);
+                $query.=((int)$topItem[$online]==(int)JRequest::getVar('Itemid'))?
+                    '
+   AND p.product_available_date >= prices.product_price_publish_up
+   AND p.auction_date_finish > NOW() ' // открытие аукциона не раньше даты публикации
+                    :   '
+   AND prices.`product_price_publish_down`> NOW() '; // закрытие аукциона не раньше текущего момента;
+                //commonDebug(__FILE__,__LINE__,$topItem, true);
+                //testSQL($query, __FILE__, __LINE__, true);
                 return JFactory::getDbo()->setQuery($query)->loadColumn();
             }
-        }elseif ($this->top_category) {
+        }elseif ($this->top_category) { // ТОП-категория (секция) - онлайн/очные торги, магазин
             $query = "SELECT DISTINCT prices.virtuemart_product_id
         FROM #__virtuemart_product_categories        AS cats
         INNER JOIN #__virtuemart_category_categories AS cat_cats
@@ -223,7 +231,7 @@ class VirtueMartModelProduct extends VmModel {
                AND prices.product_price_publish_up < NOW()
                AND prices.product_price_publish_down > NOW()
           ORDER BY prices.product_price_publish_up ";
-            //testSQL($query, __FILE__, __LINE__);
+            // testSQL($query, __FILE__, __LINE__);
             return JFactory::getDbo()->setQuery($query)->loadColumn();
         }
         /* 	MODIFIED END	 */

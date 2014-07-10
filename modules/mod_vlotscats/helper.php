@@ -49,17 +49,13 @@ ORDER BY cats.ordering';
 		$prods=array();
 		$session->set('products_data',$prods);		
 		$top_cats=modVlotscatsHelper::getTopCategories($db);
-        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        //echo "<pre>";var_dump($top_cats);echo "</pre>"; die();
-		$topLayouts=AuctionStuff::getTopCatsLayouts(true);
+        $topLayouts=AuctionStuff::getTopCatsLayouts(true);
         /**
             [23]=> "shop"
             [21]=> "online"
             [22]=> "fulltime"
          */
-        //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-        //echo "<pre>";var_dump($topLayouts);echo "</pre>"; die();
-		/* 0 => 
+        /* 0 =>
 			array
 			  'virtuemart_category_id' => string '21' (length=2)
 			  'category_name' => string 'Онлайн торги' (length=23)
@@ -79,8 +75,7 @@ ORDER BY cats.ordering';
                 $table3= ",\n        `#__virtuemart_product_prices`      AS prices";
                 $subquery = "
                AND prices.virtuemart_product_id = pc.virtuemart_product_id
-               AND prices.product_price_publish_up < NOW() 
-               AND prices.product_price_publish_down > NOW() ";
+               AND prices.product_price_publish_up < NOW() ";
             }
             // исключить предметы магазина, на покупку которых были поданы заявки
             $qcheck_orders = " p.`virtuemart_product_id` NOT IN ( SELECT virtuemart_product_id FROM #__dev_shop_orders ) ";
@@ -138,12 +133,14 @@ ORDER BY cats.ordering';
             если не магазин - проверить даты выставления на аукцион -
             чтобы были таки внутри дат публикации
              */
-            if( $layout=='online'
+            if( $layout=='online'){
                 /* если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))*/
-                && $published!==NULL )
-                $q.='
+                if($published!==NULL )
+                    $q.='
                AND p.product_available_date >= prices.product_price_publish_up
-               AND p.auction_date_finish <= prices.product_price_publish_down';
+               AND p.auction_date_finish > NOW()';
+            }else $q.='
+               AND prices.product_price_publish_down > NOW()';
 
             $q.= $queryEnd .
 				 $top_cat['virtuemart_category_id'] .

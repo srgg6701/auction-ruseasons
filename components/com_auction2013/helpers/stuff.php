@@ -544,6 +544,11 @@ WHERE cats_cats.category_parent_id = 0";
     ["shop"]        => "115"
     ["online"]      => "125"
     ["fulltime"]    => "126"
+ * Чтобы выяснить, какая из 3-х секций загружена:
+ *  1) вызывать метод: $topItem = getTopCatsMenuItemIds('main или mainmenu', false, алиас_секции);
+ *      результат: array([алиас_секции]=>Itemid)
+ *  2) выполнить проверку: (int)$topItem[алиас_секции]===(int)$Itemid
+       JRequest::getVar('Itemid');
  * @package
  * @subpackage
  */

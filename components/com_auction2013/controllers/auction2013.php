@@ -148,17 +148,20 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         $post = JRequest::get('post');
         $result = $this->getModel()->makeBid($post);
         // ставка больше минимальной резервной и максимальной текущей ставки
-        if($result) /**
-            * ставка сделана - загрузить раздел ставок в кабинете юзера */
+        if($result&&!is_array($result)) {
+            /**
+             * ставка сделана - загрузить раздел ставок в кабинете юзера */
             $this->setRedirect('index.php?option=com_users&view=cabinet&layout=bids');
-        else{ /**
+        }else{ /**
                 * не превышена минимальная текущая ставка -
                   вернуться в профайл предмета и вывести сообщение */
             $link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                                 $post['virtuemart_product_id'] .
                                 '&virtuemart_category_id=' .$post['virtuemart_category_id'] .
                                 '&Itemid=' . $post['Itemid'] . '&poor_bid=' . $post['bids'];
-            //commonDebug(__FILE__,__LINE__,$link, true);
+            if(is_array($result)) // торги закрыты, вернёт 'expired', auction_date_finish
+                $link.= '&' . $result[0] . '=' . $result[1];
+                //commonDebug(__FILE__,__LINE__,$link, true);
             if(!$test)
                 $this->setRedirect($link);
         }

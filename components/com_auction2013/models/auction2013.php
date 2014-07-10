@@ -103,18 +103,24 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         $query = "SELECT MAX(sum) AS current_max_bid,
   TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
                                   AS 'minutes_rest',
-  FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min'
+  FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
+          DATE_FORMAT(prods.auction_date_finish,'%h:%i') AS 'expired'
      FROM auc13_dev_bids AS bids
 LEFT JOIN auc13_virtuemart_products AS prods
           ON prods.virtuemart_product_id = bids.virtuemart_product_id
 WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
-        $db->setQuery($query);
         try{
+            $db->setQuery($query);
             $results = $db->loadAssoc();
-            $current_max_bid = (int)$results['current_max_bid'];
             $minutes_rest = floatval($results['minutes_rest']);
-            $plus5min = $results['plus5min'];
-            if(!$current_max_bid) $current_max_bid = 0;
+            // если торги закончились
+            if($minutes_rest<=0)
+                return array('expired',$results['expired']);
+            else{
+                $current_max_bid = (int)$results['current_max_bid'];
+                if(!$current_max_bid) $current_max_bid = 0;
+                $plus5min = $results['plus5min'];
+            }
         }catch(Exception $e){
             echo "<div>Ошибка проверки максимальной ставки:</div>";
             die("<div>".$e->getMessage()."</div>");

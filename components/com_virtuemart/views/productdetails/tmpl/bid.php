@@ -3,7 +3,7 @@
 /**
  ставка не добавлена, потому что пока игрок (или система) жевали сопли,
  минимальная ставка превысила ту, что    */
-if(($poor_bid=JRequest::getVar('poor_bid'))||($closed=JRequest::getVar('closed'))):
+if(($poor_bid=JRequest::getVar('poor_bid'))||($closed=JRequest::getVar('expired'))):
 ?>
     <div class="warning_area">
         <div class="mark_round floatLeft" title="Убрать сообщение" onclick="parentNode.style.display='none';"></div>
