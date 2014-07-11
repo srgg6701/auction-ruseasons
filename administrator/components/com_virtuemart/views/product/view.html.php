@@ -59,7 +59,9 @@ class VirtuemartViewProduct extends VmView {
                  * Model: VirtueMartModelProduct (/*com/models/product.php) ::  */
 				$product = $model->getProductSingle($virtuemart_product_id,false);
 				// см. ниже
-				//var_dump('<h1>product</h1><pre>',$product,'</pre>'); // die();
+				// include_once JPATH_SITE.DS.'tests.php';
+				//commonDebug(__FILE__,__LINE__,$product, true);
+
 				$product_parent= $model->getProductParent($product->product_parent_id);
 
 				$mf_model = VmModel::getModel('manufacturer');

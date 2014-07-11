@@ -26,6 +26,10 @@ endif;?>:
 <?php echo HTML::buildBidsHistory($this->product->virtuemart_product_id);
 ?>
 </div>
+<?php
+// торги в активной фазе:
+if($auction_state=='active'):
+?>
 <h3 id="header_bid" class="clearfix">
     <img src="<?php echo JUri::base();?>templates/auction/images/auction_hammer_gavel_big.png">
     <span>Сделать ставку</span>
@@ -33,7 +37,7 @@ endif;?>:
 <form method="post" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.makeBid'); ?>" onsubmit="return checkFormFields()">
 	<section id="bid_step_1">
     <?php
-    //
+    // построить список возможных ставок
     $options = HTML::buildBidsSelect($this->product->virtuemart_product_id,$this->product->prices['basePriceVariant']);
     ?>
     <select name="bids" id="sel_bids">
@@ -92,3 +96,10 @@ function switchSections(step){
     });
 }(jQuery));
 </script>
+<?php
+else: // торги не открывались или уже завершились:
+    ?>
+    <h4><?php echo $auction_states[$auction_state];
+?></h4>
+<?
+endif;

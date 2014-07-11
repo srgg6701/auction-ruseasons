@@ -306,12 +306,12 @@ FROM #__virtuemart_products_ru_ru
   TRUNCATE(prices.product_price,0) AS price,
   MAX(sum) AS bid_value
      FROM #__virtuemart_product_prices AS prices
-LEFT JOIN auc13_dev_bids AS bids
+LEFT JOIN #__dev_bids AS bids
     ON prices.virtuemart_product_id = bids.virtuemart_product_id
 WHERE prices.virtuemart_product_id = $virtuemart_product_id";
         $db->setQuery($query);
         $results = $db->loadAssoc();
-        //testSQL($query);
+        testSQL($query);
         //commonDebug(__FILE__,__LINE__,$results, true);
         return $results;
     }
@@ -319,6 +319,7 @@ WHERE prices.virtuemart_product_id = $virtuemart_product_id";
      * Получить диапазон шагов ставок  
      */
     public static function getPricesRange($price) {
+        echo "<div>price = $price</div>";
         // получить шаги выставления цен:
         $price_steps = json_decode(file_get_contents(JPATH_SITE . DS. 
                                                      'components' . DS .
@@ -326,7 +327,7 @@ WHERE prices.virtuemart_product_id = $virtuemart_product_id";
                                                      'price_ranges.json')   );
         foreach ($price_steps as $range=>$step) {
             $ranges = explode('-', $range);
-            if($price>$ranges[0]&&$price<$ranges[1])
+            if($price>(int)$ranges[0]&&$price<(int)$ranges[1])
                 return $step;
         }
         return false;
@@ -787,6 +788,7 @@ class HTML{
      */
     public static function buildBidsSelect($virtuemart_product_id, $price, $steps = 80){
         $one_step = AuctionStuff::getPricesRange($price);
+        echo "<div>one_step = $one_step</div>";
         $min_bid_array = AuctionStuff::getMinBidSum($virtuemart_product_id);
         $bid = ($min_bid_array['bid_value'])?
                         $min_bid_array['bid_value']+$one_step
@@ -1066,6 +1068,7 @@ class DateAndTime{
 	}
 /**
  * Получить разницу дат
+ * @return array
  * @package
  * @subpackage
  */
@@ -1093,6 +1096,18 @@ class DateAndTime{
 		$delta['минут']=floor($seconds_in_minutes/$minutes);		
 		return $delta;
 	}
+/**
+ * Получить разницу между датами в секундах
+ */
+    public static function getDelta($t){
+        $date = new DateTime();
+        $now = $date->getTimestamp();
+        $timestamp = strtotime($t);
+        //echo "<div>t = $t; $now - $timestamp</div>";
+        $diff = $now-$timestamp; // timestamp diff
+        return $diff;
+    }
+
     /**
      * Конвертировать дату формата YYYY-mm-dd H:i:s в dd.mm H:i
      */

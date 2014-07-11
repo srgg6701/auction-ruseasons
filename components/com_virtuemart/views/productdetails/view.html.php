@@ -84,8 +84,13 @@ class VirtueMartViewProductdetails extends VmView {
         if (!empty($quantityArray[0])) {
             $quantity = $quantityArray[0];
         }
+        /* MODIFIED START */
+        $product_model->skip_publish_up_limit=true;
+        /* MODIFIED END */
+        //VirtueMartModelProduct::getProduct()
         $product = $product_model->getProduct($virtuemart_product_id,TRUE,TRUE,TRUE,$quantity);
-
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$product);
     // 		vmSetStartTime('customs');
     // 		for($k=0;$k<count($product->customfields);$k++){
     // 			$custom = $product->customfields[$k];
@@ -129,9 +134,9 @@ class VirtueMartViewProductdetails extends VmView {
         $product->event->afterDisplayContent = '';
         if (VmConfig::get('enable_content_plugin', 0)) {
            // add content plugin //
-           $dispatcher = & JDispatcher::getInstance();
-           JPluginHelper::importPlugin('content');
-           $product->text = $product->product_desc;
+            $dispatcher = & JDispatcher::getInstance();
+            JPluginHelper::importPlugin('content');
+            $product->text = $product->product_desc;
             jimport( 'joomla.html.parameter' );
             $params = new JParameter('');
 
@@ -345,7 +350,7 @@ class VirtueMartViewProductdetails extends VmView {
         elseif(JRequest::getCmd('layout')=='bid')
             $this->setLayout('bid');
         // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$this, true);
+        //commonDebug(__FILE__,__LINE__,$this);
         parent::display($tpl);
     }
 

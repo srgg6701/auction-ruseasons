@@ -45,6 +45,11 @@ class VirtueMartModelProduct extends VmModel {
      * Если хотим получить консолидированные данные предметов из дочерних категорий при загрузке раздела с top-категорией (online, fulltime, shop)
      */
     public $top_category;
+    /**
+     * Если хотим проигнорировать проверку даты окончания публикации для предмета в его профайле.
+     * Иначе - не извлечёт цены.
+     */
+    public $skip_publish_up_limit=false;
 
     /* 	MODIFIED END	 */
 
@@ -798,7 +803,8 @@ class VirtueMartModelProduct extends VmModel {
            LEFT JOIN `#__dev_sales_price` AS sales_prices
                      ON sales_prices.`virtuemart_product_id` = prod.`virtuemart_product_id`
                WHERE prod.`virtuemart_product_id` = "' . $productId . '" ';
-
+        include_once JPATH_SITE.DS.'tests.php';
+        //testSQL($q,__FILE__, __LINE__);
         if ($front) {
             if (count($virtuemart_shoppergroup_ids) > 0) {
                 $q .= ' AND (';
@@ -810,14 +816,40 @@ class VirtueMartModelProduct extends VmModel {
                 $q .= ' OR `virtuemart_shoppergroup_id` IS NULL OR `virtuemart_shoppergroup_id`="0") ';
             }
             $quantity = (int) $quantity;
-            $q .= ' AND ( (`product_price_publish_up` IS NULL OR `product_price_publish_up` = "' . $db->getEscaped($this->_nullDate) . '" OR `product_price_publish_up` <= "' . $db->getEscaped($this->_now) . '" )
-		        AND (`product_price_publish_down` IS NULL OR `product_price_publish_down` = "' . $db->getEscaped($this->_nullDate) . '" OR product_price_publish_down >= "' . $db->getEscaped($this->_now) . '" ) )';
-            $q .= ' AND( (`price_quantity_start` IS NULL OR `price_quantity_start`="0" OR `price_quantity_start` <= ' . $quantity . ') AND (`price_quantity_end` IS NULL OR `price_quantity_end`="0" OR `price_quantity_end` >= ' . $quantity . ') )';
+            $q .= '
+            AND (
+                  ( `product_price_publish_up` IS NULL
+                    OR `product_price_publish_up` = "' . $db->getEscaped($this->_nullDate) . '"
+                    OR `product_price_publish_up` <= "' . $db->getEscaped($this->_now) . '"
+                  )
+            ';
+            // если не извлекаем данные для профайла предмета, добавлем проверку окончания даты публикации
+            if(!$this->skip_publish_up_limit) $q.='
+		          AND
+		          ( `product_price_publish_down` IS NULL
+		            OR `product_price_publish_down` = "' . $db->getEscaped($this->_nullDate) . '"
+		            OR product_price_publish_down >= "' . $db->getEscaped($this->_now) . '"
+		          )';
+
+            $q .= '
+            ) 
+            AND
+            (
+              ( `price_quantity_start` IS NULL OR `price_quantity_start`="0"
+                OR `price_quantity_start` <= ' . $quantity . '
+              )
+              AND
+              ( `price_quantity_end` IS NULL
+                OR `price_quantity_end`="0"
+                OR `price_quantity_end` >= ' . $quantity . '
+              )
+            )';
         } else {
             $q .= ' ORDER BY `product_price` DESC';
         }
 
         $db->setQuery($q);
+        //testSQL($q, __FILE__, __LINE__);
         $product->prices = $db->loadAssocList();
         //include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$product->prices, true);
@@ -879,7 +911,7 @@ class VirtueMartModelProduct extends VmModel {
                              'virtuemart_customfield_id' => '#__virtuemart_product_customfields' );
 
             $product = $this->getTable('products');
-            // include_once JPATH_SITE.DS.'tests.php';
+            //include_once JPATH_SITE.DS.'tests.php';
             //commonDebug(__FILE__,__LINE__,$joinIds);
             $product->load($this->_id, 0, 0, $joinIds);
 
@@ -911,8 +943,9 @@ class VirtueMartModelProduct extends VmModel {
             }
 
             $this->getProductPrices($product, $quantity, $virtuemart_shoppergroup_ids, $front);
-
             /* MODIFIED START */
+            include_once JPATH_SITE.DS.'tests.php';
+            //echo "<div>skip_publish_up_limit: ".$this->skip_publish_up_limit."</div>";
             // назначить алиас родительской категории:
             $this->getProductParentSlug($product, $this->_id);
             $db=JFactory::getDbo();
@@ -922,14 +955,19 @@ INNER JOIN #__virtuemart_product_prices AS prices
            ON prices.virtuemart_product_id = prods.virtuemart_product_id
  LEFT JOIN #__virtuemart_currencies AS crns
            ON crns.virtuemart_currency_id = prices.product_currency
-WHERE crns.virtuemart_currency_id = ".$product->product_currency."
+WHERE crns.virtuemart_currency_id = ";
+            $q.=($product->product_currency) ? : '( SELECT product_currency
+      FROM #__virtuemart_product_prices
+     WHERE virtuemart_product_id = '.$this->_id.' ) ';
+            $q.="
   AND prods.virtuemart_product_id = ".$this->_id;
             $qresult = $db->setQuery($q)->loadObject();
             // получить валюту предмета
             $product->currency_symbol=$qresult->currency_symbol;
             // ...номер аукциона
             $product->auction_number=$qresult->auction_number;
-            //testSQL($q,__FILE__,__LINE__,true);
+            //commonDebug(__FILE__,__LINE__,$product);
+            testSQL($q,__FILE__,__LINE__);
             /* MODIFIED END */
 
             //$product = array_merge ($prices, (array)$product);
@@ -1076,7 +1114,7 @@ WHERE crns.virtuemart_currency_id = ".$product->product_currency."
             return $this->fillVoidProduct($front);
         }
         //		}
-        // commonDebug(__FILE__,__LINE__,$product, true);
+        //commonDebug(__FILE__,__LINE__,$product);
         $this->product = $product;
         return $product;
     }

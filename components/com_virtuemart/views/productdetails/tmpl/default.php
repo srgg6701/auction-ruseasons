@@ -247,13 +247,55 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
 <?php    
     endif;?>      
 <?php
-	if((int)$topItem['online']===(int)$Itemid):        
+	if((int)$topItem['online']===(int)$Itemid):
+        //if((int)$this->product->published):
+        $test_time=false;
+        $auction_states=array(  'active'=>'Торги активны',
+                                'passive'=>'Торги не начинались',
+                                'closed'=>'Торги закрыты'
+                            );
+        // торги активны
+        if(DateAndTime::getDelta($this->product->auction_date_finish)<0){
+            $auction_state='active';
+            if($test_time):
+            /* ВНИМАНИЕ! Если время открытия публикации указано после
+                времени закрытия публикации, публикация выставляется в null */
+                if( DateAndTime::getDelta($this->product->product_price_publish_up)>0
+                    && DateAndTime::getDelta($this->product->product_price_publish_down)<0 )
+                    echo "<h4>Предмет опубликован</h4>";
+                else
+                    echo "<h4 class='error-text'>Предмет НЕ опубликован</h4>";
+                // внештатная ситуация - время открытия торгов ПОСЛЕ времени закрытия
+                if(DateAndTime::getDelta($this->product->product_available_date)<=0)
+                    echo "<h4 class='error-text'>Торг НЕ был открыт</h4>";
+            endif;
+        }else{ // торги закрыты
+            if( DateAndTime::getDelta($this->product->product_available_date)<0)
+                $auction_state='passive';
+            else
+                $auction_state='closed';
+        }
+        //commonDebug(__FILE__,__LINE__,$this->product);
+        // todo: убрать закомментированный код:
+            /*echo "<hr/>";
+            echo "<h5>Прошло после</h5>";
+            echo "<div>начала публикации: ".getDelta($this->product->product_price_publish_up)."</div>";
+            echo "<div>конца публикации: ".getDelta($this->product->product_price_publish_down)."</div>";
+            echo "<div>начала аукциона: ".getDelta($this->product->product_available_date)."</div>";
+            echo "<div>закрытия аукциона: ".getDelta($this->product->auction_date_finish)."</div>";*/
+        //endif;
     ?>
       <div id="make_bid">
-<?php   if(JFactory::getUser()->guest==1):            
+<?php   if(JFactory::getUser()->guest==1):
+            if($auction_state=='active'):
     ?>
           Чтобы сделать ставку, вам необходимо <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">заавторизоваться</a>.
-<?php        
+<?php       else:
+    ?>
+                <h4><?php echo $auction_states[$auction_state];
+                ?></h4>
+<?php
+            endif;
         else: require_once "bid.php";
         endif;
 ?>

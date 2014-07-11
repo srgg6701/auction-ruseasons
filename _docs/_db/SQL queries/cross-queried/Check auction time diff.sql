@@ -8,7 +8,11 @@
         prods.auction_date_finish AS date_finish,
         -- NOW() AS now,
         TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,0) AS 'rest_in_minutes',
-        FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS '5_min_plus',
+        CASE WHEN (UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60>0
+                AND (UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60<5
+               THEN FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60)
+             ELSE ' '
+        END                       AS '5_min_plus',
         bidder_user_id, 
         users.username AS login, 
         users.name AS username

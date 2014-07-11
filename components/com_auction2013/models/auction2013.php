@@ -105,8 +105,8 @@ class Auction2013ModelAuction2013 extends JModelLegacy
                                   AS 'minutes_rest',
   FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
           DATE_FORMAT(prods.auction_date_finish,'%h:%i') AS 'expired'
-     FROM auc13_dev_bids AS bids
-LEFT JOIN auc13_virtuemart_products AS prods
+     FROM #__dev_bids AS bids
+LEFT JOIN #__virtuemart_products AS prods
           ON prods.virtuemart_product_id = bids.virtuemart_product_id
 WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
         try{
