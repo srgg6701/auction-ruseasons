@@ -302,16 +302,27 @@ FROM #__virtuemart_products_ru_ru
      */
     public static function getMinBidSum($virtuemart_product_id){
         $db = JFactory::getDbo();
-        $query = "SELECT prices.virtuemart_product_id,
+        $query ="SELECT TRUNCATE(product_price,0)  AS  price,
+  ( SELECT MAX(sum) FROM #__dev_bids
+     WHERE virtuemart_product_id = $virtuemart_product_id
+            AND bidder_user_id = " . JFactory::getUser()->id . " )
+                                  AS  user_max_bid_value,
+  ( SELECT sum FROM #__dev_bids
+     WHERE virtuemart_product_id = $virtuemart_product_id
+      ORDER BY sum DESC LIMIT 1,1)
+                                  AS  second_max_bid_value
+     FROM #__virtuemart_product_prices
+WHERE virtuemart_product_id = $virtuemart_product_id";
+            /*"SELECT prices.virtuemart_product_id,
   TRUNCATE(prices.product_price,0) AS price,
   MAX(sum) AS bid_value
      FROM #__virtuemart_product_prices AS prices
 LEFT JOIN #__dev_bids AS bids
     ON prices.virtuemart_product_id = bids.virtuemart_product_id
-WHERE prices.virtuemart_product_id = $virtuemart_product_id";
+WHERE prices.virtuemart_product_id = $virtuemart_product_id";*/
         $db->setQuery($query);
         $results = $db->loadAssoc();
-        testSQL($query);
+        testSQL($query,__FILE__,__LINE__);
         //commonDebug(__FILE__,__LINE__,$results, true);
         return $results;
     }
@@ -319,7 +330,6 @@ WHERE prices.virtuemart_product_id = $virtuemart_product_id";
      * Получить диапазон шагов ставок  
      */
     public static function getPricesRange($price) {
-        echo "<div>price = $price</div>";
         // получить шаги выставления цен:
         $price_steps = json_decode(file_get_contents(JPATH_SITE . DS. 
                                                      'components' . DS .
@@ -788,11 +798,24 @@ class HTML{
      */
     public static function buildBidsSelect($virtuemart_product_id, $price, $steps = 80){
         $one_step = AuctionStuff::getPricesRange($price);
-        echo "<div>one_step = $one_step</div>";
-        $min_bid_array = AuctionStuff::getMinBidSum($virtuemart_product_id);
-        $bid = ($min_bid_array['bid_value'])?
-                        $min_bid_array['bid_value']+$one_step
-                        : $min_bid_array['price'];
+        $bid_sums = AuctionStuff::getMinBidSum($virtuemart_product_id);
+        $user_max_bid_value     = $bid_sums['user_max_bid_value'];
+        $second_max_bid_value   = $bid_sums['second_max_bid_value'];
+        // ставок не было, указываем в кач-ве первой ставки стартовую цену
+        if(!$user_max_bid_value && !$second_max_bid_value)
+            $bid = $bid_sums['price'];
+        else{ /**
+        ставки были. Алгоритм извлечения начальной ставки:
+          - Если текущая максимальная ставка - у заавторизованного юзера:
+                указать её
+          - Иначе:
+                предыдущую максимальную ставку (не важно, чья она)
+          - Увеличить минимальную ставку на шаг торгов */
+            $bid = ($user_max_bid_value>$second_max_bid_value)?
+                $user_max_bid_value
+                : $second_max_bid_value;
+            $bid+=$one_step;
+        }
         $options = '';
         while($steps) {
             $options.="

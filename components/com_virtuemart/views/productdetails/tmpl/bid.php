@@ -1,5 +1,13 @@
 <hr/>
 <?php
+if($auction_state!='active'): // торги не открывались или уже завершились:
+?>
+<h4 class="lock">
+<?php echo $auction_states[$auction_state];?>
+</h4>
+<hr/>
+<?php
+endif;
 /**
  ставка не добавлена, потому что пока игрок (или система) жевали сопли,
  минимальная ставка превысила ту, что    */
@@ -96,10 +104,5 @@ function switchSections(step){
     });
 }(jQuery));
 </script>
-<?php
-else: // торги не открывались или уже завершились:
-    ?>
-    <h4><?php echo $auction_states[$auction_state];
-?></h4>
 <?
 endif;

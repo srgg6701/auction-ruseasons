@@ -19,8 +19,7 @@ SELECT
   prod_prices.product_price,
   sales_prices.price2                     AS 'final_price',
   sales_prices.min_price                  AS 'minimal_price',
-  IF(shop_orders.status IS NOT NULL, shop_orders.status, '') 
-                                          AS 'ordered',
+  -- IF(shop_orders.status IS NOT NULL, shop_orders.status, '') AS 'ordered',
   (SELECT COUNT(*) FROM auc13_dev_bids WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS 'bids',
   prod_prices.product_price_publish_up    AS publish_up,
@@ -55,7 +54,7 @@ SELECT
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  -- WHERE   'categories' LIKE '22:%' 
+  WHERE   prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
             -- prod_ru_ru.product_name LIKE '%»кона%' AND
             -- sales_prices.sales_price IS NOT null
   ORDER BY prod_ru_ru.product_name LIMIT 500

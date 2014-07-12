@@ -956,6 +956,7 @@ INNER JOIN #__virtuemart_product_prices AS prices
  LEFT JOIN #__virtuemart_currencies AS crns
            ON crns.virtuemart_currency_id = prices.product_currency
 WHERE crns.virtuemart_currency_id = ";
+            // подстраховочная мера, на случай, если отвалится извлечение валюты
             $q.=($product->product_currency) ? : '( SELECT product_currency
       FROM #__virtuemart_product_prices
      WHERE virtuemart_product_id = '.$this->_id.' ) ';
@@ -967,7 +968,7 @@ WHERE crns.virtuemart_currency_id = ";
             // ...номер аукциона
             $product->auction_number=$qresult->auction_number;
             //commonDebug(__FILE__,__LINE__,$product);
-            testSQL($q,__FILE__,__LINE__);
+            //testSQL($q,__FILE__,__LINE__);
             /* MODIFIED END */
 
             //$product = array_merge ($prices, (array)$product);

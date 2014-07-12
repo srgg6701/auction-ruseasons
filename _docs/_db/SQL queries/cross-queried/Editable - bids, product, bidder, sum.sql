@@ -1,7 +1,7 @@
-﻿SELECT  bids.id, 
-        bids.virtuemart_product_id, 
+﻿SELECT  bids.id AS bid_id, 
+        bids.virtuemart_product_id AS product_id, 
         prod_ru.product_name, 
-        bidder_user_id, 
+        bidder_user_id AS user_id, 
         users.username AS login, 
         users.name AS username, 
         sum-- , datetime
@@ -10,4 +10,5 @@
             ON prod_ru.virtuemart_product_id = bids.virtuemart_product_id
   INNER JOIN auc13_users AS users 
             ON users.id = bids.bidder_user_id
-  ORDER BY prod_ru.product_name, bids.id DESC
+  ORDER BY prod_ru.product_name, bids.id DESC 
+  -- LIMIT 2,1
