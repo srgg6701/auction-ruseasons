@@ -1,4 +1,4 @@
-﻿SET @user_id    = 386;
+﻿SET @user_id    = 385;
 SET @product_id = 2702;
 SELECT                           virtuemart_product_id,
   TRUNCATE(product_price,0)  AS  price,

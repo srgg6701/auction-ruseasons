@@ -3,7 +3,7 @@
         prod_ru.product_name, 
         bidder_user_id AS user_id, 
         users.username AS login, 
-        users.name AS username, 
+        users.name AS name, 
         sum-- , datetime
   FROM auc13_dev_bids AS bids
   INNER JOIN auc13_virtuemart_products_ru_ru AS prod_ru 
