@@ -31,7 +31,9 @@ if(JFactory::getUser()->guest!=1):?>
  (ваши выделены жирным)<?php
 endif;?>:
 <div id="bids-history">
-<?php echo HTML::buildBidsHistory($this->product->virtuemart_product_id);
+<?php
+$history = AuctionStuff::getBidsHistory($this->product->virtuemart_product_id);
+echo HTML::buildBidsHistory($this->product->virtuemart_product_id, $history);
 ?>
 </div>
 <?php
@@ -46,7 +48,7 @@ if($auction_state=='active'):
 	<section id="bid_step_1">
     <?php
     // построить список возможных ставок
-    $options = HTML::buildBidsSelect($this->product->virtuemart_product_id,$this->product->prices['basePriceVariant']);
+    $options = HTML::buildBidsSelect($this->product->virtuemart_product_id,$this->product->prices['basePriceVariant'],$history);
     ?>
     <select name="bids" id="sel_bids">
         <option value="0">-Укажите свою ставку-</option>

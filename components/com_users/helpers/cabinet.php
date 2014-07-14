@@ -352,8 +352,50 @@ $(function(){
  * @package
  * @subpackage
  */
-	function layout_bids($user_id){?>
-    <H1>Мои лоты</H1>
+
+    function layout_bids($user_id){
+        $topItemOnline = AuctionStuff::getTopCatsMenuItemIds('main',false, 'online');
+        //commonDebug(__FILE__,__LINE__,$topItemOnline, true);
+        $userLots=AuctionStuff::getUserLots($user_id);
+        ?>
+    <table id="tbl-my_bids" class="cabinet" cellpadding="2">
+      <tr>
+        <th>Название предмета</th>
+        <th>Окончание</th>
+        <th>Ставка</th>
+        <th>Кол-во</th>
+        <th>Макс. ставка</th>
+        <th>Статус</th>
+      </tr>
+<?php   // include_once JPATH_SITE.DS.'tests.php';
+        commonDebug(__FILE__,__LINE__,$userLots);
+        foreach($userLots as $i=>$data):
+?>      
+      <tr>
+        <td><a href="<?php echo JRoute::_( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='
+                . $data['virtuemart_product_id'] . '&virtuemart_category_id='
+                . $data['virtuemart_category_id'] . '&Itemid='
+                . $topItemOnline['online'] );?>"><?php
+        echo $data['item_name'];?></a></td>
+        <td><?php echo $data['auction_date_finish'];?></td>
+        <td><?php echo $data['user_max_bid'];?></td>
+        <td><?php echo $data['count'];?></td>
+        <td><?php echo $data['max_bid'];?></td>
+        <td><?php
+
+            //
+            echo $data[''];?></td>
+      </tr>
+<?php	endforeach;
+        if(!$i):
+?>
+      <tr>
+        <td colspan="6">У вас нет ставок</td>
+      </tr>
+<?php   endif;
+?>
+    </table>
+
 <?php }
     /**
      * Покупки (заявленные, закрытые)

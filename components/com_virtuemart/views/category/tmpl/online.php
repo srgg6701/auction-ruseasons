@@ -144,7 +144,9 @@ if (!empty($this->products)) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
-<?php HTML::setVmPagination(); /*?>
+<?php HTML::setVmPagination();
+ // todo: убрать закомментированный код
+ /*?>
 <script>
 (function($){
     $('span.lot').on({

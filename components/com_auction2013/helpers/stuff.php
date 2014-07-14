@@ -313,16 +313,9 @@ FROM #__virtuemart_products_ru_ru
                                   AS  second_max_bid_value
      FROM #__virtuemart_product_prices
 WHERE virtuemart_product_id = $virtuemart_product_id";
-            /*"SELECT prices.virtuemart_product_id,
-  TRUNCATE(prices.product_price,0) AS price,
-  MAX(sum) AS bid_value
-     FROM #__virtuemart_product_prices AS prices
-LEFT JOIN #__dev_bids AS bids
-    ON prices.virtuemart_product_id = bids.virtuemart_product_id
-WHERE prices.virtuemart_product_id = $virtuemart_product_id";*/
         $db->setQuery($query);
         $results = $db->loadAssoc();
-        testSQL($query,__FILE__,__LINE__);
+        //testSQL($query,__FILE__,__LINE__);
         //commonDebug(__FILE__,__LINE__,$results, true);
         return $results;
     }
@@ -612,6 +605,39 @@ WHERE cats_cats.category_parent_id = 0";
 		}//die();
 		return $ItemIds;
 	}
+    /**
+     * Получить лоты юзера
+     */
+    public static function getUserLots($user_id=NULL){
+        if(!$user_id)
+            $user_id = JFactory::getUser()->id;
+        $db = JFactory::getDbo();
+        $query = "SELECT prod.virtuemart_product_id    AS  product_id,
+       prod_ru_ru.product_name       AS  'item_name',
+       prod.                             auction_date_finish,
+  ( SELECT MAX(sum)
+      FROM #__dev_bids
+     WHERE bidder_user_id = bids.bidder_user_id
+           AND virtuemart_product_id = prod.virtuemart_product_id
+  )                                  AS  user_max_bid,
+  '?'                                AS  'count',
+  ( SELECT MAX(sum)
+      FROM #__dev_bids
+     WHERE virtuemart_product_id = prod.virtuemart_product_id
+  )                                  AS  max_bid,
+  prod_cats.                             virtuemart_category_id
+        FROM #__virtuemart_products                AS prod
+  INNER JOIN #__virtuemart_products_ru_ru          AS prod_ru_ru
+          ON prod.virtuemart_product_id = prod_ru_ru.virtuemart_product_id
+   LEFT JOIN #__virtuemart_product_categories      AS prod_cats
+              ON prod_cats.virtuemart_product_id    = prod.virtuemart_product_id
+   LEFT JOIN #__dev_bids                           AS bids
+              ON bids.virtuemart_product_id         = prod.virtuemart_product_id
+  WHERE     bids.bidder_user_id = " . $user_id;
+        $db->setQuery($query);
+        $results = $db->loadAssocList();
+        return $results;
+    }
 //shop'
 /**
  * Generate HTML form
@@ -764,8 +790,7 @@ class HTML{
     /**
      * Построить историю ставок по предмету
      */
-    public static function buildBidsHistory($virtuemart_product_id){
-        $history = AuctionStuff::getBidsHistory($virtuemart_product_id);
+    public static function buildBidsHistory($virtuemart_product_id,$history){
         //commonDebug(__FILE__,__LINE__,$history);
         $html = '<table id="tbl-bid-history" rules="rows" border="1">
         <tr>
@@ -776,13 +801,24 @@ class HTML{
 		$user = JFactory::getUser();
 		$username=($user->guest!=1)? $user->username:false;
         if(!empty($history)){
+            $bid_sums = AuctionStuff::getMinBidSum($virtuemart_product_id);
+            // commonDebug(__FILE__,__LINE__,$bid_sums);
             foreach ($history as $i=>$record) {
                 $html.='<tr';
                 if($username&&(int)$username==(int)$record['username'])
                     $html.=' class="bold"';
                 $html.='>
             <td>' . $record['username'] . '</td>
-            <td>' . $record['sum'] . '</td>
+            <td>';
+                $html.=(!$i
+                        && (int)$bid_sums['user_max_bid_value']!==(int)$record['sum']
+                        && $bid_sums['second_max_bid_value']
+                       )?
+                    'макс. бид:
+        <span style="background-color:yellow; margin-right:-2px; padding:1px 4px;">' .
+                    $record['sum'] . '</span>'
+                    : $record['sum'];
+                $html.='</td>
             <td>' . $record['datetime'] . '</td>
         </tr>';
             }
@@ -796,26 +832,36 @@ class HTML{
      * В качестве начальной ставки считает либо последнюю ставку, либо, если ставок
      * не было, стоимость предмета
      */
-    public static function buildBidsSelect($virtuemart_product_id, $price, $steps = 80){
+    public static function buildBidsSelect(
+                                $virtuemart_product_id,
+                                $price,
+                                $history=null,
+                                $steps = 80 ){
+        // получить шаг ставок
         $one_step = AuctionStuff::getPricesRange($price);
+        // получить минимальную ставку
         $bid_sums = AuctionStuff::getMinBidSum($virtuemart_product_id);
         $user_max_bid_value     = $bid_sums['user_max_bid_value'];
         $second_max_bid_value   = $bid_sums['second_max_bid_value'];
-        // ставок не было, указываем в кач-ве первой ставки стартовую цену
-        if(!$user_max_bid_value && !$second_max_bid_value)
-            $bid = $bid_sums['price'];
-        else{ /**
-        ставки были. Алгоритм извлечения начальной ставки:
-          - Если текущая максимальная ставка - у заавторизованного юзера:
+        // по умолчанию (ставок не было) указываем в кач-ве первой ставки стартовую цену
+        $bid = $bid_sums['price'];
+        if($history){ // ставки были.
+            // первая ставка не равна начальной цене - была ставка кого-либо из игроков
+            if($user_max_bid_value||$second_max_bid_value){
+                /**
+                Алгоритм извлечения начальной ставки:
+                - Если текущая максимальная ставка - у заавторизованного юзера:
                 указать её
-          - Иначе:
+                - Иначе:
                 предыдущую максимальную ставку (не важно, чья она)
-          - Увеличить минимальную ставку на шаг торгов */
-            $bid = ($user_max_bid_value>$second_max_bid_value)?
-                $user_max_bid_value
-                : $second_max_bid_value;
+                - Увеличить минимальную ставку на шаг торгов */
+                $bid = ($user_max_bid_value>$second_max_bid_value)?
+                    $user_max_bid_value
+                    : $second_max_bid_value;
+            }
             $bid+=$one_step;
         }
+
         $options = '';
         while($steps) {
             $options.="

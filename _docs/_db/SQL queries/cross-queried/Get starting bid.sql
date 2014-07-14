@@ -1,5 +1,5 @@
 ﻿SET @user_id    = 385;
-SET @product_id = 2702;
+SET @product_id = 2772;
 SELECT                           virtuemart_product_id,
   TRUNCATE(product_price,0)  AS  price,
   ( SELECT MAX(sum) FROM auc13_dev_bids 
