@@ -611,7 +611,7 @@ WHERE cats_cats.category_parent_id = 0";
         if(!$user_id)
             $user_id = JFactory::getUser()->id;
         $db = JFactory::getDbo();
-        $query = "SELECT prod.virtuemart_product_id,
+        $query = "SELECT DISTINCT prod.virtuemart_product_id,
        prod_ru_ru.product_name       AS  'item_name',
        prod.                             auction_date_finish,
   ( SELECT MAX(sum)
@@ -630,9 +630,10 @@ WHERE cats_cats.category_parent_id = 0";
           ON prod.virtuemart_product_id = prod_ru_ru.virtuemart_product_id
    LEFT JOIN #__virtuemart_product_categories      AS prod_cats
               ON prod_cats.virtuemart_product_id    = prod.virtuemart_product_id
-   LEFT JOIN #__dev_bids                           AS bids
+  INNER JOIN #__dev_bids                           AS bids
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id
   WHERE     bids.bidder_user_id = " . $user_id;
+        //testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         $results = $db->loadAssocList();
         return $results;
