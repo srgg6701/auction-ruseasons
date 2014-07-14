@@ -363,7 +363,6 @@ $(function(){
         <th>Название предмета</th>
         <th>Окончание</th>
         <th>Ставка</th>
-        <th>Кол-во</th>
         <th>Макс. ставка</th>
         <th>Статус</th>
       </tr>
@@ -379,13 +378,16 @@ $(function(){
                             $topItemOnline['online'] );?>"><?php
         echo $data['item_name'];?></a></td>
         <td><?php echo $data['auction_date_finish'];?></td>
-        <td><?php echo $data['user_max_bid'];?></td>
-        <td><?php echo $data['count'];?></td>
+        <td><?php echo ($data['user_max_lot'])? :$data['user_max_bid'];?></td>
         <td><?php echo $data['max_bid'];?></td>
         <td><?php
-
-            //
-            echo $data[''];?></td>
+            if((int)$data['max_bid']==(int)$data['user_max_bid']):?>
+                Покупатель
+        <?php
+            else:?>
+                Участник торгов
+        <?php
+            endif;?></td>
       </tr>
 <?php	endforeach;
         if(!$i):

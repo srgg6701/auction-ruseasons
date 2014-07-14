@@ -614,16 +614,24 @@ WHERE cats_cats.category_parent_id = 0";
         $query = "SELECT DISTINCT prod.virtuemart_product_id,
        prod_ru_ru.product_name       AS  'item_name',
        prod.                             auction_date_finish,
-  ( SELECT MAX(sum)
+  ( SELECT sum
       FROM #__dev_bids
      WHERE bidder_user_id = bids.bidder_user_id
            AND virtuemart_product_id = prod.virtuemart_product_id
-  )                                  AS  user_max_bid,
-  '?'                                AS  'count',
+     ORDER BY sum DESC
+      LIMIT 1,1
+  )                                  AS  user_max_lot,
+  -- '?'                                AS  'count',
   ( SELECT MAX(sum)
       FROM #__dev_bids
      WHERE virtuemart_product_id = prod.virtuemart_product_id
-  )                                  AS  max_bid,
+           AND bidder_user_id = bids.bidder_user_id
+  )                                  AS  user_max_bid,
+  ( SELECT MAX(sum)
+      FROM #__dev_bids
+     WHERE virtuemart_product_id = prod.virtuemart_product_id
+  )                                  AS  'max_bid',
+
   prod_cats.                             virtuemart_category_id
         FROM #__virtuemart_products                AS prod
   INNER JOIN #__virtuemart_products_ru_ru          AS prod_ru_ru
@@ -633,7 +641,7 @@ WHERE cats_cats.category_parent_id = 0";
   INNER JOIN #__dev_bids                           AS bids
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id
   WHERE     bids.bidder_user_id = " . $user_id;
-        //testSQL($query,__FILE__, __LINE__);
+        // testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         $results = $db->loadAssocList();
         return $results;
