@@ -16,10 +16,11 @@ require_once JPATH_SITE.DS.'tests.php';
  * @since		1.6
  */
 class AuctionStuff{
-    static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
     static $andLayout = '&layout=';
+    static $bid_sums = NULL;
+    static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
     static $vm_category_id = '&virtuemart_category_id=';
-/**
+    /**
  * Добавить предмет в избранное
  * @package
  * @subpackage
@@ -127,7 +128,7 @@ class AuctionStuff{
   AND bids.bidder_user_id = users.id 
   ORDER BY bids.id DESC";
         $db->setQuery($query);
-        //testSQL($query,__FILE__,__LINE__,TRUE);
+        //testSQL($query,__FILE__,__LINE__);
         //commonDebug(__FILE__,__LINE__,$db->loadAssocList(), true);
         return $db->loadAssocList();
     }
@@ -279,6 +280,33 @@ FROM #__virtuemart_products_ru_ru
         return $product_price;
     }
     /**
+     * Получить начальное значение ставок
+     */
+    public static function getFirstBidValue($virtuemart_product_id,$history){
+        // получить минимальную ставку
+        $bid_sums=AuctionStuff::getMinBidSum($virtuemart_product_id);
+        $user_max_bid_value     = $bid_sums['user_max_bid_value'];
+        $second_max_bid_value   = $bid_sums['second_max_bid_value'];
+        // по умолчанию (ставок не было) указываем в кач-ве первой ставки стартовую цену
+        $min_bid = $bid_sums['price'];
+        if($history){ // ставки были.
+            // первая ставка не равна начальной цене - была ставка кого-либо из игроков
+            if($user_max_bid_value||$second_max_bid_value){
+                /**
+                Алгоритм извлечения начальной ставки:
+                - Если текущая максимальная ставка - у заавторизованного юзера:
+                указать её
+                - Иначе:
+                предыдущую максимальную ставку (не важно, чья она)
+                - Увеличить минимальную ставку на шаг торгов */
+                $min_bid = ($user_max_bid_value>$second_max_bid_value)?
+                    $user_max_bid_value
+                    : $second_max_bid_value;
+            }
+        }
+        return $min_bid;
+    }
+    /**
      * Получить последнюю ставку
      */
     public static function getMaxBidSum($virtuemart_product_id){
@@ -300,8 +328,9 @@ FROM #__virtuemart_products_ru_ru
      *  значением минимальной ставки считается первый
      */
     public static function getMinBidSum($virtuemart_product_id){
-        $db = JFactory::getDbo();
-        $query ="SELECT TRUNCATE(product_price,0)  AS  price,
+        if(!AuctionStuff::$bid_sums){
+            $db = JFactory::getDbo();
+            $query ="SELECT TRUNCATE(product_price,0)  AS  price,
   ( SELECT MAX(sum) FROM #__dev_bids
      WHERE virtuemart_product_id = $virtuemart_product_id
             AND bidder_user_id = " . JFactory::getUser()->id . " )
@@ -312,11 +341,13 @@ FROM #__virtuemart_products_ru_ru
                                   AS  second_max_bid_value
      FROM #__virtuemart_product_prices
 WHERE virtuemart_product_id = $virtuemart_product_id";
-        $db->setQuery($query);
-        $results = $db->loadAssoc();
-        //testSQL($query,__FILE__,__LINE__);
-        //commonDebug(__FILE__,__LINE__,$results, true);
-        return $results;
+            $db->setQuery($query);
+            $results = $db->loadAssoc();
+            //testSQL($query,__FILE__,__LINE__);
+            //commonDebug(__FILE__,__LINE__,$results, true);
+            AuctionStuff::$bid_sums = $results;
+        } // $bid_sums=AuctionStuff::$bid_sums=AuctionStuff::getMinBidSum($virtuemart_product_id);
+        return AuctionStuff::$bid_sums;
     }
     /**
      * Получить диапазон шагов ставок  
@@ -810,23 +841,16 @@ class HTML{
 		$username=($user->guest!=1)? $user->username:false;
         if(!empty($history)){
             $bid_sums = AuctionStuff::getMinBidSum($virtuemart_product_id);
-            // commonDebug(__FILE__,__LINE__,$bid_sums);
+            //commonDebug(__FILE__,__LINE__,$bid_sums);
             foreach ($history as $i=>$record) {
+                if(!$i&&(int)$bid_sums['user_max_bid_value']<(int)$record['sum'])
+                    continue;
                 $html.='<tr';
                 if($username&&(int)$username==(int)$record['username'])
                     $html.=' class="bold"';
                 $html.='>
             <td>' . $record['username'] . '</td>
-            <td>';
-                $html.=(!$i
-                        && (int)$bid_sums['user_max_bid_value']!==(int)$record['sum']
-                        && $bid_sums['second_max_bid_value']
-                       )?
-                    'макс. бид:
-        <span style="background-color:yellow; margin-right:-2px; padding:1px 4px;">' .
-                    $record['sum'] . '</span>'
-                    : $record['sum'];
-                $html.='</td>
+            <td>' . $record['sum'].'</td>
             <td>' . $record['datetime'] . '</td>
         </tr>';
             }
@@ -847,29 +871,8 @@ class HTML{
                                 $steps = 80 ){
         // получить шаг ставок
         $one_step = AuctionStuff::getPricesRange($price);
-        // получить минимальную ставку
-        $bid_sums = AuctionStuff::getMinBidSum($virtuemart_product_id);
-        $user_max_bid_value     = $bid_sums['user_max_bid_value'];
-        $second_max_bid_value   = $bid_sums['second_max_bid_value'];
-        // по умолчанию (ставок не было) указываем в кач-ве первой ставки стартовую цену
-        $bid = $bid_sums['price'];
-        if($history){ // ставки были.
-            // первая ставка не равна начальной цене - была ставка кого-либо из игроков
-            if($user_max_bid_value||$second_max_bid_value){
-                /**
-                Алгоритм извлечения начальной ставки:
-                - Если текущая максимальная ставка - у заавторизованного юзера:
-                указать её
-                - Иначе:
-                предыдущую максимальную ставку (не важно, чья она)
-                - Увеличить минимальную ставку на шаг торгов */
-                $bid = ($user_max_bid_value>$second_max_bid_value)?
-                    $user_max_bid_value
-                    : $second_max_bid_value;
-            }
-            $bid+=$one_step;
-        }
-
+        $bid = AuctionStuff::getFirstBidValue($virtuemart_product_id, $history);
+        if($history) $bid+=$one_step;
         $options = '';
         while($steps) {
             $options.="
@@ -879,6 +882,21 @@ class HTML{
             $steps--;
         }
         return $options;
+    }
+/**
+ * Получить HTML истории и списка выбора ставок
+ */
+    public static function getBidsHTML($virtuemart_product_id,$price){
+        $history        = AuctionStuff::getBidsHistory( // getMinBidSUm
+            $virtuemart_product_id);
+        $bids_history   = self::buildBidsHistory( // getMinBidSum
+            $virtuemart_product_id,
+            $history );
+        $options = self::buildBidsSelect(
+            $virtuemart_product_id,
+            $price,
+            $history);
+        return array('bids_history'=>$bids_history, 'options'=>$options);
     }
     /**
      * Описание
