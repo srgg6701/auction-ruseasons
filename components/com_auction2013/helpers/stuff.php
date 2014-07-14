@@ -93,15 +93,14 @@ class AuctionStuff{
  * @package
  * @subpackage
  */
-	public static function extractProductLink($virtuemart_category_id,$slug){
-		$app=&JFactory::getApplication();
-		$router = $app->getRouter();
-		if($SefMode=$router->getMode()){
-			//echo "<div class=''>category_link= ".AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id)."/$slug-detail</div>";
-			return AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id).'/'.$slug.'-detail';
-		}else{
-			return JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='.$virtuemart_category_id).'&virtuemart_product_id='.$virtuemart_product_id;	
-		}
+	public static function extractProductLink(
+                                    $virtuemart_product_id,
+                                    $virtuemart_category_id,
+                                    $Itemid ){
+		return JRoute::_( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='
+            . $virtuemart_product_id . '&virtuemart_category_id='
+            . $virtuemart_category_id . '&Itemid='
+            . $Itemid );
 	}
 /**
  * Получить контент статьи
@@ -612,7 +611,7 @@ WHERE cats_cats.category_parent_id = 0";
         if(!$user_id)
             $user_id = JFactory::getUser()->id;
         $db = JFactory::getDbo();
-        $query = "SELECT prod.virtuemart_product_id    AS  product_id,
+        $query = "SELECT prod.virtuemart_product_id,
        prod_ru_ru.product_name       AS  'item_name',
        prod.                             auction_date_finish,
   ( SELECT MAX(sum)

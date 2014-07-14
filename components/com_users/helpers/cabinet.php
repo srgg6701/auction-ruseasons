@@ -305,8 +305,9 @@ Email				email
 			foreach($favorites as $virtuemart_product_id => $product_data){?>
 			<tr<?php 
 			if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?php }?> valign="top">
-            	<td><?php $product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug']); //,$virtuemart_product_id
-				?><a href="<?php echo $product_link; 
+            	<td><a href="<?php
+
+                    echo AuctionStuff::extractProductLink($virtuemart_product_id,$product_data['virtuemart_category_id'],JRequest::getVar('Itemid'));
 				
 				?>"><?=$product_data['product_name']?></a>
                 <button value="<?=$virtuemart_product_id?>">Удалить из избранного</button></td>
@@ -352,7 +353,6 @@ $(function(){
  * @package
  * @subpackage
  */
-
     function layout_bids($user_id){
         $topItemOnline = AuctionStuff::getTopCatsMenuItemIds('main',false, 'online');
         //commonDebug(__FILE__,__LINE__,$topItemOnline, true);
@@ -368,14 +368,15 @@ $(function(){
         <th>Статус</th>
       </tr>
 <?php   // include_once JPATH_SITE.DS.'tests.php';
-        commonDebug(__FILE__,__LINE__,$userLots);
+        //commonDebug(__FILE__,__LINE__,$userLots);
         foreach($userLots as $i=>$data):
 ?>      
       <tr>
-        <td><a href="<?php echo JRoute::_( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='
-                . $data['virtuemart_product_id'] . '&virtuemart_category_id='
-                . $data['virtuemart_category_id'] . '&Itemid='
-                . $topItemOnline['online'] );?>"><?php
+          <td><a href="<?php
+      echo AuctionStuff::extractProductLink(
+                            $data['virtuemart_product_id'],
+                            $data['virtuemart_category_id'],
+                            $topItemOnline['online'] );?>"><?php
         echo $data['item_name'];?></a></td>
         <td><?php echo $data['auction_date_finish'];?></td>
         <td><?php echo $data['user_max_bid'];?></td>
