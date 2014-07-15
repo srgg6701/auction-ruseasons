@@ -98,10 +98,23 @@ class Auction2013ModelAuction2013 extends JModelLegacy
           ["task"]=>                    "makeBid"
           ["Itemid"]=>                  "125"
           ["virtuemart_category_id"]=>  "33"  */
-        $table_bids = '#__dev_bids';
-        // проверить, превышает ли ставка юзера минимально допустимую
+        $table_bids         = '#__dev_bids';        // ставки
+        $table_user_bids    = '#__dev_user_bids';   // заочные биды
+        // проверить, превышает ли ставка юзера текущий максимальный заочный бид
         $db = JFactory::getDbo();
-        $query = "SELECT MAX(sum) AS current_max_bid,
+        $query = "SELECT MAX(sum) AS 'current_max_sum',
+                       MAX(value) AS 'current_max_bid',
+  TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
+                                  AS 'minutes_rest',
+  FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
+          DATE_FORMAT(prods.auction_date_finish,'%h:%i') AS 'expired'
+     FROM #__virtuemart_products AS prods
+LEFT JOIN $table_bids AS bids
+          ON prods.virtuemart_product_id = bids.virtuemart_product_id
+LEFT JOIN $table_user_bids AS user_bids
+          ON bid_id = bids.id
+WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
+        /*SELECT MAX(sum) AS 'current_max_bid',
   TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
                                   AS 'minutes_rest',
   FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
@@ -109,7 +122,7 @@ class Auction2013ModelAuction2013 extends JModelLegacy
      FROM #__virtuemart_products AS prods
 LEFT JOIN #__dev_bids AS bids
           ON prods.virtuemart_product_id = bids.virtuemart_product_id
-WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
+WHERE prods.virtuemart_product_id = */
         //
         try{
             $db->setQuery($query);
@@ -124,6 +137,7 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
                 return array('expired',$results['expired']);
             else{
                 $current_max_bid = (int)$results['current_max_bid'];
+                $current_max_sum = (int)$results['current_max_sum'];
                 if(!$current_max_bid) $current_max_bid = 0;
                 $plus5min = $results['plus5min'];
             }
@@ -145,11 +159,11 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
         // проверить, нет ли уже такой записи:
         // todo: прояснить вопрос - нужна ли эта проверка вообще, т.к. выше оно проверяет, является ли входящая ставка больше последней добавленной
         $query = "SELECT COUNT(*)
-  FROM #__dev_bids AS bids
+  FROM $table_bids AS bids
  WHERE virtuemart_product_id = ".$post['virtuemart_product_id']."
    AND bidder_user_id = $bidder_user_id
-   AND sum = ( SELECT sum FROM #__dev_bids      AS bids2,
-                               #__dev_user_bids AS ubids
+   AND sum = ( SELECT sum FROM $table_bids      AS bids2,
+                               $table_user_bids AS ubids
                 WHERE ubids.bid_id = bids.id
                   AND ubids.value = ".$post['bids'].")";
         $db->setQuery($query);
@@ -162,73 +176,68 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
             if($result) die('Запись уже существует');
             else echo('Запись новая');
         }
-        // если входящая ставка больше текущей максимальной:
-        if((int)$post['bids']>$current_max_bid){
-            /* todo: 1. разобраться с разнесением и отображением ЗБ и ставок
-                     2. проверять время окончания аукциона, возвращать метку
-            */
-            /**
-             добавить запись в таблицу ставок */
-            /**
+        /**
+         добавить запись в таблицу ставок
             рассчитать величину добавляемой ставки:
             - получить шаг торгов
             - Если ставки уже были
-                - прибавить к последней шаг торгов (указанный юзером бид будет записан в табл. dev_users_bid)
+                - если выбранная ставка больше текущего максимального заочного бида
+                    - прибавить к этому значению шаг торогов
+                - иначе
+                    - прибавить к последней ставке шаг торгов (указанный юзером бид будет записан в табл. dev_users_bid)
             - Иначе
-                - записать значение входящей ставке
-             */
-            $bid_value = ($current_max_bid)?
-                $current_max_bid+$step
-                : $post['bids'];
-            $data = new stdClass();
-            $data->virtuemart_product_id=$post['virtuemart_product_id'];
-            $data->bidder_user_id = $bidder_user_id;
-            $data->sum=$bid_value;
-            $data->datetime=date('Y-m-d H:i:s');
+                - записать значение входящей ставки */
+        $user_bid_value = (int)$post['bids']; // назначить по умолчанию
+        if($current_max_bid){ // ставки уже были
+            $user_bid_value = ($user_bid_value>$current_max_bid)? // бид юзера больше всех текущих?
+                $current_max_bid // взять за базовое значение текущий максимальный бид
+                : $current_max_sum; // взять за базовое значение текущую максимальную ставку
+            $user_bid_value+=$step; // увеличить на шаг торгов
+        }
+        // добавить запись в таблицу ставок
+        $data = new stdClass();
+        $data->virtuemart_product_id=$post['virtuemart_product_id'];
+        $data->bidder_user_id = $bidder_user_id;
+        $data->sum=$user_bid_value;
+        $data->datetime=date('Y-m-d H:i:s');
+        try{
+            $db = JFactory::getDbo();
+            $db->insertObject($table_bids, $data);
             try{
-                $db = JFactory::getDbo();
-                $db->insertObject($table_bids, $data);
-                try{
-                    // удалить ненужные данные из объекта
-                    unset(  $data->virtuemart_product_id,
+                /**
+                добавить запись в таблицу заочных бидов
+                    удалить ненужные данные из объекта: */
+                unset(  $data->virtuemart_product_id,
                         $data->bidder_user_id,
                         $data->sum,
                         $data->datetime
-                    );
-                    // добавить запись в таблицу заочных бидов
-                    $data->bid_id = $db->insertid();
-                    $data->value=$post['bids'];
-                    $db->insertObject('#__dev_user_bids', $data);
-                    //if($test) die("<div>Проверить добавление ставки и бида!</div>");
-                }catch(Exception $e){
-                    echo "<div>Ошибка добавления бида:</div>";
-                    die("<div>".$e->getMessage()."</div>");
-                }
-
+                     );
+                $data->bid_id = $db->insertid();
+                $data->value=$post['bids'];
+                $db->insertObject($table_user_bids, $data);
+                //if($test) die("<div>Проверить добавление ставки и бида!</div>");
             }catch(Exception $e){
-                echo "<div>Ошибка добавления ставки:</div>";
+                echo "<div>Ошибка добавления бида:</div>";
                 die("<div>".$e->getMessage()."</div>");
             }
-            // если до окончания торгов осталось меньше 5 мин, продлить
-            if($minutes_rest<5){
-                try{
-                    $object = new stdClass();
-                    $object->virtuemart_product_id = $post['virtuemart_product_id'];
-                    $object->auction_date_finish = $plus5min;
-                    JFactory::getDbo()->updateObject('#__virtuemart_products', $object, 'virtuemart_product_id');
-                }catch(Exception $e){
-                    echo "<div>Ошибка обновления времени окончания аукциона:</div>";
-                    echo "<div>".$e->getMessage()."</div>";
-                }
-            }
-            return true;
-        }else{
-            if($test) {
-                echo "<div>Входящий бид (".(int)$post['bids'].")
-                НЕ больше текущей ставки (".$current_max_bid.")</div>";
-            }
-            return false;
+
+        }catch(Exception $e){
+            echo "<div>Ошибка добавления ставки:</div>";
+            die("<div>".$e->getMessage()."</div>");
         }
+        // если до окончания торгов осталось меньше 5 мин, продлить
+        if($minutes_rest<5){
+            try{
+                $object = new stdClass();
+                $object->virtuemart_product_id = $post['virtuemart_product_id'];
+                $object->auction_date_finish = $plus5min;
+                JFactory::getDbo()->updateObject('#__virtuemart_products', $object, 'virtuemart_product_id');
+            }catch(Exception $e){
+                echo "<div>Ошибка обновления времени окончания аукциона:</div>";
+                echo "<div>".$e->getMessage()."</div>";
+            }
+        }
+        return true;
     }
     /**
      * Добавить предмет в корзину юзера через VM

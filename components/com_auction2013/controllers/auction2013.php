@@ -153,8 +153,8 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
              * ставка сделана - загрузить раздел ставок в кабинете юзера */
             $this->setRedirect('index.php?option=com_users&view=cabinet&layout=bids');
         }else{ /**
-                * не превышена минимальная текущая ставка -
-                  вернуться в профайл предмета и вывести сообщение */
+                * array
+                * вернуться в профайл предмета и вывести сообщение */
             $link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                                 $post['virtuemart_product_id'] .
                                 '&virtuemart_category_id=' .$post['virtuemart_category_id'] .

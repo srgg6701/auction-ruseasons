@@ -25,7 +25,7 @@
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id   
   INNER JOIN auc13_users                              AS users
               ON users.id = bids.bidder_user_id
-  WHERE     prod.virtuemart_product_id = 2702
+  -- WHERE     prod.virtuemart_product_id = 2702
   -- bids.bidder_user_id = 385
   -- GROUP BY prod_ru_ru.product_name 
   ORDER BY prod_ru_ru.product_name, sum DESC
