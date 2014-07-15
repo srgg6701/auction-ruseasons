@@ -109,9 +109,14 @@ div#main_content.left{
 		
 		table.cabinet{
             border-spacing: 0;
+            width: 100%;
 			tr{
-				th{
+              th,td{
+                padding:2px 4px;
+              }
+              th{
 					text-align:left;
+                    white-space: nowrap;
 				}
 				&:first-child{
 					color:@brownDark;
@@ -139,7 +144,7 @@ div#main_content.left{
 					&:not(:first-child){
 						color:black;
 						font-weight:bold;
-						white-space:nowrap;
+						/*white-space:nowrap;*/
 					}
 					&:first-child{
 						button{
@@ -159,9 +164,6 @@ div#main_content.left{
               th{
                 border-bottom:solid 1px @brownDark;
                 text-align: center;
-              }
-              th,td{
-                padding:2px 4px;
               }
               tr{
                 td{

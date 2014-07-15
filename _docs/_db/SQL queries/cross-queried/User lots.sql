@@ -1,21 +1,20 @@
 ﻿SELECT      DISTINCT bids.id AS bid_id,
-            prod_ru_ru.product_name       AS  'item_name',
-            sum                           AS  'bid_value',
+            CONCAT( prod.virtuemart_product_id,
+      ':', prod_ru_ru.product_name )      AS  'item',
             users.id AS user_id,
             users.username,
             users.name,
-            prod.virtuemart_product_id    AS  'product_id',
+            sum                           AS  'sum',
+  ( SELECT value 
+      FROM auc13_dev_user_bids 
+     WHERE bid_id = bids.id
+  )                                       AS  'user_bid value',
             -- prod.                             auction_date_finish,
   /*( SELECT MAX(sum) 
       FROM auc13_dev_bids 
      WHERE bidder_user_id = bids.bidder_user_id 
            AND virtuemart_product_id = prod.virtuemart_product_id
   )                                       AS  user_max_bid, */
-  '?'                                     AS  'кол-во',
-  ( SELECT MAX(sum) 
-      FROM auc13_dev_bids 
-     WHERE virtuemart_product_id = prod.virtuemart_product_id
-  )                                       AS  'max_bid',
   prod_cats.virtuemart_category_id        AS  'category_id'
         FROM auc13_virtuemart_products                AS prod
   INNER JOIN auc13_virtuemart_products_ru_ru          AS prod_ru_ru
@@ -26,7 +25,8 @@
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id   
   INNER JOIN auc13_users                              AS users
               ON users.id = bids.bidder_user_id
-  -- WHERE     bids.bidder_user_id = 385
+  WHERE     prod.virtuemart_product_id = 2702
+  -- bids.bidder_user_id = 385
   -- GROUP BY prod_ru_ru.product_name 
   ORDER BY prod_ru_ru.product_name, sum DESC
   -- , user_max_bid DESC

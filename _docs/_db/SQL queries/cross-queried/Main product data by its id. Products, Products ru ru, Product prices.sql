@@ -1,5 +1,5 @@
 SELECT
-  DISTINCT prod.virtuemart_product_id     AS product_id,
+  DISTINCT prod.virtuemart_product_id     AS 'product_id',
   prod.                                    product_sku,
   prod.auction_number,
   -- prod.                                    lot_number,
@@ -22,10 +22,10 @@ SELECT
   -- IF(shop_orders.status IS NOT NULL, shop_orders.status, '') AS 'ordered',
   (SELECT COUNT(*) FROM auc13_dev_bids WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS 'bids',
-  prod_prices.product_price_publish_up    AS publish_up,
-  prod.product_available_date             AS auction_start,
-  prod_prices.product_price_publish_down  AS publish_down,
-  prod.auction_date_finish                AS auction_finish
+  prod_prices.product_price_publish_up    AS 'publish_up',
+  prod.product_available_date             AS 'auction_start',
+  prod_prices.product_price_publish_down  AS 'publish_down',
+  prod.auction_date_finish                AS 'auction_finish'
   -- CONCAT( DATE_FORMAT(prod_prices.product_price_publish_up,"%d.%m.%Y %h:%i"),   " | ", DATE_FORMAT(prod.product_available_date,"%d.%m.%Y %h:%i") ) AS 'show_up/auction_start',
   -- CONCAT( DATE_FORMAT(prod_prices.product_price_publish_down,"%d.%m.%Y %h:%i"), " | ", DATE_FORMAT(prod.auction_date_finish,"%d.%m.%Y %h:%i") )    AS 'show_down/auction_finish',
   -- ( SELECT COUNT(*) FROM auc13_virtuemart_product_medias WHERE virtuemart_product_id = prod.virtuemart_product_id ) AS 'imgs', 

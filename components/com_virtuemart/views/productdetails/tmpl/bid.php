@@ -26,13 +26,6 @@ if(($poor_bid=JRequest::getVar('poor_bid'))||($closed=JRequest::getVar('expired'
 <?php
 endif;
 $bidsHTML = HTML::getBidsHTML($this->product->virtuemart_product_id,$this->product->prices['basePriceVariant']);
-//$history        = AuctionStuff::getBidsHistory($this->product->virtuemart_product_id);
-//commonDebug(__FILE__,__LINE__,$minimal_bid);
-// чтобы удобно вывести запрос в режиме отладки, сохранитм в переменной здесь:
-    /*= HTML::buildBidsHistory(
-                            $this->product->virtuemart_product_id,
-                            $history );*/
-
 ?><br>
 Ставки<?php
 if(JFactory::getUser()->guest!=1):?>
@@ -51,13 +44,6 @@ if($auction_state=='active'):
 </h3>
 <form method="post" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.makeBid'); ?>" onsubmit="return checkFormFields()">
 	<section id="bid_step_1">
-    <?php
-    // построить список возможных ставок
-    /*$options = HTML::buildBidsSelect(
-                        $this->product->virtuemart_product_id,
-                        $this->product->prices['basePriceVariant'],
-                        $history    );*/
-    ?>
     <select name="bids" id="sel_bids">
         <option value="0">-Укажите свою ставку-</option>
     <?php   echo $bidsHTML['options'];

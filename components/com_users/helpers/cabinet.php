@@ -377,19 +377,20 @@ $(function(){
                             $data['virtuemart_category_id'],
                             $topItemOnline['online'] );?>"><?php
         echo $data['item_name'];?></a></td>
-        <td><?php echo $data['auction_date_finish'];?></td>
-        <td><?php echo ($data['user_max_lot'])? :$data['user_max_bid'];?></td>
-        <td><?php echo $data['max_bid'];?></td>
+        <td nowrap><?php echo $data['auction_date_finish'];?></td>
+        <td><?php echo ($data['user_max_lot'])? :0;?></td>
+        <td><?php echo $data['user_max_bid'];?></td>
         <td><?php
-            if((int)$data['max_bid']==(int)$data['user_max_bid']):?>
-                Покупатель
+            if((int)$data['user_max_bid']===(int)$data['absolute_max_lot']):?>
+                <b>Покупатель</b>
         <?php
             else:?>
                 Участник торгов
         <?php
             endif;?></td>
       </tr>
-<?php	endforeach;
+<?php	$i++; // потому что, если итерация только одна, так и останется 0
+        endforeach;
         if(!$i):
 ?>
       <tr>
