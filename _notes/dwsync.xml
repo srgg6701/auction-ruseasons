@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="administrator.zip" server="77.222.40.220/2013/public_html/" local="130078512000000000" remote="130078512000000000" Dst="0" />
 <file name="htaccess.txt" server="77.222.40.220/2013/public_html/" local="130113936000000000" remote="130113936000000000" Dst="0" />
 <file name="robots.txt.dist" server="77.222.40.220/2013/public_html/" local="130113936000000000" remote="130113936000000000" Dst="0" />
 <file name=".gitignore" server="I:/auction-ruseasons/" local="130476590795696000" remote="130476590800000000" Dst="0" />
 <file name=".htaccess" server="I:/auction-ruseasons/" local="130419717339510000" remote="130419717340000000" Dst="0" />
-<file name="administrator.zip" server="I:/auction-ruseasons/" local="130476590826886000" remote="130476590840000000" Dst="0" />
 <file name="configuration.php" server="I:/auction-ruseasons/" local="130476590847726000" remote="130476590860000000" Dst="0" />
 <file name="htaccess.txt" server="I:/auction-ruseasons/" local="130476590847736000" remote="130476590860000000" Dst="0" />
 <file name="index.php" server="I:/auction-ruseasons/" local="130420455206124000" remote="130420455220000000" Dst="0" />
@@ -19,4 +17,6 @@
 <file name="tests.php" server="I:/auction-ruseasons/" local="130483420256812000" remote="130483420260000000" Dst="0" />
 <file name="tunnel.php" server="I:/auction-ruseasons/" local="130419717851220000" remote="130419717860000000" Dst="0" />
 <file name="web.config.txt" server="I:/auction-ruseasons/" local="130419717851250000" remote="130419717860000000" Dst="0" />
+<file name="index.php" server="77.222.40.220//2013/public_html/" local="130499692044462000" remote="130499691600000000" Dst="0" />
+<file name="tests.php" server="77.222.40.220//2013/public_html/" local="130483420256812000" remote="130499692800000000" Dst="0" />
 </dwsync>

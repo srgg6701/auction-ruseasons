@@ -661,13 +661,19 @@ WHERE cats_cats.category_parent_id = 0";
   ( $selectMax
            AND bidder_user_id = bids.bidder_user_id
   )                                  AS  'user_max_lot',
-  ( SELECT MAX(value)
+  ( SELECT MAX(`value`)
       FROM #__dev_user_bids,
            #__dev_bids AS bds
      WHERE bid_id = bds.id
        AND bds.virtuemart_product_id = prod.virtuemart_product_id
   )                                  AS  'absolute_max_lot',
-  user_bids.value                    AS  'user_max_bid',
+  ( SELECT MAX(`value`)
+      FROM #__dev_user_bids AS uBids,
+           #__dev_bids AS Bids
+     WHERE uBids.bid_id = Bids.id
+       AND Bids.virtuemart_product_id = prod.virtuemart_product_id
+       AND Bids.bidder_user_id = $user_id )
+                                     AS  'user_max_bid',
   ( $selectMax
   )                                  AS  'max_bid',
   prod_cats.                             virtuemart_category_id
@@ -678,11 +684,9 @@ WHERE cats_cats.category_parent_id = 0";
               ON prod_cats.virtuemart_product_id    = prod.virtuemart_product_id
   INNER JOIN #__dev_bids                           AS bids
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id
-  INNER JOIN #__dev_user_bids                           AS user_bids
-              ON user_bids.bid_id                   = bids.id
   WHERE     bids.bidder_user_id = " . $user_id ."
-  ORDER BY  user_bids.value DESC LIMIT 1";
-        //testSQL($query,__FILE__, __LINE__);
+  ORDER BY  user_bids.id DESC ";
+        testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         $results = $db->loadAssocList();
         return $results;
