@@ -102,16 +102,19 @@ else:
 
                   <div class="th_imgage">
                       <div class="inside_image_preview">
-                          <a href="<?=$base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" style="outline: none; " class="MagicThumb-swap">
-                           	  <img src="<?=$base_path.$this->product->images[$i]->file_url_thumb?>" height="82" width="82"></a>
+                          <a href="<?php
+                          echo $base_path.$this->product->images[$i]->file_url;
+                          ?>" rel="zoom-id:Zoomer" rev="<?php
+                          echo $base_path.$this->product->images[$i]->file_url_thumb;
+                          ?>" style="outline: none; " class="MagicThumb-swap">
+                           	  <img src="<?php echo $base_path.$this->product->images[$i]->file_url_thumb;
+                              ?>" height="82" width="82"></a>
                       </div>
                   </div>
                                 
     <?php endforeach;?>                       
             </div>
         </div>
-                    
-            
         <div class="clr"></div>
    	</div>   
   </div>
@@ -233,12 +236,14 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
         ?>:
       <span class="span_o_o">
           <b>
-		<?php echo substr($this->product->product_price,0,strpos($this->product->product_price,'.'));?>
+		<?php
+        $startPrice = substr($this->product->product_price,0,strpos($this->product->product_price,'.'));
+        echo $startPrice;?>
           </b>
     <?php   if((int)$topItem['fulltime']===(int)$Itemid):
     ?>
           <b> -
-       	<?php echo ($this->product->price2)? :'0'; ?>
+       	<?php echo ($this->product->price2)? $this->product->price2:'0'; ?>
           </b>   
     <?php   endif;
             echo $this->product->currency_symbol;?>.

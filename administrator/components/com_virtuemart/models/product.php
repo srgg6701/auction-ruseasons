@@ -957,7 +957,8 @@ INNER JOIN #__virtuemart_product_prices AS prices
            ON crns.virtuemart_currency_id = prices.product_currency
 WHERE crns.virtuemart_currency_id = ";
             // подстраховочная мера, на случай, если отвалится извлечение валюты
-            $q.=($product->product_currency) ? : '( SELECT product_currency
+            $q.=($product->product_currency) ? 
+					$product->product_currency : '( SELECT product_currency
       FROM #__virtuemart_product_prices
      WHERE virtuemart_product_id = '.$this->_id.' ) ';
             $q.="

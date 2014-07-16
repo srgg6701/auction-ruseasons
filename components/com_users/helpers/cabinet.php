@@ -378,7 +378,7 @@ $(function(){
                             $topItemOnline['online'] );?>"><?php
         echo $data['item_name'];?></a></td>
         <td nowrap><?php echo $data['auction_date_finish'];?></td>
-        <td><?php echo ($data['user_max_lot'])? :0;?></td>
+        <td><?php echo ($data['user_max_lot'])? $data['user_max_lot']:0;?></td>
         <td><?php echo $data['user_max_bid'];?></td>
         <td><?php
             if((int)$data['user_max_bid']===(int)$data['absolute_max_lot']):?>

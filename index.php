@@ -1,20 +1,16 @@
-<?php
+<?php //
 /**
  * @package		Joomla.Site
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-if(strstr($_SERVER['HTTP_HOST'],"localhost")){
-	
-	error_reporting ( E_ALL ^ E_NOTICE );
-	//error_reporting ( E_ERROR ^ E_NOTICE );
-	//error_reporting ( E_ERROR | E_WARNING );
-	//ini_set ( 'display_errors', true );
-	//ini_set ( 'html_errors', false );
-	//ini_set ( 'error_reporting', E_ALL ^ E_NOTICE );
-}
-
+//strstr($_SERVER['HTTP_HOST'],"localhost")
+error_reporting ( E_ALL ^ E_NOTICE );
+//error_reporting ( E_ERROR | E_WARNING );
+//error_reporting ( E_ERROR ^ E_NOTICE );
+//ini_set ( 'display_errors', true );
+//ini_set ( 'html_errors', false );
+//ini_set ( 'error_reporting', E_ALL ^ E_NOTICE );
 // Set flag that this is a parent file.
 define('_JEXEC', 1);
 define('DS', DIRECTORY_SEPARATOR);

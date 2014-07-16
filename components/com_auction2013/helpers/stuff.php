@@ -47,8 +47,8 @@ class AuctionStuff{
 				}
 				// Store the data in the table
 				if (!$table->store(true))
-				{	JError::raiseWarning(100, JText::_('Не удалось сохранить данные для id '.$pk.'...'));
-					$errors++;
+				{	JError::raiseWarning(100, JText::_('Не удалось сохранить данные для предмета id '.$virtuemart_product_id.'...'));
+					//$errors++;
 				}else{
 					$session = JFactory::getSession();
 					$session->clear('favorite_product_id');
@@ -1203,8 +1203,10 @@ class DateAndTime{
  * Получить разницу между датами в секундах
  */
     public static function getDelta($t){
-        $date = new DateTime();
-        $now = $date->getTimestamp();
+        /*$date = new DateTime();
+        $now = $date->getTimestamp();*/
+        $now = time();
+        //commonDebug(__FILE__,__LINE__,$now); // 1405510471
         $timestamp = strtotime($t);
         //echo "<div>t = $t; $now - $timestamp</div>";
         $diff = $now-$timestamp; // timestamp diff

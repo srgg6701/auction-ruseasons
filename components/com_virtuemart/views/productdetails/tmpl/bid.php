@@ -44,6 +44,8 @@ if($auction_state=='active'):
 </h3>
 <form method="post" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.makeBid'); ?>" onsubmit="return checkFormFields()">
 	<section id="bid_step_1">
+<?php if($startPrice):
+?>
     <select name="bids" id="sel_bids">
         <option value="0">-Укажите свою ставку-</option>
     <?php   echo $bidsHTML['options'];
@@ -52,7 +54,11 @@ if($auction_state=='active'):
         &nbsp;
     <button id="bid_next" type="button" class="buttonSandCool">Продолжить</button>
     </section>
-	<section id="bid_step_2" style="display: none;">
+<?php   else:
+?>
+    <div class="error-text">Не указана стартовая цена.</div>
+<?php   endif;
+?><section id="bid_step_2" style="display: none;">
     <p>Чтобы начать торг за интересующий лот, нажмите кнопку «Сделать ставку».
         Участник имеет возможность сделать заочный бид, указав свою максимальную цену
         (данная цена не включает комиссионный сбор).
