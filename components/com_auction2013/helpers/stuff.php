@@ -26,10 +26,10 @@ class AuctionStuff{
  * @subpackage
  */
 	public static function addToFavorites($virtuemart_product_id,$user_id){
-		//var_dump(JRequest::get('post')); die('addToFavorites');			
+		//var_dump(JRequest::get('post')); die('addToFavorites');
 		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'tables'.DS.'product_favorites.php';
 		$table = JTable::getInstance('Productfavorites','Auction2013Table');
-		if (!AuctionStuff::getFavoritesCount($user_id,$virtuemart_product_id)) {		
+		if (!AuctionStuff::getFavoritesCount($user_id,$virtuemart_product_id)) {
 			$table->reset();
 			$data=array(
 					'virtuemart_product_id'=>$virtuemart_product_id,
@@ -56,19 +56,19 @@ class AuctionStuff{
 			}else die("Данные не валидны...");
 			return true;
 		}else return 'exists'; // reserved meaning
-	}	
+	}
 /**
  * Построить ссылку на соседний предмет
  * @package
  * @subpackage
  */
 	public static function buildProdNeighborLink($neighborId,$category_link=false,$SefMode=false){
-		return ($SefMode)? 
+		return ($SefMode)?
 			$category_link.'/'.AuctionStuff::getProdSlug($neighborId).'-detail'
 				:
-			JRoute::_('index.php?option=com_virtuemart&virtuemart_category_id='.JRequest::getVar('virtuemart_category_id').'&virtuemart_product_id='.$neighborId		
+			JRoute::_('index.php?option=com_virtuemart&virtuemart_category_id='.JRequest::getVar('virtuemart_category_id').'&virtuemart_product_id='.$neighborId
 				//$trinityIds[0]
-			.'&Itemid='.JRequest::getVar('Itemid'));	
+			.'&Itemid='.JRequest::getVar('Itemid'));
 	}
 /**
  * Извлечь ЧПУ-ссылку для категории из ранее сохранённого массива в сессии
@@ -180,31 +180,31 @@ FROM #__virtuemart_categories cats
  * @subpackage
  */
 	public static function getCategoryNeighborhood($virtuemart_category_id){
-		
+
 		$queryGetParentId="SELECT cat_cats1.category_parent_id
     FROM #__virtuemart_categories AS cats1
       INNER JOIN #__virtuemart_category_categories AS cat_cats1
         ON cats1.virtuemart_category_id = cat_cats1.id
     WHERE cats1.virtuemart_category_id = ".$virtuemart_category_id;
-		
+
 		$queryGetYoungerCategory="SELECT MAX(cats2.virtuemart_category_id)
           FROM #__virtuemart_categories AS cats2
          WHERE cats2.virtuemart_category_id < ".$virtuemart_category_id;
-		
+
 		$queryGetOlderCategory="SELECT MIN(cats2.virtuemart_category_id)
           FROM #__virtuemart_categories AS cats2
          WHERE cats2.virtuemart_category_id > ".$virtuemart_category_id;
-		
+
 		$query="SELECT cats.virtuemart_category_id ".
 	// , cat_cats.category_parent_id
 "  FROM #__virtuemart_categories AS cats,
        #__virtuemart_category_categories AS cat_cats
  WHERE cat_cats.category_child_id = cats.virtuemart_category_id
-  AND cat_cats.category_parent_id IN ( ".$queryGetParentId." ) 
-  AND 
-    ( cats.virtuemart_category_id = ( ".$queryGetYoungerCategory." ) 
+  AND cat_cats.category_parent_id IN ( ".$queryGetParentId." )
+  AND
+    ( cats.virtuemart_category_id = ( ".$queryGetYoungerCategory." )
       OR cats.virtuemart_category_id = ".$virtuemart_category_id."
-      OR cats.virtuemart_category_id = ( ".$queryGetOlderCategory." )  
+      OR cats.virtuemart_category_id = ( ".$queryGetOlderCategory." )
     )
   ORDER BY cats.virtuemart_category_id LIMIT 3
 ";
@@ -234,7 +234,7 @@ FROM #__virtuemart_products_ru_ru
   INNER JOIN #__product_favorites
     ON #__virtuemart_products_ru_ru.virtuemart_product_id = #__product_favorites.virtuemart_product_id
   INNER JOIN #__virtuemart_products
-    ON #__virtuemart_products.virtuemart_product_id = #__product_favorites.virtuemart_product_id 
+    ON #__virtuemart_products.virtuemart_product_id = #__product_favorites.virtuemart_product_id
    AND #__virtuemart_products.virtuemart_product_id = #__virtuemart_products_ru_ru.virtuemart_product_id
   INNER JOIN #__virtuemart_product_prices
     ON #__virtuemart_product_prices.virtuemart_product_id = #__virtuemart_products_ru_ru.virtuemart_product_id AND #__virtuemart_product_prices.virtuemart_product_id = #__virtuemart_products.virtuemart_product_id
@@ -380,11 +380,11 @@ WHERE $product_id";
  * @subpackage
  */
 	public static function getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id){
-		
+
 		$qProdParentCategoryId="SELECT cat_cats1.category_parent_id
             FROM #__virtuemart_category_categories cat_cats1
            WHERE cat_cats1.category_child_id = ".$virtuemart_category_id;
-		
+
 		$qAllProdsInCategory="SELECT prods.virtuemart_product_id
  FROM #__virtuemart_products prods
   INNER JOIN #__virtuemart_product_categories prod_cats
@@ -392,48 +392,48 @@ WHERE $product_id";
   INNER JOIN #__virtuemart_category_categories cat_cats
           ON prod_cats.virtuemart_category_id = cat_cats.category_child_id
   INNER JOIN #__virtuemart_categories cats
-          ON prod_cats.virtuemart_category_id = cats.virtuemart_category_id 
+          ON prod_cats.virtuemart_category_id = cats.virtuemart_category_id
   AND cats.virtuemart_category_id = cat_cats.id
-WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId." 
+WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
                                     )
    AND prod_cats.virtuemart_category_id = ".$virtuemart_category_id;
-   		
+
 		$qPrevProdId="
 		SELECT MAX(prods0.virtuemart_product_id)
           FROM #__virtuemart_products prods0
-         WHERE prods0.virtuemart_product_id < ".$virtuemart_product_id;		
-		
+         WHERE prods0.virtuemart_product_id < ".$virtuemart_product_id;
+
 		$qNextProdId="SELECT MIN(prods00.virtuemart_product_id)
           FROM #__virtuemart_products prods00
          WHERE prods00.virtuemart_product_id > ".$virtuemart_product_id;
-		 
+
 		$query="SELECT prods_.virtuemart_product_id
   FROM #__virtuemart_products prods_
  WHERE (
-        prods_.virtuemart_product_id = ( ".$qPrevProdId." 
-                                       )     
+        prods_.virtuemart_product_id = ( ".$qPrevProdId."
+                                       )
         OR
         prods_.virtuemart_product_id = ".$virtuemart_product_id."
         OR
-        prods_.virtuemart_product_id = ( ".$qNextProdId." 
+        prods_.virtuemart_product_id = ( ".$qNextProdId."
                                        )
-       ) 
-  AND   prods_.virtuemart_product_id IN ( 
-        ".$qAllProdsInCategory." 
+       )
+  AND   prods_.virtuemart_product_id IN (
+        ".$qAllProdsInCategory."
        ) ";
-  		
+
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		//echo "<div class=''><pre>".$query."</pre></div>"; var_dump($db->loadResultArray());die();
 		return $db->loadResultArray();
 	}
 /**
- * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего. 
+ * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего.
  * @package
  * @subpackage
  */
 	public static function getProdSlug($product_id){
-		// 
+		//
 		$query="SELECT slug
  FROM #__virtuemart_products_ru_ru
 INNER JOIN #__virtuemart_products
@@ -441,7 +441,7 @@ INNER JOIN #__virtuemart_products
 WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		return $db->loadResult(); 
+		return $db->loadResult();
 	}
 /**
  * Получить покупки - все/выбранного юзера
@@ -538,8 +538,8 @@ FROM #__virtuemart_products AS p
 WHERE p.virtuemart_product_id = ".$product_id;
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		return $db->loadAssoc(); 
-	}	
+		return $db->loadAssoc();
+	}
 /**
  * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
  * @package
@@ -550,7 +550,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
         if($array)
             $query.= "
   cats.virtuemart_category_id,";
-            
+
         $query.= "
   LEFT((
   SUBSTRING(menu.link,
@@ -572,8 +572,8 @@ WHERE cats_cats.category_parent_id = 0";
                     $layouts[$data['virtuemart_category_id']]=$data['layout'];
                 return $layouts;
             }else
-                return $db->loadColumn(); 
-            /*  loadAssoc[List] 
+                return $db->loadColumn();
+            /*  loadAssoc[List]
                 loadObject[List]
                 loadArray
                 loadColumn
@@ -606,19 +606,19 @@ WHERE cats_cats.category_parent_id = 0";
             $menutype='mainmenu';
             $query_start.=', cats.category_layout';
             $table2=', #__virtuemart_categories cats';
-        }            
+        }
         $query_start.="
   FROM  `#__menu`".$table2."
  WHERE  `menutype` =  '".$menutype."'";
-   		
+
 		if ($view)
 			$query_start.="
    AND link REGEXP  '(^|/?|&|&amp;)view=".$view."($|&|&amp;)'";
-			
+
 		$query_start.="
    AND link REGEXP  '(^|/?|&|&amp;)layout=";
 		$query_end="($|&|&amp;)'";
-		$db = JFactory::getDBO();		
+		$db = JFactory::getDBO();
 		if(!$layout){
 			$layouts=AuctionStuff::getTopCatsLayouts();
 		}else{
@@ -640,20 +640,22 @@ WHERE cats_cats.category_parent_id = 0";
             }else{
                 $ItemId=$db->loadResult();
                 $ItemIds[]=$ItemId;
-            } //echo "<div class=''>ItemId= ".$ItemId."</div>"; 
+            } //echo "<div class=''>ItemId= ".$ItemId."</div>";
 		}//die();
 		return $ItemIds;
 	}
     /**
-     * Получить лоты юзера
+     * Получить лоты юзера; указать его статус игрока.
      */
     public static function getUserLots($user_id=NULL){
-        if(!$user_id)
+        if(!$user_id) // не получили user_id
             $user_id = JFactory::getUser()->id;
         $db = JFactory::getDbo();
         $selectMax="SELECT MAX(sum)
       FROM #__dev_bids
      WHERE virtuemart_product_id = prod.virtuemart_product_id ";
+        $selMaxValue = "SELECT MAX(`value`)
+      FROM #__dev_user_bids";
         $query = "SELECT DISTINCT prod.virtuemart_product_id,
        prod_ru_ru.product_name       AS  'item_name',
        DATE_FORMAT(prod.auction_date_finish, '%d.%m.%Y %H:%i')
@@ -661,14 +663,12 @@ WHERE cats_cats.category_parent_id = 0";
   ( $selectMax
            AND bidder_user_id = bids.bidder_user_id
   )                                  AS  'user_max_lot',
-  ( SELECT MAX(`value`)
-      FROM #__dev_user_bids,
+  ( $selMaxValue,
            #__dev_bids AS bds
      WHERE bid_id = bds.id
        AND bds.virtuemart_product_id = prod.virtuemart_product_id
   )                                  AS  'absolute_max_lot',
-  ( SELECT MAX(`value`)
-      FROM #__dev_user_bids AS uBids,
+  ( $selMaxValue AS uBids,
            #__dev_bids AS Bids
      WHERE uBids.bid_id = Bids.id
        AND Bids.virtuemart_product_id = prod.virtuemart_product_id
@@ -685,7 +685,7 @@ WHERE cats_cats.category_parent_id = 0";
   INNER JOIN #__dev_bids                           AS bids
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id
   WHERE     bids.bidder_user_id = " . $user_id ."
-  ORDER BY  user_bids.id DESC ";
+  ORDER BY  bids.id DESC ";
         testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         $results = $db->loadAssocList();
@@ -697,7 +697,7 @@ WHERE cats_cats.category_parent_id = 0";
  * @package
  * @subpackage
  */
-	public static function createForm($arrFields){		
+	public static function createForm($arrFields){
 		ob_start();
 		foreach($arrFields as $value=>$fieldArray){?>
 			<div>
@@ -706,14 +706,14 @@ WHERE cats_cats.category_parent_id = 0";
 				}else{
 					$req='';
 				}
-				echo $fieldArray[0];?>:</label>	
+				echo $fieldArray[0];?>:</label>
 		<?php if($value=='country_id'){?>
 				<select id="country" name="jform[country_id]"<?=$req?>>
                     <option value="none">Выберите страну</option>
 			<?php $countries=AuctionStuff::getCountries();
 				foreach($countries as $code=>$country):?>
 					<option value="<?=$code?>"><?=$country?></option>
-			<?php endforeach;?>		
+			<?php endforeach;?>
 			</select>
 		<?php }else{
 				if (isset($fieldArray[3])):
@@ -738,9 +738,9 @@ WHERE cats_cats.category_parent_id = 0";
 								echo $fieldArray[0];
 						}
 					}
-				?>" name="jform[<?=$value?>]" id="<?=$value?>"<?=$req?>>					
+				?>" name="jform[<?=$value?>]" id="<?=$value?>"<?=$req?>>
         	<?php endif;
-				if(isset($fieldArray[2])) 
+				if(isset($fieldArray[2]))
 					echo $fieldArray[2];
 			}?>
 			</div>
@@ -751,12 +751,12 @@ WHERE cats_cats.category_parent_id = 0";
 	}
 /**
  * Проверить наличие ранее сохранённых ссылок в сессии - извлечь или создать
- */    
-    public static function handleSessionCategoriesData($file=false, $line=false){        
+ */
+    public static function handleSessionCategoriesData($file=false, $line=false){
         static $cntr=1;
-        
+
         $test=false;
-        
+
         if($file&&$line&&$test){
             echo "<div>
                 <div style='padding:10px; background-color:yellow'>call: <b>".__METHOD__."</b></div>
@@ -764,8 +764,8 @@ WHERE cats_cats.category_parent_id = 0";
             </div>";
             echo "<h1 class='test' style='color:red;'>cntr = ".$cntr."</h1>"; //die();
         }
-        /** 
-         * если метод вызывается впервые в течение загрузки страницы, 
+        /**
+         * если метод вызывается впервые в течение загрузки страницы,
          * сгенерировать набор ссылок на категории/разделы_предметов
          * и сохранить в сессии, чтобы не вызывать процедуру генерации
          * повторно на случай, если метод будет вызыван снова (если потребуется
@@ -780,19 +780,19 @@ WHERE cats_cats.category_parent_id = 0";
             //commonDebug(__FILE__,__LINE__,$lots);
             $section_links = array();
             $sefMode = JApplication::getRouter()->getMode();
-            foreach ($lots as $top_cat_id => $array){ 
+            foreach ($lots as $top_cat_id => $array){
                 $top_alias = $array['top_category_layout']; // online, fulltime, shop
                 $parentItemId = $top_cats_menu_ids[$top_alias];
-                $common_link =  self::$common_link_segment . 
-                                //index.php?option=com_virtuemart&view=category&Itemid= 
+                $common_link =  self::$common_link_segment .
+                                //index.php?option=com_virtuemart&view=category&Itemid=
                                 $parentItemId; // 115
-                
+
                 $andLayout = self::$andLayout . $top_alias;
-                
+
                 if (!$sefMode)
                     $common_link.=$andLayout;
                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop
-                
+
                 $common_link.=self::$vm_category_id;
                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=
                 $products_count=0;
@@ -807,13 +807,13 @@ WHERE cats_cats.category_parent_id = 0";
                     if ($key == 'children'){
                         foreach ($array_data as $i => $category_data){
                             // index.php?option=com_virtuemart&view=category&Itemid=31&virtuemart_category_id=
-                            $child_category_link =  self::$common_link_segment . $parentItemId 
-                                                    . self::$vm_category_id 
+                            $child_category_link =  self::$common_link_segment . $parentItemId
+                                                    . self::$vm_category_id
                                                     . $category_data['virtuemart_category_id'];
                             //testLinks($child_category_link,__LINE__);
                             $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['category_name'] = $category_data['category_name'];
                             // http://2013.auction-ruseasons.ru/index.php?option=com_virtuemart&view=category&virtuemart_category_id=26&Itemid=126
-                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['link'] = $child_category_link;                            
+                            $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['link'] = $child_category_link;
                             if($sefMode)
                                 $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['sef'] = JRoute::_($section_links[$top_alias]['parent_link']).'/'.$category_data['alias'];
                             $section_links[$top_alias]['child_links'][$category_data['virtuemart_category_id']]['product_count']=$category_data['product_count'];
@@ -830,7 +830,7 @@ WHERE cats_cats.category_parent_id = 0";
         }else{
             /*  если метод вызывается повторно в течение загрузки страницы и при
                 этом ссылки уже были сгенерированы - извлечь их из сессии */
-            //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";            
+            //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
             if(!$section_links=JFactory::getSession()->get('section_links')){
                 die("Не получены ссылки предметов из сессии.<br>file: ".__FILE__."<br>".__METHOD__);
                 return false;
@@ -952,33 +952,33 @@ class HTML{
         $sections_data=$session->get('section_links');
         //commonDebug(__FILE__, __LINE__, func_get_args());
         $category_data=$sections_data[$layout];
-        //commonDebug(__FILE__, __LINE__, $category_data, false);        
+        //commonDebug(__FILE__, __LINE__, $category_data, false);
         //echo "<div>category_id = ".$category_id."</div>";
         $section_data=$category_data[$layout]; // layout: shop, online...
         ?>
 <div class="top_list">
-    <h2><div class="weak"><?php 
+    <h2><div class="weak"><?php
         $lots = "Лотов";
         // раздел вложенной категории
         if($category_data['top_category_id']!=$category_id){
 			$category_data = $category_data['child_links'][$category_id];
-            ?><span style="color:#456;"><?php 
+            ?><span style="color:#456;"><?php
                 echo $category_data['category_name'];
             ?>.</span>
-        <?php   
+        <?php
 		}else {
             $lots.=" всего";
             //echo $section; // ТОП категория
         }
-        ?><span style="white-space:nowrap"><?php 
-                echo $lots;?>: <?php 
+        ?><span style="white-space:nowrap"><?php
+                echo $lots;?>: <?php
                 echo $category_data['product_count'];?></span>
         </div>
     </h2>
-<?php HTML::setCommonInnerMenu(array('user','take_lot'));?>    
-</div>    
+<?php HTML::setCommonInnerMenu(array('user','take_lot'));?>
+</div>
 <?php $arrMenus=self::setBaseLink($layout);//
-		//var_dump($arrMenus); 
+		//var_dump($arrMenus);
 		//echo "<div class=''>arrMenus['base']= ".$arrMenus['base']."<br>layout = $layout</div>";
 		HTML::setVmPagination($arrMenus['base'],$pagination);
 	}
@@ -1023,7 +1023,7 @@ class HTML{
 		$user=&JFactory::getUser();
 		$pre_link='index.php?option=com_';
 		if(in_array('user',$params)){
-			$cab_link=($user->guest)? 
+			$cab_link=($user->guest)?
 				$pre_link."auction2013&layout=register"
 				:
 				$pre_link."users&view=login";
@@ -1035,7 +1035,7 @@ class HTML{
 		if(in_array('ask_about_lot',$params)){
 			$ask_link=$pre_link."auction2013&view=auction2013&layout=askaboutlot&lot_id=".$params_xtra['ask_about_lot'];
 		}?>
-		
+
 	<div class="top_list_mn">
     <?php // расположить в обратном порядке, ибо float:right
 		if(isset($prop_link)) HTML::innerMenu('take_lot',JRoute::_($prop_link,false));
@@ -1068,13 +1068,13 @@ class HTML{
 	public static function setVmPagination(
 								$link = false,
 								$pagination = false
-							){?>	
+							){?>
 <div class="lots_listing">
-	Лотов на странице: 
+	Лотов на странице:
     <?php $router = JFactory::getApplication()->getRouter();
 		static $lnk;
 		static $pag;
-		if($link) 
+		if($link)
 			$lnk=$link;
 		if(!$lnk){
 			$lnk='';
@@ -1092,25 +1092,25 @@ class HTML{
 				//option=com_virtuemart&view=category&virtuemart_category_id=6&Itemid=115&layout=shop
 			}
 		}
-		
+
 		if($pagination) $pag=$pagination->getPagesLinks();
-		
+
 		$arrLimits=array(15,30,60);
-		
-		
+
+
 		foreach($arrLimits as $i=>$limit){?>
     <a href="<?php if($router->getMode()){
 				echo $lnk.'/?limit='.$limit;
 			}else{
 				echo JRoute::_($lnk.'&limit='.$limit);
-				
+
 			}?>"><?=$limit?></a>
-     &nbsp; 
+     &nbsp;
 	<?php }?>
     <div class="vmPag">
 		<?=$pag?>
     </div>
-</div>	
+</div>
 <?php }
 }
 class DateAndTime{
@@ -1124,7 +1124,7 @@ class DateAndTime{
 		if(!$row_datetime)
 			$row_datetime=date('Y-m-d H:i:s');
 		$this->datetime=$this->splitDateToArrays($row_datetime);
-	}	
+	}
 /**
  * Разбить дату и время на массивы даты и времени
  * @package
@@ -1135,7 +1135,7 @@ class DateAndTime{
 		return array( 'date'=>explode("-",$dt[0]),
 					  'time'=>explode(":",$dt[1])
 					);
-	}	
+	}
 /**
  * Получить массив даты/времени с ключами для простой подстановки значений
  * @package
@@ -1152,7 +1152,7 @@ class DateAndTime{
 					'h'=>$time[0],
 					'i'=>$time[1],
 					's'=>$time[2]
-				);	
+				);
 	}
 /**
  * Получить массив даты/времени как mktime
@@ -1160,7 +1160,7 @@ class DateAndTime{
  * @subpackage
  */
 	function getMkTime($date_start=false){
-		$datetime=($date_start)? 
+		$datetime=($date_start)?
 			$this->splitDateToArrays($date_start):$this->datetime;
 		$date=$datetime['date'];
 		$time=$datetime['time'];
@@ -1171,7 +1171,7 @@ class DateAndTime{
 						(int)$date[2], // (j)d
 						(int)$date[0]  // (Y)y
 					  );
-		return $mktime; 
+		return $mktime;
 	}
 /**
  * Получить разницу дат
@@ -1183,9 +1183,9 @@ class DateAndTime{
 		// получить дату начала отсчёта как mktime:
 		$mktime_start=$this->getMkTime($date_start,true);
 		// получить метку времени конца отсчёта:
-		$mktime_finish=($date_finish)? 
+		$mktime_finish=($date_finish)?
 			$this->getMkTime($date_finish,true):time();
-		// получить разницу в секундах:		
+		// получить разницу в секундах:
 		$mktime_delta=$mktime_finish-$mktime_start;
 		$delta=array();
 		$days=60*60*24;
@@ -1200,7 +1200,7 @@ class DateAndTime{
 		$seconds_in_hours=$delta['часов']*$hours;
 		// остаток минут:
 		$seconds_in_minutes=$mktime_delta-$seconds_in_hours-$seconds_in_days;
-		$delta['минут']=floor($seconds_in_minutes/$minutes);		
+		$delta['минут']=floor($seconds_in_minutes/$minutes);
 		return $delta;
 	}
 /**
