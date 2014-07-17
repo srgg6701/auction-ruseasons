@@ -74,14 +74,5 @@ if($zoom):?>
 <?php
 else:?>
 <?php
-    /*$ival = '10';
-    $val = (int)$ival;
-    var_dump($ival); // string
-    var_dump($val);  // int
-    intval($ival);
-    var_dump($ival); // string
-    //echo "diff: " . (floatval('5.0')-5);*/
-
-    echo $hello || "Hello, Dude!";
 
 endif;

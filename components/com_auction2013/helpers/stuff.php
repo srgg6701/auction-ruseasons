@@ -686,7 +686,7 @@ WHERE cats_cats.category_parent_id = 0";
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id
   WHERE     bids.bidder_user_id = " . $user_id ."
   ORDER BY  bids.id DESC ";
-        testSQL($query,__FILE__, __LINE__);
+        //testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         $results = $db->loadAssocList();
         return $results;

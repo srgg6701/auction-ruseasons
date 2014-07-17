@@ -21,7 +21,17 @@ class Auction2013ControllerAuction2013 extends JControllerForm
     function __construct() {
         parent::__construct();
     }
-	public function display($view=false)
+    /**
+     * Проверить номер аукциона
+     */
+    function check_auction_number(){
+        echo $this->getModel()->checkAuctionNumber(JRequest::getVar('number'),JRequest::getVar('virtuemart_product_id'));
+            /*'AUCTION NUMBER: ' . JRequest::getVar('number') .
+            ', VIRTUEMART_RPODUCT_ID: ' . JRequest::getVar('virtuemart_product_id');*/
+        exit;
+    }
+
+    public function display($view=false)
 	{	if(!$view)
 			$view=$this->prepareView($this->default_view);
 		$view->display(); 

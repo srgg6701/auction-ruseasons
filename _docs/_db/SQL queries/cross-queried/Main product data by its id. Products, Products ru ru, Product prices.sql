@@ -1,6 +1,6 @@
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'product_id',
-  prod.                                    product_sku,
+  prod.product_sku                        AS 'contract_number',
   prod.auction_number,
   -- prod.                                    lot_number,
   prod_ru_ru.product_name                 AS 'item name',

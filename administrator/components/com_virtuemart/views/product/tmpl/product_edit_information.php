@@ -52,7 +52,10 @@ $i=0;
                         <div style="text-align:right;font-weight:bold;"><?php echo JText::_('COM_VIRTUEMART_PRODUCT_AUCTION_NUMBER') ?></div>
                     </td>
                     <td  height="2" colspan="3" >
-                        <input type="text" class="inputbox" name="auction_number" id="auction_number" value="<?php echo $this->product->auction_number; ?>" size="32" maxlength="64" />
+                        <input type="text" class="inputbox floatLeft" name="auction_number" id="auction_number" data-auction_number="<?php
+                        echo $this->product->auction_number; ?>" value="<?php
+                        echo $this->product->auction_number;
+                        ?>" size="32" maxlength="64" onblur="checkAuctionNumber(this);" />
                     </td>
                 </tr>
 
@@ -246,6 +249,7 @@ $i=0;
 	</tr>
 </table>
 <script type="text/javascript">
+
     jQuery(document).ready(function () {
         jQuery("#mainPriceTable").dynoTable({
             removeClass:'.price-remove', //remove class name in  table
@@ -267,6 +271,73 @@ $i=0;
             }
         });
     });
+
+function checkAuctionNumber(input){
+    //console.log('auction number = '+val);
+    var $ = jQuery;
+    //console.dir($('body'));
+    $('#checking_result').remove();
+
+    var actionLink =$('#toolbar-apply a');
+
+    var setInfo = function(infoClass){
+        var title = 'Номер аукциона ';
+        switch(infoClass){
+            case 'ok':
+                title+='свободен';
+                break;
+            case 'taken':
+                title+='занят';
+                break;
+            default:
+                title+='не указан';
+        }
+        var info = $('<div/>',{
+            id:'checking_result',
+            class:infoClass,
+            title: title
+        });
+        $(input).after(info);
+    };
+
+    var clearActionLink = function(result){
+        $(actionLink).css('opacity',0.2)
+            .removeAttr('onclick');
+        setInfo(result);
+    };
+
+    var restoreActionLink = function(){
+        $(actionLink).css('opacity',1)
+            .attr('onclick', "Joomla.submitbutton('apply')");
+        setInfo('ok');
+    };
+    if(!input.value){
+        clearActionLink('empty');
+        return false;
+    }
+    if($(input).attr('data-auction_number')!=input.value){
+        var gotoUrl = '<?php
+    echo JUri::base();
+        ?>?option=com_auction2013&task=auction2013.check_auction_number&number=' +
+            input.value + '&virtuemart_product_id=<?php echo $this->product->virtuemart_product_id?>';
+        //console.log('gotoUrl = '+gotoUrl);
+        $.get(gotoUrl).success(
+            function(data){
+                console.log('data: '+data);
+                if(data=='taken'){
+                    clearActionLink(data);
+                }else{
+                    restoreActionLink();
+                }
+            }).error(
+            function(){
+                alert('ОШИБКА: не удалось проверить номер аукциона.');
+            });
+    }else{
+        restoreActionLink();
+    }
+}
+
 </script>
 <script type="text/javascript">
 var tax_rates = new Array();
