@@ -109,7 +109,7 @@ class AuctionStuff{
  * @subpackage
  */
 	static public function getArticleContent($id){
-		$query = "SELECT * FROM #__content WHERE id = ".$id;
+		$query = "SELECT * FROM `#__content` WHERE id = ".$id;
 		//  Load query into an object
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
@@ -123,7 +123,7 @@ class AuctionStuff{
         $query = "SELECT sum,
     DATE_FORMAT(datetime,\"%d.%m %H:%i\") AS datetime,
                                         users.username
-  FROM #__dev_bids AS bids, #__users AS users
+  FROM `#__dev_bids` AS bids, `#__users` AS users
  WHERE virtuemart_product_id = $virtuermart_prodict_id
   AND bids.bidder_user_id = users.id
   ORDER BY bids.id DESC";
@@ -155,10 +155,10 @@ class AuctionStuff{
      */
     public static function getCategoryIdByProductId($virtuemart_product_id){
         $query="SELECT cats.virtuemart_category_id
-FROM #__virtuemart_categories cats
-  INNER JOIN #__virtuemart_category_categories cat_cats
+FROM `#__virtuemart_categories` AS cats
+  INNER JOIN `#__virtuemart_category_categories` AS  cat_cats
     ON cats.virtuemart_category_id = cat_cats.category_child_id
-  INNER JOIN #__virtuemart_product_categories prod_cats
+  INNER JOIN `#__virtuemart_product_categories` AS prod_cats
     ON cats.virtuemart_category_id = prod_cats.virtuemart_category_id
    AND prod_cats.virtuemart_category_id = cat_cats.category_child_id
    AND prod_cats.virtuemart_product_id = ".$virtuemart_product_id;
@@ -182,17 +182,17 @@ FROM #__virtuemart_categories cats
 	public static function getCategoryNeighborhood($virtuemart_category_id){
 
 		$queryGetParentId="SELECT cat_cats1.category_parent_id
-    FROM #__virtuemart_categories AS cats1
-      INNER JOIN #__virtuemart_category_categories AS cat_cats1
+    FROM `#__virtuemart_categories` AS cats1
+      INNER JOIN `#__virtuemart_category_categories` AS cat_cats1
         ON cats1.virtuemart_category_id = cat_cats1.id
     WHERE cats1.virtuemart_category_id = ".$virtuemart_category_id;
 
 		$queryGetYoungerCategory="SELECT MAX(cats2.virtuemart_category_id)
-          FROM #__virtuemart_categories AS cats2
+          FROM `#__virtuemart_categories` AS cats2
          WHERE cats2.virtuemart_category_id < ".$virtuemart_category_id;
 
 		$queryGetOlderCategory="SELECT MIN(cats2.virtuemart_category_id)
-          FROM #__virtuemart_categories AS cats2
+          FROM `#__virtuemart_categories` AS cats2
          WHERE cats2.virtuemart_category_id > ".$virtuemart_category_id;
 
 		$query="SELECT cats.virtuemart_category_id ".
@@ -223,7 +223,7 @@ FROM #__virtuemart_categories cats
 			$user_id=$user->id;
 		}
 		$query="SELECT
-  #__product_favorites.virtuemart_product_id,
+  "."#__product_favorites.virtuemart_product_id,
   product_name,
   auction_date_start,
   auction_date_finish,
@@ -305,22 +305,10 @@ FROM #__virtuemart_products_ru_ru
         $max_bid_value   = $bid_sums['max_bid_value'];
         // по умолчанию (ставок не было) указываем в кач-ве первой ставки стартовую цену
         $min_bid = $bid_sums['price'];
-        // include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$bid_sums);
         if($history){ // ставки были.
-            // первая ставка не равна начальной цене - была ставка кого-либо из игроков
-            if($user_max_bid_value||$max_bid_value){
-                /**
-                Алгоритм извлечения начальной ставки:
-                - Если текущая максимальная ставка - у заавторизованного юзера:
-                указать её
-                - Иначе:
-                предыдущую максимальную ставку (не важно, чья она)
-                - Увеличить минимальную ставку на шаг торгов */
-                $min_bid = ($user_max_bid_value>$max_bid_value)?
-                    $user_max_bid_value
-                    : $max_bid_value;
-            }
+            $min_bid = ($user_max_bid_value)?
+                $user_max_bid_value : $bid_sums['price'];
         }
         return $min_bid;
     }
@@ -350,23 +338,21 @@ FROM #__virtuemart_products_ru_ru
             $db = JFactory::getDbo();
             // шаблоны для запроса
             $where_product_id = "WHERE virtuemart_product_id = $virtuemart_product_id ";
-            $from_user_bids = "FROM #__dev_user_bids";
+            $SelectMaxValueFromBids="SELECT MAX(`value`)
+            FROM #__dev_user_bids
+            $where_product_id ";
 $query = "SELECT TRUNCATE(product_price,0)  AS  'price',
-  ( SELECT `value`
-      $from_user_bids
-     $where_product_id
+  ( $SelectMaxValueFromBids
        AND bidder_id = ".JFactory::getUser()->id." )
                                   AS  'user_max_bid_value',
-  ( SELECT MAX(`value`)
-      $from_user_bids
-     $where_product_id   )        AS  'max_bid_value',
+  ( $SelectMaxValueFromBids   )   AS  'max_bid_value',
   ( SELECT MAX(sum)  FROM auc13_dev_bids
-    $where_product_id  )           AS  max_sum
+    $where_product_id  )          AS  max_sum
      FROM #__virtuemart_product_prices
     $where_product_id";
             $db->setQuery($query);
             $results = $db->loadAssoc();
-            //testSQL($query,__FILE__,__LINE__);
+            testSQL($query,__FILE__,__LINE__);
             //commonDebug(__FILE__,__LINE__,$results, true);
             AuctionStuff::$bid_sums = $results;
         } // $bid_sums=AuctionStuff::$bid_sums=AuctionStuff::getMinBidSum($virtuemart_product_id);
@@ -377,54 +363,54 @@ $query = "SELECT TRUNCATE(product_price,0)  AS  'price',
  * @package
  * @subpackage
  */
-	public static function getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id){
+    public static function getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id){
 
-		$qProdParentCategoryId="SELECT cat_cats1.category_parent_id
-            FROM #__virtuemart_category_categories cat_cats1
+        $qProdParentCategoryId="SELECT cat_cats1.category_parent_id
+            FROM `#__virtuemart_category_categories` AS cat_cats1
            WHERE cat_cats1.category_child_id = ".$virtuemart_category_id;
 
-		$qAllProdsInCategory="SELECT prods.virtuemart_product_id
- FROM #__virtuemart_products prods
-  INNER JOIN #__virtuemart_product_categories prod_cats
+        $qAllProdsInCategory="SELECT prods.virtuemart_product_id
+ FROM `#__virtuemart_products` AS prods
+  INNER JOIN `#__virtuemart_product_categories` AS prod_cats
           ON prods.virtuemart_product_id = prod_cats.virtuemart_product_id
-  INNER JOIN #__virtuemart_category_categories cat_cats
+  INNER JOIN `#__virtuemart_category_categories cat_cats`
           ON prod_cats.virtuemart_category_id = cat_cats.category_child_id
-  INNER JOIN #__virtuemart_categories cats
+  INNER JOIN `#__virtuemart_categories` AS cats
           ON prod_cats.virtuemart_category_id = cats.virtuemart_category_id
   AND cats.virtuemart_category_id = cat_cats.id
 WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
                                     )
    AND prod_cats.virtuemart_category_id = ".$virtuemart_category_id;
 
-		$qPrevProdId="
-		SELECT MAX(prods0.virtuemart_product_id)
-          FROM #__virtuemart_products prods0
-         WHERE prods0.virtuemart_product_id < ".$virtuemart_product_id;
+        $qPrevProdId="
+		SELECT MAX(prods1.virtuemart_product_id)
+          FROM `#__virtuemart_products` AS prods1
+         WHERE prods1.virtuemart_product_id < ".$virtuemart_product_id;
 
-		$qNextProdId="SELECT MIN(prods00.virtuemart_product_id)
-          FROM #__virtuemart_products prods00
-         WHERE prods00.virtuemart_product_id > ".$virtuemart_product_id;
+        $qNextProdId="SELECT MIN(prods2.virtuemart_product_id)
+          FROM `#__virtuemart_products` AS prods2
+         WHERE prods2.virtuemart_product_id > ".$virtuemart_product_id;
 
-		$query="SELECT prods_.virtuemart_product_id
-  FROM #__virtuemart_products prods_
+        $query="SELECT prods3.virtuemart_product_id
+  FROM `#__virtuemart_products` AS prods3
  WHERE (
-        prods_.virtuemart_product_id = ( ".$qPrevProdId."
+        prods3.virtuemart_product_id = ( ".$qPrevProdId."
                                        )
         OR
-        prods_.virtuemart_product_id = ".$virtuemart_product_id."
+        prods3.virtuemart_product_id = ".$virtuemart_product_id."
         OR
-        prods_.virtuemart_product_id = ( ".$qNextProdId."
+        prods3.virtuemart_product_id = ( ".$qNextProdId."
                                        )
        )
-  AND   prods_.virtuemart_product_id IN (
+  AND   prods3.virtuemart_product_id IN (
         ".$qAllProdsInCategory."
        ) ";
 
-		$db=JFactory::getDBO();
-		$db->setQuery($query);
-		//echo "<div class=''><pre>".$query."</pre></div>"; var_dump($db->loadResultArray());die();
-		return $db->loadResultArray();
-	}
+        $db=JFactory::getDBO();
+        $db->setQuery($query);
+        //testSQL($query,__FILE__,__LINE__,true);
+        return $db->loadResultArray();
+    }
 /**
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего.
  * @package
@@ -433,10 +419,10 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 	public static function getProdSlug($product_id){
 		//
 		$query="SELECT slug
- FROM #__virtuemart_products_ru_ru
-INNER JOIN #__virtuemart_products
-   ON #__virtuemart_products_ru_ru.virtuemart_product_id = #__virtuemart_products.virtuemart_product_id
-WHERE #__virtuemart_products.virtuemart_product_id = ".$product_id;
+ FROM `#__virtuemart_products_ru_ru`
+INNER JOIN `#__virtuemart_products`
+   ON `#__virtuemart_products_ru_ru`.virtuemart_product_id = `#__virtuemart_products`.virtuemart_product_id
+WHERE `#__virtuemart_products`.virtuemart_product_id = ".$product_id;
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
 		return $db->loadResult();
@@ -650,10 +636,10 @@ WHERE cats_cats.category_parent_id = 0";
             $user_id = JFactory::getUser()->id;
         $db = JFactory::getDbo();
         $selectMax="SELECT MAX(sum)
-      FROM #__dev_bids
+      FROM `#__dev_bids`
      WHERE virtuemart_product_id = prod.virtuemart_product_id ";
         $selMaxValue = "SELECT MAX(`value`)
-      FROM #__dev_user_bids";
+      FROM `#__dev_user_bids`";
         $query = "SELECT DISTINCT prod.virtuemart_product_id,
        prod_ru_ru.product_name       AS  'item_name',
        DATE_FORMAT(prod.auction_date_finish, '%d.%m.%Y %H:%i')
@@ -880,7 +866,7 @@ class HTML{
         $one_step = AuctionStuff::getBidsStep($price);
         $bid = AuctionStuff::getFirstBidValue($virtuemart_product_id, $history);
         if($history) $bid+=$one_step;
-        //commonDebug(__FILE__,__LINE__,$history);
+        commonDebug(__FILE__,__LINE__,$bid);
         $options = '';
         while($steps) {
             $options.="
