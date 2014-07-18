@@ -43,3 +43,14 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 			.right{margin-right:310px;}
 
 			#pic_top{background:url('../images/top_image.jpg') no-repeat; height:211px; margin-left:146px;}
+
+/* for tests*/
+
+.test-message{
+    background-color: #eaebec;
+    border: solid 1px #ccc;
+    display: inline-block;
+    margin: 10px auto;
+    margin-bottom: 10px;
+    padding: 10px;
+}

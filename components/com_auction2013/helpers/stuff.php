@@ -141,12 +141,24 @@ class AuctionStuff{
             'components' . DS .
             'com_auction2013' . DS .
             'price_ranges.json')   );
+        $bid_step=0;
+        //commonDebug(__FILE__,__LINE__,$price, true);
+        //commonDebug(__FILE__,__LINE__,$price_steps, true);
         foreach ($price_steps as $range=>$step) {
             $ranges = explode('-', $range);
-            if($price>(int)$ranges[0]&&$price<(int)$ranges[1])
-                return (int)$step;
+            //commonDebug(__FILE__,__LINE__,$ranges);
+            if((int)$price>(int)$ranges[0]){
+                if($ranges[1]=='*'||(int)$price<=(int)$ranges[1]){
+                    $bid_step=(int)$step;
+                    //showTestMessage('step: '.$step,__FILE__,__LINE__,'brown');
+                    break;
+                }
+            }
         }
-        return false;
+        //commonDebug(__FILE__,__LINE__,$bid_step);
+        if(!$bid_step)
+            die("ОШИБКА: не получен шаг торгов.<hr>".__FILE__.':'.__LINE__);
+        return $bid_step;
     }
     /**
      * Описание
@@ -301,16 +313,13 @@ FROM #__virtuemart_products_ru_ru
     public static function getFirstBidValue($virtuemart_product_id,$history){
         // получить минимальную ставку
         $bid_sums=AuctionStuff::getMinBidSum($virtuemart_product_id);
-        $user_max_bid_value     = $bid_sums['user_max_bid_value'];
-        $max_bid_value   = $bid_sums['max_bid_value'];
-        // по умолчанию (ставок не было) указываем в кач-ве первой ставки стартовую цену
-        $min_bid = $bid_sums['price'];
         //commonDebug(__FILE__,__LINE__,$bid_sums);
-        if($history){ // ставки были.
-            $min_bid = ($user_max_bid_value)?
-                $user_max_bid_value : $bid_sums['price'];
+        if($history && $bid_sums['user_max_bid_value']){
+            return ($bid_sums['user_max_bid_value']>$bid_sums['max_sum'])?
+                $bid_sums['user_max_bid_value']:$bid_sums['max_sum'];
         }
-        return $min_bid;
+        // по умолчанию (ставок не было) указываем в кач-ве первой ставки стартовую цену
+        return $bid_sums['price'];
     }
     /**
      * Получить последнюю ставку
@@ -352,7 +361,7 @@ $query = "SELECT TRUNCATE(product_price,0)  AS  'price',
     $where_product_id";
             $db->setQuery($query);
             $results = $db->loadAssoc();
-            testSQL($query,__FILE__,__LINE__);
+            //testSQL($query,__FILE__,__LINE__);
             //commonDebug(__FILE__,__LINE__,$results, true);
             AuctionStuff::$bid_sums = $results;
         } // $bid_sums=AuctionStuff::$bid_sums=AuctionStuff::getMinBidSum($virtuemart_product_id);
@@ -866,7 +875,7 @@ class HTML{
         $one_step = AuctionStuff::getBidsStep($price);
         $bid = AuctionStuff::getFirstBidValue($virtuemart_product_id, $history);
         if($history) $bid+=$one_step;
-        commonDebug(__FILE__,__LINE__,$bid);
+        //commonDebug(__FILE__,__LINE__,$bid);
         $options = '';
         while($steps) {
             $options.="

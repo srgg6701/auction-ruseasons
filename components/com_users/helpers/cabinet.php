@@ -381,7 +381,9 @@ $(function(){
         <td><?php echo ($data['user_max_lot'])? $data['user_max_lot']:0;?></td>
         <td><?php echo $data['user_max_bid'];?></td>
         <td><?php
-            if((int)$data['user_max_bid']===(int)$data['absolute_max_lot']):?>
+            /**
+            игрок становится покупателем, если максимальная ставка записана на него */
+            if((int)$data['user_max_lot']===(int)$data['absolute_max_lot']):?>
                 <b>Покупатель</b>
         <?php
             else:?>
@@ -407,6 +409,7 @@ $(function(){
      * @subpackage
      */
     function layout_purchases($user_id){
+        $topItemOnline = AuctionStuff::getTopCatsMenuItemIds('main',false, 'online');
         if($purchases=AuctionStuff::getPurchases(array('user_id'=>true))){
 			?>
         <table class="cabinet border">
@@ -423,7 +426,13 @@ $(function(){
 			?>
         	<tr>
             	<td><?php echo $i+1;?></td>
-            	<td><a href="<?php echo AuctionStuff::extractProductLink($data_array['virtuemart_category_id'],$data_array['slug']);?>"><?php echo $data_array['product_name'];?></a></td>
+            	<td><a href="<?php
+    echo AuctionStuff::extractProductLink(
+                            $data_array['virtuemart_category_id'],
+                            $data_array['slug'],
+                            $topItemOnline['online']); ?>"><?php
+                        echo $data_array['product_name'];
+                        ?></a></td>
                 <td><?php echo $data_array['category_name'];?></td>
             	<td align="right"><?php echo $data_array['price'];?></td>
             	<td nowrap><?php echo ((int)$data_array['status'])? 'Приобретено':'<span>На оформлении</span>';?></td>

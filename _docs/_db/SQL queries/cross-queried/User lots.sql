@@ -5,9 +5,11 @@
             users.username,
             users.name,
             sum                           AS  'sum',
+  bids.datetime,
   ( SELECT value 
       FROM auc13_dev_user_bids 
-     WHERE bid_id = bids.id
+     WHERE bidder_id = bids.bidder_user_id
+            AND virtuemart_product_id = bids.virtuemart_product_id
   )                                       AS  'user_bid value',
             -- prod.                             auction_date_finish,
   /*( SELECT MAX(sum) 

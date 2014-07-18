@@ -34,6 +34,25 @@ function commonDebug($file, $line, $object=NULL, $stop=false, $collapsed=true){
     if($stop) die();
 }
 /**
+ * Вывести сообщение
+ */
+function showTestMessage($message,$file,$line,$color=false){
+    echo "<div сlass='test_message' style='background-color: #eaebec;
+    border: solid 1px #ccc;";
+    if ($color) echo 'color:'.$color.';';
+    echo "display: inline-block;
+    margin: 10px auto;
+    margin-bottom: 10px;
+    padding: 10px;'>
+    $message
+    file: <span>"
+        .$file."</span>
+    <br>line:
+    <span style='background-color:#666; color:white; padding: 2px 4px;'>"
+        .$line."</span>
+    </div>";
+}
+/**
  * Вывести запрос в виде, подходящем для прямого тестирования
  */
 function testSQL($query,$file=false,$line=false,$stop=false,$class='test'){
