@@ -349,23 +349,21 @@ FROM #__virtuemart_products_ru_ru
         if(!AuctionStuff::$bid_sums){
             $db = JFactory::getDbo();
             // шаблоны для запроса
-            $product_id = " virtuemart_product_id = $virtuemart_product_id ";
-            $selectMaxSum='SELECT MAX(sum)';
-            $fromBids = " FROM #__dev_bids";
-            $fromTables = "$fromBids AS bids, #__dev_user_bids AS user_bids
-     WHERE bids.id = user_bids.bid_id
-       AND bids.$product_id ";
-            //--------------------------------------------------
-            $query ="SELECT TRUNCATE(product_price,0)  AS  price,
-  ( SELECT MAX(value) $fromTables
-       AND bidder_user_id = " . JFactory::getUser()->id . " )
-                                  AS  user_max_bid_value,
-  ( $selectMaxSum $fromTables )
-                                  AS  max_bid_value,
-  ( $selectMaxSum $fromBids
-    WHERE $product_id )           AS  max_sum
+            $where_product_id = "WHERE virtuemart_product_id = $virtuemart_product_id ";
+            $from_user_bids = "FROM #__dev_user_bids";
+$query = "SELECT TRUNCATE(product_price,0)  AS  'price',
+  ( SELECT `value`
+      $from_user_bids
+     $where_product_id
+       AND bidder_id = ".JFactory::getUser()->id." )
+                                  AS  'user_max_bid_value',
+  ( SELECT MAX(`value`)
+      $from_user_bids
+     $where_product_id   )        AS  'max_bid_value',
+  ( SELECT MAX(sum)  FROM auc13_dev_bids
+    $where_product_id  )           AS  max_sum
      FROM #__virtuemart_product_prices
-WHERE $product_id";
+    $where_product_id";
             $db->setQuery($query);
             $results = $db->loadAssoc();
             //testSQL($query,__FILE__,__LINE__);
@@ -663,16 +661,12 @@ WHERE cats_cats.category_parent_id = 0";
   ( $selectMax
            AND bidder_user_id = bids.bidder_user_id
   )                                  AS  'user_max_lot',
-  ( $selMaxValue,
-           #__dev_bids AS bds
-     WHERE bid_id = bds.id
-       AND bds.virtuemart_product_id = prod.virtuemart_product_id
+  ( $selMaxValue
+     WHERE virtuemart_product_id = prod.virtuemart_product_id
   )                                  AS  'absolute_max_lot',
-  ( $selMaxValue AS uBids,
-           #__dev_bids AS Bids
-     WHERE uBids.bid_id = Bids.id
-       AND Bids.virtuemart_product_id = prod.virtuemart_product_id
-       AND Bids.bidder_user_id = $user_id )
+  ( $selMaxValue AS uBids
+     WHERE virtuemart_product_id = prod.virtuemart_product_id
+       AND bidder_id = $user_id )
                                      AS  'user_max_bid',
   ( $selectMax
   )                                  AS  'max_bid',
@@ -773,7 +767,7 @@ WHERE cats_cats.category_parent_id = 0";
          */
         if($cntr==1){
             //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-            $section_links = array();
+            $section_links = array(); // todo: разобраться с неиспользуемым ЗДЕСЬ параметром
             $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
             require_once JPATH_BASE.'/modules/mod_vlotscats/helper.php';
             $lots = modVlotscatsHelper::getCategoriesData(true);
@@ -832,7 +826,7 @@ WHERE cats_cats.category_parent_id = 0";
                 этом ссылки уже были сгенерированы - извлечь их из сессии */
             //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
             if(!$section_links=JFactory::getSession()->get('section_links')){
-                die("Не получены ссылки предметов из сессии.<br>file: ".__FILE__."<br>".__METHOD__);
+                //die("Не получены ссылки предметов из сессии.<br>file: ".__FILE__."<br>".__METHOD__);
                 return false;
             }
         }
@@ -843,7 +837,9 @@ class HTML{
     /**
      * Построить историю ставок по предмету
      */
-    public static function buildBidsHistory($virtuemart_product_id,$history){
+    public static function buildBidsHistory(
+            $virtuemart_product_id, // todo: разобраться с неиспользуемым параметром
+            $history){
         //commonDebug(__FILE__,__LINE__,$history);
         $html = '<table id="tbl-bid-history" rules="rows" border="1">
         <tr>
@@ -917,7 +913,7 @@ class HTML{
      */
     public static function innerMenu($content_type,$link,$obj=false){?>
         <div class="your_cab">
-            <a href="<?=$link?>"><?php $lts=' &lt; &lt; ';
+            <a href="<?=$link?>"><?php $lts=' &lt; &lt; '; // todo: разобраться с неиспользуемым параметром
                 $gts=' &gt;&gt; ';
                 switch($content_type){
                     case 'user':
@@ -942,9 +938,9 @@ class HTML{
  * @subpackage
  */
 	public static function pageHead (
-								$section,
+								$section, // todo: разобраться с неиспользуемым параметром
 								$layout,
-								$slug=false,
+								$slug=false, // todo: разобраться с неиспользуемым параметром
 								$pagination=false
 							){
 		$category_id=JRequest::getVar('virtuemart_category_id');
@@ -954,6 +950,7 @@ class HTML{
         $category_data=$sections_data[$layout];
         //commonDebug(__FILE__, __LINE__, $category_data, false);
         //echo "<div>category_id = ".$category_id."</div>";
+        // todo: разобраться с неиспользуемым параметром
         $section_data=$category_data[$layout]; // layout: shop, online...
         ?>
 <div class="top_list">
@@ -995,7 +992,7 @@ class HTML{
 
         $app=&JFactory::getApplication();
         $session=&JFactory::getSession();
-        $user=&JFactory::getUser();
+        $user=&JFactory::getUser(); // todo: разобраться с неиспользуемым параметром
         $links=$session->get('section_links');
         $router = $app->getRouter();
         if($SefMode=$router->getMode()){
@@ -1019,7 +1016,7 @@ class HTML{
 	public static function setCommonInnerMenu($params=false,$params_xtra=false){
 		//commonDebug(__FILE__, __LINE__, $params);
         //commonDebug(__FILE__, __LINE__, $params_xtra);
-		$session=&JFactory::getSession();
+		$session=&JFactory::getSession(); // todo: разобраться с неиспользуемым параметром
 		$user=&JFactory::getUser();
 		$pre_link='index.php?option=com_';
 		if(in_array('user',$params)){

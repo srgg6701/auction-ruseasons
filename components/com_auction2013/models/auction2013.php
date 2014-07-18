@@ -102,8 +102,10 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         $table_user_bids    = '#__dev_user_bids';   // заочные биды
         // проверить, превышает ли ставка юзера текущий максимальный заочный бид
         $db = JFactory::getDbo();
-        $query = "SELECT MAX(sum) AS 'current_max_sum',
+        $query = "SELECT TRUNCATE(prices.product_price,0) AS price,
+                       MAX(sum) AS 'current_max_sum',
                        MAX(value) AS 'current_max_bid',
+              bids.bidder_user_id AS 'previous_bidder_id',
   TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
                                   AS 'minutes_rest',
   FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
@@ -112,7 +114,10 @@ class Auction2013ModelAuction2013 extends JModelLegacy
 LEFT JOIN $table_bids AS bids
           ON prods.virtuemart_product_id = bids.virtuemart_product_id
 LEFT JOIN $table_user_bids AS user_bids
-          ON bid_id = bids.id
+          ON user_bids.virtuemart_product_id = bids.virtuemart_product_id
+             AND bids.bidder_user_id = user_bids.bidder_id
+INNER JOIN #__virtuemart_product_prices AS prices
+          ON prices.virtuemart_product_id = prods.virtuemart_product_id
 WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
         /*SELECT MAX(sum) AS 'current_max_bid',
   TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
@@ -128,7 +133,7 @@ WHERE prods.virtuemart_product_id = */
             $db->setQuery($query);
             $results = $db->loadAssoc();
             if($test){
-                testSQL($query,__file__, __LINE__);
+                testSQL($query,__FILE__, __LINE__);
                 commonDebug(__FILE__,__LINE__,$results);
             }
             $minutes_rest = floatval($results['minutes_rest']);
@@ -136,8 +141,10 @@ WHERE prods.virtuemart_product_id = */
             if($minutes_rest<=0)
                 return array('expired',$results['expired']);
             else{
-                $current_max_bid = (int)$results['current_max_bid'];
-                $current_max_sum = (int)$results['current_max_sum'];
+                $price = (int)$results['price'];
+                $current_max_bid    = (int)$results['current_max_bid'];
+                $current_max_sum    = (int)$results['current_max_sum'];
+                $previous_bidder_id = (int)$results['previous_bidder_id'];
                 if(!$current_max_bid) $current_max_bid = 0;
                 $plus5min = $results['plus5min'];
             }
@@ -177,53 +184,102 @@ WHERE prods.virtuemart_product_id = */
             else echo('Запись новая');
         }
         /**
-         добавить запись в таблицу ставок
-            рассчитать величину добавляемой ставки:
-            - получить шаг торгов
-            - Если ставки уже были
-                - если выбранная ставка больше текущего максимального заочного бида
-                    - прибавить к этому значению шаг торогов
-                - иначе
-                    - прибавить к последней ставке шаг торгов (указанный юзером бид будет записан в табл. dev_users_bid)
-            - Иначе
-                - записать значение входящей ставки */
+            добавить запись в таблицу ставок
+            см. файл ставки.xlsx и схему Bids в https://www.draw.io/?#G0B1Hmj89fLFA6UDlnbE9lUk4yaWM */
         $user_bid_value = (int)$post['bids']; // назначить по умолчанию
-        if($current_max_bid){ // ставки уже были
-            $user_bid_value = ($user_bid_value>$current_max_bid)? // бид юзера больше всех текущих?
-                $current_max_bid // взять за базовое значение текущий максимальный бид
-                : $current_max_sum; // взять за базовое значение текущую максимальную ставку
-            $user_bid_value+=$step; // увеличить на шаг торгов
-        }
-        // добавить запись в таблицу ставок
+        // будем добавлять записи
+        $db = JFactory::getDbo();
         $data = new stdClass();
         $data->virtuemart_product_id=$post['virtuemart_product_id'];
-        $data->bidder_user_id = $bidder_user_id;
-        $data->sum=$user_bid_value;
-        $data->datetime=date('Y-m-d H:i:s');
-        try{
-            $db = JFactory::getDbo();
-            $db->insertObject($table_bids, $data);
-            try{
+        //
+        if($current_max_bid){ // ставки уже были
+            // проставить диапазон ставок от текущей последней до предыдущего максимального ЗБ
+            $svalue = $current_max_sum;
+            $turn = 1;
+            $break=false;
+            while($svalue<=$current_max_bid){
                 /**
-                добавить запись в таблицу заочных бидов
-                    удалить ненужные данные из объекта: */
-                unset(  $data->virtuemart_product_id,
-                        $data->bidder_user_id,
-                        $data->sum,
-                        $data->datetime
-                     );
-                $data->bid_id = $db->insertid();
-                $data->value=$post['bids'];
-                $db->insertObject($table_user_bids, $data);
-                //if($test) die("<div>Проверить добавление ставки и бида!</div>");
+                    подставить id игрока - текущий/предыдущий в зависимости
+                    от чётности записи  */
+                $bidder_id=($turn%2)? $bidder_user_id:$previous_bidder_id;
+                $data->bidder_user_id = $bidder_id;
+                // расчитать величину текущей ставки
+                $svalue+=$step;
+                /**
+                    если расчётная ставка превысила входящую, - выставить ставку за
+                    предыдущего игрока (цикл работает в рамках его ЗБ) */
+                if($svalue>$user_bid_value){
+                    //echo "<div style='color:orange; font-weight: bold;'>Последняя ставка (проставляется за предыдущего игрока):</div>";
+                    $data->bidder_user_id = $bidder_user_id;
+                    $break=true;
+                }elseif($svalue==$current_max_bid&&$turn%2){
+                    /**
+                    если расчётная ставка сравнялась с текущим макс. бидом
+                    и приходится на текущего игрока, записать ставку на него */
+                    $data->bidder_user_id = $previous_bidder_id;
+                    $break=true;
+                    //echo "<div style='color:violet; font-weight: bold;'>Последняя ставка (==макс. бид предыдущего игрока):</div>";
+                }
+                //echo "<div";if($turn%2) echo " style='font-weight:bold'";echo ">ставка: $svalue</div>";
+                // добавить запись в таблицу ставок
+                $data->sum=$svalue;
+                $data->datetime=date('Y-m-d H:i:s');
+                try{
+                    $db->insertObject($table_bids, $data);
+                    // try it here!
+                }catch(Exception $e){
+                    echo "<div>Ошибка добавления ставки(".__LINE__."):</div>";
+                    echo "<div>".$e->getMessage()."</div>";
+                }
+                $turn++;
+                if($break) break;
+            }
+            /*echo "<div style='color:blue'>current_max_bid: $current_max_bid</div>";
+            echo "<div style='color:red'>user_bid_value: $user_bid_value</div>";
+            die(__file__.': '.__line__);*/
+            /*$user_bid_value = ($user_bid_value>$current_max_bid)? // бид юзера больше всех текущих?
+                $current_max_bid // взять за базовое значение текущий максимальный бид
+                : $current_max_sum; // взять за базовое значение текущую максимальную ставку
+            $user_bid_value+=$step; // увеличить на шаг торгов*/
+        }else{
+            $data->sum=$price;
+            $data->datetime=date('Y-m-d H:i:s');
+            try{
+                $db->insertObject($table_bids, $data);
+                // try it here!
             }catch(Exception $e){
-                echo "<div>Ошибка добавления бида:</div>";
+                echo "<div>Ошибка добавления ставки(".__LINE__."):</div>";
+                echo "<div>".$e->getMessage()."</div>";
+            }
+        }
+        // добавить/обновить запись в таблице бидов
+        // проверить, есть ли уже запись для данного игрока и предмета
+        $query = "SELECT id FROM #__dev_user_bids
+             WHERE bidder_id = " . $bidder_user_id . "
+               AND virtuemart_product_id = " . $post['virtuemart_product_id'];
+        $db->setQuery($query);
+        // если есть - обновить
+        if($record_id=$db->loadResult()){
+            $update = new stdClass();
+            $update->id = $record_id; // pkey
+            $update->value=$post['bids'];
+            try{
+                echo "<div>Ошибка обновления бида(".__LINE__."):</div>";
+                $db->updateObject($table_user_bids, $update, 'id');
+            }catch(Exception $e){
+                echo "<div>".$e->getMessage()."</div>";
+            }
+        }else{ // добавить
+            $insert = new stdClass();
+            $insert->virtuemart_product_id=$post['virtuemart_product_id'];
+            $insert->bidder_id = $bidder_user_id;
+            $insert->value=$post['bids'];
+            try{
+                $db->insertObject($table_user_bids, $insert);
+            }catch(Exception $e){
+                echo "<div>Ошибка добавления бида(".__LINE__."):</div>";
                 die("<div>".$e->getMessage()."</div>");
             }
-
-        }catch(Exception $e){
-            echo "<div>Ошибка добавления ставки:</div>";
-            die("<div>".$e->getMessage()."</div>");
         }
         // если до окончания торгов осталось меньше 5 мин, продлить
         if($minutes_rest<5){
@@ -295,7 +351,7 @@ WHERE prods.virtuemart_product_id = */
                 }
             }
         }catch(Exception $e){
-            die('Error: '.$e->getMessage());
+            //die('Error: '.$e->getMessage());
             $result['msg']=JText::_('ОШИБКА... Заказ не оформлен');
             $result['type']='error';
         }
