@@ -82,7 +82,7 @@ if (!empty($this->products)) {
         //echo "<h3>this->products:</h3><pre>";var_dump($this->products);echo "</pre>"; // die();
 	// array => object
 	foreach($this->products as $i=>$product){
-	    //commonDebug(__FILE__,__LINE__,$product->images);?>
+	    //commonDebug(__FILE__,__LINE__,$product);?>
 <div class="box">
   <div class="img">	
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php 
@@ -93,7 +93,10 @@ if (!empty($this->products)) {
 	
 	?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
   </div>
-	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
+	<h2><?php
+        // наименование продукта
+        echo JHTML::link ($product->link, $product->product_name);
+        ?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
 	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 

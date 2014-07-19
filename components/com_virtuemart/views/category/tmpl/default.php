@@ -1,4 +1,4 @@
-<?php	
+<?php   //die(__file__);
 /**
  *
  * Show the products in a category

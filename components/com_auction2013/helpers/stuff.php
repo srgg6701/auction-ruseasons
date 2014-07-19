@@ -141,21 +141,16 @@ class AuctionStuff{
             'components' . DS .
             'com_auction2013' . DS .
             'price_ranges.json')   );
-        $bid_step=0;
-        //commonDebug(__FILE__,__LINE__,$price, true);
-        //commonDebug(__FILE__,__LINE__,$price_steps, true);
+        $bid_step=0; //commonDebug(__FILE__,__LINE__,$price);
         foreach ($price_steps as $range=>$step) {
-            $ranges = explode('-', $range);
-            //commonDebug(__FILE__,__LINE__,$ranges);
+            $ranges = explode('-', $range); //commonDebug(__FILE__,__LINE__,$ranges);
             if((int)$price>(int)$ranges[0]){
                 if($ranges[1]=='*'||(int)$price<=(int)$ranges[1]){
-                    $bid_step=(int)$step;
-                    //showTestMessage('step: '.$step,__FILE__,__LINE__,'brown');
+                    $bid_step=(int)$step; //showTestMessage('step: '.$step,__FILE__,__LINE__,'brown');
                     break;
                 }
             }
-        }
-        //commonDebug(__FILE__,__LINE__,$bid_step);
+        }   //commonDebug(__FILE__,__LINE__,$bid_step, true);
         if(!$bid_step)
             die("ОШИБКА: не получен шаг торгов.<hr>".__FILE__.':'.__LINE__);
         return $bid_step;

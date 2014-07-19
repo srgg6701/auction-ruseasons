@@ -146,7 +146,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
     function makeBid(){
         $test=false;
         $post = JRequest::get('post');
-        $result = $this->getModel()->makeBid($post); die('file: '.__FILE__);
+        $result = $this->getModel()->makeBid($post);
         // ставка больше минимальной резервной и максимальной текущей ставки
         if($result&&!is_array($result)) {
             /**

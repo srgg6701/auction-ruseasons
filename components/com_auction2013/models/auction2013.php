@@ -100,12 +100,16 @@ class Auction2013ModelAuction2013 extends JModelLegacy
           ["virtuemart_category_id"]=>  "33"  */
         $table_bids         = '#__dev_bids';        // ставки
         $table_user_bids    = '#__dev_user_bids';   // заочные биды
+        $current_bidder_id = JFactory::getUser()->id;
         // проверить, превышает ли ставка юзера текущий максимальный заочный бид
         $db = JFactory::getDbo();
-        $query = "SELECT TRUNCATE(prices.product_price,0) AS price,
+        $query = "SELECT TRUNCATE(prices.product_price,0) AS 'price',
                        MAX(sum) AS 'current_max_sum',
                        MAX(value) AS 'current_max_bid',
-              bids.bidder_user_id AS 'previous_bidder_id',
+              ( SELECT bidder_id FROM #__dev_user_bids
+    WHERE virtuemart_product_id = $post[virtuemart_product_id]
+    ORDER BY `value` DESC LIMIT 1)
+                AS 'previous_bidder_id',
   TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
                                   AS 'minutes_rest',
   FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
@@ -118,14 +122,14 @@ LEFT JOIN $table_user_bids AS user_bids
              AND bids.bidder_user_id = user_bids.bidder_id
 INNER JOIN #__virtuemart_product_prices AS prices
           ON prices.virtuemart_product_id = prods.virtuemart_product_id
-WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
+WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
         //
         try{
             $db->setQuery($query);
             $results = $db->loadAssoc();
             if($test){
-                //testSQL($query,__FILE__, __LINE__);
-                //commonDebug(__FILE__,__LINE__,$results);
+                testSQL($query,__FILE__, __LINE__);
+                commonDebug(__FILE__,__LINE__,$results);
             }
         }catch(Exception $e){
             echo "<div>Ошибка проверки максимальной ставки:</div>";
@@ -137,7 +141,7 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
             $return = array('expired',$results['expired']);
             if($test){
                 showTestMessage("Торги просрочены",__FILE__,__LINE__);
-                commonDebug(__FILE__,__LINE__,$return, true);
+                commonDebug(__FILE__,__LINE__,$return);
             }
             else
                 return $return;
@@ -146,8 +150,8 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
             $current_max_bid    = (int)$results['current_max_bid'];
             $current_max_sum    = (int)$results['current_max_sum'];
             $previous_bidder_id = (int)$results['previous_bidder_id'];
-            if(!$current_max_bid) $current_max_bid = 0;
-            if(!$current_max_sum) $current_max_sum = 0;
+            if(!$current_max_bid)   $current_max_bid = 0;
+            if(!$current_max_sum)   $current_max_sum = 0;
             $plus5min = $results['plus5min'];
             if($test) {
                 echo "<pre>" . __FILE__ . ':' . __LINE__ . '<br>';
@@ -159,8 +163,7 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
                 //die('line: '.__LINE__);
             }
         }
-        $current_bidder_id = JFactory::getUser()->id;
-        $step = AuctionStuff::getBidsStep($post['bids']);
+        $step = AuctionStuff::getBidsStep($price);
         // проверить, нет ли уже такой записи:
         // todo: прояснить вопрос - нужна ли эта проверка вообще, т.к. выше оно проверяет, является ли входящая ставка больше последней добавленной
         $query = "SELECT COUNT(*)
@@ -196,52 +199,64 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
             $turn = 1;
             $break=false;
             while(true){ // цикл прерывается по условию; в конце - подстраховочный ограничитель в 250 итераций
-                // todo: убрать ограничитель итераций $turn
+                // todo: убрать ограничитель итераций $turn:250
                 // расчитать величину текущей ставки
                 $svalue+=$step;
                 /**
                 подставить id игрока - текущий/предыдущий в зависимости
                 от чётности записи  */
-                $bidder_id=($turn%2)? $current_bidder_id:$previous_bidder_id;
-                /**
-                если сейчас очередь текущего игрока и расчётная ставка:
-                    1. сравнялась с предыдущим макс. бидом
-                    ИЛИ
-                    2. больше него
-                или очередь предыдущего игрока и
-                    1. текущий максимальный бид больше входящей ставки
-                    И
-                    2. расчётная ставка больше или равна входящей ставке */
+                $bidder_id=($turn%2>0)? $current_bidder_id:$previous_bidder_id;
+                showTestMessage('$turn%2: '.($turn%2),__FILE__,__LINE__,'red');
                 if($bidder_id==$current_bidder_id){ // ставка за текущего игрока
+                    if ($test) showTestMessage("Cтавка за ТЕКУЩЕГО игрока:", __FILE__, __LINE__, '#333');
                     if($svalue>=$current_max_bid) { // расчётная ставка больше или равна текущему макс. биду
                         $break = true;
                         if ($test) showTestMessage("Последняя ставка (проставляется за текущего игрока):", __FILE__, __LINE__, 'orange');
                     }
-                }elseif( // ставка за предыдущего игрока
-                         $current_max_bid > $svalue // максимальный ЗБ больше расчётной ставки
-                         && $svalue >=$user_bid_value){ // расчётная ставка превысила входящую
-                    $break=true;
-                    if($test) showTestMessage("Последняя ставка (проставляется за предыдущего игрока):",__FILE__,__LINE__,'violet');
+                    /**
+                    игрок уже делал ставки и текущая расчётная больше его максимальной (т.е., - ЗБ) */
+                    if($svalue>$post['bids']){
+                        $break = -1;
+                        if ($test) showTestMessage("Ставка (<b>$svalue</b>) превысила входящий бид (<b>$post[bids]</b>) текущего юзера и будет отменена.", __FILE__, __LINE__, 'red');
+                    }
+                }else{
+                    if ($test) showTestMessage("Cтавка за ПРЕДЫДУЩЕГО игрока:", __FILE__, __LINE__, '#666');
+                    if( // ставка за предыдущего игрока
+                        $current_max_bid > $svalue // максимальный ЗБ больше расчётной ставки
+                        && $svalue >=$user_bid_value){ // расчётная ставка превысила входящую
+                        $break=true;
+                        if($test) showTestMessage("Последняя ставка (проставляется за предыдущего игрока):",__FILE__,__LINE__,'violet');
+                    }
                 }
-                // добавить запись в таблицу ставок
-                $data->sum=$svalue;
-                $data->datetime=date('Y-m-d H:i:s');
-                $data->bidder_user_id = $bidder_id;
                 if($test){
                     echo "<div";
-                    if($bidder_id==$current_bidder_id) echo " style='font-weight:bold'";
-                    elseif($bidder_id==$previous_bidder_id) echo " style='color:#666'";
-                    echo ">ставка: $svalue</div>";
-                    echo "<div>sum: $svalue</div>";
-                    echo "<div>table: $table_bids</div>";
+                    if($bidder_id==$current_bidder_id) {
+                        echo " style='font-weight:bold'";
+                        $usertype = 'Current user';
+                    }
+                    elseif($bidder_id==$previous_bidder_id) {
+                        echo " style='color:#666'";
+                        $usertype = 'Previous user';
+                    }
+                    echo "></b>$usertype<br>ставка: $svalue</div>";
+                    echo "<div>current_max_bid: $current_max_bid</div>";
                     echo "<div>bidder_id: $bidder_id</div>";
                 }
-                try{
-                    $db->insertObject($table_bids, $data);
-                    if($test) showTestMessage("Добавлена запись в $table_bids",__FILE__,__LINE__,'blue');
-                }catch(Exception $e){
-                    echo "<div>Ошибка добавления ставки(".__LINE__."):</div>";
-                    die("<div>".$e->getMessage()."</div>");
+                /**
+                если не нужно отменять добавление ставки из-за превышения текущей
+                последнего ЗБ юзера */
+                if($break!==-1){ //
+                    // добавить запись в таблицу ставок
+                    $data->sum=$svalue;
+                    $data->datetime=date('Y-m-d H:i:s');
+                    $data->bidder_user_id = $bidder_id;
+                    try{
+                        $db->insertObject($table_bids, $data);
+                        if($test) showTestMessage("Добавлена запись в $table_bids",__FILE__,__LINE__,'blue');
+                    }catch(Exception $e){
+                        echo "<div>Ошибка добавления ставки(".__LINE__."):</div>";
+                        die("<div>".$e->getMessage()."</div>");
+                    }
                 }
                 $turn++;
                 if($turn>250) die('<div class="error-text">Превышен лимит итераций</div>'.__FILE__.':'.__LINE__);
@@ -297,7 +312,7 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
             $insert->datetime=date('Y-m-d H:i:s');
             try{
                 $db->insertObject($table_user_bids, $insert);
-                if($test) showTestMessage("Добавлена запись в $table_user_bids",__FILE__,__LINE__);
+                if($test) showTestMessage("Добавлена запись в $table_user_bids",__FILE__,__LINE__,'violet');
             }catch(Exception $e){
                 echo "<div>Ошибка добавления бида(".__LINE__."):</div>";
                 die("<div>".$e->getMessage()."</div>");
@@ -317,7 +332,7 @@ WHERE prods.virtuemart_product_id = " . $post['virtuemart_product_id'];
             }
         }
         if($test){
-            showTestMessage('return true',__FILE__,__LINE__,'blue');
+            showTestMessage('return true',__FILE__,__LINE__);
             die();
         }
         else return true;

@@ -727,6 +727,8 @@ class VirtueMartModelProduct extends VmModel {
 
             if ($withCalc) {
                 $child->prices = $this->getPrice($child, array(), 1);
+                // include_once JPATH_SITE.DS.'tests.php';
+                //commonDebug(__FILE__,__LINE__,$child->prices);
                 //vmdebug(' use of $child->prices = $this->getPrice($child,array(),1)');
             }
 
@@ -1955,7 +1957,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'calculationh.php');
         }
         $calculator = calculationHelper::getInstance();
-
+        //commonDebug(__FILE__,__LINE__,$calculator);
         // Add in the quantity in case the customfield plugins need it
         $product->quantity = $quantity;
 
@@ -1963,7 +1965,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         $variantPriceModification = $calculator->calculateModificators($product, $customVariant);
 
         $prices = $calculator->getProductPrices($product, $variantPriceModification, $quantity);
-
+        //showTestMessage('id: '.$this->_id,__FILE__, __LINE__);
+        //commonDebug(__FILE__,__LINE__,$prices);
         return $prices;
     }
 

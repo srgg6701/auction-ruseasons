@@ -383,7 +383,7 @@ $(function(){
         <td><?php
             /**
             игрок становится покупателем, если максимальная ставка записана на него */
-            if((int)$data['user_max_lot']===(int)$data['absolute_max_lot']):?>
+            if((int)$data['user_max_bid']===(int)$data['absolute_max_lot']):?>
                 <b>Покупатель</b>
         <?php
             else:?>
