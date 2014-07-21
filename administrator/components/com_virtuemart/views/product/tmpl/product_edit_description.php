@@ -1,4 +1,4 @@
-<?php
+<?php   //die(__FILE__.':'.__LINE__);
 /**
 *
 * Set the descriptions for a product
@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access');?>
 				<div style="text-align:right;font-weight:bold;"><?php echo JText::_('COM_VIRTUEMART_CUSTOM_PAGE_TITLE'); ?> </div>
 			</td>
 			<td valign="top">
-				<input type="text" class="inputbox" size="70" name="customtitle" value="<?php echo $this->product->customtitle ?>" />
+				<input type="text" class="inputbox" size="70" name="customtitle" value="<?php echo $this->product->customtitle; ?>" />
 			</td>
 		</tr>
 		<tr>

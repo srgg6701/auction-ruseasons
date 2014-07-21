@@ -1,12 +1,11 @@
 SELECT
-  auc13_virtuemart_categories.virtuemart_category_id,
-  auc13_virtuemart_categories_ru_ru.virtuemart_category_id,
-  auc13_virtuemart_categories_ru_ru.category_name,
-  auc13_virtuemart_category_categories.category_parent_id,
-  auc13_virtuemart_category_categories.category_child_id,
-  auc13_virtuemart_category_categories.id
-FROM auc13_virtuemart_categories
-  INNER JOIN auc13_virtuemart_categories_ru_ru
-    ON auc13_virtuemart_categories.virtuemart_category_id = auc13_virtuemart_categories_ru_ru.virtuemart_category_id
-  INNER JOIN auc13_virtuemart_category_categories
-    ON auc13_virtuemart_categories.virtuemart_category_id = auc13_virtuemart_category_categories.category_child_id
+  cats_cats.id AS category_id,
+  -- cats_ru.category_name,
+  -- cats_ru.slug,
+  -- cats_cats.category_parent_id,
+  cats.category_layout AS parent_alias
+FROM auc13_virtuemart_categories                  AS cats
+  INNER JOIN auc13_virtuemart_categories_ru_ru    AS cats_ru
+    ON cats.virtuemart_category_id = cats_ru.virtuemart_category_id
+  INNER JOIN auc13_virtuemart_category_categories AS cats_cats
+    ON cats.virtuemart_category_id = cats_cats.category_child_id

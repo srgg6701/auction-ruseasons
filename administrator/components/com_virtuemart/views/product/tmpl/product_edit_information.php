@@ -19,10 +19,15 @@
  * @version $Id: product_edit_information.php 6547 2012-10-16 10:55:06Z alatak $
  */
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access'); ?>
-<?php echo $this->langList;
+defined('_JEXEC') or die('Restricted access');
+require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'auction2013.php';
+// список дочерних категорий для очных торгов:
+$fulltime_cats_ids = Auction2013Helper::getChildCategoriesIds();
+//commonDebug(__FILE__,__LINE__,$fulltime_cats_ids);
+echo $this->langList;
 $i=0;
-//var_dump("<pre>",$this->loadTemplate('price'),"<pre/>");
+// include_once JPATH_SITE.DS.'tests.php';
+//commonDebug(__FILE__,__LINE__,$this->category_tree);
 //die();?>
 <fieldset>
 	<legend>
@@ -94,7 +99,7 @@ $i=0;
 						<div style="text-align:right;font-weight:bold;">
 						<?php echo JText::_('COM_VIRTUEMART_CATEGORY_S') ?></div>
 					</td>
-					<td colspan="3">
+					<td colspan="3">category_tree
 						<select class="inputbox" id="categories" name="categories[]" multiple="multiple" size="10">
 							<option value=""><?php echo JText::_('COM_VIRTUEMART_UNCATEGORIZED')  ?></option>
 							<?php echo $this->category_tree; ?>
@@ -275,66 +280,82 @@ $i=0;
 function checkAuctionNumber(input){
     //console.log('auction number = '+val);
     var $ = jQuery;
-    //console.dir($('body'));
     $('#checking_result').remove();
-
-    var actionLink =$('#toolbar-apply a');
-
-    var setInfo = function(infoClass){
-        var title = 'Номер аукциона ';
-        switch(infoClass){
-            case 'ok':
-                title+='свободен';
-                break;
-            case 'taken':
-                title+='занят';
-                break;
-            default:
-                title+='не указан';
+    var fulltimeIds = [<?php
+    foreach ($fulltime_cats_ids as $i=>$cat_id) {
+        if($i) echo ",";
+        echo $cat_id;
+    }?>];
+    var cat_number, category_id, fulltime=false;
+    var cats_options=$('.inputbox.chzn-done[name="categories[]"] option');
+    $('ul.chzn-choices li.search-choice').each(function(index,element){
+        cat_number = element.id.substr(element.id.lastIndexOf('_')+1);
+        category_id = parseInt($(cats_options).eq(cat_number).val());
+        //console.log('category_id='+category_id+', '+(typeof category_id));
+        if(fulltimeIds.indexOf(category_id)!=-1){
+            fulltime=true; console.log('in fulltime!');
+            return true;
         }
-        var info = $('<div/>',{
-            id:'checking_result',
-            class:infoClass,
-            title: title
-        });
-        $(input).after(info);
-    };
-
-    var clearActionLink = function(result){
-        $(actionLink).css('opacity',0.2)
-            .removeAttr('onclick');
-        setInfo(result);
-    };
-
-    var restoreActionLink = function(){
-        $(actionLink).css('opacity',1)
-            .attr('onclick', "Joomla.submitbutton('apply')");
-        setInfo('ok');
-    };
-    if(!input.value){
-        clearActionLink('empty');
-        return false;
-    }
-    if($(input).attr('data-auction_number')!=input.value){
-        var gotoUrl = '<?php
-    echo JUri::base();
-        ?>?option=com_auction2013&task=auction2013.check_auction_number&number=' +
-            input.value + '&virtuemart_product_id=<?php echo $this->product->virtuemart_product_id?>';
-        //console.log('gotoUrl = '+gotoUrl);
-        $.get(gotoUrl).success(
-            function(data){
-                console.log('data: '+data);
-                if(data=='taken'){
-                    clearActionLink(data);
-                }else{
-                    restoreActionLink();
-                }
-            }).error(
-            function(){
-                alert('ОШИБКА: не удалось проверить номер аукциона.');
+    });
+    // если очные торги, будем проверять дату аукциона:
+    if(fulltime){
+        var actionLink =$('#toolbar-apply a');
+        var setInfo = function(infoClass){
+            var title = 'Номер аукциона ';
+            switch(infoClass){
+                case 'ok':
+                    title+='свободен';
+                    break;
+                case 'taken':
+                    title+='занят';
+                    break;
+                default:
+                    title+='не указан';
+            }
+            var info = $('<div/>',{
+                id:'checking_result',
+                class:infoClass,
+                title: title
             });
-    }else{
-        restoreActionLink();
+            $(input).after(info);
+        };
+
+        var clearActionLink = function(result){
+            $(actionLink).css('opacity',0.2)
+                .removeAttr('onclick');
+            setInfo(result);
+        };
+
+        var restoreActionLink = function(){
+            $(actionLink).css('opacity',1)
+                .attr('onclick', "Joomla.submitbutton('apply')");
+            setInfo('ok');
+        };
+        if(!input.value){
+            clearActionLink('empty');
+            return false;
+        }
+        if($(input).attr('data-auction_number')!=input.value){
+            var gotoUrl = '<?php
+        echo JUri::base();
+            ?>?option=com_auction2013&task=auction2013.check_auction_number&number=' +
+                input.value + '&virtuemart_product_id=<?php echo $this->product->virtuemart_product_id?>';
+            //console.log('gotoUrl = '+gotoUrl);
+            $.get(gotoUrl).success(
+                function(data){
+                    console.log('data: '+data);
+                    if(data=='taken'){
+                        clearActionLink(data);
+                    }else{
+                        restoreActionLink();
+                    }
+                }).error(
+                function(){
+                    alert('ОШИБКА: не удалось проверить номер аукциона.');
+                });
+        }else{
+            restoreActionLink();
+        }
     }
 }
 

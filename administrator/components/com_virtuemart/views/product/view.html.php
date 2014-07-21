@@ -71,7 +71,8 @@ class VirtuemartViewProduct extends VmView {
 				// Get the category tree
 				if (isset($product->categories)) $category_tree = ShopFunctions::categoryListTree($product->categories);
 				else $category_tree = ShopFunctions::categoryListTree();
-				$this->assignRef('category_tree', $category_tree);
+                //commonDebug(__FILE__,__LINE__,$category_tree, true);
+                $this->assignRef('category_tree', $category_tree);
 
 				//Get the shoppergoup list - Cleanshooter Custom Shopper Visibility
 				if (isset($product->shoppergroups)) $shoppergroupList = ShopFunctions::renderShopperGroupList($product->shoppergroups);

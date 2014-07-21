@@ -30,7 +30,25 @@ class Auction2013Helper
 
 		return $result;
 	}
-	
+    /**
+     * Загрузить список id id дочерних категорий
+     */
+    public static function getChildCategoriesIds($alias='fulltime'){
+        $db = JFactory::getDbo();
+        $query = "SELECT cats_cats.id
+FROM #__virtuemart_categories                  AS cats
+  INNER JOIN #__virtuemart_categories_ru_ru    AS cats_ru
+    ON cats.virtuemart_category_id = cats_ru.virtuemart_category_id
+  INNER JOIN #__virtuemart_category_categories AS cats_cats
+    ON cats.virtuemart_category_id = cats_cats.category_child_id
+    WHERE category_layout = '$alias';";
+        $db->setQuery($query);
+        $results = $db->loadColumn();
+        return $results;
+    }
+	/**
+	 *
+     */
 	public static function getImportFields(){
 		return array(
 				'auction_number'=>'Номер аукциона',
@@ -49,7 +67,6 @@ class Auction2013Helper
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.|имя.расширение',
 			);
 	}
-	
     /**
      * Получить номера контрактов
      */
