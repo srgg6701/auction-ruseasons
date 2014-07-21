@@ -88,7 +88,9 @@ class Auction2013ModelAuction2013 extends JModelLegacy
     /**
      * Сделать ставку
      */
-    public function makeBid($post){
+    public function makeBid( $post,
+                             $current_bidder_id=NULL // может передаваться 'id' "виртуального игрока"
+                           ){
         $test=true;
         //commonDebug(__FILE__,__LINE__,$post, true);
         /*["bids"]=>                    "900"
@@ -100,36 +102,45 @@ class Auction2013ModelAuction2013 extends JModelLegacy
           ["virtuemart_category_id"]=>  "33"  */
         $table_bids         = '#__dev_bids';        // ставки
         $table_user_bids    = '#__dev_user_bids';   // заочные биды
-        $current_bidder_id = JFactory::getUser()->id;
+        if(!$current_bidder_id)
+            $current_bidder_id = JFactory::getUser()->id;
+        $virtuemart_product_id = $post['virtuemart_product_id'];
         // проверить, превышает ли ставка юзера текущий максимальный заочный бид
         $db = JFactory::getDbo();
-        $query = "SELECT TRUNCATE(prices.product_price,0) AS 'price',
+        $query = "SELECT ( SELECT COUNT(*)
+  FROM #__dev_bids
+ WHERE virtuemart_product_id = $virtuemart_product_id )
+                                   AS 'bids_count',
+  TRUNCATE(prices.product_price,0) AS 'price',
+            sales_price.           `min_price`,
                        MAX(sum) AS 'current_max_sum',
                        MAX(value) AS 'current_max_bid',
               ( SELECT bidder_id FROM #__dev_user_bids
-    WHERE virtuemart_product_id = $post[virtuemart_product_id]
+    WHERE virtuemart_product_id = $virtuemart_product_id
     ORDER BY `value` DESC LIMIT 1)
                 AS 'previous_bidder_id',
   TRUNCATE((UNIX_TIMESTAMP(prods.auction_date_finish)-UNIX_TIMESTAMP(NOW()))/60,1)
                                   AS 'minutes_rest',
   FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
           DATE_FORMAT(prods.auction_date_finish,'%h:%i') AS 'expired'
-     FROM #__virtuemart_products AS prods
-LEFT JOIN $table_bids AS bids
+     FROM #__virtuemart_products        AS prods
+LEFT JOIN $table_bids                   AS bids
           ON prods.virtuemart_product_id = bids.virtuemart_product_id
-LEFT JOIN $table_user_bids AS user_bids
+LEFT JOIN $table_user_bids              AS user_bids
           ON user_bids.virtuemart_product_id = bids.virtuemart_product_id
              AND bids.bidder_user_id = user_bids.bidder_id
 INNER JOIN #__virtuemart_product_prices AS prices
           ON prices.virtuemart_product_id = prods.virtuemart_product_id
-WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
+LEFT JOIN #__dev_sales_price            AS sales_price
+          ON sales_price.virtuemart_product_id = prods.virtuemart_product_id
+WHERE prods.virtuemart_product_id = $virtuemart_product_id";
         //
         try{
             $db->setQuery($query);
             $results = $db->loadAssoc();
             if($test){
                 testSQL($query,__FILE__, __LINE__);
-                commonDebug(__FILE__,__LINE__,$results);
+                commonDebug(__FILE__,__LINE__,$results, true);
             }
         }catch(Exception $e){
             echo "<div>Ошибка проверки максимальной ставки:</div>";
@@ -146,12 +157,17 @@ WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
             else
                 return $return;
         }else{
-            $price = (int)$results['price'];
+            $price              = (int)$results['price'];
+            $min_price          = (int)$results['min_price'];
             $current_max_bid    = (int)$results['current_max_bid'];
             $current_max_sum    = (int)$results['current_max_sum'];
             $previous_bidder_id = (int)$results['previous_bidder_id'];
+
+            if(!$price)             $price = 0;
+            if(!$min_price)         $min_price = 0;
             if(!$current_max_bid)   $current_max_bid = 0;
             if(!$current_max_sum)   $current_max_sum = 0;
+
             $plus5min = $results['plus5min'];
             if($test) {
                 echo "<pre>" . __FILE__ . ':' . __LINE__ . '<br>';
@@ -168,7 +184,7 @@ WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
         // todo: прояснить вопрос - нужна ли эта проверка вообще, т.к. выше оно проверяет, является ли входящая ставка больше последней добавленной
         $query = "SELECT COUNT(*)
   FROM $table_bids AS bids
- WHERE virtuemart_product_id = ".$post['virtuemart_product_id']."
+ WHERE virtuemart_product_id = ".$virtuemart_product_id."
    AND bidder_user_id = $current_bidder_id
    AND sum = ( SELECT sum FROM $table_bids      AS bids2,
                                $table_user_bids AS ubids
@@ -191,7 +207,7 @@ WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
         // будем добавлять записи
         $db = JFactory::getDbo();
         $data = new stdClass();
-        $data->virtuemart_product_id=$post['virtuemart_product_id'];
+        $data->virtuemart_product_id=$virtuemart_product_id;
         //
         if($current_max_bid){ // ставки уже были
             // проставить диапазон ставок от текущей последней до предыдущего максимального ЗБ
@@ -283,7 +299,7 @@ WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
         проверить, есть ли уже запись для данного игрока и предмета */
         $query = "SELECT id FROM `#__dev_user_bids`
              WHERE bidder_id = $current_bidder_id
-               AND virtuemart_product_id = " . $post['virtuemart_product_id'];
+               AND virtuemart_product_id = " . $virtuemart_product_id;
         //testSQL($query,__FILE__,__LINE__, true);
         $db->setQuery($query);
         $record_id=$db->loadResult();
@@ -306,7 +322,7 @@ WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
             }
         }else{ // добавить
             $insert = new stdClass();
-            $insert->virtuemart_product_id=$post['virtuemart_product_id'];
+            $insert->virtuemart_product_id=$virtuemart_product_id;
             $insert->bidder_id = $current_bidder_id;
             $insert->value=$post['bids'];
             $insert->datetime=date('Y-m-d H:i:s');
@@ -321,7 +337,7 @@ WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
         // если до окончания торгов осталось меньше 5 мин, продлить
         if($minutes_rest<5){
             $object = new stdClass();
-            $object->virtuemart_product_id = $post['virtuemart_product_id'];
+            $object->virtuemart_product_id = $virtuemart_product_id;
             $object->auction_date_finish = $plus5min;
             try{
                 $db->updateObject('#__virtuemart_products', $object, 'virtuemart_product_id');
@@ -335,7 +351,20 @@ WHERE prods.virtuemart_product_id = $post[virtuemart_product_id]";
             showTestMessage('return true',__FILE__,__LINE__);
             die();
         }
-        else return true;
+        else { /* если ставка была первая и есть резервная цена, которая выше последней
+                  ставки, сделать ставку от лица виртуального игрока */
+            if( !(int)$results['bids_count']
+                && $svalue<$min_price
+              ) {
+                $data=array(
+                    'virtuemart_product_id'=>$virtuemart_product_id,
+                    'bids'=>$min_price
+                );
+                // выставляем ставку за виртуального игрока
+                $this->makeBid($data,-1);
+            }else
+                return true;
+        }
     }
     /**
      * Добавить предмет в корзину юзера через VM
