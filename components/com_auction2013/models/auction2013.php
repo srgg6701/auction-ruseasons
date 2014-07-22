@@ -23,6 +23,7 @@ include_once JPATH_SITE.DS.'tests.php';
 class Auction2013ModelAuction2013 extends JModelLegacy
 {
 	protected $_item;
+    public $bid=false;
 
 	/**
 	 * Model context string.
@@ -88,10 +89,10 @@ class Auction2013ModelAuction2013 extends JModelLegacy
     /**
      * Сделать ставку
      */
-    public function makeBid( $post,
+    public function makeUserBid( $post,
                              $current_bidder_id=NULL // может передаваться 'id' "виртуального игрока"
                            ){
-        $test=true;
+        $test=false;
         //commonDebug(__FILE__,__LINE__,$post, true);
         /*["bids"]=>                    "900"
           ["14e429a6cd5c1d774d06539dce403129"]=> "1"
@@ -140,7 +141,7 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
             $results = $db->loadAssoc();
             if($test){
                 testSQL($query,__FILE__, __LINE__);
-                commonDebug(__FILE__,__LINE__,$results, true);
+                commonDebug(__FILE__,__LINE__,$results);
             }
         }catch(Exception $e){
             echo "<div>Ошибка проверки максимальной ставки:</div>";
@@ -175,11 +176,11 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 var_dump((int)$post['bids']);
                 echo '$current_max_bid:';
                 var_dump($current_max_bid);
-                echo "</pre>";
-                //die('line: '.__LINE__);
+                echo "</pre>"; // die('line: '.__LINE__);
             }
         }
-        $step = AuctionStuff::getBidsStep($price);
+        // получить шаг торгов
+        $step = AuctionStuff::getBidsStep(AuctionStuff::getMinBid($virtuemart_product_id));
         // проверить, нет ли уже такой записи:
         // todo: прояснить вопрос - нужна ли эта проверка вообще, т.к. выше оно проверяет, является ли входящая ставка больше последней добавленной
         $query = "SELECT COUNT(*)
@@ -222,7 +223,6 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 подставить id игрока - текущий/предыдущий в зависимости
                 от чётности записи  */
                 $bidder_id=($turn%2>0)? $current_bidder_id:$previous_bidder_id;
-                showTestMessage('$turn%2: '.($turn%2),__FILE__,__LINE__,'red');
                 if($bidder_id==$current_bidder_id){ // ставка за текущего игрока
                     if ($test) showTestMessage("Cтавка за ТЕКУЩЕГО игрока:", __FILE__, __LINE__, '#333');
                     if($svalue>=$current_max_bid) { // расчётная ставка больше или равна текущему макс. биду
@@ -347,23 +347,29 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 echo "<div>".$e->getMessage()."</div>";
             }
         }
-        if($test){
-            showTestMessage('return true',__FILE__,__LINE__);
-            die();
-        }else{ /* если ставка была первая и есть резервная цена, которая выше последней
-                  ставки, сделать ставку от лица виртуального игрока */
-            if( !(int)$results['bids_count'] // при вызове метода ставок не было
-                // последняя рассчитанная ставка меньше минимальной (резервной цены)
-                && $svalue < $min_price
-              ) {
-                $data=array(
-                    'virtuemart_product_id'=>$virtuemart_product_id,
-                    'bids'=>$min_price
-                );
-                // выставляем ставку за виртуального игрока
-                $this->makeBid($data,-1);
-            }else
+        /* если ставка была первая и есть резервная цена, которая выше последней
+              ставки, сделать ставку от лица виртуального игрока */
+        if($test) showTestMessage("bids_count: ".$results['bids_count']."<br>svalue = ".$svalue."<br>min_price = ".$min_price,__FILE__,__LINE__);
+        if( !(int)$results['bids_count'] // при вызове метода ставок не было
+            // последняя рассчитанная ставка меньше минимальной (резервной цены)
+            && $svalue < $min_price
+          ) {
+            if($test) {
+
+                showTestMessage('<h4>'.$svalue.' &lt; '.$min_price.'<br>makeBid($data,-1)</h4>', __FILE__, __LINE__);
+            }
+            $data=array(
+                'virtuemart_product_id'=>$virtuemart_product_id,
+                'bids'=>$min_price
+            );
+            // выставляем ставку за виртуального игрока
+            return $this->makeUserBid($data,-1);
+        }else{
+            if($test===true)
+                die('return true');
+            else{
                 return true;
+            }
         }
     }
     /**

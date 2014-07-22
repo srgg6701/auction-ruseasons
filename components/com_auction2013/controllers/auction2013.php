@@ -146,24 +146,32 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
     function makeBid(){
         $test=false;
         $post = JRequest::get('post');
-        $result = $this->getModel()->makeBid($post);
-        // ставка больше минимальной резервной и максимальной текущей ставки
-        if($result&&!is_array($result)) {
+        $bid_result=$this->getModel()->makeUserBid($post);
+        if($test) {
+            echo "<hr>result:<hr>";
+            var_dump($bid_result);
+            die();
+        }
+        if(!$bid_result||is_array($bid_result)) {
             /**
-             * ставка сделана - загрузить раздел ставок в кабинете юзера */
-            $this->setRedirect('index.php?option=com_users&view=cabinet&layout=bids');
-        }else{ /**
                 * array
                 * вернуться в профайл предмета и вывести сообщение */
             $link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                                 $post['virtuemart_product_id'] .
                                 '&virtuemart_category_id=' .$post['virtuemart_category_id'] .
                                 '&Itemid=' . $post['Itemid'] . '&poor_bid=' . $post['bids'];
-            if(is_array($result)) // торги закрыты, вернёт 'expired', auction_date_finish
-                $link.= '&' . $result[0] . '=' . $result[1];
-                //commonDebug(__FILE__,__LINE__,$link, true);
+            if(is_array($bid_result)) // торги закрыты, вернёт 'expired', auction_date_finish
+                $link.= '&' . $bid_result[0] . '=' . $bid_result[1];
             if(!$test)
                 $this->setRedirect($link);
+            else{
+                showTestMessage($link,__FILE__,__LINE__);
+                commonDebug(__FILE__,__LINE__,$bid_result, true);
+            }
+        }else{
+            /**
+             * ставка сделана - загрузить раздел ставок в кабинете юзера */
+            $this->setRedirect('index.php?option=com_users&view=cabinet&layout=bids');
         }
     }
     /**

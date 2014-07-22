@@ -25,7 +25,7 @@ if(($poor_bid=JRequest::getVar('poor_bid'))||($closed=JRequest::getVar('expired'
     </div>
 <?php
 endif;
-$bidsHTML = HTML::getBidsHTML($this->product->virtuemart_product_id,$this->product->prices['basePriceVariant']);
+$bidsHTML = HTML::getBidsHTML($this->product->virtuemart_product_id);
 ?><br>
 Ставки<?php
 if(JFactory::getUser()->guest!=1):?>

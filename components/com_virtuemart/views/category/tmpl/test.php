@@ -75,12 +75,12 @@ if($zoom):?>
 else:?>
 <?php
 
-    foreach (range(1,10) as $val) {
+    /*foreach (range(1,10) as $val) {
         echo '<div>%2: ';
         var_dump($val%2);
         echo '</div>';
         echo '<div>val: '.$val.'</div>';
-    }
-
+    }*/
+    var_dump(NULL);
 
 endif;
