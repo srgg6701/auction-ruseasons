@@ -121,8 +121,9 @@ class AuctionStuff{
     public static function getBidsHistory($virtuermart_prodict_id){
         $db = JFactory::getDbo();
         $query = "SELECT sum,
-    DATE_FORMAT(datetime,\"%d.%m %H:%i\") AS datetime,
-                                        users.username
+    DATE_FORMAT(datetime,\"%d.%m %H:%i\")
+                      AS datetime,
+                   users.username
         FROM `#__dev_bids` AS bids
    LEFT JOIN `#__users` AS users ON bids.bidder_user_id = users.id
  WHERE virtuemart_product_id = $virtuermart_prodict_id

@@ -1,10 +1,10 @@
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'product_id',
-  prod.product_sku                        AS 'contract_number',
-  prod.auction_number,
   -- prod.                                    lot_number,
   prod_ru_ru.product_name                 AS 'item name',
-  prod.product_in_stock                   AS 'count', -- колич. предметов  
+  (SELECT COUNT(*) FROM auc13_dev_bids WHERE virtuemart_product_id = prod.virtuemart_product_id) 
+                                          AS bids,
+  -- prod.product_in_stock                   AS 'cnt', -- колич. предметов  
   CONCAT(( SELECT CONCAT(cats_ruru_p.virtuemart_category_id,":",cats_ruru_p.category_name)
       FROM auc13_virtuemart_categories_ru_ru AS cats_ruru_p
      WHERE cats_ruru_p.virtuemart_category_id = (
@@ -16,16 +16,17 @@ SELECT
   -- TRUNCATE(prod_prices.product_price,0)   AS product_price,
   -- TRUNCATE(sales_prices.price2,0)         AS final_price,
   -- TRUNCATE(sales_prices.min_price,0)      AS 'minimal_price',           -- prod_prices.product_override_price AS 'final_price',
-  prod_prices.product_price,
-  sales_prices.price2                     AS 'final_price',
-  sales_prices.min_price                  AS 'minimal_price',
+  prod_prices.product_price               AS 'Старт.цена',
+  sales_prices.price2                     AS 'Конеч.цена',
+  sales_prices.min_price                  AS 'Резерв.цена',
   -- IF(shop_orders.status IS NOT NULL, shop_orders.status, '') AS 'ordered',
-  (SELECT COUNT(*) FROM auc13_dev_bids WHERE virtuemart_product_id = prod.virtuemart_product_id) 
-                                          AS 'bids',
   prod_prices.product_price_publish_up    AS 'publish_up',
   prod.product_available_date             AS 'auction_start',
   prod_prices.product_price_publish_down  AS 'publish_down',
-  prod.auction_date_finish                AS 'auction_finish'
+  prod.auction_date_finish                AS 'auction_finish',
+  prod.product_sku                        AS 'contract_number',
+  prod.auction_number
+  -- cats_ruru2.category_name                AS 'parent category'
   -- CONCAT( DATE_FORMAT(prod_prices.product_price_publish_up,"%d.%m.%Y %h:%i"),   " | ", DATE_FORMAT(prod.product_available_date,"%d.%m.%Y %h:%i") ) AS 'show_up/auction_start',
   -- CONCAT( DATE_FORMAT(prod_prices.product_price_publish_down,"%d.%m.%Y %h:%i"), " | ", DATE_FORMAT(prod.auction_date_finish,"%d.%m.%Y %h:%i") )    AS 'show_down/auction_finish',
   -- ( SELECT COUNT(*) FROM auc13_virtuemart_product_medias WHERE virtuemart_product_id = prod.virtuemart_product_id ) AS 'imgs', 
@@ -46,6 +47,13 @@ SELECT
               ON prod_cats.virtuemart_product_id    = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_categories_ru_ru        AS cats_ruru
               ON cats_ruru.virtuemart_category_id   = prod_cats.virtuemart_category_id
+
+   LEFT JOIN auc13_virtuemart_category_categories     AS catscats
+              ON catscats.category_child_id = prod_cats.virtuemart_category_id
+
+   LEFT JOIN auc13_virtuemart_categories_ru_ru        AS cats_ruru2
+              ON cats_ruru2.virtuemart_category_id   = catscats.category_parent_id
+   
    LEFT JOIN auc13_dev_shop_orders                    AS shop_orders
               ON shop_orders.virtuemart_product_id  = prod.virtuemart_product_id
    /*LEFT JOIN auc13_dev_bids                           AS bids
@@ -54,7 +62,8 @@ SELECT
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  WHERE   prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
+  WHERE   cats_ruru2.category_name LIKE 'Онлайн торги'
+            -- prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
             -- prod_ru_ru.product_name LIKE '%Икона%' AND
             -- sales_prices.sales_price IS NOT null
-  ORDER BY prod_ru_ru.product_name LIMIT 500
+  ORDER BY bids, prod_ru_ru.product_name LIMIT 500

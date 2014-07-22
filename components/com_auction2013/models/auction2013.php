@@ -350,11 +350,11 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
         if($test){
             showTestMessage('return true',__FILE__,__LINE__);
             die();
-        }
-        else { /* если ставка была первая и есть резервная цена, которая выше последней
+        }else{ /* если ставка была первая и есть резервная цена, которая выше последней
                   ставки, сделать ставку от лица виртуального игрока */
-            if( !(int)$results['bids_count']
-                && $svalue<$min_price
+            if( !(int)$results['bids_count'] // при вызове метода ставок не было
+                // последняя рассчитанная ставка меньше минимальной (резервной цены)
+                && $svalue < $min_price
               ) {
                 $data=array(
                     'virtuemart_product_id'=>$virtuemart_product_id,
