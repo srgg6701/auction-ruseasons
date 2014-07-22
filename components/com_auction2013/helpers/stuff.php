@@ -123,12 +123,12 @@ class AuctionStuff{
         $query = "SELECT sum,
     DATE_FORMAT(datetime,\"%d.%m %H:%i\") AS datetime,
                                         users.username
-  FROM `#__dev_bids` AS bids, `#__users` AS users
+        FROM `#__dev_bids` AS bids
+   LEFT JOIN `#__users` AS users ON bids.bidder_user_id = users.id
  WHERE virtuemart_product_id = $virtuermart_prodict_id
-  AND bids.bidder_user_id = users.id
   ORDER BY bids.id DESC";
         $db->setQuery($query);
-        //testSQL($query,__FILE__,__LINE__);
+        testSQL($query,__FILE__,__LINE__);
         //commonDebug(__FILE__,__LINE__,$db->loadAssocList());
         return $db->loadAssocList();
     }
@@ -827,9 +827,7 @@ class HTML{
     /**
      * Построить историю ставок по предмету
      */
-    public static function buildBidsHistory(
-            $virtuemart_product_id, // todo: разобраться с неиспользуемым параметром
-            $history){
+    public static function buildBidsHistory($history){
         //commonDebug(__FILE__,__LINE__,$history);
         $html = '<table id="tbl-bid-history" rules="rows" border="1">
         <tr>
@@ -887,9 +885,7 @@ class HTML{
     public static function getBidsHTML($virtuemart_product_id,$price){
         $history        = AuctionStuff::getBidsHistory( // getMinBidSUm
             $virtuemart_product_id);
-        $bids_history   = self::buildBidsHistory( // getMinBidSum
-            $virtuemart_product_id,
-            $history );
+        $bids_history   = self::buildBidsHistory($history);
         $options = self::buildBidsSelect(
             $virtuemart_product_id,
             $price,
