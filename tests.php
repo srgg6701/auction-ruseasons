@@ -26,7 +26,7 @@ function commonDebug($file, $line, $object=NULL, $stop=false, $collapsed=true){
             else
                 echo "<div style='color:brown;'>Объект пуст...</div>";
         }else
-            echo "<div>value: ".$object."</div>";
+            echo "<div>value(".gettype($object)."): ".$object."</div>";
     }else{
         echo "<div style='color:orange;'>Объект не получен...</div>";
     }
@@ -36,7 +36,7 @@ function commonDebug($file, $line, $object=NULL, $stop=false, $collapsed=true){
 /**
  * Вывести сообщение
  */
-function showTestMessage($message,$file,$line,$color=false){
+function showTestMessage($message,$file,$line,$color=false,$stop=false){
     echo "<div сlass='test_message' style='background-color: #eaebec;
     border: solid 1px #ccc;";
     if ($color) echo 'color:'.$color.';';
@@ -51,6 +51,7 @@ function showTestMessage($message,$file,$line,$color=false){
     <span style='background-color:#666; color:white; padding: 2px 4px;'>"
         .$line."</span>
     </div>";
+    if($stop) die('<div>stopped</div>');
 }
 /**
  * Вывести запрос в виде, подходящем для прямого тестирования

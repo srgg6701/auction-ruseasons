@@ -137,20 +137,25 @@ class AuctionStuff{
      * Получить шаг торгов для предмета
      */
     public static function getBidsStep($price) {
+        commonDebug(__FILE__,__LINE__,$price);
+        $price=(int)$price;
         // получить шаги выставления цен:
         $price_steps = json_decode(file_get_contents(JPATH_SITE . DS.
             'components' . DS .
             'com_auction2013' . DS .
             'price_ranges.json')   );
-        $bid_step=0; //commonDebug(__FILE__,__LINE__,$price);
+        $bid_step=0;
+        $start=true;
         foreach ($price_steps as $range=>$step) {
-            $ranges = explode('-', $range); //commonDebug(__FILE__,__LINE__,$ranges);
-            if((int)$price>(int)$ranges[0]){
-                if($ranges[1]=='*'||(int)$price<=(int)$ranges[1]){
-                    $bid_step=(int)$step; //showTestMessage('step: '.$step,__FILE__,__LINE__,'brown');
+            $ranges = explode('-', $range); //commonDebug(__FILE__,__LINE__,$range, false, true);
+            // цена больше минимального порога или первая итерация
+            if($price>(int)$ranges[0] || $start){ // 200 > 50
+                if($ranges[1]=='*'||$price<=(int)$ranges[1]){ // 200 <= 200
+                    $bid_step=(int)$step; showTestMessage('step: '.$step.', ranges[1]: '.$ranges[1],__FILE__,__LINE__,'brown');
                     break;
                 }
             }
+            $start = false;
         }   //commonDebug(__FILE__,__LINE__,$bid_step, true);
         if(!$bid_step)
             die("ОШИБКА: не получен шаг торгов.<hr>".__FILE__.':'.__LINE__);
@@ -363,10 +368,8 @@ $query.="
         // получить начальное значение ставок
         $bid_sums=self::getBidsValues($virtuemart_product_id);
         commonDebug(__FILE__,__LINE__,$bid_sums);
-        if(!$start_bid=$bid_sums['user_max_bid_value']){ // у юзера нет заочного бида
-            if(!$start_bid=$bid_sums['max_sum']){ // нет ни одной ставки
-                $start_bid=$bid_sums['price']; // значитца - стартовая цена предмета
-            }
+        if(!$start_bid=(int)$bid_sums['max_sum']){ // ставок не было
+            $start_bid=(int)$bid_sums['price']; // значитца - стартовая цена предмета
         }
         return $start_bid;
     }
@@ -875,10 +878,11 @@ class HTML{
                                 $steps = 80 ){
         // получить начальное значение ставок
         $bid=AuctionStuff::getMinBid($virtuemart_product_id);
+        commonDebug(__FILE__,__LINE__,$bid);
         // получить шаг ставок
         $one_step = AuctionStuff::getBidsStep($bid);
+        commonDebug(__FILE__,__LINE__,$one_step);
         if($history) $bid+=$one_step;
-        commonDebug(__FILE__,__LINE__,$bid);
         $options = '';
         while($steps) {
             $options.="

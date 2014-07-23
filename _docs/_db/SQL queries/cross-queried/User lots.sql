@@ -1,4 +1,5 @@
-﻿SELECT      DISTINCT bids.id         AS 'bid id',
+﻿USE auctionru_2013;
+SELECT      DISTINCT bids.id         AS 'bid id',
   CONCAT( prod.virtuemart_product_id,
       ':', prod_ru_ru.product_name ) AS 'item',
             users.id                 AS user_id,

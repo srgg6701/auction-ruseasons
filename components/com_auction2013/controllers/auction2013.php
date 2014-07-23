@@ -150,7 +150,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         if($test) {
             echo "<hr>result:<hr>";
             var_dump($bid_result);
-            die();
+            //die();
         }
         if(!$bid_result||is_array($bid_result)) {
             /**
@@ -159,9 +159,11 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
             $link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' .
                                 $post['virtuemart_product_id'] .
                                 '&virtuemart_category_id=' .$post['virtuemart_category_id'] .
-                                '&Itemid=' . $post['Itemid'] . '&poor_bid=' . $post['bids'];
+                                '&Itemid=' . $post['Itemid'] . '&';
             if(is_array($bid_result)) // торги закрыты, вернёт 'expired', auction_date_finish
-                $link.= '&' . $bid_result[0] . '=' . $bid_result[1];
+                $link.= $bid_result[0] . '=' . $bid_result[1];
+            elseif($bid_result===false) // пока юзер жевал сопли, кто-то поднял ставку выше того, что он выбрал
+                $link.= 'poor_bid=' . $post['bids'];
             if(!$test)
                 $this->setRedirect($link);
             else{
