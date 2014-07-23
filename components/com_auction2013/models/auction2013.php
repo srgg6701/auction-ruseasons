@@ -113,9 +113,9 @@ class Auction2013ModelAuction2013 extends JModelLegacy
  WHERE virtuemart_product_id = $virtuemart_product_id )
                                    AS 'bids_count',
   TRUNCATE(prices.product_price,0) AS 'price',
-            sales_price.           `min_price`,
-                       MAX(sum) AS 'current_max_sum',
-                       MAX(value) AS 'current_max_bid',
+            sales_price.              `min_price`,
+                       MAX(sum)    AS 'current_max_sum',
+                       MAX(value)  AS 'current_max_bid',
               ( SELECT bidder_id FROM #__dev_user_bids
     WHERE virtuemart_product_id = $virtuemart_product_id
     ORDER BY `value` DESC LIMIT 1)
@@ -179,8 +179,6 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 echo "</pre>"; // die('line: '.__LINE__);
             }
         }
-        // получить шаг торгов
-        $step = AuctionStuff::getBidsStep(AuctionStuff::getMinBid($virtuemart_product_id));
         // проверить, нет ли уже такой записи:
         // todo: прояснить вопрос - нужна ли эта проверка вообще, т.к. выше оно проверяет, является ли входящая ставка больше последней добавленной
         $query = "SELECT COUNT(*)
@@ -211,35 +209,44 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
         $data->virtuemart_product_id=$virtuemart_product_id;
         //
         if($current_max_bid){ // ставки уже были
+            // ставка юзера не превысила последнюю, - венуть его назад с предупреждением
+            if($user_bid_value<=$current_max_sum) {
+                if($test) showTestMessage("Ставка игрока меньше последней.", __FILE__, __LINE__);
+                return false;
+            }
             // проставить диапазон ставок от текущей последней до предыдущего максимального ЗБ
-            $svalue = $current_max_sum;
+            $bid_counted_value = $current_max_sum;
             $turn = 1;
             $break=false;
             while(true){ // цикл прерывается по условию; в конце - подстраховочный ограничитель в 250 итераций
                 // todo: убрать ограничитель итераций $turn:250
+                /** 
+                 получить шаг торгов (рассчитывается на основе текущей) 
+                 ставки, а не начальной стоимости товара. */
+                $step = AuctionStuff::getBidsStep($bid_counted_value);
                 // расчитать величину текущей ставки
-                $svalue+=$step;
+                $bid_counted_value+=$step;
                 /**
                 подставить id игрока - текущий/предыдущий в зависимости
                 от чётности записи  */
                 $bidder_id=($turn%2>0)? $current_bidder_id:$previous_bidder_id;
                 if($bidder_id==$current_bidder_id){ // ставка за текущего игрока
                     if ($test) showTestMessage("Cтавка за ТЕКУЩЕГО игрока:", __FILE__, __LINE__, '#333');
-                    if($svalue>=$current_max_bid) { // расчётная ставка больше или равна текущему макс. биду
+                    if($bid_counted_value>=$current_max_bid) { // расчётная ставка больше или равна текущему макс. биду
                         $break = true;
                         if ($test) showTestMessage("Последняя ставка (проставляется за текущего игрока):", __FILE__, __LINE__, 'orange');
                     }
                     /**
                     игрок уже делал ставки и текущая расчётная больше его максимальной (т.е., - ЗБ) */
-                    if($svalue>$post['bids']){
+                    if($bid_counted_value>$post['bids']){
                         $break = -1;
-                        if ($test) showTestMessage("Ставка (<b>$svalue</b>) превысила входящий бид (<b>$post[bids]</b>) текущего юзера и будет отменена.", __FILE__, __LINE__, 'red');
+                        if ($test) showTestMessage("Ставка (<b>$bid_counted_value</b>) превысила входящий бид (<b>$post[bids]</b>) текущего юзера и будет отменена.", __FILE__, __LINE__, 'red');
                     }
                 }else{
                     if ($test) showTestMessage("Cтавка за ПРЕДЫДУЩЕГО игрока:", __FILE__, __LINE__, '#666');
                     if( // ставка за предыдущего игрока
-                        $current_max_bid > $svalue // максимальный ЗБ больше расчётной ставки
-                        && $svalue >=$user_bid_value){ // расчётная ставка превысила входящую
+                        $current_max_bid > $bid_counted_value // максимальный ЗБ больше расчётной ставки
+                        && $bid_counted_value >=$user_bid_value){ // расчётная ставка превысила входящую
                         $break=true;
                         if($test) showTestMessage("Последняя ставка (проставляется за предыдущего игрока):",__FILE__,__LINE__,'violet');
                     }
@@ -254,7 +261,7 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                         echo " style='color:#666'";
                         $usertype = 'Previous user';
                     }
-                    echo "></b>$usertype<br>ставка: $svalue</div>";
+                    echo "></b>$usertype<br>ставка: $bid_counted_value</div>";
                     echo "<div>current_max_bid: $current_max_bid</div>";
                     echo "<div>bidder_id: $bidder_id</div>";
                 }
@@ -263,7 +270,7 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 последнего ЗБ юзера */
                 if($break!==-1){ //
                     // добавить запись в таблицу ставок
-                    $data->sum=$svalue;
+                    $data->sum=$bid_counted_value;
                     $data->datetime=date('Y-m-d H:i:s');
                     $data->bidder_user_id = $bidder_id;
                     try{
@@ -283,7 +290,8 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 echo "<div style='color:red'>user_bid_value: $user_bid_value</div>";
             }
         }else{ // ставок не было, эта - первая
-            $data->sum=$price;
+            $bid_counted_value=$price; // нужно для проверки условия рекурсивного вызова функции
+            $data->sum=$bid_counted_value;
             $data->bidder_user_id = $current_bidder_id;
             $data->datetime=date('Y-m-d H:i:s');
             try{
@@ -349,14 +357,14 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
         }
         /* если ставка была первая и есть резервная цена, которая выше последней
               ставки, сделать ставку от лица виртуального игрока */
-        if($test) showTestMessage("bids_count: ".$results['bids_count']."<br>svalue = ".$svalue."<br>min_price = ".$min_price,__FILE__,__LINE__);
-        if( !(int)$results['bids_count'] // при вызове метода ставок не было
-            // последняя рассчитанная ставка меньше минимальной (резервной цены)
-            && $svalue < $min_price
+        if($test) showTestMessage("bids_count: ".$results['bids_count']."<br>svalue = ".$bid_counted_value."<br>min_price = ".$min_price,__FILE__,__LINE__);
+        if( // при вызове метода ставок не было
+            !(int)$results['bids_count']
+            // И последняя рассчитанная ставка меньше минимальной (резервной цены)
+            && $bid_counted_value < $min_price // sales_price.`min_price`
           ) {
             if($test) {
-
-                showTestMessage('<h4>'.$svalue.' &lt; '.$min_price.'<br>makeBid($data,-1)</h4>', __FILE__, __LINE__);
+                showTestMessage('<h4>'.$bid_counted_value.' &lt; '.$min_price.'<br>makeBid($data,-1)</h4>', __FILE__, __LINE__);
             }
             $data=array(
                 'virtuemart_product_id'=>$virtuemart_product_id,
