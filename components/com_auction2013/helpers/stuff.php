@@ -96,11 +96,12 @@ class AuctionStuff{
 	public static function extractProductLink(
                                     $virtuemart_product_id,
                                     $virtuemart_category_id,
-                                    $Itemid ){
-		return JRoute::_( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='
+                                    $Itemid = false){
+        $link = 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id='
             . $virtuemart_product_id . '&virtuemart_category_id='
-            . $virtuemart_category_id . '&Itemid='
-            . $Itemid );
+            . $virtuemart_category_id;
+        if($Itemid) $link.='&Itemid=' . $Itemid;
+		return JRoute::_($link);
 	}
 /**
  * Получить контент статьи
@@ -856,6 +857,39 @@ WHERE cats_cats.category_parent_id = 0";
         }
         return $section_links;
     }
+    /**
+     * Получить найденные предметы из списка наблюдения
+     * @package
+     * @subpackage
+     */
+    public function showWatchedItemList($item_id){
+        $db = JFactory::getDbo();
+        $subquery = " LIKE CONCAT('%',(SELECT `name` FROM #__dev_product_notify where id = $item_id),'%') ";
+        $query = "SELECT
+      prod_ru.virtuemart_product_id,
+      prod_ru.product_name,
+      cats.virtuemart_category_id  AS category_id,
+      cats_ru_parent.category_name AS section_name
+      FROM #__virtuemart_products_ru_ru AS prod_ru
+  LEFT OUTER JOIN #__virtuemart_product_categories cats
+    ON cats.virtuemart_product_id = prod_ru.virtuemart_product_id
+
+  LEFT JOIN #__virtuemart_category_categories AS cats_cats
+    ON cats_cats.category_child_id = cats.virtuemart_category_id
+
+  LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru_parent
+    ON cats_ru_parent.virtuemart_category_id = cats_cats.category_parent_id
+
+  LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru
+    ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
+
+  WHERE product_name $subquery
+        OR product_s_desc $subquery
+  ORDER BY prod_ru.product_name";
+        $db->setQuery($query);
+        $results = $db->loadAssocList();
+        return $results;
+    }
 }
 class HTML{
     /**
@@ -1152,11 +1186,16 @@ class HTML{
                     $wtable.='
                     <tr>
                         <td align="right">' . $i . '</td>
-                        <td';
+                        <td>';
 
-                    if($item['cnt'])$wtable.=' style="font-weight:bold;"';
+                    if($item['cnt'])
+                        $wtable.='<a href="' .
+                        JRoute::_('?option=com_users&view=cabinet&layout=watched_items&id=' . $item['id'] ).'">' .
+                        $item['name'] . '</a>';
+                    else
+                        $wtable.= $item['name'];
 
-                    $wtable.='>' . $item['name'] . ' </td>
+                    $wtable.=' </td>
                         <td align="right">' . $item['cnt'] . '</td>
                         <td class="cmd_cancel" data-id="'.$item['id'].'"></td>
                     </tr>';
@@ -1165,7 +1204,6 @@ class HTML{
         }else $wtable.='Добавленных предметов нет...';
         return $wtable;
     }
-
 }
 class DateAndTime{
 	private $datetime;

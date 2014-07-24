@@ -34,7 +34,8 @@ class UserCabinet
 					'bids'=>        array("Мои ставки", false,          false, 'id'),
                     'filters'=>     array("Мои фильтры",false,          false, 'id'),
                     'purchases'=>   array("Мои Покупки",false,          false, 'id'),
-					'data'=>        array("Настройки",  false,          "Моя персональная информация", true)
+					'data'=>        array("Настройки",  false,          "Моя персональная информация", true),
+                    'watched_items'=>array(false,  false,               "Предмет из списка наблюдения", id),
             );
 	/**
      * Инициализировать построение кабинета юзера (common html; вызывается по умолчанию).
@@ -513,18 +514,53 @@ $(function(){
 		
     }
     /**
+     *
+     */
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public function layout_watched_items($user_id){
+        $watched_items=AuctionStuff::showWatchedItemList(JRequest::getVar('id'));
+        //commonDebug(__FILE__,__LINE__,$watched_items);
+        if(!empty($watched_items)){?>
+            <table class="watch_block">
+                <tr><th>Предмет</th><th>Секция</th></tr>
+            <?php
+            foreach ($watched_items as $i=>$data) {?>
+                <tr>
+                    <td>
+                <a href="<?php
+            echo AuctionStuff::extractProductLink(
+                        $data['virtuemart_product_id'],
+                        $data['category_id']    );
+                ?>"><?php echo $data['product_name'];?></a>
+                </td>
+                <td><?php echo $data['section_name'];?></td>
+            </tr>
+        <?php
+            }?>
+            </table>
+        <?php
+        }
+    }
+
+/**
  * Построить меню юзера
  */
     static public function buildUserMenu() {?>
     <ul class="menu" id="usermenu-container" style="display: block;">
             <?php
-        foreach(self::$cabinet_menu as $tmpl=>$header):?>
+        foreach(self::$cabinet_menu as $tmpl=>$header):
+            if($header[0]):?>
         <li>
             <a<?php
         if($header[1]):?> class="<?php echo $header[1];?>"<?php endif;
         ?> href="index.php?option=com_users&view=cabinet&layout=<?php echo $tmpl;?>"><?php echo $header[0];?></a>
         </li>
-            <?php
+                <?php
+            endif;
         endforeach;?>
     </ul>    
     <?php

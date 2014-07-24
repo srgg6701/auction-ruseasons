@@ -23,7 +23,24 @@
 .mxWidth(@max){
 	max-width:@max;
 }
-
+.watch_block{
+  a{
+    display: block;
+    margin: 2px auto;
+    text-decoration: none;
+    &:hover{
+      background-color: white;
+      text-decoration: underline;
+    }
+  }
+  tr{
+    td{
+      &:last-child{
+        white-space: nowrap;
+      }
+    }
+  }
+}
 div#usermenu{
 	div.moduletable{
 		position:relative;
