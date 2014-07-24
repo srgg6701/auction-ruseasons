@@ -418,10 +418,19 @@ $(function(){
         //...?>
 	<p>Добавьте предмет, о появлении которого вы хотели бы быть проинформированы по электронной почте.<br>
     Система будет проверять наличие указанного вами слова в названии и описании предметов.</p>
+        <hr/><br/>
         <form>Название предмета:
             <input type="text" name="product_name" style="width: 240px;"/>
             <button type="button" onclick="addProductNotify(this.form);">Добавить</button>
         </form>
+        <br/>
+    <hr/>
+        <br/>
+    <b>Предметы, добавленные к списку наблюдения:</b>
+        <br><br>
+            <div id="watch_table">
+    <?php echo HTML::showWatchedItems(true);?>
+            </div>
 <script>
     function addProductNotify(form){
         var product_name = $('[name="product_name"]',form).val();
@@ -431,10 +440,29 @@ $(function(){
                 name:product_name
             }).success(function(data){
                 console.log(data);
+                $('#watch_table').html(data);
             }).error(function(){
                 console.log('Не удалось добавить предмет');
             });
     }
+$(function(){
+   $('#watch_table').on('click', 'td.cmd_cancel', function(event){
+       var td = event.currentTarget;
+       //console.dir(td);
+       if(confirm("Удалить предмет из списка наблюдения?")){
+           //console.log('deleting...');
+           $.post('?option=com_auction2013&task=auction2013.removeProductNotify',
+               {
+                   id:$(td).attr('data-id')
+               }).success(function(data){
+                   console.log(data);
+                   $('#watch_table').html(data);
+               }).error(function(){
+                   console.log('Не удалось удалить предмет');
+               });
+       }
+   });
+});
 </script>
 	<?php
         //return true;

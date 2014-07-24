@@ -678,6 +678,37 @@ WHERE cats_cats.category_parent_id = 0";
         $results = $db->loadAssocList();
         return $results;
     }
+    /**
+     * Получить наблюдаемые предметы
+     */
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public static function  getWatchedItems($current_user=false){
+        //...
+        $db = JFactory::getDbo();
+        $query = "SELECT `id`, `name` ,
+  ( SELECT COUNT(*) FROM #__virtuemart_products_ru_ru
+  WHERE product_name LIKE CONCAT('%',watcher.`name`,'%')
+        OR product_s_desc LIKE CONCAT('%',watcher.`name`,'%')
+  ) AS cnt
+  FROM #__dev_product_notify as watcher";
+        if($current_user){
+            $query.="
+             WHERE watcher.user_id = ";
+            if(gettype($current_user)=='integer')
+                $query.=$current_user;
+            elseif($current_user===true)
+                $query.=JFactory::getUser()->id;
+        }
+        $query.=" ORDER BY `name`";
+        //testSQL($query,__FILE__, __LINE__);
+        $db->setQuery($query);
+        $results = $db->loadAssocList();
+        return $results;
+    }
 //shop'
 /**
  * Generate HTML form
@@ -1097,6 +1128,44 @@ class HTML{
     </div>
 </div>
 <?php }
+/**
+ * Показать предметы из списка наблюдения
+ * @package
+ * @subpackage
+ */
+    public static function  showWatchedItems($current_user=false){
+        //...
+        $watch_list = AuctionStuff::getWatchedItems($current_user);
+        $wtable='';
+        if(!empty($watch_list)){
+            //commonDebug(__FILE__,__LINE__,$watch_list);
+            $wtable.='
+            <table class="cabinet border" rules="rows">
+                <tr>
+                    <th>#</th>
+                    <th width="100%">Предмет</th>
+                    <th>Найдено</th>
+                    <th>Отменить</th>
+                </tr>';
+                foreach ($watch_list as $i=>$item) {
+                    $i++;
+                    $wtable.='
+                    <tr>
+                        <td align="right">' . $i . '</td>
+                        <td';
+
+                    if($item['cnt'])$wtable.=' style="font-weight:bold;"';
+
+                    $wtable.='>' . $item['name'] . ' </td>
+                        <td align="right">' . $item['cnt'] . '</td>
+                        <td class="cmd_cancel" data-id="'.$item['id'].'"></td>
+                    </tr>';
+                }
+            $wtable.='</table>';
+        }else $wtable.='Добавленных предметов нет...';
+        return $wtable;
+    }
+
 }
 class DateAndTime{
 	private $datetime;
@@ -1243,9 +1312,27 @@ INNER JOIN #__users              AS users
         $db->setQuery($query);
         $results = $db->loadObjectList();
         return $results;
-    }/**
-     * Разослать сообщения админам/суперюзерам/юзерам, принимающим рассылку
+    }
+    /**
+     * Известить юзера о появлении предмета
      */
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public function  notifyUserAboutProduct($product_name){
+        $message = "В магазине/аукционе антиквариата \"Русские сезоны\" появился предмет из вашего списка наблюдения" ;
+        $this->sendMessagesToUsers(
+            "Антикварный предмет из вашего списка",
+            $message,
+            $this->getUsersForMail(array(JFactory::getUser()->id))
+        );
+        return true;
+    }
+    /**
+  * Разослать сообщения админам/суперюзерам/юзерам, принимающим рассылку
+  */
     public function sendMessagesToUsers($subject, $emailBody, $data=NULL, $from = 'noreply@auction-ruseasons.ru'){
         if(!$data) $data = $this->getAdminsForMail();
         // Send mail to all superadministrators id

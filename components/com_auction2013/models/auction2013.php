@@ -66,28 +66,20 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         }
     }
 	/**
-	 * Get the data for a layout.
+	 * Проверить предмет в списке наблюдения
 	 *
 	 * @return	object
 	 */
-	function getItem()
+	function getProductwWatchedItems($product_name)
 	{
-		if (!isset($this->_item))
-		{
-			if (!$this->_item) {
-				$db		= $this->getDbo();
-				$query	= $db->getQuery(true);
-				$query->select('*');
-				$query->from('#__menu');
-				$query->where('id = ' . (int)JRequest::getVar('Itemid'));
-				$db->setQuery((string) $query);
-				if (!$db->query()) {
-					JError::raiseError(500, $db->getErrorMsg());
-				}
-				$this->_item = $db->loadObject();
-			}
-		}
-		return $this->_item;
+        $db = JFactory::getDbo();
+        $query = "SELECT virtuemart_product_id, product_name
+  FROM #__virtuemart_products_ru_ru
+  WHERE product_name LIKE '%$product_name%'
+        OR product_s_desc LIKE '%$product_name%'";
+        $db->setQuery($query);
+        $results = $db->loadAssoc();
+        return $results;
 	}
 	/**
 	 * Method to auto-populate the model state.
@@ -480,5 +472,19 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
             $result['type']='error';
         }
         return $result;
+    }
+    /**
+     * Удалить предмет из листа наблюдений
+     * @package
+     * @subpackage
+     */
+    public function remove_product_notify($id){
+        //...
+        $db = JFactory::getDbo();
+        $query = "DELETE FROM #__dev_product_notify
+         WHERE id = $id AND user_id = " . JFactory::getUser()->id;
+        $db->setQuery($query);
+        $results = $db->query();
+        return $results;
     }
 }

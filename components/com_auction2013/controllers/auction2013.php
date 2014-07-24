@@ -5,11 +5,10 @@
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
+header('Content-Type: text/html; charset=utf-8');
 include_once JPATH_SITE.DS.'tests.php';
 require_once JPATH_COMPONENT.DS.'controller.php';
-
 /**
  * Registration controller class for Users.
  *
@@ -66,8 +65,33 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      */
     public function  addProductNotify(){
         //...
-        if($this->getModel()->add_product_notify(JRequest::getVar('name'))===1)
-            echo 'ok';
+        $product_name = JRequest::getVar('name');
+        $model=$this->getModel();
+        // добавить предмет в список наблюдения:
+        if($model->add_product_notify($product_name)===1){
+            // если нашли предмет, отошлём сообщение
+            if($model->getProductwWatchedItems($product_name)){
+                // разослать сообщения
+                require_once JPATH_COMPONENT.DS.'helpers'.DS.'stuff.php';
+                $users=new Users();
+                $users->notifyUserAboutProduct($product_name);
+            }
+            echo HTML::showWatchedItems(true);
+        }
+        exit;
+    }
+    /**
+     *
+     */
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public function  removeProductNotify(){
+        //...
+        if($model=$this->getModel()->remove_product_notify(JRequest::getVar('id')))
+            echo HTML::showWatchedItems(true);
         exit;
     }
 
