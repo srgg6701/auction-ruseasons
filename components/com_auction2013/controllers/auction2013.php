@@ -60,6 +60,18 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         }
     }
     /**
+     * Добавить уведомление о появлении предмета на торгах
+     * @package
+     * @subpackage
+     */
+    public function  addProductNotify(){
+        //...
+        if($this->getModel()->add_product_notify(JRequest::getVar('name'))===1)
+            echo 'ok';
+        exit;
+    }
+
+    /**
      * Описание
      * @package
      * @subpackage

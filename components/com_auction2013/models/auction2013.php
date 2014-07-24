@@ -24,6 +24,24 @@ class Auction2013ModelAuction2013 extends JModelLegacy
 {
 	protected $_item;
     public $bid=false;
+    /**
+     * Добавить предмет в таблицу напоминаний
+     * @package
+     * @subpackage
+     */
+    public function  add_product_notify($product_name){
+        //...
+        $data = new stdClass();
+        $data->user_id = JFactory::getUser()->id;
+        $data->name=$product_name;
+        try{
+            JFactory::getDbo()->insertObject('#__dev_product_notify', $data);
+            return 1;
+        }catch(Exception $e){
+            echo "Error: ";
+            echo "<div>".$e->getMessage()."</div>";
+        }
+    }
 
 	/**
 	 * Model context string.

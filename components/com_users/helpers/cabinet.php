@@ -19,16 +19,21 @@ require_once JPATH_SITE.'/tests.php';
  */
 class UserCabinet
 {
-    /** Данные кабинета: 
-        - Текст ссылки
-        - Класс ссылки
-        - Заголовок раздела
-        - Параметр объекта JUser, передаваемого методу генерации HTML-раздела   */
+    /** Данные кабинета:
+     [layout]=>array(
+        0=> Текст ссылки
+        1=> Класс ссылки
+        2=> Заголовок раздела
+        3=> Параметр объекта JUser, передаваемого методу генерации HTML-раздела
+     )
+     Кроме файла в com_users/views/cabinet/tmpl/[layout].php,
+     в этом классе должен быть определён метод layout_[layout]  */
     static $cabinet_menu = array(
-					'lots'=>        array("Ваш кабинет","H2",           "Ваши лоты", 'id'),
+					'lots'=>        array("Ваш кабинет","H2",           "Личный кабинет", 'id'), //Ваши лоты
 					'favorites'=>   array("Избранное",  "first-point",  false, 'id'),
 					'bids'=>        array("Мои ставки", false,          false, 'id'),
-                    'purchases'=>   array("Мои Покупки",    false,          false, 'id'),
+                    'filters'=>     array("Мои фильтры",false,          false, 'id'),
+                    'purchases'=>   array("Мои Покупки",false,          false, 'id'),
 					'data'=>        array("Настройки",  false,          "Моя персональная информация", true)
             );
 	/**
@@ -130,7 +135,7 @@ class UserCabinet
 			//echo "<div class=''>redirect= ".$redirect."</div>";die();
 			JFactory::getApplication()->redirect($redirect);
 		}else{?>
-    <H1>LOTS</H1>
+    
 <?php   }
 	}	
 /**
@@ -403,6 +408,37 @@ $(function(){
     </table>
 
 <?php }
+
+    /**
+     * Фильтр уведомлений о выставленных на аукцион предметах
+     * @package
+     * @subpackage
+     */
+    public function  layout_filters(){
+        //...?>
+	<p>Добавьте предмет, о появлении которого вы хотели бы быть проинформированы по электронной почте.<br>
+    Система будет проверять наличие указанного вами слова в названии и описании предметов.</p>
+        <form>Название предмета:
+            <input type="text" name="product_name" style="width: 240px;"/>
+            <button type="button" onclick="addProductNotify(this.form);">Добавить</button>
+        </form>
+<script>
+    function addProductNotify(form){
+        var product_name = $('[name="product_name"]',form).val();
+        console.log('send product name: ' + product_name);
+        $.post('?option=com_auction2013&task=auction2013.addProductNotify',
+            {
+                name:product_name
+            }).success(function(data){
+                console.log(data);
+            }).error(function(){
+                console.log('Не удалось добавить предмет');
+            });
+    }
+</script>
+	<?php
+        //return true;
+    }
     /**
      * Покупки (заявленные, закрытые)
      * @package
