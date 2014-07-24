@@ -144,14 +144,12 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      * Сделать ставку
      */
     function makeBid(){
-        $test=false;
+        $test=true;
         $post = JRequest::get('post');
         $bid_result=$this->getModel()->makeUserBid($post);
-        if($test) {
-            echo "<hr>result:<hr>";
-            var_dump($bid_result);
-            //die();
-        }
+
+        if($test) commonDebug(__FILE__,__LINE__,$bid_result);
+
         if(!$bid_result||is_array($bid_result)) {
             /**
                 * array
@@ -171,9 +169,10 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
                 commonDebug(__FILE__,__LINE__,$bid_result, true);
             }
         }else{
-            /**
-             * ставка сделана - загрузить раздел ставок в кабинете юзера */
-            $this->setRedirect('index.php?option=com_users&view=cabinet&layout=bids');
+            $link='index.php?option=com_users&view=cabinet&layout=bids';
+            if($test) showTestMessage($link,__FILE__,__LINE__,'blue');
+            else //ставка сделана - загрузить раздел ставок в кабинете юзера
+                $this->setRedirect($link);
         }
     }
     /**

@@ -17,7 +17,6 @@ require_once JPATH_SITE.DS.'tests.php';
  */
 class AuctionStuff{
     static $andLayout = '&layout=';
-    //static $bid_sums = NULL;
     static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
     static $vm_category_id = '&virtuemart_category_id=';
     /**
@@ -137,7 +136,7 @@ class AuctionStuff{
      * Получить шаг торгов для предмета
      */
     public static function getBidsStep($price) {
-        commonDebug(__FILE__,__LINE__,$price);
+        //commonDebug(__FILE__,__LINE__,$price);
         $price=(int)$price;
         // получить шаги выставления цен:
         $price_steps = json_decode(file_get_contents(JPATH_SITE . DS.
@@ -151,7 +150,7 @@ class AuctionStuff{
             // цена больше минимального порога или первая итерация
             if($price>(int)$ranges[0] || $start){ // 200 > 50
                 if($ranges[1]=='*'||$price<=(int)$ranges[1]){ // 200 <= 200
-                    $bid_step=(int)$step; showTestMessage('step: '.$step.', ranges[1]: '.$ranges[1],__FILE__,__LINE__,'brown');
+                    $bid_step=(int)$step; //showTestMessage('step: '.$step.', ranges[1]: '.$ranges[1],__FILE__,__LINE__,'brown');
                     break;
                 }
             }
@@ -325,41 +324,34 @@ FROM #__virtuemart_products_ru_ru
      * Получить все возможные значения ставок и бидов для рассчёта начальной ставки
      */
     public static function getBidsValues($virtuemart_product_id){
-        //if(!AuctionStuff::$bid_sums){
-            $db = JFactory::getDbo();
-            // шаблоны для запроса
-            $where_product_id = "WHERE virtuemart_product_id = $virtuemart_product_id ";
-            $SelectMaxValueFromUserBids="SELECT MAX(`value`)
-            FROM #__dev_user_bids
-            $where_product_id ";
-            $SelectMaxSumFromBids="SELECT MAX(sum)  FROM #__dev_bids
-    $where_product_id";
-            $bidder_id = JFactory::getUser()->id;
-            // начальная стоимость предмета:
+        $db = JFactory::getDbo();
+        // шаблоны для запроса
+        $where_product_id = "WHERE virtuemart_product_id = $virtuemart_product_id ";
+        $SelectMaxValueFromUserBids="SELECT MAX(`value`)
+        FROM #__dev_user_bids
+        $where_product_id ";
+        $SelectMaxSumFromBids="SELECT MAX(sum)  FROM #__dev_bids
+$where_product_id";
+        $bidder_id = JFactory::getUser()->id;
+        // начальная стоимость предмета:
 $query = "SELECT TRUNCATE(product_price,0)  AS  'price', ";
-            // максимальный заочный бид текущего игрока по предмету:
+        // максимальный заочный бид текущего игрока по предмету:
 $query.=" ( $SelectMaxValueFromUserBids
 AND bidder_id = $bidder_id )                AS 'user_max_bid_value', ";
-            // абсолютный максимальный заочный бид по предмету:
+        // абсолютный максимальный заочный бид по предмету:
 $query.=" ( $SelectMaxValueFromUserBids )   AS 'max_bid_value', ";
-            // максимальная ставка по предмету:
+        // максимальная ставка по предмету:
 $query.=" ( $SelectMaxSumFromBids )         AS 'max_sum', ";
-            // максимальная ставка текущего игрока по предмету:
+        // максимальная ставка текущего игрока по предмету:
 $query.=" ( $SelectMaxSumFromBids
 AND bidder_user_id = $bidder_id )           AS 'max_user_sum'
-     ";
+ ";
 $query.="
-  FROM #__virtuemart_product_prices $where_product_id";
-            $db->setQuery($query);
-            $results = $db->loadAssoc();
-            testSQL($query,__FILE__,__LINE__);
-            //commonDebug(__FILE__,__LINE__,$results, true);
-            /*
-
-            */
-            //AuctionStuff::$bid_sums = $results;
-        //} // $bid_sums=AuctionStuff::$bid_sums=AuctionStuff::getBidsValues($virtuemart_product_id);
-        return $results;//AuctionStuff::$bid_sums;
+FROM #__virtuemart_product_prices $where_product_id";
+        $db->setQuery($query);
+        $results = $db->loadAssoc();
+        //testSQL($query,__FILE__,__LINE__);
+        return $results;
     }
     /**
      * Получить текущую минимальную ставку
@@ -367,7 +359,7 @@ $query.="
     public static function getMinBid($virtuemart_product_id){
         // получить начальное значение ставок
         $bid_sums=self::getBidsValues($virtuemart_product_id);
-        commonDebug(__FILE__,__LINE__,$bid_sums);
+        //commonDebug(__FILE__,__LINE__,$bid_sums);
         if(!$start_bid=(int)$bid_sums['max_sum']){ // ставок не было
             $start_bid=(int)$bid_sums['price']; // значитца - стартовая цена предмета
         }
@@ -878,10 +870,10 @@ class HTML{
                                 $steps = 80 ){
         // получить начальное значение ставок
         $bid=AuctionStuff::getMinBid($virtuemart_product_id);
-        commonDebug(__FILE__,__LINE__,$bid);
+        //commonDebug(__FILE__,__LINE__,$bid);
         // получить шаг ставок
         $one_step = AuctionStuff::getBidsStep($bid);
-        commonDebug(__FILE__,__LINE__,$one_step);
+        //commonDebug(__FILE__,__LINE__,$one_step);
         if($history) $bid+=$one_step;
         $options = '';
         while($steps) {
@@ -1215,5 +1207,62 @@ class DateAndTime{
      */
     static public function setShortDate($date=NULL){
         if($date) echo date("d.m H:i",strtotime($date));
+    }
+}
+class Users{
+    /**
+     * Получить данные админов/суперюзеров, принимающих рассылку
+     */
+    public function getAdminsForMail(){
+        $db = JFactory::getDbo();
+        $query = "SELECT
+  users.email,
+  users.sendEmail,
+  users.name,
+  users.middlename,
+  users.lastname
+      FROM #__user_usergroup_map AS users_map
+INNER JOIN #__usergroups         AS usergroups
+           ON users_map.group_id = usergroups.id
+              AND ( usergroups.title = 'Super Users'
+                    OR usergroups.title = 'Administrator' )
+INNER JOIN #__users              AS users
+           ON users_map.user_id = users.id
+              AND sendEmail = 1";
+        $db->setQuery($query);
+        $results = $db->loadObjectList();
+        return $results;
+    }
+    /**
+     * Получить данные юзеров по id
+     */
+    public function getUsersForMail($user_ids=array(0)){
+        $db = JFactory::getDbo();
+        $query = "SELECT email,name,middlename,lastname
+      FROM #__users WHERE id IN (".implode(',',$user_ids).")";
+        $db->setQuery($query);
+        $results = $db->loadObjectList();
+        return $results;
+    }/**
+     * Разослать сообщения админам/суперюзерам/юзерам, принимающим рассылку
+     */
+    public function sendMessagesToUsers($subject, $emailBody, $data=NULL, $from = 'noreply@auction-ruseasons.ru'){
+        if(!$data) $data = $this->getAdminsForMail();
+        // Send mail to all superadministrators id
+        $local=($_SERVER['HTTP_HOST']=='localhost')? true:false;
+        if($local)
+            echo "<div>Отправлено сообщение:<hr>$emailBody<hr>По адресам:</div>";
+        //
+        foreach( $data as $row ){
+            if($local) // вывести адреса отправки
+                echo "<div>".$row->email."</div>";
+            else // разослать сообщения:
+                JFactory::getMailer()->sendMail(
+                    $from,
+                    "Магазин антиквариата \"Русские Сезоны\"",
+                    $row->email,
+                    $subject,
+                    $emailBody);
+        }
     }
 }

@@ -2,8 +2,8 @@
 SELECT      DISTINCT bids.id         AS 'bid id',
   CONCAT( prod.virtuemart_product_id,
       ':', prod_ru_ru.product_name ) AS 'item',
-            users.id                 AS user_id,
-            users.                      username,
+            bids.bidder_user_id      AS user_id,
+  IF (users.username, users.username, 'autobid') AS 'username',
             users.                      name,
            bids.                        datetime,
             sum                      AS 'sum',
@@ -26,7 +26,7 @@ SELECT      DISTINCT bids.id         AS 'bid id',
               ON prod_cats.virtuemart_product_id    = prod.virtuemart_product_id
   INNER JOIN auc13_dev_bids                           AS bids
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id   
-  INNER JOIN auc13_users                              AS users
+  LEFT JOIN auc13_users                              AS users
               ON users.id = bids.bidder_user_id
   -- WHERE     prod.virtuemart_product_id = 2702
   -- bids.bidder_user_id = 385
