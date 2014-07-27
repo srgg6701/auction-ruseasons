@@ -1576,7 +1576,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         }
 
         //if($product['lot_number']=='1000653')
-        commonDebug(__FILE__, __LINE__, $data);
+        //commonDebug(__FILE__, __LINE__, $data);
 
         // with the true, we do preloading and preserve so old values note by Max Milbers
         // $product_data->bindChecknStore ($data, $isChild);

@@ -19,6 +19,8 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+// 2772
+//if(JRequest::getVar('show_id')) echo "<h4>product_id = ".$this->product->virtuemart_product_id."</h4>";
 //commonDebug(__FILE__,__LINE__,$this->product, true);
 $Itemid = JRequest::getVar('Itemid');
 $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false);
@@ -98,8 +100,9 @@ else:
           </div>
           <div id="galleryThumbs">
               <div> 														
-	<?php foreach($this->product->images as $i => $stuff):?>	
-
+	<?php 	//commonDebug(__FILE__,__LINE__,$this->product->images);
+			foreach($this->product->images as $i => $stuff):
+				commonDebug(false,false,'<div>file_url:<br>'.$stuff->file_url.'<br>file_url_thumb<br>'.$stuff->file_url_thumb.'</div>');?>	
                   <div class="th_imgage">
                       <div class="inside_image_preview">
                           <a href="<?php
@@ -280,16 +283,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
             else
                 $auction_state='closed';
         }
-        //commonDebug(__FILE__,__LINE__,$this->product);
-        // todo: убрать закомментированный код:
-            /*echo "<hr/>";
-            echo "<h5>Прошло после</h5>";
-            echo "<div>начала публикации: ".getDelta($this->product->product_price_publish_up)."</div>";
-            echo "<div>конца публикации: ".getDelta($this->product->product_price_publish_down)."</div>";
-            echo "<div>начала аукциона: ".getDelta($this->product->product_available_date)."</div>";
-            echo "<div>закрытия аукциона: ".getDelta($this->product->auction_date_finish)."</div>";*/
-        //endif;
-    ?>
+        ?>
       <div id="make_bid">
 <?php   if(JFactory::getUser()->guest==1):
             if($auction_state=='active'):
@@ -297,8 +291,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
           Чтобы сделать ставку, вам необходимо <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">заавторизоваться</a>.
 <?php       else:
     ?>
-                <h4><?php echo $auction_states[$auction_state];
-                ?></h4>
+                <h4><?php echo $auction_states[$auction_state];?></h4>
 <?php
             endif;
         else: require_once "bid.php";

@@ -60,10 +60,9 @@ $i=0;
                         <input type="text" class="inputbox floatLeft" name="auction_number" id="auction_number" data-auction_number="<?php
                         echo $this->product->auction_number; ?>" value="<?php
                         echo $this->product->auction_number;
-                        ?>" size="32" maxlength="64" onblur="checkAuctionNumber(this);" />
+                        ?>" size="32" maxlength="64" onblur="checkOnBlur(this);" />
                     </td>
                 </tr>
-
 
                 <?php $i = 1 - $i; ?>
 				<tr class="row<?php echo $i?>">
@@ -99,7 +98,7 @@ $i=0;
 						<div style="text-align:right;font-weight:bold;">
 						<?php echo JText::_('COM_VIRTUEMART_CATEGORY_S') ?></div>
 					</td>
-					<td colspan="3">category_tree
+					<td colspan="3">
 						<select class="inputbox" id="categories" name="categories[]" multiple="multiple" size="10">
 							<option value=""><?php echo JText::_('COM_VIRTUEMART_UNCATEGORIZED')  ?></option>
 							<?php echo $this->category_tree; ?>
@@ -212,7 +211,6 @@ $i=0;
 			} else {
 				$tmpl = "productPriceRowTmpl_" . $this->priceCounter;
 			}
-
 			?>
         <tr id="<?php echo $tmpl ?>" class="removable row<?php echo $rowColor?>">
             <td width="100%">
@@ -254,8 +252,25 @@ $i=0;
 	</tr>
 </table>
 <script type="text/javascript">
-
+    var savingState;
     jQuery(document).ready(function () {
+        savingState=(function(){
+            var saving=true;
+            return{
+                getState:function(){
+                    return saving;
+                },
+                setState:function(saving_state){
+                    saving=saving_state;
+                }
+            }
+        }());
+        /**
+         * переопределить метод, вызываемый кликом по кнопке - checkFormData().
+        Нужно для дополнительных проверок полей */
+        $(getApplyButton()).attr('onclick','return checkOnClick()');
+        //savingState.setState(true); // сохранить состояние "клика по кнопке"
+
         jQuery("#mainPriceTable").dynoTable({
             removeClass:'.price-remove', //remove class name in  table
             cloneClass:'.price-clone', //Custom cloner class name in  table
@@ -276,90 +291,24 @@ $i=0;
             }
         });
     });
-
-function checkAuctionNumber(input){
-    //console.log('auction number = '+val);
-    var $ = jQuery;
-    $('#checking_result').remove();
+</script>
+<script>
+function getFullTimeIds(){
     var fulltimeIds = [<?php
     foreach ($fulltime_cats_ids as $i=>$cat_id) {
-        if($i) echo ",";
-        echo $cat_id;
+    if($i) echo ",";
+    echo $cat_id;
     }?>];
-    var cat_number, category_id, fulltime=false;
-    var cats_options=$('.inputbox.chzn-done[name="categories[]"] option');
-    $('ul.chzn-choices li.search-choice').each(function(index,element){
-        cat_number = element.id.substr(element.id.lastIndexOf('_')+1);
-        category_id = parseInt($(cats_options).eq(cat_number).val());
-        //console.log('category_id='+category_id+', '+(typeof category_id));
-        if(fulltimeIds.indexOf(category_id)!=-1){
-            fulltime=true; console.log('in fulltime!');
-            return true;
-        }
-    });
-    // если очные торги, будем проверять дату аукциона:
-    if(fulltime){
-        var actionLink =$('#toolbar-apply a');
-        var setInfo = function(infoClass){
-            var title = 'Номер аукциона ';
-            switch(infoClass){
-                case 'ok':
-                    title+='свободен';
-                    break;
-                case 'taken':
-                    title+='занят';
-                    break;
-                default:
-                    title+='не указан';
-            }
-            var info = $('<div/>',{
-                id:'checking_result',
-                class:infoClass,
-                title: title
-            });
-            $(input).after(info);
-        };
-
-        var clearActionLink = function(result){
-            $(actionLink).css('opacity',0.2)
-                .removeAttr('onclick');
-            setInfo(result);
-        };
-
-        var restoreActionLink = function(){
-            $(actionLink).css('opacity',1)
-                .attr('onclick', "Joomla.submitbutton('apply')");
-            setInfo('ok');
-        };
-        if(!input.value){
-            clearActionLink('empty');
-            return false;
-        }
-        if($(input).attr('data-auction_number')!=input.value){
-            var gotoUrl = '<?php
-        echo JUri::base();
-            ?>?option=com_auction2013&task=auction2013.check_auction_number&number=' +
-                input.value + '&virtuemart_product_id=<?php echo $this->product->virtuemart_product_id?>';
-            //console.log('gotoUrl = '+gotoUrl);
-            $.get(gotoUrl).success(
-                function(data){
-                    console.log('data: '+data);
-                    if(data=='taken'){
-                        clearActionLink(data);
-                    }else{
-                        restoreActionLink();
-                    }
-                }).error(
-                function(){
-                    alert('ОШИБКА: не удалось проверить номер аукциона.');
-                });
-        }else{
-            restoreActionLink();
-        }
-    }
+    return fulltimeIds;
 }
-
+function getUrlToGo(auction_number){
+    return '<?php echo JUri::base();
+    ?>?option=com_auction2013&task=auction2013.check_auction_number&number=' +
+    auction_number + '&virtuemart_product_id=<?php echo $this->product->virtuemart_product_id?>';
+}
 </script>
+<script src="<?php echo JUri::base();
+?>components/com_auction2013/js/check_saving.js"></script>
 <script type="text/javascript">
 var tax_rates = new Array();
 <?php

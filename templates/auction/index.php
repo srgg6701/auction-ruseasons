@@ -276,6 +276,14 @@ jQuery( function($){
 		.click( function(){
 				$(this).toggleClass('menuH2');
 			});
+	// for test blocks
+	$('.test_content_box').on('dblclick',function(event){
+		var innerBlock = $('>pre>div',this);
+		event.stopPropagation();
+		if(!$(innerBlock).hasClass('bottom')) {
+			$(innerBlock).toggle();
+		}
+	});
 });
 </script>
 </div>
