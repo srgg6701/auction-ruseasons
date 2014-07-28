@@ -87,7 +87,9 @@ jimport('joomla.environment.response');
  */
 class JApplication extends JObject
 {
-	/**
+	public static $test=false;
+
+    /**
 	 * The client identifier.
 	 *
 	 * @var    integer
@@ -902,18 +904,25 @@ class JApplication extends JObject
 	 */
 	static public function getRouter($name = null, array $options = array(),$show=false)
 	{	
-		//if ($show=='show') echo('<hr>getRouter 2<hr>');
-		
 		if (!isset($name))
 		{
 			$app = JFactory::getApplication();
 			$name = $app->getName();
+            // site
+            //commonDebug(__FILE__,__LINE__,$name);
 		}
 
 		jimport('joomla.application.router');
 		$router = JRouter::getInstance($name, $options);
 
-		if ($router instanceof Exception)
+        if (self::$test){
+
+            include_once JPATH_SITE.DS.'tests.php';
+            commonDebug(__FILE__,__LINE__,$name);
+            self::$test=null;
+        }
+
+        if ($router instanceof Exception)
 		{
 			return null;
 		}

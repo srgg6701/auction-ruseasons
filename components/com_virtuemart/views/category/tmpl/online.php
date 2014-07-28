@@ -16,9 +16,9 @@ defined ('_JEXEC') or die('Restricted access');
 // commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
 //commonDebug(__FILE__,__LINE__,$this->category->parents[0]->virtuemart_category_id, true);
 $Itemid = JRequest::getVar('Itemid');
-HTML::pageHead( "Онлайн торги",
+HTML::pageHead( //"Онлайн торги",
                 "online",
-                $this->category->slug,
+                //$this->category->slug,
                 $this->vmPagination);
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
@@ -122,7 +122,7 @@ if (!empty($this->products)) {
 				echo $this->currency->createPriceDiv ('salesPriceWithDiscount', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITH_DISCOUNT', $product->prices);
 			endif;
 			
-			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices, false, false, '1.0', 'online', $product->virtuemart_product_id);
+			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices, false, false, '1.0', 'online');
 			
 			echo $this->currency->createPriceDiv ('priceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
 			

@@ -991,9 +991,9 @@ class HTML{
  * @subpackage
  */
 	public static function pageHead (
-								$section, // todo: разобраться с неиспользуемым параметром
+								//$section, // todo: разобраться с неиспользуемым параметром
 								$layout,
-								$slug=false, // todo: разобраться с неиспользуемым параметром
+								//$slug=false, // todo: разобраться с неиспользуемым параметром
 								$pagination=false
 							){
 		$category_id=JRequest::getVar('virtuemart_category_id');
@@ -1028,8 +1028,8 @@ class HTML{
 <?php HTML::setCommonInnerMenu(array('user','take_lot'));?>
 </div>
 <?php $arrMenus=self::setBaseLink($layout);//
-		//var_dump($arrMenus);
-		//echo "<div class=''>arrMenus['base']= ".$arrMenus['base']."<br>layout = $layout</div>";
+		//commonDebug(__FILE__,__LINE__,$layout);
+        commonDebug(__FILE__,__LINE__,$arrMenus);
 		HTML::setVmPagination($arrMenus['base'],$pagination);
 	}
 
@@ -1042,12 +1042,18 @@ class HTML{
     public static function setBaseLink($layout){
         $category_id=JRequest::getVar('virtuemart_category_id');
         $Itemid=JRequest::getVar('Itemid');
-
+        //showTestMessage('category_id: '.$category_id.', Itemid: '.$Itemid, __FILE__, __LINE__);
+        // category_id: 24, Itemid: 126
         $app=&JFactory::getApplication();
+        commonDebug(__FILE__,__LINE__,$app);
         $session=&JFactory::getSession();
-        $user=&JFactory::getUser(); // todo: разобраться с неиспользуемым параметром
+        //$user=&JFactory::getUser(); // todo: разобраться с неиспользуемым параметром
         $links=$session->get('section_links');
+        //commonDebug(__FILE__,__LINE__,S$links);
+        $app::$test=true;
         $router = $app->getRouter();
+        commonDebug(__FILE__,__LINE__,$router);
+        $app::$test=false;
         if($SefMode=$router->getMode()){
             if((int)$category_id>0){
                 $detail_link['base']=$links[$layout][$category_id];
@@ -1118,11 +1124,13 @@ class HTML{
 	public static function setVmPagination(
 								$link = false,
 								$pagination = false
-							){?>
+							){  // include_once JPATH_SITE.DS.'tests.php';
+							commonDebug(__FILE__,__LINE__,$link);?>
 <div class="lots_listing">
 	Лотов на странице:
     <?php $router = JFactory::getApplication()->getRouter();
-		static $lnk;
+		// $name = site; \libraries\joomla\application\application.php: 912
+        static $lnk;
 		static $pag;
 		if($link)
 			$lnk=$link;

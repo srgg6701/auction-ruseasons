@@ -1366,10 +1366,9 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             $i = 0;
             foreach ($productIds as $id) {
                 $product = $this->getProduct((int) $id, $front, $withCalc, $onlyPublished);
-                //commonDebug(__FILE__,__LINE__,$product);
+                //commonDebug(__FILE__,__LINE__,$product->prices);
                 if ($product) {
                     $products[] = $product;
-                    //echo "<h3>product:</h3>";var_dump('<pre>',$product, '</pre>');
                     $i++;
                 }
                 if ($i > $maxNumber) {

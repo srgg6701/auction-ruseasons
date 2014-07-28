@@ -11,11 +11,13 @@
 
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
-$subheader=($this->category->category_name)? $this->category->category_name:"Очные торги";
+// include_once JPATH_SITE.DS.'tests.php';
+//commonDebug(__FILE__,__LINE__,$this, true);
+//$subheader=($this->category->category_name)? $this->category->category_name:"Очные торги";
 HTML::pageHead( 
-			$subheader,
+			//$subheader,
 			'fulltime',
-			$this->category->slug,
+			//$this->category->slug,
 			$this->vmPagination
 		);
 if(JRequest::getVar('spag'))
@@ -92,7 +94,8 @@ if (!empty($this->products)) {?>
 	<?php if (!empty($product->product_s_desc)):?>
 	  <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 
-
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$product->prices);
 		if ($this->show_prices == '1') {
 
 			if ($product->prices['salesPrice']<=0 and VmConfig::get ('askprice', 1) and  !$product->images[0]->file_is_downloadable):
@@ -113,9 +116,12 @@ if (!empty($this->products)) {?>
 			if (round($product->prices['salesPriceWithDiscount'],$this->currency->_priceConfig['salesPrice'][1]) != $product->prices['salesPrice']) :
 				echo $this->currency->createPriceDiv ('salesPriceWithDiscount', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITH_DISCOUNT', $product->prices);
 			endif;
-			
-			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
-			
+
+            $htmlPrice = $priceBlock = $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices, false, false, '1.0', 'fulltime');
+            $currentSymbol = array_pop(explode(" ",trim(strip_tags($htmlPrice))));
+            // подставить реальный символ валюты предмета:
+            echo str_replace($currentSymbol, $product->currency_symbol, $priceBlock);
+
 			echo $this->currency->createPriceDiv ('priceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
 			
 			echo $this->currency->createPriceDiv ('discountAmount', 'COM_VIRTUEMART_PRODUCT_DISCOUNT_AMOUNT', $product->prices);

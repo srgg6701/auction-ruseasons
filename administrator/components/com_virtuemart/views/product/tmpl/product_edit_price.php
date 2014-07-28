@@ -70,7 +70,7 @@ table.adminform.productPriceTable
                 size="12"
                 style="text-align:right;"
                 value="<?php echo $this->product->price2; ?>"/>
-			<?php echo $this->vendor_currency; ?>
+			<?php //echo $this->vendor_currency; ?>
         </td>
         <td style="text-align:right;">
         	<strong><?=JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PUBLISH_PERIOD')?></strong>
@@ -104,7 +104,7 @@ table.adminform.productPriceTable
                 size="12"
                 style="text-align:right;"
                 value="<?php echo $this->product->minimal_price; ?>"/>
-			<?php echo $this->vendor_currency; ?>
+			<?php //echo $this->vendor_currency; ?>
         </td>
     	<td>
 			<div style="text-align:right;font-weight:bold;">

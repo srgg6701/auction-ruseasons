@@ -19,7 +19,9 @@ jimport('joomla.application.component.helper');
  */
 final class JSite extends JApplication
 {
-	/**
+
+    public static $test=false;
+    /**
 	 * Currently active template
 	 * @var object
 	 */
@@ -569,9 +571,9 @@ final class JSite extends JApplication
 	{	
 		$config = JFactory::getConfig();
 		$options['mode'] = $config->get('sef');
-
+        if(self::$test) parent::$test=self::$test;
 		$router = parent::getRouter('site', $options, false);
-
+        //if(self::$test) die(__FILE__.', '.__LINE__);
 		return $router;
 	}
 
