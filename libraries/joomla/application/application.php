@@ -916,8 +916,8 @@ class JApplication extends JObject
 		$router = JRouter::getInstance($name, $options);
 
         if (self::$test){
-
             include_once JPATH_SITE.DS.'tests.php';
+            showTestMessage('router name: '.$name, __FILE__, __LINE__);
             commonDebug(__FILE__,__LINE__,$name);
             self::$test=null;
         }
