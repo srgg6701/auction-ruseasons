@@ -1,28 +1,11 @@
 /**
- * Получить кнопку сохранения
- * @returns кнопку для отправки данных формы
- */
-function getApplyButton() {
-    return document.getElementById('toolbar-apply').getElementsByTagName('a')[0];
-}
-/**
- * Снимает "состояние клика" с кнопки отправки данных
- * @param auctionNumberInput - поле с номером аукциона
- * @returns nothing
- */
-function checkOnBlur(auctionNumberInput){
-    savingState.setState(false);
-    console.log('%ccheckOnBlur','font-weight:bold;color:brown');
-    checkFormData(auctionNumberInput);
-}
-/**
  * Функция переназначается на событие click для кнопки отправки данных формы
  * @returns false
  */
-function checkOnClick(){
-    savingState.setState(true);
+function checkOnClick(action){
+    //savingState.setState(true);
     console.log('%ccheckOnSubmit','font-weight:bold;color:orange');
-    checkFormData();
+    checkFormData(false,action); // apply|save
     return false;
 }
 /**
@@ -30,7 +13,7 @@ function checkOnClick(){
  * @param auctionNumberInput - поле с номером аукциона
  * @returns boolean
  */
-function checkFormData(auctionNumberInput) {
+function checkFormData(auctionNumberInput,action) {
     //console.log('auctionNumberInput:');
     //console.dir(auctionNumberInput);
     var $ = jQuery;
@@ -55,7 +38,7 @@ function checkFormData(auctionNumberInput) {
     // получить поле с № аукциона, если ещё не получено
     if(!auctionNumberInput) auctionNumberInput = $('input[name="auction_number"]');
 
-    if(savingState.getState()){ // клацали по кнопке
+    if(action){ // клацали по кнопке
         var errMess=[];
         //
         if (fulltime && !$(auctionNumberInput).val())
@@ -109,49 +92,51 @@ function checkFormData(auctionNumberInput) {
         // нет номера аукциона (при потере фокуса поля), - всё отменить
         if (!$(auctionNumberInput).val()) {
             // если НЕ клацали по кнопке сохранения данных
-            if (!savingState.getState())
+            if (!action)
                 setInfoBlock('empty'); // также удаляет сообщение, если оно уже есть
             console.log('129: empty');
             return false;
         } else { // номер аукциона есть
             // есть не тот, что был - проверить доступность
-            if ($(auctionNumberInput).attr('data-auction_number')!= $(auctionNumberInput).val()) {
-                var gotoUrl = getUrlToGo($(auctionNumberInput).val());
-                console.log('Проверить № аукциона: '+gotoUrl);
-                $.get(gotoUrl)
-                    .success(
-                    function (data) {
-                        // показать и вернуть результат проверки
-                        var message = setInfoBlock(data);
-                        //console.log('data: ' + data);
-                        if (data == 'taken') { // если неудачно
-                            // если клацали по кнопке сохранения данных
-                            if (savingState.getState()) {
-                                alert(message);
-                            }  // к этому моменту выводит сообщение (см. выше, var message)
-                            return false;
-                        } else{
-                            // если клацали по кнопке
-                            if (savingState.getState()) {
-                                //Joomla.submitbutton('apply'); // отправить данные формы
-                                alert('[156]Отправить данные');
-                                console.log('%cОтправить данные', 'color:blue');
-                            }  // к этому моменту выводит сообщение (см. выше, var message)
-                            return true;
-                        }
-                    })
-                    .error(
-                        function () {
-                            alert('ОШИБКА: не удалось проверить номер аукциона.');
-                            return false;
-                    });
-            }
+            /*var data_auction_number = $(auctionNumberInput).attr('data-auction_number');
+            if (data_auction_number!= $(auctionNumberInput).val()
+               ) {*/
+            var gotoUrl = getUrlToGo($(auctionNumberInput).val());
+            console.log('Проверить № аукциона: '+gotoUrl);
+            $.get(gotoUrl)
+                .success(
+                function (data) {
+                    // показать и вернуть результат проверки
+                    var message = setInfoBlock(data);
+                    //console.log('data: ' + data);
+                    if (data == 'taken') { // если неудачно
+                        // если клацали по кнопке сохранения данных
+                        if (action) {
+                            alert(message);
+                        }  // к этому моменту выводит сообщение (см. выше, var message)
+                        return false;
+                    } else{
+                        // если клацали по кнопке
+                        if (action) {
+                            Joomla.submitbutton(action); // отправить данные формы
+                            //alert('[156]Отправить данные');
+                            //console.log('%cОтправить данные', 'color:blue');
+                        }  // к этому моменту выводит сообщение (см. выше, var message)
+                        return true;
+                    }
+                })
+                .error(
+                    function () {
+                        alert('ОШИБКА: не удалось проверить номер аукциона.');
+                        return false;
+                });
+            //}
         }
-    } else if (savingState.getState()) {
+    } else if (action) {
         removeInfoBlock();
         // Не очные торги и клацали по кнопке
-        //Joomla.submitbutton('apply'); // отправить данные формы
-        alert('[156]Отправить данные');
-        console.log('%c[2]Отправить данные', 'color:violet');
+        Joomla.submitbutton(action); // отправить данные формы
+        //alert('[156]Отправить данные');
+        //console.log('%c[2]Отправить данные', 'color:violet');
     }
 }

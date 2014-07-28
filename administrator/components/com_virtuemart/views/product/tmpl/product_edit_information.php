@@ -60,7 +60,7 @@ $i=0;
                         <input type="text" class="inputbox floatLeft" name="auction_number" id="auction_number" data-auction_number="<?php
                         echo $this->product->auction_number; ?>" value="<?php
                         echo $this->product->auction_number;
-                        ?>" size="32" maxlength="64" onblur="checkOnBlur(this);" />
+                        ?>" size="32" maxlength="64" onblur="checkFormData(this);" />
                     </td>
                 </tr>
 
@@ -252,25 +252,17 @@ $i=0;
 	</tr>
 </table>
 <script type="text/javascript">
-    var savingState;
     jQuery(document).ready(function () {
-        savingState=(function(){
-            var saving=true;
-            return{
-                getState:function(){
-                    return saving;
-                },
-                setState:function(saving_state){
-                    saving=saving_state;
-                }
-            }
-        }());
         /**
          * переопределить метод, вызываемый кликом по кнопке - checkFormData().
         Нужно для дополнительных проверок полей */
-        $(getApplyButton()).attr('onclick','return checkOnClick()');
-        //savingState.setState(true); // сохранить состояние "клика по кнопке"
-
+        var bnt,action,actions = ['apply', 'save'];
+        for(var i= 0, j=actions.length; i<j; i++){
+            action = actions[i];
+            btn=document.getElementById('toolbar-'+action).getElementsByTagName('a')[0];
+            console.dir(btn);
+            btn.setAttribute('onclick','return checkOnClick("'+action+'")');
+        }
         jQuery("#mainPriceTable").dynoTable({
             removeClass:'.price-remove', //remove class name in  table
             cloneClass:'.price-clone', //Custom cloner class name in  table
