@@ -990,19 +990,15 @@ class HTML{
  * @package
  * @subpackage
  */
-	public static function pageHead (
-								$layout,
-								$pagination=false
-							){
+	public static function pageHead (){
 		$category_id=JRequest::getVar('virtuemart_category_id');
         $session=&JFactory::getSession();
         $sections_data=$session->get('section_links');
         //commonDebug(__FILE__, __LINE__, func_get_args());
+        $layout=JRequest::getVar('layout');
         $category_data=$sections_data[$layout];
         //commonDebug(__FILE__, __LINE__, $category_data, false);
         //echo "<div>category_id = ".$category_id."</div>";
-        // todo: разобраться с неиспользуемым параметром
-        //$section_data=$category_data[$layout]; // layout: shop, online...
         ?>
 <div class="top_list">
     <h2><div class="weak"><?php
@@ -1028,7 +1024,7 @@ class HTML{
 <?php $arrMenus=self::setBaseLink($layout);//
 		//commonDebug(__FILE__,__LINE__,$layout);
         //commonDebug(__FILE__,__LINE__,$arrMenus);
-		HTML::setVmPagination($arrMenus['base'],$pagination);
+		HTML::setVmPagination($arrMenus['base'],true);
 	}
 
     /**
@@ -1152,7 +1148,7 @@ class HTML{
 				//option=com_virtuemart&view=category&virtuemart_category_id=6&Itemid=115&layout=shop
 			}
 		}
-
+        // todo: убрать:
 		//if($pagination) {
             //if($pagination===true) // $total, $limitstart, $limit, $prefix = ''
                 //$pagination=new JPagination(500);
@@ -1161,20 +1157,60 @@ class HTML{
             //commonDebug(__FILE__,__LINE__,$pag, true, 1);
         //}
         //commonDebug(__FILE__,__LINE__,$pagination, false);
-		$arrLimits=array(15,30,60);
 
-		foreach($arrLimits as $i=>$limit){?>
-    <a href="<?php if($router->getMode()){
-				echo $lnk.'/?limit='.$limit;
-			}else{
-				echo JRoute::_($lnk.'&limit='.$limit);
+        $session = JFactory::getSession();
+        $arrLimits=array(15,30,60);
+        $Itemid = JRequest::getVar('Itemid'); // 126
+        //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
+        if($pagination) {
+            /* pages_limit=array([Itemid]=>page_limit)*/
+            if (JRequest::getVar('drop_limit')) {
+                $session->set('pages_limit', NULL);
+            }
+            // если нет в сессии
+            if(!$pages_limit_session=$session->get('pages_limit'))
+                $session->set('pages_limit',array()); // инициализировать
 
-			}?>"><?=$limit?></a>
+            /* если нет в URL, проверить, есть ли в сессии для данной секции
+                если нет, установить по умолчанию */
+            if(!$pages_limit_url=JRequest::getVar('pages_limit')) { // нет в URL
+                if(!isset($pages_limit_session[$Itemid]))
+                    $pages_limit_session[$Itemid]=$arrLimits[0];
+            }else{ // если получили в URL - перезаписать
+                $pages_limit_session[$Itemid]=$pages_limit_url;
+                //commonDebug(__FILE__,__LINE__,$pages_limit_url);
+                //commonDebug(__FILE__,__LINE__,$pages_limit_session[$Itemid]);
+                //commonDebug(__FILE__,__LINE__,$pages_limit_session);
+            }
+            // сохранить в сессии
+            $session->set('pages_limit',$pages_limit_session);
+        }
+        //
+        commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
+        //
+        foreach($arrLimits as $i=>$limit){?>
+<a href="<?php
+            if($router->getMode())
+                echo $lnk.'/?pages_limit='.$limit;
+            else
+                echo JRoute::_($lnk.'&pages_limit='.$limit);
+            ?>"<?php
+
+            $pages_limit=$session->get('pages_limit');
+            if($limit==$pages_limit[$Itemid])
+                echo " style=\"font-weight: bold;text-decoration:none;\"";
+            ?>><?php
+            echo $limit;
+            ?></a>
      &nbsp;
-	<?php }?>
-    <div class="vmPag">
-		<?=$pag?>
-    </div>
+<?php   }
+        if(isset($pag)) {
+            ?>
+            <div class="vmPag">
+                <?= $pag ?>
+            </div>
+        <?php
+        }?>
 </div>
 <?php }
 /**

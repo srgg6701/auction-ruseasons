@@ -133,7 +133,7 @@ else:?>
             $obj->arr['obj']->inner1="Array inner1";
             $obj->arr['obj']->inner2="Array inner2";
     //echo "<pre>" . __FILE__ . ':' . __LINE__ . '<br>';var_dump(${'obj'});echo "</pre>";
-    showObjects(__FILE__, __LINE__, $obj);
+    //showObjects(__FILE__, __LINE__, $obj);
     /*foreach ((array)$obj as $key=>$val) {
         echo "<div class='border'>".$key." => ";
         echo $val;
@@ -147,5 +147,10 @@ else:?>
         echo '</div>';
         echo '<div>val: '.$val.'</div>';
     }*/
-
+    $arrLimits=array(15,30,60);
+    $pages_limit = array();
+    $pages_limit['126']=$arrLimits[0];
+    // include_once JPATH_SITE.DS.'tests.php';
+    commonDebug(__FILE__,__LINE__,$pages_limit);
+    var_dump($pages_limit);
 endif;

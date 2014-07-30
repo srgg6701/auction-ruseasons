@@ -13,42 +13,46 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
         <div>file: <?=str_replace(JPATH_SITE,'',$file)?></div>
         <div style="display: inline-block; color:#666">line: <b><?=$line?></b></div>
         <?php
-        if($obj){
+        if($obj!==NULL){
             if(empty($obj)):?>
             <div class="warning-text">Объект пуст...</div>
-            <?php
-            else:?>
-            [<span class="link">dblclick</span>]
         <?php
             endif;
         }else{?>
             <div class="error-text">Объект не получен...</div>
     <?  }
-        $loop = function($obj)use(&$loop){?>
-    <div class='test-box'><?php
-            if(is_object($obj)||is_array($obj)){
+        $loop = function($obj)use(&$loop){
+            if(is_object($obj)||is_array($obj)){?>
+            [<span class="link">dblclick</span>]
+            <div class='test-box'><?php
                 foreach ($obj as $key=>$val) {?>
-                    <?=$key?> => <h4>
-                    <span class="link"><?
-                        if (is_object($obj)):
-                            ?>[Object] <? echo '</span> '.get_class($obj);
-                        else:
-                            ?>[Array]<?php
-                        endif;
-                        ?></span>
+                    <?=$key?> =><?php
+                    if(is_object($val)||is_array($val)) {
+                        ?><h4>
+                        <span class="link">[<?
+                            echo gettype($val);
+                            if (is_object($val)):
+                                ?>]</span> <span><?
+                                echo get_class($val);
+                            else:
+                                ?>]<?php
+                            endif;
+                            ?>
+                    </span>
                         </h4>
-                        <?php   $loop((array)$val);?>
                     <?php
-                }
-            }else{
-                echo '<span style="color:green;">'.$obj.'</span>';
-            }?>
-    </div>
+                    }
+                    $loop($val);
+                }?>
+            </div>
             <?php
+            }else{
+                echo gettype($obj).': <span style="color:green;">'.$obj.'</span><br>';
+                $key=true;
+            }
             return $key;
         };
         if(!$key=$loop($obj)){?>
-        <div class='test-box first'>
             <pre><?php var_dump($obj);?></pre><?
         }?>
     </div>
