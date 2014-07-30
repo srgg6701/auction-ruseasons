@@ -204,9 +204,15 @@ class VirtueMartModelProduct extends VmModel {
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
         require_once JPATH_SITE.DS.'components/com_auction2013/helpers\stuff.php';
-        AuctionStuff::handlePagesLimit();
-        //$sqCount="SELECT COUNT(DISTINCT prices.virtuemart_product_id) ";
+        /**
+         получить лимит колич. предметов текущей сессии */
+        $current_limit=AuctionStuff::handlePagesLimit();
+        if(!$start_page=JRequest::getVar('start_page'))
+            $start_page=1;
+        $LIMIT = ' LIMIT ' . ($start_page-1)*$current_limit .', '.$current_limit;
+        //commonDebug(__FILE__,__LINE__,$current_limit);
         $sqIds="SELECT DISTINCT prices.virtuemart_product_id ";
+
         if($this->top_category===false){ // категория внутри секции
             if($virtuemart_category_id) {
                 $common_query = "
@@ -218,7 +224,6 @@ class VirtueMartModelProduct extends VmModel {
    AND prices.`virtuemart_product_id`  = pc. `virtuemart_product_id`
    AND p.     `published` = '1'
    AND prices.`product_price_publish_up`  < NOW()";
-                //$query = $sqCount.$common_query;
                 $online = 'online';
                 $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false, $online);
                 $squery2=((int)$topItem[$online]==(int)JRequest::getVar('Itemid'))?
@@ -227,10 +232,6 @@ class VirtueMartModelProduct extends VmModel {
    AND p.auction_date_finish > NOW() ' // открытие аукциона не раньше даты публикации
                     :   '
    AND prices.`product_price_publish_down`> NOW() '; // закрытие аукциона не раньше текущего момента;
-                //commonDebug(__FILE__,__LINE__,$topItem, true);
-                //testSQL($query.$squery2, __FILE__, __LINE__, true);
-                // получить общее колич. предметов
-                //$cnt = $db->setQuery($query.$squery2)->loadResult();
                 $query = $sqIds.$common_query.$squery2;
             }
         }elseif ($this->top_category) { // ТОП-категория (секция) - онлайн/очные торги, магазин
@@ -244,16 +245,11 @@ class VirtueMartModelProduct extends VmModel {
                AND prices.product_price_publish_up < NOW()
                AND prices.product_price_publish_down > NOW()
           ORDER BY prices.product_price_publish_up ";
-            //$query=$sqCount.$common_query;
-            //testSQL('limit: '.JRequest::getVar('limit')."<hr>".$query, __FILE__, __LINE__);
-            // получить общее колич. предметов
-            //$cnt=$db->setQuery($query)->loadResult();
             $query=$sqIds.$common_query;
         }
         if(isset($query)){
-            //AuctionStuff::$prods_value=$cnt;
-            //testSQL($query, __FILE__, __LINE__, true);
-            return $db->setQuery($query)->loadColumn();
+            //testSQL($query.$LIMIT, __FILE__, __LINE__);
+            return $db->setQuery($query.$LIMIT)->loadColumn();
         }
         /* 	MODIFIED END	 */
 

@@ -712,7 +712,7 @@ WHERE cats_cats.category_parent_id = 0";
         return $results;
     }
     /**
-     *
+     * Устанвоить параметры страниц для Pagination
      */
     public static function handlePagesLimit($Itemid=false,$min_limit=15,$session=false){
         if(!$session) $session=JFactory::getSession();
@@ -740,7 +740,8 @@ WHERE cats_cats.category_parent_id = 0";
         }
         // сохранить в сессии
         $session->set('pages_limit',$pages_limit_session);
-        return true;
+        $pages_limit =$session->get('pages_limit');
+        return $pages_limit[$Itemid];
     }
 //shop'
 /**
@@ -1167,7 +1168,7 @@ class HTML{
     <?php $router = JFactory::getApplication()->getRouter();
 		// $name = site; \libraries\joomla\application\application.php: 912
         static $lnk;
-		static $pag;
+		static $pages;
 		if($link)
 			$lnk=$link;
 		if(!$lnk){
@@ -1186,24 +1187,12 @@ class HTML{
 				//option=com_virtuemart&view=category&virtuemart_category_id=6&Itemid=115&layout=shop
 			}
 		}
-        // todo: убрать:
-		//if($pagination) {
-            //if($pagination===true) // $total, $limitstart, $limit, $prefix = ''
-                //$pagination=new JPagination(500);
-            // $pag=$pagination->getPagesLinks();
-            // include_once JPATH_SITE.DS.'tests.php';
-            //commonDebug(__FILE__,__LINE__,$pag, true, 1);
-        //}
-        //commonDebug(__FILE__,__LINE__,$pagination, false);
-
         $session = JFactory::getSession();
         $arrLimits=array(15,30,60);
         $Itemid = JRequest::getVar('Itemid'); // 126
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-        //if($pagination) AuctionStuff::handlePagesLimit($Itemid,$arrLimits[0],$session);
-        //
-        commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
-        showTestMessage("prods_value: ".AuctionStuff::$prods_value,__FILE__,__LINE__,'red');
+        //commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
+        //showTestMessage("prods_value: ".AuctionStuff::$prods_value,__FILE__,__LINE__,'red');
         //
         foreach($arrLimits as $i=>$limit){?>
 <a href="<?php
@@ -1212,7 +1201,6 @@ class HTML{
             else
                 echo JRoute::_($lnk.'&pages_limit='.$limit);
             ?>"<?php
-
             $pages_limit=$session->get('pages_limit');
             if($limit==$pages_limit[$Itemid])
                 echo " style=\"font-weight: bold;text-decoration:none;\"";
@@ -1221,10 +1209,38 @@ class HTML{
             ?></a>
      &nbsp;
 <?php   }
-        if(isset($pag)) {
+        $prods_value=AuctionStuff::$prods_value;
+        $pgcount = intval($prods_value/(int)$pages_limit[$Itemid]);
+        //commonDebug(__FILE__,__LINE__,$prods_value.'/'.(int)$pages_limit[$Itemid]);
+        //commonDebug(__FILE__,__LINE__,$pgcount);
+        if($prods_value%(int)$pages_limit[$Itemid]) $pgcount+=1;
+        // свормировать Pagination
+        $stpg = 'start_page';
+        $stpgEq = $stpg . '=';
+        $getUrl =  JRequest::get('get');
+        //commonDebug(__FILE__,__LINE__, $getUrl);
+        $pureUrl = JUri::current();
+        if($stpage=$getUrl[$stpg]) // если в Url есть 'start_page', вырезать значение
+            $pureUrl = str_replace( $stpgEq . $stpage, $stpgEq, $pureUrl);
+        else
+            $stpage=1;
+        //commonDebug(__FILE__,__LINE__,$pureUrl);
+        // что там у нас с SEF?
+        $pureUrl.= (JApplication::getRouter()->getMode())?
+            '?' : '&';
+        $pureUrl.=$stpgEq;
+        $pages='страницы: ';
+        foreach (range(1,$pgcount) as $i) {
+            if($i>1) $pages.=" | ";
+            $pages.='<a href='. $pureUrl .$i;
+            if($i==$stpage) $pages.=' style="font-weight:bold;text-decoration:none;"';
+            $pages.= '>'.$i.'</a> ';
+        }
+        // если таки сформировали список страниц:
+        if(isset($pages)) {
             ?>
             <div class="vmPag">
-                <?= $pag ?>
+                <?=$pages?>
             </div>
         <?php
         }?>
