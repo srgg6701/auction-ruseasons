@@ -915,12 +915,12 @@ class JApplication extends JObject
 		jimport('joomla.application.router');
 		$router = JRouter::getInstance($name, $options);
 
-        if (self::$test){
+        /*if (self::$test){
             include_once JPATH_SITE.DS.'tests.php';
             showTestMessage('router name: '.$name, __FILE__, __LINE__);
             commonDebug(__FILE__,__LINE__,$name);
             self::$test=null;
-        }
+        }*/
 
         if ($router instanceof Exception)
 		{

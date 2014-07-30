@@ -12,7 +12,7 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 // include_once JPATH_SITE.DS.'tests.php';
-//commonDebug(__FILE__,__LINE__,$this, true);
+commonDebug(__FILE__,__LINE__,$this->products);
 //$subheader=($this->category->category_name)? $this->category->category_name:"Очные торги";
 HTML::pageHead( 
 			//$subheader,
@@ -20,8 +20,7 @@ HTML::pageHead(
 			//$this->category->slug,
 			$this->vmPagination
 		);
-if(JRequest::getVar('spag'))
-	var_dump($this->vmPagination); ?>
+//if(JRequest::getVar('spag')) commonDebug(__FILE__,__LINE__,$this->vmPagination);?>
 <div class="item-page-shop fulltime">
 <br>
 <?php if (empty($this->keyword)):?>
@@ -146,4 +145,4 @@ if (!empty($this->products)) {?>
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
-<?php HTML::setVmPagination()?>
+<?php HTML::setVmPagination();//count($this->products),?>

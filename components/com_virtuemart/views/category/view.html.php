@@ -56,7 +56,8 @@ class VirtuemartViewCategory extends VmView {
 		//Load helpers
 		$this->loadHelper('image');
 		$categoryModel = VmModel::getModel('category');
-		$productModel = VmModel::getModel('product');
+        // VirtueMartModelProduct
+        $productModel = VmModel::getModel('product');
         // include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$productModel, true);
 		$categoryId = JRequest::getInt('virtuemart_category_id', false);
@@ -182,7 +183,7 @@ class VirtuemartViewCategory extends VmView {
         // include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$categoryId, true);
         $products = $productModel->getProductsInCategory($categoryId);
-        $session=JFactory::getSession();
+        //$session=JFactory::getSession();
         //$session->clear('vmcart', null, 'vm');
         //$session->set('vmcart', null, 'vm');
         //commonDebug(__FILE__, __LINE__, unserialize($session->get('vmcart', null, 'vm')), true);
@@ -205,7 +206,8 @@ class VirtuemartViewCategory extends VmView {
 		// Override Category name when viewing manufacturers products !IMPORTANT AFTER page title.
 		if (JRequest::getInt('virtuemart_manufacturer_id' ) and !empty($products[0])) $category->category_name =$products[0]->mf_name ;
 
-	    $pagination = $productModel->getPagination($perRow);
+	    // $perRow принимает значение JRequest::getVar('limit');
+        $pagination = $productModel->getPagination($perRow);
 	    $this->assignRef('vmPagination', $pagination);
 
 	    $orderByList = $productModel->getOrderByList($categoryId);

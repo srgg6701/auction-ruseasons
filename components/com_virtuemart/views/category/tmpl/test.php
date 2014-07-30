@@ -1,6 +1,6 @@
 <?php
 defined ('_JEXEC') or die('Restricted access');
-
+include_once JPATH_SITE.DS.'tests.php';
 $zoom=false;
 if($zoom):?>
 <link href="http://auction.auction-ruseasons.ru/geo_templates/Lemon/external/css/style.css" rel="stylesheet" type="text/css" />
@@ -73,7 +73,73 @@ if($zoom):?>
 </div>
 <?php
 else:?>
+<style>
+/*.test-box{
+    border: solid 1px #ccc;
+    box-shadow: -4px -4px 53px 0 #FFF inset;
+    padding: 10px;
+    margin: 4px 12px;
+}*/
+</style>
 <?php
+    function showObjects($file, $line, $obj=NULL){
+        ?>
+    <div class='test-box first'>
+        <div>file: <?=str_replace(JPATH_SITE,'',$file)?></div>
+        <div style="display: inline-block; color:#666">line: <b><?=$line?></b></div>
+        <?php
+        if($obj){?>
+            [<span class="link">dblclick</span>]
+        <?php
+        }
+        $loop = function($obj)use(&$loop){
+            foreach ($obj as $key=>$val) {?>
+            <div class='test-box'><?=$key?> => <?php
+                if(is_object($val)||is_array($val)){?>
+                <h4>
+                    <span class="link"><?
+                    if (is_object($obj)):
+                        ?>[Object] <? echo '</span> '.get_class($obj);
+                    else:
+                        ?>[Array]<?php
+                    endif;
+                    ?></span>
+                </h4>
+            <?php   $loop((array)$val);?>
+            <?php
+                }else{
+                    echo '<span style="color:green;">'.$val.'</span>';
+                }?>
+            </div>
+            <?php
+            }
+        };
+        $loop($obj);?>
+        </div>
+    <?php
+    }
+
+    $obj = new stdClass();
+    $obj->name="Std";
+    $obj->family=new stdClass();
+        $obj->family->name="Class";
+        $obj->family->surname="PHP";
+    $obj->surname="Object";
+    $obj->last_name="Standard";
+    $obj->arr=array();
+        $obj->arr['arr name']="Array name";
+        $obj->arr['arr family']="Array family";
+        $obj->arr['obj']=new stdClass();
+            $obj->arr['obj']->inner1="Array inner1";
+            $obj->arr['obj']->inner2="Array inner2";
+    //echo "<pre>" . __FILE__ . ':' . __LINE__ . '<br>';var_dump(${'obj'});echo "</pre>";
+    showObjects(__FILE__, __LINE__, $obj);
+    /*foreach ((array)$obj as $key=>$val) {
+        echo "<div class='border'>".$key." => ";
+        echo $val;
+        //commonDebug(false,false,$inner_object,false,true);
+        echo "</div>";
+    }*/
 
     /*foreach (range(1,10) as $val) {
         echo '<div>%2: ';
@@ -81,6 +147,5 @@ else:?>
         echo '</div>';
         echo '<div>val: '.$val.'</div>';
     }*/
-    var_dump(NULL);
 
 endif;

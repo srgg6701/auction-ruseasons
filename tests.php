@@ -7,42 +7,90 @@
  * Вывести состав объекта. 4-й аргумент - остановка выполнения скрипта
  */
 define('dblclck', " title='dblclick' ondblclick='this.getElementsByTagName(\"div\")[0].style.display=(this.getElementsByTagName(\"div\")[0].style.display==\"none\")? \"block\":\"none\"'");
-function commonDebug($file, $line, $object=NULL, $stop=false, $collapsed=true){
+function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
+    ?>
+    <div class='test-box first'>
+        <div>file: <?=str_replace(JPATH_SITE,'',$file)?></div>
+        <div style="display: inline-block; color:#666">line: <b><?=$line?></b></div>
+        <?php
+        if($obj){?>
+            [<span class="link">dblclick</span>]
+        <?php
+        }
+        $loop = function($obj)use(&$loop){
+            foreach ($obj as $key=>$val) {?>
+                <div class='test-box'><?=$key?> => <?php
+                    if(is_object($val)||is_array($val)){?>
+                        <h4>
+                    <span class="link"><?
+                        if (is_object($obj)):
+                            ?>[Object] <? echo '</span> '.get_class($obj);
+                        else:
+                            ?>[Array]<?php
+                        endif;
+                        ?></span>
+                        </h4>
+                        <?php   $loop((array)$val);?>
+                    <?php
+                    }else{
+                        echo '<span style="color:green;">'.$val.'</span>';
+                    }?>
+                </div>
+            <?php
+            }
+        };
+        $loop($obj);?>
+    </div>
+<?php   if($stop) die('<hr><div><b>stopped</b></div>');
+}
+
+function commonDebugOld($file, $line, $object=NULL, $stop=false, $collapsed=true){
     $test=true;
     if(!$test) return false;
     if($file) echo "<div><b>file:</b> ".$file;
 	if($line) echo "<br>
     line: <span style='color:green'>".$line."</span></div>";
-    echo "
-	<div class='test_content_box' style='display: inline-block; border:solid 1px #ccc; border-radius:4px; padding:10px; background-color:#eee;margin-bottom:20px;'>
-		<pre>"; // ".dblclck."
-    if($object){
-        if(is_array($object)||is_object($object)){
-			if(is_object($object)) 
-				echo "<h4>Object ".get_class($object).":</h4>";
-			else echo "<h4>Array:</h4>";
+    ?>
+	<div class='test_content_box test-box'>
+	    <?php
+    if (is_object($object))
+        echo "<h4>Object " . get_class($object) . ":</h4>";
+    else
+        echo "<h4>Array:</h4>";
+    if($collapsed===1){
+        echo '<pre>';
+        var_dump($object);
+        echo '</pre>';
+    }else {
+        $loop = function ($object=NULL) use (&$loop, $collapsed) {
+            if($object){
+                if (is_object($object) || is_array($object)) {
+                    ?>
+                    <div class='test-box'"<?php if ($collapsed) {?> style="display:none; text-align:left;"<?php }?>>
+				<?php
+					if (!empty($object)) {
 
-			if(!empty($object)) {
-                ?><div<?php
-                if ($collapsed){
-                    ?> style="display:none; text-align:left;"<?php
-                }?>><?php	
-				foreach($object as $key=>$inner_object) {
-					echo "<div class='border'>".$key." => ";
-					commonDebug(false,false,$inner_object,false,true);
-					echo "</div>";
-				}
-				//var_dump($object);
-                ?></div><?php
+                        foreach ($object as $key => $val) {
+                            echo $key;?> => <?php
+                            $loop($val);
+                        }
+                    } else
+                        echo "<div style='color:brown;'>Объект пуст...</div>";?>
+	</div>
+	<?php		} else {
+                    ?>
+                    <span style="color:green;"><?= $object ?></span>
+                <?php
+                }
+            }else{
+                ?><div style='color:red;'>Объект не получен</div>
+            <?php
             }
-            else
-                echo "<div style='color:brown;'>Объект пуст...</div>";
-        }else
-            echo "<div class='bottom'>".gettype($object).": ".$object."</div>";
-    }else{
-        echo "<div class='bottom' style='color:orange;'>Объект не получен...</div>";
-    }
-    echo "</pre></div>"; 
+        };
+        $loop($object);
+    }?>
+    </div>
+    <?php
     if($stop) die();
 }
 /**

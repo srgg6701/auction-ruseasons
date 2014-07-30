@@ -1,3 +1,23 @@
+.test-box{
+    border: solid 1px #ccc;
+    border-radius:4px;
+    box-shadow: -4px -4px 53px 0 #FFF inset;
+    display: none;
+    margin: 4px 12px;
+    /*margin-bottom:20px;*/
+    padding: 10px;
+}
+span.link{
+    color:blue !important;
+    cursor: default;
+}
+.test-box.first{
+    display: block;
+}
+.test-box.first h4{
+    display: inline-block;
+    font-weight: normal;
+}
 .error-text{
     color: red;
 }

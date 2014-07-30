@@ -202,6 +202,8 @@ class VirtueMartModelProduct extends VmModel {
         при запросе с frontend'а должно быть присвоено значение -
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
+        /*if($limit_records=JRequest::getVar('limit')){
+        }*/
         if($this->top_category===false){ // категория внутри секции
             if($virtuemart_category_id) {
                 $query = "SELECT  p.virtuemart_product_id
@@ -236,7 +238,7 @@ class VirtueMartModelProduct extends VmModel {
                AND prices.product_price_publish_up < NOW()
                AND prices.product_price_publish_down > NOW()
           ORDER BY prices.product_price_publish_up ";
-            // testSQL($query, __FILE__, __LINE__);
+            testSQL('limit: '.JRequest::getVar('limit')."<hr>".$query, __FILE__, __LINE__);
             return JFactory::getDbo()->setQuery($query)->loadColumn();
         }
         /* 	MODIFIED END	 */

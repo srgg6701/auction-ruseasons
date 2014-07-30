@@ -243,11 +243,11 @@ class VmModel extends JModel {
 	 */
 	public function getPagination($perRow = 5) {
 
-			if(empty($this->_limit) ){
-				$this->setPaginationLimits();
-			}
+        if(empty($this->_limit) ){
+            $this->setPaginationLimits();
+        }
 
-			$this->_pagination = new VmPagination($this->_total , $this->_limitStart, $this->_limit , $perRow );
+        $this->_pagination = new VmPagination($this->_total , $this->_limitStart, $this->_limit , $perRow );
 
 // 		}
 // 		vmdebug('$this->pagination $total '.$this->_total,$this->_pagination);vmTrace('getPagination');

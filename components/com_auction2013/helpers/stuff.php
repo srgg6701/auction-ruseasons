@@ -991,9 +991,7 @@ class HTML{
  * @subpackage
  */
 	public static function pageHead (
-								//$section, // todo: разобраться с неиспользуемым параметром
 								$layout,
-								//$slug=false, // todo: разобраться с неиспользуемым параметром
 								$pagination=false
 							){
 		$category_id=JRequest::getVar('virtuemart_category_id');
@@ -1004,7 +1002,7 @@ class HTML{
         //commonDebug(__FILE__, __LINE__, $category_data, false);
         //echo "<div>category_id = ".$category_id."</div>";
         // todo: разобраться с неиспользуемым параметром
-        $section_data=$category_data[$layout]; // layout: shop, online...
+        //$section_data=$category_data[$layout]; // layout: shop, online...
         ?>
 <div class="top_list">
     <h2><div class="weak"><?php
@@ -1029,7 +1027,7 @@ class HTML{
 </div>
 <?php $arrMenus=self::setBaseLink($layout);//
 		//commonDebug(__FILE__,__LINE__,$layout);
-        commonDebug(__FILE__,__LINE__,$arrMenus);
+        //commonDebug(__FILE__,__LINE__,$arrMenus);
 		HTML::setVmPagination($arrMenus['base'],$pagination);
 	}
 
@@ -1045,17 +1043,21 @@ class HTML{
         //showTestMessage('category_id: '.$category_id.', Itemid: '.$Itemid, __FILE__, __LINE__);
         // category_id: 24, Itemid: 126
         $app=&JFactory::getApplication();
-        commonDebug(__FILE__,__LINE__,$app);
+        //commonDebug(__FILE__,__LINE__,$app);
         $session=&JFactory::getSession();
         //$user=&JFactory::getUser(); // todo: разобраться с неиспользуемым параметром
         $links=$session->get('section_links');
         //commonDebug(__FILE__,__LINE__,S$links);
         $app::$test=true;
         $router = $app->getRouter();
-        commonDebug(__FILE__,__LINE__,$router);
+        //commonDebug(__FILE__,__LINE__,$router, false, 1);
+        //showTestMessage('router mode: '.$router->getMode(),__FILE__, __LINE__);
         $app::$test=false;
         if($SefMode=$router->getMode()){
-            if((int)$category_id>0){
+            //showTestMessage('<h3>router mode: '.$router->getMode() .'</h3>',__FILE__, __LINE__);
+            $ItemIds=AuctionStuff::getTopCatsMenuItemIds();
+            //commonDebug(__FILE__,__LINE__,$ItemIds);
+            if(!in_array($Itemid,$ItemIds)){
                 $detail_link['base']=$links[$layout][$category_id];
             }else{
                 $menu = $app->getMenu();
@@ -1124,8 +1126,8 @@ class HTML{
 	public static function setVmPagination(
 								$link = false,
 								$pagination = false
-							){  // include_once JPATH_SITE.DS.'tests.php';
-							commonDebug(__FILE__,__LINE__,$link);?>
+							){
+							//commonDebug(__FILE__,__LINE__,$link);?>
 <div class="lots_listing">
 	Лотов на странице:
     <?php $router = JFactory::getApplication()->getRouter();
@@ -1151,10 +1153,15 @@ class HTML{
 			}
 		}
 
-		if($pagination) $pag=$pagination->getPagesLinks();
-
+		//if($pagination) {
+            //if($pagination===true) // $total, $limitstart, $limit, $prefix = ''
+                //$pagination=new JPagination(500);
+            // $pag=$pagination->getPagesLinks();
+            // include_once JPATH_SITE.DS.'tests.php';
+            //commonDebug(__FILE__,__LINE__,$pag, true, 1);
+        //}
+        //commonDebug(__FILE__,__LINE__,$pagination, false);
 		$arrLimits=array(15,30,60);
-
 
 		foreach($arrLimits as $i=>$limit){?>
     <a href="<?php if($router->getMode()){
