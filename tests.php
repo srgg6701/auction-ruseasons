@@ -54,56 +54,6 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
     </div>
 <?php   if($stop) die('<hr><div><b>stopped</b></div>');
 }
-
-function commonDebugOld($file, $line, $object=NULL, $stop=false, $collapsed=true){
-    $test=true;
-    if(!$test) return false;
-    if($file) echo "<div><b>file:</b> ".$file;
-	if($line) echo "<br>
-    line: <span style='color:green'>".$line."</span></div>";
-    ?>
-	<div class='test_content_box test-box'>
-	    <?php
-    if (is_object($object))
-        echo "<h4>Object " . get_class($object) . ":</h4>";
-    else
-        echo "<h4>Array:</h4>";
-    if($collapsed===1){
-        echo '<pre>';
-        var_dump($object);
-        echo '</pre>';
-    }else {
-        $loop = function ($object=NULL) use (&$loop, $collapsed) {
-            if($object){
-                if (is_object($object) || is_array($object)) {
-                    ?>
-                    <div class='test-box'"<?php if ($collapsed) {?> style="display:none; text-align:left;"<?php }?>>
-				<?php
-					if (!empty($object)) {
-
-                        foreach ($object as $key => $val) {
-                            echo $key;?> => <?php
-                            $loop($val);
-                        }
-                    } else
-                        echo "<div style='color:brown;'>Объект пуст...</div>";?>
-	</div>
-	<?php		} else {
-                    ?>
-                    <span style="color:green;"><?= $object ?></span>
-                <?php
-                }
-            }else{
-                ?><div style='color:red;'>Объект не получен</div>
-            <?php
-            }
-        };
-        $loop($object);
-    }?>
-    </div>
-    <?php
-    if($stop) die();
-}
 /**
  * Вывести сообщение
  */
