@@ -24,11 +24,11 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
         }else{?>
             <div class="error-text">Объект не получен...</div>
     <?  }
-        $loop = function($obj)use(&$loop){
-            foreach ($obj as $key=>$val) {?>
-                <div class='test-box'><?=$key?> => <?php
-                    if(is_object($val)||is_array($val)){?>
-                        <h4>
+        $loop = function($obj)use(&$loop){?>
+    <div class='test-box'><?php
+            if(is_object($obj)||is_array($obj)){
+                foreach ($obj as $key=>$val) {?>
+                    <?=$key?> => <h4>
                     <span class="link"><?
                         if (is_object($obj)):
                             ?>[Object] <? echo '</span> '.get_class($obj);
@@ -39,12 +39,12 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
                         </h4>
                         <?php   $loop((array)$val);?>
                     <?php
-                    }else{
-                        echo '<span style="color:green;">'.$val.'</span>';
-                    }?>
-                </div>
+                }
+            }else{
+                echo '<span style="color:green;">'.$obj.'</span>';
+            }?>
+    </div>
             <?php
-            }
             return $key;
         };
         if(!$key=$loop($obj)){?>
