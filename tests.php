@@ -21,14 +21,16 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
         }else{?>
             <div class="error-text">Объект не получен...</div>
     <?  }
-        $loop = function($obj)use(&$loop){
-            if(is_object($obj)||is_array($obj)){?>
-            [<span class="link">dblclick</span>]
+        $loop = function($obj,$is_obj=false)use(&$loop){
+            if(is_object($obj)||is_array($obj)){
+                if(!$is_obj) echo '<span class="link">[dblclick]</span>';
+                ?>
             <div class='test-box'><?php
                 foreach ($obj as $key=>$val) {?>
                     <?=$key?> =><?php
+                    $is_obj=false;
                     if(is_object($val)||is_array($val)) {
-                        ?><h4>
+                        ?>
                         <span class="link">[<?
                             echo gettype($val);
                             if (is_object($val)):
@@ -39,10 +41,11 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
                             endif;
                             ?>
                     </span>
-                        </h4>
-                    <?php
+                    <?php   $is_obj=true;
                     }
-                    $loop($val);
+                    $loop($val,$is_obj);?>
+                <br/>
+                <?php
                 }?>
             </div>
             <?php

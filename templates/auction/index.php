@@ -277,8 +277,8 @@ jQuery( function($){
 				$(this).toggleClass('menuH2');
 			});
 	// for test blocks
-	$('.test-box, ').on('dblclick',function(event){
-		var innerBlock = $('>div.test-box',this);
+	$('span.link, ').on('dblclick',function(event){
+		var innerBlock = $(this).next('div.test-box');
 		event.stopPropagation();
 		if(!$(innerBlock).hasClass('bottom')) {
 			$(innerBlock).toggle();

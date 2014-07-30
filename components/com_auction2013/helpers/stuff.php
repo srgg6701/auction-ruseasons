@@ -19,6 +19,7 @@ class AuctionStuff{
     static $andLayout = '&layout=';
     static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
     static $vm_category_id = '&virtuemart_category_id=';
+    static $prods_value=0;
     /**
  * Добавить предмет в избранное
  * @package
@@ -710,6 +711,37 @@ WHERE cats_cats.category_parent_id = 0";
         $results = $db->loadAssocList();
         return $results;
     }
+    /**
+     *
+     */
+    public static function handlePagesLimit($Itemid=false,$min_limit=15,$session=false){
+        if(!$session) $session=JFactory::getSession();
+        if(!$Itemid) $Itemid=JRequest::getVar('Itemid');
+
+        /* pages_limit=array([Itemid]=>page_limit)*/
+        if (JRequest::getVar('drop_limit')) {
+            $session->set('pages_limit', NULL);
+        }
+
+        // если нет в сессии
+        if(!$pages_limit_session=$session->get('pages_limit'))
+            $session->set('pages_limit',array()); // инициализировать
+
+        /* если нет в URL, проверить, есть ли в сессии для данной секции
+            если нет, установить по умолчанию */
+        if(!$pages_limit_url=JRequest::getVar('pages_limit')) { // нет в URL
+            if(!isset($pages_limit_session[$Itemid]))
+                $pages_limit_session[$Itemid]=$min_limit;
+        }else{ // если получили в URL - перезаписать
+            $pages_limit_session[$Itemid]=$pages_limit_url;
+            //commonDebug(__FILE__,__LINE__,$pages_limit_url);
+            //commonDebug(__FILE__,__LINE__,$pages_limit_session[$Itemid]);
+            //commonDebug(__FILE__,__LINE__,$pages_limit_session);
+        }
+        // сохранить в сессии
+        $session->set('pages_limit',$pages_limit_session);
+        return true;
+    }
 //shop'
 /**
  * Generate HTML form
@@ -993,11 +1025,12 @@ class HTML{
 	public static function pageHead (){
 		$category_id=JRequest::getVar('virtuemart_category_id');
         $session=&JFactory::getSession();
-        $sections_data=$session->get('section_links');
-        //commonDebug(__FILE__, __LINE__, func_get_args());
+        $sections_data=AuctionStuff::handleSessionCategoriesData();
+            //$session->get('section_links');
+        commonDebug(__FILE__, __LINE__, $sections_data);
         $layout=JRequest::getVar('layout');
         $category_data=$sections_data[$layout];
-        //commonDebug(__FILE__, __LINE__, $category_data, false);
+        commonDebug(__FILE__, __LINE__, $category_data);
         //echo "<div>category_id = ".$category_id."</div>";
         ?>
 <div class="top_list">
@@ -1162,31 +1195,10 @@ class HTML{
         $arrLimits=array(15,30,60);
         $Itemid = JRequest::getVar('Itemid'); // 126
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-        if($pagination) {
-            /* pages_limit=array([Itemid]=>page_limit)*/
-            if (JRequest::getVar('drop_limit')) {
-                $session->set('pages_limit', NULL);
-            }
-            // если нет в сессии
-            if(!$pages_limit_session=$session->get('pages_limit'))
-                $session->set('pages_limit',array()); // инициализировать
-
-            /* если нет в URL, проверить, есть ли в сессии для данной секции
-                если нет, установить по умолчанию */
-            if(!$pages_limit_url=JRequest::getVar('pages_limit')) { // нет в URL
-                if(!isset($pages_limit_session[$Itemid]))
-                    $pages_limit_session[$Itemid]=$arrLimits[0];
-            }else{ // если получили в URL - перезаписать
-                $pages_limit_session[$Itemid]=$pages_limit_url;
-                //commonDebug(__FILE__,__LINE__,$pages_limit_url);
-                //commonDebug(__FILE__,__LINE__,$pages_limit_session[$Itemid]);
-                //commonDebug(__FILE__,__LINE__,$pages_limit_session);
-            }
-            // сохранить в сессии
-            $session->set('pages_limit',$pages_limit_session);
-        }
+        //if($pagination) AuctionStuff::handlePagesLimit($Itemid,$arrLimits[0],$session);
         //
         commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
+        showTestMessage("prods_value: ".AuctionStuff::$prods_value,__FILE__,__LINE__,'red');
         //
         foreach($arrLimits as $i=>$limit){?>
 <a href="<?php

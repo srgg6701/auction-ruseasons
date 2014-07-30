@@ -194,6 +194,7 @@ class VirtueMartModelProduct extends VmModel {
     function sortSearchListQuery($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE
     ) {
         /* 	MODIFIED START */
+        $db=JFactory::getDbo();
         include_once JPATH_SITE.DS.'tests.php';
         /**
         ВНИМАНИЕ!
@@ -202,11 +203,13 @@ class VirtueMartModelProduct extends VmModel {
         при запросе с frontend'а должно быть присвоено значение -
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
-        /*if($limit_records=JRequest::getVar('limit')){
-        }*/
+        require_once JPATH_SITE.DS.'components/com_auction2013/helpers\stuff.php';
+        AuctionStuff::handlePagesLimit();
+        $sqCount="SELECT COUNT(DISTINCT prices.virtuemart_product_id) ";
+        $sqIds="SELECT DISTINCT prices.virtuemart_product_id ";
         if($this->top_category===false){ // категория внутри секции
             if($virtuemart_category_id) {
-                $query = "SELECT  p.virtuemart_product_id
+                $common_query = "
   FROM `#__virtuemart_products`            AS p,
        `#__virtuemart_product_categories`  AS pc,
        `#__virtuemart_product_prices`      AS prices
@@ -215,20 +218,23 @@ class VirtueMartModelProduct extends VmModel {
    AND prices.`virtuemart_product_id`  = pc. `virtuemart_product_id`
    AND p.     `published` = '1'
    AND prices.`product_price_publish_up`  < NOW()";
+                $query = $sqCount.$common_query;
                 $online = 'online';
                 $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false, $online);
-                $query.=((int)$topItem[$online]==(int)JRequest::getVar('Itemid'))?
+                $squery2=((int)$topItem[$online]==(int)JRequest::getVar('Itemid'))?
                     '
    AND p.product_available_date >= prices.product_price_publish_up
    AND p.auction_date_finish > NOW() ' // открытие аукциона не раньше даты публикации
                     :   '
    AND prices.`product_price_publish_down`> NOW() '; // закрытие аукциона не раньше текущего момента;
                 //commonDebug(__FILE__,__LINE__,$topItem, true);
-                //testSQL($query, __FILE__, __LINE__, true);
-                return JFactory::getDbo()->setQuery($query)->loadColumn();
+                //testSQL($query.$squery2, __FILE__, __LINE__, true);
+                // получить общее колич. предметов
+                $cnt = $db->setQuery($query.$squery2)->loadResult();
+                $query = $sqIds.$common_query.$squery2;
             }
         }elseif ($this->top_category) { // ТОП-категория (секция) - онлайн/очные торги, магазин
-            $query = "SELECT DISTINCT prices.virtuemart_product_id
+            $common_query = "
         FROM #__virtuemart_product_categories        AS cats
         INNER JOIN #__virtuemart_category_categories AS cat_cats
                    ON cats.virtuemart_category_id = cat_cats.category_child_id
@@ -238,8 +244,16 @@ class VirtueMartModelProduct extends VmModel {
                AND prices.product_price_publish_up < NOW()
                AND prices.product_price_publish_down > NOW()
           ORDER BY prices.product_price_publish_up ";
+            $query=$sqCount.$common_query;
             testSQL('limit: '.JRequest::getVar('limit')."<hr>".$query, __FILE__, __LINE__);
-            return JFactory::getDbo()->setQuery($query)->loadColumn();
+            // получить общее колич. предметов
+            $cnt=$db->setQuery($query)->loadResult();
+            $query=$sqIds.$common_query;
+        }
+        if(isset($cnt)){
+            AuctionStuff::$prods_value=$cnt;
+            //testSQL($query, __FILE__, __LINE__, true);
+            return $db->setQuery($query)->loadColumn();
         }
         /* 	MODIFIED END	 */
 
