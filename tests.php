@@ -13,10 +13,17 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
         <div>file: <?=str_replace(JPATH_SITE,'',$file)?></div>
         <div style="display: inline-block; color:#666">line: <b><?=$line?></b></div>
         <?php
-        if($obj){?>
+        if($obj){
+            if(empty($obj)):?>
+            <div class="warning-text">Объект пуст...</div>
+            <?php
+            else:?>
             [<span class="link">dblclick</span>]
         <?php
-        }
+            endif;
+        }else{?>
+            <div class="error-text">Объект не получен...</div>
+    <?  }
         $loop = function($obj)use(&$loop){
             foreach ($obj as $key=>$val) {?>
                 <div class='test-box'><?=$key?> => <?php
@@ -38,8 +45,12 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
                 </div>
             <?php
             }
+            return $key;
         };
-        $loop($obj);?>
+        if(!$key=$loop($obj)){?>
+        <div class='test-box first'>
+            <pre><?php var_dump($obj);?></pre><?
+        }?>
     </div>
 <?php   if($stop) die('<hr><div><b>stopped</b></div>');
 }
