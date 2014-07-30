@@ -15,7 +15,7 @@ defined ('_JEXEC') or die('Restricted access');
 //commonDebug(__FILE__,__LINE__,$this->products);
 //$subheader=($this->category->category_name)? $this->category->category_name:"Очные торги";
 
-HTML::pageHead();
+HTML::pageHead('fulltime');
 //if(JRequest::getVar('spag')) commonDebug(__FILE__,__LINE__,$this->vmPagination);?>
 <div class="item-page-shop fulltime">
 <br>

@@ -90,7 +90,11 @@ foreach ($session_links as $layout => $data):
                         : JRoute::_($category_data['link']);?>"><?php 
                 // имя категории
                 echo $category_data['category_name'];
-                    ?></a> (<?php
+                    ?><?php
+
+                //echo "<div style='font-weight: 100'>category_data:".$category_data['sef'].'</div>';
+
+                ?></a> (<?php
                 // количество опубликованных предметов
                 echo $category_data['product_count'];
                     ?>)</li>

@@ -31,12 +31,7 @@ defined ('_JEXEC') or die('Restricted access');
 
 $subheader=($this->category->category_name)? $this->category->category_name:"Магазин";
 
-HTML::pageHead( 
-			$subheader,
-			'shop',
-			$this->category->slug,
-			$this->vmPagination
-		);
+HTML::pageHead('shop');
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">

@@ -1022,20 +1022,22 @@ class HTML{
  * @package
  * @subpackage
  */
-	public static function pageHead (){
+	public static function pageHead ($layout){
 		$category_id=JRequest::getVar('virtuemart_category_id');
         $session=&JFactory::getSession();
-        $sections_data=AuctionStuff::handleSessionCategoriesData();
-            //$session->get('section_links');
-        commonDebug(__FILE__, __LINE__, $sections_data);
-        $layout=JRequest::getVar('layout');
+        // todo: убрать лишнее
+        $sections_data=//AuctionStuff::handleSessionCategoriesData();
+            $session->get('section_links');
+        //commonDebug(__FILE__, __LINE__, $sections_data);
         $category_data=$sections_data[$layout];
-        commonDebug(__FILE__, __LINE__, $category_data);
+        //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
+        //commonDebug(__FILE__,__LINE__,$layout);
+        //commonDebug(__FILE__, __LINE__, $category_data);
         //echo "<div>category_id = ".$category_id."</div>";
         ?>
 <div class="top_list">
     <h2><div class="weak"><?php
-        $lots = "Лотов";
+        $lots = ($layout=='shop')? "Предметов":"Лотов";
         // раздел вложенной категории
         if($category_data['top_category_id']!=$category_id){
 			$category_data = $category_data['child_links'][$category_id];
@@ -1049,7 +1051,9 @@ class HTML{
         }
         ?><span style="white-space:nowrap"><?php
                 echo $lots;?>: <?php
-                echo $category_data['product_count'];?></span>
+                echo $category_data['product_count'];
+                AuctionStuff::$prods_value=$category_data['product_count'];
+                ?></span>
         </div>
     </h2>
 <?php HTML::setCommonInnerMenu(array('user','take_lot'));?>
@@ -1057,7 +1061,7 @@ class HTML{
 <?php $arrMenus=self::setBaseLink($layout);//
 		//commonDebug(__FILE__,__LINE__,$layout);
         //commonDebug(__FILE__,__LINE__,$arrMenus);
-		HTML::setVmPagination($arrMenus['base'],true);
+		HTML::setVmPagination($layout,$arrMenus['base']);//,true
 	}
 
     /**
@@ -1153,12 +1157,13 @@ class HTML{
  * @subpackage
  */
 	public static function setVmPagination(
-								$link = false,
-								$pagination = false
+                                $layout=false,$link = false //, $pagination = false
 							){
 							//commonDebug(__FILE__,__LINE__,$link);?>
 <div class="lots_listing">
-	Лотов на странице:
+	<?php
+    if(!$layout) $layout=JRequest::getVar('layout');
+    echo($layout=='shop')? "Предметов":"Лотов"?> на странице:
     <?php $router = JFactory::getApplication()->getRouter();
 		// $name = site; \libraries\joomla\application\application.php: 912
         static $lnk;

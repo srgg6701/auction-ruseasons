@@ -16,7 +16,7 @@ defined ('_JEXEC') or die('Restricted access');
 // commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
 //commonDebug(__FILE__,__LINE__,$this->category->parents[0]->virtuemart_category_id, true);
 $Itemid = JRequest::getVar('Itemid');
-HTML::pageHead();
+HTML::pageHead('online');
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">
