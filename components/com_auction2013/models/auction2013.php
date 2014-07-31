@@ -42,7 +42,48 @@ class Auction2013ModelAuction2013 extends JModelLegacy
             echo "<div>".$e->getMessage()."</div>";
         }
     }
-
+    /**
+     *Проверить активные аукционы и занести в данные в таблицу
+     */
+    public function check_active_auctions(){
+        /**
+        Проверить предметы, даты/время закрытия торгов по которым не вышло
+        за рамки текущего момента и которых нет в таблице #__dev_lots_active;
+        Добавить их в таблицу. */
+        $db = JFactory::getDbo();
+        $query = "SELECT prods.virtuemart_product_id
+  -- , product_available_date, auction_date_finish
+FROM  #__virtuemart_products           AS prods,
+      #__virtuemart_product_categories AS pcats
+  WHERE product_available_date < NOW() AND auction_date_finish > NOW()
+        AND prods.virtuemart_product_id NOT IN ( SELECT virtuemart_product_id FROM #__dev_lots_active )
+        AND pcats.virtuemart_product_id = prods.virtuemart_product_id
+        AND pcats.virtuemart_category_id IN (
+    SELECT ccats.category_child_id
+  FROM #__virtuemart_category_categories AS ccats,
+       #__virtuemart_categories          AS cts
+ WHERE category_parent_id IN
+      ( SELECT cats_cats.category_child_id
+          FROM #__virtuemart_category_categories AS cats_cats
+    INNER JOIN #__virtuemart_categories          AS cats
+               ON cats.virtuemart_category_id = cats_cats.category_child_id
+                  AND cats_cats.category_parent_id = 0 )
+   AND ccats.category_child_id = cts.virtuemart_category_id
+   AND cts.category_layout = 'online' ) ";
+        $db->setQuery($query);
+        $results = $db->loadColumn();
+        $insert="INSERT INTO #__dev_lots_active (virtuemart_product_id) VALUES ";
+        foreach ($results as $i=>$virtuemart_product_id) {
+            if($i) $insert.=",";
+            $insert.="($virtuemart_product_id)";
+        }
+        commonDebug(__FILE__,__LINE__,$insert);
+        if($i){
+            $db->setQuery($insert)->query();
+            return $i;
+        }else
+            return 0;
+    }
 	/**
 	 * Model context string.
 	 *

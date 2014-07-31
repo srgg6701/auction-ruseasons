@@ -533,6 +533,31 @@ WHERE p.virtuemart_product_id = ".$product_id;
 		$db->setQuery($query);
 		return $db->loadAssoc();
 	}
+    /**
+     * Получить id ТОП категории по её алиасу
+     * @package
+     * @subpackage
+     */
+    public function getTopCategoryIdByAlias($alias='online'){
+        //...
+        $db = JFactory::getDbo();
+        $query = "SELECT ccats.category_parent_id
+  FROM #__virtuemart_category_categories AS ccats,
+       #__virtuemart_categories          AS cts
+ WHERE category_parent_id IN
+      ( SELECT cats_cats.category_child_id
+          FROM #__virtuemart_category_categories AS cats_cats
+    INNER JOIN #__virtuemart_categories          AS cats
+               ON cats.virtuemart_category_id = cats_cats.category_child_id
+                  AND cats_cats.category_parent_id = 0 )
+   AND ccats.category_child_id = cts.virtuemart_category_id
+   AND cts.category_layout = '$alias'
+ LIMIT 1";
+        $db->setQuery($query);
+        $result = $db->loadResult();
+        return $result;
+    }
+
 /**
  * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
  * @package
@@ -624,9 +649,8 @@ WHERE cats_cats.category_parent_id = 0";
                 $query.="
             AND  cats.category_layout = '".$layout."'
         LIMIT 1";
-			// echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-            // echo "<div class=''>query= <pre>".$query."</pre></div>";
 			$db->setQuery($query);
+            //testSQL($query,__FILE__,__LINE__);
             if($table2){
                 $ItemId=$db->loadAssoc();
                 $ItemIds[$ItemId['category_layout']]=$ItemId['id'];

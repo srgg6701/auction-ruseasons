@@ -147,10 +147,15 @@ else:?>
         echo '</div>';
         echo '<div>val: '.$val.'</div>';
     }*/
-    $arrLimits=array(15,30,60);
+    /*$arrLimits=array(15,30,60);
     $pages_limit = array();
     $pages_limit['126']=$arrLimits[0];
     // include_once JPATH_SITE.DS.'tests.php';
     commonDebug(__FILE__,__LINE__,$pages_limit);
-    var_dump($pages_limit);
+    var_dump($pages_limit);*/
+    //$category_id=AuctionStuff::getTopCategoryIdByAlias();
+    //commonDebug(__FILE__,__LINE__,$category_id);
 endif;
+?>
+<a href="?option=com_auction2013&task=auction2013.checkActiveAuctions">Проверить активные аукционы</a>
+<?php

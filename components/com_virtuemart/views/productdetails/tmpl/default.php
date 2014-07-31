@@ -102,7 +102,7 @@ else:
               <div> 														
 	<?php 	//commonDebug(__FILE__,__LINE__,$this->product->images);
 			foreach($this->product->images as $i => $stuff):
-				commonDebug(false,false,'<div>file_url:<br>'.$stuff->file_url.'<br>file_url_thumb<br>'.$stuff->file_url_thumb.'</div>');?>	
+				commonDebug(__FILE__,__LINE__,'<div>file_url:<br>'.$stuff->file_url.'<br>file_url_thumb<br>'.$stuff->file_url_thumb.'</div>');?>
                   <div class="th_imgage">
                       <div class="inside_image_preview">
                           <a href="<?php

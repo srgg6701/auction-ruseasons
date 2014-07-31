@@ -23,7 +23,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      * @package
      * @subpackage
      */
-    function addToFavorites(){
+    public function addToFavorites(){
         JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         // подключить тестовые функции:
         require_once JPATH_SITE.'/tests.php';
@@ -84,23 +84,11 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      *
      */
     /**
-     * Комментарий
-     * @package
-     * @subpackage
-     */
-    public function  removeProductNotify(){
-        //...
-        if($model=$this->getModel()->remove_product_notify(JRequest::getVar('id')))
-            echo HTML::showWatchedItems(true);
-        exit;
-    }
-
-    /**
      * Описание
      * @package
      * @subpackage
      */
-    function askQuestion(){
+    public function askQuestion(){
         // Check for request forgeries.
         JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         $requestData = JRequest::getVar('jform', array(), 'post', 'array');
@@ -139,11 +127,23 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
             $this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=askaboutlot&result=thanx', false));
     }
     /**
+     *Проверить активные аукционы и занести в данные в таблицу
+     */
+    public function checkActiveAuctions(){
+        /**
+        Проверить предметы, даты/время закрытия торгов по которым не вышло
+        за рамки текущего момента и которых нет в таблице #__dev_lots_active;
+        Добавить их в таблицу. */
+        echo "Добавлено записей:" . $this->getModel()->check_active_auctions();
+        return true;
+    }
+
+    /**
      * Удалить из избранного
      * @package
      * @subpackage
      */
-    function deleteFromFavorites(){
+    public function deleteFromFavorites(){
         JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         //var_dump(JRequest::get('post'));
         //die('deleteFromFavorites');
@@ -179,7 +179,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
     /**
      * Сделать ставку
      */
-    function makeBid(){
+    public function makeBid(){
         $test=true;
         $post = JRequest::get('post');
         $bid_result=$this->getModel()->makeUserBid($post);
@@ -212,9 +212,9 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         }
     }
     /**
- * Оформить заказ предмета. Таблица: auc13_dev_shop_orders
- */    
-    function purchase(){
+ * Оформить заказ предмета. Таблица: #__dev_shop_orders
+ */
+    public function purchase(){
         JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         $model=$this->getModel(); // Auction2013ModelAuction2013
         $post = JRequest::get('post');
@@ -223,6 +223,17 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         if($result=$model->makePurchase($post)){
             $this->setRedirect($post['link'].'?result='.$result['type'],$result['msg'],$result['type']);
         }
+    }
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public function  removeProductNotify(){
+        //...
+        if($model=$this->getModel()->remove_product_notify(JRequest::getVar('id')))
+            echo HTML::showWatchedItems(true);
+        exit;
     }
     /**
  *
@@ -283,4 +294,17 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
 			$this->setRedirect(JRoute::_('index.php?option=com_auction2013&layout=thanx_for_lot', false));
 		//http://docs.joomla.org/Sending_email_from_extensions			//http://api.joomla.org/__filesource/fsource_Joomla-Platform_Mail_librariesjoomlamailmail.php.html#a290
 	}
+    /**
+     * Отправить извещение победителю торгов и админу по их окончании
+     */
+    public function sendNotifyOnAuctionClose(){
+        /**
+        проверить все онлайн-торги, зарегистрированные в таблице
+        активных аукционов, дата закрытия которых истекла */
+
+        /**
+        по каждому предмету, ставки по которым превысили резервную
+        цену, разослать сообщения - победителю и админу.
+         */
+    }
 }

@@ -6,6 +6,7 @@
     margin: 4px 12px;
     /*margin-bottom:20px;*/
     padding: 10px;
+    text-align: left;
 }
 span.link{
     color:blue !important;
