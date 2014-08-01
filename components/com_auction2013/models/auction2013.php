@@ -153,6 +153,16 @@ INNER JOIN #__users                      AS users
             }
             $users->sendMessagesToUsers('Итоги аукционов',implode("<hr/>", $messages));
             // перенести предметы в "проданные"
+            $queryIns = "INSERT INTO #__dev_sold (virtuemart_product_id) VALUES ("
+                . implode('),(', $ids) . ")";
+            try{
+                if($test===true)
+                    showTestMessage($queryIns.'<hr/>', __FILE__, __LINE__);
+                else
+                    $db->setQuery($queryIns)->query();
+            }catch(Exception $e){
+                echo "<div>".$e->getMessage()."</div>";
+            }
             // ...
             // удалить записи из таблицы активных аукционов:
             $queryDel = "DELETE FROM #__dev_lots_active WHERE virtuemart_product_id IN ("
