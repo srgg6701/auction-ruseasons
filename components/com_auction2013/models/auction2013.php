@@ -52,7 +52,6 @@ class Auction2013ModelAuction2013 extends JModelLegacy
         Добавить их в таблицу. */
         $db = JFactory::getDbo();
         $query = "SELECT prods.virtuemart_product_id
-  -- , product_available_date, auction_date_finish
 FROM  #__virtuemart_products           AS prods,
       #__virtuemart_product_categories AS pcats
   WHERE product_available_date < NOW() AND auction_date_finish > NOW()
@@ -72,6 +71,7 @@ FROM  #__virtuemart_products           AS prods,
    AND cts.category_layout = 'online' ) ";
         $db->setQuery($query);
         $results = $db->loadColumn();
+        //testSQL($query,__FILE__, __LINE__, false);
         $insert="INSERT INTO #__dev_lots_active (virtuemart_product_id) VALUES ";
         foreach ($results as $i=>$virtuemart_product_id) {
             if($i) $insert.=",";
@@ -84,7 +84,44 @@ FROM  #__virtuemart_products           AS prods,
         }else
             return 0;
     }
-	/**
+    /**
+     * Проверить закрывшиеся торги
+     */
+    public function check_closed_lots(){
+        $db = JFactory::getDbo();
+        $query = "SELECT  prods.                          virtuemart_product_id,
+                                        bidder_id,
+        -- bids.`value`                AS  'max_value',
+        -- prices.                         product_price,
+        prods_ru.                       product_name,
+        users.                          name,
+        users.                          email,
+        product_available_date, auction_date_finish
+      FROM  #__virtuemart_products       AS prods
+INNER JOIN #__virtuemart_product_prices  AS prices
+           ON prices.virtuemart_product_id = prods.virtuemart_product_id
+INNER JOIN #__dev_user_bids              AS bids
+           ON bids.virtuemart_product_id = prods.virtuemart_product_id
+              AND bids.bidder_id = ( SELECT bidder_id FROM #__dev_user_bids
+                                      WHERE virtuemart_product_id = prods.virtuemart_product_id
+                                  ORDER BY `value` DESC LIMIT 1 )
+INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
+           ON prods.virtuemart_product_id = prods_ru.virtuemart_product_id
+INNER JOIN #__dev_lots_active            AS alots
+           ON prods.virtuemart_product_id = alots.virtuemart_product_id
+INNER JOIN #__users                      AS users
+           ON users.id  = bids.bidder_id
+     WHERE auction_date_finish < NOW()
+           AND bids.`value` > prices.product_price ";
+           // дата закрытия аукциона наступила и максимальная ставка выше стартовой цены
+        $db->setQuery($query);
+        $results = $db->loadAssoc();
+
+
+        return true;
+    }
+
+    /**
 	 * Model context string.
 	 *
 	 * @var		string

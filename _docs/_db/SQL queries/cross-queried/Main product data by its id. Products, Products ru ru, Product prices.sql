@@ -62,8 +62,8 @@ SELECT
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  WHERE   cats_ruru2.category_name LIKE 'Очные торги'
-            -- prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
+  WHERE   cats_ruru2.category_name LIKE 'Онлайн торги'
+          AND prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
             -- prod_ru_ru.product_name LIKE '%Икона%' AND
             -- sales_prices.sales_price IS NOT null
   ORDER BY bids, prod_ru_ru.product_name LIMIT 500
