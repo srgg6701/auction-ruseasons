@@ -1486,7 +1486,7 @@ INNER JOIN #__users              AS users
         $local=($_SERVER['HTTP_HOST']=='localhost')? true:false;
         if($local)
             echo "<br/><br/>
-                    <div><b>Отправлено сообщение(я)</b> на тему <i>$subject</i>.
+                    <div><b>Отправлено сообщение(я)</b> на тему <i style='color: darkviolet;'>$subject</i>.
                     <hr>Текст сообщения: <br/>$emailBody
                     <hr>По адресам:</div>";
 

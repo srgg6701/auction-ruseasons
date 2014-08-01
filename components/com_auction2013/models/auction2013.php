@@ -93,8 +93,9 @@ FROM  #__virtuemart_products           AS prods,
         $db = JFactory::getDbo();
         $query = "SELECT  prods.                          virtuemart_product_id,
                                         bidder_id,
-        bids.`value`                AS  'max_value',
-        prices.                         product_price,
+        bids.`value`                 AS 'max_value',
+        TRUNCATE(prices.product_price,0)
+                                     AS product_price,
         prods_ru.                       product_name,
         users.                          name,
         users.                          email,
@@ -145,13 +146,14 @@ INNER JOIN #__users                      AS users
                 elseif($winner_phone2= $info['phone2_number'])
                     $winner_phone.=", ".$winner_phone2;
 
-                $messages[] = 'Предмет: ' . $info['product_name'] .
-                    '<br> Cтартовая цена: ' . $info['product_price'] .
+                $messages[] = 'Предмет: ' .     $info['product_name'] .
+                    '<br> Cтартовая цена: ' .   $info['product_price'] .
                     '<br> Последняя ставка: ' . $info['max_value'] .
-                    '<br> Имя победителя: ' . $info['name'] .
-                    '<br> Тел. победителя: ' . $winner_phone;
+                    '<br> Имя победителя: ' .   $info['name'] .
+                    '<br> Тел. победителя: ' .  $winner_phone .
+                    '<br> Email победителя: ' . $info['email'];
             }
-            $users->sendMessagesToUsers('Итоги аукционов',implode("<hr/>", $messages));
+            $users->sendMessagesToUsers('Итоги аукциона',implode("<hr/>", $messages));
             // перенести предметы в "проданные"
             $queryIns = "INSERT INTO #__dev_sold (virtuemart_product_id) VALUES ("
                 . implode('),(', $ids) . ")";
