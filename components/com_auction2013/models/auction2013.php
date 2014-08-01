@@ -89,7 +89,7 @@ FROM  #__virtuemart_products           AS prods,
      * Выбираются только те лоты, максимальная ставка по которым превысила резервную цену
      */
     public function check_closed_lots(){
-        $test = true;
+        $test = false;
         $db = JFactory::getDbo();
         $query = "SELECT  prods.                          virtuemart_product_id,
                                         bidder_id,
@@ -158,9 +158,9 @@ INNER JOIN #__users                      AS users
             $queryIns = "INSERT INTO #__dev_sold (virtuemart_product_id) VALUES ("
                 . implode('),(', $ids) . ")";
             try{
-                if($test===true)
+                if($test)
                     showTestMessage($queryIns.'<hr/>', __FILE__, __LINE__);
-                else
+                if($test!==true)
                     $db->setQuery($queryIns)->query();
             }catch(Exception $e){
                 echo "<div>".$e->getMessage()."</div>";
@@ -170,15 +170,15 @@ INNER JOIN #__users                      AS users
             $queryDel = "DELETE FROM #__dev_lots_active WHERE virtuemart_product_id IN ("
                 . implode(',', $ids) . ")";
             try{
-                if($test===true)
+                if($test)
                     showTestMessage($queryDel.'<hr/>', __FILE__, __LINE__);
-                else
+                if($test!==true)
                     $db->setQuery($queryDel)->query();
             }catch(Exception $e){
                 echo "<div>".$e->getMessage()."</div>";
             }
             // удалить записи из таблицы
-            return true;
+            return true; // todo: Модифицировать запрос выборки предметов с учётом данных в #__dev_sold
         }
         return false;
     }
@@ -243,7 +243,7 @@ INNER JOIN #__users                      AS users
     public function makeUserBid( $post,
                              $current_bidder_id=NULL // может передаваться 'id' "виртуального игрока"
                            ){
-        $test=true;
+        $test=false;
         //commonDebug(__FILE__,__LINE__,$post, true);
         /*["bids"]=>                    "900"
           ["14e429a6cd5c1d774d06539dce403129"]=> "1"
