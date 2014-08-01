@@ -1,3 +1,6 @@
+.block{
+    display: block;
+}
 .test-box{
     border: solid 1px #ccc;
     border-radius:4px;

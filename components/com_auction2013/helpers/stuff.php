@@ -1480,22 +1480,46 @@ INNER JOIN #__users              AS users
   * Разослать сообщения админам/суперюзерам/юзерам, принимающим рассылку
   */
     public function sendMessagesToUsers($subject, $emailBody, $data=NULL, $from = 'noreply@auction-ruseasons.ru'){
-        if(!$data) $data = $this->getAdminsForMail();
+        $admins_mails = $this->getAdminsForMail();
+        if(!$data) $data = $admins_mails;
         // Send mail to all superadministrators id
         $local=($_SERVER['HTTP_HOST']=='localhost')? true:false;
         if($local)
             echo "<div>Отправлено сообщение:<hr>$emailBody<hr>По адресам:</div>";
-        //
-        foreach( $data as $row ){
+
+        $errors=array();
+
+        $fromname = "Магазин антиквариата \"Русские Сезоны\"";
+        if(is_string($data)) { // just email
             if($local) // вывести адреса отправки
-                echo "<div>".$row->email."</div>";
-            else // разослать сообщения:
-                JFactory::getMailer()->sendMail(
-                    $from,
-                    "Магазин антиквариата \"Русские Сезоны\"",
-                    $row->email,
-                    $subject,
-                    $emailBody);
+                echo "<div>".$data."</div>";
+            else{
+                try{
+                    // try it here!
+                    JFactory::getMailer()->sendMail($from,$fromname,$data,$subject,$emailBody);
+                }catch(Exception $e){
+                    $errors[]='email: '.$data.', ошибка: ' . $e->getMessage();
+                }
+            }
+        }else{ // массив объектов с emails
+            foreach( $data as $row ){
+                if($local) // вывести адреса отправки
+                    echo "<div>".$row->email."</div>";
+                else{
+                    try{// разослать сообщения:
+                        JFactory::getMailer()->sendMail($from,$fromname,$row->email,$subject,$emailBody);
+                    }catch (Exception $e){
+                        $errors[]='email: '.$row->email.', ошибка: ' . $e->getMessage();
+                    }
+                }
+            }
         }
+        // отослать админам сообщение об ошибке
+        if(!empty($errors)) {
+            $message = implode("\n", $errors);
+            foreach ($admins_mails as $admin_mail) {
+                JFactory::getMailer()->sendMail($from,'Test mail',$admin_mail,"Ошибка отправки сообщения",$message);
+            }
+        } //return true;
     }
 }

@@ -86,16 +86,19 @@ FROM  #__virtuemart_products           AS prods,
     }
     /**
      * Проверить закрывшиеся торги
+     * Выбираются только те лоты, максимальная ставка по которым превысила резервную цену
      */
     public function check_closed_lots(){
         $db = JFactory::getDbo();
         $query = "SELECT  prods.                          virtuemart_product_id,
                                         bidder_id,
-        -- bids.`value`                AS  'max_value',
-        -- prices.                         product_price,
+        bids.`value`                AS  'max_value',
+        prices.                         product_price,
         prods_ru.                       product_name,
         users.                          name,
         users.                          email,
+        users.                          phone_number,
+        users.                          phone2_number,
         product_available_date, auction_date_finish
       FROM  #__virtuemart_products       AS prods
 INNER JOIN #__virtuemart_product_prices  AS prices
@@ -116,8 +119,38 @@ INNER JOIN #__users                      AS users
            // дата закрытия аукциона наступила и максимальная ставка выше стартовой цены
         $db->setQuery($query);
         $results = $db->loadAssoc();
+        $common_path=dirname(__FILE__).'/../'; // com_auction2013
+        // получить файл с реквизитами:
+        $banking_details = file_get_contents($common_path.'banking_details.txt');
+        require_once $common_path.'helpers/stuff.php';
+        $messages=array();
+        $users = new Users();
+        // разослать сообщения победителям
+        foreach ($results as $i=>$info) {
+            $users->sendMessagesToUsers('Вы стали победителем аукциона!',
+                                'Здравствуйте, ' .$info['name'] . '!
+                                Рады вам сообщить, что вы стали победителем
+                                аукциона по предмету "' . $info['product_name'] . '".
+                                Цена предмета по итогам торгов: ' . $info['max_value'] . ' руб.
 
+                                Реквизиты для оплаты: ' . nl2br($banking_details) . '.',
+                                $info['email']
+                        );
+            $winner_phone = $info['phone_number'];
+            if(!$winner_phone)
+                $winner_phone= $info['phone2_number'];
+            elseif($winner_phone2= $info['phone2_number'])
+                $winner_phone.=", ".$winner_phone2;
 
+            $messages[] = 'Предмет: ' . $info['product_name'] .
+                            '<br> Cтартовая цена: ' . $info['product_price'] .
+                            '<br> Последняя ставка: ' . $info['max_value'] .
+                            '<br> Имя победителя: ' . $info['name'] .
+                            '<br> Тел. победителя: ' . $winner_phone;
+        }
+        $users->sendMessagesToUsers('Итоги аукционов',implode("<hr/>", $messages));
+
+        // удалить записи из таблицы
         return true;
     }
 

@@ -156,6 +156,11 @@ else:?>
     //$category_id=AuctionStuff::getTopCategoryIdByAlias();
     //commonDebug(__FILE__,__LINE__,$category_id);
 endif;
+/*$one="one";
+$two="two";
+$arr = array($one,$two);
+echo implode(", ", $arr);*/
 ?>
-<a href="?option=com_auction2013&task=auction2013.checkActiveAuctions">Проверить активные аукционы</a>
+<a class="test-message block" href="?option=com_auction2013&task=auction2013.checkActiveAuctions">Проверить активные аукционы</a>
+<a class="test-message block" href="?option=com_auction2013&task=auction2013.sendNotifyOnAuctionClose">Проверить закрытые торги, разослать уведомления</a>
 <?php
