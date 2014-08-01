@@ -1485,14 +1485,17 @@ INNER JOIN #__users              AS users
         // Send mail to all superadministrators id
         $local=($_SERVER['HTTP_HOST']=='localhost')? true:false;
         if($local)
-            echo "<div>Отправлено сообщение:<hr>$emailBody<hr>По адресам:</div>";
+            echo "<br/><br/>
+                    <div><b>Отправлено сообщение(я)</b> на тему <i>$subject</i>.
+                    <hr>Текст сообщения: <br/>$emailBody
+                    <hr>По адресам:</div>";
 
         $errors=array();
 
         $fromname = "Магазин антиквариата \"Русские Сезоны\"";
         if(is_string($data)) { // just email
             if($local) // вывести адреса отправки
-                echo "<div>".$data."</div>";
+                echo "<div style='color: blue'>".$data."</div>";
             else{
                 try{
                     // try it here!
@@ -1504,7 +1507,7 @@ INNER JOIN #__users              AS users
         }else{ // массив объектов с emails
             foreach( $data as $row ){
                 if($local) // вывести адреса отправки
-                    echo "<div>".$row->email."</div>";
+                    echo "<div style='color: blue'>".$row->email."</div>";
                 else{
                     try{// разослать сообщения:
                         JFactory::getMailer()->sendMail($from,$fromname,$row->email,$subject,$emailBody);

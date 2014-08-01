@@ -89,6 +89,7 @@ FROM  #__virtuemart_products           AS prods,
      * Выбираются только те лоты, максимальная ставка по которым превысила резервную цену
      */
     public function check_closed_lots(){
+        $test = true;
         $db = JFactory::getDbo();
         $query = "SELECT  prods.                          virtuemart_product_id,
                                         bidder_id,
@@ -118,40 +119,56 @@ INNER JOIN #__users                      AS users
            AND bids.`value` > prices.product_price ";
            // дата закрытия аукциона наступила и максимальная ставка выше стартовой цены
         $db->setQuery($query);
-        $results = $db->loadAssoc();
-        $common_path=dirname(__FILE__).'/../'; // com_auction2013
-        // получить файл с реквизитами:
-        $banking_details = file_get_contents($common_path.'banking_details.txt');
-        require_once $common_path.'helpers/stuff.php';
-        $messages=array();
-        $users = new Users();
-        // разослать сообщения победителям
-        foreach ($results as $i=>$info) {
-            $users->sendMessagesToUsers('Вы стали победителем аукциона!',
-                                'Здравствуйте, ' .$info['name'] . '!
-                                Рады вам сообщить, что вы стали победителем
-                                аукциона по предмету "' . $info['product_name'] . '".
-                                Цена предмета по итогам торгов: ' . $info['max_value'] . ' руб.
+        $results = $db->loadAssocList();
+        if(count($results)){
+            $common_path=dirname(__FILE__).'/../'; // com_auction2013
+            // получить файл с реквизитами:
+            $banking_details = file_get_contents($common_path.'banking_details.txt');
+            require_once $common_path.'helpers/stuff.php';
+            $messages=$ids=array();
+            $users = new Users();
+            // разослать сообщения победителям
+            foreach ($results as $i=>$info) {
+                $users->sendMessagesToUsers('Вы стали победителем аукциона!',
+                    '<p>Здравствуйте, ' .$info['name'] . '!</p>
+                                <p>Рады вам сообщить, что вы стали победителем
+                                аукциона по предмету <b>' . $info['product_name'] . '</b>.</p>
+                                <hr/>
+                                <p>Цена предмета по итогам торгов: ' . $info['max_value'] . ' руб.</p>
+                                <p><b>Реквизиты для оплаты:</b><br/><br/>' . nl2br($banking_details) . '.</p>',
+                    $info['email']
+                );
+                $ids[]=$info['virtuemart_product_id'];
+                $winner_phone = $info['phone_number'];
+                if(!$winner_phone)
+                    $winner_phone= $info['phone2_number'];
+                elseif($winner_phone2= $info['phone2_number'])
+                    $winner_phone.=", ".$winner_phone2;
 
-                                Реквизиты для оплаты: ' . nl2br($banking_details) . '.',
-                                $info['email']
-                        );
-            $winner_phone = $info['phone_number'];
-            if(!$winner_phone)
-                $winner_phone= $info['phone2_number'];
-            elseif($winner_phone2= $info['phone2_number'])
-                $winner_phone.=", ".$winner_phone2;
-
-            $messages[] = 'Предмет: ' . $info['product_name'] .
-                            '<br> Cтартовая цена: ' . $info['product_price'] .
-                            '<br> Последняя ставка: ' . $info['max_value'] .
-                            '<br> Имя победителя: ' . $info['name'] .
-                            '<br> Тел. победителя: ' . $winner_phone;
+                $messages[] = 'Предмет: ' . $info['product_name'] .
+                    '<br> Cтартовая цена: ' . $info['product_price'] .
+                    '<br> Последняя ставка: ' . $info['max_value'] .
+                    '<br> Имя победителя: ' . $info['name'] .
+                    '<br> Тел. победителя: ' . $winner_phone;
+            }
+            $users->sendMessagesToUsers('Итоги аукционов',implode("<hr/>", $messages));
+            // перенести предметы в "проданные"
+            // ...
+            // удалить записи из таблицы активных аукционов:
+            $queryDel = "DELETE FROM #__dev_lots_active WHERE virtuemart_product_id IN ("
+                . implode(',', $ids) . ")";
+            try{
+                if($test===true)
+                    showTestMessage($queryDel.'<hr/>', __FILE__, __LINE__);
+                else
+                    $db->setQuery($queryDel)->query();
+            }catch(Exception $e){
+                echo "<div>".$e->getMessage()."</div>";
+            }
+            // удалить записи из таблицы
+            return true;
         }
-        $users->sendMessagesToUsers('Итоги аукционов',implode("<hr/>", $messages));
-
-        // удалить записи из таблицы
-        return true;
+        return false;
     }
 
     /**
