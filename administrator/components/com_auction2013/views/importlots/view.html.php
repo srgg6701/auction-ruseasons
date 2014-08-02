@@ -34,8 +34,14 @@ class Auction2013ViewImportlots extends JView {
 	public $categories_data;
 	
 	function display($tpl = null) {
-		$this->categories_data=modVlotscatsHelper::getCategoriesData();
-		$this->addToolbar($this->_layout);
+        // $this->_layout == 'default' для импорта
+        /**
+            NULL в качестве параметра нужен для того, чтобы не добавлять к запросу
+            фильтр даты публикации предмета
+        */
+		$this->categories_data=modVlotscatsHelper::getCategoriesData(NULL);
+        //commonDebug(__FILE__,__LINE__,$this->categories_data);
+        $this->addToolbar($this->_layout);
 		parent::display($tpl);
 	}
 	/**

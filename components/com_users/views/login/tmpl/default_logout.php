@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 if (JRequest::getVar('mode')) die('mode');?>
 <div class="logout<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>

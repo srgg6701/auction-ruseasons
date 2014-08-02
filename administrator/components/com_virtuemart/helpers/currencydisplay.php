@@ -293,7 +293,7 @@ class CurrencyDisplay {
 	public function priceDisplay($price, $currencyId=0,$quantity = 1.0,$inToShopCurrency = false,$nb= -1){
 
 		$currencyId = $this->getCurrencyForDisplay($currencyId);
-
+        //commonDebug(__FILE__,__LINE__,$currencyId);
 		if($nb==-1){
 			$nb = $this->_nbDecimal;
 		}
@@ -349,7 +349,14 @@ class CurrencyDisplay {
 	 * @param array the prices of the product
 	 * return a div for prices which is visible according to config and have all ids and class set
 	 */
-	public function createPriceDiv($name,$description,$product_price,$priceOnly=false,$switchSequel=false,$quantity = 1.0,$forceNoLabel=false){
+	public function createPriceDiv( $name,
+                                    $description,
+                                    $product_price,
+                                    $priceOnly=false,
+                                    $switchSequel=false,
+                                    $quantity = 1.0,
+                                    $forceNoLabel=false,
+                                    $virtuemart_product_id=false ){
 
 		// 		vmdebug('createPriceDiv '.$name,$product_price[$name]);
 		if(empty($product_price) and $name != 'billTotal') return '';
@@ -365,12 +372,19 @@ class CurrencyDisplay {
 		} else {
 			$price = $product_price;
 		}
-
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$this->_priceConfig[$name][0]);
 		//This could be easily extended by product specific settings
 		if(!empty($this->_priceConfig[$name][0])){
-			if(!empty($price) or $name == 'billTotal'){
+            //echo "<div>name = $name</div>";
+            //echo "<div>forceNoLabel = $forceNoLabel</div>";
+            //commonDebug(__FILE__,__LINE__,$price);
+			if( !empty($price) or $name == 'billTotal'
+                || $forceNoLabel==='online'
+                || $forceNoLabel==='fulltime'
+              ){
 				$vis = "block";
-				$priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name );
+                $priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name );
 			} else {
 				$priceFormatted = '';
 				$vis = "none";
@@ -378,19 +392,24 @@ class CurrencyDisplay {
 			if($priceOnly){
 				return $priceFormatted;
 			}
-			if($forceNoLabel) {
-				return '<div class="Price'.$name.'" style="display : '.$vis.';" ><span class="Price'.$name.'" >'.$priceFormatted.'</span></div>';
-			}
+            if($forceNoLabel==='online' || $forceNoLabel==='fulltime')
+                $make_lot='';
+                //$make_lot="<span class=\"lot\" data-product_id=\"$virtuemart_product_id\"></span>";
+            else{
+                $make_lot=false;
+                if($forceNoLabel) {
+                    return '<div class="Price'.$name.'" style="display : '.$vis.';" ><span class="Price'.$name.'" >'.$priceFormatted.'</span></div>';
+                }
+            }
 			$descr = '';
 			if($this->_priceConfig[$name][2]) $descr = JText::_($description);
 			// 			vmdebug('createPriceDiv $name '.$name.' '.$product_price[$name]);
 			if(!$switchSequel){
-				return '<div class="Price'.$name.'" style="display : '.$vis.';" >'.$descr.'<span class="Price'.$name.'" >'.$priceFormatted.'</span></div>';
+				return '<div class="Price'.$name.'" style="display : '.$vis.';" >'.$descr.'<span class="Price'.$name.'" >'.$priceFormatted.' </span>'.$make_lot.'</div>';
 			} else {
-				return '<div class="Price'.$name.'" style="display : '.$vis.';" ><span class="Price'.$name.'" >'.$priceFormatted.'</span>'.$descr.'</div>';
+				return '<div class="Price'.$name.'" style="display : '.$vis.';" ><span class="Price'.$name.'" >'.$priceFormatted.'</span>'.$descr.$make_lot.'</div>';
 			}
 		}
-
 	}
 
 	/**

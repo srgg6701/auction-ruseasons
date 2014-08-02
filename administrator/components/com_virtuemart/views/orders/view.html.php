@@ -177,6 +177,8 @@ class VirtuemartViewOrders extends VmView {
 
 			    }
 			}
+            //include_once JPATH_SITE.DS.'tests.php';
+            //commonDebug(__FILE__,__LINE__,$orderslist, true);
 			/*
 			 * UpdateStatus removed from the toolbar; don't understand how this was intented to work but
 			 * the order ID's aren't properly passed. Might be readded later; the controller needs to handle

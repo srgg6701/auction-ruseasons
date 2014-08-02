@@ -39,11 +39,12 @@ class VirtuemartViewProduct extends VmView {
 		$this->loadHelper('currencydisplay');
 		$this->loadHelper('html');
 		$this->loadHelper('image');
-
+        // VirtueMartModelProduct
 		$model = VmModel::getModel();
-
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$task, true);
 		// Handle any publish/unpublish
-		switch ($task) {
+		switch ($task) { // при загрузке профайла предмета - edit
 			case 'add':
 			case 'edit':
 				//this was in the controller for the edit tasks, I dont know if it is still needed,
@@ -58,7 +59,9 @@ class VirtuemartViewProduct extends VmView {
                  * Model: VirtueMartModelProduct (/*com/models/product.php) ::  */
 				$product = $model->getProductSingle($virtuemart_product_id,false);
 				// см. ниже
-				//var_dump('<h1>product</h1><pre>',$product,'</pre>'); // die();
+				// include_once JPATH_SITE.DS.'tests.php';
+				//commonDebug(__FILE__,__LINE__,$product, true);
+
 				$product_parent= $model->getProductParent($product->product_parent_id);
 
 				$mf_model = VmModel::getModel('manufacturer');
@@ -68,7 +71,8 @@ class VirtuemartViewProduct extends VmView {
 				// Get the category tree
 				if (isset($product->categories)) $category_tree = ShopFunctions::categoryListTree($product->categories);
 				else $category_tree = ShopFunctions::categoryListTree();
-				$this->assignRef('category_tree', $category_tree);
+                //commonDebug(__FILE__,__LINE__,$category_tree, true);
+                $this->assignRef('category_tree', $category_tree);
 
 				//Get the shoppergoup list - Cleanshooter Custom Shopper Visibility
 				if (isset($product->shoppergroups)) $shoppergroupList = ShopFunctions::renderShopperGroupList($product->shoppergroups);
@@ -292,7 +296,7 @@ class VirtuemartViewProduct extends VmView {
 
                 } else {
                     $title='PRODUCT';
-                    $msg="";
+                    $msg=""; //die(__FILE__);
                 }
                 $this->db = JFactory::getDBO();
 
@@ -301,8 +305,11 @@ class VirtuemartViewProduct extends VmView {
                 $this->addStandardDefaultViewLists($model,'created_on');
 
                 /* Get the list of products */
+                /* VirtueMartModelProduct::
+                                       getProductListing() */
                 $productlist = $model->getProductListing(false,false,false,false,true);
-
+                //include_once JPATH_SITE.DS.'tests.php';
+                //commonDebug(__FILE__,__LINE__,$model, true);
                 //The pagination must now always set AFTER the model load the listing
                 $pagination = $model->getPagination();
                 $this->assignRef('pagination', $pagination);

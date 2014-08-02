@@ -8,21 +8,27 @@
  * @author RolandD 
  * @author srgg6701
  */
-// this: VirtuemartViewCategory
-//var_dump("<pre>",$this,"</pre>"); die();
+/** 
+ * this: VirtuemartViewCategory
+ */
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
-
-HTML::pageHead( "Онлайн торги",
-                "online",
-                $this->category->slug,
-                $this->vmPagination);	?>
+// commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
+//commonDebug(__FILE__,__LINE__,$this->category->parents[0]->virtuemart_category_id, true);
+$Itemid = JRequest::getVar('Itemid');
+HTML::pageHead('online');
+if(JRequest::getVar('spag'))
+	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">
 <br>
-<?php if (empty($this->keyword)):?>
-	<div class="category_description"><?=$this->category->category_description; ?>
+<?php if (empty($this->keyword)):
+        if($this->category->category_description):?>
+	<div class="category_description"><?=$this->category->category_description; 
+	// проверить, включено ли отображение категории (для теста):
+	//echo 'showCategory: '.VmConfig::get ('showCategory', 1);?>
 	</div>
-<?php endif;
+<?php   endif;
+      endif;
 
 if ( VmConfig::get ('showCategory', 1) && 
 	 empty($this->keyword)
@@ -35,7 +41,7 @@ if ( VmConfig::get ('showCategory', 1) &&
 		<div>
 		<?php foreach ($this->category->children as $category) :
 				// Category Link
-            // $url, $xhtml = true, $ssl = null, $show = false, $test=false
+                // $url, $xhtml = true, $ssl = null, $show = false, $test=false
                 echo "<div>url: ".JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' .
                         $category->virtuemart_category_id, true, null, false, true)."</div>";
 
@@ -70,14 +76,24 @@ if ($this->search !== NULL):?>
 
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
-
+        //echo "<h3>this->products:</h3><pre>";var_dump($this->products);echo "</pre>"; // die();
 	// array => object
-	foreach($this->products as $i=>$product){ //var_dump("<pre>",$product,"</pre>");?>
+	foreach($this->products as $i=>$product){
+	    //commonDebug(__FILE__,__LINE__,$product);?>
 <div class="box">
   <div class="img">	
-    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
-</div>
-	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
+    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php 
+	
+	if(isset($test)){
+		?>PRODUCT image<?php 
+	}
+	
+	?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
+  </div>
+	<h2><?php
+        // наименование продукта
+        echo JHTML::link ($product->link, $product->product_name);
+        ?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
 	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 
@@ -103,7 +119,7 @@ if (!empty($this->products)) {
 				echo $this->currency->createPriceDiv ('salesPriceWithDiscount', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITH_DISCOUNT', $product->prices);
 			endif;
 			
-			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
+			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices, false, false, '1.0', 'online');
 			
 			echo $this->currency->createPriceDiv ('priceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
 			
@@ -128,3 +144,29 @@ if (!empty($this->products)) {
 	echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
+<?php HTML::setVmPagination();
+ // todo: убрать закомментированный код
+ /*?>
+<script>
+(function($){
+    $('span.lot').on({
+        'mouseenter': function(){
+            this.title = "Сделать ставку";
+        },
+        'click':function(){
+<?php   if(JFactory::getUser()->guest!=1):
+?>
+            location.href="?option=com_virtuemart&view=productdetails&virtuemart_category_id=<?php
+                    echo $this->category->parents[0]->virtuemart_category_id;
+                    ?>&Itemid=<?php
+                    echo $Itemid;
+                    ?>&virtuemart_product_id="+$(this).attr('data-product_id')+"&do=bid";
+<?php   else:
+?>
+            alert('Чтобы сделать ставку, вам необходимо заавторизоваться.');
+<?php   endif;
+?>
+        }
+    });
+})(jQuery);
+</script><?php */ ?>

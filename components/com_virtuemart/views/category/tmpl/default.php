@@ -1,4 +1,4 @@
-<?php	
+<?php   //die(__file__);
 /**
  *
  * Show the products in a category
@@ -17,7 +17,6 @@
  * other free or open source software licenses.
  * @version $Id: default.php 6556 2012-10-17 18:15:30Z kkmediaproduction $
  */
-
 //vmdebug('$this->category',$this->category);
 vmdebug ('$this->category ' . $this->category->category_name);
 // Check to ensure this file is included in Joomla!
@@ -138,7 +137,6 @@ if (VmConfig::get ('showCategory', 1) and empty($this->keyword)) {
 		</div>
 	<?php } ?>
 	</div>
-
 	<?php
 	}
 }
@@ -234,12 +232,8 @@ if (!empty($this->products)) {
 		<div class="product floatleft<?php echo $Browsecellwidth . $show_vertical_separator ?>">
 			<div class="spacer">
 				<div class="width30 floatleft center">
-				    <a title="<?php echo $product->link ?>" rel="vm-additional-images" href="<?php echo $product->link; ?>">
-						<?php
-							echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
-						?>
-					 </a>
-
+				    <a title="<?php echo $product->link ?>" rel="vm-additional-images" href="<?php echo $product->link; ?>"><?php
+						echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);?></a>
 					<!-- The "Average Customer Rating" Part -->
 					<?php if ($this->showRating) { ?>
 					<span class="contentpagetitle"><?php echo JText::_ ('COM_VIRTUEMART_CUSTOMER_RATING') ?>:</span>
@@ -259,9 +253,7 @@ if (!empty($this->products)) {
 						</div>
 						<?php } ?>
 				</div>
-
 				<div class="width70 floatright">
-
 					<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
 
 					<?php // Product Short Description

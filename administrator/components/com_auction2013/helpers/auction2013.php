@@ -9,7 +9,9 @@
 
 // No direct access
 defined('_JEXEC') or die;
-// require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_auction2013'.DS.'tables'.DS.'table_name.php';
+// C:\WebServers\home\localhost\www\auction-ruseasons\components\com_auction2013\helpers\stuff.php
+//                                  auction-ruseasons\administrator\components\com_auction2013\helpers\stuff.php
+require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 /**
  *auction2013 helper.
  */
@@ -28,7 +30,25 @@ class Auction2013Helper
 
 		return $result;
 	}
-	
+    /**
+     * Загрузить список id id дочерних категорий
+     */
+    public static function getChildCategoriesIds($alias='fulltime'){
+        $db = JFactory::getDbo();
+        $query = "SELECT cats_cats.id
+FROM #__virtuemart_categories                  AS cats
+  INNER JOIN #__virtuemart_categories_ru_ru    AS cats_ru
+    ON cats.virtuemart_category_id = cats_ru.virtuemart_category_id
+  INNER JOIN #__virtuemart_category_categories AS cats_cats
+    ON cats.virtuemart_category_id = cats_cats.category_child_id
+    WHERE category_layout = '$alias';";
+        $db->setQuery($query);
+        $results = $db->loadColumn();
+        return $results;
+    }
+	/**
+	 *
+     */
 	public static function getImportFields(){
 		return array(
 				'auction_number'=>'Номер аукциона',
@@ -41,12 +61,27 @@ class Auction2013Helper
 				'title'=>'Название лота',
 				'short_desc'=>'Краткое описание лота',
 				'desc'=>'Описание лота',
-				'price'=>'Стартовая цена|только цифры', // ?
-				'sales_price'=>'Конечная (для аукциона &#8212; резервная) цена|только цифры',
+				'price1'=>'Стартовая цена|только цифры', // ?
+                'price2'=>'Конечная цена (для очных торгов)|только цифры',
+				'prince3'=>'Минимальная цена для онлайн-торгов|только цифры',
 				'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.|имя.расширение',
 			);
 	}
-	
+    /**
+     * Получить номера контрактов
+     */
+    public static function getContractsNumbers(){
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('product_sku');
+        $query->from($db->quoteName('#__virtuemart_products'));
+        $query->where('product_sku <> \'\'');
+        // Reset the query using our newly populated query object.
+        $db->setQuery($query);
+        // Load the results as a list of stdClass objects (see later for more options on retrieving data).
+        return $db->loadColumn();
+    }
+
 	/**
 	 * Configure the Linkbar.
 	 *
@@ -62,6 +97,65 @@ class Auction2013Helper
 		JSubMenuHelper::addEntry(JText::_('Экспорт предметов'),$common_link_segment.'auction2013&layout=export');
 		JSubMenuHelper::addEntry(JText::_('Управление категориями предметов'), 'index.php?option=com_virtuemart&view=category');
 	}	
+}
+
+class vmAuctionHTML{
+
+    private $purchases_applications=array();
+    private $purchases_paid=array();
+
+    public function __construct(){
+        $purchases=AuctionStuff::getPurchases();
+        foreach ($purchases as $i=>$data) {
+            if($data['status'])
+                $this->purchases_paid[]=$data;
+            else
+                $this->purchases_applications[]=$data;
+        }
+    }
+
+    public function makePurchasesTable($status=0){
+    ?>
+        <legend><?php
+        if(!$status):
+            $com_class="apply";
+            $title="Подтвердить покупку";
+            $purchases = $this->purchases_applications;
+            ?>Неподтверждённые<?
+        else:
+            $com_class="cancel";
+            $title="Отменить покупку";
+            $purchases = $this->purchases_paid;
+            ?>Подтверждённые<?
+        endif;
+            ?> заявки</legend>
+        <table width="100%" class="adminform">
+          <tbody id="tbody_cmd_<?php echo $com_class;?>">
+            <tr class="center">
+                <th>Дата заявки</th>
+                <th>Предмет</th>
+                <th>Категория</th>
+                <th>Цена</th>
+                <th>Покупатель</th>
+                <th class="cmd_<?php echo $com_class;?>" title="<?php echo $title;?>"></th>
+            </tr>
+            <?php
+            foreach($purchases as $i=>$data):
+                ?>
+                <tr class="row<?php echo $i%2?>" data-product_id="<?php echo $data['virtuemart_product_id'];?>">
+                    <td><?php echo $data['datetime'];?></td>
+                    <td><a href="index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id[]=<?php echo $data['virtuemart_product_id'];?>"><?php echo $data['product_name'];?></a></td>
+                    <td><a href="index.php?option=com_virtuemart&view=product&virtuemart_category_id=<?php echo $data['virtuemart_category_id'];?>"><?php echo $data['category_name'];?></a></td>
+                    <td style="text-align:right;"><?php echo $data['price'];?></td>
+                    <td><a href="index.php?option=com_users&view=user&layout=edit&id=<?php echo $data['user_id'];?>"><?php echo $data['name'].' '.$data['middlename'];?></a></td>
+                    <td class="cmd_<?php echo $com_class;?>">&nbsp;</td>
+                </tr>
+            <?php
+            endforeach;?>
+          </tbody>
+        </table>
+<?php
+    }
 }
 
 class Export{
@@ -184,8 +278,8 @@ class Export{
   prods.title,
   '' AS 'short_desc',
   prods.description AS 'desc',
-  prods.current_bid AS 'price',
-  prods.final_price AS 'sales_price', 
+  prods.current_bid AS 'price1',
+  prods.final_price AS 'price2', 
   prods.image AS 'images',
   prods.id";
   /*-- cats.category_name,
@@ -254,8 +348,8 @@ ORDER BY cats.category_name, prods.title";
 		'title'=>'Название лота',
 		'short_desc'=>'Краткое описание лота',
 		'desc'=>'Описание лота',
-		'price'=>'Стартовая цена', // ?
-		'sales_price'=>'Конечная цена',
+		'price1'=>'Стартовая цена', // ?
+		'price2'=>'Конечная цена',
 		'img <span style="font-weight:200;">(до 15-ти полей)</span>'=>'Имена файлов изображений &#8212; по одному в каждом поле.',*/
 		// модифицировать исходный массив для соответствия с полями CSV-файла:
 		array_pop($row_fields_set);
@@ -341,8 +435,9 @@ ORDER BY cats.category_name, prods.title";
 							'title' => string 'Миниатюра «Девушка в красной шали»' (length=64)
 							'short_desc' => string '' (length=0)
 							'desc' => string 'Живопись на кости, 1820-е годы, 7.7х5.5 см, рамка дерево, металл, 14.2х12 см' (length=119)
-							'price' => string '0' (length=1)
-							'sales_price' => string '0' (length=1)
+							'price1' => string '0' (length=1)
+							'price2' => string '0' (length=1)
+							'price3' => string '0' (length=1)
 							'category_id' => string '313' (length=3)
 							================================================
 							'images' => string '2' (length=1)

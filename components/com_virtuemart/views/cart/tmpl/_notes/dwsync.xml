@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041822360390000" remote="130089439800000000" />
-<file name="default.xml" server="2013.auction-ruseasons.ru/public_html/" local="130041822360320000" remote="130089439800000000" />
-<file name="default.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360300000" remote="130089439800000000" />
-<file name="default_coupon.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360350000" remote="130089439800000000" />
-<file name="default_pricelist.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360370000" remote="130089439800000000" />
-<file name="mini_cart.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360410000" remote="130089439800000000" />
-<file name="order_done.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360430000" remote="130089439800000000" />
-<file name="select_payment.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360450000" remote="130089439800000000" />
-<file name="select_shipment.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360460000" remote="130089439800000000" />
-<file name="shopper_adresses.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360480000" remote="130089439800000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041822360390000" remote="130089439800000000" Dst="-1" />
+<file name="default.xml" server="2013.auction-ruseasons.ru/public_html/" local="130041822360320000" remote="130089439800000000" Dst="-1" />
+<file name="default.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360300000" remote="130089439800000000" Dst="-1" />
+<file name="default_coupon.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360350000" remote="130089439800000000" Dst="-1" />
+<file name="default_pricelist.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360370000" remote="130089439800000000" Dst="-1" />
+<file name="mini_cart.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360410000" remote="130089439800000000" Dst="-1" />
+<file name="order_done.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360430000" remote="130089439800000000" Dst="-1" />
+<file name="select_payment.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360450000" remote="130089439800000000" Dst="-1" />
+<file name="select_shipment.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360460000" remote="130089439800000000" Dst="-1" />
+<file name="shopper_adresses.php" server="2013.auction-ruseasons.ru/public_html/" local="130041822360480000" remote="130089439800000000" Dst="-1" />
+<file name="default.php" server="I:/auction-ruseasons/" local="130419717618590000" remote="130419717620000000" Dst="0" />
+<file name="default.xml" server="I:/auction-ruseasons/" local="130419717618600000" remote="130419717620000000" Dst="0" />
+<file name="default_coupon.php" server="I:/auction-ruseasons/" local="130419717618610000" remote="130419717620000000" Dst="0" />
+<file name="default_pricelist.php" server="I:/auction-ruseasons/" local="130419717618620000" remote="130419717620000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717618630000" remote="130419717620000000" Dst="0" />
+<file name="mini_cart.php" server="I:/auction-ruseasons/" local="130419717618640000" remote="130419717620000000" Dst="0" />
+<file name="order_done.php" server="I:/auction-ruseasons/" local="130419717618640000" remote="130419717620000000" Dst="0" />
+<file name="select_payment.php" server="I:/auction-ruseasons/" local="130419717618650000" remote="130419717620000000" Dst="0" />
+<file name="select_shipment.php" server="I:/auction-ruseasons/" local="130419717618660000" remote="130419717620000000" Dst="0" />
+<file name="shopper_adresses.php" server="I:/auction-ruseasons/" local="130419717618660000" remote="130419717620000000" Dst="0" />
 </dwsync>

@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041822355900000" remote="130089438000000000" />
-<file name="blank.gif" server="2013.auction-ruseasons.ru/public_html/" local="130041822355550000" remote="130089438000000000" />
-<file name="fancy_close.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355610000" remote="130089438000000000" />
-<file name="fancy_loading.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355630000" remote="130089438000000000" />
-<file name="fancy_nav_left.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355660000" remote="130089438000000000" />
-<file name="fancy_nav_right.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355680000" remote="130089438000000000" />
-<file name="fancy_shadow_e.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355700000" remote="130089438000000000" />
-<file name="fancy_shadow_n.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355710000" remote="130089438000000000" />
-<file name="fancy_shadow_ne.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355720000" remote="130089438000000000" />
-<file name="fancy_shadow_nw.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355740000" remote="130089438000000000" />
-<file name="fancy_shadow_s.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355760000" remote="130089438000000000" />
-<file name="fancy_shadow_se.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355780000" remote="130089438000000000" />
-<file name="fancy_shadow_sw.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355790000" remote="130089438000000000" />
-<file name="fancy_shadow_w.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355810000" remote="130089438000000000" />
-<file name="fancy_title_left.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355830000" remote="130089438000000000" />
-<file name="fancy_title_main.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355850000" remote="130089438000000000" />
-<file name="fancy_title_over.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355870000" remote="130089438000000000" />
-<file name="fancy_title_right.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355880000" remote="130089438000000000" />
-<file name="fancybox-x.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355560000" remote="130089438000000000" />
-<file name="fancybox-y.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355570000" remote="130089438000000000" />
-<file name="fancybox.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355590000" remote="130089438600000000" />
+<file name="index.html" server="2013.auction-ruseasons.ru/public_html/" local="130041822355900000" remote="130089438000000000" Dst="-1" />
+<file name="blank.gif" server="2013.auction-ruseasons.ru/public_html/" local="130041822355550000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_close.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355610000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_loading.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355630000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_nav_left.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355660000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_nav_right.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355680000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_e.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355700000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_n.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355710000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_ne.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355720000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_nw.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355740000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_s.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355760000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_se.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355780000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_sw.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355790000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_shadow_w.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355810000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_title_left.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355830000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_title_main.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355850000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_title_over.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355870000" remote="130089438000000000" Dst="-1" />
+<file name="fancy_title_right.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355880000" remote="130089438000000000" Dst="-1" />
+<file name="fancybox-x.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355560000" remote="130089438000000000" Dst="-1" />
+<file name="fancybox-y.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355570000" remote="130089438000000000" Dst="-1" />
+<file name="fancybox.png" server="2013.auction-ruseasons.ru/public_html/" local="130041822355590000" remote="130089438600000000" Dst="-1" />
+<file name="blank.gif" server="I:/auction-ruseasons/" local="130419717613070000" remote="130419717620000000" Dst="0" />
+<file name="fancy_close.png" server="I:/auction-ruseasons/" local="130419717613080000" remote="130419717620000000" Dst="0" />
+<file name="fancy_loading.png" server="I:/auction-ruseasons/" local="130419717613340000" remote="130419717620000000" Dst="0" />
+<file name="fancy_nav_left.png" server="I:/auction-ruseasons/" local="130419717613360000" remote="130419717620000000" Dst="0" />
+<file name="fancy_nav_right.png" server="I:/auction-ruseasons/" local="130419717613500000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_e.png" server="I:/auction-ruseasons/" local="130419717613510000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_n.png" server="I:/auction-ruseasons/" local="130419717613530000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_ne.png" server="I:/auction-ruseasons/" local="130419717613540000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_nw.png" server="I:/auction-ruseasons/" local="130419717613540000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_s.png" server="I:/auction-ruseasons/" local="130419717613550000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_se.png" server="I:/auction-ruseasons/" local="130419717613560000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_sw.png" server="I:/auction-ruseasons/" local="130419717613560000" remote="130419717620000000" Dst="0" />
+<file name="fancy_shadow_w.png" server="I:/auction-ruseasons/" local="130419717613570000" remote="130419717620000000" Dst="0" />
+<file name="fancy_title_left.png" server="I:/auction-ruseasons/" local="130419717613570000" remote="130419717620000000" Dst="0" />
+<file name="fancy_title_main.png" server="I:/auction-ruseasons/" local="130419717613580000" remote="130419717620000000" Dst="0" />
+<file name="fancy_title_over.png" server="I:/auction-ruseasons/" local="130419717613580000" remote="130419717620000000" Dst="0" />
+<file name="fancy_title_right.png" server="I:/auction-ruseasons/" local="130419717613590000" remote="130419717620000000" Dst="0" />
+<file name="fancybox-x.png" server="I:/auction-ruseasons/" local="130419717614150000" remote="130419717620000000" Dst="0" />
+<file name="fancybox-y.png" server="I:/auction-ruseasons/" local="130419717614160000" remote="130419717620000000" Dst="0" />
+<file name="fancybox.png" server="I:/auction-ruseasons/" local="130419717614310000" remote="130419717620000000" Dst="0" />
+<file name="index.html" server="I:/auction-ruseasons/" local="130419717614380000" remote="130419717620000000" Dst="0" />
 </dwsync>

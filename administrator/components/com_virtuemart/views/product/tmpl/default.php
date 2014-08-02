@@ -27,9 +27,7 @@ $nowstring = $now["hours"].":".substr('0'.$now["minutes"], -2).' '.$now["mday"].
 $search_order = JRequest::getVar('search_order', '>');
 $search_type = JRequest::getVar('search_type', 'product');
 // OSP in view.html.php $virtuemart_category_id = JRequest::getInt('virtuemart_category_id', false);
-if ($product_parent_id=JRequest::getInt('product_parent_id', false))   $col_product_name='COM_VIRTUEMART_PRODUCT_CHILDREN_LIST'; else $col_product_name='COM_VIRTUEMART_PRODUCT_NAME';
-
-?>
+if ($product_parent_id=JRequest::getInt('product_parent_id', false))   $col_product_name='COM_VIRTUEMART_PRODUCT_CHILDREN_LIST'; else $col_product_name='COM_VIRTUEMART_PRODUCT_NAME';?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 <div id="header">
 <div id="filterbox">

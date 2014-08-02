@@ -243,11 +243,11 @@ class VmModel extends JModel {
 	 */
 	public function getPagination($perRow = 5) {
 
-			if(empty($this->_limit) ){
-				$this->setPaginationLimits();
-			}
+        if(empty($this->_limit) ){
+            $this->setPaginationLimits();
+        }
 
-			$this->_pagination = new VmPagination($this->_total , $this->_limitStart, $this->_limit , $perRow );
+        $this->_pagination = new VmPagination($this->_total , $this->_limitStart, $this->_limit , $perRow );
 
 // 		}
 // 		vmdebug('$this->pagination $total '.$this->_total,$this->_pagination);vmTrace('getPagination');
@@ -325,13 +325,15 @@ class VmModel extends JModel {
 
 	public function exeSortSearchListQuery($object, $select, $joinedTables, $whereString = '', $groupBy = '', $orderBy = '', $filter_order_Dir = '', $nbrReturnProducts = false){
 
+        include_once JPATH_SITE.DS.'tests.php';
+
 		// 		vmSetStartTime('exe');
 		// 		if(USE_SQL_CALC_FOUND_ROWS){
 
 		//and the where conditions
 		$joinedTables .= $whereString .$groupBy .$orderBy .$filter_order_Dir ;
 		// 			$joinedTables .= $whereString .$groupBy .$orderBy;
-
+        //commonDebug(__FILE__,__LINE__,$select.$joinedTables, true);
 		if($nbrReturnProducts){
 			$limitStart = 0;
 			$limit = $nbrReturnProducts;
@@ -350,8 +352,10 @@ class VmModel extends JModel {
 			$q = 'SELECT SQL_CALC_FOUND_ROWS '.$select.$joinedTables;
 		} else {
 			$q = 'SELECT '.$select.$joinedTables;
+            // SELECT * FROM `#__virtuemart_orderstates` order by `ordering`
 		}
-
+        //commonDebug(__FILE__,__LINE__,$q);
+        //commonDebug(__FILE__,__LINE__,debug_print_backtrace(), true);
 		if($this->_noLimit or empty($limit)){
 // 			vmdebug('exeSortSearchListQuery '.get_class($this).' no limit');
 			$this->_db->setQuery($q);
@@ -442,7 +446,8 @@ class VmModel extends JModel {
 
 
 	public function store(&$data){
-
+        //include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$data, true);
 		$table = $this->getTable($this->_maintablename);
 
 		$table->bindChecknStore($data);
@@ -717,6 +722,4 @@ class VmPagination extends JPagination {
 		}
 		return $html;
 	}
-
-
 }

@@ -8,9 +8,7 @@
  * @author RolandD 
  * @author srgg6701
  */
-
-//vmdebug('$this->category',$this->category);
-vmdebug ('$this->category ' . $this->category->category_name);
+//
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 //var_dump(JRequest::get('get'));
@@ -33,12 +31,7 @@ defined ('_JEXEC') or die('Restricted access');
 
 $subheader=($this->category->category_name)? $this->category->category_name:"Магазин";
 
-HTML::pageHead( 
-			$subheader,
-			'shop',
-			$this->category->slug,
-			$this->vmPagination
-		);
+HTML::pageHead('shop');
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">
@@ -72,7 +65,7 @@ if ( VmConfig::get ('showCategory', 1) &&
 	} // /show_children
 
 endif;
-	
+
 if ($this->search !== NULL):?>
 <form action="<?=JRoute::_('index.php?option=com_virtuemart&view=category&limitstart=0&virtuemart_category_id=' . $this->category->virtuemart_category_id); ?>" method="get">
 	<!--BEGIN Search Box -->
@@ -88,6 +81,9 @@ if ($this->search !== NULL):?>
 </form>
 <!-- End Search Box -->
 <?php endif; //var_dump($this); die();
+
+//commonDebug(__FILE__,__LINE__,JRequest::get('get'));
+//commonDebug(__FILE__,__LINE__,$this->products);
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
 
@@ -99,8 +95,14 @@ if (!empty($this->products)) {
   <div class="img">
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>&nbsp;</a>
 </div>
-	<h2><?php echo JHTML::link ($product->link, $product->product_name); ?></h2>
+	<h2><?php 
+	
+	//echo JHTML::link ($product->link, $product->product_name); 
+	echo JHTML::link (JRoute::_($product->canonical), $product->product_name);
+	
+	?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
+
 	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 
 

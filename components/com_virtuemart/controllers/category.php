@@ -18,7 +18,7 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-
+include_once JPATH_SITE.DS.'tests.php';
 // Load the controller framework
 jimport('joomla.application.component.controller');
 
@@ -59,7 +59,8 @@ class VirtueMartControllerCategory extends JController {
 			$safeurlparams = array('virtuemart_category_id'=>'INT','virtuemart_manufacturer_id'=>'INT','virtuemart_currency_id'=>'INT','return'=>'BASE64','lang'=>'CMD','orderby'=>'CMD','limitstart'=>'CMD','order'=>'CMD','limit'=>'CMD');
 			parent::display(true, $safeurlparams);
 		}
-		if($categoryId = JRequest::getInt('virtuemart_category_id',0)){
+        //commonDebug(__FILE__,__LINE__,$this, true);
+        if($categoryId = JRequest::getInt('virtuemart_category_id',0)){
 			shopFunctionsF::setLastVisitedCategoryId($categoryId);
 		}
 	}
