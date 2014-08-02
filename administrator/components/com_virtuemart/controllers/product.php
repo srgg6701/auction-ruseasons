@@ -21,23 +21,17 @@ defined('_JEXEC') or die('Restricted access');
 
 if(!class_exists('VmController'))require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'vmcontroller.php');
 
-include_once JPATH_SITE.DS.'tests.php';
-//commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-//commonDebug(__FILE__,__LINE__,JRequest::get('post'));
 $test=false;
 // данные сохраняются в /helpers/vmcontroller.php -> save()
 if ($test){
 	if ($post=JRequest::get('post')){
-		//if($post['task']=='apply'){
+		if($post['task']=='apply'){
 			echo "<h1>task = $post[task]</h1> <H2>DATA:</H2>";
             echo '<pre>';
 			var_dump($post);
-			die('</pre><hr>file: '.__FILE__);
-		//}
-	}
-// option                   =com_virtuemart
-// view                     =product
-// virtuemart_category_id   =34
+			die('</pre><hr>');
+		}
+	}	
 }
 
 /**
@@ -91,6 +85,7 @@ class VirtuemartControllerProduct extends VmController {
 				unset($data['published']);
 				unset($data['childs']);
 			}
+
 		}
 		parent::save($data);
 	}
@@ -392,5 +387,7 @@ class VirtuemartControllerProduct extends VmController {
 		exit;
 		*/
 	}
+
+
 }
 // pure php no closing tag

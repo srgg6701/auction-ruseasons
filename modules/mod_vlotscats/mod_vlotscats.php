@@ -2,22 +2,23 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 require_once "helper.php";
+
 require_once JPATH_SITE . DS . 'components' . DS . 'com_auction2013' . DS . 'helpers' . DS . 'stuff.php';
-// загрузить класс Helper (расширяющий JModuleHelper)
-// получить путь к файлу для размещения контента (по умолчанию - tmpl/default.php)
+// Р·Р°РіСЂСѓР·РёС‚СЊ РєР»Р°СЃСЃ Helper (СЂР°СЃС€РёСЂСЏСЋС‰РёР№ JModuleHelper)
+// РїРѕР»СѓС‡РёС‚СЊ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РґР»СЏ СЂР°Р·РјРµС‰РµРЅРёСЏ РєРѕРЅС‚РµРЅС‚Р° (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ - tmpl/default.php)
 // $params - object(JRegistry)
 
 require modVlotscatsHelper::getLayoutPath('mod_vlotscats', $params->get('layout', 'default'));
 if (JRequest::getVar('help')):
     ?>
     <ol>
-        <li>Разместить файлы модуля в директории <strong>/modules/</strong></li>
-        <li>Зайти в раздел Extension <strong>Manager: Discover</strong></li>
-        <li>Щёлкнуть <strong>Discover</strong></li>
-        <li>Если модуль обнаружен, щёлкнуть <strong>Install</strong></li>
-        <li>Зайти в раздел <strong>Module Manager: Modules</strong></li>
-        <li>Щёлкнуть <strong>New</strong></li>
-        <li>В раскрывшемся окне выбрать установленный модуль.</li>
+        <li>Р Р°Р·РјРµСЃС‚РёС‚СЊ С„Р°Р№Р»С‹ РјРѕРґСѓР»СЏ РІ РґРёСЂРµРєС‚РѕСЂРёРё <strong>/modules/</strong></li>
+        <li>Р—Р°Р№С‚Рё РІ СЂР°Р·РґРµР» Extension <strong>Manager: Discover</strong></li>
+        <li>Р©С‘Р»РєРЅСѓС‚СЊ <strong>Discover</strong></li>
+        <li>Р•СЃР»Рё РјРѕРґСѓР»СЊ РѕР±РЅР°СЂСѓР¶РµРЅ, С‰С‘Р»РєРЅСѓС‚СЊ <strong>Install</strong></li>
+        <li>Р—Р°Р№С‚Рё РІ СЂР°Р·РґРµР» <strong>Module Manager: Modules</strong></li>
+        <li>Р©С‘Р»РєРЅСѓС‚СЊ <strong>New</strong></li>
+        <li>Р’ СЂР°СЃРєСЂС‹РІС€РµРјСЃСЏ РѕРєРЅРµ РІС‹Р±СЂР°С‚СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Р№ РјРѕРґСѓР»СЊ.</li>
     </ol>
     <?php
  endif;

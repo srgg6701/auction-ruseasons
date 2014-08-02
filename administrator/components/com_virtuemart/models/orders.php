@@ -235,20 +235,7 @@ $q = 'SELECT virtuemart_order_item_id, product_quantity, order_item_name,
 		} else {
 			$ordering = ' order by o.modified_on DESC';
 		}
-        include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$select.$from.$whereString, true);
-        /* SELECT o.*,
-CONCAT_WS(' ',u.first_name,u.middle_name,u.last_name)
-                AS order_name,
-u.email         AS order_email,
-pm.payment_name AS payment_method
-     FROM auc13_virtuemart_orders               AS o
-LEFT JOIN auc13_virtuemart_order_userinfos      AS u
-          ON  u.virtuemart_order_id = o.virtuemart_order_id
-              AND u.address_type="BT"
-LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
-          ON  o.virtuemart_paymentmethod_id = pm.virtuemart_paymentmethod_id
-    WHERE ( o.virtuemart_vendor_id = "1" )   */
+
 		$this->_data = $this->exeSortSearchListQuery(0,$select,$from,$whereString,'',$ordering);
 
 
@@ -506,11 +493,7 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 
 		$usr = JFactory::getUser();
 		$prices = $cart->getCartPrices();
-
-        //include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$cart, true);
-
-        if (($orderID = $this->_createOrder($cart, $usr, $prices)) == 0) {
+		if (($orderID = $this->_createOrder($cart, $usr, $prices)) == 0) {
 			vmError('Couldn\'t create order','Couldn\'t create order');
 			return false;
 		}
@@ -542,8 +525,6 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 	 */
 	private function _createOrder($_cart, $_usr, $_prices)
 	{
-		//include_once JPATH_SITE.DS.'tests.php';
-		//commonDebug(__FILE__,__LINE__,$_cart, true);
 		//		TODO We need tablefields for the new values:
 		//		Shipment:
 		//		$_prices['shipmentValue']		w/out tax
@@ -560,7 +541,7 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 
 		$_orderData->virtuemart_order_id = null;
 		$_orderData->virtuemart_user_id = $_usr->get('id');
-		$_orderData->virtuemart_vendor_id = $_cart->vendorId; //1
+		$_orderData->virtuemart_vendor_id = $_cart->vendorId;
 
 		//Note as long we do not have an extra table only storing addresses, the virtuemart_userinfo_id is not needed.
 		//The virtuemart_userinfo_id is just the id of a stored address and is only necessary in the user maintance view or for choosing addresses.
@@ -641,6 +622,7 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 
 		return $_orderID;
 	}
+
 
 	private function getVendorCurrencyId($vendorId){
 		$q = 'SELECT `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`="'.$vendorId.'" ';
@@ -996,14 +978,14 @@ LEFT JOIN auc13_virtuemart_paymentmethods_ru_ru AS pm
 
 		    foreach($_cart->cartData[$calculation_kind] as $rule){
 			    $orderCalcRules = $this->getTable('order_calc_rules');
-			    $orderCalcRules->virtuemart_order_calc_rule_id = null;
-			    $orderCalcRules->calc_rule_name= $rule['calc_name'];
-			    $orderCalcRules->calc_amount =  $_cart->pricesUnformatted[$rule['virtuemart_calc_id'].'Diff'];
-			    $orderCalcRules->calc_kind=$calculation_kind;
-			    $orderCalcRules->calc_mathop=$rule['calc_value_mathop'];
-			    $orderCalcRules->virtuemart_order_id=$order_id;
-			    $orderCalcRules->calc_params=$rule['calc_params'];
-			    if (!$orderCalcRules->check()) {
+			     $orderCalcRules->virtuemart_order_calc_rule_id = null;
+			     $orderCalcRules->calc_rule_name= $rule['calc_name'];
+			     $orderCalcRules->calc_amount =  $_cart->pricesUnformatted[$rule['virtuemart_calc_id'].'Diff'];
+			     $orderCalcRules->calc_kind=$calculation_kind;
+			     $orderCalcRules->calc_mathop=$rule['calc_value_mathop'];
+			     $orderCalcRules->virtuemart_order_id=$order_id;
+			     $orderCalcRules->calc_params=$rule['calc_params'];
+			     if (!$orderCalcRules->check()) {
 				    vmError('_createOrderCalcRules store bill rule '.$this->getError());
 				    return false;
 			    }

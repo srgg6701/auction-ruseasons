@@ -19,7 +19,7 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-include_once JPATH_SITE.DS.'tests.php';
+
 
 /**
  * Model class for the cart
@@ -30,7 +30,7 @@ include_once JPATH_SITE.DS.'tests.php';
  * @author Max Milbers
  */
 class VirtueMartCart {
-    public $skip_stockhandle_checking=false;
+
 	//	var $productIds = array();
 	var $products = array();
 	var $_inCheckOut = false;
@@ -94,30 +94,30 @@ class VirtueMartCart {
 
 				self::$_cart = new VirtueMartCart;
 
-				self::$_cart->products                      = $sessionCart->products;
-				self::$_cart->vendorId	 					= $sessionCart->vendorId;
-				self::$_cart->lastVisitedCategoryId	 		= $sessionCart->lastVisitedCategoryId;
+				self::$_cart->products = $sessionCart->products;
+				self::$_cart->vendorId	 							= $sessionCart->vendorId;
+				self::$_cart->lastVisitedCategoryId	 			= $sessionCart->lastVisitedCategoryId;
 				self::$_cart->virtuemart_shipmentmethod_id	= $sessionCart->virtuemart_shipmentmethod_id;
 				self::$_cart->virtuemart_paymentmethod_id 	= $sessionCart->virtuemart_paymentmethod_id;
-				self::$_cart->automaticSelectedShipment 	= $sessionCart->automaticSelectedShipment;
+				self::$_cart->automaticSelectedShipment 		= $sessionCart->automaticSelectedShipment;
 				self::$_cart->automaticSelectedPayment 		= $sessionCart->automaticSelectedPayment;
-				self::$_cart->BT 							= $sessionCart->BT;
-				self::$_cart->ST 							= $sessionCart->ST;
-				self::$_cart->tosAccepted 					= $sessionCart->tosAccepted;
-				self::$_cart->customer_comment 				= base64_decode($sessionCart->customer_comment);
-				self::$_cart->couponCode 					= $sessionCart->couponCode;
-				self::$_cart->cartData 						= $sessionCart->cartData;
-				self::$_cart->order_number					= $sessionCart->order_number;
-				self::$_cart->lists 						= $sessionCart->lists;
+				self::$_cart->BT 										= $sessionCart->BT;
+				self::$_cart->ST 										= $sessionCart->ST;
+				self::$_cart->tosAccepted 							= $sessionCart->tosAccepted;
+				self::$_cart->customer_comment 					= base64_decode($sessionCart->customer_comment);
+				self::$_cart->couponCode 							= $sessionCart->couponCode;
+				self::$_cart->cartData 								= $sessionCart->cartData;
+				self::$_cart->order_number							= $sessionCart->order_number;
+				self::$_cart->lists 									= $sessionCart->lists;
 
-				//self::$_cart->pricesUnformatted			= $sessionCart->pricesUnformatted;
-				self::$_cart->pricesCurrency				= $sessionCart->pricesCurrency;
-				self::$_cart->paymentCurrency				= $sessionCart->paymentCurrency;
+				//self::$_cart->pricesUnformatted					= $sessionCart->pricesUnformatted;
+				self::$_cart->pricesCurrency						= $sessionCart->pricesCurrency;
+				self::$_cart->paymentCurrency						= $sessionCart->paymentCurrency;
 
-				self::$_cart->_inCheckOut 					= $sessionCart->_inCheckOut;
-				self::$_cart->_dataValidated				= $sessionCart->_dataValidated;
-				self::$_cart->_confirmDone					= $sessionCart->_confirmDone;
-				self::$_cart->STsameAsBT					= $sessionCart->STsameAsBT;
+				self::$_cart->_inCheckOut 							= $sessionCart->_inCheckOut;
+				self::$_cart->_dataValidated						= $sessionCart->_dataValidated;
+				self::$_cart->_confirmDone							= $sessionCart->_confirmDone;
+				self::$_cart->STsameAsBT							= $sessionCart->STsameAsBT;
 
 			}
 
@@ -315,8 +315,7 @@ class VirtueMartCart {
 		if(empty($virtuemart_product_ids)){
 			$virtuemart_product_ids = JRequest::getVar('virtuemart_product_id', array(), 'default', 'array'); //is sanitized then
 		}
-        // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$virtuemart_product_ids, true);
+
 		if (empty($virtuemart_product_ids)) {
 			$mainframe->enqueueMessage(JText::_('COM_VIRTUEMART_CART_ERROR_NO_PRODUCT_IDS', false));
 			return false;
@@ -375,8 +374,7 @@ class VirtueMartCart {
 			$product -> max_order_level = $tmpProduct -> max_order_level;
 			$product -> virtuemart_media_id = $tmpProduct -> virtuemart_media_id;
 
-			if(!empty($tmpProduct ->images)) 
-                $product->image =  $tmpProduct -> images[0];
+			if(!empty($tmpProduct ->images)) $product->image =  $tmpProduct -> images[0];
 
 			$product -> categories = $tmpProduct -> categories;
 			$product -> virtuemart_category_id = $tmpProduct -> virtuemart_category_id;
@@ -388,6 +386,8 @@ class VirtueMartCart {
 			//$product -> customfieldsCart = empty($tmpProduct -> customfieldsCart)? array(): $tmpProduct -> customfieldsCart;
 			if (!empty($tmpProduct -> customfieldsCart) ) $product -> customfieldsCart = true;
 			//$product -> customsChilds = empty($tmpProduct -> customsChilds)? array(): $tmpProduct -> customsChilds;
+
+
 			//Why reloading the product wiht same name $product ?
 			// passed all from $tmpProduct and relaoding it second time ????
 			// $tmpProduct = $this->getProduct((int) $virtuemart_product_id); seee before !!!
@@ -396,9 +396,7 @@ class VirtueMartCart {
 			// of all its parents, we only need the data of the product, so we create a dummy class which contains only the data
 			// This is extremly important for performance reasons, else the sessions becomes too big.
 			// Check if we have a product
-			// include_once JPATH_SITE.DS.'tests.php';
-			//commonDebug(__FILE__,__LINE__,$product, true);
-            if ($product) {
+			if ($product) {
 				if(!empty( $post['virtuemart_category_id'][$p_key])){
 					$virtuemart_category_idPost = (int) $post['virtuemart_category_id'][$p_key];
 					$product->virtuemart_category_id = $virtuemart_category_idPost;
@@ -464,28 +462,27 @@ class VirtueMartCart {
 				// Add in the quantity in case the customfield plugins need it
 				$product->quantity = (int)$quantityPost;
 
-                //commonDebug(__FILE__,__LINE__,$product);
+
 				if(!class_exists('vmCustomPlugin')) require(JPATH_VM_PLUGINS.DS.'vmcustomplugin.php');
 				JPluginHelper::importPlugin('vmcustom');
 				$dispatcher = JDispatcher::getInstance();
 				// on returning false the product have not to be added to cart
 				$addToCartReturnValues = $dispatcher->trigger('plgVmOnAddToCart',array(&$product));
-                //commonDebug(__FILE__,__LINE__,$addToCartReturnValues);
-                foreach ($addToCartReturnValues as $returnValue) {
-                    if ( $returnValue === false )
-                        continue 2;
-                }
+ 			    foreach ($addToCartReturnValues as $returnValue) {
+						if ( $returnValue === false )
+							continue 2;
+					}
 
-				if (array_key_exists($productKey, $this->products)
-                    && (empty($product->customPlugin)) ) {
-                    //echo "<div style='margin-bottom: 10px;'>file: <span style='color:blue;'>".__file__."</span><br>line: <span style='background-color:#666; color:white; padding: 2px 4px;'>".__line__."</span></div>";
+
+				if (array_key_exists($productKey, $this->products) && (empty($product->customPlugin)) ) {
+
 					$errorMsg = JText::_('COM_VIRTUEMART_CART_PRODUCT_UPDATED');
-					$totalQuantity = $this->products[$productKey]->quantity+ $quantityPost; // 2
-                    if ($this->checkForQuantities($product,$totalQuantity ,$errorMsg)) {
-                        //echo "<div style='margin-bottom: 10px;'>condition1<br>file: <span style='color:blue;'>".__file__."</span><br>line: <span style='background-color:#666; color:white; padding: 2px 4px;'>".__line__."</span></div>";
-                        $this->products[$productKey]->quantity = $totalQuantity;
+					$totalQuantity = $this->products[$productKey]->quantity+ $quantityPost;
+					if ($this->checkForQuantities($product,$totalQuantity ,$errorMsg)) {
+						$this->products[$productKey]->quantity = $totalQuantity;
+
 					} else {
-                        //echo "<div style='margin-bottom: 10px;'>continue<br>file: <span style='color:blue;'>".__file__."</span><br>line: <span style='background-color:#666; color:white; padding: 2px 4px;'>".__line__."</span></div>";
+
 						continue;
 					}
 				}  else {
@@ -502,17 +499,13 @@ class VirtueMartCart {
 						continue;
 					}
 				}
-                $success = true;
-                //commonDebug(__FILE__,__LINE__,$success);
+				$success = true;
 			} else {
 				$mainframe->enqueueMessage(JText::_('COM_VIRTUEMART_PRODUCT_NOT_FOUND', false));
 				return false;
 			}
 		}
-		if ($success== false) {
-            //die('No success...');
-            return false;
-        }
+		if ($success== false) return false ;
 		// End Iteration through Prod id's
 		$this->setCartIntoSession();
 		return true;
@@ -613,8 +606,7 @@ class VirtueMartCart {
 	 * @author Max Milbers
 	 */
 	private function checkForQuantities($product, &$quantity=0,&$errorMsg ='') {
-        include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$quantity, true);
+
 		$stockhandle = VmConfig::get('stockhandle','none');
 		$mainframe = JFactory::getApplication();
 		// Check for a valid quantity
@@ -633,14 +625,14 @@ class VirtueMartCart {
 			vmInfo($errorMsg,$product->product_name);
 			return false;
 		}
-        // Check to see if checking stock quantity
+
+		// Check to see if checking stock quantity
 		if ($stockhandle!='none' && $stockhandle!='risetime') {
 
-			$productsleft = $product->product_in_stock - $product->product_ordered; // 1
+			$productsleft = $product->product_in_stock - $product->product_ordered;
 			// TODO $productsleft = $product->product_in_stock - $product->product_ordered - $quantityincart ;
 			if ($quantity > $productsleft ){
-				if( $productsleft>0
-                    and ($stockhandle=='disableadd' || $this->skip_stockhandle_checking )){
+				if($productsleft>0 and $stockhandle=='disableadd'){
 					$quantity = $productsleft;
 					$errorMsg = JText::sprintf('COM_VIRTUEMART_CART_PRODUCT_OUT_OF_QUANTITY',$quantity);
 					$this->setError($errorMsg);
@@ -652,10 +644,7 @@ class VirtueMartCart {
 					// todo better key string
 					vmInfo($errorMsg. ' '.$product->product_name);
 					// $mainframe->enqueueMessage($errorMsg);
-                    // include_once JPATH_SITE.DS.'tests.php';
-                    //commonDebug(__FILE__,__LINE__,$stockhandle);
-                    //echo "<div style='margin-bottom: 10px;'>file: <span style='color:blue;'>".__file__."</span><br>line: <span style='background-color:#666; color:white; padding: 2px 4px;'>".__line__."</span></div>";
-                    return false;
+					return false;
 				}
 			}
 		}

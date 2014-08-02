@@ -165,6 +165,7 @@ function vmError($descr, $publicdescr = '') {
 
     if (VmConfig::$maxMessageCount < VmConfig::$maxMessage) {
         if (empty($descr)) {
+			echo "line: ".__LINE__.", file: ".__FILE__."<HR>";
 			vmTrace('vmError message empty');
         }
         $lang = JFactory::getLanguage();
@@ -238,6 +239,7 @@ function vmTrace($notice, $force = FALSE) {
     if ($force || (VMConfig::showDebug() )) {
         //$app = JFactory::getApplication();
         //
+		die(__LINE__.", ".__FILE__);
 		ob_start();
         echo '<pre>';
         debug_print_backtrace();
@@ -598,7 +600,7 @@ class VmConfig {
      * @return Value for the given key name
      */
     static function get($key, $default = '', $allow_load = FALSE) {
-            //stockhandle, none
+
         $value = '';
         if ($key) {
 
@@ -607,9 +609,7 @@ class VmConfig {
             }
 
             if (!empty(self::$_jpConfig->_params)) {
-                //echo "<div style='margin-bottom: 10px;'>file: <span style='color:blue;'>".__file__."</span><br>line: <span style='background-color:#666; color:white; padding: 2px 4px;'>".__line__."</span></div>";
-                if (array_key_exists($key, self::$_jpConfig->_params)
-                    && isset(self::$_jpConfig->_params[$key])) {
+                if (array_key_exists($key, self::$_jpConfig->_params) && isset(self::$_jpConfig->_params[$key])) {
                     $value = self::$_jpConfig->_params[$key];
                 } else {
                     $value = $default;

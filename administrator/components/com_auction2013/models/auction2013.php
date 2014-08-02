@@ -41,19 +41,6 @@ class Auction2013ModelAuction2013 extends JModelList
 		}
 		parent::__construct($config);
 	}
-    /**
-     *
-     */
-    public function checkAuctionNumber($number,$virtuemart_product_id){
-        $db = JFactory::getDbo();
-        $query = "SELECT COUNT(*)
-          FROM #__virtuemart_products
-         WHERE virtuemart_product_id <> " . $virtuemart_product_id . '
-               AND auction_number = ' . $number;
-        $db->setQuery($query);
-        $results = $db->loadResult();
-        return ($results)? 'taken':'ok';
-    }
 /**
  * Описание
  * @package

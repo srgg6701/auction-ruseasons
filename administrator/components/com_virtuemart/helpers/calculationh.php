@@ -410,8 +410,6 @@ class calculationHelper {
 		}
 
 // 		vmdebug('getProductPrices',$this->productPrices);
-        // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$this->productPrices);
 		return $this->productPrices;
 	}
 

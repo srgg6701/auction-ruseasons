@@ -19,8 +19,7 @@ $product=AuctionStuff::getSingleProductData(
 					);	
 $price=round((int)$product['product_price']);?>
 <div class="item-page<?php echo $this->params->pageclass_sfx?>">
-<?php 
-if($Itemid=JRequest::getVar('thanx_menu_id')){
+<?php if($Itemid=JRequest::getVar('thanx_menu_id')){
 	// var_dump($this); die();
 if ($this->params->get('show_page_heading')) : 
 	
@@ -44,8 +43,7 @@ echo $article['introtext'];?></b>
 <button type="button" class="buttonSandCool txtBrown" onclick="location.href='index.php?option=com_virtuemart&view=category&virtuemart_category_id=0&layout=<?=$top_layout?>&Itemid=<?=$Itemid?>'">Назад в категорию</button>
 </div>
 <br><br>
-<?php 
-}else{
+<?php }else{
 $user = JFactory::getUser();
 if($user->guest):
 	$session = JFactory::getSession();
@@ -94,5 +92,4 @@ echo $article['introtext'];
 		</form>
     </div>
 </div>
-<?php 
-}
+<?php }

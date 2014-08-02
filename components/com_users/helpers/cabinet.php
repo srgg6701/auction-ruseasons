@@ -7,9 +7,7 @@
  */
 
 defined('_JEXEC') or die;
-// Подключить функции тестирования:
-require_once JPATH_SITE.'/tests.php'; 
-//  commonDebug, testSQL
+
 /**
  * Users Route Helper
  *
@@ -19,61 +17,28 @@ require_once JPATH_SITE.'/tests.php';
  */
 class UserCabinet
 {
-    /** Данные кабинета:
-     [layout]=>array(
-        0=> Текст ссылки
-        1=> Класс ссылки
-        2=> Заголовок раздела
-        3=> Параметр объекта JUser, передаваемого методу генерации HTML-раздела
-     )
-     Кроме файла в com_users/views/cabinet/tmpl/[layout].php,
-     в этом классе должен быть определён метод layout_[layout]  */
-    static $cabinet_menu = array(
-					'lots'=>        array("Ваш кабинет","H2",           "Личный кабинет", 'id'), //Ваши лоты
-					'favorites'=>   array("Избранное",  "first-point",  false, 'id'),
-					'bids'=>        array("Мои ставки", false,          false, 'id'),
-                    'filters'=>     array("Мои фильтры",false,          false, 'id'),
-                    'purchases'=>   array("Мои Покупки",false,          false, 'id'),
-					'data'=>        array("Настройки",  false,          "Моя персональная информация", true),
-                    'watched_items'=>array(false,  false,               "Предмет из списка наблюдения", id),
-            );
-	/**
-     * Инициализировать построение кабинета юзера (common html; вызывается по умолчанию).
-     * Вызвать метод построения соответствующего шаблона для юзера (layout_[template_name])
-     //todo: Заменить на singleton! 
-     */
-    public function initUserCabinet($JUser,$logout_params,$layout=false){
+	public function buildCabinet($JUser,$logout_params,$layout=false){
 		
-		$session = JFactory::getSession();
-		// клацали "Купить":
-		if($product_id_purchasing=$session->get('product_id_purchasing')){
-			$redirect='index.php?option=com_auction2013&layout=application&virtuemart_product_id='.$product_id_purchasing;
-			//die($redirect);
-			$session->clear('product_id_purchasing');
-			JFactory::getApplication()->redirect($redirect);
-		}
 		require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
-		if (!$layout||$layout==='default'){
-            $default_section = UserCabinet::$cabinet_menu;
-            reset($default_section);
-            $layout=key($default_section);
-        }
+				
+		if (!$layout)
+			$layout='default';
 		
 		$method='layout_'.$layout;
-        //commonDebug(__FILE__, __LINE__, $method, true);				
+		
 		ob_start();?>
 <div class="content_shell left private_room">
         <div id="your_order">
             <span class="text_highlight">Ваш клиентский № 
                 <?=$JUser->get('username')?></span>
-        </div>  
+        </div>
         <!-- START LEFT COLUMN -->
         <div id="user_column">		
-            <div class="content_box" id="user_menu_box">
-        <?php   UserCabinet::buildUserMenu(); ?>
+            <div class="content_box">
+            	&nbsp;
             </div>
             <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
-			<button type="submit" class="buttonSandCool" style="margin: 16px auto;"><?php echo JText::_('JLOGOUT'); ?></button>
+			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
 			<input type="hidden" name="return" value="<?php echo base64_encode($logout_params); ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 	</form>           
@@ -84,19 +49,30 @@ class UserCabinet
             <div class="content_box">
             </div>
             <div class="content_box highlight_links">
-        		<h2 class="title"><?php
-                $cabinet_data = UserCabinet::$cabinet_menu[$layout];
-                echo ($cabinet_data[2])? $cabinet_data[2]:$cabinet_data[0];
-                if($cabinet_data[3]){
-                    $params=($cabinet_data[3]===true)?
-                        $JUser:$JUser->$cabinet_data[3];
-                }?></h2>
+        		<h2 class="title"><?php switch($layout){
+					case 'favorites':
+						echo 'Избранное';
+						$params=$JUser->id;
+					break;
+					case 'bids':
+						echo 'Мои ставки';
+					break;					
+					case 'data': 
+						echo 'Моя персональная информация';
+						$params=$JUser;
+					break;					
+					default: 
+						echo 'Ваши лоты';
+						$params=$JUser->id;
+				}
+				
+				echo $section;?></h2>
 		<?php UserCabinet::$method($params);?>            	
             </div>   
-        </div>
+          </div>
             <!-- END CONTENT BLOCK -->
     </div>
-<?php   $cabinet=ob_get_contents();
+<?php $cabinet=ob_get_contents();
 		ob_clean();
 		return $cabinet;
 	}
@@ -116,41 +92,40 @@ class UserCabinet
     </div>
 <?php }
 /**
- * Ставки
  * @package
  * @subpackage
  */
 	function layout_lots($user_id){
 		// Проверить закрома:
+		$session = JFactory::getSession();
 		//echo "<div class=''>favorite_product_id= ".$session->get('favorite_product_id')."</div>"; die();
-		if($virtuemart_product_id=JFactory::getSession()->get('favorite_product_id')){
+		if($virtuemart_product_id=$session->get('favorite_product_id')){
 			// добавить запись в таблицу, перенаправить в Избранное:
 			AuctionStuff::addToFavorites($virtuemart_product_id,$user_id);
+			$app =JFactory::getApplication();
 			$uMenus=AuctionStuff::getTopCatsMenuItemIds(	
 						'usermenu',
 						'profile',
 						'favorites'
 					);
-			$redirect='index.php?option=com_users&view=profile&layout=favorites&Itemid='
-                        . $uMenus[0] . '&added=' . $virtuemart_product_id;
+			$redirect='index.php?option=com_users&view=profile&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id;
 			//echo "<div class=''>redirect= ".$redirect."</div>";die();
-			JFactory::getApplication()->redirect($redirect);
+			$app->redirect($redirect);
 		}else{?>
-    
-<?php   }
+    <H1>LOTS</H1>
+<?php }
 	}	
 /**
- * Данные юзера
+ * Описание
  * @package
  * @subpackage
  */
-	function layout_data($user){		 
+	function layout_data($user){
+		 
 		// Построить поля ввода редактируемых данных или разместить данные в ячейках таблицы, в зависимости от текущего режима:
 		function setField($data,$required=true){
-            
 			if(is_array($data)):
-				//commonDebug(__FILE__, __LINE__, $data, true);
-                $field=$data[0];
+				$field=$data[0];
 				$value=$data[1];
 				$fType=(strstr($field,'password'))? 'password':'text';
 				if ($field=='country_id'){
@@ -162,19 +137,14 @@ class UserCabinet
 		?>><?=$name?></option>
                 <?php endforeach;?>
     </select>
-			<?php }else{ ?>
-	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?php 
-					if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
-					echo $value;?>"<?php 
-					if( $field!="corpus_number"
+			<?php }else{?>
+	<input type="<?=$fType?>" name="jform[<?=$field?>]" id="jform_<?=$field?>" value="<?php if(JRequest::getVar($field)) $value=JRequest::getVar($field); 
+					echo $value;?>"<?php if( $field!="corpus_number"
 						&& $field!="flat_office_number"
 						&& !strstr($field,'password')
 						//&& !strstr($field,'email')
-					  ):?> class="required" required="required"<?php 
-					endif;?> size="30"<?php 
-                    if($field=='username'||$field=='registerDate'):
-						?> disabled<?php 
-                    endif;?>>
+					  ):?> class="required" required="required"<?php endif;?> size="30"<?php if($field=='username'||$field=='registerDate'):
+						?> disabled<?php endif;?>>
 			<?php }
 			else:
 				echo $data;
@@ -200,8 +170,7 @@ Email				email
 				'email1'=>'Email',
 			);?>
 <form style="display:inline-block;" id="member-profile" action="index.php?option=com_users&task=profile.save" method="post" class="form-validate" enctype="multipart/form-data">
-		<?php 
-			$pAlCenter='';
+		<?php $pAlCenter='';
 			if($edit_mode=JRequest::getVar('mode')):
 				$userData['email2']='Подтверждение e-mail';
 				$userData['password1']='Новый пароль (опционально)';
@@ -263,8 +232,7 @@ Email				email
 						setField(array($address_field,$user_data),true);?>
 				</td>
             </tr>
-					<?php 
-						endforeach;
+					<?php endforeach;
 					}?>
 			<?php }
 			}?>
@@ -283,14 +251,13 @@ Email				email
 				$btnValue='Редактировать данные...';
 			}?>
         <div<?=$pAlCenter?>>
-        	<button type="<?=$btnType?>" class="buttonSandCool"<?php 
-			if(!$edit_mode):
+        	<button type="<?=$btnType?>" class="buttonSandCool"<?php if(!$edit_mode):
 			?> onClick="location.href='index.php?option=com_users&view=profile&layout=data&Itemid=<?=JRequest::getVar('Itemid')?>&mode=edit'"<?php endif;?>><?=$btnValue?></button>
         </div>
 </form>
 <?php }	
 /**
- * Избранное
+ * Описание
  * @package
  * @subpackage
  */
@@ -299,7 +266,7 @@ Email				email
 		$favorites=AuctionStuff::getFavorites($user_id);
 		if(!empty($favorites)){?>
             <form id="deleteFromFavorites" action="<?php echo JRoute::_('index.php?option=com_auction2013&task=auction2013.deleteFromFavorites'); ?>" method="post">
-        <table id="tblFavorites" class="cabinet" cellpadding="2" cellspacing="1">
+        <table id="tblFavorites" cellpadding="2" cellspacing="1">
         	<tr>
             	<th>Предмет</th>
             	<th>Цена</th>
@@ -309,19 +276,16 @@ Email				email
             </tr>
 		<?php $DateAndTime=new DateAndTime();
 			foreach($favorites as $virtuemart_product_id => $product_data){?>
-			<tr<?php 
-			if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?php }?> valign="top">
-            	<td><a href="<?php
-
-                    echo AuctionStuff::extractProductLink($virtuemart_product_id,$product_data['virtuemart_category_id'],JRequest::getVar('Itemid'));
+			<tr<?php if(JRequest::getVar('added')==$virtuemart_product_id){?> style="background-color:rgb(197, 226, 177);" <?php }?> valign="top">
+            	<td><?php $product_link = AuctionStuff::extractProductLink($product_data['virtuemart_category_id'],$product_data['slug'],$virtuemart_product_id);  
+				?><a href="<?php echo $product_link; 
 				
 				?>"><?=$product_data['product_name']?></a>
                 <button value="<?=$virtuemart_product_id?>">Удалить из избранного</button></td>
             	<td><?=substr($product_data['product_price'],0,strpos($product_data['product_price'],"."))?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_start'], JText::_('DATE_FORMAT_LC2'));?></td>
             	<td><?=JHTML::_('date', $product_data['auction_date_finish'], JText::_('DATE_FORMAT_LC2'));?></td>
-            	<td><?php 
-				$delta=$DateAndTime->getDaysDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
+            	<td><?php $delta=$DateAndTime->getDaysDiff($product_data['auction_date_start'],$product_data['auction_date_finish']);
 				$s=0;
 				foreach ($delta as $k=>$t){
 					if($s) echo ($s==1)? "&nbsp;":":";
@@ -355,214 +319,11 @@ $(function(){
 	<?php }
 	}	
 /**
- * Заявки на аукционе
+ * Описание
  * @package
  * @subpackage
  */
-    function layout_bids($user_id){
-        $topItemOnline = AuctionStuff::getTopCatsMenuItemIds('main',false, 'online');
-        //commonDebug(__FILE__,__LINE__,$topItemOnline, true);
-        $userLots=AuctionStuff::getUserLots($user_id);
-        ?>
-    <table id="tbl-my_bids" class="cabinet" cellpadding="2">
-      <tr>
-        <th>Название предмета</th>
-        <th>Окончание</th>
-        <th>Ставка</th>
-        <th>Макс. ставка</th>
-        <th>Статус</th>
-      </tr>
-<?php   // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$userLots);
-        foreach($userLots as $i=>$data):
-?>      
-      <tr>
-          <td><a href="<?php
-      echo AuctionStuff::extractProductLink(
-                            $data['virtuemart_product_id'],
-                            $data['virtuemart_category_id'],
-                            $topItemOnline['online'] );?>"><?php
-        echo $data['item_name'];?></a></td>
-        <td nowrap><?php echo $data['auction_date_finish'];?></td>
-        <td><?php echo ($data['user_max_lot'])? $data['user_max_lot']:0;?></td>
-        <td><?php echo $data['user_max_bid'];?></td>
-        <td><?php
-            /**
-            игрок становится покупателем, если максимальная ставка записана на него */
-            if((int)$data['user_max_bid']===(int)$data['absolute_max_lot']):?>
-                <b>Покупатель</b>
-        <?php
-            else:?>
-                Участник торгов
-        <?php
-            endif;?></td>
-      </tr>
-<?php	$i++; // потому что, если итерация только одна, так и останется 0
-        endforeach;
-        if(!$i):
-?>
-      <tr>
-        <td colspan="6">У вас нет ставок</td>
-      </tr>
-<?php   endif;
-?>
-    </table>
-
-<?php }
-
-    /**
-     * Фильтр уведомлений о выставленных на аукцион предметах
-     * @package
-     * @subpackage
-     */
-    public function  layout_filters(){
-        //...?>
-	<p>Добавьте предмет, о появлении которого вы хотели бы быть проинформированы по электронной почте.<br>
-    Система будет проверять наличие указанного вами слова в названии и описании предметов.</p>
-        <hr/><br/>
-        <form>Название предмета:
-            <input type="text" name="product_name" style="width: 240px;"/>
-            <button type="button" onclick="addProductNotify(this.form);">Добавить</button>
-        </form>
-        <br/>
-    <hr/>
-        <br/>
-    <b>Предметы, добавленные к списку наблюдения:</b>
-        <br><br>
-            <div id="watch_table">
-    <?php echo HTML::showWatchedItems(true);?>
-            </div>
-<script>
-    function addProductNotify(form){
-        var product_name = $('[name="product_name"]',form).val();
-        console.log('send product name: ' + product_name);
-        $.post('?option=com_auction2013&task=auction2013.addProductNotify',
-            {
-                name:product_name
-            }).success(function(data){
-                console.log(data);
-                $('#watch_table').html(data);
-            }).error(function(){
-                console.log('Не удалось добавить предмет');
-            });
-    }
-$(function(){
-   $('#watch_table').on('click', 'td.cmd_cancel', function(event){
-       var td = event.currentTarget;
-       //console.dir(td);
-       if(confirm("Удалить предмет из списка наблюдения?")){
-           //console.log('deleting...');
-           $.post('?option=com_auction2013&task=auction2013.removeProductNotify',
-               {
-                   id:$(td).attr('data-id')
-               }).success(function(data){
-                   console.log(data);
-                   $('#watch_table').html(data);
-               }).error(function(){
-                   console.log('Не удалось удалить предмет');
-               });
-       }
-   });
-});
-</script>
-	<?php
-        //return true;
-    }
-    /**
-     * Покупки (заявленные, закрытые)
-     * @package
-     * @subpackage
-     */
-    function layout_purchases($user_id){
-        $topItemOnline = AuctionStuff::getTopCatsMenuItemIds('main',false, 'online');
-        if($purchases=AuctionStuff::getPurchases(array('user_id'=>true))){
-			?>
-        <table class="cabinet border">
-        	<tr>
-            	<th>#</th>
-            	<th>Наименование</th>
-                <th>Категория</th>
-            	<th>Цена</th>
-            	<th>Статус</th>
-                <th>Дата/время</th>
-            </tr>
-		<?php //commonDebug(__FILE__,__LINE__,$purchases);
-			foreach ($purchases as $i=>$data_array) {
-			?>
-        	<tr>
-            	<td><?php echo $i+1;?></td>
-            	<td><a href="<?php
-    echo AuctionStuff::extractProductLink(
-                            $data_array['virtuemart_category_id'],
-                            $data_array['slug'],
-                            $topItemOnline['online']); ?>"><?php
-                        echo $data_array['product_name'];
-                        ?></a></td>
-                <td><?php echo $data_array['category_name'];?></td>
-            	<td align="right"><?php echo $data_array['price'];?></td>
-            	<td nowrap><?php echo ((int)$data_array['status'])? 'Приобретено':'<span>На оформлении</span>';?></td>
-                <td><?php echo $data_array['datetime'];?></td>
-            </tr>
-		<?php		
-			}?>
-		</table>
-		<?php
-		}else{?>
-        <h4>Покупок нет.</h4>
-		<?php 
-		}
-		
-    }
-    /**
-     *
-     */
-    /**
-     * Комментарий
-     * @package
-     * @subpackage
-     */
-    public function layout_watched_items($user_id){
-        $watched_items=AuctionStuff::showWatchedItemList(JRequest::getVar('id'));
-        //commonDebug(__FILE__,__LINE__,$watched_items);
-        if(!empty($watched_items)){?>
-            <table class="watch_block">
-                <tr><th>Предмет</th><th>Секция</th></tr>
-            <?php
-            foreach ($watched_items as $i=>$data) {?>
-                <tr>
-                    <td>
-                <a href="<?php
-            echo AuctionStuff::extractProductLink(
-                        $data['virtuemart_product_id'],
-                        $data['category_id']    );
-                ?>"><?php echo $data['product_name'];?></a>
-                </td>
-                <td><?php echo $data['section_name'];?></td>
-            </tr>
-        <?php
-            }?>
-            </table>
-        <?php
-        }
-    }
-
-/**
- * Построить меню юзера
- */
-    static public function buildUserMenu() {?>
-    <ul class="menu" id="usermenu-container" style="display: block;">
-            <?php
-        foreach(self::$cabinet_menu as $tmpl=>$header):
-            if($header[0]):?>
-        <li>
-            <a<?php
-        if($header[1]):?> class="<?php echo $header[1];?>"<?php endif;
-        ?> href="index.php?option=com_users&view=cabinet&layout=<?php echo $tmpl;?>"><?php echo $header[0];?></a>
-        </li>
-                <?php
-            endif;
-        endforeach;?>
-    </ul>    
-    <?php
-    }
+	function layout_bids(){?>
+    <H1>MY BIDS</H1>
+<?php }	
 }

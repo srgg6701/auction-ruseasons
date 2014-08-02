@@ -18,7 +18,6 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-include_once JPATH_SITE.DS.'tests.php';
 
 // Load the view framework
 if(!class_exists('VmView'))require(JPATH_VM_SITE.DS.'helpers'.DS.'vmview.php');
@@ -56,10 +55,9 @@ class VirtuemartViewCategory extends VmView {
 		//Load helpers
 		$this->loadHelper('image');
 		$categoryModel = VmModel::getModel('category');
-        // VirtueMartModelProduct
-        $productModel = VmModel::getModel('product');
-        // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$productModel, true);
+		$productModel = VmModel::getModel('product');
+
+
 		$categoryId = JRequest::getInt('virtuemart_category_id', false);
 		$vendorId = 1;
 		$category = $categoryModel->getCategory($categoryId);
@@ -175,19 +173,10 @@ class VirtuemartViewCategory extends VmView {
 
 	    /*	MODIFIED START */
 		// 	Получить и передать модели Id топовой категории:
-		$this->setTopCatItemId($productModel);
-        //AuctionStuff::getTopCatsMenuItemIds();
-
-        /*	MODIFIED END	*/
+		$this->setTopCatId($productModel);
+		/*	MODIFIED END	*/		
 		// Load the products in the given category
-        // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$categoryId, true);
-        $products = $productModel->getProductsInCategory($categoryId);
-        //$session=JFactory::getSession();
-        //$session->clear('vmcart', null, 'vm');
-        //$session->set('vmcart', null, 'vm');
-        //commonDebug(__FILE__, __LINE__, unserialize($session->get('vmcart', null, 'vm')), true);
-        //commonDebug(__FILE__, __LINE__, $products, true);
+	    $products = $productModel->getProductsInCategory($categoryId);
 
         $productModel->addImages($products,1);
 
@@ -206,8 +195,7 @@ class VirtuemartViewCategory extends VmView {
 		// Override Category name when viewing manufacturers products !IMPORTANT AFTER page title.
 		if (JRequest::getInt('virtuemart_manufacturer_id' ) and !empty($products[0])) $category->category_name =$products[0]->mf_name ;
 
-	    // $perRow принимает значение JRequest::getVar('limit');
-        $pagination = $productModel->getPagination($perRow);
+	    $pagination = $productModel->getPagination($perRow);
 	    $this->assignRef('vmPagination', $pagination);
 
 	    $orderByList = $productModel->getOrderByList($categoryId);
@@ -237,8 +225,8 @@ class VirtuemartViewCategory extends VmView {
 			$document->setMetaData('author', $category->metaauthor);
 		}
 		if ($products) {
-		    $currency = CurrencyDisplay::getInstance( );
-		    $this->assignRef('currency', $currency);
+		$currency = CurrencyDisplay::getInstance( );
+		$this->assignRef('currency', $currency);
 		}
 
 		if(!class_exists('Permissions')) require(JPATH_VM_ADMINISTRATOR.DS.'helpers'.DS.'permissions.php');
@@ -266,32 +254,50 @@ class VirtuemartViewCategory extends VmView {
  * @package
  * @subpackage
  */
-	private function setTopCatItemId($productModel) {
+	private function setTopCatId($productModel) {
 		$get=JRequest::get('get');
-        $top_cats=AuctionStuff::getTopCatsLayouts(1); 
-        $topCatItemIds = AuctionStuff::getTopCatsMenuItemIds();
-        //commonDebug(__FILE__,__LINE__,JRequest::getVar('Itemid'));
-        //commonDebug(__FILE__,__LINE__,$topCatItemIds, true);
-        // from component's router
-        // test start
-        // 23, 21, 22
-        //commonDebug(__FILE__,__LINE__,$top_cats, true);
-
-        /*  параметр true позволяет излвечь ассоциативный массив id => layout
-            любой другой аргумент, имеющий значение - массив id id
-        */
-        // test end
-        $itemId=JRequest::getVar('Itemid');
-        if(in_array($itemId,$topCatItemIds))
-            $productModel->auction_section=$itemId;
-        if($get['view'] == 'category'
-            && in_array($get['virtuemart_category_id'], $top_cats)){
-            $productModel->top_category=$get['virtuemart_category_id'];
-            //die('TOP category: '.$productModel->top_category);            
-            return true;
-        }else
-			$productModel->top_category=false;	
-    }
+		if( $get['view'] == 'category'
+			&& $get['virtuemart_category_id'] == '0'
+			&& $layout=$get['layout']
+		  ){
+			// извлечь id id топовых категорий по порядку их расположения в таблице
+			$top_cats=AuctionStuff::getTopCatsLayouts(); // from component's router
+			$found_layout=false;
+			foreach($top_cats as $i => $get_layout){
+				if ($layout==$get_layout){
+					$category_id_index=$i;
+					$found_layout=true;
+					break;
+				}
+			}
+			if (!$found_layout)
+				die('ОШИБКА: Не определено имя top_category!');
+			/*switch($layout){ // см. /components/com_virtuemart/views/category/tmpl/
+				case 'online':
+					// Онлайн торги
+					$category_id_index='0';
+				break;
+				case 'fulltime':
+					// Очные торги
+					$category_id_index='1';
+				break;
+				case 'shop':
+					// Магазин
+					$category_id_index='2';
+				break;
+				default:
+					die('ОШИБКА: Не определено имя top_category!');			
+			}*/
+			$query="SELECT category_child_id 
+  FROM #__virtuemart_category_categories
+  WHERE category_parent_id = 0 ORDER BY category_child_id ASC";
+			$db = JFactory::getDBO();
+			$db->setQuery($query);
+			$catsIds=$db->loadResultArray();
+			$productModel->top_category=$catsIds[$category_id_index];
+			return true;
+		}
+	}	
 /*	MODIFIED END	*/		
 	/*
 	 * generate custom fields list to display as search in FE
