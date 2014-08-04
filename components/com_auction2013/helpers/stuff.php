@@ -226,7 +226,31 @@ FROM `#__virtuemart_categories` AS cats
 		$db->setQuery($query);
 		return $db->loadResultArray();
 	}
-/**
+    /**
+     * Получить id или алиас категории
+     * @package
+     * @subpackage
+     * @returns id ТОП-категории или алиас, в зависимости от типа (integer (id)/string (алиас)) @value
+     */
+    public function getCategoryValue($value){ // id ТОП-категории или алиас
+        //...
+        $db = JFactory::getDbo();
+        $layout="cats.category_layout";
+        $parent_id="cats_cats.category_parent_id";
+        $query = "SELECT ";
+        $query.=(gettype($value)=='integer')? $layout : $parent_id;
+        $query.="
+      FROM #__virtuemart_category_categories AS cats_cats
+INNER JOIN #__virtuemart_categories          AS cats
+        ON cats.virtuemart_category_id = cats_cats.category_child_id
+           AND ";
+        $query.=(gettype($value)=='integer')? $parent_id : $layout;
+        $query.=" = '$value' LIMIT 1";
+        $db->setQuery($query);
+        $result = $db->loadResult();
+        return $result;
+    }
+    /**
  * Описание
  * @package
  * @subpackage
@@ -420,6 +444,77 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         //testSQL($query,__FILE__,__LINE__,true);
         return $db->loadResultArray();
     }
+    /**
+     * Получить предметы в секции (online, fulltime, shop)
+     */
+    public function getProductsInSection($category_id, $published=true, $cnt=false){
+        $category_allias=self::getCategoryValue($category_id);
+        //...
+        $db = JFactory::getDbo();
+        $query = "SELECT ";
+
+        if($cnt) $query.="COUNT( prices.virtuemart_product_id ) ";
+        else {
+            $query .= "prices.   virtuemart_product_id,
+        prods_ru.         product_name, ";
+
+            if ($published) $query .= "
+        prices.           product_price_publish_up,
+        p.                product_available_date,
+        p.                auction_date_finish,
+        prices.           product_price_publish_down, ";
+
+            $query .= "
+        pc.               virtuemart_category_id ";
+        }
+        $query.="
+      FROM #__virtuemart_products            AS p
+
+ LEFT JOIN #__virtuemart_product_categories  AS pc
+           ON p.virtuemart_product_id = pc.virtuemart_product_id
+
+ LEFT JOIN #__virtuemart_products_ru_ru      AS prods_ru
+           ON prods_ru.virtuemart_product_id = pc.virtuemart_product_id
+
+ LEFT JOIN #__virtuemart_category_categories AS cat_cats
+           ON pc.virtuemart_category_id = cat_cats.category_child_id
+
+ LEFT JOIN #__virtuemart_product_prices      AS prices
+           ON prices.virtuemart_product_id = pc.virtuemart_product_id
+
+     WHERE cat_cats.category_parent_id = $category_id
+           AND cat_cats.category_child_id = cats.virtuemart_category_id ";
+
+        if($published)
+           $query.="
+           AND prices.product_price_publish_up    < NOW()
+           AND p.product_available_date           < NOW()
+           AND p.auction_date_finish              > NOW()
+           AND prices.product_price_publish_down  > NOW() ";
+
+        $query.="
+           AND p.virtuemart_product_id NOT IN (
+                  SELECT virtuemart_product_id
+                    FROM #__dev_";
+
+        if($category_allias!='shop'){
+            $query.="sold
+                   WHERE section = ";
+            $query.=($category_allias=='online')? '1':'2';
+        }else
+            $query.="shop_orders";
+        $query.="
+                )
+  ORDER BY prices.product_price_publish_up  -- LIMIT 0, 15";
+
+        $db->setQuery($query);
+
+        testSQL($query, __FILE__, __LINE__);
+
+        $results =($cnt)?  $db->loadResult() : $db->loadAssocList();
+        return $results;
+    }
+
 /**
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего.
  * @package
@@ -847,7 +942,8 @@ WHERE cats_cats.category_parent_id = 0";
          * повторно на случай, если метод будет вызыван снова (если потребуется
          * получить ссылки ещё раз).
          */
-        if($cntr==1){
+        $force_show = true; // todo: присвоить false
+        if($cntr==1||$force_show){
             //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
             $section_links = array(); // todo: разобраться с неиспользуемым ЗДЕСЬ параметром
             $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
@@ -1233,41 +1329,43 @@ class HTML{
             ?></a>
      &nbsp;
 <?php   }
-        $prods_value=AuctionStuff::$prods_value;
-        $pgcount = intval($prods_value/(int)$pages_limit[$Itemid]);
-        //commonDebug(__FILE__,__LINE__,$prods_value.'/'.(int)$pages_limit[$Itemid]);
-        //commonDebug(__FILE__,__LINE__,$pgcount);
-        if($prods_value%(int)$pages_limit[$Itemid]) $pgcount+=1;
-        // свормировать Pagination
-        $stpg = 'start_page';
-        $stpgEq = $stpg . '=';
-        $getUrl =  JRequest::get('get');
-        //commonDebug(__FILE__,__LINE__, $getUrl);
-        $pureUrl = JUri::current();
-        if($stpage=$getUrl[$stpg]) // если в Url есть 'start_page', вырезать значение
-            $pureUrl = str_replace( $stpgEq . $stpage, $stpgEq, $pureUrl);
-        else
-            $stpage=1;
-        //commonDebug(__FILE__,__LINE__,$pureUrl);
-        // что там у нас с SEF?
-        $pureUrl.= (JApplication::getRouter()->getMode())?
-            '?' : '&';
-        $pureUrl.=$stpgEq;
-        $pages='страницы: ';
-        foreach (range(1,$pgcount) as $i) {
-            if($i>1) $pages.=" | ";
-            $pages.='<a href='. $pureUrl .$i;
-            if($i==$stpage) $pages.=' style="font-weight:bold;text-decoration:none;"';
-            $pages.= '>'.$i.'</a> ';
+        if($prods_value=AuctionStuff::$prods_value){
+            $pgcount = intval($prods_value/(int)$pages_limit[$Itemid]);
+            //commonDebug(__FILE__,__LINE__,$prods_value.'/'.(int)$pages_limit[$Itemid]);
+            //commonDebug(__FILE__,__LINE__,$pgcount);
+            if($prods_value%(int)$pages_limit[$Itemid]) $pgcount+=1;
+            // свормировать Pagination
+            $stpg = 'start_page';
+            $stpgEq = $stpg . '=';
+            $getUrl =  JRequest::get('get');
+            //commonDebug(__FILE__,__LINE__, $getUrl);
+            $pureUrl = JUri::current();
+            if($stpage=$getUrl[$stpg]) // если в Url есть 'start_page', вырезать значение
+                $pureUrl = str_replace( $stpgEq . $stpage, $stpgEq, $pureUrl);
+            else
+                $stpage=1;
+            //commonDebug(__FILE__,__LINE__,$pureUrl);
+            // что там у нас с SEF?
+            $pureUrl.= (JApplication::getRouter()->getMode())?
+                '?' : '&';
+            $pureUrl.=$stpgEq;
+            $pages='страницы: ';
+            foreach (range(1,$pgcount) as $i) {
+                if($i>1) $pages.=" | ";
+                $pages.='<a href='. $pureUrl .$i;
+                if($i==$stpage) $pages.=' style="font-weight:bold;text-decoration:none;"';
+                $pages.= '>'.$i.'</a> ';
+            }
+            // если таки сформировали список страниц:
+            if(isset($pages)) {
+                ?>
+                <div class="vmPag">
+                    <?=$pages?>
+                </div>
+            <?php
+            }
         }
-        // если таки сформировали список страниц:
-        if(isset($pages)) {
-            ?>
-            <div class="vmPag">
-                <?=$pages?>
-            </div>
-        <?php
-        }?>
+        ?>
 </div>
 <?php }
 /**
