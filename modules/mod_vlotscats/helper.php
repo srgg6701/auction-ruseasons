@@ -39,7 +39,7 @@ ORDER BY cats.ordering';
  * @package
  * @subpackage
  */
-	function getCategoriesData($published=false,$db=false,$inStockOnly=true){
+	function    getCategoriesData($published=false,$db=false,$inStockOnly=false){
 
         //commonDebug(__FILE__,__LINE__,debug_print_backtrace(), true);
         if (!$db)
@@ -69,7 +69,7 @@ ORDER BY cats.ordering';
 			  'category_name' => string 'Магазин' (length=14)
 	  	*/
             // добавить подзапрос извлечения предметов с подходящим периодом публикации:
-			$table = '';
+			/*$table = '';
             $subquery = '';
             if($published){
                 $table3= ",\n        `#__virtuemart_product_prices`      AS prices";
@@ -83,12 +83,15 @@ ORDER BY cats.ordering';
                 $subquery.= "
                 AND ".$qcheck_orders;
             else
-                $subquery = $qcheck_orders;
+                $subquery = $qcheck_orders;*/
 
             $query='SELECT cats.virtuemart_category_id, 
         cats_ru.category_name,
         cats_ru.slug AS "alias",
-        (   SELECT count(p.virtuemart_product_id)
+        '; // cnt
+
+        // . AuctionStuff::getProductsInSection($top_cat['virtuemart_category_id'],$published);
+        /*'SELECT count(p.virtuemart_product_id)
               FROM `#__virtuemart_products` AS p,
                    `#__virtuemart_product_categories` AS pc'
                     .$table3.'
@@ -104,10 +107,9 @@ ORDER BY cats.ordering';
 			}
 			if($inStockOnly)
 				$query.='
-               AND p.`product_in_stock` > 0';
+               AND p.`product_in_stock` > 0';*/
 
-			$queryEnd = '
-        ) AS "product_count"
+			$queryEnd = ' AS "product_count"
    FROM #__virtuemart_categories AS cats
    LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru 
      ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
@@ -128,27 +130,34 @@ ORDER BY cats.ordering';
             $layout = $topLayouts[$top_cat['virtuemart_category_id']];
 			$prods[$layout]=array();
 
-            $q = $query . $subquery;
+            $q = $query . AuctionStuff::getProductsInSection(
+                                            (int)$top_cat['virtuemart_category_id'],
+                                            $published,
+                                            true    );
+            //$subquery;
             /**
             если не магазин - проверить даты выставления на аукцион -
             чтобы были таки внутри дат публикации
              */
-            if( $layout=='online'){
-                /* если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))*/
+            /*if( $layout=='online'){
                 if($published!==NULL )
                     $q.='
                AND p.product_available_date >= prices.product_price_publish_up
                AND p.auction_date_finish > NOW()';
             }else $q.='
-               AND prices.product_price_publish_down > NOW()';
+               AND prices.product_price_publish_down > NOW()';*/
 
             $q.= $queryEnd .
 				 $top_cat['virtuemart_category_id'] .
-				 $pub .
+				 // $pub .
                  $order;
-            //testSQL($q,__FILE__,__LINE__);
+
             $db->setQuery($q);
-			$children=$db->loadAssocList();
+
+            testSQL($q,__FILE__,__LINE__); if($layout=='shop') die();
+
+
+            $children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(
 						'top_category_alias'    => $top_cat['alias'],
 						'top_category_name'     => $top_cat['category_name'],
