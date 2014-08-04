@@ -5,6 +5,7 @@ defined('_JEXEC') or die('Restricted access');
  * получим методы основного класса:
  */
 require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+require_once JPATH_SITE.DS.'tests.php';
 
 class modVlotscatsHelper extends JModuleHelper
 {	
@@ -33,21 +34,28 @@ ORDER BY cats.ordering';
 		return $db->loadAssocList(); 
 	}
 /**
- * Извлечь все (или только опубликованные) категории
+ * Извлечь данные всех или только опубликованных предметов в категориях
+ * @published - если передан - извлечь данные только опубликованных предметов
  * @package
  * @subpackage
  */
 	function getCategoriesData($published=false,$db=false,$inStockOnly=true){
-		if (!$db)
+
+        //commonDebug(__FILE__,__LINE__,debug_print_backtrace(), true);
+        if (!$db)
 			$db=JFactory::getDBO();
 		
 		$session =& JFactory::getSession();
 		$prods=array();
-		$session->set('products_data',$prods);
-		
+		$session->set('products_data',$prods);		
 		$top_cats=modVlotscatsHelper::getTopCategories($db);
-		$topLayouts=AuctionStuff::getTopCatsLayouts();
-		/* 0 => 
+        $topLayouts=AuctionStuff::getTopCatsLayouts(true);
+        /**
+            [23]=> "shop"
+            [21]=> "online"
+            [22]=> "fulltime"
+         */
+        /* 0 =>
 			array
 			  'virtuemart_category_id' => string '21' (length=2)
 			  'category_name' => string 'Онлайн торги' (length=23)
@@ -60,12 +68,30 @@ ORDER BY cats.ordering';
 			  'virtuemart_category_id' => string '23' (length=2)
 			  'category_name' => string 'Магазин' (length=14)
 	  	*/
-			$query='SELECT cats.virtuemart_category_id, 
+            // добавить подзапрос извлечения предметов с подходящим периодом публикации:
+			$table = '';
+            $subquery = '';
+            if($published){
+                $table3= ",\n        `#__virtuemart_product_prices`      AS prices";
+                $subquery = "
+               AND prices.virtuemart_product_id = pc.virtuemart_product_id
+               AND prices.product_price_publish_up < NOW() ";
+            }
+            // исключить предметы магазина, на покупку которых были поданы заявки
+            $qcheck_orders = " p.`virtuemart_product_id` NOT IN ( SELECT virtuemart_product_id FROM #__dev_shop_orders ) ";
+            if(isset($subquery))
+                $subquery.= "
+                AND ".$qcheck_orders;
+            else
+                $subquery = $qcheck_orders;
+
+            $query='SELECT cats.virtuemart_category_id, 
         cats_ru.category_name,
         cats_ru.slug AS "alias",
         (   SELECT count(p.virtuemart_product_id)
               FROM `#__virtuemart_products` AS p,
-                   `#__virtuemart_product_categories` AS pc
+                   `#__virtuemart_product_categories` AS pc'
+                    .$table3.'
              WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
                AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`';
 			if($published){
@@ -80,7 +106,7 @@ ORDER BY cats.ordering';
 				$query.='
                AND p.`product_in_stock` > 0';
 
-			$query.='
+			$queryEnd = '
         ) AS "product_count"
    FROM #__virtuemart_categories AS cats
    LEFT JOIN #__virtuemart_categories_ru_ru AS cats_ru 
@@ -93,25 +119,47 @@ ORDER BY cats.ordering';
   ORDER BY cat_cats.category_parent_id,cats.ordering';
 
 		foreach($top_cats as $i=>$top_cat){
-			$prods[$topLayouts[$i]]=array();
-			$q = $query .
+            /**
+             $top_cat:
+                ["virtuemart_category_id"]=> "21"
+                ["category_name"]=> "Онлайн торги"
+                ["alias"]=> "онлайн-торги"                 
+             */
+            $layout = $topLayouts[$top_cat['virtuemart_category_id']];
+			$prods[$layout]=array();
+
+            $q = $query . $subquery;
+            /**
+            если не магазин - проверить даты выставления на аукцион -
+            чтобы были таки внутри дат публикации
+             */
+            if( $layout=='online'){
+                /* если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))*/
+                if($published!==NULL )
+                    $q.='
+               AND p.product_available_date >= prices.product_price_publish_up
+               AND p.auction_date_finish > NOW()';
+            }else $q.='
+               AND prices.product_price_publish_down > NOW()';
+
+            $q.= $queryEnd .
 				 $top_cat['virtuemart_category_id'] .
 				 $pub .
-				 $order;
-			// echo "<div class=''><pre>q= ".str_replace("#_","auc13",$q)."</pre></div>"; //die();
-			$db->setQuery($q);
+                 $order;
+            //testSQL($q,__FILE__,__LINE__);
+            $db->setQuery($q);
 			$children=$db->loadAssocList();
 			$records[$top_cat['virtuemart_category_id']]=array(
-						'top_category_alias'=>$top_cat['alias'],
-						'top_category_name'=>$top_cat['category_name'],
-						'top_category_layout' => $topLayouts[$i],
-						'children'=>$children
+						'top_category_alias'    => $top_cat['alias'],
+						'top_category_name'     => $top_cat['category_name'],
+						'top_category_layout'   => $layout,
+						'children'              => $children
 				);
-			$prods[$topLayouts[$i]]['prod_count']=0;
+			$prods[$layout]['prod_count']=0;
 			foreach ($children as $c=>$child){
 				if ($child['alias']){
-					$prods[$topLayouts[$i]]['prod_count']+=(int)$child['product_count'];
-					$prods[$topLayouts[$i]][$child['alias']]=$child;
+					$prods[$layout]['prod_count']+=(int)$child['product_count'];
+					$prods[$layout][$child['alias']]=$child;
 				}
 			}
 		}

@@ -1047,12 +1047,14 @@ class HTML{
  * @package
  * @subpackage
  */
-	public static function pageHead ($layout='online'){
+	public static function pageHead ($layout){
 		$category_id=JRequest::getVar('virtuemart_category_id');
         $session=&JFactory::getSession();
-        $sections_data=$session->get('section_links');
+        // todo: убрать лишнее
+        $sections_data=//AuctionStuff::handleSessionCategoriesData();
+            $session->get('section_links');
         //commonDebug(__FILE__, __LINE__, $sections_data);
-        $category_data=$sections_data[$layout]; // sold?
+        $category_data=$sections_data[$layout];
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
         //commonDebug(__FILE__,__LINE__,$layout);
         //commonDebug(__FILE__, __LINE__, $category_data);
