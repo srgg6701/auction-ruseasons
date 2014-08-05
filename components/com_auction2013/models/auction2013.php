@@ -155,8 +155,8 @@ INNER JOIN #__users                      AS users
             }
             $users->sendMessagesToUsers('Итоги аукциона',implode("<hr/>", $messages));
             // перенести предметы в "проданные"
-            $queryIns = "INSERT INTO #__dev_sold (virtuemart_product_id) VALUES ("
-                . implode('),(', $ids) . ")";
+            $queryIns = "INSERT INTO #__dev_sold (`virtuemart_product_id`,`section`) VALUES ("
+                . implode(',1),(', $ids) . ")";
             try{
                 if($test)
                     showTestMessage($queryIns.'<hr/>', __FILE__, __LINE__);

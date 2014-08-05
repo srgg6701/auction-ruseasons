@@ -214,7 +214,7 @@ class VirtueMartModelProduct extends VmModel {
         $sqIds="SELECT DISTINCT prices.virtuemart_product_id ";
 
         if($this->top_category===false){ // категория внутри секции
-            if($virtuemart_category_id) {
+            /*if($virtuemart_category_id) {
                 $common_query = "
   FROM `#__virtuemart_products`            AS p,
        `#__virtuemart_product_categories`  AS pc,
@@ -226,14 +226,20 @@ class VirtueMartModelProduct extends VmModel {
    AND prices.`product_price_publish_up`  < NOW()";
                 $online = 'online';
                 $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false, $online);
-                $squery2=((int)$topItem[$online]==(int)JRequest::getVar('Itemid'))?
-                    '
+                // if online
+                if((int)$topItem[$online]==(int)JRequest::getVar('Itemid')){
+                    // открытие аукциона не раньше даты публикации
+                    $squery2='
    AND p.product_available_date >= prices.product_price_publish_up
-   AND p.auction_date_finish > NOW() ' // открытие аукциона не раньше даты публикации
-                    :   '
-   AND prices.`product_price_publish_down`> NOW() '; // закрытие аукциона не раньше текущего момента;
+   AND p.auction_date_finish > NOW() '; showTestMessage('<b class="error-text">Has Itemid</b>',__FILE__, __LINE__);
+                }else{ // закрытие аукциона не раньше текущего момента;
+                    $squery2= '
+   AND prices.`product_price_publish_down`> NOW() '; showTestMessage('<b class="warning-text">No Itemid</b>',__FILE__, __LINE__);
+                }
                 $query = $sqIds.$common_query.$squery2;
-            }
+            }*/
+            return AuctionStuff::getProductsInSection($virtuemart_category_id);
+
         }elseif ($this->top_category) { // ТОП-категория (секция) - онлайн/очные торги, магазин
             $common_query = "
         FROM #__virtuemart_product_categories        AS cats
@@ -246,11 +252,15 @@ class VirtueMartModelProduct extends VmModel {
                AND prices.product_price_publish_down > NOW()
           ORDER BY prices.product_price_publish_up ";
             $query=$sqIds.$common_query;
-        }
-        if(isset($query)){
-            //testSQL($query.$LIMIT, __FILE__, __LINE__);
+            testSQL($query.$LIMIT, __FILE__, __LINE__);
             return $db->setQuery($query.$LIMIT)->loadColumn();
-        }
+        }/*
+
+        if(isset($query)){
+            testSQL($query.$LIMIT, __FILE__, __LINE__);
+            AuctionStuff::getProductsInSection($virtuemart_category_id);
+            return $db->setQuery($query.$LIMIT)->loadColumn();
+        }*/
         /* 	MODIFIED END	 */
 
         $app = JFactory::getApplication();

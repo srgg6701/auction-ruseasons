@@ -62,6 +62,20 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
 <?php   if($stop) die('<hr><div><b>stopped</b></div>');
 }
 /**
+ * Комментарий
+ * @package
+ * @subpackage
+ */
+function commonDebugBacktrace($file,$line,$class=''){
+    file_line($file,$line);
+    ob_start();
+    debug_print_backtrace();
+    $dbpb=ob_get_contents();
+    ob_end_clean();
+    setBlock($dbpb,'trace',$class, 'lightyellow');
+}
+
+/**
  * Вывести сообщение
  */
 function showTestMessage($message,$file,$line,$color=false,$stop=false){
@@ -86,12 +100,28 @@ function showTestMessage($message,$file,$line,$color=false,$stop=false){
  */
 function testSQL($query,$file=false,$line=false,$stop=false,$class='test'){
     if($file&&$line)
-        echo "<div><b>file:</b> ".$file."<br>line: <span style='color:green'>".$line."</span></div>";			
-    echo "<div class='$class' style='padding:10px; border:solid 1px #ccc; border-radius:4px; background-color:rgb(254, 239, 242); display: inline-block; margin-bottom:20px;' ".dblclck.">
-            <b>query:</b>
+        file_line($file,$line);
+    setBlock(str_replace("#_","auc13",$query),"query",$class);
+    if($stop) die();
+}
+/**
+ * Комментарий
+ * @package
+ * @subpackage
+ */
+function setBlock($string,$header,$class, $background='rgb(254, 239, 242)'){
+    echo "<div class='$class' style='padding:10px; border:solid 1px #ccc; border-radius:4px; background-color:$background; display: inline-block; margin-bottom:20px;' ".dblclck.">
+            <b>".$header.":</b>
             <div style='display:none'>
-                <pre>".str_replace("#_","auc13",$query)."</pre>
+                <pre>".$string."</pre>
             </div>
           </div>";
-    if($stop) die();
+}
+/**
+ * Выаусти файл и строку
+ * @param $file
+ * @param $line
+ */
+function file_line($file,$line){
+    echo "<div><b>file:</b> ".$file."<br>line: <span style='color:green'>".$line."</span></div>";
 }

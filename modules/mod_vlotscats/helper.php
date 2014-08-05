@@ -74,28 +74,29 @@ ORDER BY cats.ordering';
             $table = '';
             $subquery = '';
             if($published){
-                $table3= ",\n        `#__virtuemart_product_prices`      AS prices";
                 $subquery = "
-               AND prices.virtuemart_product_id = pc.virtuemart_product_id
                AND prices.product_price_publish_up < NOW() ";
             }
             // исключить предметы магазина, на покупку которых были поданы заявки
-            $qcheck_orders = " p.`virtuemart_product_id` NOT IN ( SELECT virtuemart_product_id FROM #__dev_shop_orders ) ";
-            if(isset($subquery))
-                $subquery.= "
-              AND ".$qcheck_orders;
-            else
-                $subquery = $qcheck_orders;
+            $subquery.= "
+               AND p.`virtuemart_product_id` NOT IN (
+                   SELECT virtuemart_product_id
+                     FROM #__dev_";
 
             $query='SELECT cats.virtuemart_category_id,
         cats_ru.category_name,
         cats_ru.slug AS "alias",
         (   SELECT count(p.virtuemart_product_id)
-              FROM `#__virtuemart_products` AS p,
-                   `#__virtuemart_product_categories` AS pc'
-                .$table3.'
-             WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id
-               AND p.`virtuemart_product_id` = pc.`virtuemart_product_id`';
+              FROM `#__virtuemart_products` AS p
+        INNER JOIN `#__virtuemart_product_categories` AS pc
+                   ON p.`virtuemart_product_id` = pc.`virtuemart_product_id` ';
+            if($published)
+                $query.='
+        INNER JOIN `#__virtuemart_product_prices`      AS prices
+                   ON prices.virtuemart_product_id = pc.virtuemart_product_id ';
+
+             $query.='
+             WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id ';
             if($published){
                 $query.='
                AND p.`published` = "1"';
@@ -130,12 +131,11 @@ ORDER BY cats.ordering';
                 $layout = $topLayouts[$top_cat['virtuemart_category_id']];
                 $prods[$layout]=array();
 
-                $q = $query . $subquery;
+                $q = $query;
                 /**
                 если не магазин - проверить даты выставления на аукцион -
-                чтобы были таки внутри дат публикации
-                 */
-                if($layout=='online'){
+                чтобы были таки внутри дат публикации */
+                if($layout!='shop'){
                     /* если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))*/
                     if($published!==NULL )
                         $q.='
@@ -143,18 +143,27 @@ ORDER BY cats.ordering';
                AND p.auction_date_finish > NOW()';
                 }else $q.='
                AND prices.product_price_publish_down > NOW()';
-
-                $q.= $queryEnd .
+                // исключить предметы по состоянию
+                switch($layout){
+                    case 'shop':
+                        $sbq=$subquery."shop_orders ";
+                        break;
+                    default:
+                        $sbq=$subquery."sold
+                    WHERE `section` = ";
+                        $sbq.=($layout=='online')? '1':'2';
+                }
+                $q.= $sbq . ' )' . $queryEnd .
                     $top_cat['virtuemart_category_id'] .
                     $pub .
                     $order;
+
                 testSQL($q,__FILE__,__LINE__);
-                //if($layout=='shop') die('line: '.__LINE__);
-                // include_once JPATH_SITE.DS.'tests.php';
-                /* echo "<div>";
-                 debug_print_backtrace();
-                 echo"</div>";*/
-                commonDebugBacktrace(__FILE__,__LINE__);
+                if($layout=='shop') {
+                    commonDebugBacktrace(__FILE__,__LINE__);
+                    //die('line: '.__LINE__);
+                }
+
                 $db->setQuery($q);
                 $children=$db->loadAssocList();
                 $records[$top_cat['virtuemart_category_id']]=array(
