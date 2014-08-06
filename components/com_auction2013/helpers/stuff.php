@@ -446,7 +446,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         return $db->loadResultArray();
     }
     /**
-     * Получить предметы в секции (online, fulltime, shop)
+     * Получить предметы в категории секций online, fulltime, shop.
      * @category_id - id категории
      * @return количество предметов ($cnt) или столбец с id id предметов, или записи с данными предметов
      */
@@ -520,9 +520,9 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
             $query.="shop_orders";
         $query.="
                 )
-  ORDER BY prices.product_price_publish_up  -- LIMIT 0, 15";
+  ORDER BY prices.product_price_publish_up ";
 
-        $db->setQuery($query);
+        $db->setQuery($query . self::getPagesLimit());
 
         testSQL($query, __FILE__, __LINE__);
 
@@ -530,6 +530,40 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         else
             $single ? $db->loadColumn() : $db->loadAssocList();
         return $results;
+    }
+    /**
+     * Получить предметы в ТОП-секции (online, fulltime, shop)
+     * @package
+     * @subpackage
+     */
+    public function getProductsInTopSection($top_category_id){
+        $query = "SELECT DISTINCT prices.virtuemart_product_id
+        FROM #__virtuemart_product_categories        AS cats
+        INNER JOIN #__virtuemart_category_categories AS cat_cats
+                   ON cats.virtuemart_category_id = cat_cats.category_child_id
+        INNER JOIN #__virtuemart_product_prices      AS prices
+                   ON prices.virtuemart_product_id = cats.virtuemart_product_id
+             WHERE cat_cats.category_parent_id = ".$top_category_id. "
+               AND prices.product_price_publish_up < NOW()
+               AND prices.product_price_publish_down > NOW()
+          ORDER BY prices.product_price_publish_up " . self::getPagesLimit();
+        testSQL($query, __FILE__, __LINE__);
+        $ids=JFactory::getDbo()->setQuery($query)->loadColumn();
+        return $ids;
+    }
+    /**
+     * Получить лимит страниц
+     * @package
+     * @subpackage
+     */
+    public static function getPagesLimit(){
+        /**
+        получить лимит колич. предметов текущей сессии */
+        $current_limit=self::handlePagesLimit();
+        if(!$start_page=JRequest::getVar('start_page'))
+            $start_page=1;
+        $LIMIT = ' LIMIT ' . ($start_page-1)*$current_limit .', '.$current_limit;
+        return $LIMIT;
     }
 
 /**

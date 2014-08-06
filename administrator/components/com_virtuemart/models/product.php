@@ -206,12 +206,12 @@ class VirtueMartModelProduct extends VmModel {
         require_once JPATH_SITE.DS.'components/com_auction2013/helpers\stuff.php';
         /**
          получить лимит колич. предметов текущей сессии */
-        $current_limit=AuctionStuff::handlePagesLimit();
+        /*$current_limit=AuctionStuff::handlePagesLimit();
         if(!$start_page=JRequest::getVar('start_page'))
             $start_page=1;
         $LIMIT = ' LIMIT ' . ($start_page-1)*$current_limit .', '.$current_limit;
         //commonDebug(__FILE__,__LINE__,$current_limit);
-        $sqIds="SELECT DISTINCT prices.virtuemart_product_id ";
+        $sqIds="SELECT DISTINCT prices.virtuemart_product_id ";*/
 
         if($this->top_category===false){ // категория внутри секции
             /*if($virtuemart_category_id) {
@@ -241,7 +241,8 @@ class VirtueMartModelProduct extends VmModel {
             return AuctionStuff::getProductsInSection($virtuemart_category_id);
 
         }elseif ($this->top_category) { // ТОП-категория (секция) - онлайн/очные торги, магазин
-            $common_query = "
+            return AuctionStuff::getProductsInTopSection($this->top_category);
+            /*$common_query = "
         FROM #__virtuemart_product_categories        AS cats
         INNER JOIN #__virtuemart_category_categories AS cat_cats
                    ON cats.virtuemart_category_id = cat_cats.category_child_id
@@ -253,7 +254,7 @@ class VirtueMartModelProduct extends VmModel {
           ORDER BY prices.product_price_publish_up ";
             $query=$sqIds.$common_query;
             testSQL($query.$LIMIT, __FILE__, __LINE__);
-            return $db->setQuery($query.$LIMIT)->loadColumn();
+            return $db->setQuery($query.$LIMIT)->loadColumn();*/
         }/*
 
         if(isset($query)){
