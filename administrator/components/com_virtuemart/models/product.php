@@ -204,64 +204,13 @@ class VirtueMartModelProduct extends VmModel {
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
         require_once JPATH_SITE.DS.'components/com_auction2013/helpers\stuff.php';
-        /**
-         получить лимит колич. предметов текущей сессии */
-        /*$current_limit=AuctionStuff::handlePagesLimit();
-        if(!$start_page=JRequest::getVar('start_page'))
-            $start_page=1;
-        $LIMIT = ' LIMIT ' . ($start_page-1)*$current_limit .', '.$current_limit;
-        //commonDebug(__FILE__,__LINE__,$current_limit);
-        $sqIds="SELECT DISTINCT prices.virtuemart_product_id ";*/
-
+        
         if($this->top_category===false){ // категория внутри секции
-            /*if($virtuemart_category_id) {
-                $common_query = "
-  FROM `#__virtuemart_products`            AS p,
-       `#__virtuemart_product_categories`  AS pc,
-       `#__virtuemart_product_prices`      AS prices
- WHERE pc.    `virtuemart_category_id` = $virtuemart_category_id
-   AND p.     `virtuemart_product_id`  = pc. `virtuemart_product_id`
-   AND prices.`virtuemart_product_id`  = pc. `virtuemart_product_id`
-   AND p.     `published` = '1'
-   AND prices.`product_price_publish_up`  < NOW()";
-                $online = 'online';
-                $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false, $online);
-                // if online
-                if((int)$topItem[$online]==(int)JRequest::getVar('Itemid')){
-                    // открытие аукциона не раньше даты публикации
-                    $squery2='
-   AND p.product_available_date >= prices.product_price_publish_up
-   AND p.auction_date_finish > NOW() '; showTestMessage('<b class="error-text">Has Itemid</b>',__FILE__, __LINE__);
-                }else{ // закрытие аукциона не раньше текущего момента;
-                    $squery2= '
-   AND prices.`product_price_publish_down`> NOW() '; showTestMessage('<b class="warning-text">No Itemid</b>',__FILE__, __LINE__);
-                }
-                $query = $sqIds.$common_query.$squery2;
-            }*/
             return AuctionStuff::getProductsInSection($virtuemart_category_id);
-
         }elseif ($this->top_category) { // ТОП-категория (секция) - онлайн/очные торги, магазин
             return AuctionStuff::getProductsInTopSection($this->top_category);
-            /*$common_query = "
-        FROM #__virtuemart_product_categories        AS cats
-        INNER JOIN #__virtuemart_category_categories AS cat_cats
-                   ON cats.virtuemart_category_id = cat_cats.category_child_id
-        INNER JOIN #__virtuemart_product_prices      AS prices
-                   ON prices.virtuemart_product_id = cats.virtuemart_product_id
-             WHERE cat_cats.category_parent_id = ".$this->top_category. "
-               AND prices.product_price_publish_up < NOW()
-               AND prices.product_price_publish_down > NOW()
-          ORDER BY prices.product_price_publish_up ";
-            $query=$sqIds.$common_query;
-            testSQL($query.$LIMIT, __FILE__, __LINE__);
-            return $db->setQuery($query.$LIMIT)->loadColumn();*/
         }/*
 
-        if(isset($query)){
-            testSQL($query.$LIMIT, __FILE__, __LINE__);
-            AuctionStuff::getProductsInSection($virtuemart_category_id);
-            return $db->setQuery($query.$LIMIT)->loadColumn();
-        }*/
         /* 	MODIFIED END	 */
 
         $app = JFactory::getApplication();
