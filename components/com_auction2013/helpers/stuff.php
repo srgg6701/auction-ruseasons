@@ -18,8 +18,10 @@ require_once JPATH_SITE.DS.'tests.php';
 class AuctionStuff{
     static $andLayout = '&layout=';
     static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
-    static $vm_category_id = '&virtuemart_category_id=';
     static $prods_value=0;
+    static private $top_cats_index_ids=NULL;        // [index]=>category_id
+    static private $top_cats_layouts_ids=NULL;      // [layout]=>category_id
+    static $vm_category_id = '&virtuemart_category_id=';
     /**
  * Добавить предмет в избранное
  * @package
@@ -70,6 +72,29 @@ class AuctionStuff{
 				//$trinityIds[0]
 			.'&Itemid='.JRequest::getVar('Itemid'));
 	}
+    /**
+    * Добавить в запрос исключение проданных/заказанных предметов
+    * @package
+    * @subpackage
+    */
+    public static function excludeSold($layout,&$q){
+        $subquery= "
+        AND p.`virtuemart_product_id` NOT IN (
+                   SELECT virtuemart_product_id
+                     FROM #__dev_";
+        // исключить предметы по состоянию
+        switch($layout){
+            case 'shop':
+                $sbq=$subquery."shop_orders ";
+                break;
+            default:
+                $sbq=$subquery."sold
+                    WHERE `section` = ";
+                $sbq.=($layout=='online')? '1':'2';
+        }
+        $q.= $sbq . ' )';
+        return true;
+    }
 /**
  * Извлечь ЧПУ-ссылку для категории из ранее сохранённого массива в сессии
  * @package
@@ -232,21 +257,29 @@ FROM `#__virtuemart_categories` AS cats
      * @subpackage
      * @return id ТОП-категории или алиас, в зависимости от типа (integer (id)/string (алиас)) @value
      */
-    public function getCategoryValue($value){ // id ТОП-категории или алиас
-        //...
+    public function getCategoryValue($value, $child=false){ // id ТОП-категории или алиас
         $db = JFactory::getDbo();
         $layout="cats.category_layout";
-        $child_category_id="cats_cats.category_parent_id";
+        $category_parent_id="cats_cats.category_parent_id";
+        $category_child_id="cats_cats.category_child_id";
         $query = "SELECT ";
-        $query.=(gettype($value)=='integer')? $layout : $child_category_id;
+        $query.=(gettype($value)=='integer'||$child)?
+            $layout : $category_parent_id;
         $query.="
       FROM #__virtuemart_category_categories AS cats_cats
 INNER JOIN #__virtuemart_categories          AS cats
-        ON cats.virtuemart_category_id = cats_cats.category_child_id
+        ON cats.virtuemart_category_id = $category_child_id
            AND ";
-        $query.=(gettype($value)=='integer')? $child_category_id : $layout;
+
+        if($child)
+            $query.=$category_child_id;
+        else
+            $query.=(gettype($value)=='integer')?
+                $category_parent_id : $layout;
+
         $query.=" = '$value' LIMIT 1";
-        //testSQL($query,__FILE__, __LINE__, true);
+        showTestMessage('value('.gettype($value).'): '.$value, __FILE__, __LINE__);
+        testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         $result = $db->loadResult();
         return $result;
@@ -393,6 +426,25 @@ FROM #__virtuemart_product_prices $where_product_id";
         return $start_bid;
     }
     /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public static function getPeriodLimits($category_alias,&$query,$published=false){
+        //...
+        if($published)
+            $query.="
+           AND p.`published` = '1'
+           AND prices.product_price_publish_up    < NOW()
+           AND prices.product_price_publish_down  > NOW() ";
+        if($category_alias!='shop')
+            $query.="
+           AND p.product_available_date           < NOW()
+           AND p.auction_date_finish              > NOW()
+           ";
+        return true;
+    }
+    /**
  * Описание
  * @package
  * @subpackage
@@ -453,9 +505,10 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
     public function getProductsInSection($category_id, $single=true, $published=true, $cnt=false){
 
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-        //$topItems = AuctionStuff::getTopCatsMenuItemIds();
-        //commonDebug(__FILE__,__LINE__,$topItems, true);
-        $category_alias=self::getCategoryValue($category_id);
+        $topItems = AuctionStuff::getTopCatsMenuItemIds();
+        commonDebug(__FILE__,__LINE__,$topItems);
+        commonDebug(__FILE__,__LINE__,'Itemid: '.JRequest::getVar('Itemid'));
+        $category_alias=self::getCategoryValue((int)$category_id, true);
         //...
         $db = JFactory::getDbo();
         $query = "SELECT ";
@@ -498,7 +551,9 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
   )
            AND cat_cats.category_child_id = pc.virtuemart_category_id ";
 
-        if($published)
+        // $query передаётся по ссылке
+        self::getPeriodLimits($category_alias,$query,$published);
+        /*if($published)
             $query.="
            AND prices.product_price_publish_up    < NOW()
            AND prices.product_price_publish_down  > NOW() ";
@@ -506,8 +561,8 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
             $query.="
            AND p.product_available_date           < NOW()
            AND p.auction_date_finish              > NOW()
-           ";
-        $query.="
+           ";*/
+        /*$query.="
            AND p.virtuemart_product_id NOT IN (
                   SELECT virtuemart_product_id
                     FROM #__dev_";
@@ -519,7 +574,11 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         }else
             $query.="shop_orders";
         $query.="
-                )
+                )";*/
+        // $query передаётся по ссылке
+        self::excludeSold($category_alias,$query);
+
+        $query.="
   ORDER BY prices.product_price_publish_up ";
 
         $db->setQuery($query . self::getPagesLimit());
@@ -536,17 +595,25 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
      * @package
      * @subpackage
      */
-    public function getProductsInTopSection($top_category_id){
+    public function getProductsInTopSection($top_category_id,$published=true){
+        $category_alias=self::getCategoryValue((int)$top_category_id);
+        showTestMessage('category_alias: '.$category_alias, __FILE__, __LINE__);
         $query = "SELECT DISTINCT prices.virtuemart_product_id
         FROM #__virtuemart_product_categories        AS cats
         INNER JOIN #__virtuemart_category_categories AS cat_cats
                    ON cats.virtuemart_category_id = cat_cats.category_child_id
         INNER JOIN #__virtuemart_product_prices      AS prices
                    ON prices.virtuemart_product_id = cats.virtuemart_product_id
-             WHERE cat_cats.category_parent_id = ".$top_category_id. "
-               AND prices.product_price_publish_up < NOW()
-               AND prices.product_price_publish_down > NOW()
-          ORDER BY prices.product_price_publish_up " . self::getPagesLimit();
+        INNER JOIN #__virtuemart_products            AS p
+                  ON prices.virtuemart_product_id = p.virtuemart_product_id
+             WHERE cat_cats.category_parent_id = ".$top_category_id;
+         // $query передаётся по ссылке
+         self::getPeriodLimits($category_alias,$query,$published);
+         // $query передаётся по ссылке
+         self::excludeSold($category_alias,$query);
+
+          $query.="
+        ORDER BY prices.product_price_publish_up " . self::getPagesLimit();
         testSQL($query, __FILE__, __LINE__);
         $ids=JFactory::getDbo()->setQuery($query)->loadColumn();
         return $ids;
@@ -713,13 +780,12 @@ WHERE p.virtuemart_product_id = ".$product_id;
 
         return true;
     }*/
-
-/**
- * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
- * @package
- * @subpackage
- */
-	public static function getTopCatsLayouts($array=NULL){
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public function getAlias($db,$array=NULL){
         $query = "SELECT ";
         if($array)
             $query.= "
@@ -737,24 +803,50 @@ FROM #__virtuemart_categories AS cats
   INNER JOIN #__menu AS menu
     ON menu.link LIKE CONCAT('%&virtuemart_category_id=',cats.virtuemart_category_id)
 WHERE cats_cats.category_parent_id = 0";
+        testSQL($query,__FILE__, __LINE__);
+        $db->setQuery($query);
+        return true;
+    }
+
+/**
+ * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
+ * @package
+ * @subpackage
+ */
+	public static function getTopCatsLayouts($array=NULL){
+        static $top_cats_full       =NULL;
+        static $top_cats_ids=NULL;
+        static $top_cats_layouts  =NULL;
+        if(!$top_cats_ids||!$top_cats_layouts||!$top_cats_full){
             $db = JFactory::getDbo();
-            $db->setQuery($query);
-        if($array){ // здесь получим ids топовых категорий
-            if($array===true) {
-                $layouts=array();
-                foreach($db->loadAssocList() as $i=>$data)
-                    $layouts[$data['virtuemart_category_id']]=$data['layout'];
-                return $layouts;
+            self::getAlias($db,$array);
+            if($array){ // здесь получим ids топовых категорий
+                if($array===true) {
+                    if (!$top_cats_full) {
+                        $top_cats_full = array();
+                        foreach ($db->loadAssocList() as $i => $data)
+                            $top_cats_full[$data['virtuemart_category_id']] = $data['layout'];
+                        commonDebug(__FILE__,__LINE__,$top_cats_full);
+                        return $top_cats_full;
+                    }
+                }
+                $top_cats_ids = $db->loadColumn();
+                commonDebug(__FILE__,__LINE__,$top_cats_ids);
+                return $top_cats_ids;
+                //}//return $db->loadColumn();
+            }elseif(!$top_cats_layouts){
+                $top_cats_layouts = $db->loadColumn();
+                commonDebug(__FILE__,__LINE__,$top_cats_layouts);
+                return $top_cats_layouts;
+            }
+        }else{
+            if($array){
+                return ($array===true)?
+                    $top_cats_full : $top_cats_ids;
             }else
-                return $db->loadColumn();
-            /*  loadAssoc[List]
-                loadObject[List]
-                loadArray
-                loadColumn
-                loadRow[List] */
-        }else
-            return $db->loadColumn();
-            //array('online','fulltime','shop');
+                return $top_cats_layouts;
+
+        } //array('online','fulltime','shop');
 	}
 /**
  * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е:
@@ -806,7 +898,7 @@ WHERE cats_cats.category_parent_id = 0";
             AND  cats.category_layout = '".$layout."'
         LIMIT 1";
 			$db->setQuery($query);
-            //testSQL($query,__FILE__,__LINE__);
+            testSQL($query,__FILE__,__LINE__);
             if($table2){
                 $ItemId=$db->loadAssoc();
                 $ItemIds[$ItemId['category_layout']]=$ItemId['id'];
