@@ -278,8 +278,8 @@ INNER JOIN #__virtuemart_categories          AS cats
                 $category_parent_id : $layout;
 
         $query.=" = '$value' LIMIT 1";
-        showTestMessage('value('.gettype($value).'): '.$value, __FILE__, __LINE__);
-        testSQL($query,__FILE__, __LINE__);
+        //showTestMessage('value('.gettype($value).'): '.$value, __FILE__, __LINE__);
+        //testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         $result = $db->loadResult();
         return $result;
@@ -506,8 +506,8 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
         $topItems = AuctionStuff::getTopCatsMenuItemIds();
-        commonDebug(__FILE__,__LINE__,$topItems);
-        commonDebug(__FILE__,__LINE__,'Itemid: '.JRequest::getVar('Itemid'));
+        //commonDebug(__FILE__,__LINE__,$topItems);
+        //commonDebug(__FILE__,__LINE__,'Itemid: '.JRequest::getVar('Itemid'));
         $category_alias=self::getCategoryValue((int)$category_id, true);
         //...
         $db = JFactory::getDbo();
@@ -549,6 +549,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         SELECT category_parent_id FROM #__virtuemart_category_categories
          WHERE category_child_id = $category_id
   )
+           AND pc.virtuemart_category_id = $category_id
            AND cat_cats.category_child_id = pc.virtuemart_category_id ";
 
         // $query передаётся по ссылке
@@ -583,11 +584,11 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 
         $db->setQuery($query . self::getPagesLimit());
 
-        testSQL($query, __FILE__, __LINE__);
+        //testSQL($query, __FILE__, __LINE__);
 
         if($cnt)  $results =$db->loadResult();
         else
-            $single ? $db->loadColumn() : $db->loadAssocList();
+            $results = $single ? $db->loadColumn() : $db->loadAssocList();
         return $results;
     }
     /**
@@ -597,7 +598,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
      */
     public function getProductsInTopSection($top_category_id,$published=true){
         $category_alias=self::getCategoryValue((int)$top_category_id);
-        showTestMessage('category_alias: '.$category_alias, __FILE__, __LINE__);
+        //showTestMessage('category_alias: '.$category_alias, __FILE__, __LINE__);
         $query = "SELECT DISTINCT prices.virtuemart_product_id
         FROM #__virtuemart_product_categories        AS cats
         INNER JOIN #__virtuemart_category_categories AS cat_cats
@@ -803,20 +804,36 @@ FROM #__virtuemart_categories AS cats
   INNER JOIN #__menu AS menu
     ON menu.link LIKE CONCAT('%&virtuemart_category_id=',cats.virtuemart_category_id)
 WHERE cats_cats.category_parent_id = 0";
-        testSQL($query,__FILE__, __LINE__);
+        //testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         return true;
     }
 
 /**
  * Извлечь Layouts разделов аукциона, чтобы разобраться с роутером и проч.
+ * Возможные варианты см. в определении статических переменных -
+ * @top_cats_full       // если получили $array==true
+ * @top_cats_ids        // если получили $array и $array!==true
+ * @top_cats_layouts    // если не получили $array
  * @package
  * @subpackage
  */
 	public static function getTopCatsLayouts($array=NULL){
-        static $top_cats_full       =NULL;
-        static $top_cats_ids=NULL;
+        static $top_cats_full     =NULL;
+        /**
+            23 =>string: shop
+            21 =>string: online
+            22 =>string: fulltime   */
+        static $top_cats_ids      =NULL;
+        /**
+            0 =>string: 23
+            1 =>string: 21
+            2 =>string: 22    */
         static $top_cats_layouts  =NULL;
+        /**
+            0 =>string: shop
+            1 =>string: online
+            2 =>string: fulltime    */
         if(!$top_cats_ids||!$top_cats_layouts||!$top_cats_full){
             $db = JFactory::getDbo();
             self::getAlias($db,$array);
@@ -826,27 +843,32 @@ WHERE cats_cats.category_parent_id = 0";
                         $top_cats_full = array();
                         foreach ($db->loadAssocList() as $i => $data)
                             $top_cats_full[$data['virtuemart_category_id']] = $data['layout'];
-                        commonDebug(__FILE__,__LINE__,$top_cats_full);
+                        //commonDebug(__FILE__,__LINE__,$top_cats_full);
                         return $top_cats_full;
                     }
+                    //else commonDebug(__FILE__,__LINE__,$top_cats_full);
                 }
                 $top_cats_ids = $db->loadColumn();
-                commonDebug(__FILE__,__LINE__,$top_cats_ids);
+                //commonDebug(__FILE__,__LINE__,$top_cats_ids);
                 return $top_cats_ids;
-                //}//return $db->loadColumn();
-            }elseif(!$top_cats_layouts){
-                $top_cats_layouts = $db->loadColumn();
-                commonDebug(__FILE__,__LINE__,$top_cats_layouts);
+            }else{
+                //showTestMessage('NO array', __FILE__, __LINE__);
+                if(!$top_cats_layouts){
+                    $top_cats_layouts = $db->loadColumn();
+                    //commonDebug(__FILE__,__LINE__,$top_cats_layouts);
+                }
                 return $top_cats_layouts;
             }
         }else{
+            //commonDebug(__FILE__,__LINE__,$top_cats_full);
+            //commonDebug(__FILE__,__LINE__,$top_cats_ids);
+            //commonDebug(__FILE__,__LINE__,$top_cats_layouts);
             if($array){
                 return ($array===true)?
                     $top_cats_full : $top_cats_ids;
             }else
                 return $top_cats_layouts;
-
-        } //array('online','fulltime','shop');
+        }
 	}
 /**
  * Получить ItemIds меню с layout-ами аукциона в Virtuemart'е:
@@ -887,6 +909,7 @@ WHERE cats_cats.category_parent_id = 0";
 		$db = JFactory::getDBO();
 		if(!$layout){
 			$layouts=AuctionStuff::getTopCatsLayouts();
+			//commonDebug(__FILE__,__LINE__,$layouts);
 		}else{
 			$layouts[0]=$layout;
 		}
@@ -898,7 +921,7 @@ WHERE cats_cats.category_parent_id = 0";
             AND  cats.category_layout = '".$layout."'
         LIMIT 1";
 			$db->setQuery($query);
-            testSQL($query,__FILE__,__LINE__);
+            //testSQL($query,__FILE__,__LINE__);
             if($table2){
                 $ItemId=$db->loadAssoc();
                 $ItemIds[$ItemId['category_layout']]=$ItemId['id'];

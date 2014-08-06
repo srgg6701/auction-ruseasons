@@ -32,7 +32,7 @@ WHERE cat_cats.category_parent_id = 0';
 ORDER BY cats.ordering'; 
 		if(!$db) 
 			$db=JFactory::getDBO();
-		$db->setQuery($query);
+		$db->setQuery($query); //testSQL($query, __FILE__, __LINE__);
 		return $db->loadAssocList(); 
 	}
 /**
@@ -41,7 +41,7 @@ ORDER BY cats.ordering';
  * @package
  * @subpackage
  */
-	public static function getCategoriesData($published=false,$db=false,$inStockOnly=true){
+	public static function getCategoriesData($published=false,$db=false/*,$inStockOnly=true*/){
         if(!self::$categories_data){
             //commonDebug(__FILE__,__LINE__,debug_print_backtrace(), true);
             if (!$db)
@@ -52,6 +52,7 @@ ORDER BY cats.ordering';
             $session->set('products_data',$prods);
             $top_cats=modVlotscatsHelper::getTopCategories($db);
             $topLayouts=AuctionStuff::getTopCatsLayouts(true);
+            //commonDebug(__FILE__,__LINE__,$topLayouts);
             /**
             [23]=> "shop"
             [21]=> "online"
@@ -72,13 +73,13 @@ ORDER BY cats.ordering';
               */
             // добавить подзапрос извлечения предметов с подходящим периодом публикации:
             $table = '';
-            $subquery = '';
+            /*$subquery = '';
             if($published){
                 $subquery = "
                AND prices.product_price_publish_up < NOW() ";
-            }
+            }*/
             // исключить предметы магазина, на покупку которых были поданы заявки
-            $subquery.= "
+            $subquery= "
                AND p.`virtuemart_product_id` NOT IN (
                    SELECT virtuemart_product_id
                      FROM #__dev_";
@@ -97,7 +98,7 @@ ORDER BY cats.ordering';
 
              $query.='
              WHERE pc.`virtuemart_category_id` = cats.virtuemart_category_id ';
-            if($published){
+            /*if($published){
                 $query.='
                AND p.`published` = "1"';
                 $pub='
@@ -107,7 +108,7 @@ ORDER BY cats.ordering';
             }
             if($inStockOnly)
                 $query.='
-               AND p.`product_in_stock` > 0';
+               AND p.`product_in_stock` > 0';*/
 
             $queryEnd = '
         ) AS "product_count"
@@ -120,7 +121,8 @@ ORDER BY cats.ordering';
 
             $order='
   ORDER BY cat_cats.category_parent_id,cats.ordering';
-
+            // include_once JPATH_SITE.DS.'tests.php';
+            //commonDebug(__FILE__,__LINE__,$top_cats);
             foreach($top_cats as $i=>$top_cat){
                 /**
                 $top_cat:
@@ -132,19 +134,26 @@ ORDER BY cats.ordering';
                 $prods[$layout]=array();
 
                 $q = $query;
+
+                // $query передаётся по ссылке
+                AuctionStuff::getPeriodLimits($layout,$q,$published);
+                /*AND prices.product_price_publish_up    < NOW()
+                AND prices.product_price_publish_down  > NOW()
+                AND p.product_available_date           < NOW()
+                AND p.auction_date_finish              > NOW()*/
                 /**
                 если не магазин - проверить даты выставления на аукцион -
                 чтобы были таки внутри дат публикации */
-                if($layout!='shop'){
-                    /* если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))*/
+                /*if($layout!='shop'){
+                    // если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))
                     if($published!==NULL )
                         $q.='
                AND p.product_available_date >= prices.product_price_publish_up
                AND p.auction_date_finish > NOW()';
                 }else $q.='
-               AND prices.product_price_publish_down > NOW()';
+               AND prices.product_price_publish_down > NOW()';*/
                 // исключить предметы по состоянию
-                switch($layout){
+                /*switch($layout){
                     case 'shop':
                         $sbq=$subquery."shop_orders ";
                         break;
@@ -153,16 +162,19 @@ ORDER BY cats.ordering';
                     WHERE `section` = ";
                         $sbq.=($layout=='online')? '1':'2';
                 }
-                $q.= $sbq . ' )' . $queryEnd .
-                    $top_cat['virtuemart_category_id'] .
-                    $pub .
-                    $order;
-
-                testSQL($q,__FILE__,__LINE__);
-                if($layout=='shop') {
+                $q.= $sbq . ' )'*/
+                // $q передаётся по ссылке
+                AuctionStuff::excludeSold($layout,$q);
+                $q.=$queryEnd .
+                $top_cat['virtuemart_category_id'] .
+                //$pub .
+                $order;
+                //showTestMessage('layout: '.$layout,__FILE__, __LINE__);
+                //testSQL($q,__FILE__,__LINE__);
+                /*if($layout=='shop') {
                     commonDebugBacktrace(__FILE__,__LINE__);
                     //die('line: '.__LINE__);
-                }
+                }*/
 
                 $db->setQuery($q);
                 $children=$db->loadAssocList();

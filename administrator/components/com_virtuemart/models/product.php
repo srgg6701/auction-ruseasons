@@ -204,12 +204,14 @@ class VirtueMartModelProduct extends VmModel {
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
         require_once JPATH_SITE.DS.'components/com_auction2013/helpers\stuff.php';
-        
+
         if($this->top_category===false){ // категория внутри секции
+            //showTestMessage("top_category: false", __FILE__, __LINE__);
             return AuctionStuff::getProductsInSection($virtuemart_category_id);
         }elseif ($this->top_category) { // ТОП-категория (секция) - онлайн/очные торги, магазин
+            //showTestMessage('top_category: '.$this->top_category, __FILE__, __LINE__);
             return AuctionStuff::getProductsInTopSection($this->top_category);
-        }/*
+        }//else showTestMessage('top_category: '.$this->top_category, __FILE__, __LINE__);/*
 
         /* 	MODIFIED END	 */
 
@@ -1221,10 +1223,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
      * @return array containing product objects
      */
     public function getProductsInCategory($categoryId) {
-        //echo "<div><b>file:</b> " . __FILE__ . "<br>line: <span style='color:green'>" . __LINE__ . "</span></div>";
-        //echo "<div>categoryId = ".$categoryId."</div>"; die();
         $ids = $this->sortSearchListQuery(TRUE, $categoryId);
-        // include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$ids, true);
         $this->products = $this->getProducts($ids);
         //var_dump("<pre>",$this->products,"</pre>"); die(__FILE__);
@@ -1311,7 +1310,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
                             $withCalc = TRUE,
                             $onlyPublished = TRUE,
                             $single = FALSE ) {
-
+        //commonDebug(__FILE__,__LINE__,$productIds);
+        //commonDebugBacktrace(__FILE__,__LINE__);
         if (empty($productIds)) {
             // 			vmdebug('getProducts has no $productIds','No ids given to get products');
             // 			vmTrace('getProducts has no $productIds');
@@ -1336,6 +1336,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             }
         } else {
             $i = 0;
+            //commonDebug(__FILE__,__LINE__,$productIds);
             foreach ($productIds as $id) {
                 $product = $this->getProduct((int) $id, $front, $withCalc, $onlyPublished);
                 //commonDebug(__FILE__,__LINE__,$product->prices);
