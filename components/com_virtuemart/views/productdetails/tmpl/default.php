@@ -23,6 +23,11 @@ defined('_JEXEC') or die('Restricted access');
 //if(JRequest::getVar('show_id')) echo "<h4>product_id = ".$this->product->virtuemart_product_id."</h4>";
 //commonDebug(__FILE__,__LINE__,$this->product, true);
 $Itemid = JRequest::getVar('Itemid');
+
+$path = JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
+//die('path: '.$path);
+require_once $path;
+
 $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false);
 //commonDebug(__FILE__, __LINE__, key($topItem));
 //commonDebug(__FILE__, __LINE__, $topItem, true);

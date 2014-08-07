@@ -23,38 +23,39 @@ function testLinks($category_link,$line, $shop=false){
     echo "</div>";
 }
 
-$session_links=AuctionStuff::handleSessionCategoriesData();
-//commonDebug(__FILE__,__LINE__,$session_links); 
+$session_links=AuctionStuff::getSessionCategoriesLinks();
 $router = $app->getRouter();
-if ($SefMode = $router->getMode()) {
-    $menu = JFactory::getApplication()->getMenu();
-    $menus = $menu->getMenu();
-    // Не получим virtuemart_category_id в режиме ЧПУ при загрузке профайла предмета. Используем другой способ извлечения...
-    if (!$loaded_category_id = JRequest::getVar('virtuemart_category_id')) {
-        /* array
-          'Itemid' => string '115' (length=3)
-          'option' => string 'com_virtuemart' (length=14)
-          'limitstart' => int 0
-          'limit' => string 'int' (length=3)
-          'view' => string 'productdetails' (length=14)
-          'virtuemart_product_id' => string '551' (length=3)
-          'virtuemart_category_id' => int 0 */
-        $loaded_category_id = AuctionStuff::getCategoryIdByProductId(JRequest::getVar('virtuemart_product_id')); // 9
-    }
-    // алиас ТОП-категории - если есть, значит внутри какой-либо из них (или во вложенной)
-    $top_layout = $menus[JRequest::getVar('Itemid')]->query['layout'];
-    //commonDebug(__FILE__, __LINE__, $top_layout);
-}   //commonDebug(__FILE__, __LINE__, JRequest::getVar('option'), false);
-
-foreach ($session_links as $layout => $data):
-    //commonDebug(__FILE__, __LINE__, $layout);
-    //commonDebug(__FILE__, __LINE__, $session_links);
-    /** 
+$Itemid=JRequest::getVar('Itemid');
+$menus = JFactory::getApplication()->getMenu()->getMenu();
+$parent_category_id=$menus[$Itemid]->query['virtuemart_category_id'];
+$loaded_category_id = JRequest::getVar('virtuemart_category_id');
+$SefMode = $router->getMode();
+/*
+ id =>string: 125
+menutype =>string: mainmenu
+title =>string: Онлайн торги
+alias =>string: онлайн-торги
+route =>string: аукцион/онлайн-торги
+link =>string: index.php?option=com_virtuemart&view=category&layout=online&virtuemart_category_id=21
+level =>string: 2
+parent_id =>string: 113
+tree => [array]
+0 =>string: 113
+1 =>string: 125
+query => [array]
+    option =>string: com_virtuemart
+    view =>string: category
+    layout =>string: online
+    virtuemart_category_id =>string: 21 */
+//commonDebug(__FILE__, __LINE__, $session_links);
+commonDebug(__FILE__, __LINE__, array($loaded_category_id,$parent_category_id));
+foreach ($session_links as $data):
+    /**
      * Отобразить все категории, если не выбрана ни одна из них (включая ТОП)
      * или только текущую ТОП-овую. */
-    if(!$top_layout
-       || $top_layout==$layout
-       || JRequest::getVar('option')=='com_users'
+    if(!( $loaded_category_id&&$parent_category_id
+          && ($loaded_category_id!=$parent_category_id )
+        ) || $data['top_category_id']==$parent_category_id
       ):
         /*if ($test):?>
             <div title="<?php echo $top_category_link; ?>">
@@ -71,7 +72,7 @@ foreach ($session_links as $layout => $data):
     <ul>
     <?php   //commonDebug(__FILE__, __LINE__, $data['child_links']);
         foreach ($data['child_links'] as $category_id => $category_data):
-            //commonDebug(__FILE__, __LINE__, $category_data);
+            //commonDebug(__FILE__, __LINE__, array('sef'=>$category_data['sef'],'link'=>$category_data['link']));
             /**
                 ["category_name"]=> "Русская живопись"
                 ["link"]=> "index.php?option=com_virtuemart&view=category&Itemid=125&virtuemart_category_id=31"
@@ -79,15 +80,15 @@ foreach ($session_links as $layout => $data):
                 ["product_count"]=> "0"
          */?>
         <li><a <?php 
-            
+                // родительская категория
                 if ($loaded_category_id && $loaded_category_id == $category_id):
                     ?> style="color:brown;"<?php
                 endif;
                 ?> href="<?php 
                 // ссылка
-                echo ($SefMode)? 
-                        JRoute::_($category_data['sef'])
-                        : JRoute::_($category_data['link']);?>"><?php 
+                echo ($SefMode)?
+                        $category_data['sef']
+                        :   $category_data['link'];?>"><?php
                 // имя категории
                 echo $category_data['category_name'];
                     ?><?php

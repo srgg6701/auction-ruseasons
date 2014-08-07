@@ -90,7 +90,7 @@ if (!empty($this->products)) {
 	// array => object
 	foreach($this->products as $i=>$product){
 		// if SEF has been switched off, returns just the same as gets:
-		$product->link=HTML::setDetailedLink($product,'shop');?>
+		//$product->link=HTML::setDetailedLink($product,'shop');?>
 <div class="box">
   <div class="img">
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>&nbsp;</a>

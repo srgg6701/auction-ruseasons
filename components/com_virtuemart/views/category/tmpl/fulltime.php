@@ -71,7 +71,7 @@ if (!empty($this->products)) {?>
 <?php // array => object
 	foreach($this->products as $i=>$product){
 		// if SEF has been switched off, returns just the same as gets:
-		$product->link=HTML::setDetailedLink($product,'fulltime');?>
+		//$product->link=HTML::setDetailedLink($product,'fulltime');?>
 		<tr>
         	<td class="box">
             	<div class="img">

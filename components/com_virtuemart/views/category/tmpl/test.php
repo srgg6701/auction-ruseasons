@@ -160,7 +160,7 @@ endif;
 $two="two";
 $arr = array($one,$two);
 echo implode(", ", $arr);*/
-?>
+echo "doc_root: ".$_SERVER['DOCUMENT_ROOT']."<BR>path: ".JPATH_SITE; ?>
 <a class="test-message block" href="?option=com_auction2013&task=auction2013.checkActiveAuctions">Проверить активные аукционы</a>
 <a class="test-message block" href="?option=com_auction2013&task=auction2013.sendNotifyOnAuctionClose">Проверить закрытые торги, разослать уведомления</a>
 <?php

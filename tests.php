@@ -75,7 +75,9 @@ function commonDebugBacktrace($file,$line,$class=''){
     $dbpb=ob_get_contents();
     ob_end_clean();
     $dbpb=str_replace(JPATH_SITE,'',$dbpb);
-    $dbpb=str_replace(" called at ","<br/><span style='background-color:yellow'> called at </span>",$dbpb);
+    $dbpb=str_replace('[',' <span style="color: blue">',$dbpb);
+    $dbpb=str_replace(']','</span>',$dbpb);
+    $dbpb=str_replace(" called at ","<br/><span style='background-color:#D1E8FF'> called at </span>",$dbpb);
     setBlock($dbpb,'trace',$class, 'lightyellow');
 }
 

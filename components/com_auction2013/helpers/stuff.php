@@ -102,7 +102,7 @@ class AuctionStuff{
  */
 	public static function extractCategoryLinkFromSession($virtuemart_category_id,$links=false){
 		// todo: разобраться в целесообразности...
-        $links = self::handleSessionCategoriesData();
+        $links = self::getSessionCategoriesLinks();
         //commonDebug(__FILE__, __LINE__, $links, true);
         foreach($links as $layout=>$data){
             // если таки есть категория с таким id
@@ -1099,7 +1099,7 @@ WHERE cats_cats.category_parent_id = 0";
 /**
  * Проверить наличие ранее сохранённых ссылок в сессии - извлечь или создать
  */
-    public static function handleSessionCategoriesData($file=false, $line=false){
+    public static function getSessionCategoriesLinks($file=false, $line=false){
         static $cntr=1;
 
         $test=false;
@@ -1118,10 +1118,8 @@ WHERE cats_cats.category_parent_id = 0";
          * повторно на случай, если метод будет вызыван снова (если потребуется
          * получить ссылки ещё раз).
          */
-        $force_show = true; // todo: присвоить false
+        $force_show = false; // todo: присвоить false
         if($cntr==1||$force_show){
-            //echo "<div>cntr=$cntr<b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div>";
-            $section_links = array(); // todo: разобраться с неиспользуемым ЗДЕСЬ параметром
             $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
             require_once JPATH_BASE.'/modules/mod_vlotscats/helper.php';
             $lots = modVlotscatsHelper::getCategoriesData(true);
@@ -1147,7 +1145,7 @@ WHERE cats_cats.category_parent_id = 0";
                 $section_links[$top_alias] = array(
                                                 'top_category_id'=>$top_cat_id,
                                                 'category_name'=>$array['top_category_name'],
-                                                'parent_link'=>$common_link .'0',
+                                                'parent_link'=>$common_link .$top_cat_id,
                                                 'product_count'=>$products_count,
                                                 // index.php?option=com_virtuemart&view=category&Itemid=115&layout=shop&&virtuemart_category_id=0
                                                 'child_links'=>array() );
@@ -1323,10 +1321,10 @@ class HTML{
 		$category_id=JRequest::getVar('virtuemart_category_id');
         $session=&JFactory::getSession();
         // todo: убрать лишнее
-        $sections_data=//AuctionStuff::handleSessionCategoriesData();
+        $sections_data=//AuctionStuff::getSessionCategoriesLinks();
             $session->get('section_links');
-        //commonDebug(__FILE__, __LINE__, $sections_data);
         $category_data=$sections_data[$layout];
+        //commonDebug(__FILE__, __LINE__, $category_data);
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
         //commonDebug(__FILE__,__LINE__,$layout);
         //commonDebug(__FILE__, __LINE__, $category_data);
@@ -1336,7 +1334,7 @@ class HTML{
     <h2><div class="weak"><?php
         $lots = ($layout=='shop')? "Предметов":"Лотов";
         // раздел вложенной категории
-        if($category_data['top_category_id']!=$category_id){
+        if($category_data['top_category_id']!=(int)$category_id){
 			$category_data = $category_data['child_links'][$category_id];
             ?><span style="color:#456;"><?php
                 echo $category_data['category_name'];
@@ -1355,19 +1353,16 @@ class HTML{
     </h2>
 <?php HTML::setCommonInnerMenu(array('user','take_lot'));?>
 </div>
-<?php $arrMenus=self::setBaseLink($layout);//
-		//commonDebug(__FILE__,__LINE__,$layout);
-        //commonDebug(__FILE__,__LINE__,$arrMenus);
-		HTML::setVmPagination($layout,$arrMenus['base']);//,true
+<?php HTML::setVmPagination($layout);//,true
 	}
-
+    // todo: удалить
     /**
      * Описание
      * @package
      * @subpackage
      * layout = shop | fulltime | online
      */
-    public static function setBaseLink($layout){
+    /*public static function setBaseLink($layout){
         $category_id=JRequest::getVar('virtuemart_category_id');
         $Itemid=JRequest::getVar('Itemid');
         //showTestMessage('category_id: '.$category_id.', Itemid: '.$Itemid, __FILE__, __LINE__);
@@ -1377,28 +1372,42 @@ class HTML{
         $session=&JFactory::getSession();
         //$user=&JFactory::getUser(); // todo: разобраться с неиспользуемым параметром
         $links=$session->get('section_links');
-        //commonDebug(__FILE__,__LINE__,S$links);
-        $app::$test=true;
+        commonDebug(__FILE__,__LINE__,$links);
+        //$app::$test=true;
         $router = $app->getRouter();
         //commonDebug(__FILE__,__LINE__,$router, false, 1);
         //showTestMessage('router mode: '.$router->getMode(),__FILE__, __LINE__);
-        $app::$test=false;
+        //$app::$test=false;
         if($SefMode=$router->getMode()){
-            //showTestMessage('<h3>router mode: '.$router->getMode() .'</h3>',__FILE__, __LINE__);
-            $ItemIds=AuctionStuff::getTopCatsMenuItemIds();
-            //commonDebug(__FILE__,__LINE__,$ItemIds);
-            if(!in_array($Itemid,$ItemIds)){
-                $detail_link['base']=$links[$layout][$category_id];
-            }else{
+            //$detail_link['base']=JUri::root().$menus[$Itemid]->$top_alias;
+            //echo "<div>\$detail_link['base']: ".$detail_link['base']."</div>";
+            if($links[$layout]['top_category_id']===(int)$category_id){
                 $menu = $app->getMenu();
                 $menus = $menu->getMenu();
                 $top_alias=($layout!='shop')? 'route':'alias';
-                $detail_link['base']=JUri::root().$menus[$Itemid]->$top_alias;
-                $detail_link['top']=true;
+                //$detail_link['top']=true;
+                return JUri::base().$menus[$Itemid]->$top_alias;
+            }else{
+                //commonDebug(__FILE__,__LINE__,$_SERVER);
+                $arr_link=explode("/",$links[$layout]['child_links'][(int)$category_id]['sef']);
+                array_shift($arr_link);
+                array_shift($arr_link);
+                $link=implode("/",$arr_link);
+                //commonDebug(__FILE__,__LINE__,array(JURI::base(), JUri::root()));
+                echo "<h4>Внутренняя категория</h4>sef:";
+                echo JUri::base().$link;
+                return JUri::base().$link;
+            }
+            //showTestMessage('<h3>router mode: '.$router->getMode() .'</h3>',__FILE__, __LINE__);
+            $ItemIds=AuctionStuff::getTopCatsMenuItemIds();
+            //commonDebug(__FILE__,__LINE__,$ItemIds);
+
+            if(!in_array($Itemid,$ItemIds)){
+                $detail_link['base']=$links[$layout][$category_id];
             }
             return $detail_link;
         }else return false;
-    }
+    }*/
 /**
  * Описание
  * @package
@@ -1432,12 +1441,13 @@ class HTML{
     </div>
 <?php   //commonDebug(__FILE__, __LINE__, $prop_link.", ".$ask_link.", ".$cab_link, true);
     }
+    // todo: удалить
 /**
  * Построить правильную ссылку
  * @package
  * @subpackage
  */
-	public static function setDetailedLink($product,$layout){
+	/*public static function setDetailedLink($product,$layout){
 		$detail_link=HTML::setBaseLink($layout);
 		if (is_array($detail_link)){
 			$product->link=$detail_link['base'].'/';
@@ -1446,24 +1456,26 @@ class HTML{
 			$product->link.=$product->slug.'-detail';
 		}
 		return $product->link;
-	}
+	}*/
 
 /**
  * Описание
  * @package
  * @subpackage
  */
-	public static function setVmPagination(
-                                $layout=false,$link = false //, $pagination = false
-							){
+	public static function setVmPagination($layout=false){
 							//commonDebug(__FILE__,__LINE__,$link);?>
 <div class="lots_listing">
 	<?php
-    if(!$layout) $layout=JRequest::getVar('layout');
+	//commonDebug(__FILE__,__LINE__,array($layout,$link),false,false,true);
+    if(!$layout) {
+        static $layout;
+        $layout=JRequest::getVar('layout');
+    }
     echo($layout=='shop')? "Предметов":"Лотов"?> на странице:
     <?php $router = JFactory::getApplication()->getRouter();
 		// $name = site; \libraries\joomla\application\application.php: 912
-        static $lnk;
+        /*static $lnk;
 		static $pages;
 		if($link)
 			$lnk=$link;
@@ -1482,7 +1494,7 @@ class HTML{
 				//echo "<div class=''>lnk= ".$lnk."</div>";
 				//option=com_virtuemart&view=category&virtuemart_category_id=6&Itemid=115&layout=shop
 			}
-		}
+		}*/
         $session = JFactory::getSession();
         $arrLimits=array(15,30,60);
         $Itemid = JRequest::getVar('Itemid'); // 126
@@ -1490,12 +1502,25 @@ class HTML{
         //commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
         //showTestMessage("prods_value: ".AuctionStuff::$prods_value,__FILE__,__LINE__,'red');
         //
+        $str_page_limit = "pages_limit=";
+        $common_link = JUri::current();
+        commonDebug(__FILE__,__LINE__,$common_link);
+        if(!$router->getMode()){
+            $common_link.="index.php?".JURI::getInstance()->getQuery();
+            //commonDebug(__FILE__,__LINE__,JURI::getInstance()->getQuery());
+        }
+        if(!JRequest::getVar('pages_limit')){
+            $common_link.=($router->getMode())? "/?":"&";
+        }else{
+            $arr_common_link=explode($str_page_limit,$common_link);
+            $common_link=$arr_common_link[0];
+            if($router->getMode()) $common_link.="?";
+            //commonDebug(__FILE__,__LINE__,$arr_common_link);
+        }
+        //commonDebug(__FILE__,__LINE__,$common_link);
         foreach($arrLimits as $i=>$limit){?>
-<a href="<?php
-            if($router->getMode())
-                echo $lnk.'/?pages_limit='.$limit;
-            else
-                echo JRoute::_($lnk.'&pages_limit='.$limit);
+        <a href="<?php
+            echo JRoute::_($common_link.$str_page_limit.$limit);
             ?>"<?php
             $pages_limit=$session->get('pages_limit');
             if($limit==$pages_limit[$Itemid])
