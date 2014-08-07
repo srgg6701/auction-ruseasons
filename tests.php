@@ -7,7 +7,7 @@
  * Вывести состав объекта. 4-й аргумент - остановка выполнения скрипта
  */
 define('dblclck', " title='dblclick' ondblclick='this.getElementsByTagName(\"div\")[0].style.display=(this.getElementsByTagName(\"div\")[0].style.display==\"none\")? \"block\":\"none\"'");
-function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
+function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true, $backtrace=false){
     ?>
     <div class='test-box first'>
         <div>file: <?=str_replace(JPATH_SITE,'',$file)?></div>
@@ -59,7 +59,9 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true){
             <pre><?php var_dump($obj);?></pre><?
         }?>
     </div>
-<?php   if($stop) die('<hr><div><b>stopped</b></div>');
+<?php
+    if($backtrace) commonDebugBacktrace($file,$line);
+    if($stop) die('<hr><div><b>stopped</b></div>');
 }
 /**
  * Комментарий
@@ -72,6 +74,8 @@ function commonDebugBacktrace($file,$line,$class=''){
     debug_print_backtrace();
     $dbpb=ob_get_contents();
     ob_end_clean();
+    $dbpb=str_replace(JPATH_SITE,'',$dbpb);
+    $dbpb=str_replace(" called at ","<br/><span style='background-color:yellow'> called at </span>",$dbpb);
     setBlock($dbpb,'trace',$class, 'lightyellow');
 }
 
@@ -110,7 +114,7 @@ function testSQL($query,$file=false,$line=false,$stop=false,$class='test'){
  * @subpackage
  */
 function setBlock($string,$header,$class, $background='rgb(254, 239, 242)'){
-    echo "<div class='$class' style='padding:10px; border:solid 1px #ccc; border-radius:4px; background-color:$background; display: inline-block; margin-bottom:20px;' ".dblclck.">
+    echo "<div class='$class' style='padding:10px; border:solid 1px #ccc; border-radius:4px; background-color:$background; margin-bottom:20px; overflow:auto;' ".dblclck.">
             <b>".$header.":</b>
             <div style='display:none'>
                 <pre>".$string."</pre>
