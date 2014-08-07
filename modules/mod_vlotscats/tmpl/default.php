@@ -48,7 +48,7 @@ query => [array]
     layout =>string: online
     virtuemart_category_id =>string: 21 */
 //commonDebug(__FILE__, __LINE__, $session_links);
-commonDebug(__FILE__, __LINE__, array($loaded_category_id,$parent_category_id));
+//commonDebug(__FILE__, __LINE__, array($loaded_category_id,$parent_category_id));
 foreach ($session_links as $data):
     /**
      * Отобразить все категории, если не выбрана ни одна из них (включая ТОП)

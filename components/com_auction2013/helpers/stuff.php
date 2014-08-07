@@ -1504,7 +1504,7 @@ class HTML{
         //
         $str_page_limit = "pages_limit=";
         $common_link = JUri::current();
-        commonDebug(__FILE__,__LINE__,$common_link);
+        //commonDebug(__FILE__,__LINE__,$common_link);
         if(!$router->getMode()){
             $common_link.="index.php?".JURI::getInstance()->getQuery();
             //commonDebug(__FILE__,__LINE__,JURI::getInstance()->getQuery());
