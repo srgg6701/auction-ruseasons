@@ -21,7 +21,7 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true, $bac
         }else{?>
             <div class="error-text">Объект не получен...</div>
     <?  }
-        function loop($obj,$is_obj=false){
+        $loop = function($obj,$is_obj=false)use(&$loop){
             if(is_object($obj)||is_array($obj)){
                 if(!$is_obj) echo '<span class="link">[dblclick]</span>';
                 ?>
@@ -43,7 +43,7 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true, $bac
                     </span>
                     <?php   $is_obj=true;
                     }
-                    loop($val,$is_obj);?>
+                    $loop($val,$is_obj);?>
                 <br/>
                 <?php
                 }?>
@@ -55,7 +55,7 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true, $bac
             }
             return $key;
         };
-        if(!$key=loop($obj)){?>
+        if(!$key=$loop($obj)){?>
             <pre><?php var_dump($obj);?></pre><?
         }?>
     </div>

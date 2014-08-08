@@ -30,4 +30,7 @@
 <file name="userfields.php" server="I:/auction-ruseasons/" local="130419717458850000" remote="130419717460000000" Dst="0" />
 <file name="usergroups.php" server="I:/auction-ruseasons/" local="130419717458870000" remote="130419717460000000" Dst="0" />
 <file name="virtuemart.php" server="I:/auction-ruseasons/" local="130481764244520000" remote="130481764260000000" Dst="0" />
+<file name="orders_shop.php" server="77.222.40.220//2013/public_html/" local="130516190542240000" remote="130519776000000000" Dst="0" />
+<file name="product.php" server="77.222.40.220//2013/public_html/" local="130516190542590000" remote="130519776000000000" Dst="0" />
+<file name="virtuemart.php" server="77.222.40.220//2013/public_html/" local="130516190542830000" remote="130519776000000000" Dst="0" />
 </dwsync>

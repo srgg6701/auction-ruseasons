@@ -27,4 +27,11 @@
 <file name="vmtabledata.php" server="I:/auction-ruseasons/" local="130419717459390000" remote="130419717460000000" Dst="0" />
 <file name="vmtablexarray.php" server="I:/auction-ruseasons/" local="130419717459390000" remote="130419717460000000" Dst="0" />
 <file name="vmview.php" server="I:/auction-ruseasons/" local="130419717459400000" remote="130419717460000000" Dst="0" />
+<file name="adminui.php" server="77.222.40.220//2013/public_html/" local="130516190543090000" remote="130519776000000000" Dst="0" />
+<file name="calculationh.php" server="77.222.40.220//2013/public_html/" local="130516190543590000" remote="130519776000000000" Dst="0" />
+<file name="config.php" server="77.222.40.220//2013/public_html/" local="130516190544230000" remote="130519776000000000" Dst="0" />
+<file name="currencydisplay.php" server="77.222.40.220//2013/public_html/" local="130516190544600000" remote="130519776000000000" Dst="0" />
+<file name="vmcontroller.php" server="77.222.40.220//2013/public_html/" local="130516190544910000" remote="130519776000000000" Dst="0" />
+<file name="vmmodel.php" server="77.222.40.220//2013/public_html/" local="130516190545310000" remote="130519776000000000" Dst="0" />
+<file name="vmtable.php" server="77.222.40.220//2013/public_html/" local="130516190545400000" remote="130519776000000000" Dst="0" />
 </dwsync>

@@ -203,7 +203,7 @@ class VirtueMartModelProduct extends VmModel {
         при запросе с frontend'а должно быть присвоено значение -
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
-        require_once JPATH_SITE.DS.'components/com_auction2013/helpers\stuff.php';
+        require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 
         if($this->top_category===false){ // категория внутри секции
             //showTestMessage("top_category: false", __FILE__, __LINE__);

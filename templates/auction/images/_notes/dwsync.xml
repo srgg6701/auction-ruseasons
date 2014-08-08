@@ -10,4 +10,7 @@
 <file name="logo_text.png" server="I:/auction-ruseasons/" local="130419717848810000" remote="130419717860000000" Dst="0" />
 <file name="menu_bg.png" server="I:/auction-ruseasons/" local="130419717848820000" remote="130419717860000000" Dst="0" />
 <file name="top_image.jpg" server="I:/auction-ruseasons/" local="130419717848840000" remote="130419717860000000" Dst="0" />
+<file name="auction_hammer_gavel.png" server="77.222.40.220//2013/public_html/" local="130516190747430000" remote="130519777200000000" Dst="0" />
+<file name="auction_hammer_gavel_big.png" server="77.222.40.220//2013/public_html/" local="130516190747540000" remote="130519777200000000" Dst="0" />
+<file name="lock.png" server="77.222.40.220//2013/public_html/" local="130516190747580000" remote="130519777200000000" Dst="0" />
 </dwsync>

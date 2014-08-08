@@ -32,4 +32,7 @@
 <file name="virtuemart.php" server="I:/auction-ruseasons/" local="130419717461480000" remote="130419717480000000" Dst="0" />
 <file name="waitinglist.php" server="I:/auction-ruseasons/" local="130419717461490000" remote="130419717480000000" Dst="0" />
 <file name="worldzones.php" server="I:/auction-ruseasons/" local="130419717461490000" remote="130419717480000000" Dst="0" />
+<file name="orders.php" server="77.222.40.220//2013/public_html/" local="130516190546960000" remote="130519776000000000" Dst="0" />
+<file name="orders_shop.php" server="77.222.40.220//2013/public_html/" local="130516190547050000" remote="130519776000000000" Dst="0" />
+<file name="product.php" server="77.222.40.220//2013/public_html/" local="130519814351572000" remote="130519814400000000" Dst="0" />
 </dwsync>
