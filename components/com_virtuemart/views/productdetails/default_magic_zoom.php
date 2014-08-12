@@ -22,7 +22,7 @@
                     $file_preview_url='preview/'.array_pop($arr_file_preview);
                     $arr_file_preview[]=$file_preview_url;
                     $file_preview_url=implode("/",$arr_file_preview);
-                    commonDebug(__FILE__,__LINE__,array('file_url'=>$stuff->file_url, 'file_preview_url'=>$file_preview_url, 'file_url_thumb'=> $stuff->file_url_thumb));?>
+                    //commonDebug(__FILE__,__LINE__,array('file_url'=>$stuff->file_url, 'file_preview_url'=>$file_preview_url, 'file_url_thumb'=> $stuff->file_url_thumb));?>
                     <div class="th_imgage">
                         <div class="inside_image_preview">
                             <a href="<?php

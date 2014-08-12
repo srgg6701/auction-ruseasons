@@ -58,10 +58,11 @@ class VirtuemartViewCategory extends VmView {
 		$categoryModel = VmModel::getModel('category');
         // VirtueMartModelProduct
         $productModel = VmModel::getModel('product');
-        // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$productModel, true);
+        //commonDebug(__FILE__,__LINE__,$productModel);
 		$categoryId = JRequest::getInt('virtuemart_category_id', false);
-		$vendorId = 1;
+        //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
+        //commonDebug(__FILE__,__LINE__,'category_id = '.$categoryId, true);
+        $vendorId = 1;
 		$category = $categoryModel->getCategory($categoryId);
 		$categoryModel->addImages($category,1);
 		$perRow = empty($category->products_per_row)? VmConfig::get('products_per_row',3):$category->products_per_row;
@@ -180,13 +181,8 @@ class VirtuemartViewCategory extends VmView {
 
         /*	MODIFIED END	*/
 		// Load the products in the given category
-        // include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$categoryId, true);
         $products = $productModel->getProductsInCategory($categoryId);
-        //$session=JFactory::getSession();
-        //$session->clear('vmcart', null, 'vm');
-        //$session->set('vmcart', null, 'vm');
-        //commonDebug(__FILE__, __LINE__, unserialize($session->get('vmcart', null, 'vm')), true);
         //commonDebug(__FILE__, __LINE__, $products, true);
 
         $productModel->addImages($products,1);

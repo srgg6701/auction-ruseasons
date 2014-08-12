@@ -121,7 +121,6 @@ ORDER BY cats.ordering';
 
             $order='
   ORDER BY cat_cats.category_parent_id,cats.ordering';
-            // include_once JPATH_SITE.DS.'tests.php';
             //commonDebug(__FILE__,__LINE__,$top_cats);
             foreach($top_cats as $i=>$top_cat){
                 /**
@@ -132,37 +131,9 @@ ORDER BY cats.ordering';
                  */
                 $layout = $topLayouts[$top_cat['virtuemart_category_id']];
                 $prods[$layout]=array();
-
                 $q = $query;
-
                 // $query передаётся по ссылке
                 AuctionStuff::getPeriodLimits($layout,$q,$published);
-                /*AND prices.product_price_publish_up    < NOW()
-                AND prices.product_price_publish_down  > NOW()
-                AND p.product_available_date           < NOW()
-                AND p.auction_date_finish              > NOW()*/
-                /**
-                если не магазин - проверить даты выставления на аукцион -
-                чтобы были таки внутри дат публикации */
-                /*if($layout!='shop'){
-                    // если вызывается из админки (раздел Аукцион/(Импорт|Очистка_таблиц_предметов))
-                    if($published!==NULL )
-                        $q.='
-               AND p.product_available_date >= prices.product_price_publish_up
-               AND p.auction_date_finish > NOW()';
-                }else $q.='
-               AND prices.product_price_publish_down > NOW()';*/
-                // исключить предметы по состоянию
-                /*switch($layout){
-                    case 'shop':
-                        $sbq=$subquery."shop_orders ";
-                        break;
-                    default:
-                        $sbq=$subquery."sold
-                    WHERE `section` = ";
-                        $sbq.=($layout=='online')? '1':'2';
-                }
-                $q.= $sbq . ' )'*/
                 // $q передаётся по ссылке
                 AuctionStuff::excludeSold($layout,$q);
                 $q.=$queryEnd .

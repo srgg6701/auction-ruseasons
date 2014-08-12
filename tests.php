@@ -7,12 +7,61 @@
  * Вывести состав объекта. 4-й аргумент - остановка выполнения скрипта
  */
 define('dblclck', " title='dblclick' ondblclick='this.getElementsByTagName(\"div\")[0].style.display=(this.getElementsByTagName(\"div\")[0].style.display==\"none\")? \"block\":\"none\"'");
-function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true, $backtrace=false){
+// рекурсивная функция для вывода контента объектов
+function loop( $obj,
+               $is_obj=false
+            ){
+	if(is_object($obj)||is_array($obj)){
+		if(!$is_obj) // первый вызов
+            echo '<span class="link">[dblclick]</span>';
+		?>
+	<div class='test-box'><?php
+		foreach ($obj as $key=>$val) {?>
+			<?=$key?> =><?php
+			$is_obj=false;
+			if(is_object($val)||is_array($val)) {
+				?>
+				<span class="link">[<?
+					echo gettype($val);
+					if (is_object($val)):
+						?>]</span> <span><?
+						echo get_class($val);
+					else:
+						?>]<?php
+					endif;
+					?>
+			</span>
+			<?php   $is_obj=true;
+			}
+			loop($val,$is_obj);?>
+		<br/>
+		<?php
+		}?>
+	</div>
+	<?php
+	}else{
+		echo gettype($obj).': <span style="color:green;">'.$obj.'</span><br>';
+		$key=true;
+	}
+	return $key;
+};
+		
+function commonDebug( $file,
+                      $line,
+                      $obj=NULL,
+                      $stop=false,
+                      $collapsed=true,
+                      $backtrace=false
+                    ){
     ?>
-    <div class='test-box first'>
+    <div class='test-box first'><?php
+        if($file):?>
         <div>file: <?=str_replace(JPATH_SITE,'',$file)?></div>
+<?php   endif;
+        if($line):?>
         <div style="display: inline-block; color:#666">line: <b><?=$line?></b></div>
         <?php
+        endif;
         if($obj!==NULL){
             if(empty($obj)):?>
             <div class="warning-text">Объект пуст...</div>
@@ -21,41 +70,9 @@ function commonDebug($file, $line, $obj=NULL, $stop=false, $collapsed=true, $bac
         }else{?>
             <div class="error-text">Объект не получен...</div>
     <?  }
-        function loop($obj,$is_obj=false){
-            if(is_object($obj)||is_array($obj)){
-                if(!$is_obj) echo '<span class="link">[dblclick]</span>';
-                ?>
-            <div class='test-box'><?php
-                foreach ($obj as $key=>$val) {?>
-                    <?=$key?> =><?php
-                    $is_obj=false;
-                    if(is_object($val)||is_array($val)) {
-                        ?>
-                        <span class="link">[<?
-                            echo gettype($val);
-                            if (is_object($val)):
-                                ?>]</span> <span><?
-                                echo get_class($val);
-                            else:
-                                ?>]<?php
-                            endif;
-                            ?>
-                    </span>
-                    <?php   $is_obj=true;
-                    }
-                    loop($val,$is_obj);?>
-                <br/>
-                <?php
-                }?>
-            </div>
-            <?php
-            }else{
-                echo gettype($obj).': <span style="color:green;">'.$obj.'</span><br>';
-                $key=true;
-            }
-            return $key;
-        };
-        if(!$key=loop($obj)){?>
+        if($collapsed==2){?>
+            <pre><?php var_dump($obj);?></pre><?
+        }elseif(!$key=loop($obj)){?>
             <pre><?php var_dump($obj);?></pre><?
         }?>
     </div>
@@ -104,10 +121,17 @@ function showTestMessage($message,$file,$line,$color=false,$stop=false){
 /**
  * Вывести запрос в виде, подходящем для прямого тестирования
  */
-function testSQL($query,$file=false,$line=false,$stop=false,$class='test'){
+function testSQL( $query,
+                  $file=false,
+                  $line=false,
+                  $stop=false,
+                  $class='test',
+                  $backtrace=false
+                ){
     if($file&&$line)
         file_line($file,$line);
     setBlock(str_replace("#_","auc13",$query),"query",$class);
+    if($backtrace) commonDebugBacktrace($file,$line,$class);
     if($stop) die();
 }
 /**

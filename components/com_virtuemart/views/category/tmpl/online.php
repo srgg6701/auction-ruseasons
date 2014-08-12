@@ -14,7 +14,7 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 // commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
-commonDebug(__FILE__,__LINE__, JRequest::get('get'));
+//commonDebug(__FILE__,__LINE__, JRequest::get('get'));
 $Itemid = JRequest::getVar('Itemid');
 HTML::pageHead('online');
 if(JRequest::getVar('spag'))

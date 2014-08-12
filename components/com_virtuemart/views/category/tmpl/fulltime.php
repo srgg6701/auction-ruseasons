@@ -12,7 +12,8 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 // include_once JPATH_SITE.DS.'tests.php';
-//commonDebug(__FILE__,__LINE__,$this->products);
+// VirtuemartViewCategory
+//commonDebug(__FILE__,__LINE__,$this, false, 2);
 //$subheader=($this->category->category_name)? $this->category->category_name:"Очные торги";
 
 HTML::pageHead('fulltime');

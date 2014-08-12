@@ -144,7 +144,8 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
     else:
 ?>      
     <div class="bord_bottom">
-      <b>Лот <?=$this->product->lot_number?>. <?=$this->product->product_name?></b>
+      <b><?php //"Лот "(int)$this->product->lot_number
+          echo $this->product->product_name?></b>
     </div>
     <div class="o_o">
        <span style="color:#000">

@@ -257,31 +257,52 @@ FROM `#__virtuemart_categories` AS cats
      * @subpackage
      * @return id ТОП-категории или алиас, в зависимости от типа (integer (id)/string (алиас)) @value
      */
-    public function getCategoryValue($value, $child=false){ // id ТОП-категории или алиас
+    public function getTopCategoryValue($values, $child=false){ // id ТОП-категории или алиас
+        //commonDebug(__FILE__,__LINE__,$values);
         $db = JFactory::getDbo();
         $layout="cats.category_layout";
         $category_parent_id="cats_cats.category_parent_id";
         $category_child_id="cats_cats.category_child_id";
-        $query = "SELECT ";
-        $query.=(gettype($value)=='integer'||$child)?
-            $layout : $category_parent_id;
-        $query.="
+
+        if(!is_array($values)) {
+            $values=array($values);
+        }else
+            $array=true;
+        //commonDebug(__FILE__,__LINE__,$values);
+        $query=array();
+        foreach($values as $i=>$value){
+            $query[$i] = "SELECT ";
+            $query[$i].=(gettype($value)=='integer'||$child)?
+                $layout : $category_parent_id;
+            $query[$i].="
       FROM #__virtuemart_category_categories AS cats_cats
 INNER JOIN #__virtuemart_categories          AS cats
         ON cats.virtuemart_category_id = $category_child_id
            AND ";
 
-        if($child)
-            $query.=$category_child_id;
-        else
-            $query.=(gettype($value)=='integer')?
-                $category_parent_id : $layout;
+            if($child)
+                $query[$i].=$category_child_id;
+            else{
+                if(gettype($value)=='integer')
+                    $query[$i].=$category_parent_id;
+                else{
+                    $query[$i].= $layout;
+                    if (isset($array)) $query[$i].= " = '" . $value . "'";
+                }
+            }
+        }
 
-        $query.=" = '$value' LIMIT 1";
-        //showTestMessage('value('.gettype($value).'): '.$value, __FILE__, __LINE__);
-        //testSQL($query,__FILE__, __LINE__);
-        $db->setQuery($query);
-        $result = $db->loadResult();
+        if(!$i){
+            $sql= $query[$i] . " = '$value' LIMIT 1";
+            //testSQL($sql,__FILE__, __LINE__, false, false, true);
+            $db->setQuery($sql);
+            $result = $db->loadResult();
+        }else{
+            $sql = implode("\nUNION\n", $query) . ' LIMIT 2';
+            //testSQL($sql,__FILE__, __LINE__, false, false, true);
+            $db->setQuery($sql);
+            $result = $db->loadColumn();
+        }
         return $result;
     }
     /**
@@ -505,10 +526,11 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
     public function getProductsInSection($category_id, $single=true, $published=true, $cnt=false){
 
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-        $topItems = AuctionStuff::getTopCatsMenuItemIds();
-        //commonDebug(__FILE__,__LINE__,$topItems);
-        //commonDebug(__FILE__,__LINE__,'Itemid: '.JRequest::getVar('Itemid'));
-        $category_alias=self::getCategoryValue((int)$category_id, true);
+        // sold, $category_id=0
+        //commonDebug(__FILE__,__LINE__,'layout: '.JRequest::getVar('layout'));
+        $category_param=($sold=(JRequest::getVar('layout')=='sold'))?
+            self::getTopCategoryValue(array('online','shop'))
+            : self::getTopCategoryValue((int)$category_id, true);
         //...
         $db = JFactory::getDbo();
         $query = "SELECT ";
@@ -545,41 +567,34 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
  LEFT JOIN #__virtuemart_product_prices      AS prices
            ON prices.virtuemart_product_id = pc.virtuemart_product_id
 
-     WHERE cat_cats.category_parent_id = (
+     WHERE ( cat_cats.category_parent_id = ";
+        if($sold){
+            $query.=$category_param[0] . "
+             OR cat_cats.category_parent_id = $category_param[1] )
+             AND (
+                p.`virtuemart_product_id` IN (
+                   SELECT virtuemart_product_id
+                     FROM #__dev_sold
+                    WHERE `section` = 1 )
+                OR
+                p.`virtuemart_product_id` IN (
+                   SELECT virtuemart_product_id
+                     FROM #__dev_shop_orders )
+            ) ";
+        }else{
+            $query.=" (
         SELECT category_parent_id FROM #__virtuemart_category_categories
-         WHERE category_child_id = $category_id
+         WHERE category_child_id = $category_id )
   )
-           AND pc.virtuemart_category_id = $category_id
-           AND cat_cats.category_child_id = pc.virtuemart_category_id ";
-
-        // $query передаётся по ссылке
-        self::getPeriodLimits($category_alias,$query,$published);
-        /*if($published)
-            $query.="
-           AND prices.product_price_publish_up    < NOW()
-           AND prices.product_price_publish_down  > NOW() ";
-        if($category_alias!='shop')
-            $query.="
-           AND p.product_available_date           < NOW()
-           AND p.auction_date_finish              > NOW()
-           ";*/
-        /*$query.="
-           AND p.virtuemart_product_id NOT IN (
-                  SELECT virtuemart_product_id
-                    FROM #__dev_";
-
-        if($category_alias!='shop'){
-            $query.="sold
-                   WHERE section = ";
-            $query.=($category_alias=='online')? '1':'2';
-        }else
-            $query.="shop_orders";
-        $query.="
-                )";*/
-        // $query передаётся по ссылке
-        self::excludeSold($category_alias,$query);
+           AND pc.virtuemart_category_id = $category_id";
+            // $query передаётся по ссылке
+            self::getPeriodLimits($category_param,$query,$published);
+            // $query передаётся по ссылке
+            self::excludeSold($category_param,$query);
+        }
 
         $query.="
+           AND cat_cats.category_child_id = pc.virtuemart_category_id
   ORDER BY prices.product_price_publish_up ";
 
         $db->setQuery($query . self::getPagesLimit());
@@ -597,7 +612,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
      * @subpackage
      */
     public function getProductsInTopSection($top_category_id,$published=true){
-        $category_alias=self::getCategoryValue((int)$top_category_id);
+        $category_alias=self::getTopCategoryValue((int)$top_category_id);
         //showTestMessage('category_alias: '.$category_alias, __FILE__, __LINE__);
         $query = "SELECT DISTINCT prices.virtuemart_product_id
         FROM #__virtuemart_product_categories        AS cats
@@ -1317,14 +1332,15 @@ class HTML{
  * @package
  * @subpackage
  */
-	public static function pageHead ($layout){
+	public static function pageHead ($layout,$product_count=NULL){
 		$category_id=JRequest::getVar('virtuemart_category_id');
         $session=&JFactory::getSession();
         // todo: убрать лишнее
-        $sections_data=//AuctionStuff::getSessionCategoriesLinks();
-            $session->get('section_links');
-        $category_data=$sections_data[$layout];
-        //commonDebug(__FILE__, __LINE__, $category_data);
+        if($layout!=='sold'){
+            $sections_data=$session->get('section_links');
+            $category_data=$sections_data[$layout];
+            //commonDebug(__FILE__, __LINE__, $category_data);
+        }
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
         //commonDebug(__FILE__,__LINE__,$layout);
         //commonDebug(__FILE__, __LINE__, $category_data);
@@ -1332,7 +1348,20 @@ class HTML{
         ?>
 <div class="top_list">
     <h2><div class="weak"><?php
-        $lots = ($layout=='shop')? "Предметов":"Лотов";
+        switch($layout){
+            case 'online': case 'fulltime':
+                $lots="Лотов";
+                break;
+            case 'sold':
+                $lots="Проданных предметов";
+                $category_data['category_name']="Проданные предметы";
+                $category_data['product_count']=$product_count;
+                break;
+            default:
+                $lots="Предметов";
+        }
+        //$lots = ($layout=='shop'||$layout=='sold')? "Предметов":"Лотов";
+        //commonDebug(__FILE__,__LINE__,$category_data);
         // раздел вложенной категории
         if($category_data['top_category_id']!=(int)$category_id){
 			$category_data = $category_data['child_links'][$category_id];
@@ -1340,7 +1369,7 @@ class HTML{
                 echo $category_data['category_name'];
             ?>.</span>
         <?php
-		}else {
+		}else{
             $lots.=" всего";
             //echo $section; // ТОП категория
         }
@@ -1355,59 +1384,6 @@ class HTML{
 </div>
 <?php HTML::setVmPagination($layout);//,true
 	}
-    // todo: удалить
-    /**
-     * Описание
-     * @package
-     * @subpackage
-     * layout = shop | fulltime | online
-     */
-    /*public static function setBaseLink($layout){
-        $category_id=JRequest::getVar('virtuemart_category_id');
-        $Itemid=JRequest::getVar('Itemid');
-        //showTestMessage('category_id: '.$category_id.', Itemid: '.$Itemid, __FILE__, __LINE__);
-        // category_id: 24, Itemid: 126
-        $app=&JFactory::getApplication();
-        //commonDebug(__FILE__,__LINE__,$app);
-        $session=&JFactory::getSession();
-        //$user=&JFactory::getUser(); // todo: разобраться с неиспользуемым параметром
-        $links=$session->get('section_links');
-        commonDebug(__FILE__,__LINE__,$links);
-        //$app::$test=true;
-        $router = $app->getRouter();
-        //commonDebug(__FILE__,__LINE__,$router, false, 1);
-        //showTestMessage('router mode: '.$router->getMode(),__FILE__, __LINE__);
-        //$app::$test=false;
-        if($SefMode=$router->getMode()){
-            //$detail_link['base']=JUri::root().$menus[$Itemid]->$top_alias;
-            //echo "<div>\$detail_link['base']: ".$detail_link['base']."</div>";
-            if($links[$layout]['top_category_id']===(int)$category_id){
-                $menu = $app->getMenu();
-                $menus = $menu->getMenu();
-                $top_alias=($layout!='shop')? 'route':'alias';
-                //$detail_link['top']=true;
-                return JUri::base().$menus[$Itemid]->$top_alias;
-            }else{
-                //commonDebug(__FILE__,__LINE__,$_SERVER);
-                $arr_link=explode("/",$links[$layout]['child_links'][(int)$category_id]['sef']);
-                array_shift($arr_link);
-                array_shift($arr_link);
-                $link=implode("/",$arr_link);
-                //commonDebug(__FILE__,__LINE__,array(JURI::base(), JUri::root()));
-                echo "<h4>Внутренняя категория</h4>sef:";
-                echo JUri::base().$link;
-                return JUri::base().$link;
-            }
-            //showTestMessage('<h3>router mode: '.$router->getMode() .'</h3>',__FILE__, __LINE__);
-            $ItemIds=AuctionStuff::getTopCatsMenuItemIds();
-            //commonDebug(__FILE__,__LINE__,$ItemIds);
-
-            if(!in_array($Itemid,$ItemIds)){
-                $detail_link['base']=$links[$layout][$category_id];
-            }
-            return $detail_link;
-        }else return false;
-    }*/
 /**
  * Описание
  * @package
@@ -1457,6 +1433,45 @@ class HTML{
 		}
 		return $product->link;
 	}*/
+/**
+ * Комментарий
+ * @package
+ * @subpackage
+ */
+    public static function buildForm(){
+        $post=JRequest::get('post');
+        ?>
+        <form method="post" style="position: relative;">
+            <textarea name="info" id="info" style="width:400px;height:220px;padding:6px;"></textarea>
+            <input style="display:table;margin-top:4px; padding: 4px 12px" type="submit" value="   ok   ">
+            <?php
+            if($query=$post['info']){?>
+                <div<?php  //style="position: absolute; top:-4px; left: 408px"?>><?
+                commonDebug(false, false, $query);
+                $qinfo='';
+                if(preg_match('/^(\s*)select (.+)/si',$query))
+                    $qinfo='SELECT';
+                if(preg_match('/^(\s*)insert (.+)/si',$query))
+                    $qinfo='INSERT';
+                if(preg_match('/^(\s*)update (.+)/si',$query))
+                    $qinfo='UPDATE';
+                if(preg_match('/^(\s*)delete (.+)/si',$query))
+                    $qinfo='DELETE';
+                $db=JFactory::getDbo();
+                $db->setQuery($query);
+                if($qinfo=='INSERT'||$qinfo=='UPDATE'||$qinfo=='DELETE')
+                    $result=$db->execute();
+                elseif($qinfo=='SELECT')
+                    $result=$db->loadAssocList();
+                else
+                    $result=$db->loadResultArray();
+                commonDebug(false, false, array($qinfo=>$result), false);?>
+                </div><?php
+            }
+            ?>
+        </form>
+        <?
+    }
 
 /**
  * Описание

@@ -14,9 +14,11 @@
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
 // commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
-//commonDebug(__FILE__,__LINE__,$this->category->parents[0]->virtuemart_category_id, true);
+// VirtuemartViewCategory
+//commonDebug(__FILE__,__LINE__,$this);
 $Itemid = JRequest::getVar('Itemid');
-HTML::pageHead(); // 'sold'
+//commonDebug(__FILE__,__LINE__,$Itemid);
+HTML::pageHead('sold', count($this->products));
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
 <div class="item-page-shop">
@@ -121,7 +123,7 @@ if (!empty($this->products)) {
 			
 			echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices, false, false, '1.0', 'online');
 			
-			echo $this->currency->createPriceDiv ('priceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
+			/*echo $this->currency->createPriceDiv ('priceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
 			
 			echo $this->currency->createPriceDiv ('discountAmount', 'COM_VIRTUEMART_PRODUCT_DISCOUNT_AMOUNT', $product->prices);
 			
@@ -130,7 +132,7 @@ if (!empty($this->products)) {
 			$unitPriceDescription = JText::sprintf ('COM_VIRTUEMART_PRODUCT_UNITPRICE', $product->product_unit);
 			
 			echo $this->currency->createPriceDiv ('unitPrice', $unitPriceDescription, $product->prices);
-		
+		    */
 		}
 		
 		$show_button=false;

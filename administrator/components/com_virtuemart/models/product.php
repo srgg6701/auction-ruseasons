@@ -191,7 +191,10 @@ class VirtueMartModelProduct extends VmModel {
      *
      * @author Max Milbers
      */
-    function sortSearchListQuery($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE
+    function sortSearchListQuery( $onlyPublished = TRUE,
+                                  $virtuemart_category_id = FALSE,
+                                  $group = FALSE,
+                                  $nbrReturnProducts = FALSE
     ) {
         /* 	MODIFIED START */
         $db=JFactory::getDbo();
@@ -204,7 +207,7 @@ class VirtueMartModelProduct extends VmModel {
         false, либо - текущей ТОПовой категории. Это выполняется в
         VirtuemartViewCategory::setTopCatItemId(); */
         require_once JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
-
+        //showTestMessage('top_category, category_id: '.$this->top_category . " : " . $virtuemart_category_id, __FILE__, __LINE__);
         if($this->top_category===false){ // категория внутри секции
             //showTestMessage("top_category: false", __FILE__, __LINE__);
             return AuctionStuff::getProductsInSection($virtuemart_category_id);
@@ -1222,7 +1225,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
      * @param int $virtuemart_category_id the category ID where to get the products for
      * @return array containing product objects
      */
-    public function getProductsInCategory($categoryId) {
+    public function getProductsInCategory($categoryId='0') {
+        //commonDebug(__FILE__,__LINE__,$categoryId, true, false, true);
         $ids = $this->sortSearchListQuery(TRUE, $categoryId);
         //commonDebug(__FILE__,__LINE__,$ids, true);
         $this->products = $this->getProducts($ids);

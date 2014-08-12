@@ -9,6 +9,7 @@ defined('_JEXEC') or die;
 header('Content-Type: text/html; charset=utf-8');
 include_once JPATH_SITE.DS.'tests.php';
 require_once JPATH_COMPONENT.DS.'controller.php';
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'stuff.php';
 /**
  * Registration controller class for Users.
  *
@@ -304,5 +305,15 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         *по каждому предмету, ставки по которым превысили резервную
         цену, разослать сообщения - победителю и админу.*/
         $this->getModel()->check_closed_lots();
+    }
+
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public function getInfo(){
+        HTML::buildForm();
+        return true;
     }
 }
