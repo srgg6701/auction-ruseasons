@@ -312,6 +312,17 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      * @package
      * @subpackage
      */
+    public function testCron(){
+        //...
+        $this->getModel()->testCron();
+        return true;
+    }
+
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
     public function getInfo(){
         HTML::buildForm();
         return true;

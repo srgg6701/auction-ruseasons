@@ -46,6 +46,7 @@ class Auction2013ModelAuction2013 extends JModelLegacy
      *Проверить активные аукционы и занести в данные в таблицу
      */
     public function check_active_auctions(){
+        $test=true;
         /**
         Проверить предметы, даты/время закрытия торгов по которым не вышло
         за рамки текущего момента и которых нет в таблице #__dev_lots_active;
@@ -71,13 +72,13 @@ FROM  #__virtuemart_products           AS prods,
    AND cts.category_layout = 'online' ) ";
         $db->setQuery($query);
         $results = $db->loadColumn();
-        //testSQL($query,__FILE__, __LINE__, false);
+        testSQL($query,__FILE__, __LINE__, false);
         $insert="INSERT INTO #__dev_lots_active (virtuemart_product_id) VALUES ";
         foreach ($results as $i=>$virtuemart_product_id) {
             if($i) $insert.=",";
             $insert.="($virtuemart_product_id)";
         }
-        commonDebug(__FILE__,__LINE__,$insert);
+        commonDebug(__FILE__,__LINE__,$insert); if($test) die();
         if($i){
             $db->setQuery($insert)->query();
             return $i;
@@ -85,12 +86,11 @@ FROM  #__virtuemart_products           AS prods,
             return 0;
     }
     /**
-     * Проверить закрывшиеся торги
-     * Выбираются только те лоты, максимальная ставка по которым превысила резервную цену
+     * Комментарий
+     * @package
+     * @subpackage
      */
-    public function check_closed_lots(){
-        $test = false;
-        $db = JFactory::getDbo();
+    public function getLotsToBeClosed($db,$test=false){
         $query = "SELECT  prods.                          virtuemart_product_id,
                                         bidder_id,
         bids.`value`                 AS 'max_value',
@@ -112,15 +112,42 @@ INNER JOIN #__dev_user_bids              AS bids
                                   ORDER BY `value` DESC LIMIT 1 )
 INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
            ON prods.virtuemart_product_id = prods_ru.virtuemart_product_id
+
+-- <span class='bg-yellow'>ВЫБРАТЬ ТОЛЬКО АКТИВНЫЕ ЛОТЫ:</span>
 INNER JOIN #__dev_lots_active            AS alots
            ON prods.virtuemart_product_id = alots.virtuemart_product_id
+
 INNER JOIN #__users                      AS users
            ON users.id  = bids.bidder_id
      WHERE auction_date_finish < NOW()
            AND bids.`value` > prices.product_price ";
-           // дата закрытия аукциона наступила и максимальная ставка выше стартовой цены
+        // дата закрытия аукциона наступила и максимальная ставка выше стартовой цены
         $db->setQuery($query);
         $results = $db->loadAssocList();
+        if($test) testSQL(array($results,$query), __FILE__, __LINE__, false, '', false);
+        return $results;
+    }
+    /**
+     * 1. Проверить закрывающиеся аукционы - активные лоты, время торгов по которым вышло
+     *    Выбираются только лоты, удовлетворяющие критериям:
+     *      a) id предмета есть в таблице активных лотов (#__dev_lots_active)
+     *      b) время торгов по предмету истекло
+     *      c) максимальная ставка на предмет ПРЕВЫСИЛА резервную цену (в этом случае
+     *         гарантированно имеется ставка от реального игрока, т.к. виртуальный
+     *         игрок выставляет ставку РАВНУЮ резервной цене).
+     * 2. ЕСЛИ лоты найдены:
+     *    2.1. Определить победителей торгов и разослать им сообщения (включая реквизиты оплаты)
+     *    2.2. id id предметов по закрывающимся торгам, удовлетворяющих заданным критериям,
+     *         скопировать (вставить записи) в табл. проданных (#__dev_sold).
+     *    2.3. Удалить соответствующие записи из таблицы активных аукционов (#__dev_lots_active)
+     */
+    public function check_closed_lots(){
+        /**
+         - true - только показ запросов CUD,
+         - любой другой вещественный - и выполнение, и показ */
+        $test = true;
+        $db = JFactory::getDbo();
+        $results = $this->getLotsToBeClosed($db,$test);
         if(count($results)){
             $common_path=dirname(__FILE__).'/../'; // com_auction2013
             // получить файл с реквизитами:
@@ -154,7 +181,9 @@ INNER JOIN #__users                      AS users
                     '<br> Email победителя: ' . $info['email'];
             }
             $users->sendMessagesToUsers('Итоги аукциона',implode("<hr/>", $messages));
-            // перенести предметы в "проданные"
+            /**
+            перенести (сначала скопировать id id из таблицы активных лотов, потом
+            удалить оттуда записи) предметы в "проданные" */
             $queryIns = "INSERT INTO #__dev_sold (`virtuemart_product_id`,`section`) VALUES ("
                 . implode(',1),(', $ids) . ")";
             try{
@@ -177,12 +206,10 @@ INNER JOIN #__users                      AS users
             }catch(Exception $e){
                 echo "<div>".$e->getMessage()."</div>";
             }
-            // удалить записи из таблицы
-            return true; // todo: Модифицировать запрос выборки предметов с учётом данных в #__dev_sold
+            return true;
         }
         return false;
     }
-
     /**
 	 * Model context string.
 	 *
@@ -627,4 +654,30 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
         $results = $db->query();
         return $results;
     }
+
+    /**
+     * Комментарий
+     * @package
+     * @subpackage
+     */
+    public function testCron(){
+        $common_path=dirname(__FILE__).'/../'; // com_auction2013
+        // получить файл с реквизитами:
+        $banking_details = file_get_contents($common_path.'banking_details.txt');
+        require_once $common_path.'helpers/stuff.php';
+        $messages=$ids=array();
+        $users = new Users();
+        // разослать сообщения
+        $users->sendMessagesToUsers('Вы стали победителем аукциона!',
+            '<p>Здравствуйте, это - тестовое соощение!</p>
+             <p>Рады вам сообщить, что вы стали победителем
+                аукциона по предмету <b>[название_предмета]</b>.</p>
+             <hr/>
+             <p>Цена предмета по итогам торгов: [цена_предмета] руб.</p>
+             <p><b>Реквизиты для оплаты:</b><br/><br/>' . nl2br($banking_details) . '.</p>',
+            NULL
+        );
+        return true;
+    }
+
 }

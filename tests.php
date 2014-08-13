@@ -130,6 +130,10 @@ function testSQL( $query,
                 ){
     if($file&&$line)
         file_line($file,$line);
+    if(is_array($query)&&(is_array($query[0])||is_object($query[0]))){
+        ?><div class="header_query">Всего записей: <?php echo (count($query[0]))? :'<span class="error-text">0</span>';?></div><?php
+        $query=$query[1];
+    }
     setBlock(str_replace("#_","auc13",$query),"query",$class);
     if($backtrace) commonDebugBacktrace($file,$line,$class);
     if($stop) die();
@@ -140,8 +144,27 @@ function testSQL( $query,
  * @subpackage
  */
 function setBlock($string,$header,$class, $background='rgb(254, 239, 242)'){
+    $string=str_ireplace('SELECT ','<b style="color:navy">SELECT</b> ',$string);
+    $string=str_ireplace('FROM ',  '<b style="color:navy">FROM</b> ',$string);
+    $string=str_ireplace('DELETE ','<b style="color:red">DELETE</b> ',$string);
+    $string=str_ireplace('INSERT ','<b style="color:green">INSERT</b> ',$string);
+    $string=str_ireplace('UPDATE ','<b style="color:brown">UPDATE</b> ',$string);
+    $string=str_ireplace('WHERE ', '<b style="color:navy">WHERE</b> ',$string);
+    $string=str_ireplace('AS ',    '<b style="color:navy">AS</b> ',$string);
+    $string=str_ireplace('OR ',    '<b style="color:navy">OR</b> ',$string);
+    $string=str_ireplace('INNER ', '<b style="color:darkviolet">INNER</b> ',$string);
+    $string=str_ireplace('AND ',   '<b style="color:darkviolet">AND</b> ',$string);
+    $string=str_ireplace('ON ',    '<b style="color:darkviolet">ON</b> ',$string);
+    $string=str_ireplace('LEFT ',  '<b style="color:blue">INNER</b> ',$string);
+    $string=str_ireplace('JOIN ',  '<b style="color:navy">JOIN</b> ',$string);
+    $string=str_ireplace('ORDER ', '<b style="color:navy">ORDER</b> ',$string);
+    $string=str_ireplace('BY ',    '<b style="color:navy">BY</b> ',$string);
+    $string=str_ireplace('DESC ',  '<b style="color:navy">DESC</b> ',$string);
+    $string=str_ireplace('ASC ',   '<b style="color:navy">ASC</b> ',$string);
+    $string=str_ireplace('LIMIT ', '<b style="color:darkviolet">LIMIT</b> ',$string);
+    $string=str_ireplace('DISTINCT ','<b style="color:#666">DISTINCT</b> ',$string);
     echo "<div class='$class' style='padding:10px; border:solid 1px #ccc; border-radius:4px; background-color:$background; margin-bottom:20px; overflow:auto;' ".dblclck.">
-            <b>".$header.":</b>
+            <b style='cursor:default'>".$header.":</b>
             <div style='display:none'>
                 <pre>".$string."</pre>
             </div>

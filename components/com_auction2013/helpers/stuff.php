@@ -1797,32 +1797,33 @@ INNER JOIN #__users              AS users
         $admins_mails = $this->getAdminsForMail();
         if(!$data) $data = $admins_mails;
         // Send mail to all superadministrators id
+        $errors=array();
+        $fromname = "Магазин антиквариата \"Русские Сезоны\"";
         $local=($_SERVER['HTTP_HOST']=='localhost')? true:false;
-        if($local)
+        if($local){
             echo "<br/><br/>
                     <div><b>Отправлено сообщение(я)</b> на тему <i style='color: darkviolet;'>$subject</i>.
-                    <hr>Текст сообщения: <br/>$emailBody
-                    <hr>По адресам:</div>";
-
-        $errors=array();
-
-        $fromname = "Магазин антиквариата \"Русские Сезоны\"";
-        if(is_string($data)) { // just email
-            if($local) // вывести адреса отправки
-                echo "<div style='color: blue'>".$data."</div>";
-            else{
+                      <br/>по адресам: ";
+            if(is_string($data)){
+                echo "<span style='color: blue'>".$data."</span>";
+            }else{
+                foreach( $data as $i=>$row ){
+                    if($i) echo ", ";
+                    echo "<span style='color: blue'>".$row->email."</span>";
+                }
+            }
+            echo "    <hr>Текст сообщения: <br/>$emailBody
+                    </div>";
+        }else{
+            if(is_string($data)) { // just email
                 try{
                     // try it here!
                     JFactory::getMailer()->sendMail($from,$fromname,$data,$subject,$emailBody);
                 }catch(Exception $e){
                     $errors[]='email: '.$data.', ошибка: ' . $e->getMessage();
                 }
-            }
-        }else{ // массив объектов с emails
-            foreach( $data as $row ){
-                if($local) // вывести адреса отправки
-                    echo "<div style='color: blue'>".$row->email."</div>";
-                else{
+            }else{ // массив объектов с emails
+                foreach( $data as $row ){
                     try{// разослать сообщения:
                         JFactory::getMailer()->sendMail($from,$fromname,$row->email,$subject,$emailBody);
                     }catch (Exception $e){

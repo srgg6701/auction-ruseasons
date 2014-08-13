@@ -109,7 +109,6 @@ ORDER BY cats.ordering';
             if($inStockOnly)
                 $query.='
                AND p.`product_in_stock` > 0';*/
-
             $queryEnd = '
         ) AS "product_count"
    FROM #__virtuemart_categories AS cats

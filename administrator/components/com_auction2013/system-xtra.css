@@ -1,5 +1,17 @@
+.bg-yellow{
+    background-color: #ffff00;
+}
 .block{
     display: block;
+}
+.header_query{
+    background-color: lightpink;
+    border-top-left-radius: 4px;
+    display: table;
+    margin-left: 4px;
+    margin-top: 6px;
+    border-top-right-radius: 4px;
+    padding: 8px 10px 6px;
 }
 .test-box{
     border: solid 1px #ccc;
