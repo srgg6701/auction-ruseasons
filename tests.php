@@ -131,7 +131,7 @@ function testSQL( $query,
     if($file&&$line)
         file_line($file,$line);
     if(is_array($query)&&(is_array($query[0])||is_object($query[0]))){
-        ?><div class="header_query">Всего записей: <?php echo (count($query[0]))? :'<span class="error-text">0</span>';?></div><?php
+        ?><div class="header_query">Всего записей: <?php echo (count($query[0]))? count($query[0]):'<span class="error-text">0</span>';?></div><?php
         $query=$query[1];
     }
     setBlock(str_replace("#_","auc13",$query),"query",$class);
@@ -155,7 +155,7 @@ function setBlock($string,$header,$class, $background='rgb(254, 239, 242)'){
     $string=str_ireplace('INNER ', '<b style="color:darkviolet">INNER</b> ',$string);
     $string=str_ireplace('AND ',   '<b style="color:darkviolet">AND</b> ',$string);
     $string=str_ireplace('ON ',    '<b style="color:darkviolet">ON</b> ',$string);
-    $string=str_ireplace('LEFT ',  '<b style="color:blue">INNER</b> ',$string);
+    $string=str_ireplace('LEFT ',  '<b style="color:blue">LEFT</b> ',$string);
     $string=str_ireplace('JOIN ',  '<b style="color:navy">JOIN</b> ',$string);
     $string=str_ireplace('ORDER ', '<b style="color:navy">ORDER</b> ',$string);
     $string=str_ireplace('BY ',    '<b style="color:navy">BY</b> ',$string);

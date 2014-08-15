@@ -1,6 +1,9 @@
 .bg-yellow{
     background-color: #ffff00;
 }
+.bg-orange{
+    background-color: orange;
+}
 .block{
     display: block;
 }

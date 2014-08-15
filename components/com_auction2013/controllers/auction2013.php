@@ -185,7 +185,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         $post = JRequest::get('post');
         $bid_result=$this->getModel()->makeUserBid($post);
 
-        if($test) commonDebug(__FILE__,__LINE__,$bid_result);
+        if($test) commonDebug(__FILE__,__LINE__,"bid_result: ".$bid_result);
 
         if(!$bid_result||is_array($bid_result)) {
             /**

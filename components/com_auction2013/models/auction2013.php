@@ -86,7 +86,13 @@ FROM  #__virtuemart_products           AS prods,
             return 0;
     }
     /**
-     * Комментарий
+     * Проверить закрывающиеся аукционы - активные лоты, время торгов по которым вышло
+     *    Выбираются только лоты, удовлетворяющие критериям:
+     *      a)
+     *      b) время торгов по предмету истекло
+     *      c) максимальная ставка на предмет ПРЕВЫСИЛА резервную цену (в этом случае
+     *         гарантированно имеется ставка от реального игрока, т.к. виртуальный
+     *         игрок выставляет ставку РАВНУЮ резервной цене).
      * @package
      * @subpackage
      */
@@ -102,7 +108,7 @@ FROM  #__virtuemart_products           AS prods,
         users.                          phone_number,
         users.                          phone2_number,
         product_available_date, auction_date_finish
-      FROM  #__virtuemart_products       AS prods
+      FROM #__virtuemart_products        AS prods
 INNER JOIN #__virtuemart_product_prices  AS prices
            ON prices.virtuemart_product_id = prods.virtuemart_product_id
 INNER JOIN #__dev_user_bids              AS bids
@@ -111,16 +117,33 @@ INNER JOIN #__dev_user_bids              AS bids
                                       WHERE virtuemart_product_id = prods.virtuemart_product_id
                                   ORDER BY `value` DESC LIMIT 1 )
 INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
-           ON prods.virtuemart_product_id = prods_ru.virtuemart_product_id
+           ON prods.virtuemart_product_id = prods_ru.virtuemart_product_id";
 
--- <span class='bg-yellow'>ВЫБРАТЬ ТОЛЬКО АКТИВНЫЕ ЛОТЫ:</span>
+/*-- <span class='bg-yellow'>ВЫБРАТЬ ТОЛЬКО АКТИВНЫЕ ЛОТЫ:</span>
 INNER JOIN #__dev_lots_active            AS alots
-           ON prods.virtuemart_product_id = alots.virtuemart_product_id
-
-INNER JOIN #__users                      AS users
+           ON prods.virtuemart_product_id = alots.virtuemart_product_id*/
+            $query.="
+/*<span class='bg-yellow'>Если выберет id юзера -1, значит, максимальная ставка
+  проставлена виртуальным игроком (автобид), предмет НЕ продан.</span>*/
+ LEFT JOIN #__users                      AS users
            ON users.id  = bids.bidder_id
      WHERE auction_date_finish < NOW()
            AND bids.`value` > prices.product_price ";
+            $query.="
+            -- <span class='bg-orange'>ВЫБРАТЬ ЛОТЫ, которые:</span>
+              -- <span class='bg-yellow'>отсутствуют среди проданных </span>
+           AND prods.virtuemart_product_id NOT IN (
+                        SELECT virtuemart_product_id
+                          FROM #__dev_sold )
+
+           AND  (   /* ... <span class='bg-yellow'>и в проданных нет записи, добавленной позже или одновременно с
+                    датой закрытия аукциона, что означает, что после закрытия торгов аукцин
+                    повторно не назначался, т.о., у предмета остался статус непроданного </span>*/
+                    SELECT COUNT(*)
+                      FROM #__dev_unsold
+                     WHERE virtuemart_product_id = prods.virtuemart_product_id
+                       AND `datetime` >= prods.auction_date_finish
+                  ) = 0";
         // дата закрытия аукциона наступила и максимальная ставка выше стартовой цены
         $db->setQuery($query);
         $results = $db->loadAssocList();
@@ -129,12 +152,7 @@ INNER JOIN #__users                      AS users
     }
     /**
      * 1. Проверить закрывающиеся аукционы - активные лоты, время торгов по которым вышло
-     *    Выбираются только лоты, удовлетворяющие критериям:
-     *      a) id предмета есть в таблице активных лотов (#__dev_lots_active)
-     *      b) время торгов по предмету истекло
-     *      c) максимальная ставка на предмет ПРЕВЫСИЛА резервную цену (в этом случае
-     *         гарантированно имеется ставка от реального игрока, т.к. виртуальный
-     *         игрок выставляет ставку РАВНУЮ резервной цене).
+     *    - см. метод getLotsToBeClosed()
      * 2. ЕСЛИ лоты найдены:
      *    2.1. Определить победителей торгов и разослать им сообщения (включая реквизиты оплаты)
      *    2.2. id id предметов по закрывающимся торгам, удовлетворяющих заданным критериям,
@@ -153,38 +171,73 @@ INNER JOIN #__users                      AS users
             // получить файл с реквизитами:
             $banking_details = file_get_contents($common_path.'banking_details.txt');
             require_once $common_path.'helpers/stuff.php';
-            $messages=$ids=array();
+            $messages=$ids_sold=$ids_unsold=array();
             $users = new Users();
             // разослать сообщения победителям
             foreach ($results as $i=>$info) {
-                $users->sendMessagesToUsers('Вы стали победителем аукциона!',
-                    '<p>Здравствуйте, ' .$info['name'] . '!</p>
+                //commonDebug(__FILE__,__LINE__,$info);
+                if($info['bidder_id']=='-1'){ // максимальную ставку проставил виртуальный игрок
+                    // пополнить массив непроданных предметов
+                    $ids_unsold[]=$info['virtuemart_product_id'];
+                }else{
+                    $users->sendMessagesToUsers('Вы стали победителем аукциона!',
+                        '<p>Здравствуйте, ' .$info['name'] . '!</p>
                                 <p>Рады вам сообщить, что вы стали победителем
                                 аукциона по предмету <b>' . $info['product_name'] . '</b>.</p>
                                 <hr/>
                                 <p>Цена предмета по итогам торгов: ' . $info['max_value'] . ' руб.</p>
                                 <p><b>Реквизиты для оплаты:</b><br/><br/>' . nl2br($banking_details) . '.</p>',
-                    $info['email']
-                );
-                $ids[]=$info['virtuemart_product_id'];
-                $winner_phone = $info['phone_number'];
-                if(!$winner_phone)
-                    $winner_phone= $info['phone2_number'];
-                elseif($winner_phone2= $info['phone2_number'])
-                    $winner_phone.=", ".$winner_phone2;
+                        $info['email']
+                    );
+                    $ids_sold[]=$info['virtuemart_product_id'];
+                    $winner_phone = $info['phone_number'];
+                    if(!$winner_phone)
+                        $winner_phone= $info['phone2_number'];
+                    elseif($winner_phone2= $info['phone2_number'])
+                        $winner_phone.=", ".$winner_phone2;
 
-                $messages[] = 'Предмет: ' .     $info['product_name'] .
-                    '<br> Cтартовая цена: ' .   $info['product_price'] .
-                    '<br> Последняя ставка: ' . $info['max_value'] .
-                    '<br> Имя победителя: ' .   $info['name'] .
-                    '<br> Тел. победителя: ' .  $winner_phone .
-                    '<br> Email победителя: ' . $info['email'];
+                    $messages[] = 'Предмет: ' .     $info['product_name'] .
+                        '<br> Cтартовая цена: ' .   $info['product_price'] .
+                        '<br> Последняя ставка: ' . $info['max_value'] .
+                        '<br> Имя победителя: ' .   $info['name'] .
+                        '<br> Тел. победителя: ' .  $winner_phone .
+                        '<br> Email победителя: ' . $info['email'];
+                }
             }
-            $users->sendMessagesToUsers('Итоги аукциона',implode("<hr/>", $messages));
-            /**
-            перенести (сначала скопировать id id из таблицы активных лотов, потом
-            удалить оттуда записи) предметы в "проданные" */
-            $queryIns = "INSERT INTO #__dev_sold (`virtuemart_product_id`,`section`) VALUES ("
+            if(!empty($messages))
+                $users->sendMessagesToUsers('Итоги аукциона',implode("<hr/>", $messages));
+            // если есть проданные
+            $this->changeLotsState($ids_sold,'sold',$db,$test);
+            /*if(!empty($ids_sold)){
+                //добавить предметы в таблицу проданных
+                $queryIns = "INSERT INTO #__dev_sold (`virtuemart_product_id`,`section`) VALUES ("
+                    . implode(',1),(', $ids_sold) . ")";
+                try{
+                    if($test)
+                        showTestMessage($queryIns.'<hr/>', __FILE__, __LINE__);
+                    if($test!==true)
+                        $db->setQuery($queryIns)->query();
+                }catch(Exception $e){
+                    echo "<div>".$e->getMessage()."</div>";
+                }
+            }*/
+            // если есть непроданные
+            $this->changeLotsState($ids_unsold,'unsold',$db,$test);
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Добавить записи в табл. проданных/непроданных предметов
+     * @package
+     * @subpackage
+     */
+    public function changeLotsState($ids,$stat,$db,$test=false){
+        commonDebug(__FILE__,__LINE__,array($stat,$ids));
+        if(!empty($ids)){
+            //добавить предметы в таблицу проданных
+            $queryIns = "INSERT INTO #__dev_" . $stat // sold/unsold
+                ." (`virtuemart_product_id`,`section`) VALUES ("
                 . implode(',1),(', $ids) . ")";
             try{
                 if($test)
@@ -194,22 +247,10 @@ INNER JOIN #__users                      AS users
             }catch(Exception $e){
                 echo "<div>".$e->getMessage()."</div>";
             }
-            // ...
-            // удалить записи из таблицы активных аукционов:
-            $queryDel = "DELETE FROM #__dev_lots_active WHERE virtuemart_product_id IN ("
-                . implode(',', $ids) . ")";
-            try{
-                if($test)
-                    showTestMessage($queryDel.'<hr/>', __FILE__, __LINE__);
-                if($test!==true)
-                    $db->setQuery($queryDel)->query();
-            }catch(Exception $e){
-                echo "<div>".$e->getMessage()."</div>";
-            }
-            return true;
         }
-        return false;
+        return true;
     }
+
     /**
 	 * Model context string.
 	 *
@@ -270,7 +311,7 @@ INNER JOIN #__users                      AS users
     public function makeUserBid( $post,
                              $current_bidder_id=NULL // может передаваться 'id' "виртуального игрока"
                            ){
-        $test=false;
+        $test=1;
         //commonDebug(__FILE__,__LINE__,$post, true);
         /*["bids"]=>                    "900"
           ["14e429a6cd5c1d774d06539dce403129"]=> "1"
@@ -279,16 +320,18 @@ INNER JOIN #__users                      AS users
           ["task"]=>                    "makeBid"
           ["Itemid"]=>                  "125"
           ["virtuemart_category_id"]=>  "33"  */
-        $table_bids         = '#__dev_bids';        // ставки
+        $table_bids         = '#__dev_auction_rates';        // ставки
         $table_user_bids    = '#__dev_user_bids';   // заочные биды
         if(!$current_bidder_id)
             $current_bidder_id = JFactory::getUser()->id;
+
+        $current_bidder_id=(int)$current_bidder_id;
         $virtuemart_product_id = $post['virtuemart_product_id'];
         // проверить, превышает ли ставка юзера текущий максимальный заочный бид
         $db = JFactory::getDbo();
         $query = "SELECT prods_ru.product_name,
 ( SELECT COUNT(*)
-  FROM #__dev_bids
+  FROM #__dev_auction_rates
  WHERE virtuemart_product_id = $virtuemart_product_id )
                                    AS 'bids_count',
   TRUNCATE(prices.product_price,0) AS 'price',
@@ -303,26 +346,26 @@ INNER JOIN #__users                      AS users
                                   AS 'minutes_rest',
   FROM_UNIXTIME(UNIX_TIMESTAMP(prods.auction_date_finish)+5*60) AS 'plus5min',
           DATE_FORMAT(prods.auction_date_finish,'%h:%i') AS 'expired'
-     FROM #__virtuemart_products        AS prods
-INNER JOIN #__virtuemart_products_ru_ru AS prods_ru
-          ON prods_ru.virtuemart_product_id = prods.virtuemart_product_id
-LEFT JOIN $table_bids                   AS bids
-          ON prods.virtuemart_product_id = bids.virtuemart_product_id
-LEFT JOIN $table_user_bids              AS user_bids
-          ON user_bids.virtuemart_product_id = bids.virtuemart_product_id
-             AND bids.bidder_user_id = user_bids.bidder_id
-INNER JOIN #__virtuemart_product_prices AS prices
-          ON prices.virtuemart_product_id = prods.virtuemart_product_id
-LEFT JOIN #__dev_sales_price            AS sales_price
-          ON sales_price.virtuemart_product_id = prods.virtuemart_product_id
-WHERE prods.virtuemart_product_id = $virtuemart_product_id";
+      FROM #__virtuemart_products        AS prods
+INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
+           ON prods_ru.virtuemart_product_id = prods.virtuemart_product_id
+ LEFT JOIN $table_bids                   AS bids
+           ON prods.virtuemart_product_id = bids.virtuemart_product_id
+ LEFT JOIN $table_user_bids              AS user_bids
+           ON user_bids.virtuemart_product_id = bids.virtuemart_product_id
+              AND bids.bidder_user_id = user_bids.bidder_id
+INNER JOIN #__virtuemart_product_prices  AS prices
+           ON prices.virtuemart_product_id = prods.virtuemart_product_id
+ LEFT JOIN #__dev_sales_price            AS sales_price
+           ON sales_price.virtuemart_product_id = prods.virtuemart_product_id
+     WHERE prods.virtuemart_product_id = $virtuemart_product_id";
         //
         try{
             $db->setQuery($query);
             $results = $db->loadAssoc();
             if($test){
-                testSQL($query,__FILE__, __LINE__);
-                commonDebug(__FILE__,__LINE__,$results);
+                testSQL("Проверить, превышает ли ставка юзера текущий максимальный заочный бид <br>".$query,__FILE__, __LINE__);
+                //commonDebug(__FILE__,__LINE__,$results);
             }
         }catch(Exception $e){
             echo "<div>Ошибка проверки максимальной ставки:</div>";
@@ -416,12 +459,12 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 /**
                 подставить id игрока - текущий/предыдущий в зависимости
                 от чётности записи  */
-                $bidder_id=($turn%2>0)? $current_bidder_id:$previous_bidder_id;
+                $bidder_in_loop_id=($turn%2>0)? $current_bidder_id:$previous_bidder_id; // статические значения, полученные из запроса
                 /**
                  УСЛОВИЯ ВЫХОДА ИЗ ЦИКЛА
                  1. текущий юзер, расчётная ставка находится в пределах выставляемого им ЗБ
                     и превысила ЗБ предыдущего (победителя) игрока */
-                if($bidder_id==$current_bidder_id){ // ставка за текущего игрока
+                if($bidder_in_loop_id==$current_bidder_id){ // ставка за текущего игрока
                     if ($test) showTestMessage("Cтавка за ТЕКУЩЕГО игрока:", __FILE__, __LINE__, '#333');
                     if($bid_counted_value>=$current_max_bid) { // расчётная ставка больше или равна текущему макс. биду
                         $break = true;
@@ -443,30 +486,34 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                         if ($test) showTestMessage("Ставка (<b>$bid_counted_value</b>) превысила входящий бид (<b>$post[bids]</b>) текущего юзера и будет отменена.", __FILE__, __LINE__, 'red');
                     }
                 }else{
-                    if ($test) showTestMessage("Cтавка за ПРЕДЫДУЩЕГО игрока:", __FILE__, __LINE__, '#666');
+                    //if ($test) showTestMessage("Cтавка за ПРЕДЫДУЩЕГО игрока:", __FILE__, __LINE__, '#666');
                     /**
                      2. предыдущий игрок, расчётная ставка больше или равна входящей
                         и меньше ЗБ предыдущего игрока */
                     if( // ставка за предыдущего игрока
                         $current_max_bid > $bid_counted_value // максимальный ЗБ больше расчётной ставки
-                        && $bid_counted_value >=$user_bid_value){ // расчётная ставка превысила входящую
+                        && $bid_counted_value >=$user_bid_value) { // расчётная ставка превысила входящую
                         $break=true;
-                        if($test) showTestMessage("Последняя ставка (проставляется за предыдущего игрока):",__FILE__,__LINE__,'violet');
+                        //if($test) showTestMessage("Последняя ставка (проставляется за предыдущего игрока):",__FILE__,__LINE__,'violet');
                     }
                 }
                 if($test){
                     echo "<div";
-                    if($bidder_id==$current_bidder_id) {
+                    if($bidder_in_loop_id==$current_bidder_id) {
                         echo " style='font-weight:bold'";
                         $usertype = 'Current user';
                     }
-                    elseif($bidder_id==$previous_bidder_id) {
+                    elseif($bidder_in_loop_id==$previous_bidder_id) {
                         echo " style='color:#666'";
                         $usertype = 'Previous user';
                     }
                     echo "></b>$usertype<br>ставка: $bid_counted_value</div>";
                     echo "<div>current_max_bid: $current_max_bid</div>";
-                    echo "<div>bidder_id: $bidder_id</div>";
+                    echo "<ul>
+                            <li>bidder_in_loop_id: $bidder_in_loop_id</li>
+                            <li>current_bidder_id: $current_bidder_id</li>
+                            <li>previous_bidder_id: $previous_bidder_id</li>
+                          </ul>";
                 }
                 /**
                 если не нужно отменять добавление ставки из-за превышения текущей
@@ -475,10 +522,10 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                     // добавить запись в таблицу ставок
                     $data->sum=$bid_counted_value;
                     $data->datetime=date('Y-m-d H:i:s');
-                    $data->bidder_user_id = $bidder_id;
+                    $data->bidder_user_id = $bidder_in_loop_id;
                     try{
                         $db->insertObject($table_bids, $data);
-                        if($test) showTestMessage("Добавлена запись в $table_bids, bidder_id = $bidder_id, sum = $bid_counted_value",__FILE__,__LINE__,'blue');
+                        if($test) showTestMessage("Добавлена запись в $table_bids, bidder_in_loop_id = $bidder_in_loop_id, sum = $bid_counted_value",__FILE__,__LINE__,'blue');
                     }catch(Exception $e){
                         echo "<div>Ошибка добавления ставки(".__LINE__."):</div>";
                         die("<div>".$e->getMessage()."</div>");
@@ -561,7 +608,7 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
         }
         /* если ставка была первая и есть резервная цена, которая выше последней
               ставки, сделать ставку от лица виртуального игрока */
-        if($test) showTestMessage("bids_count: ".$results['bids_count']."<br>svalue = ".$bid_counted_value."<br>min_price = ".$min_price,__FILE__,__LINE__);
+        if($test) showTestMessage("bids_count: ".$results['bids_count']."<br>svalue = ".$bid_counted_value."<br>min_price = ".$min_price."</hr>",__FILE__,__LINE__);
         if( // при вызове метода ставок не было
             !(int)$results['bids_count']
             // И последняя рассчитанная ставка меньше минимальной (резервной цены)
@@ -575,23 +622,46 @@ WHERE prods.virtuemart_product_id = $virtuemart_product_id";
                 'bids'=>$min_price
             );
             // выставляем ставку за виртуального игрока
+            if($test) showTestMessage("<b>Сделать ставку за виртуального игрока</b>", __FILE__, __LINE__, 'brown');
             return $this->makeUserBid($data,-1);
         }else{
             /**
-             если максимальная ставка изменилась и перешла к другому
-             игроку, оповестить предыдущего */
-            if($bidder_id!==$previous_bidder_id && $bid_counted_value>$current_max_sum){
-                // разослать сообщения
-                require_once JPATH_COMPONENT.DS.'helpers'.DS.'stuff.php';
-                $users=new Users();
-                $message = "Ваша ставка на предмет $product_name бита. Текущая ставка: $bid_counted_value руб." ;
-                $users->sendMessagesToUsers(
-                    "Изменение статуса участника торгов аукциона \"Русские сезоны\"",
-                    $message,
-                    $users->getUsersForMail(array($previous_bidder_id))
-                );
+             если максимальная ставка перешла к другому игроку, оповестить предыдущего */
+            if( $bidder_in_loop_id!==$previous_bidder_id
+                /**
+                 previous_bidder Вася    10
+                 current_bidder  Петя    15 bidder_in_loop Отослать Васе
+                                 Вася    20 bidder_in_loop Отослать Пете   */
+                || $turn > 2 // была обработана как минимум ещё 1 ставка //$bidder_in_loop_id==-1
+              ){
+                // выясним, которому из игроков отсылать письмо
+                $user_id_to_mail=($bidder_in_loop_id==$previous_bidder_id)?
+                                    $current_bidder_id : $previous_bidder_id;
+                if($user_id_to_mail!=-1){
+                    if($test) showTestMessage("<h2>Оповестить игрока о том, что его ставка бита</h2>", __FILE__, __LINE__, 'darkblue');
+                    // разослать сообщения
+                    require_once JPATH_COMPONENT.DS.'helpers'.DS.'stuff.php';
+                    $users=new Users();
+                    $message = "Ваша ставка на предмет $product_name ($current_max_sum руб.) бита.
+                           <p>Текущая ставка: $bid_counted_value руб.</p>" ;
+                    $users->sendMessagesToUsers(
+                        "Изменение статуса участника торгов аукциона \"Русские сезоны\"",
+                        $message,
+                        $users->getUsersForMail(array($user_id_to_mail))
+                    );
+                }elseif($test)
+                    showTestMessage("<h2>Оповещение не требуется, проиграл Автобид.</h2>", __FILE__, __LINE__, 'darkgreen');
+            }elseif($test)
+                showTestMessage("<h2>Оповещение не требуется</h2>", __FILE__, __LINE__, 'darkgreen');
+
+            if($test){
+                showTestMessage("bidder_in_loop_id (".          gettype($bidder_in_loop_id)."):             $bidder_in_loop_id<br>
+                                 previous_bidder_id (". gettype($previous_bidder_id)."):    $previous_bidder_id<br>
+                                 bid_counted_value (".  gettype($bid_counted_value)."):     $bid_counted_value<br>
+                                 current_max_sum (".    gettype($current_max_sum)."):       $current_max_sum",
+                    __FILE__, __LINE__, false);
             }
-            if($test) die('return true');
+            if($test) die('<h1>return true</h1>');
             return true;
         }
     }

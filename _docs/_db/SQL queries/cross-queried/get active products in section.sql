@@ -1,4 +1,4 @@
-﻿USE auctionru_2013;
+-- USE auctionru_2013;
 SELECT  prices.   virtuemart_product_id, 
         prods_ru.         product_name,
         prices.           product_price_publish_up,

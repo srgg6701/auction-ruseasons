@@ -150,7 +150,7 @@ class AuctionStuff{
     DATE_FORMAT(datetime,\"%d.%m %H:%i\")
                       AS datetime,
                    users.username
-        FROM `#__dev_bids` AS bids
+        FROM `#__dev_auction_rates` AS bids
    LEFT JOIN `#__users` AS users ON bids.bidder_user_id = users.id
  WHERE virtuemart_product_id = $virtuermart_prodict_id
   ORDER BY bids.id DESC";
@@ -396,7 +396,7 @@ FROM #__virtuemart_products_ru_ru
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->quoteName('MAX(sum)'));
-        $query->from($db->quoteName('#__dev_bids'));
+        $query->from($db->quoteName('#__dev_auction_rates'));
         $query->where($db->quoteName('virtuemart_product_id') . ' = '. $virtuemart_product_id);
         $db->setQuery($query);
         return $db->loadResult(); // Column, Row, Assoc[List], Object
@@ -411,7 +411,7 @@ FROM #__virtuemart_products_ru_ru
         $SelectMaxValueFromUserBids="SELECT MAX(`value`)
         FROM #__dev_user_bids
         $where_product_id ";
-        $SelectMaxSumFromBids="SELECT MAX(sum)  FROM #__dev_bids
+        $SelectMaxSumFromBids="SELECT MAX(sum)  FROM #__dev_auction_rates
 $where_product_id";
         $bidder_id = JFactory::getUser()->id;
         // начальная стоимость предмета:
@@ -955,7 +955,7 @@ WHERE cats_cats.category_parent_id = 0";
             $user_id = JFactory::getUser()->id;
         $db = JFactory::getDbo();
         $selectMax="SELECT MAX(sum)
-      FROM `#__dev_bids`
+      FROM `#__dev_auction_rates`
      WHERE virtuemart_product_id = prod.virtuemart_product_id ";
         $selMaxValue = "SELECT MAX(`value`)
       FROM `#__dev_user_bids`";
@@ -981,7 +981,7 @@ WHERE cats_cats.category_parent_id = 0";
           ON prod.virtuemart_product_id = prod_ru_ru.virtuemart_product_id
    LEFT JOIN #__virtuemart_product_categories      AS prod_cats
               ON prod_cats.virtuemart_product_id    = prod.virtuemart_product_id
-  INNER JOIN #__dev_bids                           AS bids
+  INNER JOIN #__dev_auction_rates                           AS bids
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id
   WHERE     bids.bidder_user_id = " . $user_id ."
   ORDER BY  bids.id DESC ";
@@ -1791,8 +1791,10 @@ INNER JOIN #__users              AS users
         return true;
     }
     /**
-  * Разослать сообщения админам/суперюзерам/юзерам, принимающим рассылку
-  */
+      * Разослать сообщения админам/суперюзерам/юзерам, принимающим рассылку
+      * Формат отсылаемого сообщения (HTML/text) определяется опциональным 6-м аргументом
+      * метода sendMail(). Если он имеет вещественное значение, используется HTML.
+      */
     public function sendMessagesToUsers($subject, $emailBody, $data=NULL, $from = 'noreply@auction-ruseasons.ru'){
         $admins_mails = $this->getAdminsForMail();
         if(!$data) $data = $admins_mails;
@@ -1818,14 +1820,14 @@ INNER JOIN #__users              AS users
             if(is_string($data)) { // just email
                 try{
                     // try it here!
-                    JFactory::getMailer()->sendMail($from,$fromname,$data,$subject,$emailBody);
+                    JFactory::getMailer()->sendMail($from,$fromname,$data,$subject,$emailBody,true);
                 }catch(Exception $e){
                     $errors[]='email: '.$data.', ошибка: ' . $e->getMessage();
                 }
             }else{ // массив объектов с emails
                 foreach( $data as $row ){
                     try{// разослать сообщения:
-                        JFactory::getMailer()->sendMail($from,$fromname,$row->email,$subject,$emailBody);
+                        JFactory::getMailer()->sendMail($from,$fromname,$row->email,$subject,$emailBody,true);
                     }catch (Exception $e){
                         $errors[]='email: '.$row->email.', ошибка: ' . $e->getMessage();
                     }
@@ -1836,7 +1838,7 @@ INNER JOIN #__users              AS users
         if(!empty($errors)) {
             $message = implode("\n", $errors);
             foreach ($admins_mails as $admin_mail) {
-                JFactory::getMailer()->sendMail($from,'Test mail',$admin_mail,"Ошибка отправки сообщения",$message);
+                JFactory::getMailer()->sendMail($from,'Test mail',$admin_mail,"Ошибка отправки сообщения",$message,true);
             }
         } //return true;
     }

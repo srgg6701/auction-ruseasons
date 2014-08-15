@@ -82,43 +82,6 @@ else:?>
 }*/
 </style>
 <?php
-    function showObjects($file, $line, $obj=NULL){
-        ?>
-    <div class='test-box first'>
-        <div>file: <?=str_replace(JPATH_SITE,'',$file)?></div>
-        <div style="display: inline-block; color:#666">line: <b><?=$line?></b></div>
-        <?php
-        if($obj){?>
-            [<span class="link">dblclick</span>]
-        <?php
-        }
-        $loop = function($obj)use(&$loop){
-            foreach ($obj as $key=>$val) {?>
-            <div class='test-box'><?=$key?> => <?php
-                if(is_object($val)||is_array($val)){?>
-                <h4>
-                    <span class="link"><?
-                    if (is_object($obj)):
-                        ?>[Object] <? echo '</span> '.get_class($obj);
-                    else:
-                        ?>[Array]<?php
-                    endif;
-                    ?></span>
-                </h4>
-            <?php   $loop((array)$val);?>
-            <?php
-                }else{
-                    echo '<span style="color:green;">'.$val.'</span>';
-                }?>
-            </div>
-            <?php
-            }
-        };
-        $loop($obj);?>
-        </div>
-    <?php
-    }
-
     $obj = new stdClass();
     $obj->name="Std";
     $obj->family=new stdClass();
