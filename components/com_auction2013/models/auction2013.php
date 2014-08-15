@@ -118,27 +118,23 @@ INNER JOIN #__dev_user_bids              AS bids
                                   ORDER BY `value` DESC LIMIT 1 )
 INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
            ON prods.virtuemart_product_id = prods_ru.virtuemart_product_id";
-
-/*-- <span class='bg-yellow'>ВЫБРАТЬ ТОЛЬКО АКТИВНЫЕ ЛОТЫ:</span>
-INNER JOIN #__dev_lots_active            AS alots
-           ON prods.virtuemart_product_id = alots.virtuemart_product_id*/
-            $query.="
+        $query.="
 /*<span class='bg-yellow'>Если выберет id юзера -1, значит, максимальная ставка
   проставлена виртуальным игроком (автобид), предмет НЕ продан.</span>*/
  LEFT JOIN #__users                      AS users
            ON users.id  = bids.bidder_id
      WHERE auction_date_finish < NOW()
-           AND bids.`value` > prices.product_price ";
+           /*<span class='bg-yellow'>Если есть хоть одна ставка</span>*/
+           AND bids.`value` >= prices.product_price ";
             $query.="
             -- <span class='bg-orange'>ВЫБРАТЬ ЛОТЫ, которые:</span>
               -- <span class='bg-yellow'>отсутствуют среди проданных </span>
            AND prods.virtuemart_product_id NOT IN (
                         SELECT virtuemart_product_id
                           FROM #__dev_sold )
-
-           AND  (   /* ... <span class='bg-yellow'>и в проданных нет записи, добавленной позже или одновременно с
+           AND  (   /* ... <span class='bg-yellow'>...И в проданных нет записи, добавленной позже или одновременно с
                     датой закрытия аукциона, что означает, что после закрытия торгов аукцин
-                    повторно не назначался, т.о., у предмета остался статус непроданного </span>*/
+                    повторно не назначался, т.о., у предмета остался статус непроданного.</span>*/
                     SELECT COUNT(*)
                       FROM #__dev_unsold
                      WHERE virtuemart_product_id = prods.virtuemart_product_id
@@ -208,19 +204,6 @@ INNER JOIN #__dev_lots_active            AS alots
                 $users->sendMessagesToUsers('Итоги аукциона',implode("<hr/>", $messages));
             // если есть проданные - добавить в #__dev_sold
             $this->changeLotsState($ids_sold,'sold',$db,$test);
-            /*if(!empty($ids_sold)){
-                //добавить предметы в таблицу проданных
-                $queryIns = "INSERT INTO #__dev_sold (`virtuemart_product_id`,`section`) VALUES ("
-                    . implode(',1),(', $ids_sold) . ")";
-                try{
-                    if($test)
-                        showTestMessage($queryIns.'<hr/>', __FILE__, __LINE__);
-                    if($test!==true)
-                        $db->setQuery($queryIns)->query();
-                }catch(Exception $e){
-                    echo "<div>".$e->getMessage()."</div>";
-                }
-            }*/
             // если есть непроданные - добавить в #__dev_unsold
             $this->changeLotsState($ids_unsold,'unsold',$db,$test);
             return true;
@@ -233,12 +216,12 @@ INNER JOIN #__dev_lots_active            AS alots
      * @subpackage
      */
     public function changeLotsState($ids,$stat,$db,$test=false){
-        commonDebug(__FILE__,__LINE__,array($stat,$ids));
         if(!empty($ids)){
             //добавить предметы в таблицу проданных
             $queryIns = "INSERT INTO #__dev_" . $stat // sold/unsold
                 ." (`virtuemart_product_id`,`section`) VALUES ("
-                . implode(',1),(', $ids) . ")";
+                . implode(',1),(', $ids) . ",1)";
+            /* ( 1,1),( 2 ,1),(3 ,1),()*/
             try{
                 if($test)
                     showTestMessage($queryIns.'<hr/>', __FILE__, __LINE__);
@@ -656,7 +639,8 @@ INNER JOIN #__virtuemart_product_prices  AS prices
         }else{
             /**
              если максимальная ставка перешла к другому игроку, оповестить предыдущего */
-            if( $bidder_in_loop_id!==$previous_bidder_id
+            if( $previous_bidder_id
+                && $bidder_in_loop_id!==$previous_bidder_id
                 /**
                  previous_bidder Вася    10
                  current_bidder  Петя    15 bidder_in_loop Отослать Васе
