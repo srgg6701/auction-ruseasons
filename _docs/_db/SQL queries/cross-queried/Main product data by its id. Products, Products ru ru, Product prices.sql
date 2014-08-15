@@ -1,7 +1,8 @@
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'prod.id',
   prod_ru_ru.product_name                 AS 'item name',
-  (SELECT COUNT(*) FROM auc13_dev_bids WHERE virtuemart_product_id = prod.virtuemart_product_id) 
+  (SELECT COUNT(*) FROM auc13_dev_auction_rates 
+    WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS bids,
   prod_prices.product_price               AS 'Старт.цена',
   sales_prices.min_price                  AS 'Резерв.цена',
@@ -42,7 +43,7 @@ SELECT
    
    LEFT JOIN auc13_dev_shop_orders                    AS shop_orders
               ON shop_orders.virtuemart_product_id  = prod.virtuemart_product_id
-   /*LEFT JOIN auc13_dev_bids                           AS bids
+   /*LEFT JOIN auc13_dev_auction_rates                           AS bids
               ON bids.virtuemart_product_id         = prod.virtuemart_product_id */
    LEFT JOIN auc13_virtuemart_product_medias          AS prod_medias
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id

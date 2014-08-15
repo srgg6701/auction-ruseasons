@@ -311,7 +311,7 @@ INNER JOIN #__dev_lots_active            AS alots
     public function makeUserBid( $post,
                              $current_bidder_id=NULL // может передаваться 'id' "виртуального игрока"
                            ){
-        $test=1;
+        $test=false;
         //commonDebug(__FILE__,__LINE__,$post, true);
         /*["bids"]=>                    "900"
           ["14e429a6cd5c1d774d06539dce403129"]=> "1"
@@ -452,6 +452,10 @@ INNER JOIN #__virtuemart_product_prices  AS prices
                  получить шаг торгов (рассчитывается на основе текущей) 
                  ставки, а не начальной стоимости товара. */
                 $step = AuctionStuff::getBidsStep($bid_counted_value); // returns int
+                if($test) showTestMessage("<ul>
+                                            <li>step: $step</li>
+                                            <li>bid_counted_value: $bid_counted_value</li>
+                                           </ul>", __FILE__, __LINE__, 'brown');
                 // сохранить предыдущую ставку на случай отмены последней ставки (см. ниже)
                 $last_bid_counted_value=$bid_counted_value;
                 // расчитать величину текущей ставки
