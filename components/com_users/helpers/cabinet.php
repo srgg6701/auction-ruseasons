@@ -372,8 +372,7 @@ $(function(){
         <th>Макс. ставка</th>
         <th>Статус</th>
       </tr>
-<?php   // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$userLots);
+<?php   //commonDebug(__FILE__,__LINE__,$userLots);
         foreach($userLots as $i=>$data):
 ?>      
       <tr>
@@ -385,7 +384,7 @@ $(function(){
         echo $data['item_name'];?></a></td>
         <td nowrap><?php echo $data['auction_date_finish'];?></td>
         <td><?php echo ($data['user_max_lot'])? $data['user_max_lot']:0;?></td>
-        <td><?php echo $data['user_max_bid'];?></td>
+        <td><?php echo $data['max_bid'];?></td>
         <td><?php
             /**
             игрок становится покупателем, если максимальная ставка записана на него */
