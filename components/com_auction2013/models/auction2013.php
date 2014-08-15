@@ -206,7 +206,7 @@ INNER JOIN #__dev_lots_active            AS alots
             }
             if(!empty($messages))
                 $users->sendMessagesToUsers('Итоги аукциона',implode("<hr/>", $messages));
-            // если есть проданные
+            // если есть проданные - добавить в #__dev_sold
             $this->changeLotsState($ids_sold,'sold',$db,$test);
             /*if(!empty($ids_sold)){
                 //добавить предметы в таблицу проданных
@@ -221,7 +221,7 @@ INNER JOIN #__dev_lots_active            AS alots
                     echo "<div>".$e->getMessage()."</div>";
                 }
             }*/
-            // если есть непроданные
+            // если есть непроданные - добавить в #__dev_unsold
             $this->changeLotsState($ids_unsold,'unsold',$db,$test);
             return true;
         }
@@ -451,7 +451,7 @@ INNER JOIN #__virtuemart_product_prices  AS prices
                 /** 
                  получить шаг торгов (рассчитывается на основе текущей) 
                  ставки, а не начальной стоимости товара. */
-                $step = AuctionStuff::getBidsStep($bid_counted_value);
+                $step = AuctionStuff::getBidsStep($bid_counted_value); // returns int
                 // сохранить предыдущую ставку на случай отмены последней ставки (см. ниже)
                 $last_bid_counted_value=$bid_counted_value;
                 // расчитать величину текущей ставки
@@ -461,40 +461,65 @@ INNER JOIN #__virtuemart_product_prices  AS prices
                 от чётности записи  */
                 $bidder_in_loop_id=($turn%2>0)? $current_bidder_id:$previous_bidder_id; // статические значения, полученные из запроса
                 /**
-                 УСЛОВИЯ ВЫХОДА ИЗ ЦИКЛА
-                 1. текущий юзер, расчётная ставка находится в пределах выставляемого им ЗБ
+                УСЛОВИЯ ВЫХОДА ИЗ ЦИКЛА
+                    1. текущий юзер - автобид и его рассчётная ставка больше резервной цены
+                    2. текущий юзер, расчётная ставка находится в пределах выставляемого им ЗБ
                     и превысила ЗБ предыдущего (победителя) игрока */
-                if($bidder_in_loop_id==$current_bidder_id){ // ставка за текущего игрока
-                    if ($test) showTestMessage("Cтавка за ТЕКУЩЕГО игрока:", __FILE__, __LINE__, '#333');
-                    if($bid_counted_value>=$current_max_bid) { // расчётная ставка больше или равна текущему макс. биду
-                        $break = true;
-                        if ($test) showTestMessage("Последняя ставка (проставляется за текущего игрока):", __FILE__, __LINE__, 'orange');
+                if($bidder_in_loop_id==-1&&$bid_counted_value>$min_price){
+                    if($test){
+                        showTestMessage("<h2>Будет выполнен выход из цикла</h2>", __FILE__, __LINE__, 'darkred');
+                        showTestMessage("<ul>
+                                        <li>bid_counted_value: $bid_counted_value</li>
+                                        <li>min_price: $min_price</li>
+                                        <li>step: $step</li>
+                                        <li>bid_counted_value-min_price = ".($bid_counted_value-$min_price)."</li>
+                                     </ul>", __FILE__, __LINE__);
                     }
-                    /**
-                    текущая расчётная ставка больше его максимальной (т.е., - ЗБ) */
-                    if($bid_counted_value>$user_bid_value){
+                    /*  95:91*/
+                    $diff=$bid_counted_value-$min_price;
+                    if($diff==$step){
+                        if($test) showTestMessage("<h2>Выход из цикла:</h2><div>Autobid, ставка больше минимальной цены.</div>", __FILE__, __LINE__, 'blue');
                         $break = -1; // отмена выставления ставки, выход из цикла
+                    }else{
                         /**
-                        обратное присваивание значения последней ставки; нужно на случай,
-                        если входящая ставка находится вне диапазона реально допустимых
-                        ставок (например - 610, когда возможны только 600 и 620. В данном
-                        случае величина ставки будет снижена до 600).
-                        Ситуация может возникнуть, если юзер отправил заявку после того,
-                        как шаг торгов изменился (другой игрок выставил собственную заявку).
-                        Данное значение ниже будет использовано для изменения записи в таблице ЗБ */
-                        $bid_counted_value=$last_bid_counted_value;
-                        if ($test) showTestMessage("Ставка (<b>$bid_counted_value</b>) превысила входящий бид (<b>$post[bids]</b>) текущего юзера и будет отменена.", __FILE__, __LINE__, 'red');
+                        назначение ставки, равной минимальной ставке;
+                        значение должно быть равно максимальному автобиду   */
+                        $bid_counted_value=$min_price;
+                        $break=true; // выход из цикла
                     }
                 }else{
-                    //if ($test) showTestMessage("Cтавка за ПРЕДЫДУЩЕГО игрока:", __FILE__, __LINE__, '#666');
-                    /**
-                     2. предыдущий игрок, расчётная ставка больше или равна входящей
+                    if($bidder_in_loop_id==$current_bidder_id){ // ставка за текущего игрока
+                        if ($test) showTestMessage("Cтавка за ТЕКУЩЕГО игрока:", __FILE__, __LINE__, '#333');
+                        if($bid_counted_value>=$current_max_bid) { // расчётная ставка больше или равна текущему макс. биду
+                            $break = true;
+                            if ($test) showTestMessage("Последняя ставка (проставляется за текущего игрока):", __FILE__, __LINE__, 'orange');
+                        }
+                        /**
+                        текущая расчётная ставка больше его максимальной (т.е., - ЗБ) */
+                        if($bid_counted_value>$user_bid_value){
+                            $break = -1; // отмена выставления ставки, выход из цикла
+                            /**
+                            обратное присваивание значения последней ставки; нужно на случай,
+                            если входящая ставка находится вне диапазона реально допустимых
+                            ставок (например - 610, когда возможны только 600 и 620. В данном
+                            случае величина ставки будет снижена до 600).
+                            Ситуация может возникнуть, если юзер отправил заявку после того,
+                            как шаг торгов изменился (другой игрок выставил собственную заявку).
+                            Данное значение ниже будет использовано для изменения записи в таблице ЗБ */
+                            $bid_counted_value=$last_bid_counted_value;
+                            if ($test) showTestMessage("Ставка (<b>$bid_counted_value</b>) превысила входящий бид (<b>$post[bids]</b>) текущего юзера и будет отменена.", __FILE__, __LINE__, 'red');
+                        }
+                    }else{
+                        //if ($test) showTestMessage("Cтавка за ПРЕДЫДУЩЕГО игрока:", __FILE__, __LINE__, '#666');
+                        /**
+                        2. предыдущий игрок, расчётная ставка больше или равна входящей
                         и меньше ЗБ предыдущего игрока */
-                    if( // ставка за предыдущего игрока
-                        $current_max_bid > $bid_counted_value // максимальный ЗБ больше расчётной ставки
-                        && $bid_counted_value >=$user_bid_value) { // расчётная ставка превысила входящую
-                        $break=true;
-                        //if($test) showTestMessage("Последняя ставка (проставляется за предыдущего игрока):",__FILE__,__LINE__,'violet');
+                        if( // ставка за предыдущего игрока
+                            $current_max_bid > $bid_counted_value // максимальный ЗБ больше расчётной ставки
+                            && $bid_counted_value >=$user_bid_value) { // расчётная ставка превысила входящую
+                            $break=true;
+                            //if($test) showTestMessage("Последняя ставка (проставляется за предыдущего игрока):",__FILE__,__LINE__,'violet');
+                        }
                     }
                 }
                 if($test){
