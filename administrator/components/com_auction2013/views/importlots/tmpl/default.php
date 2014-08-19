@@ -95,16 +95,40 @@ foreach($lots as $top_cat_id => $array){
         </div>
 </form>
 <script>
-$( function(){  
-	$('input#alt_encoding').click( function(){
-			$('input#encoding_alt').attr('checked',true);
-		});
-	$('input[id^="top_cat_"]')
-		.click( function(){
+window.onload=function(){
+	document.getElementById('alt_encoding').onclick = function(){
+        document.getElementById('encoding_alt').checked=true;
+	};
+    var inputTopCats=document.querySelectorAll('input[id^="top_cat_"]'); // online, fulltime, shop
+    var hiddenRadios=document.querySelectorAll('div.hiddenRadios');
+    //console.dir(hiddenRadios);
+    for(var i in inputTopCats){
+        var topSectionRadio = inputTopCats[i];
+        if(topSectionRadio.id) { // патамушта может быть и функция
+            //console.log(topSectionRadio);
+            topSectionRadio.addEventListener('click', function (event) {
+                for (var j in hiddenRadios) {
+                    var catRadiosBlock=hiddenRadios[j];
+                    //console.log('catRadiosBlock = '+catRadiosBlock);
+                    var nativeId='top-' + event.currentTarget.getAttribute('data-top_cat_id');
+                    //console.dir('currentTarget = '+event.currentTarget);
+                    //console.log('nativeId = '+nativeId);
+                    if (typeof catRadiosBlock=='object') {// патамушта может быть null
+                        //console.log('catRadiosBlock is '+(typeof catRadiosBlock));
+                        if(catRadiosBlock.id==nativeId)
+                            catRadiosBlock.style.display = 'block';
+                        else
+                            catRadiosBlock.style.display = 'none';
+                    }
+                }
+            });
+        }
+    }
+		/*.click( function(){
 			$('div.hiddenRadios').fadeOut(200);
 			$('div#top-'+$(this).attr('data-top_cat_id')).fadeIn(200);
-		});
-	$('#check_flds')
+		});*/
+	/*$('#check_flds')
 		.click( function(){
 			$('#csv_pattern').fadeToggle(200);
 		});
@@ -126,8 +150,8 @@ $( function(){
 		.click( function(){
 			$(labelEncodingRadios).parent('label').css('background','transparent');
 			$(this).parent('label').css('background','#CCC');
-		});
-});
+		});*/
+}//);
 Joomla.submitbutton = function()
 {
 	var err=false;
