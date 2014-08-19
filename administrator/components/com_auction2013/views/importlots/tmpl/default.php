@@ -124,28 +124,36 @@ window.onload=function(){
             });
         }
     }
-		/*.click( function(){
-			$('div.hiddenRadios').fadeOut(200);
-			$('div#top-'+$(this).attr('data-top_cat_id')).fadeIn(200);
-		});*/
-	/*$('#check_flds')
-		.click( function(){
-			$('#csv_pattern').fadeToggle(200);
-		});
-	
-	var labelsTopSection=$('label input[name="top_cat"]');
-	$(labelsTopSection)
-		.click( function(){
-			$(labelsTopSection).parent('label').removeClass('checked');
-			$(this).parent('label').addClass('checked');
-		});
-	var labelsVmRadios=$('label input[name="virtuemart_category_id"]');
-	$(labelsVmRadios)
-		.click( function(){
-			$(labelsVmRadios).parent('label').removeAttr('class');
-			$(this).parent('label').attr('class','checked');
-		});
-	var labelEncodingRadios=$('div#encodings label input[type="radio"]');
+    var csv_pattern = document.getElementById('csv_pattern');
+    document.getElementById('check_flds').onclick=function(){
+        csv_pattern.style.display=(csv_pattern.style.display=="none")? "block":"none";
+    };
+    var labelsTopSections=document.querySelectorAll('label input[name="top_cat"]');
+    for(var lbl in labelsTopSections){
+        if(typeof labelsTopSections[lbl]=='object'){
+            labelsTopSections[lbl].addEventListener('click', function(event){
+                for(var iLbl in labelsTopSections){
+                    if(typeof labelsTopSections[iLbl]=='object')
+                        labelsTopSections[iLbl].parentNode.className='top_section';
+                }
+                event.currentTarget.parentNode.className='top_section checked';
+            });
+        }
+    }
+    var labelsVmRadios=document.querySelectorAll('label input[name="virtuemart_category_id"]');
+    for(var i in labelsVmRadios){
+        if(typeof labelsVmRadios[i]=='object'){
+            labelsVmRadios[i].addEventListener('click', function(event){
+                for(var iLbl in labelsVmRadios){
+                    if(typeof labelsVmRadios[iLbl]=='object')
+                        labelsVmRadios[iLbl].parentNode.removeAttribute('class');
+                }
+                event.currentTarget.parentNode.className='checked';
+            });
+        }
+    }
+    /*
+    var labelEncodingRadios=$('div#encodings label input[type="radio"]');
 	$(labelEncodingRadios)
 		.click( function(){
 			$(labelEncodingRadios).parent('label').css('background','transparent');
