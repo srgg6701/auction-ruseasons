@@ -131,31 +131,31 @@ $( function(){
 Joomla.submitbutton = function()
 {
 	var err=false;
-	if(!$('input[id^="top_cat_"]:checked').size()){
-		/*	С точки зрения отнесения категории предмета к родительской
+	if(!document.querySelectorAll('input[id^="top_cat_"]:checked').length){
+		/**
+            С точки зрения отнесения категории предмета к родительской
 			категории отметка данного чекбокса никакой роли не играет, 
 			поскольку вышеуказанная принадлежность определяется по id 
 			самой категории. Однако это необходимо для того, чтобы 
 			юзер выбрал правильную секцию, которая, как раз, и 
-			ограничивает диапазон id id категорий.
-		*/
+			ограничивает диапазон id id категорий. */
 		err='Вы не выбрали родительский раздел для списка предметов';
 	}else{
-		if(!$('input[name="virtuemart_category_id"]:checked').size()){
+		if(!document.querySelectorAll('input[name="virtuemart_category_id"]:checked').length){
 			err='Вы не выбрали категорию предметов';
 		}else{
-			if(!$('input#import_file').val()){
+			if(!document.getElementById('import_file').value){
 				err='Вы не указали расположение импортируемого файла';
-			}else if($('input[name="encoding"]:checked').val()=='another'&&!$('input[name="alt_encoding"]').val()){
+			}else if( document.querySelector('input[name="encoding"]:checked').value=='another'
+                      && !document.querySelector('input[name="alt_encoding"]').value){
 				err='Вы не указали имя альтернативной кодировки загружаемого файла';
 			}
 		}
 	}
 	if(err){
 		alert(err+'!');
-		return false;
 	}else{
-		$('form#adminForm').submit();
+		document.getElementById('adminForm').submit();
 	}
 }
 </script>
