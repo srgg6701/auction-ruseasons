@@ -124,42 +124,51 @@ window.onload=function(){
             });
         }
     }
+    // обработка видимости блока с пояснением
     var csv_pattern = document.getElementById('csv_pattern');
     document.getElementById('check_flds').onclick=function(){
         csv_pattern.style.display=(csv_pattern.style.display=="none")? "block":"none";
     };
-    var labelsTopSections=document.querySelectorAll('label input[name="top_cat"]');
-    for(var lbl in labelsTopSections){
-        if(typeof labelsTopSections[lbl]=='object'){
-            labelsTopSections[lbl].addEventListener('click', function(event){
-                for(var iLbl in labelsTopSections){
-                    if(typeof labelsTopSections[iLbl]=='object')
-                        labelsTopSections[iLbl].parentNode.className='top_section';
-                }
-                event.currentTarget.parentNode.className='top_section checked';
-            });
+
+    // обработать коллекцию найденных элементов
+    var handleObjects = function(objectsList,func){
+        for(var i in objectsList){
+            if(typeof objectsList[i]=='object'){
+                objectsList[i].addEventListener('click', function(event){
+                    for(var i2 in objectsList){
+                        if(typeof objectsList[i2]=='object'){
+                            func(objectsList[i2]);//objectsList[i2].parentNode.removeAttribute('class');
+                        }
+                    }
+                    func(event);
+                });
+            }
         }
-    }
-    var labelsVmRadios=document.querySelectorAll('label input[name="virtuemart_category_id"]');
-    for(var i in labelsVmRadios){
-        if(typeof labelsVmRadios[i]=='object'){
-            labelsVmRadios[i].addEventListener('click', function(event){
-                for(var iLbl in labelsVmRadios){
-                    if(typeof labelsVmRadios[iLbl]=='object')
-                        labelsVmRadios[iLbl].parentNode.removeAttribute('class');
-                }
-                event.currentTarget.parentNode.className='checked';
-            });
-        }
-    }
-    /*
-    var labelEncodingRadios=$('div#encodings label input[type="radio"]');
-	$(labelEncodingRadios)
-		.click( function(){
-			$(labelEncodingRadios).parent('label').css('background','transparent');
-			$(this).parent('label').css('background','#CCC');
-		});*/
-}//);
+    };
+    // обработка радиокнопок ТОП-категорий
+    var handleTopSections = function(obj){
+            if(obj.id) obj.parentNode.className='top_section';
+            else obj.currentTarget.className='top_section checked';
+        },
+        labelsTopSections=document.querySelectorAll('label input[name="top_cat"]');
+    handleObjects(labelsTopSections,handleTopSections);
+
+    // обработка радиокнопок вложенных категорий
+    var handleLabelsRadios = function(obj){
+            if(obj.id) obj.parentNode.removeAttribute('class');
+            else obj.currentTarget.className='checked';
+        },
+        labelsVmRadios=document.querySelectorAll('label input[name="virtuemart_category_id"]');
+    handleObjects(handleLabelsRadios,handleLabelsRadios);
+
+    // обработка радиокнопок с выбором кодировки импортируемого файла
+    var handleEncodingRadios = function(obj){
+            if(obj.id) obj.parentNode.style['background'] = 'transparent';
+            else obj.currentTarget.parentNode.style.background = '#CCC';
+        },
+        labelEncodingRadios=document.querySelectorAll('div#encodings label input[type="radio"]');
+    handleObjects(labelEncodingRadios,handleEncodingRadios);
+};
 Joomla.submitbutton = function()
 {
 	var err=false;
