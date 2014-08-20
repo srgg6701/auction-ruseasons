@@ -137,7 +137,7 @@ window.onload=function(){
                 objectsList[i].addEventListener('click', function(event){
                     for(var i2 in objectsList){
                         if(typeof objectsList[i2]=='object'){
-                            func(objectsList[i2]);//objectsList[i2].parentNode.removeAttribute('class');
+                            func(objectsList[i2]);
                         }
                     }
                     func(event);

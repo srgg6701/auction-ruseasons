@@ -236,8 +236,8 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
             echo HTML::showWatchedItems(true);
         exit;
     }
-    /**
- *
+/**
+ * Отправить предложение предмета для аукциона
  */
 	public function sendApplication(){
 		// Check for request forgeries.

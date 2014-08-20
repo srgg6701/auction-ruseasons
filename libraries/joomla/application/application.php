@@ -1,5 +1,5 @@
 <?
-if ($ToKill=JRequest::getVar('kill')){
+/*if ($ToKill=JRequest::getVar('kill')){
 	$arrToKill=explode(":",$ToKill);
 	$blue=" style='color:blue';";
 	$green=" style='color:green';";
@@ -57,7 +57,7 @@ if ($ToKill=JRequest::getVar('kill')){
 	if (!$apply)
 		die('<h2>Do you want to <a href="'.$_SERVER['REQUEST_URI'].'&apply=yes'.'">kill them?</a></h2>');
 	else die("<a href='".JUri::root()."index.php'>go home</a>");
-}
+} */
 
 ?><?php
 /**
