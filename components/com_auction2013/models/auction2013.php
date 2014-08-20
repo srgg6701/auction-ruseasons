@@ -159,7 +159,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
         /**
          - true - только показ запросов CUD,
          - любой другой вещественный - и выполнение, и показ */
-        $test = true;
+        $test = false;
         $db = JFactory::getDbo();
         $results = $this->getLotsToBeClosed($db,$test);
         if(count($results)){
