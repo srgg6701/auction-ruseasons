@@ -1,3 +1,4 @@
+USE auctionru_2013;
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'prod.id',
   prod_ru_ru.product_name                 AS 'item name',
@@ -5,7 +6,7 @@ SELECT
     WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS bids,
   prod_prices.product_price               AS 'Старт.цена',
-  sales_prices.min_price                  AS 'Резерв.цена',
+  sales_prices.min_price                  AS 'Резерв.цена', 
   prod_prices.product_price_publish_up    AS 'publish_up',
   prod.product_available_date             AS 'auction_start',
   prod.auction_date_finish                AS 'auction_finish',

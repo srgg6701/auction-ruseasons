@@ -181,7 +181,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      * Сделать ставку
      */
     public function makeBid(){
-        $test=true;
+        $test=false;
         $post = JRequest::get('post');
         $bid_result=$this->getModel()->makeUserBid($post);
 

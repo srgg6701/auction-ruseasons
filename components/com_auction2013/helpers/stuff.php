@@ -1796,6 +1796,9 @@ INNER JOIN #__users              AS users
       * метода sendMail(). Если он имеет вещественное значение, используется HTML.
       */
     public function sendMessagesToUsers($subject, $emailBody, $data=NULL, $from = 'noreply@auction-ruseasons.ru'){
+
+        $test=false;
+
         $admins_mails = $this->getAdminsForMail();
         if(!$data) $data = $admins_mails;
         // Send mail to all superadministrators id
@@ -1827,6 +1830,7 @@ INNER JOIN #__users              AS users
             }else{ // массив объектов с emails
                 foreach( $data as $row ){
                     try{// разослать сообщения:
+                        if($test) commonDebug(__FILE__,__LINE__,array('data'=>$data,$from,$fromname,$row->email,$subject,$emailBody));
                         JFactory::getMailer()->sendMail($from,$fromname,$row->email,$subject,$emailBody,true);
                     }catch (Exception $e){
                         $errors[]='email: '.$row->email.', ошибка: ' . $e->getMessage();
@@ -1840,6 +1844,10 @@ INNER JOIN #__users              AS users
             foreach ($admins_mails as $admin_mail) {
                 JFactory::getMailer()->sendMail($from,'Test mail',$admin_mail,"Ошибка отправки сообщения",$message,true);
             }
-        } //return true;
+        }
+        if($test){
+            commonDebug(__FILE__,__LINE__,array($errors,$data));
+        }
+
     }
 }

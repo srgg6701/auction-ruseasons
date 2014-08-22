@@ -6,4 +6,7 @@
 <file name="index.html" server="I:/auction-ruseasons/" local="130419717402920000" remote="130419717420000000" Dst="0" />
 <file name="install.mysql.utf8.sql" server="I:/auction-ruseasons/" local="130419717402930000" remote="130419717420000000" Dst="0" />
 <file name="uninstall.mysql.utf8.sql" server="I:/auction-ruseasons/" local="130419717402940000" remote="130419717420000000" Dst="0" />
+<file name="index.html" server="77.222.40.220//2013/public_html/" local="130499714400000000" remote="130499714400000000" Dst="0" />
+<file name="install.mysql.utf8.sql" server="77.222.40.220//2013/public_html/" local="130499714400000000" remote="130499714400000000" Dst="0" />
+<file name="uninstall.mysql.utf8.sql" server="77.222.40.220//2013/public_html/" local="130499714400000000" remote="130499714400000000" Dst="0" />
 </dwsync>

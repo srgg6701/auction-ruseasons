@@ -163,7 +163,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
         $db = JFactory::getDbo();
         $results = $this->getLotsToBeClosed($db,$test);
         if(count($results)){
-            $common_path=dirname(__FILE__).'/../'; // com_auction2013
+            $common_path=dirname(__FILE__).'/../';
             // получить файл с реквизитами:
             $banking_details = file_get_contents($common_path.'banking_details.txt');
             require_once $common_path.'helpers/stuff.php';
@@ -176,6 +176,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
                     // пополнить массив непроданных предметов
                     $ids_unsold[]=$info['virtuemart_product_id'];
                 }else{
+                    //commonDebug(__FILE__,__LINE__,$info);
                     $users->sendMessagesToUsers('Вы стали победителем аукциона!',
                         '<p>Здравствуйте, ' .$info['name'] . '!</p>
                                 <p>Рады вам сообщить, что вы стали победителем

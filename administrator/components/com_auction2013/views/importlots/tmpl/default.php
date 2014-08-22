@@ -95,67 +95,108 @@ foreach($lots as $top_cat_id => $array){
         </div>
 </form>
 <script>
-$( function(){  
-	$('input#alt_encoding').click( function(){
-			$('input#encoding_alt').attr('checked',true);
-		});
-	$('input[id^="top_cat_"]')
-		.click( function(){
-			$('div.hiddenRadios').fadeOut(200);
-			$('div#top-'+$(this).attr('data-top_cat_id')).fadeIn(200);
-		});
-	$('#check_flds')
-		.click( function(){
-			$('#csv_pattern').fadeToggle(200);
-		});
-	
-	var labelsTopSection=$('label input[name="top_cat"]');
-	$(labelsTopSection)
-		.click( function(){
-			$(labelsTopSection).parent('label').removeClass('checked');
-			$(this).parent('label').addClass('checked');
-		});
-	var labelsVmRadios=$('label input[name="virtuemart_category_id"]');
-	$(labelsVmRadios)
-		.click( function(){
-			$(labelsVmRadios).parent('label').removeAttr('class');
-			$(this).parent('label').attr('class','checked');
-		});
-	var labelEncodingRadios=$('div#encodings label input[type="radio"]');
-	$(labelEncodingRadios)
-		.click( function(){
-			$(labelEncodingRadios).parent('label').css('background','transparent');
-			$(this).parent('label').css('background','#CCC');
-		});
-});
+window.onload=function(){
+	document.getElementById('alt_encoding').onclick = function(){
+        document.getElementById('encoding_alt').checked=true;
+	};
+    var inputTopCats=document.querySelectorAll('input[id^="top_cat_"]'); // online, fulltime, shop
+    var hiddenRadios=document.querySelectorAll('div.hiddenRadios');
+    //console.dir(hiddenRadios);
+    for(var i in inputTopCats){
+        var topSectionRadio = inputTopCats[i];
+        if(topSectionRadio.id) { // патамушта может быть и функция
+            //console.log(topSectionRadio);
+            topSectionRadio.addEventListener('click', function (event) {
+                for (var j in hiddenRadios) {
+                    var catRadiosBlock=hiddenRadios[j];
+                    //console.log('catRadiosBlock = '+catRadiosBlock);
+                    var nativeId='top-' + event.currentTarget.getAttribute('data-top_cat_id');
+                    //console.dir('currentTarget = '+event.currentTarget);
+                    //console.log('nativeId = '+nativeId);
+                    if (typeof catRadiosBlock=='object') {// патамушта может быть null
+                        //console.log('catRadiosBlock is '+(typeof catRadiosBlock));
+                        if(catRadiosBlock.id==nativeId)
+                            catRadiosBlock.style.display = 'block';
+                        else
+                            catRadiosBlock.style.display = 'none';
+                    }
+                }
+            });
+        }
+    }
+    // обработка видимости блока с пояснением
+    var csv_pattern = document.getElementById('csv_pattern');
+    document.getElementById('check_flds').onclick=function(){
+        csv_pattern.style.display=(csv_pattern.style.display=="none")? "block":"none";
+    };
+
+    // обработать коллекцию найденных элементов
+    var handleObjects = function(objectsList,func){
+        for(var i in objectsList){
+            if(typeof objectsList[i]=='object'){
+                objectsList[i].addEventListener('click', function(event){
+                    for(var i2 in objectsList){
+                        if(typeof objectsList[i2]=='object'){
+                            func(objectsList[i2]);
+                        }
+                    }
+                    func(event);
+                });
+            }
+        }
+    };
+    // обработка радиокнопок ТОП-категорий
+    var handleTopSections = function(obj){
+            if(obj.id) obj.parentNode.className='top_section';
+            else obj.currentTarget.className='top_section checked';
+        },
+        labelsTopSections=document.querySelectorAll('label input[name="top_cat"]');
+    handleObjects(labelsTopSections,handleTopSections);
+
+    // обработка радиокнопок вложенных категорий
+    var handleLabelsRadios = function(obj){
+            if(obj.id) obj.parentNode.removeAttribute('class');
+            else obj.currentTarget.className='checked';
+        },
+        labelsVmRadios=document.querySelectorAll('label input[name="virtuemart_category_id"]');
+    handleObjects(handleLabelsRadios,handleLabelsRadios);
+
+    // обработка радиокнопок с выбором кодировки импортируемого файла
+    var handleEncodingRadios = function(obj){
+            if(obj.id) obj.parentNode.style['background'] = 'transparent';
+            else obj.currentTarget.parentNode.style.background = '#CCC';
+        },
+        labelEncodingRadios=document.querySelectorAll('div#encodings label input[type="radio"]');
+    handleObjects(labelEncodingRadios,handleEncodingRadios);
+};
 Joomla.submitbutton = function()
 {
 	var err=false;
-	if(!$('input[id^="top_cat_"]:checked').size()){
-		/*	С точки зрения отнесения категории предмета к родительской
+	if(!document.querySelectorAll('input[id^="top_cat_"]:checked').length){
+		/**
+            С точки зрения отнесения категории предмета к родительской
 			категории отметка данного чекбокса никакой роли не играет, 
 			поскольку вышеуказанная принадлежность определяется по id 
 			самой категории. Однако это необходимо для того, чтобы 
 			юзер выбрал правильную секцию, которая, как раз, и 
-			ограничивает диапазон id id категорий.
-		*/
+			ограничивает диапазон id id категорий. */
 		err='Вы не выбрали родительский раздел для списка предметов';
 	}else{
-		if(!$('input[name="virtuemart_category_id"]:checked').size()){
+		if(!document.querySelectorAll('input[name="virtuemart_category_id"]:checked').length){
 			err='Вы не выбрали категорию предметов';
 		}else{
-			if(!$('input#import_file').val()){
+			if(!document.getElementById('import_file').value){
 				err='Вы не указали расположение импортируемого файла';
-			}else if($('input[name="encoding"]:checked').val()=='another'&&!$('input[name="alt_encoding"]').val()){
+			}else if( document.querySelector('input[name="encoding"]:checked').value=='another'
+                      && !document.querySelector('input[name="alt_encoding"]').value){
 				err='Вы не указали имя альтернативной кодировки загружаемого файла';
 			}
 		}
 	}
 	if(err){
 		alert(err+'!');
-		return false;
 	}else{
-		$('form#adminForm').submit();
+		document.getElementById('adminForm').submit();
 	}
 }
 </script>
