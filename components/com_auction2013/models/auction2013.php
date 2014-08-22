@@ -72,13 +72,13 @@ FROM  #__virtuemart_products           AS prods,
    AND cts.category_layout = 'online' ) ";
         $db->setQuery($query);
         $results = $db->loadColumn();
-        testSQL($query,__FILE__, __LINE__, false);
+        //testSQL($query,__FILE__, __LINE__, false);
         $insert="INSERT INTO #__dev_lots_active (virtuemart_product_id) VALUES ";
         foreach ($results as $i=>$virtuemart_product_id) {
             if($i) $insert.=",";
             $insert.="($virtuemart_product_id)";
         }
-        commonDebug(__FILE__,__LINE__,$insert); if($test) die();
+        //commonDebug(__FILE__,__LINE__,$insert); if($test) die();
         if($i){
             $db->setQuery($insert)->query();
             return $i;

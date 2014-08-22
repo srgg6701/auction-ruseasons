@@ -630,7 +630,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 
           $query.="
         ORDER BY prices.product_price_publish_up " . self::getPagesLimit();
-        testSQL($query, __FILE__, __LINE__);
+        //testSQL($query, __FILE__, __LINE__);
         $ids=JFactory::getDbo()->setQuery($query)->loadColumn();
         return $ids;
     }
@@ -1465,7 +1465,8 @@ class HTML{
                     $result=$db->loadAssocList();
                 else
                     $result=$db->loadResultArray();
-                commonDebug(false, false, array($qinfo=>$result), false);?>
+                
+				commonDebug(false, false, array($qinfo=>$result), false);?>
                 </div><?php
             }
             ?>
