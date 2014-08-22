@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title=":: Мои лоты" option="com_user_profile_data_option">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_USER_PROFILE_LOTS"
+		/>
+		<message>
+			<![CDATA[com_user_profile_lots_default_desc]]>
+		</message>
+	</layout>
+</metadata>

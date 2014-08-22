@@ -1,0 +1,91 @@
+.bg-yellow{
+    background-color: #ffff00;
+}
+.bg-orange{
+    background-color: orange;
+}
+.block{
+    display: block;
+}
+.header_query{
+    background-color: lightpink;
+    border-top-left-radius: 4px;
+    display: table;
+    margin-left: 4px;
+    margin-top: 6px;
+    border-top-right-radius: 4px;
+    padding: 8px 10px 6px;
+}
+.test-box{
+    border: solid 1px #ccc;
+    border-radius:4px;
+    box-shadow: -4px -4px 53px 0 #FFF inset;
+    display: none;
+    margin: 4px 12px;
+    overflow: auto;
+    padding: 10px;
+    text-align: left;
+}
+span.link{
+    color:blue !important;
+    cursor: default;
+}
+.test-box.first{
+    display: block;
+}
+.test-box.first h4{
+    display: inline-block;
+    font-weight: normal;
+}
+.error-text{
+    color: red;
+}
+.warning-text{
+    color: orange;
+}
+
+.cmd_apply,
+.cmd_cancel{
+    background-repeat: no-repeat !important;
+    background-position: center;
+    opacity: 0.5;
+    width: 20px;
+}
+.floatLeft{
+    float: left !important;
+}
+:not(th).cmd_apply:hover,
+:not(th).cmd_cancel:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+.cmd_apply, .ok{
+    background-image: url(../../components/com_virtuemart/assets/images/admin_ui/apply.png);
+    opacity: 0.5;
+}
+.cmd_cancel, .taken, .empty{
+    background-image: url(../../components/com_virtuemart/assets/images/admin_ui/cancel.png);
+    opacity: 0.3;
+}
+.ok, .taken, .empty{
+    background-repeat: no-repeat;
+    float: left;
+    height: 16px;
+    margin-top: 6px;
+    opacity:1;
+    padding-left: 20px;
+    width: 16px;
+    white-space: nowrap;
+}
+.ok:after{
+    content:'свободно';
+}
+.taken:after{
+    content:'занято';
+}
+.empty:after{
+    content:'укажите номер аукциона';
+}
+tr.center th{
+    text-align: center !important;
+}

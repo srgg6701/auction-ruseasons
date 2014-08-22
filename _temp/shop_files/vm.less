@@ -1,0 +1,272 @@
+@import url(styles.less);
+
+@borderThickBrown:solid 1px rgb(132, 17, 19);
+
+.inBlock{
+	display:inline-block;
+}
+.txtBrown{
+	color: rgb(132, 17, 19);
+}
+.width75{
+	box-sizing:border-box;
+	width:75%;
+} 
+
+.width70{
+	box-sizing:border-box;
+	width:70%;
+} 
+
+.width30{
+	box-sizing:border-box;
+	width:30%;
+} 
+
+
+ul.table{
+	display:table;
+	li{
+		display:table-cell;
+		list-style:none;
+		text-align:center;
+		width:33%;
+		white-space:nowrap;
+		a{
+			&:hover{
+				text-decoration:underline !important;
+			}
+		}
+	}
+}
+
+
+div.top_list_mn{
+	height: 25px;
+	margin-top: 10px;
+	text-align:right;
+	div{
+		display: inline-block;
+		float:right;
+		margin-right:20px;
+		a{
+			color:@brown;
+			font-size:13px;
+			font-weight: bold;
+			text-decoration: underline;
+		}
+	}
+}
+
+div.top_list{
+	//height:45px;
+	position: relative;
+	h2{			
+		//display: block;
+		display: inline-block;
+		//float:left;
+		font-size: 20px;
+		font-weight: bold;
+		max-width: 400px;
+		margin-bottom: 0px;
+		margin-top:10px;
+		.txtBrown;
+		div.weak{
+			display:inline-block;
+			line-height:29px;
+		}
+	}
+	div.top_list_mn{
+		display: inline-block;	
+		float:right;
+		margin-top: 0;
+		position: absolute;
+		right: 0;
+		top: 19px;
+	}
+}
+
+div.lots_listing{
+	border-top:@borderThickBrown;
+	border-bottom:@borderThickBrown;
+	color: rgb(132, 17, 19);
+	display: block;
+	font-family: Verdana;
+	font-size: 13px;
+	height: 24px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 10px;
+	padding-top: 6px;
+}
+
+.imHeader{
+	font-size: 14px;
+	a{
+		height: auto;
+		text-decoration: none !important;
+	}
+}
+
+div.item-page-shop{
+	*{
+		font-family: Verdana;
+	}
+	div.box, td.box{
+		display:inline-block;
+		font-size: 13px;
+		padding:5px;
+		.txtBrown;
+		vertical-align:top;
+		width: 226px;
+		div.img{
+			background-color: rgb(255, 255, 255);
+			border: solid 1px rgb(132, 17, 19);
+			height: 228px;
+			overflow-x: hidden;
+			overflow-y: hidden;
+			vertical-align: middle;
+			width: 226px;
+		}
+		div.PricesalesPrice{
+			//padding-top: 5px;
+			min-height: 35px;
+		}
+		h2{
+			.imHeader;
+		}
+	}
+	&.fulltime{
+		.box{
+			.img{
+				height:228px;
+			}
+		}
+		td.desc{
+			padding-left:28px;
+			h2{ 
+				.imHeader;
+			}
+		}
+	}
+	p.product_s_desc{
+		color:black;
+		color:black;
+	}
+}
+
+// PRODUCT DETAILS
+
+div.gallery_lot{
+
+	width: 350px;
+	float: left;
+	
+	div#galleryContainer{
+		
+		div.main_im_lot{
+			
+			margin-left: 0px;
+			
+			div#galleryBigImage{
+			
+				background: white;
+				border: 1px solid @brownDark;;
+				display: table-cell;
+				height: 334px;
+				margin: 10px auto;
+				vertical-align: middle;
+				width: 334px;
+				
+				div#bigLeadImage{
+					img{
+						border: none;
+						width: 334px;
+						height: 334px;
+						&.MagicZoomPlus{
+							border: 0 !important;
+							padding: 0 !important;
+							margin: 0 !important;
+						}
+					}
+					.MagicZoomPlus{					
+						cursor: url(graphics/zoomin.cur), pointer;
+						outline: 0 !important;
+						.MagicZoomBigImageCont{
+							border: 0px solid #999;
+							.MagicZoomHeader{
+								font-size: 8pt !important;
+								line-height: normal !important;
+								color: white;
+								background: #666;
+								text-align: center !important;
+							}
+						}
+						.MagicZoomPup{
+							border: 1px solid #AAA;
+							background: white;
+							cursor: move;
+						}
+					}
+				}				
+			}
+		}
+		div#galleryThumbs{
+			div.tumb{
+				margin-left: 0px;
+				padding-left: 0px; 
+				
+				div.th_imgage{
+					border: 1px solid @brownDark;
+					background: white;
+					display: inline-block;
+					height: 82px;
+					margin: 10px 10px 10px 0;
+					vertical-align: middle;
+					width: 82px;
+					
+					div.inside_image_preview{
+						display: table-cell;
+						height: 82px;
+						vertical-align: middle;
+						width: 82px;
+					}
+				}
+			}
+		}
+	}
+}
+
+div.box_desc{
+	
+	float: right;
+	font-family:verdana, Geneva, sans-serif;
+	font-size:12.5px;
+	width: 360px;
+	
+	div.bord_bottom{
+		border-bottom: 1px solid;
+		color:@brownDark;
+		font-size:13px;
+		margin: 5px 0px;
+		width: 366px;
+	}
+	
+	div.o_o{
+		clear: both;
+		margin-top: 6px;
+		overflow: hidden;
+		span{
+			&.span_o_o{
+			}
+		}
+		a{
+			span.bold span_o_o{
+		
+			}
+		}
+	}
+	
+}
+

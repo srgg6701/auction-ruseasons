@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<!-- 
+		Описание всех возможных полей:
+		http://docs.joomla.org/Form_field
+		http://docs.joomla.org/Standard_form_field_and_parameter_types
+	-->
+	<fieldset
+		name="Fieldset 1 name"
+		label="COM_AUCTION2013_FIELDSET_1"
+		description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC">
+
+		<field
+			name="Field name1"
+			type="radio"
+			default="Value by default"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC">
+		</field>
+
+		<field
+			name="Field name2"
+			type="checkbox"
+			default="1"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC">
+		</field>
+
+		<field
+			name="Field name3"
+			type="checkboxes"
+			default="0"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
+			name="Field name4"
+			type="category"
+			default="1"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC"
+			extension="COM_AUCTION2013">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
+			name="Field name5"
+			type="list"
+			default="1"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC">
+			<option
+				value="0">JNONE</option>
+			<option
+				value="1">COM_AUCTION2013_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
+			<option
+				value="2">COM_AUCTION2013_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
+		</field>
+
+		<field
+			name="Field name6"
+			type="plugins"
+			folder="captcha"
+			default=""
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC"
+			filter="cmd" >
+			<option
+				value="">JOPTION_USE_DEFAULT</option>
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
+		</field>
+
+		<field
+			name="Field name7"
+			type="componentlayout"
+			default="1"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC">
+		</field>
+
+	</fieldset>
+
+ 	<fieldset
+		name="Fieldset 2 name"
+		label="COM_AUCTION2013_FIELDSET_2"
+		description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC">
+
+		<field
+ 			name="Field name8"
+ 			type="text"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC"
+		/>
+
+ 		<field
+ 			name="Field name9"
+			type="textarea"
+ 			rows="5"
+ 			cols="30"
+			label="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_LABEL"
+			description="COM_AUCTION2013_CONFIG_FIELD_THIS_PARAM_DESC"
+		/>
+
+	</fieldset>
+
+</config>

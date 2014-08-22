@@ -1,0 +1,93 @@
+@import url(styles.less);
+div.gallery_lot{
+	float:left;
+	width:350px;
+	div#galleryContainer{
+        div.main_im_lot{
+			margin-left:0px;
+			div#galleryBigImage{
+				background:#fff;
+				border:solid 1px @brownDark;
+				display:table-cell;
+				height:334px; 
+				vertical-align:middle;
+				width:334px;
+				div#bigLeadImage{
+					text-align:center;
+					div.MagicZoomBigImageCont{
+						height: 293px; 
+						left: 349px;
+						opacity: 1; 
+						overflow: hidden; 
+						position: absolute; 
+						top: -10000px; 
+						width: 450px; 
+						z-index: 100; 
+						div.MagicZoomHeader{
+							display: none;
+							left: 0px; 
+							padding: 3px;  
+							position: relative; 
+							top: 0px; 
+							visibility: hidden;
+							z-index: 10; 
+						} /*MagicZoomHeader*/
+					} /*MagicZoomBigImageCont*/
+					div.MagicZoomPup{
+						border:solid 2px;
+						display: none; 
+						height: 80px; 
+						left: 0px; 
+						opacity: 0.5; 
+						overflow: hidden; 
+						position: absolute; 
+						top: 80px;
+						visibility: hidden; 
+						width: 123px; 
+						z-index: 10; 
+					} /*MagicZoomPup*/					 
+				} /*bigLeadImage*/
+			} /*galleryBigImage*/
+		} /*main_im_lot*/
+		div#galleryThumbs{
+			margin-top: 5px;
+			text-align:center;
+			width: 336px;
+			div:first-child{	
+				margin-left: 0px;
+				padding-left: 0px; 
+				div.th_imgage{
+					background:#fff;
+					border:1px solid; 
+					height:82px;
+					display:inline-block; 
+					margin:6px 4px;
+					vertical-align:middle;
+					width:82px;
+				}
+			}
+		} /*galleryThumbs*/
+	} /*galleryContainer*/
+} /*gallery_lot*/
+div.box_desc{
+	float:right;
+	width:360px;
+	div{
+		margin:5px 0px;
+	}
+	.o_o{
+		clear:both;
+		overflow:hidden;
+		color:@veryDarkLink;
+	}
+	.span_o_o{
+		color:@brown;
+	}
+	.span_o_o1{
+		color:@veryDarkLink;
+	}
+	.span_o_o a {
+		color:@veryDarkLink;
+		text-decoration:underline;
+	}
+}

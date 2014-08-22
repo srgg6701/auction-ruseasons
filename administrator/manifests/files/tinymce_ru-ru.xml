@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="file" version="2.5" method="upgrade">
+	<name>TinyMCE ru-RU</name>
+	<creationDate>2012-06-19</creationDate>
+	<author>Russian Translation Team</author>
+	<authorEmail>smart@joomlaportal.ru</authorEmail>
+	<authorUrl>www.joomlaportal.ru</authorUrl>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>3.5.2.1</version>
+	<description>Russian Language Package for TinyMCE 3.5.2.1 in Joomla 2.5</description>
+	<fileset>
+		<files target="media/editors">
+			<folder>tinymce/jscripts/tiny_mce/langs</folder>
+			<folder>tinymce/jscripts/tiny_mce/plugins</folder>
+			<folder>tinymce/jscripts/tiny_mce/themes</folder>
+		</files>
+	</fileset>
+</extension>

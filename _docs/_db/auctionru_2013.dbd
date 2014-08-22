@@ -1,0 +1,3368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), the Database Diagram File -->
+<!-- Modifying this generated file will probably render it invalid -->
+<DevartDatabaseDiagram>
+  <SchemaVersion>1.2</SchemaVersion>
+  <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
+  <Connection>
+    <Name>LocalHost</Name>
+    <ConnectionString>User Id=root;Host=localhost;Database=auctionru_2013;Character Set=utf8</ConnectionString>
+  </Connection>
+  <Settings>
+    <DbDiagramOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <CustomProperties />
+    </DbDiagramOptions>
+    <Options xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PageOptions">
+      <TopLeftMargins>
+        <Width>10 mm</Width>
+        <Height>10 mm</Height>
+      </TopLeftMargins>
+      <BottomRightMargins>
+        <Width>10 mm</Width>
+        <Height>10 mm</Height>
+      </BottomRightMargins>
+      <PaperSize>
+        <Width>210 mm</Width>
+        <Height>297 mm</Height>
+      </PaperSize>
+    </Options>
+    <Options xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PrintOptions" />
+    <Options xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="ViewOptions">
+      <ShadowOffset>
+        <X>4 px</X>
+        <Y>4 px</Y>
+      </ShadowOffset>
+      <CustomProperties />
+    </Options>
+  </Settings>
+  <VirtualRelations>
+    <RelationCount>0</RelationCount>
+  </VirtualRelations>
+  <Diagram Version="1.10.0.92">
+    <DiagramModel>
+      <Model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="RootModel">
+        <CustomProperties>
+          <OID>0</OID>
+        </CustomProperties>
+        <Children>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>1</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>810 px</X>
+              <Y>3600 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_config</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>2</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1930 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>222 px</Width>
+              <Height>314 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_fields</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>3</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>640 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>218 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_filter</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>4</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1000 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>233 px</Width>
+              <Height>174 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_history</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>5</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4900 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>221 px</Width>
+              <Height>331 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_list</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>6</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2490 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>273 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_listcampaign</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>7</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2800 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>235 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_listmail</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>8</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2950 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>230 px</Width>
+              <Height>161 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_listsub</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>9</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4260 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>214 px</Width>
+              <Height>501 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_mail</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>10</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4720 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>178 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_queue</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>11</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4200 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>219 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_rules</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>12</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3000 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>219 px</Width>
+              <Height>297 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_stats</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>13</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5370 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>256 px</Width>
+              <Height>263 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_subscriber</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>14</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2740 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>247 px</Width>
+              <Height>365 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_template</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>15</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2800 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>204 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_url</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>16</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>730 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>235 px</Width>
+              <Height>178 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_urlclick</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>17</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>670 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>248 px</Width>
+              <Height>246 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_acymailing_userstats</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>18</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4460 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>168 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_assets</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>19</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5220 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>186 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_associations</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>20</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3080 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>188 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_auction2013</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>21</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2540 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>231 px</Width>
+              <Height>569 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_banners</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>22</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2190 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>314 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_banner_clients</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>23</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4570 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>201 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_banner_tracks</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>24</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3410 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>246 px</Width>
+              <Height>518 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_categories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>25</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>730 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>246 px</Width>
+              <Height>790 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_contact_details</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>26</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1020 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>246 px</Width>
+              <Height>654 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_content</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>27</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>240 px</X>
+              <Y>3600 px</Y>
+            </Location>
+            <Size>
+              <Width>231 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_content_frontpage</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>28</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4230 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>205 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_content_rating</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>29</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2310 px</X>
+              <Y>3600 px</Y>
+            </Location>
+            <Size>
+              <Width>231 px</Width>
+              <Height>90 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_core_log_searches</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>30</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3030 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>365 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_extensions</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>31</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3800 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>246 px</Width>
+              <Height>297 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_filters</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>32</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1240 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>248 px</Width>
+              <Height>399 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>33</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2530 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms0</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>34</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3860 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms1</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>35</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5130 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms2</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>36</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>620 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms3</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>37</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3580 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms4</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>38</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>0 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms5</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>39</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5410 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms6</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>40</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1180 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms7</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>41</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1460 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms8</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>42</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1740 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_terms9</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>43</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>340 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>240 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_termsa</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>44</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>620 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_termsb</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>45</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>900 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>240 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_termsc</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>46</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3010 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_termsd</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>47</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3300 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>240 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_termse</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>48</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2020 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>238 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_links_termsf</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>49</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5360 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>220 px</Width>
+              <Height>178 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_taxonomy</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>50</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>900 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>259 px</Width>
+              <Height>124 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_taxonomy_map</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>51</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3970 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>191 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_terms</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>52</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>510 px</X>
+              <Y>3600 px</Y>
+            </Location>
+            <Size>
+              <Width>259 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_terms_common</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>53</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3220 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>198 px</Width>
+              <Height>157 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_tokens</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>54</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3320 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>277 px</Width>
+              <Height>225 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_tokens_aggregate</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>55</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2300 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>189 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_finder_types</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>56</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2700 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>212 px</Width>
+              <Height>161 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_geodesic_logins</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>57</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Size>
+              <Width>325 px</Width>
+              <Height>1368 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_geodesic_users</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>58</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>370 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>325 px</Width>
+              <Height>1368 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_geodesic_users_backup</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>59</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3260 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>177 px</Width>
+              <Height>297 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_languages</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>60</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4800 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>235 px</Width>
+              <Height>501 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_menu</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>61</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1800 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>186 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_menu_types</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>62</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2460 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>196 px</Width>
+              <Height>229 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_messages</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>63</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>0 px</X>
+              <Y>3600 px</Y>
+            </Location>
+            <Size>
+              <Width>199 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_messages_cfg</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>64</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2480 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>365 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_modules</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>65</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4450 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>207 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_modules_menu</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>66</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2810 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>535 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_newsfeeds</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>67</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2810 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>165 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_overrider</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>68</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2690 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>202 px</Width>
+              <Height>229 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_redirect_links</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>69</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1390 px</X>
+              <Y>3600 px</Y>
+            </Location>
+            <Size>
+              <Width>187 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_schemas</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>70</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4950 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>197 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_session</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>71</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4180 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>212 px</Width>
+              <Height>178 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_template_styles</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>72</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2770 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>199 px</Width>
+              <Height>297 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_updates</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>73</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>0 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>230 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_update_categories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>74</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2100 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>245 px</Width>
+              <Height>161 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_update_sites</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>75</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1080 px</X>
+              <Y>3600 px</Y>
+            </Location>
+            <Size>
+              <Width>274 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_update_sites_extensions</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>76</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1280 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>179 px</Width>
+              <Height>161 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_usergroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>77</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3990 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>230 px</Width>
+              <Height>518 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_users</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>78</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>0 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>331 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_user_notes</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>79</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1200 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>192 px</Width>
+              <Height>123 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_user_profiles</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>80</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3540 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>249 px</Width>
+              <Height>107 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_user_usergroup_map</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>81</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5170 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>174 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_viewlevels</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>82</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4690 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>314 px</Width>
+              <Height>280 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_adminmenuentries</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>83</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5080 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>260 px</Width>
+              <Height>484 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_calcs</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>84</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>290 px</X>
+              <Y>3430 px</Y>
+            </Location>
+            <Size>
+              <Width>291 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_calc_categories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>85</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4140 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>284 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_calc_countries</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>86</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4460 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>323 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_calc_shoppergroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>87</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4820 px</X>
+              <Y>3260 px</Y>
+            </Location>
+            <Size>
+              <Width>261 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_calc_states</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>88</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>320 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>266 px</Width>
+              <Height>450 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_categories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>89</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2800 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>303 px</Width>
+              <Height>195 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_categories_ru_ru</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>90</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4810 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>325 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_category_categories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>91</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3460 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>302 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_category_medias</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>92</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2520 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>241 px</Width>
+              <Height>195 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_configs</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>93</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2460 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>266 px</Width>
+              <Height>297 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_countries</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>94</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5520 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>249 px</Width>
+              <Height>331 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_coupons</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>95</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>0 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>272 px</Width>
+              <Height>450 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_currencies</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>96</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4520 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>248 px</Width>
+              <Height>501 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_customs</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>97</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4400 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>246 px</Width>
+              <Height>280 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_invoices</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>98</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3510 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>350 px</Width>
+              <Height>195 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_manufacturercategories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>99</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>970 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>397 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_manufacturercategories_ru_ru</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>100</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2940 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>348 px</Width>
+              <Height>229 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_manufacturers</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>101</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4990 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>332 px</Width>
+              <Height>178 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_manufacturers_ru_ru</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>102</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3800 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>336 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_manufacturer_medias</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>103</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>620 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>249 px</Width>
+              <Height>433 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_medias</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>104</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>960 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>353 px</Width>
+              <Height>246 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_migration_oldtonew_ids</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>105</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2230 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>242 px</Width>
+              <Height>195 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_modules</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>106</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1600 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>316 px</Width>
+              <Height>637 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_orders</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>107</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>980 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>266 px</Width>
+              <Height>314 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_orderstates</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>108</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3300 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>299 px</Width>
+              <Height>348 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_order_calc_rules</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>109</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5040 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>289 px</Width>
+              <Height>263 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_order_histories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>110</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5380 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>277 px</Width>
+              <Height>450 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_order_items</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>111</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3080 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>293 px</Width>
+              <Height>535 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_order_userinfos</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>112</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5170 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>313 px</Width>
+              <Height>331 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_paymentmethods</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>113</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1400 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>351 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_paymentmethods_ru_ru</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>114</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4470 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>409 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_paymentmethod_shoppergroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>115</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4090 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>271 px</Width>
+              <Height>297 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_permgroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>116</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1310 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>257 px</Width>
+              <Height>637 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_products</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>117</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3640 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>291 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_products_ru_ru</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>118</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>270 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>318 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_product_categories</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>119</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1290 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>334 px</Width>
+              <Height>314 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_product_customfields</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>120</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2410 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>347 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_product_manufacturers</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>121</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>630 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>295 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_product_medias</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>122</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>910 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>290 px</Width>
+              <Height>399 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_product_prices</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>123</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3490 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>307 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_product_relations</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>124</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3840 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>349 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_product_shoppergroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>125</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1350 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>251 px</Width>
+              <Height>246 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_ratings</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>126</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3640 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>288 px</Width>
+              <Height>348 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_rating_reviews</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>127</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>330 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>273 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_rating_votes</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>128</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>270 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>316 px</Width>
+              <Height>331 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_shipmentmethods</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>129</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4170 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>355 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_shipmentmethods_ru_ru</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>130</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3040 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>413 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_shipmentmethod_shoppergroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>131</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4270 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>288 px</Width>
+              <Height>348 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_shoppergroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>132</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3960 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>266 px</Width>
+              <Height>348 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_states</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>133</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2230 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>275 px</Width>
+              <Height>586 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_userfields</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>134</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>0 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>297 px</Width>
+              <Height>263 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_userfield_values</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>135</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3700 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>253 px</Width>
+              <Height>518 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_userinfos</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>136</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>340 px</X>
+              <Y>2280 px</Y>
+            </Location>
+            <Size>
+              <Width>289 px</Width>
+              <Height>263 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_vendors</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>137</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>0 px</X>
+              <Y>2590 px</Y>
+            </Location>
+            <Size>
+              <Width>286 px</Width>
+              <Height>212 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_vendors_ru_ru</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>138</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>5390 px</X>
+              <Y>2850 px</Y>
+            </Location>
+            <Size>
+              <Width>290 px</Width>
+              <Height>144 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_vendor_medias</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>139</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>630 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>316 px</Width>
+              <Height>314 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_vmusers</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>140</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>2020 px</X>
+              <Y>3070 px</Y>
+            </Location>
+            <Size>
+              <Width>347 px</Width>
+              <Height>127 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_vmuser_shoppergroups</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>141</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>3480 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>283 px</Width>
+              <Height>297 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_waitingusers</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>142</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>4600 px</X>
+              <Y>1410 px</Y>
+            </Location>
+            <Size>
+              <Width>266 px</Width>
+              <Height>348 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_virtuemart_worldzones</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>143</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1960 px</X>
+              <Y>0 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>586 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_weblinks</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>144</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1660 px</X>
+              <Y>1900 px</Y>
+            </Location>
+            <Size>
+              <Width>227 px</Width>
+              <Height>314 px</Height>
+            </Size>
+            <DbOid>
+              <Path>auctionru_2013.auc13_wf_profiles</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
+        </Children>
+        <ViewPort>
+          <ScaleMode>Free</ScaleMode>
+          <Scale>0.161331967</Scale>
+          <Location>
+            <X>-92.9759943030285 px</X>
+            <Y>-1097.11673032967 px</Y>
+          </Location>
+        </ViewPort>
+      </Model>
+    </DiagramModel>
+  </Diagram>
+</DevartDatabaseDiagram>

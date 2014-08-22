@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CSVI_EXPORT_FRONTEND" option="COM_CSVI_EXPORT_FRONTEND_OPTION">
+		<message>
+			<![CDATA[COM_CSVI_EXPORT_FRONTEND_DESC_MENU]]>
+		</message>
+	</layout>
+
+	<fields name="request">
+		<!-- Basic options. -->
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_csvi/models/fields">
+
+			<field name="template_id"
+				type="CsviTemplates"
+				description="COM_CSVI_SELECT_TEMPLATE_DESC"
+				label="COM_CSVI_SELECT_TEMPLATE"
+				size="1"
+				required="true"
+				format="raw"
+			/>
+
+			<field name="exportto"
+				type="list"
+				description="COM_CSVI_EXPORT_EXPORTTO_OPTIONS_DESC"
+				label="COM_CSVI_EXPORT_EXPORTTO_OPTIONS_LABEL"
+				size="1"
+				required="true"
+				default="tofront">
+				<option value="tofront">COM_CSVI_EXPORT_TO_FRONT_LABEL</option>
+				<option value="todownload">COM_CSVI_EXPORT_TO_DOWNLOAD_LABEL</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

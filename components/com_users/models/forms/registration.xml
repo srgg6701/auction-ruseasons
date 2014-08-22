@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="default"
+		label="COM_USERS_REGISTRATION_DEFAULT_LABEL"
+	>
+
+		<field name="spacer" type="spacer" class="text"
+				label="COM_USERS_REGISTER_REQUIRED"
+			/>
+
+		<field name="name" type="text"
+			description="COM_USERS_REGISTER_NAME_DESC"
+			filter="string"
+			label="COM_USERS_REGISTER_NAME_LABEL"
+			message="COM_USERS_REGISTER_NAME_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="middlename" type="text"
+			description="COM_USERS_REGISTER_MIDDLENAME_DESC"
+			filter="string"
+			label="COM_USERS_REGISTER_MIDDLENAME_LABEL"
+			message="COM_USERS_REGISTER_MIDDLENAME_MESSAGE"
+			required="false"
+			size="30"
+		/>
+
+		<field name="lastname" type="text"
+			description="COM_USERS_LASTNAME"
+			filter="string"
+			label="COM_USERS_REGISTER_LASTNAME_LABEL"
+			message="COM_USERS_REGISTER_LASTNAME_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="username" type="text"
+			description="COM_USERS_DESIRED_USERNAME"
+			filter="username"
+			label="COM_USERS_REGISTER_USERNAME_LABEL"
+			message="COM_USERS_REGISTER_USERNAME_MESSAGE"
+			required="true"
+			size="30"
+			validate="username"
+		/>
+
+		<field name="password1" type="password"
+			autocomplete="off"
+			class="validate-password"
+			description="COM_USERS_DESIRED_PASSWORD"
+			field="password2"
+			filter="raw"
+			label="COM_USERS_REGISTER_PASSWORD1_LABEL"
+			message="COM_USERS_REGISTER_PASSWORD1_MESSAGE"
+			required="true"
+			size="30"
+			validate="equals"
+		/>
+
+		<field name="password2" type="password"
+			autocomplete="off"
+			class="validate-password"
+			description="COM_USERS_REGISTER_PASSWORD2_DESC"
+			filter="raw"
+			label="COM_USERS_REGISTER_PASSWORD2_LABEL"
+			message="COM_USERS_REGISTER_PASSWORD2_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="email1" type="email"
+			description="COM_USERS_REGISTER_EMAIL1_DESC"
+			field="id"
+			filter="string"
+			label="COM_USERS_REGISTER_EMAIL1_LABEL"
+			message="COM_USERS_REGISTER_EMAIL1_MESSAGE"
+			required="true"
+			size="30"
+			unique="true"
+			validate="email"
+		/>
+
+		<field name="email2" type="email"
+			description="COM_USERS_REGISTER_EMAIL2_DESC"
+			field="email1"
+			filter="string"
+			label="COM_USERS_REGISTER_EMAIL2_LABEL"
+			message="COM_USERS_REGISTER_EMAIL2_MESSAGE"
+			required="true"
+			size="30"
+			validate="equals"
+		/>
+
+		<field name="company_name" type="text"
+			description="COM_USERS_COMPANY_NAME"
+			filter="string"
+			label="COM_USERS_REGISTER_COMPANY_NAME_LABEL"
+			message="COM_USERS_REGISTER_COMPANY_NAME_MESSAGE"
+			required="false"
+			size="30"
+		/>
+
+		<field name="country_id" type="text"
+			description="COM_USERS_COUNTRY_ID"
+			filter="string"
+			label="COM_USERS_REGISTER_COUNTRY_ID_LABEL"
+			message="COM_USERS_REGISTER_COUNTRY_ID_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="zip" type="text"
+			description="COM_USERS_ZIP"
+			filter="string"
+			label="COM_USERS_REGISTER_ZIP_LABEL"
+			message="COM_USERS_REGISTER_ZIP_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="city" type="text"
+			description="COM_USERS_CITY"
+			filter="string"
+			label="COM_USERS_REGISTER_CITY_LABEL"
+			message="COM_USERS_REGISTER_CITY_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="street" type="text"
+			description="COM_USERS_STREET"
+			filter="string"
+			label="COM_USERS_REGISTER_STREET_LABEL"
+			message="COM_USERS_REGISTER_STREET_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="house_number" type="text"
+			description="COM_USERS_HOUSE_NUMBER"
+			filter="string"
+			label="COM_USERS_REGISTER_HOUSE_NUMBER_LABEL"
+			message="COM_USERS_REGISTER_HOUSE_NUMBER_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="corpus_number" type="text"
+			description="COM_USERS_CORPUS_NUMBER"
+			filter="string"
+			label="COM_USERS_REGISTER_CORPUS_NUMBER_LABEL"
+			message="COM_USERS_REGISTER_CORPUS_NUMBER_MESSAGE"
+			required="false"
+			size="30"
+		/>
+
+		<field name="flat_office_number" type="text"
+			description="COM_USERS_FLAT_OFFICE_NUMBER"
+			filter="string"
+			label="COM_USERS_REGISTER_FLAT_OFFICE_NUMBER_LABEL"
+			message="COM_USERS_REGISTER_FLAT_OFFICE_NUMBER_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="phone_number" type="text"
+			description="COM_USERS_PHONE_NUMBER"
+			filter="string"
+			label="COM_USERS_REGISTER_PHONE_NUMBER_LABEL"
+			message="COM_USERS_REGISTER_PHONE_NUMBER_MESSAGE"
+			required="true"
+			size="30"
+		/>
+
+		<field name="phone2_number" type="text"
+			description="COM_USERS_PHONE2_NUMBER"
+			filter="string"
+			label="COM_USERS_REGISTER_PHONE2_NUMBER_LABEL"
+			message="COM_USERS_REGISTER_PHONE2_NUMBER_MESSAGE"
+			required="false"
+			size="30"
+		/>
+
+	</fieldset>
+</form>

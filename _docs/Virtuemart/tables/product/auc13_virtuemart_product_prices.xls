@@ -1,0 +1,23 @@
+
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+<style id="Classeur1_16681_Styles">
+</style>
+
+</head>
+<body>
+
+<div id="Classeur1_16681" align=center x:publishsource="Excel">
+
+<table x:str border=0 cellpadding=0 cellspacing=0 width=100% style="border-collapse: collapse">
+<tr><td class=xl2216681 nowrap><b>virtuemart_product_price_id</b></td><td class=xl2216681 nowrap><b>virtuemart_product_id</b></td><td class=xl2216681 nowrap><b>virtuemart_shoppergroup_id</b></td><td class=xl2216681 nowrap><b>product_price</b></td><td class=xl2216681 nowrap><b>override</b></td><td class=xl2216681 nowrap><b>product_override_price</b></td><td class=xl2216681 nowrap><b>product_tax_id</b></td><td class=xl2216681 nowrap><b>product_discount_id</b></td><td class=xl2216681 nowrap><b>product_currency</b></td><td class=xl2216681 nowrap><b>product_price_publish_up</b></td><td class=xl2216681 nowrap><b>product_price_publish_down</b></td><td class=xl2216681 nowrap><b>price_quantity_start</b></td><td class=xl2216681 nowrap><b>price_quantity_end</b></td><td class=xl2216681 nowrap><b>created_on</b></td><td class=xl2216681 nowrap><b>created_by</b></td><td class=xl2216681 nowrap><b>modified_on</b></td><td class=xl2216681 nowrap><b>modified_by</b></td><td class=xl2216681 nowrap><b>locked_on</b></td><td class=xl2216681 nowrap><b>locked_by</b></td></tr><tr><td class=xl2216681 nowrap x:num >1</td><td class=xl2216681 nowrap x:num >1</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >525000.00000</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >0.00000</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >131</td><td class=xl2216681 nowrap>0000-00-00 00:00:00</td><td class=xl2216681 nowrap>0000-00-00 00:00:00</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap>0000-00-00 00:00:00</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap>2013-02-13 16:33:54</td><td class=xl2216681 nowrap x:num >107</td><td class=xl2216681 nowrap>0000-00-00 00:00:00</td><td class=xl2216681 nowrap x:num >0</td></tr><tr><td class=xl2216681 nowrap x:num >2</td><td class=xl2216681 nowrap x:num >2</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >217000.00000</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >0.00000</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >131</td><td class=xl2216681 nowrap>0000-00-00 00:00:00</td><td class=xl2216681 nowrap>0000-00-00 00:00:00</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap x:num >0</td><td class=xl2216681 nowrap>2013-02-13 17:51:46</td><td class=xl2216681 nowrap x:num >107</td><td class=xl2216681 nowrap>2013-02-13 17:51:46</td><td class=xl2216681 nowrap x:num >107</td><td class=xl2216681 nowrap>0000-00-00 00:00:00</td><td class=xl2216681 nowrap x:num >0</td></tr>
+</table>
+</div>
+</body>
+</html>

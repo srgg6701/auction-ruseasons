@@ -1,0 +1,174 @@
+@import url(styles.less);
+
+@borderThickBrown:solid 1px rgb(132, 17, 19);
+
+.inBlock{
+	display:inline-block;
+}
+.txtBrown{
+	color: rgb(132, 17, 19);
+}
+.width75{
+	box-sizing:border-box;
+	width:75%;
+} 
+
+.width70{
+	box-sizing:border-box;
+	width:70%;
+} 
+
+.width30{
+	box-sizing:border-box;
+	width:30%;
+} 
+
+
+ul.table{
+	display:table;
+	li{
+		display:table-cell;
+		list-style:none;
+		text-align:center;
+		width:33%;
+		white-space:nowrap;
+		a{
+			&:hover{
+				text-decoration:underline !important;
+			}
+		}
+	}
+}
+
+
+div.top_list_mn{
+	height: 25px;
+	margin-top: 10px;
+	text-align:right;
+	div{
+		display: inline-block;
+		float:right;
+		margin-right:20px;
+		a{
+			color:@brown;
+			font-size:13px;
+			font-weight: bold;
+			text-decoration: underline;
+		}
+	}
+}
+
+div.top_list{
+	//height:45px;
+	position: relative;
+	h2{			
+		//display: block;
+		display: inline-block;
+		//float:left;
+		font-size: 20px;
+		font-weight: bold;
+		max-width: 400px;
+		margin-bottom: 0px;
+		margin-top:10px;
+		.txtBrown;
+		div.weak{
+			display:inline-block;
+			line-height:29px;
+		}
+	}
+	div.top_list_mn{
+		display: inline-block;	
+		float:right;
+		margin-top: 0;
+		position: absolute;
+		right: 0;
+		top: 19px;
+	}
+}
+
+div.lots_listing{
+	border-top:@borderThickBrown;
+	border-bottom:@borderThickBrown;
+	color: rgb(132, 17, 19);
+	display: block;
+	font-family: Verdana;
+	font-size: 13px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 10px;
+    overflow: hidden;
+	padding-top: 6px;
+    padding-bottom: 7px;
+	form#add_to_favorite{
+		.flat;
+		input[type="submit"]#btn_favor{
+			.buttonAsLink;
+			font-family: Verdana;
+			margin: 0;
+			text-decoration: underline;
+		}
+	}
+}
+
+.imHeader{
+	font-size: 14px;
+	a{
+		height: auto;
+		text-decoration: none !important;
+	}
+}
+
+div.item-page-shop{
+	*{
+		font-family: Verdana;
+	}
+	div.box, td.box{
+		display:inline-block;
+		font-size: 13px;
+		padding:5px;
+		.txtBrown;
+		vertical-align:top;
+		width: 226px;
+		div.img{
+			background-color: rgb(255, 255, 255);
+			border: solid 1px rgb(132, 17, 19);
+			height: 228px;
+			line-height: 228px;
+			overflow-x: hidden;
+			overflow-y: hidden;
+			text-align: center;
+			vertical-align: middle;
+			width: 226px;
+			img{
+				/*margin-right: -20px;*/
+				vertical-align: middle;			
+			}
+		}
+		div.PricesalesPrice{
+			//padding-top: 5px;
+			min-height: 35px;
+		}
+		h2{
+			.imHeader;
+		}
+	}
+	&.fulltime{
+		.box{
+			.img{
+				height:228px;
+			}
+		}
+		td.desc{
+			padding-left:28px;
+			h2{ 
+				.imHeader;
+			}
+		}
+	}
+	p.product_s_desc{
+		color:black;
+		color:black;
+	}
+}
+

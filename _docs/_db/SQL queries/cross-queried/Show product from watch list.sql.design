@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), SQL document design file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<Document>
+  <Properties>
+    <Type>SQL Document Design</Type>
+    <DatabaseProvider>59f90733-4d68-4fdf-82a7-f0fcbf5460aa</DatabaseProvider>
+    <ProviderVersion>6.0.703.0</ProviderVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </Properties>
+  <Connection Name="Shared localhost">
+    <ConnectionString>User Id=root;Host=localhost;Character Set=utf8</ConnectionString>
+    <Database>auctionru_2013</Database>
+  </Connection>
+  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="50">
+    <View Name="Design" Visible="True">
+      <Data>
+        <StatementType>Select</StatementType>
+        <ActiveQuery>0</ActiveQuery>
+        <SubQuery Id="0" Open="0" LocationX="-110.526317176396" LocationY="28.9473687842942" Scale="1.14">
+          <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <HorizontalOverlap>0</HorizontalOverlap>
+            <VerticalOverlap>0</VerticalOverlap>
+            <TopLeftMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </TopLeftMargins>
+            <BottomRightMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </BottomRightMargins>
+            <PaperSize>
+              <Width>210 mm</Width>
+              <Height>297 mm</Height>
+            </PaperSize>
+          </PageOptions>
+          <Tables>
+            <Table Name="prod_ru" Left="40" Top="38" Width="306.8741" Height="210" Collapsed="False" />
+            <Table Name="cats" Left="406" Top="74" Width="373.0785" Height="138" Collapsed="False" />
+          </Tables>
+        </SubQuery>
+        <SubQuery Id="1" Open="1" LocationX="-10.3448275295081" LocationY="-10.3448275295081" Scale="0.87">
+          <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <HorizontalOverlap>0</HorizontalOverlap>
+            <VerticalOverlap>0</VerticalOverlap>
+            <TopLeftMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </TopLeftMargins>
+            <BottomRightMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </BottomRightMargins>
+            <PaperSize>
+              <Width>210 mm</Width>
+              <Height>297 mm</Height>
+            </PaperSize>
+          </PageOptions>
+        </SubQuery>
+        <SubQuery Id="2" Open="2" LocationX="-10.3448275295081" LocationY="-10.3448275295081" Scale="0.87">
+          <PageOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <HorizontalOverlap>0</HorizontalOverlap>
+            <VerticalOverlap>0</VerticalOverlap>
+            <TopLeftMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </TopLeftMargins>
+            <BottomRightMargins>
+              <Width>10 mm</Width>
+              <Height>10 mm</Height>
+            </BottomRightMargins>
+            <PaperSize>
+              <Width>210 mm</Width>
+              <Height>297 mm</Height>
+            </PaperSize>
+          </PageOptions>
+        </SubQuery>
+      </Data>
+    </View>
+    <View Name="Code" Active="True" Visible="True">
+      <Data />
+    </View>
+    <View Name="Data" Visible="True" />
+    <View Name="Profiler" Visible="False" />
+    <View Name="PivotGrid" Visible="False" />
+  </Views>
+</Document>
