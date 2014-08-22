@@ -1,6 +1,0 @@
-SELECT TABLE_NAME, DATA_LENGTH
-FROM information_schema.`TABLES` 
-WHERE 
-  TABLE_SCHEMA =  "auctionru_2013"
-AND TABLE_NAME LIKE '%geodesic%'
-LIMIT 0 , 10000;

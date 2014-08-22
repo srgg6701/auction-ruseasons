@@ -1,5 +1,0 @@
-SELECT slug
-FROM auc13_virtuemart_products_ru_ru
-  INNER JOIN auc13_virtuemart_products
-    ON auc13_virtuemart_products_ru_ru.virtuemart_product_id = auc13_virtuemart_products.virtuemart_product_id
-WHERE auc13_virtuemart_products.virtuemart_product_id = 551

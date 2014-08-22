@@ -1,8 +1,0 @@
-@charset "utf-8";
-/* CSS Document */
-.left{margin-left:220px;}				
-			.right{margin-right:300px;}
-#main_menu ul li.hover ul{display:block;}
-		#footer{background:url(../images/footer.png) 0 0 no-repeat; height:20px; padding-top:24px; position:static; clear:both; }
-
-			

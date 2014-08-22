@@ -1,8 +1,0 @@
-
-# SpaceWeb
-<Files index.php>
-    order deny,allow
-    deny from all
-    #allow from My_IP
-</files>
-

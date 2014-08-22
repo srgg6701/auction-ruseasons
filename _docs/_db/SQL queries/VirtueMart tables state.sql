@@ -1,1 +1,0 @@
-SHOW TABLE STATUS IN auctionru_2013 WHERE NAME LIKE '%virtuemart%'
