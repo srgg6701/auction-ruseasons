@@ -21,10 +21,10 @@ function loop( $obj,
 			$is_obj=false;
 			if(is_object($val)||is_array($val)) {
 				?>
-				<span class="link">[<?
+				<span class="link">[<?php
 					echo gettype($val);
 					if (is_object($val)):
-						?>]</span> <span><?
+						?>]</span> <span><?php
 						echo get_class($val);
 					else:
 						?>]<?php
@@ -69,7 +69,8 @@ function commonDebug( $file,
             endif;
         }else{?>
             <div class="error-text">Объект не получен...</div>
-    <?  }
+    <?php
+        }
         if($collapsed==2){?>
             <pre><?php var_dump($obj);?></pre><?
         }elseif(!$key=loop($obj)){?>
@@ -177,4 +178,4 @@ function setBlock($string,$header,$class, $background='rgb(254, 239, 242)'){
  */
 function file_line($file,$line){
     echo "<div><b>file:</b> ".$file."<br>line: <span style='color:green'>".$line."</span></div>";
-}
+}?>

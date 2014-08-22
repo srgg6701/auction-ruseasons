@@ -8,17 +8,17 @@
     <ProviderVersion>6.0.904.0</ProviderVersion>
     <SchemaVersion>2.0</SchemaVersion>
   </Properties>
-  <Connection Name="Shared localhost">
+  <Connection Name="auctionru">
     <Category>00000000-0000-0000-0000-000000000000</Category>
-    <ConnectionString>User Id=root;Host=localhost;Character Set=utf8</ConnectionString>
-    <Database>auctionru_2013</Database>
+    <ConnectionString>User Id=auctionru_2013;Host=VIP16.spaceweb.ru;Database=auctionru_2013;Character Set=utf8</ConnectionString>
+    <Database />
   </Connection>
-  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Data" MainViewScale="43">
+  <Views ShowAdditionalViews="False" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="31">
     <View Name="Design" Visible="False" />
-    <View Name="Code" Visible="True">
+    <View Name="Code" Active="True" Visible="True">
       <Data />
     </View>
-    <View Name="Data" Active="True" Visible="True" />
+    <View Name="Data" Visible="True" />
     <View Name="Profiler" Visible="False" />
     <View Name="PivotGrid" Visible="False" />
   </Views>
