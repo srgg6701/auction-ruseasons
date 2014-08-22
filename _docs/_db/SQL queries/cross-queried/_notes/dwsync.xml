@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="All categories in the same section like current one.sql" server="I:/auction-ruseasons/" local="130476590800116000" remote="130476590820000000" Dst="0" />
+<file name="All media data.sql" server="I:/auction-ruseasons/" local="130419717349230000" remote="130419717360000000" Dst="0" />
+<file name="All products in the category of the selected product.sql" server="I:/auction-ruseasons/" local="130476590800126000" remote="130476590820000000" Dst="0" />
+<file name="All products names.sql" server="I:/auction-ruseasons/" local="130476590800126000" remote="130476590820000000" Dst="0" />
+<file name="All published categories - id, name.sql" server="I:/auction-ruseasons/" local="130476590800136000" remote="130476590820000000" Dst="0" />
+<file name="CATEGORIES all data.sql" server="I:/auction-ruseasons/" local="130419717349410000" remote="130419717360000000" Dst="0" />
+<file name="CATEGORIES ids by PARENT id.sql" server="I:/auction-ruseasons/" local="130419717349420000" remote="130419717360000000" Dst="0" />
+<file name="Categories in the section (left panel).sql" server="I:/auction-ruseasons/" local="130476590800156000" remote="130476590820000000" Dst="0" />
+<file name="Category by product id.sql" server="I:/auction-ruseasons/" local="130476590800156000" remote="130476590820000000" Dst="0" />
+<file name="Category, parent category.sql" server="I:/auction-ruseasons/" local="130476590800196000" remote="130476590820000000" Dst="0" />
+<file name="Category, parent TOP category.sql" server="I:/auction-ruseasons/" local="130476590800166000" remote="130476590820000000" Dst="0" />
+<file name="Count of published products within category.sql" server="I:/auction-ruseasons/" local="130476590800206000" remote="130476590820000000" Dst="0" />
+<file name="DELETE.sql" server="I:/auction-ruseasons/" local="130419717349600000" remote="130419717360000000" Dst="0" />
+<file name="Main product data by its id. Products, Products ru ru, Product prices.sql" server="I:/auction-ruseasons/" local="130486928766636000" remote="130486928780000000" Dst="0" />
+<file name="Main product data by its id. Products, Products ru ru, Product prices.sql.design" server="I:/auction-ruseasons/" local="130486928766716000" remote="130486928780000000" Dst="0" />
+<file name="Menu TOP categories ids and layout.sql" server="I:/auction-ruseasons/" local="130476590800286000" remote="130476590820000000" Dst="0" />
+<file name="Menu TOP categories ids and layout.sql.design" server="I:/auction-ruseasons/" local="130476590800306000" remote="130476590820000000" Dst="0" />
+<file name="Menus by type.sql" server="I:/auction-ruseasons/" local="130476590800316000" remote="130476590820000000" Dst="0" />
+<file name="Neighbor categories in the same section that the current one.sql" server="I:/auction-ruseasons/" local="130476590800326000" remote="130476590820000000" Dst="0" />
+<file name="Neighbor products in the same category that current one.sql" server="I:/auction-ruseasons/" local="130476590800336000" remote="130476590820000000" Dst="0" />
+<file name="Product data including top category slug by product id.sql" server="I:/auction-ruseasons/" local="130476590800406000" remote="130476590820000000" Dst="0" />
+<file name="Product data including top category slug by product id.sql.design" server="I:/auction-ruseasons/" local="130476590800416000" remote="130476590820000000" Dst="0" />
+<file name="Product name, price, dates, categories.sql" server="I:/auction-ruseasons/" local="130476590800436000" remote="130476590820000000" Dst="0" />
+<file name="Product name, price, dates, categories.sql.design" server="I:/auction-ruseasons/" local="130476590800446000" remote="130476590820000000" Dst="0" />
+<file name="Product slug.sql" server="I:/auction-ruseasons/" local="130419717349610000" remote="130419717360000000" Dst="0" />
+<file name="Product TOP category ids AND layout (slug).sql" server="I:/auction-ruseasons/" local="130476590800356000" remote="130476590820000000" Dst="0" />
+<file name="Product TOP category slug.sql" server="I:/auction-ruseasons/" local="130476590800376000" remote="130476590820000000" Dst="0" />
+<file name="Product TOP category slug.sql.design" server="I:/auction-ruseasons/" local="130476590800386000" remote="130476590820000000" Dst="0" />
+<file name="Products (published) by SUBcategory id.sql" server="I:/auction-ruseasons/" local="130476590800466000" remote="130476590820000000" Dst="0" />
+<file name="Products (published) by SUBcategory id.sql.design" server="I:/auction-ruseasons/" local="130476590800476000" remote="130476590820000000" Dst="0" />
+<file name="Products (published) by TOP category id.sql" server="I:/auction-ruseasons/" local="130476590800496000" remote="130476590820000000" Dst="0" />
+<file name="Products (published) by TOP category id.sql.design" server="I:/auction-ruseasons/" local="130476590800536000" remote="130476590820000000" Dst="0" />
+<file name="Products ids search parent category FILTER.sql" server="I:/auction-ruseasons/" local="130476590800546000" remote="130476590820000000" Dst="0" />
+<file name="Products ids search.sql" server="I:/auction-ruseasons/" local="130476590800556000" remote="130476590820000000" Dst="0" />
+<file name="sales price, NOT DISTINCT.sql" server="I:/auction-ruseasons/" local="130480910563746000" remote="130480910580000000" Dst="0" />
+<file name="sales price, NOT DISTINCT.sql.design" server="I:/auction-ruseasons/" local="130480910563756000" remote="130480910580000000" Dst="0" />
+<file name="Select categories from all 3 tables.sql" server="I:/auction-ruseasons/" local="130476590800566000" remote="130476590820000000" Dst="0" />
+<file name="Shop orders.sql" server="I:/auction-ruseasons/" local="130480109051076000" remote="130480109060000000" Dst="0" />
+<file name="Shop orders.sql.design" server="I:/auction-ruseasons/" local="130480109052846000" remote="130480109060000000" Dst="0" />
+<file name="Table_name by the field and table names substring.sql" server="I:/auction-ruseasons/" local="130476590800576000" remote="130476590820000000" Dst="0" />
+<file name="User favorites.sql" server="I:/auction-ruseasons/" local="130476590800586000" remote="130476590820000000" Dst="0" />
+<file name="VM-native - orders.sql" server="I:/auction-ruseasons/" local="130477597765560000" remote="130477597780000000" Dst="0" />
+<file name="VM-native - orders.sql.design" server="I:/auction-ruseasons/" local="130477597765570000" remote="130477597780000000" Dst="0" />
+<file name="VM-native - productis in category.sql" server="I:/auction-ruseasons/" local="130476590800596000" remote="130476590820000000" Dst="0" />
+<file name="VM-native - productis in category.sql.design" server="I:/auction-ruseasons/" local="130476590800606000" remote="130476590820000000" Dst="0" />
+</dwsync>
