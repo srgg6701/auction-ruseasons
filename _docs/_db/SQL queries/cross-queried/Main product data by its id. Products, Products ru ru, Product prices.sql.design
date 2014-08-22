@@ -8,12 +8,12 @@
     <ProviderVersion>6.0.904.0</ProviderVersion>
     <SchemaVersion>2.0</SchemaVersion>
   </Properties>
-  <Connection Name="Shared localhost">
+  <Connection Name="auction-ruseasons">
     <Category>00000000-0000-0000-0000-000000000000</Category>
-    <ConnectionString>User Id=root;Host=localhost;Character Set=utf8</ConnectionString>
+    <ConnectionString>User Id=auctionru_2013;Host=VIP16.spaceweb.ru;Database=auctionru_2013;Character Set=utf8</ConnectionString>
     <Database>auctionru_2013</Database>
   </Connection>
-  <Views ShowAdditionalViews="True" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="48">
+  <Views ShowAdditionalViews="True" IsLayoutActiveAttribute="True" MainViewAttribute="Code" MainViewScale="60">
     <View Name="Design" Visible="False" />
     <View Name="Code" Active="True" Visible="True">
       <Data />

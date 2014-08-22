@@ -2,6 +2,7 @@
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'prod.id',
   prod_ru_ru.product_name                 AS 'item name',
+  prod_ru_ru.slug,
   (SELECT COUNT(*) FROM auc13_dev_auction_rates 
     WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS bids,
