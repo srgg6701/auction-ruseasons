@@ -25,7 +25,9 @@ SELECT
                                           AS 'categories',       -- prod_ru_ru.product_s_desc, prod_ru_ru.product_desc, prod_ru_ru.slug,
   -- TRUNCATE(prod_prices.product_price,0)   AS product_price
   prod.product_sku                        AS 'contract_number',
-  prod.auction_number
+  prod.auction_number,
+  prod_ru_ru.product_s_desc,
+  prod_ru_ru.product_desc
   
    FROM auc13_virtuemart_products                     AS prod
   -- INNER
