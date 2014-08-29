@@ -1,7 +1,10 @@
--- USE auctionru_2013;
+USE auctionru_2013;
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'prod.id',
   prod_ru_ru.product_name                 AS 'item name',
+  (SELECT COUNT(*) FROM auc13_virtuemart_product_medias
+    WHERE virtuemart_product_id = prod.virtuemart_product_id) 
+                                          AS 'medias',
   prod_ru_ru.slug,
   (SELECT COUNT(*) FROM auc13_dev_auction_rates 
     WHERE virtuemart_product_id = prod.virtuemart_product_id) 
@@ -25,7 +28,8 @@ SELECT
   prod.auction_number
   
    FROM auc13_virtuemart_products                     AS prod
-  INNER JOIN auc13_virtuemart_products_ru_ru          AS prod_ru_ru
+  -- INNER
+   LEFT JOIN auc13_virtuemart_products_ru_ru          AS prod_ru_ru
           ON prod.virtuemart_product_id = prod_ru_ru.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_product_prices          AS prod_prices
               ON prod_prices.virtuemart_product_id  = prod_ru_ru.virtuemart_product_id
@@ -51,7 +55,7 @@ SELECT
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  WHERE   cats_ruru2.category_name LIKE 'Онлайн торги'
+  -- WHERE   cats_ruru2.category_name LIKE 'РњР°РіР°Р·РёРЅ'
           -- AND prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
             -- prod_ru_ru.product_name LIKE '%пїЅпїЅпїЅпїЅпїЅ%' AND
             -- sales_prices.sales_price IS NOT null
