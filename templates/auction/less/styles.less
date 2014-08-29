@@ -13,6 +13,13 @@
     .buttonSandCool;
   }
 }
+.message_area{
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 4px;
+  margin: auto;
+  padding: 10px;
+}
 #bids-history{
   max-height: 110px;
   overflow: auto;
@@ -696,7 +703,12 @@ table#recaptcha_table{
 }
 .warning_area{
   background-color: pink;
-  border: solid 2px darkred;
-  border-radius: 4px;
-  padding: 10px;
+  border-color:darkred;
+  .message_area;
+}
+.info_area{
+  background-color: #CBECFF;
+  border-color: #289FE4;
+  display:table;
+  .message_area;
 }

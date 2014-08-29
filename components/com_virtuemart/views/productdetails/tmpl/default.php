@@ -97,20 +97,34 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
           ?> руб.</b>
       </span>
     </div>
-<?php   if(!$bought = AuctionStuff::getPurchases(
+<?php   /**
+        Зарезервировано. Ситуация может возникнуть чисто теоретически;
+        практические случаи обрабатываются далее (ниже)
+        if(JRequest::getVar('result')=='sold'):?>
+        <h4>
+            Предмет продан
+        </h4>
+<?php   endif;*/
+        if(!$bought = AuctionStuff::getPurchases(
                         array('virtuemart_product_id'=>$this->product->virtuemart_product_id,
                               'user_id'=>'?' ) )):
-        //commonDebug(__FILE__,__LINE__,$bought[0], true);
-?>
-        <input type="hidden" name="option" value="com_auction2013" />
-        <input type="hidden" name="task" value="auction2013.purchase" />
-        <input type="hidden" name="menuitemid" value="<?php echo $Itemid;?>" />
-        <input type="hidden" name="category_id" value="<?php echo $this->product->virtuemart_category_id;?>" />
-        <input type="hidden" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
-        <input type="hidden" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
-        <input type="hidden" name="link" value="<?php echo $this->product->link; ?>"/>
-    <?php echo JHtml::_('form.token');?>
-    <button type="submit" class="buttonSandCool">Купить</button>
+            //commonDebug(__FILE__,__LINE__,$bought[0], true);
+            echo JHtml::_('form.token');?>
+    <button type="<?php
+            if(JFactory::getUser()->guest==1):
+                echo 'button';?>" onclick="location.href='<?php
+                echo JRoute::_("index.php?option=com_users&view=login&message=login_to_buy");?>'"<?php
+            else:
+                echo 'submit"';
+            endif;
+            ?> class="buttonSandCool">Купить</button>
+            <input type="hidden" name="option" value="com_auction2013" />
+            <input type="hidden" name="task" value="auction2013.purchase" />
+            <input type="hidden" name="menuitemid" value="<?php echo $Itemid;?>" />
+            <input type="hidden" name="category_id" value="<?php echo $this->product->virtuemart_category_id;?>" />
+            <input type="hidden" class="pname" value="<?php echo htmlentities($this->product->product_name, ENT_QUOTES, 'utf-8') ?>"/>
+            <input type="hidden" name="virtuemart_product_id[]" value="<?php echo $this->product->virtuemart_product_id ?>"/>
+            <input type="hidden" name="link" value="<?php echo $this->product->link; ?>"/>
 <?php
         else:
 			$item = $bought[0];

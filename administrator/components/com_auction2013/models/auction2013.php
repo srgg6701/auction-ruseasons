@@ -175,7 +175,6 @@ class Auction2013ModelAuction2013 extends JModelList
 		$result=$db->loadResultArray();
 		return $result;  
 	}
-
 	/**
 	 * Overrides the getItems method to attach additional metrics to the list.
 	 *

@@ -159,7 +159,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
         /**
          - true - только показ запросов CUD,
          - любой другой вещественный - и выполнение, и показ */
-        $test = true;
+        $test = false;
         $db = JFactory::getDbo();
         $results = $this->getLotsToBeClosed($db,$test);
         if(count($results)){
@@ -251,7 +251,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
         try{
             $res=$db->loadResult();
             //echo "<div>res = $res</div>";
-            //testSQL($query);die();
+            //testSQL($query, __FILE__, __LINE__, true, '', false);
             return $res;
         }catch (Exception $e){
             die($e->getMessage());
@@ -687,7 +687,7 @@ INNER JOIN #__virtuemart_product_prices  AS prices
         // если предмет кем-то только что куплен:
         if($this->checkItemAccessibility($post['virtuemart_product_id'][0])){
             $result['msg']=JText::_('Предмет недоступен...');
-            $result['type']='warning';
+            $result['type']='sold';
             return $result;
         }
         /* ["option"]                   => "com_auction2013"

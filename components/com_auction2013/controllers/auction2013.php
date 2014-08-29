@@ -138,7 +138,6 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         echo "Добавлено записей:" . $this->getModel()->check_active_auctions();
         return true;
     }
-
     /**
      * Удалить из избранного
      * @package
@@ -306,7 +305,6 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         цену, разослать сообщения - победителю и админу.*/
         $this->getModel()->check_closed_lots();
     }
-
     /**
      * Комментарий
      * @package
