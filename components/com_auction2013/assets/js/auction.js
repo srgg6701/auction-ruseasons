@@ -13,7 +13,7 @@ window.onload=function(){
     /*var maxHeightHeader = boxesObjects.headerObjects[0].offsetHeight,
         maxHeightDesc = boxesObjects.descObjects[0].offsetHeight;*/
     for(var o = 0, j=boxesObjects.length; o<j; o++){
-        console.groupCollapsed(boxesObjects[o]);
+        //console.groupCollapsed(boxesObjects[o]);
         // получить селекторы заголовков и описаний
         boxes[o]=document.querySelectorAll(boxesObjects[o]);
         // получить параметр высоты, выбрав из первого селектора каждого типа
@@ -23,10 +23,10 @@ window.onload=function(){
         for (var i in boxes[o]) {
             if (typeof boxes[o][i] === 'object') {
                 texts[boxesObjects[o]][i] = boxes[o][i].textContent.split(" ");
-                console.dir(texts[boxesObjects[o]][i]);
+                //console.dir(texts[boxesObjects[o]][i]);
             }
         }
-        console.groupEnd();
+        //console.groupEnd();
     }
     //console.log('maxHeights: '); console.dir(maxHeights);
     //console.log('boxes: '); console.dir(boxes);
