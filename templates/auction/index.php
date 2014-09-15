@@ -14,6 +14,7 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <jdoc:include type="head" />
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $templateUrl; ?>/css/mobile/default.css" rel="stylesheet" type="text/css" />
 <link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
 <?php if(JRequest::getVar('option')=='com_users'):?>
@@ -134,19 +135,27 @@ $( function(){
 <body>
 	<div id="page">
 
-        <div id="header"> 
-            
-            <div id="pic_top"></div>			
+        <div id="header">
+            <!---->
+            <div id="pic_top">
+                <section>
+                    <div>
+                        <div id="search_box">
+                            <jdoc:include type="modules" name="search" />
+                        </div>
+                        <div>
+                            <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">Кабинет</a>
+                            <a href="<?php echo JRoute::_('index.php?option=com_auction2013&view=register');?>">Регистрация</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
             	
             <div id="main_menu">
                 <jdoc:include type="modules" name="user3" />
-            </div>   
-            
-            <div id="search_box">					
-                <jdoc:include type="modules" name="search" />
             </div>
             
-            <div id="clock"></div>  
+            <div id="clock"></div>
             <a href="<?=$this->baseurl?>" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
             <a href="#" id="logo_text"><img src="<?php echo $templateUrl; ?>/images/logo_text.png" width="266" height="50" alt="" /></a>
     	</div>
@@ -284,7 +293,8 @@ jQuery( function($){
 			$(innerBlock).toggle();
 		}
 	});
-
+<?php   if(strstr($_SERVER['HTTP_HOST'],"localhost")):?>
+    console.log('localhost');
     var sel_name_sbstr = '[src*="metabar.ru"]';
     var intv = setInterval(function() {
         var metabars = document.querySelectorAll(sel_name_sbstr);
@@ -297,6 +307,7 @@ jQuery( function($){
         } else
             clearInterval(intv);
     }, 1000);
+<?php   endif;?>
 });
 </script>
 </div>

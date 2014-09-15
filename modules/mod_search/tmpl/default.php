@@ -9,7 +9,17 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
+<script>
+    function manageSearchField(field_id){
+        console.log($('#'+field_id));
+        $('#'+field_id).toggle(200);
+    }
+/*$(function(){
+
+});*/
+</script>
 <form action="<?php echo JRoute::_('index.php');?>" method="post">
+    <div class="background" onclick="manageSearchField('mod-search-searchword');"></div>
 	<div class="search<?php echo $moduleclass_sfx ?>">
 		<?php
 			$output = '<label for="mod-search-searchword">'.$label.'</label><input name="searchword" id="mod-search-searchword" maxlength="'.$maxlength.'"  class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if (this.value==\'\') this.value=\''.$text.'\';" onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
