@@ -136,17 +136,19 @@ $( function(){
 	<div id="page">
 
         <div id="header">
-            <!---->
             <div id="pic_top">
                 <section>
                     <div>
                         <div id="search_box">
                             <jdoc:include type="modules" name="search" />
                         </div>
-                        <div>
+        <?php   $user = JFactory::getUser();
+                if($user->guest==1):?>
+                        <div id="authorize">
                             <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">Кабинет</a>
-                            <a href="<?php echo JRoute::_('index.php?option=com_auction2013&view=register');?>">Регистрация</a>
+                            <a href="<?php echo JRoute::_('index.php?option=com_auction2013&layout=register');?>">Регистрация</a>
                         </div>
+        <?php   endif;?>
                     </div>
                 </section>
             </div>
@@ -163,8 +165,7 @@ $( function(){
         <div id="content">
 		<?php $style="";?>
   	<?php $style="left "?>
-  <?php $user = JFactory::getUser();
-  		$layout=JRequest::getVar('layout');
+  <?php $layout=JRequest::getVar('layout');
 		$option=JRequest::getVar('option');
 		$view=JRequest::getVar('view');
   		$hide_left_panel=false;

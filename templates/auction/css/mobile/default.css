@@ -1,3 +1,6 @@
+#authorize{
+    border-left: solid 1px #5A2F30;
+}
 #pic_top section{
     border-radius: 5px;
     box-shadow: 0 0 0 50px rgba(255,255,255,0.5) inset;
@@ -14,12 +17,18 @@
 #pic_top section:hover{
     box-shadow: 0 0 0 50px rgba(255,255,255,0.8) inset;
 }
-#pic_top section aside,
-#pic_top section >div{   
+#pic_top section >div{
     white-space: nowrap;
 }
 #pic_top section >div>div {
     float:left;
+}
+#pic_top section aside{
+    background-color: white;
+    border-radius: 6px;
+    display: none;
+    opacity: 0.45;
+    transition: all 0.3s ease;
 }
 #pic_top section aside:hover{
     opacity: 0.1;
@@ -30,8 +39,6 @@
     padding: 10px;
 }
 #search_box{
-    border-right: solid 1px #5A2F30;
-    box-sizing: border-box;
     height: 40px;
     margin-right: 6px;
     padding: 5px;
@@ -41,7 +48,7 @@
     background: url("../../images/search.png") no-repeat;
     float: left;
     height: 16px;
-    margin: 7px 4px auto 7px;
+    margin: 7px 0px auto 7px;
     width: 16px;
 }
 #search_box .background:hover{

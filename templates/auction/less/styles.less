@@ -292,21 +292,27 @@ span.lot{
 }
 div#header{
 	#main_menu{
-		padding:20px 0 0 315px;
-		width:675px;
+		padding-top:20px;
+		/*max-width:675px;*/
 		background:url(../images/menu_bg.png) left bottom no-repeat;
 		height:50px;
 		left:0px;
 		margin-top:-2px;
-		ul{
+        position: relative;
+        width: 100%;
+		&>ul{
 			display:table;
 			list-style:none;
 			margin:0;
+            margin-left: 33%;
 			margin-top: 16px;
-			width: 660px;
+			/*width: 660px;*/
+            width: 67%;
 			li{
 				display:table-cell;
+                padding-right: 7px;
 				position:relative;
+                white-space: nowrap;
 				a{
 					color:#fad674;
 					font:bold 12px/13px Verdana, Geneva, sans-serif;
@@ -322,7 +328,7 @@ div#header{
 					display:none;
 					left:0;
 					position:absolute;
-					top:6px;
+					top:16px;
 					width:auto;
 					z-index:2;
 					li{

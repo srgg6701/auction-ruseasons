@@ -7,7 +7,7 @@ ul{padding:0; margin:0; list-style:none;}
 .clear{overflow:hidden; clear:both; line-height:0; height:0;}
 body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 /*------------------------------------*/
-#page{margin:0 auto;  width:990px;}
+#page{margin:0 auto;  max-width: 990px;}
 	#header{height:280px; background:url(../images/header.png) 130px 0 no-repeat; position:relative; top:0; left:0;}
 		#logo_img{position:absolute; top:0; left:45px;}
 		#logo_text{position:absolute; top:219px; left:17px;}
