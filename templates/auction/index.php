@@ -154,12 +154,16 @@ $( function(){
             </div>
             	
             <div id="main_menu">
+                <div id="logo-box">
+                    <a href="#" id="logo_text">
+                        <img src="<?php echo $templateUrl; ?>/images/logo_text.png" /></a>
+                    </a>
+                </div>
                 <jdoc:include type="modules" name="user3" />
             </div>
             
             <div id="clock"></div>
             <a href="<?=$this->baseurl?>" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
-            <a href="#" id="logo_text"><img src="<?php echo $templateUrl; ?>/images/logo_text.png" width="266" height="50" alt="" /></a>
     	</div>
                 
         <div id="content">
@@ -295,7 +299,10 @@ jQuery( function($){
 		}
 	});
 <?php   if(strstr($_SERVER['HTTP_HOST'],"localhost")):?>
-    console.log('localhost');
+    //console.log(window.outerWidth);
+    window.onresize=function(){
+        document.title = window.outerWidth;
+    };
     var sel_name_sbstr = '[src*="metabar.ru"]';
     var intv = setInterval(function() {
         var metabars = document.querySelectorAll(sel_name_sbstr);

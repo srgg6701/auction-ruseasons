@@ -194,17 +194,6 @@ span.lot{
     opacity:1;
   }
 }
-#main_menu{
-	*.testPadding{
-		background-color: navy;
-		color:white;
-		display:none;
-		z-index:1;
-		&:before{
-			content:"MAIN_MENU";
-		}
-	}
-}
 #main_content{
 	*.testPadding{
 		background-color: yellow;
@@ -214,6 +203,107 @@ span.lot{
 			content:"MAIN_CONTENT";
 		}
 	}
+}
+#main_menu{
+  *.testPadding{
+    background-color: navy;
+    color:white;
+    display:none;
+    z-index:1;
+    &:before{
+      content:"MAIN_MENU";
+    }
+  }
+  padding-top:20px;
+  /*max-width:675px;*/
+  background:url(../images/menu_bg.png) bottom no-repeat;
+  background-size: 100% 106%;
+  height:50px;
+  left:0px;
+  margin-top:-2px;
+  position: relative;
+  width: 100%;
+  &>ul{
+    display:table;
+    float: right;
+    list-style:none;
+    margin:0;
+    /*margin-left: 33%;*/
+    margin-top: 16px;
+    /*width: 660px;*/
+    width: 67%;
+    li{
+      display:table-cell;
+      padding-right: 7px;
+      position:relative;
+      white-space: nowrap;
+      a{
+        color:#fad674;
+        font:bold 12px/13px Verdana, Geneva, sans-serif;
+        float:left;
+        height:23px; text-decoration:none; text-transform:uppercase;
+        &:hover{
+          .liActive;
+        }
+      }
+      ul{
+        background:#417337;
+        border-top:1px solid #e9e4bc;
+        display:none;
+        left:0;
+        position:absolute;
+        top:16px;
+        width:auto;
+        z-index:2;
+        li{
+          display:block;
+          padding-right: 8px;
+          white-space:nowrap;
+          a{
+            border-bottom:1px solid #e9e4bc;
+            .subMenu;
+            padding-bottom:0px !important;
+            width:100%;
+            &:hover{
+              .liActive;
+            }
+            &:last-child{
+              margin-bottom:1px;
+            }
+          }
+
+        }
+      }
+      &:hover{
+        ul{
+          display:block;
+        }
+      }
+      &.active{
+        .liActive;
+        ul {
+          li {
+            a{
+              .subMenu;
+            }
+            &.active{
+              a{
+                .subMenu;
+                .liActive;
+              }
+            }
+          }
+
+        }
+        a{
+          .subMenu;
+          .liActive;
+          padding:0;
+          margin-bottom:5px;
+        }
+      }
+    }
+  }
 }
 #make_bid{
   margin-top: 30px;
@@ -289,98 +379,6 @@ span.lot{
 	margin: 0;
 	margin-bottom:10px !important;
 	padding: 6px;
-}
-div#header{
-	#main_menu{
-		padding-top:20px;
-		/*max-width:675px;*/
-		background:url(../images/menu_bg.png) left bottom no-repeat;
-		height:50px;
-		left:0px;
-		margin-top:-2px;
-        position: relative;
-        width: 100%;
-		&>ul{
-			display:table;
-			list-style:none;
-			margin:0;
-            margin-left: 33%;
-			margin-top: 16px;
-			/*width: 660px;*/
-            width: 67%;
-			li{
-				display:table-cell;
-                padding-right: 7px;
-				position:relative;
-                white-space: nowrap;
-				a{
-					color:#fad674;
-					font:bold 12px/13px Verdana, Geneva, sans-serif;
-					float:left;
-					height:23px; text-decoration:none; text-transform:uppercase;
-					&:hover{
-						.liActive;
-					}
-				}
-				ul{
-					background:#417337;
-					border-top:1px solid #e9e4bc;
-					display:none;
-					left:0;
-					position:absolute;
-					top:16px;
-					width:auto;
-					z-index:2;
-					li{
-						display:block;
-						padding-right: 8px;
-						white-space:nowrap;
-						a{
-							border-bottom:1px solid #e9e4bc;
-							.subMenu;
-							padding-bottom:0px !important;
-							width:100%;
-							&:hover{
-								.liActive;
-							}
-							&:last-child{
-								margin-bottom:1px;
-							}
-						}
-
-					}
-				}
-				&:hover{
-					ul{
-						display:block;
-					}
-				}
-				&.active{
-					.liActive;
-					ul {
-						li {
-							a{
-								.subMenu;
-							}
-							&.active{
-								a{
-									.subMenu;
-									.liActive;
-								}
-							}
-						}
-
-					}
-					a{
-						.subMenu;
-						.liActive;
-						padding:0;
-						margin-bottom:5px;
-					}
-				}
-			}
-		}
-	}
 }
 div#content{
 	#right_part{
@@ -649,6 +647,25 @@ div#footer{
 			}
 		}
 	}
+}
+#logo-box{
+  float: left;
+  box-sizing: border-box;
+  height: 50px;
+  margin-right: -20px;
+  margin-top: -10px;
+  overflow: hidden;
+  width: 33%;
+  a{
+    position: static;
+    img{
+      padding-left: 17px;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 81.5%;
+    }
+  }
 }
 table#recaptcha_table{
 	//margin-left: 162px !important;
