@@ -15,6 +15,7 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <jdoc:include type="head" />
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $templateUrl; ?>/css/mobile/default.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $templateUrl; ?>/css/mobile/screens.css" rel="stylesheet" type="text/css" />
 <link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
 <?php if(JRequest::getVar('option')=='com_users'):?>

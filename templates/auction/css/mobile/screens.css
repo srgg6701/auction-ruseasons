@@ -1,36 +1,41 @@
 /* Small devices (iPhone, 480px and up) */
 @media (min-width: 480px) {
-    #content{
+    /*#content{
         background-color: lavender;
     }
     #content::before{
         content: "@media: min-width = 480px";
+    }*/
+}
+@media (max-width: 768px){
+    #main_menu > ul li a{
+        font-weight: normal !important;
     }
 }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-    #content{
+    /*#content{
         background-color: lightblue;
     }
     #content::before{
         content: "@media: min-width = 768px";
-    }
+    }*/
 }
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-    #content{
+    /*#content{
         background-color: yellowgreen;
     }
     #content::before{
         content: "@media: min-width = 992px";
-    }
+    }*/
 }
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-    #content{
+    /*#content{
         background-color: #ffff00;
     }
     #content::before{
         content: "@media: min-width = 1200px";
-    }
+    }*/
 }
