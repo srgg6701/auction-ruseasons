@@ -1,13 +1,11 @@
 /* Small devices (iPhone, 480px and up) */
 @media (max-width: 480px) {
 	#header{
-		height: auto;
-	
-		background-size: 313px 140px;
-	
+		height: auto;	
+		background-size: 313px 140px;	
 		background-position-x: 119px;
 		margin-right: 15px;
-}
+	}
 	#pic_top{
 	    background-position-y: bottom;
 	    background-position-x: -24px;
@@ -15,7 +13,7 @@
 	    height: 117px;
 	    margin: auto 2px auto auto;			
 	    width: 306px;
-}
+	}
 	#logo_img{
 		top: 5px;
 		height: 115px;
@@ -43,6 +41,29 @@
 	#logo-box a:hover{
 		color: #789D50;
 	}
+	#main_content{
+		margin-left: 0;	
+		margin-top: 10px;
+		border-top: solid 1px #417337;
+	}
+	#left_part{
+		position: absolute;
+		transform: translateX(-114%);
+		width: auto;
+		max-width: 420px;
+}
+	#left_part .moduletable{
+		background-color: #D4E2AB;
+		box-shadow: 4px 10px 40px rgba(0,0,0, 0.5);
+		margin: 3px -4px;
+		padding: 4px 10px;
+		transition: transform 0.5s ease;		
+		white-space: nowrap;
+		width: 100%;
+}
+	#left_part.visible{
+		transform: translateX(0);
+	}
     #main_menu{
         background-position: 0 0;
         background: transparent !important;
@@ -55,6 +76,7 @@
         border-radius: 4px;
         border-top: solid 10px #789D50 !important;
         border-bottom: solid 10px #417337;
+        display: none;
         float: none !important;
         margin: 0 0 0 15px !important;
         padding: 0;
@@ -90,6 +112,20 @@
         display: inline-block;
         height: auto;
     }
+    .mobile_menu{
+    	background-color: #417337;
+    	border-radius: 4px;
+    	color: white;
+    	cursor: pointer;
+    	display: inline-block;
+    	font-family: Arial;
+    	margin-left: 15px;
+    	margin-bottom: 4px;
+    	padding: 8px 20px;
+	}
+	.mobile_menu:hover{
+		background-color: #789D50;
+	}
     .deeper{
         background-color: #789D50 !important;
     }
@@ -106,7 +142,7 @@
     	line-height: 18px !important;
 	
     	margin-right: 15px;
-}
+	}
     #footer{
     	background-color: #417337 !important;
     	overflow: hidden !important;
@@ -118,7 +154,7 @@
 		overflow: hidden;
 	
 		margin-left: 15px !important;
-}
+	}
     #padd_bot_menu ul{
     	display: block !important;
 		float: left !important;
@@ -142,12 +178,15 @@
     li.deeper:hover >ul{
        display:block !important;
     }
+    #main_menu ul{
+    	display:table;
+    }
 }
 @media (max-width: 768px){
     #main_menu > ul li a{
         font-weight: normal !important;
     
-}
+	}
 }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {

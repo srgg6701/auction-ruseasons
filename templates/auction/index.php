@@ -80,6 +80,7 @@ window.addEvent('domready', function() {
 -->
 </script>
 <?php }?>
+<script src="<?=$templateUrl?>/js/common.js"></script>
 <?php /*?>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
@@ -156,10 +157,13 @@ $( function(){
             	
             <div id="main_menu">
                 <div id="logo-box">
+					
                     <a href="#" id="logo_text">
                         <img src="<?php echo $templateUrl; ?>/images/logo_text.png" /></a>
                     </a>
                 </div>
+                <div class="mobile_menu" id="mobile-menu-menu">Меню</div>
+                <div class="mobile_menu" id="mobile-menu-products">Предметы</div>
                 <jdoc:include type="modules" name="user3" />
             </div>
             
