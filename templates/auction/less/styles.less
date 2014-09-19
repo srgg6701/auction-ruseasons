@@ -2,6 +2,7 @@
 @brown:#841113;
 @brownDark:#851719;
 @brownDarkUltra:#6d4721;
+@linkColorSand:#fad674;
 @menuBorder: solid 1px #EAD8B0;
 @sandDark:#EAD5B7;
 @sandEven:#F0EAE2;
@@ -216,7 +217,7 @@ span.lot{
   }
   padding-top:20px;
   /*max-width:675px;*/
-  background:url(../images/menu_bg.png) bottom no-repeat;
+  background:url(../images/menu_bg.png) no-repeat 0 -5px;
   background-size: 100% 106%;
   height:50px;
   left:0px;
@@ -236,8 +237,10 @@ span.lot{
       padding-right: 7px;
       position:relative;
       white-space: nowrap;
+      &.deeper, a{
+        color:@linkColorSand;
+      }
       a{
-        color:#fad674;
         font:bold 12px/13px Verdana, Geneva, sans-serif;
         float:left;
         height:23px; text-decoration:none; text-transform:uppercase;
@@ -273,11 +276,7 @@ span.lot{
 
         }
       }
-      &:hover{
-        ul{
-          display:block;
-        }
-      }
+      /* */
       &.active{
         .liActive;
         ul {

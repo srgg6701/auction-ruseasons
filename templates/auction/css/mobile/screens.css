@@ -1,4 +1,63 @@
 /* Small devices (iPhone, 480px and up) */
+@media (max-width: 480px) {
+    #logo-box{
+        float: none !important;
+    }
+    #main_menu{
+        background-position: 0 0;
+        background-size: 100% 60px !important;
+        height: auto !important;
+        overflow: hidden;
+    }
+    #main_menu ul{
+        background-color: #417337;
+        border-top: solid 10px #405632 !important;
+        border-bottom: solid 10px #417337;
+        float: none !important;
+        margin: 0 0 0 15px !important;
+        padding: 0;
+        position: static !important;
+        /* width: 100% !important; */
+    }
+    #main_menu ul li{
+        background-color: rgb(65, 115, 55);
+        border: none !important;
+        display: list-item !important;
+        overflow: hidden;
+        padding: 0 8px 4px 15px;
+        box-sizing: border-box;
+    }
+    #main_menu >ul li:first-child{
+        display: none !important;
+    }
+    /*#main_menu >ul >li>ul{
+
+    }*/
+    #main_menu >ul >li>ul>li a{
+        border: none !important;
+    }
+    #main_menu ul li a{
+        float: none !important;
+    }
+    #main_menu ul li a.border{
+        display: inline-block;
+    }
+    #main_menu ul li a.flat{
+        border-top: solid 10px transparent;
+        border-bottom: 0;
+        display: inline-block;
+        height: auto;
+    }
+    .deeper{
+        background-color: #405632 !important;
+    }
+    .deeper::before{
+        content:"►";
+    }
+    .expanded::before{
+        content:"▼";
+    }
+}
 @media (min-width: 480px) {
     /*#content{
         background-color: lavender;
@@ -6,11 +65,15 @@
     #content::before{
         content: "@media: min-width = 480px";
     }*/
+    li.deeper:hover >ul{
+       display:block !important;
+    }
 }
 @media (max-width: 768px){
     #main_menu > ul li a{
         font-weight: normal !important;
-    }
+    
+}
 }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
