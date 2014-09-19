@@ -164,7 +164,7 @@ $( function(){
             </div>
             
             <div id="clock"></div>
-            <a href="<?=$this->baseurl?>" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
+            <a href="<?=$this->baseurl?>" id="logo_img"></a>
     	</div>
                 
         <div id="content">
@@ -216,7 +216,7 @@ $( function(){
         <div id="footer">
             <div id="copyright">
 			<?php if ($this->countModules('copyright') == 0): ?>
-&copy; 2010 Русские Сезоны
+&copy; 2010 Антикварные Сезоны
   <?php else: ?>
   <jdoc:include type="modules" name="copyright" />
   <?php endif; ?>
