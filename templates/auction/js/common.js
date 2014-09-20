@@ -7,4 +7,9 @@ $(function(){
 			$('#left_part').toggleClass('visible');
 		}
 	});
+	$('#main_menu ul li.deeper').on('click', function(){
+		$('>ul', this).slideToggle(200);
+		$(this).toggleClass('expanded');
+		return false;
+	});
 });
