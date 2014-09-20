@@ -1,0 +1,553 @@
+a {
+  outline: none;
+  .lots_count{
+    color:$veryDarkLink;
+    font-weight:300;
+  }
+  div#signup_auction &{
+    font-size:13px !important;
+  }
+  #board & {
+    font: normal 14px Verdana, Geneva, sans-serif;
+    color: $superDark;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  #left_part & {
+    color: $brownDark;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  #left_part h3 &{
+    font-size: 18px;
+    text-decoration: none;
+  }
+  #left_menu ul li & {
+    color: $veryDarkLink;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  #left_menu ul li & span {
+    color: $veryDarkLink;
+  }
+  #left_menu ul li.active &,
+  #left_menu ul li.active & span,
+  #left_menu ul li &:hover,
+  #logIn &{
+    display:block;
+    font-size:14px;
+  }
+  #logo-box &{
+    @media (max-width: 480px) {
+      color: #386430;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-decoration: none;
+      &:hover{
+        color: #789D50;
+      }
+    }
+  }
+  #main_content &{
+    color: $brownDark;
+    text-decoration: none;
+  }
+  #main_menu ul li &{
+    @media (max-width: 480px) {
+      float: none !important;
+      color: #ead8b0 !important;
+    }
+    @media (max-width: 768px){
+      font-weight: normal !important;
+    }
+    &.border{
+      @media (max-width: 480px) {
+        display: inline-block;
+      }
+    }
+    &.flat{
+      @media (max-width: 480px) {
+        border-top: solid 10px transparent;
+        border-bottom: 0;
+        display: inline-block;
+        height: auto;
+      }
+    }
+  }
+  #main_menu >ul >li &{
+    color:$linkColorSand;
+    font:bold 12px/13px Verdana, Geneva, sans-serif;
+    float:left;
+    height: 23px; text-decoration:none; text-transform:uppercase;
+    &:hover{
+      @include liActive;
+    }
+  }
+  #main_menu >ul >li.active &{
+    margin-bottom:5px;
+    @include liActive;
+    padding:0;
+    @include subMenu;
+  }
+  #main_menu >ul >li >ul >li &{
+    border-bottom:1px solid #e9e4bc;
+    padding-bottom:0px !important;
+    width:100%;
+    @include subMenu;
+    &:hover{
+      @include liActive;
+    }
+    &:last-child{
+      margin-bottom:1px;
+    }
+    @media (max-width: 480px) {
+      border: none !important;
+      height: 15px !important;
+    }
+  }
+  #main_menu >ul >li >ul >li.active &{
+    @include liActive;
+    @include subMenu;
+  }
+  #padd_bot_menu ul &{
+    @media (max-width: 480px) {
+      border: none !important;
+    }
+  }
+  #pic_top section & {
+    font-size: 0.85em;
+    line-height: 40px;
+    padding: 10px;
+  }
+  #right_part &{
+    color:&brownDark;
+    text-decoration:underline;
+    &:hover{
+      text-decoration:none;
+    }
+  }
+  #right_part div[class*="-go_catalogues"] div.custom-go_catalogues &{
+    color:$brownDark;
+    text-transform:uppercase;
+  }
+  ul.buttons li div &{
+    text-decoration:none !important;
+    font-size:12px;
+    &:hover{
+      text-decoration:none !important;
+    }
+  }
+}
+aside{
+  #pic_top section & {
+    background-color: white;
+    border-radius: 6px;
+    display: none;
+    opacity: 0.45;
+    transition: all 0.3s ease;
+    &:hover{
+      opacity: 0.1;
+    }
+  }
+}
+body {
+  padding: 0;
+  margin: 0;
+  background: url(../images/body_bg.jpg) 0 0 repeat;
+}
+button{
+  form#ask_form &{
+    @include buttonSandCool;
+  }
+}
+div{
+  #right_part div[class*="-acy_subscribe"] &.acymailing_module_form{
+    width:200px;
+  }
+  &.search{
+    #search_box form & {
+      margin-left: 4px;
+      margin-top: 4px;
+    }
+  }
+  &#signup_auction{
+    margin-left: 66px;
+    padding: 1px;
+    padding-top: 6px;
+  }
+  div#content div#main_content &{
+    &.vmPag{
+      display:inline-block;
+      float:right;
+      margin-right:6px;
+      max-width: 60%;
+    }
+  }
+  ul.buttons li &{
+    @include buttonSandCool;
+    display:inline-block;
+    padding: 6px 12px;
+  }
+}
+form {
+  padding: 0;
+  margin: 0;
+  #logIn &{
+    padding: 13px 0 0 0px;
+    padding-left: 28px;
+    width:160px;
+  }
+  #search_box &{
+    overflow: hidden;
+  }
+  div#content div#main_content &{
+
+  }
+  &#registration_form,
+  &#proposal_form,
+  &#ask_form{
+    display: inline-block;
+  }
+}
+img {
+  border: none;
+  @media (max-width: 480px) {
+    #logo_text &{
+      display: none;
+    }
+  }
+  #header_bid &{
+    float: left;
+  }
+}
+input{
+  &.inputbox{
+    #search_box div.search &{
+      border: none;
+      display: none;
+      margin-left: 7px;
+      padding: 3px 6px;
+      width: 220px;
+    }
+  }
+  &#enter_auction{
+    float:left;
+    font-size:14px;
+    margin-top:2px;
+    margin-left: 1px;
+    width: 53px;
+  }
+  &#modlgn_passwd{
+    margin-top:2px;
+  }
+  #logIn &[id^="modlgn_"]{
+    background-color:#FBE5AB;
+    border:none;
+    font-family:Verdana;
+    padding: 3px 7px 2px 7px;
+  }
+  #logIn form &[type="submit"]{
+    .buttonSand;
+    margin:4px;
+  }
+  form#ask_form &[type="submit"],
+  form#ask_form &[type="reset"]{
+    @include buttonSandCool;
+  }
+  .acysubbuttons &{
+    &.btn-primary{
+      @include buttonSandCool;
+    }
+  }
+}
+h1 {
+  #main_content &{
+    color: $brownDark;
+    font: normal 22px Verdana, Geneva, sans-serif;
+    margin: 20 0 0 15px;
+  }
+  .testPadding &{
+    margin:4px;
+    padding:4px;
+  }
+}
+h2 {
+  .box &{
+    height: 34px;
+    overflow: hidden;
+  }
+}
+h3 {
+  #left_part &{
+    color: $brownDarkUltra;
+    margin: 10px 0;
+    font: normal 18px Verdana, Geneva, sans-serif;
+    text-transform: uppercase;
+  }
+  #right_part &{
+    color:#6d4721;
+    margin:10px 0;
+    font:normal 18px Verdana, Geneva, sans-serif;
+    color:#6d4721;
+    text-transform:uppercase;
+  }
+  div#main_content div.item-page-rules div &{
+    font-weight:300;
+  }
+  #left_part &{
+    color: $brown;
+    font-size:18px;
+    font-weight:bold;
+    margin: 5px 0px 4px 0px;
+    text-transform:none;
+  }
+  #right_part div[class*="-acy_subscribe"] &{
+    color:$brownDark;
+  }
+  #right_part div[class*="-go_catalogues"] div.custom-go_catalogues &{
+    margin:24px 0 auto auto;
+  }
+}
+label{
+  #search_box div.search &{
+    display:none;
+  }
+  form#ask_form &{
+    display: inline-block;
+    padding-top: 4px;
+    text-align: right;
+    vertical-align:top;
+    width: 210px;
+  }
+}
+li{
+  @media (max-width: 480px) {
+    #padd_bot_menu ul & {
+      display: list-item !important;
+    }
+  }
+  &.active{
+    @include liActive;
+  }
+  #main_menu ul &{
+    display:table-cell;
+    padding-right: 7px;
+    position:relative;
+    white-space: nowrap;
+    @media (max-width: 480px) {
+      background-color: rgb(65, 115, 55);
+      border: none !important;
+      color: #ead8b0 !important;
+      display: list-item !important;
+      overflow: hidden;
+      padding: 0 8px 4px 15px;
+      box-sizing: border-box;
+    }
+    &.deeper {
+      color:$linkColorSand;
+      &:hover > & {
+        @media (min-width: 480px) {
+          display: block !important;
+        }
+      }
+    }
+  }
+  #main_menu >ul >&{
+    &:first-child{
+      @media (max-width: 480px) {
+        display: none !important;
+      }
+    }
+  }
+  #main_menu >ul >li >ul >& {
+    display:block;
+    padding-right: 8px;
+    white-space:nowrap;
+    @media (max-width: 480px) {
+      padding: 0 8px 0 8px;
+    }
+  }
+  #main_menu >ul >li.active >ul >li & {
+    @include subMenu;
+  }
+  div#content div#main_content div.vmPag ul &{
+    display:table-cell;
+    padding: 0 4px;
+  }
+}
+p {
+  #main_content & {
+    margin: 15px 0;
+  }
+  #left_part &{
+    margin: 10px 0;
+  }
+  #right_part &{
+    margin:10px 0;
+  }
+}
+section{
+  #pic_top & {
+    border-radius: 5px;
+    box-shadow: 0 0 0 50px rgba(255, 255, 255, 0.5) inset;
+    box-sizing: border-box;
+    height: 40px;
+    float: right;
+    line-height: 40px;
+    margin-right: 20px;
+    position: relative;
+    text-align: center;
+    top: 4px;
+    transition: all 0.3s ease;
+    &:hover{
+      box-shadow: 0 0 0 50px rgba(255,255,255,0.8) inset;
+    }
+    &>div{
+      white-space: nowrap;
+      &>div {
+        float:left;
+      }
+    }
+  }
+}
+span {
+  &.lot{
+    background: url(../images/auction_hammer_gavel.png) white no-repeat 2px;
+    border: solid 1px;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    height: 16px;
+    margin-right: 4px;
+    margin-top: -4px;
+    opacity: 0.6;
+    padding: 2px;
+    width: 16px;
+    &:hover{
+      opacity:1;
+    }
+  }
+  form#ask_form &{
+    &.req{
+      color:red;
+    }
+  }
+  div#main_content &{
+    &.highlight{
+      background-color: lightPink;
+    }
+  }
+  div#main_content div.vmPag ul li:not([class])&{
+    &.pagenav{
+      background: #851719;
+      border-radius: 7px;
+      color: white;
+      padding: 2px 6px;
+    }
+  }
+  #header_bid &{
+    float: left;
+    margin-top: 4px;
+    margin-left: 10px;
+  }
+  #main_content &,
+  #left_part &{
+    color: $brownDark;
+  }
+  #right_part h3 &{
+    color:$brownDark;
+  }
+}
+td{
+  div#main_content table.category &{
+    font-weight:bold;
+    padding-top:15px;
+  }
+  #right_part table.acymailing_form &{
+    text-align:left;
+  }
+}
+textarea{
+  &#comments{
+    width:485px;
+  }
+  form#ask_form &{
+    height:80px;
+    min-height:32px;
+    margin-top:2px;
+    width: 209px;
+    &#price_wiches{
+      height:50px;
+    }
+  }
+}
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  #left_menu &{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+      margin-bottom: 10px;
+    }
+  }
+  #main_menu &{
+    @media (max-width: 480px) {
+      background-color: #417337;
+      border-radius: 4px;
+      border-top: solid 10px !important;
+      border-bottom: solid 10px #417337;
+      display: none;
+      float: none !important;
+      margin: 0 0 0 15px !important;
+      padding: 0;
+      position: static !important;
+      width: 96.5% !important;
+    }
+    @media (min-width: 480px) {
+      display:table;
+    }
+  }
+  #main_menu >&{
+    float: right;
+    list-style:none;
+    margin:0;
+    margin-right: 6px;
+    margin-top: 16px;
+    width: 67%;
+    @media (max-width: 480px) {
+      border-top-color: #789D50 !important;
+    }
+  }
+  #main_menu >ul >li>& {
+    background:#417337;
+    border-top:1px solid #e9e4bc;
+    display:none;
+    left:0;
+    position:absolute;
+    top:16px;
+    width:auto;
+    z-index:2;
+    @media (max-width: 480px) {
+      border-top-color: #417337 !important;
+      margin-top: 4px !important;
+      margin-bottom: 4px !important;
+    }
+  }
+  #padd_bot_menu &{
+    @media (max-width: 480px) {
+      display: block !important;
+      float: left !important;
+      clear: both !important;
+      text-align: left !important;
+    }
+  }
+  div#main_content div.vmPag &{
+    display:table;
+  }
+}
