@@ -29,6 +29,12 @@
   text-align: center;
   width: 225px;
 }
+#bottom_menu{
+  div#footer & {
+    text-align: center;
+    margin: 0 auto;
+  }
+}
 #clock {
   color: $mediumDark;
   float: left;
@@ -44,6 +50,12 @@
   position: relative;
 }
 #copyright{
+  color:#fbe8b3;
+  display:inline-block;
+  float:left;
+  font:normal 13px/14px calibri, Verdana, Geneva, sans-serif;
+  margin-left:50px;
+  top:24px;
   @media (max-width: 480px) {
     float: right !important;
     height: 18px !important;
@@ -160,6 +172,15 @@
 #logIn_wrapper{
   background:url(../images/login.png) 0 0 no-repeat;
 }
+#logo-box {
+  float: left;
+  box-sizing: border-box;
+  height: 50px;
+  margin-right: -20px;
+  margin-top: -10px;
+  overflow: hidden;
+  width: 33%;
+}
 #main_content {
   color: $mediumRedDark;
   font: normal 14px/17px Verdana, Geneva, sans-serif;
@@ -191,6 +212,9 @@
   margin-top: 30px;
 }
 #padd_bot_menu{
+  div#footer #bottom_menu &{
+    margin-left:30px;
+  }
   @media (max-width: 480px) {
     overflow: hidden;
     margin-left: 15px !important;
@@ -231,8 +255,16 @@
   padding: 5px;
   padding-right: 8px;
 }
+#tbl-bid-history{
+  width:100%;
+}
 #thanx-page{
   padding: 40px;
+}
+#your_order{
+  margin-bottom: 2px;
+  text-align: right;
+  padding-top: 10px;
 }
 /*@media (min-width: 768px) {
 }

@@ -1,5 +1,5 @@
 .h3upper{
-  color:@brownDark;
+  color:$brownDark;
   font-family: Verdana, Geneva, sans-serif;
   font-size: 18px;
   font-style: normal;
@@ -14,7 +14,7 @@
 }
 .background{
   #search_box &{
-    background: url("../../images/search-brown.png") no-repeat;
+    background: url("../images/search-brown.png") no-repeat;
     float: left;
     height: 16px;
     margin: 7px 0px auto 7px;
@@ -74,11 +74,23 @@
   margin:0;
   padding:0;
 }
+.fleft{
+  @include fleft;
+}
 .floatLeft{
   float: left;
 }
 .floatRight{
   float: right;
+}
+.H2{
+  @include headerThin2;
+}
+.info_area{
+  background-color: #CBECFF;
+  border-color: #289FE4;
+  display:table;
+  @include message_area;
 }
 .left {
   margin-left: 220px;
@@ -149,7 +161,7 @@
   opacity:0.2;
 }
 .product_s_desc{
-  border-bottom: solid 1px @brown !important;
+  border-bottom: solid 1px $brown !important;
   margin-bottom: 14px !important;
   margin-top: 10px !important;
   padding: 8px 0;
@@ -219,6 +231,11 @@
   margin: 0;
   margin-bottom:10px !important;
   padding: 6px;
+}
+.warning_area{
+  background-color: pink;
+  border-color:darkred;
+  @include message_area;
 }
 .weak{
   font-weight:200;

@@ -1,11 +1,32 @@
 a {
   outline: none;
-  .lots_count{
+  &.lots_count{
     color:$veryDarkLink;
     font-weight:300;
   }
+  section &{
+    color:$brown;
+    font-family: Verdana, Geneva, sans-serif;
+  }
+  div#footer #bottom_menu #padd_bot_menu li &{
+    border-left: $menuBorder;
+    border-right: $menuBorder;
+    color:#ead8b0;
+    font: 13px calibri, Verdana, Geneva, sans-serif;
+    margin: 0 1px;
+    padding:0 6px;
+    text-decoration:none;
+    text-transform:uppercase;
+    &:hover{
+      text-decoration:none;
+    }
+  }
   div#signup_auction &{
     font-size:13px !important;
+  }
+  div#usermenu div.moduletable ul.menu li &.H2{
+    @include thinBrownHeader;
+    padding-top:5px;
   }
   #board & {
     font: normal 14px Verdana, Geneva, sans-serif;
@@ -38,9 +59,12 @@ a {
   #left_menu ul li &:hover,
   #logIn &{
     display:block;
-    font-size:14px;
+    /*font-size:14px;*/
+    font-size:11px;
+    margin-top:5px;
   }
   #logo-box &{
+    position: static;
     @media (max-width: 480px) {
       color: #386430;
       font-size: 1.2em;
@@ -133,6 +157,11 @@ a {
     color:$brownDark;
     text-transform:uppercase;
   }
+  #usermenu-container li &.H2{
+    @include thinBrownHeader;
+    padding-top:5px !important;
+    padding-bottom: 5px !important;
+  }
   ul.buttons li div &{
     text-decoration:none !important;
     font-size:12px;
@@ -162,10 +191,84 @@ button{
   form#ask_form &{
     @include buttonSandCool;
   }
+  div#main_content.left table.cabinet tr td:first-child &{
+    border: 1px solid #CACBCC;
+    color:$brownDark;
+    font-family:Verdana;
+    font-size: 12px;
+    margin: 6px auto 5px 1px;
+    padding: 3px 5px 2px 5px;
+  }
+  div#main_content.left form#formGoLogout &.button{
+    @include buttonAsLink;
+  }
 }
 div{
-  #right_part div[class*="-acy_subscribe"] &.acymailing_module_form{
+  &#footer{
+    background:url(../images/footer.png) 0 0 no-repeat;
+    height:20px;
+    padding-top:24px;
+    position:relative;
+
+  }
+  &#main_content.left{
+    margin-left:-20px;
+  }
+  div#footer #bottom_menu #padd_bot_menu &.mailru_counter{
+    display:inline-block;
+    float:right;
+    margin-right:40px;
+    width:auto;
+  }
+  div#main_content.left &{
+    box-sizing:border-box;
+    &.para{
+      margin:20px 0;
+    }
+    &#user_column{
+      @include fleft;
+      @include mxWidth(140px);
+    }
+  }
+  div#main_content.left &#content_column_wide{
+    @include fleft;
+    @include mxWidth(600px);
+    margin-right:-40px;
+    padding-left:10px;
+    width:600px;
+  }
+  div#main_content.left &#login_area{
+    margin: 20px 80px;
+  }
+  div#main_content.left  div#login_area form#sign-in div.login-fields &{
+    display:inline-block;
+    /*width:170px;*/
+    color: #666;
+    clear: both;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: Verdana;
+    padding: 2px 5px;
+    text-align:right;
+    width: 150px;
+  }
+  div#main_content.left div#user_column &.content_box{
+    min-height:157px;
+    width:138px;
+  }
+  div#usermenu &.moduletable{
+    position:relative;
+  }
+  #right_part div[class*="-acy_subscribe"]  &.acymailing_module_form{
     width:200px;
+  }
+  .test_content_box pre &{
+    text-align:left;
+    &.border{
+      border: dashed 1px #666;
+      margin: 8px auto;
+      padding: 10px;
+    }
   }
   &.search{
     #search_box form & {
@@ -192,12 +295,20 @@ div{
     padding: 6px 12px;
   }
 }
+fieldset{
+  div#main_content.left  div#login_area div.login form &{
+    border: none;
+  }
+}
 form {
   padding: 0;
   margin: 0;
   #logIn &{
-    padding: 13px 0 0 0px;
+    /*padding: 13px 0 0 0px;
     padding-left: 28px;
+    width:160px;*/
+    padding:14px 0 0 0px;
+    padding-left:20px;
     width:160px;
   }
   #search_box &{
@@ -205,6 +316,9 @@ form {
   }
   div#content div#main_content &{
 
+  }
+  div#main_content.left  div#login_area div.login &{
+    margin-left: -10px;
   }
   &#registration_form,
   &#proposal_form,
@@ -221,6 +335,13 @@ img {
   }
   #header_bid &{
     float: left;
+  }
+  #logo-box a &{
+    padding-left: 17px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 81.5%;
   }
 }
 input{
@@ -250,7 +371,7 @@ input{
     padding: 3px 7px 2px 7px;
   }
   #logIn form &[type="submit"]{
-    .buttonSand;
+    @include buttonSand;
     margin:4px;
   }
   form#ask_form &[type="submit"],
@@ -278,6 +399,9 @@ h2 {
   .box &{
     height: 34px;
     overflow: hidden;
+  }
+  div#main_content.left div &{
+    @include headerThin2;
   }
 }
 h3 {
@@ -311,6 +435,12 @@ h3 {
     margin:24px 0 auto auto;
   }
 }
+h4{
+  .test_content_box pre &{
+    margin:0;
+    text-align:left;
+  }
+}
 label{
   #search_box div.search &{
     display:none;
@@ -331,6 +461,16 @@ li{
   }
   &.active{
     @include liActive;
+  }
+  div#footer #bottom_menu #padd_bot_menu ul &{
+    display:table-cell;
+    white-space:nowrap;
+  }
+  div#main_content.left div#user_column div.content_box ul &{
+    @include liUserMenu;
+  }
+  div#usermenu div.moduletable ul.menu &{
+    @include liUserMenu;
   }
   #main_menu ul &{
     display:table-cell;
@@ -373,6 +513,9 @@ li{
   #main_menu >ul >li.active >ul >li & {
     @include subMenu;
   }
+  #usermenu-container &{
+    @include liUserMenu;
+  }
   div#content div#main_content div.vmPag ul &{
     display:table-cell;
     padding: 0 4px;
@@ -387,6 +530,11 @@ p {
   }
   #right_part &{
     margin:10px 0;
+  }
+}
+pre{
+  .test_content_box &{
+    margin:0;
   }
 }
 section{
@@ -440,6 +588,9 @@ span {
       background-color: lightPink;
     }
   }
+  div#main_content.left table.cabinet tr:not(:first-child) td:nth-child(5) &{
+    color: #666;
+  }
   div#main_content div.vmPag ul li:not([class])&{
     &.pagenav{
       background: #851719;
@@ -460,14 +611,115 @@ span {
   #right_part h3 &{
     color:$brownDark;
   }
+  #your_order &{
+    &.text_highlight{
+      font-size:13px;
+    }
+  }
+}
+table{
+  &#recaptcha_table{
+    margin-top: 10px !important;
+  }
+  &.cabinet{
+    border-spacing: 0;
+    width: 100%;
+  }
+  &.border {
+    border: solid 1px $brownDark;
+  }
 }
 td{
   div#main_content table.category &{
     font-weight:bold;
     padding-top:15px;
   }
+  div#main_content.left table.alignRight tr &:first-child{
+    color:#758575;
+    font-weight:bold;
+    padding-right:10px;
+    text-align:right;
+  }
+  div#main_content.left table.cabinet tr &{
+    padding:2px 4px;
+    &:not(:first-child){
+      color:black;
+      font-weight:bold;
+    }
+
+  }
+  div#main_content.left table.cabinet tr:not(:first-child):not(:last-child) &{
+    border-bottom:dashed 1px $brown;
+  }
+  div#main_content.left table.cabinet.border &{
+    font-weight: normal;
+  }
+  div#main_content.left table.cabinet#tbl-my_bids &{
+    font-size: 1.1em;
+    border-bottom: none;
+    font-weight: normal;
+    &:nth-child(3),
+    &:nth-child(4){
+      text-align: right;
+    }
+  }
   #right_part table.acymailing_form &{
     text-align:left;
+  }
+  #tbl-bid-history &{
+    padding:2px 4px;
+    &:nth-child(2){
+      text-align:right;
+    }
+    &:nth-child(3){
+      text-align:center;
+    }
+  }
+  #tbl-bid-history tbody tr:not(first-child).bold &{
+    font-weight:bold;
+  }
+}
+th{
+  #tbl-bid-history &{
+    background:$sandDark;
+    padding:2px 4px;
+  }
+  div#main_content.left table.cabinet tr &{
+    padding:2px 4px;
+    text-align:left;
+    white-space: nowrap;
+  }
+  div#main_content.left  table.cabinet.border &{
+    border-bottom:solid 1px $brownDark;
+    text-align: center;
+  }
+  div#main_content.left table.cabinet#tbl-my_bids tr &{
+    font-size: 1.1em;
+    white-space: nowrap;
+    &:not(:nth-child(1)){
+      text-align: center;
+    }
+  }
+}
+tr{
+  div#main_content.left table.cabinet &{
+    &:first-child{
+      color:$brownDark;
+      font-size: 11px;
+      font-weight: bold;
+      height: 24px;
+      margin: 0px;
+      padding: 4px 0px 0px 5px;
+    }
+    &:not(:first-child) {
+      font-size: 11px;
+      &:hover{
+        background-color:#FFFFE1;
+      }
+    }
+  }
+  div#main_content.left table.verticalTop &{
+    vertical-align:top;
   }
 }
 textarea{
@@ -547,7 +799,22 @@ ul {
       text-align: left !important;
     }
   }
+  div#footer #bottom_menu #padd_bot_menu &{
+    margin:0;
+    padding:0;
+    list-style:none;
+    overflow:hidden;
+    display:inline-table;
+  }
   div#main_content div.vmPag &{
     display:table;
+  }
+  div#main_content.left div#user_column div.content_box &{
+    margin-top:-3px;
+  }
+  div#usermenu div.moduletable &.menu{
+    margin-left: 220px;
+    margin-top: -3px;
+    position:absolute;
   }
 }
