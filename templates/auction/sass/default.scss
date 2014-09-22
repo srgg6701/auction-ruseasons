@@ -1,10 +1,11 @@
+@charset "UTF-8";
 /* default sass file */
 @import "compass";
-@import "layout.scss";
-@import "variables.scss";
-@import "mixins.scss";
-@import "tags.scss";
-@import "classes.scss";
+@import "layout";
+@import "variables";
+@import "mixins";
+@import "classes";
+@import "tags";
 
 #authorize{
   border-left: solid 1px #5A2F30;
@@ -15,14 +16,14 @@
   padding: 10px 0;
 }
 #bids-history{
+  border: solid #8A6969 1px;
   max-height: 110px;
   overflow: auto;
-  border: solid #8A6969 1px;
 }
 #board {
   bottom: 5px;
   color: $superDark;
-  font: normal 15px Verdana, Geneva, sans-serif;
+  font: normal 15px $font-common;
   height: 60px;
   left: 30px;
   position: absolute;
@@ -31,14 +32,14 @@
 }
 #bottom_menu{
   div#footer & {
-    text-align: center;
     margin: 0 auto;
+    text-align: center;
   }
 }
 #clock {
   color: $mediumDark;
   float: left;
-  font: normal 18px Verdana, Geneva, sans-serif;
+  font: normal 18px $font-common;
   left: 10px;
   position: absolute;
   top: 15px;
@@ -53,7 +54,7 @@
   color:#fbe8b3;
   display:inline-block;
   float:left;
-  font:normal 13px/14px calibri, Verdana, Geneva, sans-serif;
+  font:normal 13px/14px calibri, $font-common;
   margin-left:50px;
   top:24px;
   @media (max-width: 480px) {
@@ -67,13 +68,13 @@
   background-color:#FF9;
   border:solid 2px #CCC;
   border-radius:6px;
+  bottom:10px;
   display: inline-block;
   max-width:50%;
   overflow:auto;
   padding:10px;
   position:fixed;
   top:40px;
-  bottom:10px;
   right:10px;
   *{
     line-height: 19px;
@@ -82,8 +83,8 @@
 #footer{
   @media (max-width: 480px) {
     background-color: #417337 !important;
-    overflow: hidden !important;
     height: auto !important;
+    overflow: hidden !important;
     padding-top: 10px !important;
   }
 }
@@ -144,10 +145,10 @@
 #left_part {
   color: $veryDarkLink;
   float: left;
-  font: normal 16px calibri, Verdana, Geneva, sans-serif;
+  font: normal 16px calibri, $font-common;
   width: 200px;
   @media (max-width: 480px) {
-    background:url(../../images/body_bg.jpg) 0 0 repeat;
+    background:url(../images/body_bg.jpg) 0 0 repeat;
     box-shadow: 8px 8px 18px 4px rgba(0,0,0, 0.5);
     max-width: 420px;
     position: absolute;
@@ -173,8 +174,8 @@
   background:url(../images/login.png) 0 0 no-repeat;
 }
 #logo-box {
-  float: left;
   box-sizing: border-box;
+  float: left;
   height: 50px;
   margin-right: -20px;
   margin-top: -10px;
@@ -183,7 +184,7 @@
 }
 #main_content {
   color: $mediumRedDark;
-  font: normal 14px/17px Verdana, Geneva, sans-serif;
+  font: normal 14px/17px $font-common;
   padding: 1px 15px;
   @media (max-width: 480px) {
     margin-left: 0;
@@ -192,12 +193,12 @@
   }
 }
 #main_menu{
-  padding-top:20px;
   background:url(../images/menu_bg.png) no-repeat 0 -5px;
   background-size: 100% 106%;
   height:50px;
   left:0px;
   margin-top:-2px;
+  padding-top:20px;
   position: relative;
   width: 100%;
   @media (max-width: 480px) {
@@ -216,8 +217,8 @@
     margin-left:30px;
   }
   @media (max-width: 480px) {
-    overflow: hidden;
     margin-left: 15px !important;
+    overflow: hidden;
   }
 }
 #page {
@@ -243,7 +244,7 @@
 #right_part {
   color: #172a17;
   float: right;
-  font: normal 16px calibri, Verdana, Geneva, sans-serif;
+  font: normal 16px calibri, $font-common;
   width: 290px;
 }
 #sel_bids{
@@ -263,8 +264,8 @@
 }
 #your_order{
   margin-bottom: 2px;
-  text-align: right;
   padding-top: 10px;
+  text-align: right;
 }
 /*@media (min-width: 768px) {
 }

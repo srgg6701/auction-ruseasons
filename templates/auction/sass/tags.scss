@@ -1,18 +1,25 @@
+// tags
 a {
   outline: none;
   &.lots_count{
-    color:$veryDarkLink;
+    color: $veryDarkLink;
     font-weight:300;
   }
   section &{
     color:$brown;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: $font-common;
+  }
+  div.top_list_mn div &{
+    color:$brown;
+    font-size:13px;
+    font-weight: bold;
+    text-decoration: underline;
   }
   div#footer #bottom_menu #padd_bot_menu li &{
     border-left: $menuBorder;
     border-right: $menuBorder;
     color:#ead8b0;
-    font: 13px calibri, Verdana, Geneva, sans-serif;
+    font: 13px calibri, $font-common;
     margin: 0 1px;
     padding:0 6px;
     text-decoration:none;
@@ -29,7 +36,7 @@ a {
     padding-top:5px;
   }
   #board & {
-    font: normal 14px Verdana, Geneva, sans-serif;
+    font: normal 14px $font-common;
     color: $superDark;
     text-align: center;
     margin: 0;
@@ -44,6 +51,11 @@ a {
   }
   #left_part h3 &{
     font-size: 18px;
+    text-decoration: none;
+  }
+  #left_part ul li & {
+    color: #172a17;
+    font-weight: bold;
     text-decoration: none;
   }
   #left_menu ul li & {
@@ -103,7 +115,7 @@ a {
   }
   #main_menu >ul >li &{
     color:$linkColorSand;
-    font:bold 12px/13px Verdana, Geneva, sans-serif;
+    font:bold 12px/13px $font-common;
     float:left;
     height: 23px; text-decoration:none; text-transform:uppercase;
     &:hover{
@@ -113,8 +125,10 @@ a {
   #main_menu >ul >li.active &{
     margin-bottom:5px;
     @include liActive;
-    padding:0;
     @include subMenu;
+    padding:0;
+    text-decoration: none;
+    color: #e9e4bc;
   }
   #main_menu >ul >li >ul >li &{
     border-bottom:1px solid #e9e4bc;
@@ -147,7 +161,7 @@ a {
     padding: 10px;
   }
   #right_part &{
-    color:&brownDark;
+    color:$brownDark;
     text-decoration:underline;
     &:hover{
       text-decoration:none;
@@ -167,6 +181,11 @@ a {
     font-size:12px;
     &:hover{
       text-decoration:none !important;
+    }
+  }
+  ul.table li &{
+    &:hover{
+      text-decoration:underline !important;
     }
   }
 }
@@ -209,10 +228,80 @@ div{
     height:20px;
     padding-top:24px;
     position:relative;
-
   }
   &#main_content.left{
-    margin-left:-20px;
+    margin-left: 220px;
+    @media (max-width: 480px) {
+      margin-left: 0;
+    }
+  }
+  &.item-page-shop {
+    * {
+      font-family: Verdana;
+    }
+  }
+  div.item-page-shop &{
+    &.box{
+      @include box;
+    }
+  }
+  div.item-page-shop .box &{
+    &.img {
+      background-color: rgb(255, 255, 255);
+      border: solid 1px rgb(132, 17, 19);
+      height: 228px;
+      line-height: 228px;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      text-align: center;
+      vertical-align: middle;
+      width: 226px;
+    }
+    &.PricesalesPrice{
+      min-height: 35px;
+    }
+  }
+  &.lots_listing {
+    border-top: $borderThickBrown;
+    border-bottom: $borderThickBrown;
+    color: rgb(132, 17, 19);
+    display: block;
+    font-family: Verdana;
+    font-size: 13px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    overflow: hidden;
+    padding-top: 6px;
+    padding-bottom: 7px;
+  }
+  &.top_list_mn{
+    height: 25px;
+    margin-top: 10px;
+    text-align:right;
+  }
+  div.top_list &{
+    position: relative;
+    &.top_list_mn{
+      display: inline-block;
+      float:right;
+      margin-top: 0;
+      position: absolute;
+      right: 0;
+      top: 19px;
+    }
+  }
+  div.top_list h2 &{
+    &.weak{
+      display:inline-block;
+      line-height:29px;
+    }
+  }
+  div.top_list_mn &{
+    display: inline-block;
+    float:right;
+    margin-right:20px;
   }
   div#footer #bottom_menu #padd_bot_menu &.mailru_counter{
     display:inline-block;
@@ -226,12 +315,12 @@ div{
       margin:20px 0;
     }
     &#user_column{
-      @include fleft;
+      float: left;
       @include mxWidth(140px);
     }
   }
   div#main_content.left &#content_column_wide{
-    @include fleft;
+    float: left;
     @include mxWidth(600px);
     margin-right:-40px;
     padding-left:10px;
@@ -256,10 +345,18 @@ div{
     min-height:157px;
     width:138px;
   }
+  div#content div#main_content &{
+    &.vmPag{
+      display:inline-block;
+      float:right;
+      margin-right:6px;
+      max-width: 60%;
+    }
+  }
   div#usermenu &.moduletable{
     position:relative;
   }
-  #right_part div[class*="-acy_subscribe"]  &.acymailing_module_form{
+  #right_part div[class*="-acy_subscribe"] &.acymailing_module_form{
     width:200px;
   }
   .test_content_box pre &{
@@ -280,14 +377,6 @@ div{
     margin-left: 66px;
     padding: 1px;
     padding-top: 6px;
-  }
-  div#content div#main_content &{
-    &.vmPag{
-      display:inline-block;
-      float:right;
-      margin-right:6px;
-      max-width: 60%;
-    }
   }
   ul.buttons li &{
     @include buttonSandCool;
@@ -314,11 +403,13 @@ form {
   #search_box &{
     overflow: hidden;
   }
-  div#content div#main_content &{
-
-  }
   div#main_content.left  div#login_area div.login &{
     margin-left: -10px;
+  }
+  div.lots_listing &{
+    &#add_to_favorite{
+      @include flat;
+    }
   }
   &#registration_form,
   &#proposal_form,
@@ -342,6 +433,9 @@ img {
     top: 50%;
     transform: translateY(-50%);
     width: 81.5%;
+  }
+  div.item-page-shop .box div.img &{
+    vertical-align: middle;
   }
 }
 input{
@@ -374,6 +468,14 @@ input{
     @include buttonSand;
     margin:4px;
   }
+  div.lots_listing form#add_to_favorite &{
+    &[type="submit"]#btn_favor{
+      @include buttonAsLink;
+      font-family: Verdana;
+      margin: 0;
+      text-decoration: underline;
+    }
+  }
   form#ask_form &[type="submit"],
   form#ask_form &[type="reset"]{
     @include buttonSandCool;
@@ -387,7 +489,7 @@ input{
 h1 {
   #main_content &{
     color: $brownDark;
-    font: normal 22px Verdana, Geneva, sans-serif;
+    font: normal 22px $font-common;
     margin: 20 0 0 15px;
   }
   .testPadding &{
@@ -400,22 +502,36 @@ h2 {
     height: 34px;
     overflow: hidden;
   }
-  div#main_content.left div &{
+  /*div#main_content.left div &{
     @include headerThin2;
+  }*/
+  div.item-page-shop .box &{
+    @include imHeader;
+  }
+  div.item-page-shop.fulltime &{
+    @include imHeader;
+  }
+  div.top_list &{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 400px;
+    margin-bottom: 0px;
+    margin-top:10px;
+    @include txtBrown;
   }
 }
 h3 {
   #left_part &{
     color: $brownDarkUltra;
     margin: 10px 0;
-    font: normal 18px Verdana, Geneva, sans-serif;
+    font: normal 18px $font-common;
     text-transform: uppercase;
   }
   #right_part &{
     color:#6d4721;
     margin:10px 0;
-    font:normal 18px Verdana, Geneva, sans-serif;
-    color:#6d4721;
+    font:normal 18px $font-common;
     text-transform:uppercase;
   }
   div#main_content div.item-page-rules div &{
@@ -471,6 +587,13 @@ li{
   }
   div#usermenu div.moduletable ul.menu &{
     @include liUserMenu;
+  }
+  ul.table &{
+    display:table-cell;
+    list-style:none;
+    text-align:center;
+    width:33%;
+    white-space:nowrap;
   }
   #main_menu ul &{
     display:table-cell;
@@ -531,6 +654,11 @@ p {
   #right_part &{
     margin:10px 0;
   }
+  div.item-page-shop &{
+    &.product_s_desc{
+      color:black;
+    }
+  }
 }
 pre{
   .test_content_box &{
@@ -583,6 +711,12 @@ span {
       color:red;
     }
   }
+  div#content #left_part h3 &{
+    &.lots_count{
+      color: #172a17;
+      font-weight: 300;
+    }
+  }
   div#main_content &{
     &.highlight{
       background-color: lightPink;
@@ -591,7 +725,7 @@ span {
   div#main_content.left table.cabinet tr:not(:first-child) td:nth-child(5) &{
     color: #666;
   }
-  div#main_content div.vmPag ul li:not([class])&{
+  div#main_content div.vmPag ul li:not([class]) &{
     &.pagenav{
       background: #851719;
       border-radius: 7px;
@@ -630,6 +764,11 @@ table{
   }
 }
 td{
+  div.item-page-shop &{
+    &.box{
+      @include box;
+    }
+  }
   div#main_content table.category &{
     font-weight:bold;
     padding-top:15px;
@@ -646,7 +785,6 @@ td{
       color:black;
       font-weight:bold;
     }
-
   }
   div#main_content.left table.cabinet tr:not(:first-child):not(:last-child) &{
     border-bottom:dashed 1px $brown;
@@ -737,13 +875,16 @@ textarea{
   }
 }
 ul {
-  padding: 0;
-  margin: 0;
   list-style: none;
+  margin: 0;
+  padding: 0;
+  &.table{
+    display:table;
+  }
   #left_menu &{
-    padding: 0;
-    margin: 0;
     list-style: none;
+    margin: 0;
+    padding: 0;
     li {
       margin-bottom: 10px;
     }
@@ -791,6 +932,11 @@ ul {
       margin-bottom: 4px !important;
     }
   }
+  #main_menu >ul.menu >li.deeper:hover >&{
+    @media (min-width: 480px) {
+      display: block !important;
+    }
+  }
   #padd_bot_menu &{
     @media (max-width: 480px) {
       display: block !important;
@@ -800,11 +946,11 @@ ul {
     }
   }
   div#footer #bottom_menu #padd_bot_menu &{
-    margin:0;
-    padding:0;
-    list-style:none;
-    overflow:hidden;
     display:inline-table;
+    list-style:none;
+    margin:0;
+    overflow:hidden;
+    padding:0;
   }
   div#main_content div.vmPag &{
     display:table;

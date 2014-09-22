@@ -13,22 +13,34 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <jdoc:include type="head" />
+<?php
+    if(JRequest::getVar('sass')):?>
+<link href="<?php echo $templateUrl; ?>/css/default.css" rel="stylesheet" type="text/css" />
+<?
+    else:?>
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $templateUrl; ?>/css/mobile/default.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $templateUrl; ?>/css/mobile/screens.css" rel="stylesheet" type="text/css" />
-<link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
-<?php if(JRequest::getVar('option')=='com_users'):?>
+<?php
+    if(JRequest::getVar('option')=='com_users'):?>
 <link href="<?php echo $templateUrl; ?>/less/styles_user.less" rel="stylesheet/less" type="text/css">
-<?php endif;
+<?php
+    endif;
 	if(JRequest::getVar('option')=='com_virtuemart'):?>
 <link href="<?php echo $templateUrl; ?>/less/vm.less" rel="stylesheet/less" type="text/css">
 <?php endif;
 	if(JRequest::getVar('view')=='productdetails'):?>
 <link href="<?php echo $templateUrl; ?>/less/img_zoom.less" rel="stylesheet/less" type="text/css">
-<?php endif;?>
+<?php
+    endif;?>
 <script src="<?php echo $templateUrl; ?>/less/less.js" type="text/javascript"></script> 
-<!--[if lte IE 6]>
+<?php
+endif;
+?>
+<link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
+
+    <!--[if lte IE 6]>
 	<script src="<?php echo $templateUrl; ?>/js/DD_belatedPNG.js"></script>
 	<script> DD_belatedPNG.fix('*');</script>		
     <link type="text/css" rel="stylesheet" href="<?php echo $templateUrl; ?>/css/styleIE6.css" />

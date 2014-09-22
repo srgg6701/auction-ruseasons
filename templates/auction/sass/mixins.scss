@@ -1,3 +1,22 @@
+@mixin buttonAsLink{
+  background: none;
+  border: none;
+  color: $brownDark;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 0px;
+  padding: 0;
+}
+@mixin buttonSand{
+  background:#fbe5ab;
+  border:none;
+  color:#735120;
+  display:block;
+  font:normal 12px/13px calibri, Verdana, Geneva, sans-serif;
+  margin:0;
+  margin-bottom:5px;
+  padding:4px 7px 3px 7px;
+}
 @mixin buttonSandCool(){
   background-color:$sandDark;
   border: solid 1px darkkhaki;
@@ -10,15 +29,20 @@
     background-color:$sandGrey;
   }
 }
-@mixin fleft{
-  float:left;
+@mixin flat{
+  border:none;
+  display:inline;
+  margin:0;
+  padding:0;
 }
-@mixin headerThin2{
-  $thinBrownHeader;
-  a {
-    text-decoration:none;
+@mixin imHeader{
+  font-size: 14px;
+  a{
+    height: auto;
+    text-decoration: none !important;
   }
 }
+
 @mixin liActive{
   text-decoration:none;
   color:#e9e4bc;
@@ -40,6 +64,13 @@
     }
   }
 }
+@mixin message_area{
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 4px;
+  margin: auto;
+  padding: 10px;
+}
 @mixin mxWidth($max){
   max-width:$max;
 }
@@ -51,6 +82,35 @@
   text-decoration:none;
   text-transform:uppercase;
 }
+@mixin txtBrown{
+  color: rgb(132, 17, 19);
+}
+@mixin thinBrownHeader{
+  border-bottom: solid 1px;
+  border-top: solid 1px;
+  color:$brown;
+  font-size:16px;
+  font-weight:normal;
+  margin: 0;
+  margin-bottom:10px !important;
+  padding: 6px;
+}
+
+@mixin box{
+  display:inline-block;
+  font-size: 13px;
+  padding:5px;
+  @include txtBrown;
+  vertical-align:top;
+  width: 226px;
+}
+@mixin headerThin2{
+  @include thinBrownHeader;
+  a {
+    text-decoration:none;
+  }
+}
+
 @mixin watch_block{
   a{
     display: block;
