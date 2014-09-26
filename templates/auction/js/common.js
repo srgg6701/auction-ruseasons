@@ -1,11 +1,12 @@
 jQuery(function(){
-	console.dir(jQuery);
+    var leftPart = jQuery('#left_part');
+	//console.dir(jQuery);
 	jQuery('.mobile_menu').on('click', function(){
 		console.log(this.id);
 		if(this.id=="mobile-menu-menu"){
 			jQuery(this).parent().find('ul.menu').slideToggle(200);
 		}else if(this.id=="mobile-menu-products"){
-			jQuery('#left_part').toggleClass('visible');
+			jQuery(leftPart).toggleClass('visible');
 		}
 	});
 	jQuery('#main_menu ul li.deeper').on('click', function(){
@@ -13,4 +14,5 @@ jQuery(function(){
 		jQuery(this).toggleClass('expanded');
 		return false;
 	});
+    jQuery('#content').css('min-height',jQuery(leftPart).css('height'));
 });
