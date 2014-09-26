@@ -16,6 +16,9 @@
     border-top-right-radius: 4px;
     padding: 8px 10px 6px;
 }
+.invisible{
+    display: none;
+}
 .test-box{
     border: solid 1px #ccc;
     border-radius:4px;

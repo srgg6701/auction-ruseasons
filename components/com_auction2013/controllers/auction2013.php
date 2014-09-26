@@ -138,7 +138,6 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         echo "Добавлено записей:" . $this->getModel()->check_active_auctions();
         return true;
     }
-
     /**
      * Удалить из избранного
      * @package
@@ -181,7 +180,7 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
      * Сделать ставку
      */
     public function makeBid(){
-        $test=true;
+        $test=false;
         $post = JRequest::get('post');
         $bid_result=$this->getModel()->makeUserBid($post);
 
@@ -236,8 +235,8 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
             echo HTML::showWatchedItems(true);
         exit;
     }
-/**
- * Отправить предложение предмета для аукциона
+    /**
+ *
  */
 	public function sendApplication(){
 		// Check for request forgeries.
@@ -306,7 +305,6 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         цену, разослать сообщения - победителю и админу.*/
         $this->getModel()->check_closed_lots();
     }
-
     /**
      * Комментарий
      * @package

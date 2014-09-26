@@ -7,13 +7,13 @@ ul{padding:0; margin:0; list-style:none;}
 .clear{overflow:hidden; clear:both; line-height:0; height:0;}
 body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 /*------------------------------------*/
-#page{margin:0 auto;  width:990px;}
+#page{margin:0 auto;  max-width: 990px;}
 	#header{height:280px; background:url(../images/header.png) 130px 0 no-repeat; position:relative; top:0; left:0;}
-		#logo_img{position:absolute; top:0; left:45px;}
+		#logo_img{position:absolute; top: 21px; left: 8%;background: url(../../../templates/auction/images/temp/logo2.png) no-repeat center;background-size: 100%;width: 116px;height: 176px;}
 		#logo_text{position:absolute; top:219px; left:17px;}
 		#clock{color:#426e36; font:normal 18px Verdana, Geneva, sans-serif; position:absolute; left:10px; top:15px; float:left;}
 			
-		#content{overflow:hidden; padding:1px 10px 0 10px; margin-bottom:10px;}
+		#content{overflow:hidden; padding:1px 10px 0 10px; margin-bottom:10px;position: relative;}
 				
 				
 					#board{position:absolute; bottom:5px; left:30px; width:225px; height:60px; font:normal 15px Verdana, Geneva, sans-serif; color:#020100; text-align:center;}
@@ -42,8 +42,11 @@ body{padding:0; margin:0; background:url(../images/body_bg.jpg) 0 0 repeat;}
 			.left{margin-left:220px;}
 			.right{margin-right:310px;}
 
-			#pic_top{background:url('../images/top_image.jpg') no-repeat; height:211px; margin-left:146px;}
+			#pic_top{background:url('../images/top_image.jpg') no-repeat; height: 211px; margin-left:146px;position: relative;}
 
+.mobile_menu{
+	display: none;
+}
 /* for tests*/
 
 .test-message{

@@ -1,10 +1,8 @@
 ﻿USE auctionru_2013;
-SELECT      DISTINCT rates.id                    AS 'id ставки',
+SELECT      DISTINCT rates.id                     AS 'id ставки',
   CONCAT( prod.virtuemart_product_id,
       ':', prod_ru_ru.product_name )             AS 'Предмет',
-  prod.product_available_date                    AS 'Начало торгов',
-  prod.auction_date_finish                       AS 'Окончание торгов',
-            rates.bidder_user_id                 AS 'id юзера',
+            rates.bidder_user_id                  AS 'id юзера',
   IF (users.username, users.username, 'autobid') AS 'username',
             sum                                  AS 'Ставка',
   ( SELECT value 

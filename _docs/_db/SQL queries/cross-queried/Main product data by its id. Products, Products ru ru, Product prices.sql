@@ -1,11 +1,16 @@
+USE auctionru_2013;
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'prod.id',
   prod_ru_ru.product_name                 AS 'item name',
+  (SELECT COUNT(*) FROM auc13_virtuemart_product_medias
+    WHERE virtuemart_product_id = prod.virtuemart_product_id) 
+                                          AS 'medias',
+  prod_ru_ru.slug,
   (SELECT COUNT(*) FROM auc13_dev_auction_rates 
     WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS bids,
-  prod_prices.product_price               AS 'Старт.цена',
-  sales_prices.min_price                  AS 'Резерв.цена',
+  prod_prices.product_price               AS 'prod. price',
+  sales_prices.min_price                  AS 'min. price', 
   prod_prices.product_price_publish_up    AS 'publish_up',
   prod.product_available_date             AS 'auction_start',
   prod.auction_date_finish                AS 'auction_finish',
@@ -20,10 +25,13 @@ SELECT
                                           AS 'categories',       -- prod_ru_ru.product_s_desc, prod_ru_ru.product_desc, prod_ru_ru.slug,
   -- TRUNCATE(prod_prices.product_price,0)   AS product_price
   prod.product_sku                        AS 'contract_number',
-  prod.auction_number
+  prod.auction_number,
+  prod_ru_ru.product_s_desc,
+  prod_ru_ru.product_desc
   
    FROM auc13_virtuemart_products                     AS prod
-  INNER JOIN auc13_virtuemart_products_ru_ru          AS prod_ru_ru
+  -- INNER
+   LEFT JOIN auc13_virtuemart_products_ru_ru          AS prod_ru_ru
           ON prod.virtuemart_product_id = prod_ru_ru.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_product_prices          AS prod_prices
               ON prod_prices.virtuemart_product_id  = prod_ru_ru.virtuemart_product_id
@@ -49,8 +57,8 @@ SELECT
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  WHERE   cats_ruru2.category_name LIKE 'Онлайн торги'
+  -- WHERE   cats_ruru2.category_name LIKE 'РњР°РіР°Р·РёРЅ'
           -- AND prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
-            -- prod_ru_ru.product_name LIKE '%Икона%' AND
+            -- prod_ru_ru.product_name LIKE '%пїЅпїЅпїЅпїЅпїЅ%' AND
             -- sales_prices.sales_price IS NOT null
   ORDER BY prod.auction_date_finish DESC, bids, prod_ru_ru.product_name LIMIT 500

@@ -13,20 +13,34 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <jdoc:include type="head" />
+<?php
+    if(JRequest::getVar('sass')):?>
+<link href="<?php echo $templateUrl; ?>/css/default.css" rel="stylesheet" type="text/css" />
+<?
+    else:?>
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
-<link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $templateUrl; ?>/css/mobile/default.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $templateUrl; ?>/css/mobile/screens.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
-<?php if(JRequest::getVar('option')=='com_users'):?>
+<?php
+    if(JRequest::getVar('option')=='com_users'):?>
 <link href="<?php echo $templateUrl; ?>/less/styles_user.less" rel="stylesheet/less" type="text/css">
-<?php endif;
+<?php
+    endif;
 	if(JRequest::getVar('option')=='com_virtuemart'):?>
 <link href="<?php echo $templateUrl; ?>/less/vm.less" rel="stylesheet/less" type="text/css">
 <?php endif;
 	if(JRequest::getVar('view')=='productdetails'):?>
 <link href="<?php echo $templateUrl; ?>/less/img_zoom.less" rel="stylesheet/less" type="text/css">
-<?php endif;?>
+<?php
+    endif;?>
 <script src="<?php echo $templateUrl; ?>/less/less.js" type="text/javascript"></script> 
-<!--[if lte IE 6]>
+<?php
+endif;
+?>
+<link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
+
+    <!--[if lte IE 6]>
 	<script src="<?php echo $templateUrl; ?>/js/DD_belatedPNG.js"></script>
 	<script> DD_belatedPNG.fix('*');</script>		
     <link type="text/css" rel="stylesheet" href="<?php echo $templateUrl; ?>/css/styleIE6.css" />
@@ -78,6 +92,7 @@ window.addEvent('domready', function() {
 -->
 </script>
 <?php }?>
+<script src="<?=$templateUrl?>/js/common.js"></script>
 <?php /*?>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
@@ -134,28 +149,44 @@ $( function(){
 <body>
 	<div id="page">
 
-        <div id="header"> 
-            
-            <div id="pic_top"></div>			
+        <div id="header">
+            <div id="pic_top">
+                <section>
+                    <div>
+                        <div id="search_box">
+                            <jdoc:include type="modules" name="search" />
+                        </div>
+        <?php   $user = JFactory::getUser();
+                if($user->guest==1):?>
+                        <div id="authorize">
+                            <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">Кабинет</a>
+                            <a href="<?php echo JRoute::_('index.php?option=com_auction2013&layout=register');?>">Регистрация</a>
+                        </div>
+        <?php   endif;?>
+                    </div>
+                </section>
+            </div>
             	
             <div id="main_menu">
+                <div id="logo-box">
+					
+                    <a href="#" id="logo_text">
+                        <img src="<?php echo $templateUrl; ?>/images/logo_text.png" /></a>
+                    </a>
+                </div>
+                <div class="mobile_menu" id="mobile-menu-menu">Меню</div>
+                <div class="mobile_menu" id="mobile-menu-products">Предметы</div>
                 <jdoc:include type="modules" name="user3" />
-            </div>   
-            
-            <div id="search_box">					
-                <jdoc:include type="modules" name="search" />
             </div>
             
-            <div id="clock"></div>  
-            <a href="<?=$this->baseurl?>" id="logo_img"><img src="<?php echo $templateUrl; ?>/images/logo_img.png" width="234" height="243" alt="" /></a>
-            <a href="#" id="logo_text"><img src="<?php echo $templateUrl; ?>/images/logo_text.png" width="266" height="50" alt="" /></a>
+            <div id="clock"></div>
+            <a href="<?=$this->baseurl?>" id="logo_img"></a>
     	</div>
                 
         <div id="content">
 		<?php $style="";?>
   	<?php $style="left "?>
-  <?php $user = JFactory::getUser();
-  		$layout=JRequest::getVar('layout');
+  <?php $layout=JRequest::getVar('layout');
 		$option=JRequest::getVar('option');
 		$view=JRequest::getVar('view');
   		$hide_left_panel=false;
@@ -201,7 +232,7 @@ $( function(){
         <div id="footer">
             <div id="copyright">
 			<?php if ($this->countModules('copyright') == 0): ?>
-&copy; 2010 Русские Сезоны
+&copy; 2010 Антикварные Сезоны
   <?php else: ?>
   <jdoc:include type="modules" name="copyright" />
   <?php endif; ?>
@@ -284,6 +315,24 @@ jQuery( function($){
 			$(innerBlock).toggle();
 		}
 	});
+<?php   if(strstr($_SERVER['HTTP_HOST'],"localhost")):?>
+    //console.log(window.outerWidth);
+    window.onresize=function(){
+        document.title = window.outerWidth;
+    };
+    var sel_name_sbstr = '[src*="metabar.ru"]';
+    var intv = setInterval(function() {
+        var metabars = document.querySelectorAll(sel_name_sbstr);
+        if (metabars.length) {
+            for (var el in metabars) {
+                if (typeof metabars[el] == 'object') {
+                    metabars[el].remove();
+                }
+            }
+        } else
+            clearInterval(intv);
+    }, 1000);
+<?php   endif;?>
 });
 </script>
 </div>

@@ -103,7 +103,7 @@ if (!empty($this->products)) {
 	?></h2>
 	<?php if (!empty($product->product_s_desc)):?>
 
-	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
+	<p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_desc, 150, '...')?></p>
 <?php 	endif; 
 
 		if ($this->show_prices == '1') {

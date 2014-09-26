@@ -131,8 +131,8 @@ ORDER BY cats.ordering';
                 $layout = $topLayouts[$top_cat['virtuemart_category_id']];
                 $prods[$layout]=array();
                 $q = $query;
-                // $query передаётся по ссылке
-                AuctionStuff::getPeriodLimits($layout,$q,$published);
+                if($published)// $query передаётся по ссылке
+                    AuctionStuff::getPeriodLimits($layout,$q,$published);
                 // $q передаётся по ссылке
                 AuctionStuff::excludeSold($layout,$q);
                 $q.=$queryEnd .

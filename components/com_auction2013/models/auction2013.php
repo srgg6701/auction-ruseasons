@@ -72,13 +72,13 @@ FROM  #__virtuemart_products           AS prods,
    AND cts.category_layout = 'online' ) ";
         $db->setQuery($query);
         $results = $db->loadColumn();
-        testSQL($query,__FILE__, __LINE__, false);
+        //testSQL($query,__FILE__, __LINE__, false);
         $insert="INSERT INTO #__dev_lots_active (virtuemart_product_id) VALUES ";
         foreach ($results as $i=>$virtuemart_product_id) {
             if($i) $insert.=",";
             $insert.="($virtuemart_product_id)";
         }
-        commonDebug(__FILE__,__LINE__,$insert); if($test) die();
+        //commonDebug(__FILE__,__LINE__,$insert); if($test) die();
         if($i){
             $db->setQuery($insert)->query();
             return $i;
@@ -163,7 +163,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
         $db = JFactory::getDbo();
         $results = $this->getLotsToBeClosed($db,$test);
         if(count($results)){
-            $common_path=dirname(__FILE__).'/../'; // com_auction2013
+            $common_path=dirname(__FILE__).'/../';
             // получить файл с реквизитами:
             $banking_details = file_get_contents($common_path.'banking_details.txt');
             require_once $common_path.'helpers/stuff.php';
@@ -176,6 +176,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
                     // пополнить массив непроданных предметов
                     $ids_unsold[]=$info['virtuemart_product_id'];
                 }else{
+                    //commonDebug(__FILE__,__LINE__,$info);
                     $users->sendMessagesToUsers('Вы стали победителем аукциона!',
                         '<p>Здравствуйте, ' .$info['name'] . '!</p>
                                 <p>Рады вам сообщить, что вы стали победителем
@@ -250,7 +251,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
         try{
             $res=$db->loadResult();
             //echo "<div>res = $res</div>";
-            //testSQL($query);die();
+            //testSQL($query, __FILE__, __LINE__, true, '', false);
             return $res;
         }catch (Exception $e){
             die($e->getMessage());
@@ -686,7 +687,7 @@ INNER JOIN #__virtuemart_product_prices  AS prices
         // если предмет кем-то только что куплен:
         if($this->checkItemAccessibility($post['virtuemart_product_id'][0])){
             $result['msg']=JText::_('Предмет недоступен...');
-            $result['type']='warning';
+            $result['type']='sold';
             return $result;
         }
         /* ["option"]                   => "com_auction2013"

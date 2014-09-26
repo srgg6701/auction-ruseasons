@@ -46,6 +46,10 @@ class VirtuemartViewCategory extends VmView {
 		$this->assignRef('show_prices', $show_prices);
 
 		$document = JFactory::getDocument();
+        /* MODIFIED START */
+        $document->addStyleSheet(JURI::root(true).'/components/com_auction2013/assets/css/auction.css');
+        $document->addScript(JURI::root(true).'/components/com_auction2013/assets/js/auction.js');
+        /* MODIFIED END */
 		// add javascript for price and cart
 		vmJsApi::jPrice();
 

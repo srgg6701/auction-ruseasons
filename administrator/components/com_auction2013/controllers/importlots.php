@@ -34,6 +34,7 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @package
  * @subpackage
  */
+    // todo: разобраться с неиспользуемым методом
 	public function handleSlug($slug,&$words,&$allwords){
 		$noquote=mb_ereg_replace("&quot;","",$slug);
 		$handled=mb_ereg_replace("[^A-Za-zА-Яа-я0-9\.,\-\s]","", $noquote);
@@ -215,28 +216,34 @@ class Auction2013ControllerImportlots extends JControllerForm
 	    При отработке данного скрипта записи в 2 последние таблицы просто не добавляются.
         Какие параметры и как можно использовать, чтобы были возможны другие варианты, те,
         что доступны при управлении изображениями товара через интерфейс VirtueMart'а?
+     * «
+     * »
 	*/
 	public function import(){
         //commonDebug(__FILE__,__LINE__,JRequest::get('post'), true);
 		$test=false;
         $skip_import=false;
+        $laquo = "&laquo;";
+        $raquo = "&raquo;";
         $doubled_contract_numbers=array();
 
 		$user = JFactory::getUser();
 		$user_id=$user->id;
 		// for your safety, please, use condoms :)
 		JRequest::checkToken() or jexit( 'Invalid Token save' );
-
-		if(isset($_FILES)&&!empty($_FILES)){
+        /**
+        Обработать входящие .csv-файлы */
+        if(isset($_FILES)&&!empty($_FILES)){
 			$common_data_fields=array(
 					  'virtuemart_category_id',
 					  'encoding',
 					  'alt_encoding'
 					);
 
-            foreach($common_data_fields as $i=>$field)
+            foreach($common_data_fields as $i=>$field):
 				// $virtuemart_category_id, $encoding AND so on...
 				${$field}=JRequest::getVar($field);
+			endforeach;
 			//var_dump(JRequest::get('post'));
 			/*	  'top_cat' => string '23, but does not matter here. See relations at virtuemart_category_categories, virtuemart_categories'
 				  'virtuemart_category_id' => string '2'
@@ -341,6 +348,13 @@ class Auction2013ControllerImportlots extends JControllerForm
 							if($col_count>$i){
 								//имя текущего столбца, в том порядке, в котором расположены в файле:
 								$column_name=$columns_names[$i];
+
+								if($column_name=='title' || $column_name=='short_desc' || $column_name=='desc'){
+                                    // mb_ereg_replace() не работает
+                                    $cell_content=preg_replace("/«/", $laquo, $cell_content);
+                                    $cell_content=preg_replace("/»/", $raquo, $cell_content);
+                                    //echo "<div>changed cell_content: </div>"; var_dump($cell_content);
+                                }
 								//echo "<div class=''>column_name= ".$column_name."</div>";
 								switch($column_name){
 									case 'date_show':   // дата начала публикации (доступности на сайте) предмета
@@ -378,7 +392,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 									case 'price1':       // основная цена
 										$data[$data_index]['mprices']['product_price'][0]=$cell_content;
 									break;
-
                                     default:
 										$data[$data_index][$arrFields[$column_name]]=$cell_content;
 								}
@@ -413,7 +426,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 			//
 			if(!$model)
-				echo "<div class=''>Не создан экземпляр Модели продукта \$model; line: ".__LINE__."</div>";
+				echo "<div class=''>Не создан экземпляр Модели продукта
+                        \$model; line: ".__LINE__."</div>";
 
 			// additional "static" fields:
 			$arrDataToUpdate=array(
@@ -465,7 +479,8 @@ class Auction2013ControllerImportlots extends JControllerForm
                 unset($data_stream['product_price_publish_up'],$data_stream['product_price_publish_down']);
                 // commonDebug(__FILE__, __LINE__, $data_stream, true);
                 //$virtuemart_product_id = 35+$i
-				if($skip_import){
+				// вывести импортируемые данные
+                if($skip_import){
                     //if($data_stream['lot_number']=='1000653')
                         commonDebug(__FILE__,__LINE__,$data_stream, false, false);
                 }else{

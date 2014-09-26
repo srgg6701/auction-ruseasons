@@ -3,19 +3,18 @@
 <!-- Modifying this generated file will probably render it invalid -->
 <ExportTemplate FormatVersion="1">
   <LastSuccessfullDate>0001-01-01T00:00:00</LastSuccessfullDate>
+  <Provider>00000000-0000-0000-0000-000000000000</Provider>
   <ConnectionName>Shared localhost</ConnectionName>
   <ConnectionString>User Id=root;Host=localhost;Character Set=utf8</ConnectionString>
   <Database>auctionru_2013</Database>
-  <OutputDirectory>C:\WebServers\home\localhost\www\auction-ruseasons\_docs\_db\auctionru_2013</OutputDirectory>
-  <BaseFileName>auctionru_2013_</BaseFileName>
+  <OutputDirectory>C:\WebServers\home\localhost\www\auction-ruseasons\_docs\_db\_db_backups  AND synchro</OutputDirectory>
+  <BaseFileName>auctionru_2013</BaseFileName>
   <Mode>All</Mode>
   <AppendTimestamp>True</AppendTimestamp>
   <MaxDays>0</MaxDays>
   <MaxFilesCount>0</MaxFilesCount>
   <Compression />
-  <DatabaseObjects>
-    <DatabaseObjectType ObjectType="Table" />
-  </DatabaseObjects>
+  <DatabaseObjects />
   <Options>
     <PropertyValue Name="LockTables">false</PropertyValue>
     <PropertyValue Name="IncludeVirtualColumnsData">false</PropertyValue>
@@ -48,7 +47,7 @@
     <PropertyValue Name="IgnoreColumnDefaultValues">false</PropertyValue>
     <PropertyValue Name="IgnoreUdfs">true</PropertyValue>
     <PropertyValue Name="WriteLog">false</PropertyValue>
-    <PropertyValue Name="LogFileName" xml:space="preserve">C:\WebServers\home\localhost\www\auction-ruseasons\_docs\_db\auctionru_2013\Backup.log</PropertyValue>
+    <PropertyValue Name="LogFileName" xml:space="preserve">C:\WebServers\home\localhost\www\auction-ruseasons\_docs\_db\_db_backups  AND synchro\Backup.log</PropertyValue>
     <PropertyValue Name="ErrorHandlingMode">0</PropertyValue>
     <PropertyValue Name="IncludeDrop">true</PropertyValue>
     <PropertyValue Name="IncludeIfExists">true</PropertyValue>
