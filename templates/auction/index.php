@@ -14,7 +14,7 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <jdoc:include type="head" />
 <?php
-    if(JRequest::getVar('sass')):?>
+    if(!JRequest::getVar('less')):?>
 <link href="<?php echo $templateUrl; ?>/css/default.css" rel="stylesheet" type="text/css" />
 <?
     else:?>
