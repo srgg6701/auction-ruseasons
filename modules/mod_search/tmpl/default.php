@@ -11,12 +11,9 @@ defined('_JEXEC') or die;
 ?>
 <script>
     function manageSearchField(field_id){
-        console.log($('#'+field_id));
-        $('#'+field_id).toggle(200);
+        //console.log($('#'+field_id));
+        jQuery('#'+field_id).toggle(200);
     }
-/*$(function(){
-
-});*/
 </script>
 <form action="<?php echo JRoute::_('index.php');?>" method="post">
     <div class="background" onclick="manageSearchField('mod-search-searchword');"></div>

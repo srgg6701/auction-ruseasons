@@ -499,7 +499,7 @@ h1 {
 }
 h2 {
   .box &{
-    height: 34px;
+    height: 34px; // 44px !important
     overflow: hidden;
   }
   /*div#main_content.left div &{

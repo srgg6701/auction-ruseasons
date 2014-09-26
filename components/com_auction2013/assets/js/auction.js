@@ -1,6 +1,9 @@
+// файл подключается для некоторых разделов компонента
+// todo: убрать закомментированный код
 window.onload=function(){
     //console.log("Auction is here!");
-    var boxes=[], texts = {}, maxHeights = {},
+    var boxes=[], // контейнер с названием и описанием предмета
+        texts = {}, maxHeights = {},
         boxesObjects = ['.box >h2','.box >.product_s_desc'] /*{
             headerObjects: {
                 box:document.querySelectorAll('.box >h2'),
@@ -15,18 +18,21 @@ window.onload=function(){
     for(var o = 0, j=boxesObjects.length; o<j; o++){
         //console.groupCollapsed(boxesObjects[o]);
         // получить селекторы заголовков и описаний
-        boxes[o]=document.querySelectorAll(boxesObjects[o]);
-        // получить параметр высоты, выбрав из первого селектора каждого типа
-        maxHeights[boxesObjects[o]]=boxes[o][0].offsetHeight; //  maxHeights['.box >h2']...
-        //console.dir(boxes[o]);
-        texts[boxesObjects[o]]=[]; // контейнер для текстов (заголовок, описание)
-        for (var i in boxes[o]) {
-            if (typeof boxes[o][i] === 'object') {
-                texts[boxesObjects[o]][i] = boxes[o][i].textContent.split(" ");
-                //console.dir(texts[boxesObjects[o]][i]);
+        if(boxes[o]=document.querySelectorAll(boxesObjects[o])){
+            // получить параметр высоты, выбрав из первого селектора каждого типа
+            if(boxes[o][0]){
+                maxHeights[boxesObjects[o]]=boxes[o][0].offsetHeight; //  maxHeights['.box >h2']...
+                //console.dir(boxes[o]);
+                texts[boxesObjects[o]]=[]; // контейнер для текстов (заголовок, описание)
+                for (var i in boxes[o]) {
+                    if (typeof boxes[o][i] === 'object') {
+                        texts[boxesObjects[o]][i] = boxes[o][i].textContent.split(" ");
+                        //console.dir(texts[boxesObjects[o]][i]);
+                    }
+                }
             }
+            //console.groupEnd();
         }
-        //console.groupEnd();
     }
     //console.log('maxHeights: '); console.dir(maxHeights);
     //console.log('boxes: '); console.dir(boxes);
@@ -46,35 +52,39 @@ window.onload=function(){
     };
 
     var handleBox = function() {
-        var overflow;
-        for(var o = 0,j=boxes.length; o<j; o++) {
-            //console.group('boxes['+o+']');
-            //console.dir(boxes[o]);
-            for (var i= 0, tl = texts[boxesObjects[o]].length; i<tl; i++) {
-                //console.log('i='+i);
-                //console.dir(texts[boxesObjects[o]][i]);
-                handleText(o, i, texts[boxesObjects[o]][i]);
-                var blockTextArray = boxes[o][i].textContent.split(" "),
-                    heightDown = maxHeights[boxesObjects[o]] < boxes[o][i].scrollHeight,
-                    lengthsDiff = blockTextArray.length < texts[boxesObjects[o]][i].length;
-                overflow=false;
-                //boxes[o][i].style.background = "";
-                if (heightDown || lengthsDiff) {
-                    overflow=true;
-                    /*if (heightDown && lengthsDiff) {
-                        boxes[o][i].style.background = "pink";
-                    } else {
-                        boxes[o][i].style.background =(heightDown)?
-                            "lightskyblue" : "lightgreen";
-                    }
-                } else {
-                    boxes[o][i].style.background = "";*/
-                }   //console.log('overflow: '+overflow);
-                if(overflow){
-                    //pds[4].innerHTML=pds[4].textContent.substr(0,pds[4].innerHTML.length-2)+"..."
-                    boxes[o][i].innerHTML=boxes[o][i].textContent.substr(0,boxes[o][i].innerHTML.length-2)+"...";
+        if(boxes.length){ //console.dir(boxes);
+            var overflow;
+            for(var o = 0,j=boxes.length; o<j; o++) {
+                //console.group('boxes['+o+']');
+                //console.dir(boxes[o]);
+                if(texts[boxesObjects[o]]){
+                    for (var i= 0, tl = texts[boxesObjects[o]].length; i<tl; i++) {
+                        //console.log('i='+i);
+                        //console.dir(texts[boxesObjects[o]][i]);
+                        handleText(o, i, texts[boxesObjects[o]][i]);
+                        var blockTextArray = boxes[o][i].textContent.split(" "),
+                            heightDown = maxHeights[boxesObjects[o]] < boxes[o][i].scrollHeight,
+                            lengthsDiff = blockTextArray.length < texts[boxesObjects[o]][i].length;
+                        overflow=false;
+                        //boxes[o][i].style.background = "";
+                        if (heightDown || lengthsDiff) {
+                            overflow=true;
+                            /*if (heightDown && lengthsDiff) {
+                             boxes[o][i].style.background = "pink";
+                             } else {
+                             boxes[o][i].style.background =(heightDown)?
+                             "lightskyblue" : "lightgreen";
+                             }
+                             } else {
+                             boxes[o][i].style.background = "";*/
+                        }   //console.log('overflow: '+overflow);
+                        if(overflow){
+                            //pds[4].innerHTML=pds[4].textContent.substr(0,pds[4].innerHTML.length-2)+"..."
+                            boxes[o][i].innerHTML=boxes[o][i].textContent.substr(0,boxes[o][i].innerHTML.length-2)+"...";
+                        }
+                    }   //console.groupEnd();
                 }
-            }   //console.groupEnd();
+            }
         }
     };
 

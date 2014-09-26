@@ -142,6 +142,10 @@
   margin-bottom: 14px !important;
   margin-top: 10px !important;
   padding: 8px 0;
+  .box >&{  /*background-color: whitesmoke;*/
+    height: 53px;
+    overflow: hidden;
+  }
 }
 .right {
   margin-right: 310px;
