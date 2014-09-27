@@ -83,7 +83,8 @@ class UserCabinet
         <div id="content_column_wide">
             <div class="content_box">
             </div>
-            <div class="content_box highlight_links">
+            <div class="content_box <?php
+            echo 'user-'.$layout;?> highlight_links">
         		<h2 class="title"><?php
                 $cabinet_data = UserCabinet::$cabinet_menu[$layout];
                 echo ($cabinet_data[2])? $cabinet_data[2]:$cabinet_data[0];

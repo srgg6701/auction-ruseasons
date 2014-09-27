@@ -23,30 +23,14 @@ $method='layout_'.$layout;
             <span class="text_highlight">Ваш клиентский № 
                 <?=$user->get('username')?></span>
         </div>
-        <!-- START LEFT COLUMN -->
-        <!--<div id="user_column">		
-            <div class="content_box">
-            	&nbsp;
-            </div>
-            <form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
-			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
-			<input type="hidden" name="return" value="<?php echo base64_encode($logout_params); ?>" />
-			<?php echo JHtml::_('form.token'); ?>
-	</form>           
-        </div>-->
-        
-            <!--<form id="formGoLogout" action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
-			<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
-			<input type="hidden" name="return" value="<?php echo base64_encode($logout_params); ?>" />
-			<?php echo JHtml::_('form.token'); ?>
-	</form>-->           
-            <!-- END LEFT COLUMN -->
-            <!-- START CONTENT BLOCK -->
+        <!-- START CONTENT BLOCK -->
         <div id="content_column_wide">
             <div class="content_box">
             </div>
-            <div class="content_box highlight_links">
-        		<h2 class="title"><?php switch($layout){
+            <div class="content_box <?php
+            echo 'user-'.$layout;?> highlight_links">
+        		<h2 class="title"><?php
+                switch($layout){
 					case 'favorites':
 						echo 'Избранное';
 						$params=$user->id;
@@ -208,7 +192,7 @@ require_once JPATH_BASE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'st
   </table>-->            	
             </div>   
           </div>
-            <!-- END CONTENT BLOCK -->
+        <!-- END CONTENT BLOCK -->
     </div>
 <!---->
 </div>

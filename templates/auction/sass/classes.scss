@@ -77,7 +77,10 @@
   @include message_area;
 }
 .left {
-  margin-left: 220px;
+  //margin-left: 220px;
+  @media(max-width: 480px){
+    margin-left: 0;
+  }
 }
 .leftLess{
   margin-left: 0;
@@ -201,6 +204,11 @@
     &:before{
       content:"SEARCH_BOX";
     }
+  }
+}
+.top_list_mn{
+  @media(max-width: 480px){
+    display: none !important;
   }
 }
 .width75{

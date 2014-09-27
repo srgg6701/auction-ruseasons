@@ -87,7 +87,8 @@ a {
       }
     }
   }
-  #main_content &{
+  #main_content &,
+  &#mobile-menu-proposal{
     color: $brownDark;
     text-decoration: none;
   }
@@ -149,6 +150,10 @@ a {
   #main_menu >ul >li >ul >li.active &{
     @include liActive;
     @include subMenu;
+  }
+  &#mobile-menu-proposal{
+    font: normal 14px/17px $font-common;
+    padding: 10px;
   }
   #padd_bot_menu ul &{
     @media (max-width: 480px) {
@@ -320,11 +325,12 @@ div{
     }
   }
   div#main_content.left &#content_column_wide{
-    float: left;
+    /*float: left;
     @include mxWidth(600px);
     margin-right:-40px;
     padding-left:10px;
-    width:600px;
+    width:600px;*/
+    padding-left: 140px;
   }
   div#main_content.left &#login_area{
     margin: 20px 80px;
@@ -502,9 +508,15 @@ h2 {
     height: 34px; // 44px !important
     overflow: hidden;
   }
-  /*div#main_content.left div &{
-    @include headerThin2;
-  }*/
+  .content_box &.title{
+    margin-top: 8px;
+    margin-bottom: 20px;
+  }
+  &.title{
+    @media (max-width: 480px) {
+      line-height: normal !important;
+    }
+  }
   div.item-page-shop .box &{
     @include imHeader;
   }
@@ -769,6 +781,12 @@ td{
       @include box;
     }
   }
+  div.content_box.user-data table.alignRight.verticalTop tr &{
+    @media (max-width: 480px) {
+      display: block !important;
+      text-align: left !important;
+    }
+  }
   div#main_content table.category &{
     font-weight:bold;
     padding-top:15px;
@@ -786,6 +804,8 @@ td{
       font-weight:bold;
     }
   }
+  @include tdMobileBlock480;
+  @include tdMobileBlockBorderRight480;
   div#main_content.left table.cabinet tr:not(:first-child):not(:last-child) &{
     border-bottom:dashed 1px $brown;
   }
@@ -822,6 +842,8 @@ th{
     background:$sandDark;
     padding:2px 4px;
   }
+  @include tdMobileBlock480;
+  @include tdMobileBlockBorderRight480;
   div#main_content.left table.cabinet tr &{
     padding:2px 4px;
     text-align:left;

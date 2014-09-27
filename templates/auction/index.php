@@ -156,13 +156,19 @@ $( function(){
                         <div id="search_box">
                             <jdoc:include type="modules" name="search" />
                         </div>
-        <?php   $user = JFactory::getUser();
-                if($user->guest==1):?>
+                        <?php   $user = JFactory::getUser();
+                        if($user->guest==1):
+                            $link_tail="view=login";
+                        else:
+                            $link_tail="layout=lots";
+                        endif;?>
                         <div id="authorize">
-                            <a href="<?php echo JRoute::_('index.php?option=com_users&view=login');?>">Кабинет</a>
+                            <a href="<?php echo JRoute::_('index.php?option=com_users&'.$link_tail);?>">Кабинет</a>
+                        <?php
+                        if($user->guest==1):?>
                             <a href="<?php echo JRoute::_('index.php?option=com_auction2013&layout=register');?>">Регистрация</a>
+                    <?php   endif;?>
                         </div>
-        <?php   endif;?>
                     </div>
                 </section>
             </div>
@@ -176,6 +182,7 @@ $( function(){
                 </div>
                 <div class="mobile_menu" id="mobile-menu-menu">Меню</div>
                 <div class="mobile_menu" id="mobile-menu-products">Предметы</div>
+                <a href="<?php JRoute::_('index.php?option=com_auction2013&layout=proposal')?>" class="floatRight" id="mobile-menu-proposal">Приём на торги</a>
                 <jdoc:include type="modules" name="user3" />
             </div>
             
