@@ -153,7 +153,7 @@ $addtocart=false;
             <div id="galleryThumbs">
                 <div class="tumb">
 	<?php foreach($this->product->images as $i => $stuff):?>	
-                    <div class="th_imgage">
+                    <div class="th_image">
                         <div class="inside_image_preview">
                         	<a href="<?=$base_path.$this->product->images[$i]->file_url;?>" rel="zoom-id:Zoomer" rev="<?=$base_path.$this->product->images[$i]->file_url;?>" style="outline: none; " class="MagicThumb-swap"><img src="<?=$base_path.$this->product->images[$i]->file_url;?>" height="82" width="82"></a>
                     	</div>

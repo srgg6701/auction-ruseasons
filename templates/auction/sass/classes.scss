@@ -206,6 +206,11 @@
     }
   }
 }
+.th_image{
+  #galleryThumbs &{
+    display: inline-block;
+  }
+}
 .top_list_mn{
   @media(max-width: 480px){
     display: none !important;

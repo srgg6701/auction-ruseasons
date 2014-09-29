@@ -75,18 +75,14 @@ if (!empty($this->products)) {?>
 		//$product->link=HTML::setDetailedLink($product,'fulltime');?>
 		<tr>
         	<td class="box">
-            	<div class="img">
-                	<a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?></a>
-                </div>
+                <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>">
+                    <div class="img">
+                        <?php if(isset($test)){?>PRODUCT<?php }?><?=$product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>
+                    </div>
+                </a>
             </td>
-			<td class="desc"><?php
-	//commonDebug(__FILE__, __LINE__, $product, false);
-            	?><h2><?php 
-	// проставим ссылку
-	//echo JHTML::link ($product->link, $product->product_name); 
-	echo JHTML::link (JRoute::_($product->canonical), $product->product_name); 
-	//
-	?></h2>
+			<td class="desc">
+                <h2><a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php echo $product->product_name; ?></a></h2>
 	<?php if (!empty($product->product_s_desc)):?>
 	  <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_s_desc, 40, '...')?></p>
 <?php 	endif; 

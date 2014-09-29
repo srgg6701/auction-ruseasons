@@ -292,32 +292,37 @@ div#left_part .testPadding {
   content: "SEARCH_BOX";
 }
 
+/* line 210, ../sass/classes.scss */
+#galleryThumbs .th_image {
+  display: inline-block;
+}
+
 @media (max-width: 480px) {
-  /* line 209, ../sass/classes.scss */
+  /* line 214, ../sass/classes.scss */
   .top_list_mn {
     display: none !important;
   }
 }
 
-/* line 214, ../sass/classes.scss */
+/* line 219, ../sass/classes.scss */
 .width75 {
   box-sizing: border-box;
   width: 75%;
 }
 
-/* line 218, ../sass/classes.scss */
+/* line 223, ../sass/classes.scss */
 .width70 {
   box-sizing: border-box;
   width: 70%;
 }
 
-/* line 222, ../sass/classes.scss */
+/* line 227, ../sass/classes.scss */
 .width30 {
   box-sizing: border-box;
   width: 30%;
 }
 
-/* line 226, ../sass/classes.scss */
+/* line 231, ../sass/classes.scss */
 .warning_area {
   background-color: pink;
   border-color: darkred;
@@ -328,7 +333,7 @@ div#left_part .testPadding {
   padding: 10px;
 }
 
-/* line 231, ../sass/classes.scss */
+/* line 236, ../sass/classes.scss */
 .weak {
   font-weight: 200;
 }

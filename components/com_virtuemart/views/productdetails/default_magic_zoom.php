@@ -32,7 +32,7 @@
                         string(63) "images/stories/virtuemart/product/resized/2732619.jpg_90x90.jpg"
                     }   */
                     //commonDebug(__FILE__,__LINE__,array('file_url'=>$stuff->file_url, 'file_preview_url'=>$file_preview_url, 'file_url_thumb'=> $stuff->file_url_thumb));?>
-                    <div class="th_imgage">
+                    <div class="th_image">
                         <?php   //point: preview иллюстрации, см. схему в   ?>
                         <div class="inside_image_preview">
                             <a href="<?php
