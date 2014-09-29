@@ -59,6 +59,10 @@
 .floatRight{
   float: right;
 }
+.gallery_lot{
+  float: left;
+  width: 350px;
+}
 .H2{
   @include headerThin2;
 }
