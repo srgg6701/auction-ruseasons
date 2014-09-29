@@ -7,6 +7,12 @@
 @import "classes";
 @import "tags";
 
+#add_to_favorite{
+  @media (max-width: 480px) {
+    display: block !important;
+    padding: 6px 10px !important;
+  }
+}
 #authorize{
   border-left: solid 1px #5A2F30;
 }

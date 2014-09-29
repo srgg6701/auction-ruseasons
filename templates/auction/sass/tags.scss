@@ -92,6 +92,11 @@ a {
     color: $brownDark;
     text-decoration: none;
   }
+  #main_menu ul.menu li.active >&{
+    @media (max-width:480px) {
+      display: inline !important;
+    }
+  }
   #main_menu ul li &{
     @media (max-width: 480px) {
       float: none !important;
@@ -585,6 +590,9 @@ li{
   @media (max-width: 480px) {
     #padd_bot_menu ul & {
       display: list-item !important;
+    }
+    &.active{
+      @include box-shadow(0px 18px 22px rgba(255,255,255,0.3) inset);
     }
   }
   &.active{

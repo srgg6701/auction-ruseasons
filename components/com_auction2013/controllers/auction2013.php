@@ -48,14 +48,14 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
                     'profile',
                     'favorites'
                 );
-                $link='index.php?option=com_users&amp;view=profile';
+                $link='index.php?option=com_users&amp;view=cabinet';
                 //commonDebug(__FILE__, __LINE__, JRoute::_($link), true);
                 /**
                  * Sorry for such the ugly link appearance... :(
                  * Но иначе придётся роутер дербанить. А это - отдельный геморрой.
                  * В конце концов такие ссылки может видеть только заавторизованный юзер.
                  * Потерпит. */
-                $this->setRedirect(JRoute::_($link).'&layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id, false);
+                $this->setRedirect(JRoute::_($link).'?layout=favorites&Itemid='.$uMenus[0].'&added='.$virtuemart_product_id, false);
             }
         }
     }
