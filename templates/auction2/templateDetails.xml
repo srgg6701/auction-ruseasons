@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<install type="template" version="1.5">
+  <name>Auction</name>
+  <creationDate>16 May 2010</creationDate>
+  <version>1.5</version>
+  <author>Igor</author>
+  <authorUrl>lemon007@yandex.ru</authorUrl>
+  <description>Auction</description>
+  
+
+<images>
+    <fileName>images/login.png</fileName>
+    <fileName>images/header.png</fileName>
+    <fileName>images/footer.png</fileName>
+    <fileName>images/top_image.jpg</fileName>
+<fileName>images/body_bg.jpg</fileName>
+<fileName>images/logo_img.png</fileName>
+<fileName>images/logo_text.png</fileName>
+<fileName>images/menu_bg.png</fileName>
+</images>
+ <less>
+    <fileName>less/styles.less</fileName>
+    <fileName>less/less.js</fileName>
+ </less>
+ <css>
+    <fileName>css/styleIE6.css</fileName>
+    <fileName>css/style.css</fileName>
+  </css>
+
+<files>
+    <fileName>functions.php</fileName>
+    <fileName>index.php</fileName>
+    <fileName>html/index.html</fileName>
+    <fileName>html/modules.php</fileName>
+    <fileName>html/mod_mainmenu/default.php</fileName>
+    <fileName>html/mod_mainmenu/index.html</fileName>
+    <fileName>html/mod_syndicate/default.php</fileName>
+    <fileName>html/mod_syndicate/index.html</fileName>
+    <fileName>html/mod_login/default.php</fileName>
+    <fileName>html/mod_login/index.html</fileName>
+    
+
+
+<fileName>js/DD_belatedPNG.js</fileName>
+
+  </files>
+ 
+
+
+ <positions>
+
+    <position>search</position>
+<position>user3</position>
+    <position>left_panel</position>
+    <position>left</position>
+    <position>right_over</position>
+    <position>right</position>
+    <position>right_under</position>
+    <position>right_bottom</position>
+    <position>usermenu</position>
+    <position>footer</position>
+    <position>copyright</position>
+       
+  </positions>
+
+
+</install>
