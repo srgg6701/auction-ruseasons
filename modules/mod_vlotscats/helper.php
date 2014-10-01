@@ -29,7 +29,8 @@ WHERE cat_cats.category_parent_id = 0';
 		if($published)
 			$query.=' AND cats.`published` = "1"';
 		$query.='
-ORDER BY cats.ordering'; 
+      AND cats_ru.category_name <> "Очные торги" -- исключить fulltime
+ORDER BY cats.ordering DESC';
 		if(!$db) 
 			$db=JFactory::getDBO();
 		$db->setQuery($query); //testSQL($query, __FILE__, __LINE__);
@@ -51,6 +52,7 @@ ORDER BY cats.ordering';
             $prods=array();
             $session->set('products_data',$prods);
             $top_cats=modVlotscatsHelper::getTopCategories($db);
+            //commonDebug(__FILE__,__LINE__,$top_cats);
             $topLayouts=AuctionStuff::getTopCatsLayouts(true);
             //commonDebug(__FILE__,__LINE__,$topLayouts);
             /**
@@ -120,6 +122,7 @@ ORDER BY cats.ordering';
 
             $order='
   ORDER BY cat_cats.category_parent_id,cats.ordering';
+
             //commonDebug(__FILE__,__LINE__,$top_cats);
             foreach($top_cats as $i=>$top_cat){
                 /**

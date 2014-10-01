@@ -1136,6 +1136,7 @@ WHERE cats_cats.category_parent_id = 0";
         $force_show = false; // todo: присвоить false
         if($cntr==1||$force_show){
             $top_cats_menu_ids = AuctionStuff::getTopCatsMenuItemIds('main');
+            //commonDebug(__FILE__,__LINE__,$top_cats_menu_ids);
             require_once JPATH_BASE.'/modules/mod_vlotscats/helper.php';
             $lots = modVlotscatsHelper::getCategoriesData(true);
             //commonDebug(__FILE__,__LINE__,$lots);
