@@ -156,9 +156,22 @@ $i=0;
 		
 		<?php
 		//vmdebug('grummel ',$this->product->prices);
+        //commonDebug(__FILE__,__LINE__,$this->product->prices, false);
+        /* MODIFIED START
+            Нужно для исключения повторной загрузки шаблона (секции) с ценой,
+            если id цены не уникален. По неизвестной причине это происходит... */
+            $prices_ids=array();
+        /* MODIFIED END */
 		foreach ($this->product->prices as $sPrices) {
-
-			if(count($sPrices) == 0) continue;
+            /* MODIFIED START
+                Если id цены не уникален, пропустить итерацию  */
+            if(in_array($this->product->prices->virtuemart_product_price_id, $prices_ids))
+                continue;
+            /**
+             Добавить id цены в массив, чтобы пропустить итерацию в случае его повторения   */
+            $prices_ids[]=$this->product->prices->virtuemart_product_price_id;
+            /* MODIFIED END */
+            if(count($sPrices) == 0) continue;
 			if (empty($sPrices['virtuemart_product_price_id'])) {
 				$sPrices['virtuemart_product_price_id'] = '';
 			}
