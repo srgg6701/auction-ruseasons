@@ -1509,22 +1509,30 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
      * @access public
      */
     public function store(&$product, $isChild = FALSE,
-    /* 	MODIFIED START 	 */ $product_data = false
-    /* 	MODIFIED END	 */
+    /* 	MODIFIED START 	 */ $product_data = false /* 	MODIFIED END	 */
     ) {
 
         JRequest::checkToken() or jexit('Invalid Token');
         /* 	MODIFIED START 	 */
-        // include_once JPATH_SITE.DS.'tests.php';
-        //commonDebug(__FILE__,__LINE__,$product, true);
         $skip_storing = false;
-        require_once JPATH_SITE.DS.'tests.php';
         //if($product['lot_number']=='1000653')
         /* 	MODIFIED END	 */
         if ($product) {
             $data = (array) $product;
+            /* 	MODIFIED START 	 */
+            // если редактировали данные предмета, модифицировать время аукциона
+            if(isset($data['auction_time_from'])){
+                $arrDate = explode(" ",$data['product_available_date']);
+                $data['product_available_date']=array_shift($arrDate) . " " . $data['auction_time_from'];
+            }
+            if(isset($data['auction_time_to'])){
+                $arrDate = explode(" ",$data['auction_date_finish']);
+                $data['auction_date_finish']=array_shift($arrDate) . " " . $data['auction_time_to'];
+            }
+            //commonDebug(__FILE__,__LINE__,array($data['product_available_date'],$data['auction_date_finish']), true);
+            /* 	MODIFIED END	 */
         }
-
+        //commonDebug(__FILE__,__LINE__,$data, false);
         if (!class_exists('Permissions'))
             require(JPATH_VM_ADMINISTRATOR . DS . 'helpers' . DS . 'permissions.php');
 
@@ -1543,21 +1551,24 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         // todo: выяснить, что это и нужно ли оно:
         unset($data["mprices"]["minimal_price"]);
 
-        if (!$product_data) /* 	MODIFIED END	 */
+        if (!$product_data) {/* 	MODIFIED END	 */
+            //showTestMessage("NO PRODUCT DATA!", __FILE__, __LINE__, false);
             $product_data = $this->getTable('products');
+        }
+
         //var_dump($product_data); die();
         //Set the product packaging
         if (array_key_exists('product_packaging', $data)) {
             $data['product_packaging'] = str_replace(',', '.', $data['product_packaging']);
         }
 
-        //if($product['lot_number']=='1000653')
-        //commonDebug(__FILE__, __LINE__, $data);
-
         // with the true, we do preloading and preserve so old values note by Max Milbers
         // $product_data->bindChecknStore ($data, $isChild);
         if(!$skip_storing) // VmTable::bindChecknStore()
             $stored = $product_data->bindChecknStore($data, TRUE);
+
+        //if($product['lot_number']=='1000653')
+        //commonDebug(__FILE__, __LINE__, $data, true);
 
         $errors = $product_data->getErrors();
         if (!$stored or count($errors) > 0) {
@@ -1569,7 +1580,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
                 vmError('You are not an administrator or the correct vendor, storing of product cancelled');
             }
             return FALSE;
-        }else commonDebug(__FILE__,__LINE__,$stored, true);
+        }//else commonDebug(__FILE__,__LINE__,$stored, true);
 
         $this->_id = $data['virtuemart_product_id'] = (int) $product_data->virtuemart_product_id;
 
@@ -1611,7 +1622,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         // Get old IDS
         $this->_db->setQuery('SELECT `virtuemart_product_price_id` FROM `#__virtuemart_product_prices` WHERE virtuemart_product_id =' . $this->_id);
         $old_price_ids = $this->_db->loadResultArray();
-
+        //
         foreach ($data['mprices']['product_price'] as $k => $product_price) {
             //echo "<div>line: ".__LINE__.", $k => $product_price</div>";
             $pricesToStore = array();
@@ -1620,6 +1631,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 
 
             if (!$isChild) {
+                //showTestMessage("! isChild", __FILE__, __LINE__, 'red');
                 //$pricesToStore['basePrice'] = $data['mprices']['basePrice'][$k];
                 $pricesToStore['product_override_price'] = $data['mprices']['product_override_price'][$k];
                 $pricesToStore['override'] = (int) $data['mprices']['override'][$k];
@@ -1627,10 +1639,28 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
                 $pricesToStore['product_tax_id'] = (int) $data['mprices']['product_tax_id'][$k];
                 $pricesToStore['product_discount_id'] = (int) $data['mprices']['product_discount_id'][$k];
                 $pricesToStore['product_currency'] = (int) $data['mprices']['product_currency'][$k];
-
+                //==========================================
+                /*    publish_time_from =>16:00
+                      publish_time_to   =>17:00
+                      auction_time_from =>18:00
+                      auction_time_to   =>19:00
+                */
+                /* MODIFIED START */
+                // include_once JPATH_SITE.DS.'tests.php';
+                //commonDebug(__FILE__,__LINE__,$data);
+                if(isset($data['publish_time_from'])){
+                    $arrDate = explode(" ",$data['mprices']['product_price_publish_up'][$k]);
+                    $data['mprices']['product_price_publish_up'][$k]=array_shift($arrDate) . " " . $data['publish_time_from'];
+                }
+                if(isset($data['publish_time_to'])){
+                    $arrDate = explode(" ",$data['mprices']['product_price_publish_down'][$k]);
+                    $data['mprices']['product_price_publish_down'][$k]=array_shift($arrDate) . " " . $data['publish_time_to'];
+                }
+                //commonDebug(__FILE__,__LINE__,$data);
+                /* MODIFIED END */
                 $pricesToStore['product_price_publish_up'] = $data['mprices']['product_price_publish_up'][$k];
                 $pricesToStore['product_price_publish_down'] = $data['mprices']['product_price_publish_down'][$k];
-
+                //==========================================
                 $pricesToStore['price_quantity_start'] = (int) $data['mprices']['price_quantity_start'][$k];
                 $pricesToStore['price_quantity_end'] = (int) $data['mprices']['price_quantity_end'][$k];
             }
@@ -1668,6 +1698,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
             }
         }
 
+        //commonDebug(__FILE__, __LINE__, array('product_price_publish_up'=>$pricesToStore['product_price_publish_up'], 'product_price_publish_down'=>$pricesToStore['product_price_publish_down'], 'product_available_date'=>$data['product_available_date'], 'auction_date_finish'=>$data['auction_date_finish']), false);
 
         if (count($old_price_ids)) {
             // delete old unused Customfields
@@ -1676,6 +1707,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         }
 
         if (!empty($data['childs'])) {
+            //commonDebug(__FILE__,__LINE__,$data['childs'], false);
             foreach ($data['childs'] as $productId => $child) {
                 $child['product_parent_id'] = $data['virtuemart_product_id'];
                 $child['virtuemart_product_id'] = $productId;
@@ -1684,7 +1716,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         }
 
         if (!$isChild) {
-
+            showTestMessage("! \$isChild", __FILE__, __LINE__, 'red');
             $data = $this->updateXrefAndChildTables($data, 'product_shoppergroups');
 
             $data = $this->updateXrefAndChildTables($data, 'product_manufacturers');
@@ -1695,7 +1727,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
                 $data['virtuemart_category_id'] = array();
             }
             $data = $this->updateXrefAndChildTables($data, 'product_categories');
-
+            //
+            //commonDebug(__FILE__, __LINE__, $data, false, false, true);
             // Update waiting list
             //TODO what is this doing?
             if (!empty($data['notify_users'])) {

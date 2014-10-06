@@ -833,7 +833,7 @@ class VmTable extends JTable{
 			}
 		}
 		echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
-        commonDebug(__FILE__,__LINE__,$data, true);
+        //commonDebug(__FILE__,__LINE__,$data, true);
         return $ok;
 	}
 

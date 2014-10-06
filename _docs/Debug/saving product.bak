@@ -44,21 +44,12 @@ array(34) {
       string(7) "0,00000"
     }
   }
-
-
-
-
-
-  
-  
-  
-
-
-
-
-
   ["price2"]=>
   string(5) "45000"
+
+
+
+
   ["product_in_stock"]=>
   string(1) "1"
   ["product_ordered"]=>
