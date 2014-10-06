@@ -18,7 +18,12 @@ array(57) {
   string(19) "2015-03-31 15:00:00"
   ["product_name"]=>
   string(118) "Венчальная пара «Господь Вседержитель», «Богоматерь Казанская»"
-  ["slug"]=>
+  ["product_s_desc"]=>
+  string(0) ""
+
+  ["product_desc"]=>
+  string(364) "Дерево, левкас, масло, оклад - серебро 84 пробы, золочение, клейма: 84, герб Москвы, пробирер А.А ( А. Арцибашев, Москва), 1896, именник мастера - неразборчиво, 22.5х18 см (небольшие утраты и разрывы на окладах)"  
+["slug"]=>
   string(135) "венчальная-пара-laquo-господь-вседержитель-raquo-,-laquo-богоматерь-казанская-raquo"
   ["categories"]=>
   array(1) {
@@ -55,31 +60,30 @@ array(57) {
       string(4) "4007"
     }
   }
-  ["top_category_slug"]=>
+  ["publish_time_from"]=>
+  string(5) "16:00"
+  ["publish_time_to"]=>
+  string(5) "17:00"
+    ["auction_time_from"]=>
+  string(5) "15:00"
+  ["auction_time_to"]=>
+  string(5) "15:00"
+    
+["top_category_slug"]=>
   string(23) "онлайн-торги"
+
+
+
+
   ["price2"]=>
   string(5) "42000"
-  ["publish_time_from"]=>
-  string(5) "20:00"
-  ["publish_time_to"]=>
-  string(5) "22:00"
   ["product_in_stock"]=>
   string(1) "1"
   ["minimal_price"]=>
   string(5) "43000"
-  ["auction_time_from"]=>
-  string(5) "15:00"
-  ["auction_time_to"]=>
-  string(5) "15:00"
+
   ["intnotes"]=>
   string(5) "					"
-  ["product_s_desc"]=>
-  string(0) ""
-  ["product_desc"]=>
-  string(364) "
-Дерево, левкас, масло, оклад - серебро 84 пробы, золочение, клейма: 84, герб Москвы, пробирер А.А ( А. Арцибашев, Москва), 1896, именник мастера - неразборчиво, 22.5х18 см (небольшие утраты и разрывы на окладах)
-
-"
   ["customtitle"]=>
   string(0) ""
   ["metadesc"]=>

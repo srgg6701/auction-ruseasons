@@ -13,9 +13,9 @@ array(57) {
   ["product_sku"]=>
   string(9) "01/089/01"
   ["product_available_date"]=>
-  string(19) "2011-03-21 15:00:00"
+  string(19) "2011-03-21 00:00:00"
   ["auction_date_finish"]=>
-  string(19) "2015-03-31 15:00:00"
+  string(19) "2015-03-31 00:00:00"
   ["product_name"]=>
   string(118) "Венчальная пара «Господь Вседержитель», «Богоматерь Казанская»"
   ["product_s_desc"]=>
@@ -64,10 +64,12 @@ array(57) {
   string(5) "16:00"
   ["publish_time_to"]=>
   string(5) "17:00"
-    ["auction_time_from"]=>
-  string(5) "15:00"
+  ["auction_time_from"]=>
+  string(5) "18:00"
   ["auction_time_to"]=>
-  string(5) "15:00"
+  string(5) "19:00"
+  ["auction_date_finish"]=>
+  string(19) "2015-03-31 15:00:00"
     
 ["top_category_slug"]=>
   string(23) "онлайн-торги"
