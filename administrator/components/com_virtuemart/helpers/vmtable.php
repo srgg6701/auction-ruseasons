@@ -688,7 +688,7 @@ class VmTable extends JTable{
 	 * @return array/obj $data the updated data
 	 */
 	public function bindChecknStore(&$data,$preload=false){
-
+        //showTestMessage(__METHOD__, __FILE__, __LINE__, true);
 		$tblKey = $this->_tbl_key; //virtuemart_product_id, OK
 			
 		$ok = true;
@@ -833,7 +833,8 @@ class VmTable extends JTable{
 			}
 		}
 		echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
-		return $ok;
+        commonDebug(__FILE__,__LINE__,$data, true);
+        return $ok;
 	}
 
 

@@ -1515,11 +1515,11 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 
         JRequest::checkToken() or jexit('Invalid Token');
         /* 	MODIFIED START 	 */
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$product, true);
         $skip_storing = false;
         require_once JPATH_SITE.DS.'tests.php';
         //if($product['lot_number']=='1000653')
-        //commonDebug(__FILE__, __LINE__, $product, false);
-        //commonDebug(__FILE__, __LINE__, $product_data, true);
         /* 	MODIFIED END	 */
         if ($product) {
             $data = (array) $product;
@@ -1556,11 +1556,12 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
 
         // with the true, we do preloading and preserve so old values note by Max Milbers
         // $product_data->bindChecknStore ($data, $isChild);
-        if(!$skip_storing)
+        if(!$skip_storing) // VmTable::bindChecknStore()
             $stored = $product_data->bindChecknStore($data, TRUE);
 
         $errors = $product_data->getErrors();
         if (!$stored or count($errors) > 0) {
+            //showTestMessage("Не сохранено...", __FILE__, __LINE__, true);
             foreach ($errors as $error) {
                 vmError('Product store ' . $error);
             }
@@ -1568,7 +1569,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
                 vmError('You are not an administrator or the correct vendor, storing of product cancelled');
             }
             return FALSE;
-        }
+        }else commonDebug(__FILE__,__LINE__,$stored, true);
 
         $this->_id = $data['virtuemart_product_id'] = (int) $product_data->virtuemart_product_id;
 
@@ -1626,8 +1627,10 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
                 $pricesToStore['product_tax_id'] = (int) $data['mprices']['product_tax_id'][$k];
                 $pricesToStore['product_discount_id'] = (int) $data['mprices']['product_discount_id'][$k];
                 $pricesToStore['product_currency'] = (int) $data['mprices']['product_currency'][$k];
+
                 $pricesToStore['product_price_publish_up'] = $data['mprices']['product_price_publish_up'][$k];
                 $pricesToStore['product_price_publish_down'] = $data['mprices']['product_price_publish_down'][$k];
+
                 $pricesToStore['price_quantity_start'] = (int) $data['mprices']['price_quantity_start'][$k];
                 $pricesToStore['price_quantity_end'] = (int) $data['mprices']['price_quantity_end'][$k];
             }

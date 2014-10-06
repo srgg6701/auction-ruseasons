@@ -222,7 +222,10 @@ class Auction2013ControllerImportlots extends JControllerForm
 	public function import(){
         //commonDebug(__FILE__,__LINE__,JRequest::get('post'), true);
 		$test=false;
-        $skip_import=false;
+        $skip_import=false; /*
+        если NULL, будет показывать передаваемые импорту данные.
+        Чтобы предметы НЕ импортировались - раскомментировать тестовую
+        строку в VmController::import(), чтобы возвращало false. */
         $laquo = "&laquo;";
         $raquo = "&raquo;";
         $doubled_contract_numbers=array();
@@ -276,11 +279,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 			//"files/Bronze.csv";
 			if (($handle = fopen($importfile, "r")) !== FALSE) {
                 /**
-                 СИНХРОНИЗИРОВАТЬ ПОЛЯ .csv и ТАБЛИЦ: */
+                 СИНХРОНИЗИРОВАТЬ ПОЛЯ .csv => ТАБЛИЦ:
+                 см. файл schemas.xlsx![ТАБЛИЦЫ ДЛЯ ПРОДУКТА/Сравнение данных] */
 				$arrFields=array(
 							// #__virtuemart_products:
 							'auction_number'    => 'auction_number',
-							'lot_number'        => 'lot_number',
+							//'lot_number'        => 'lot_number', // todo: не используется, вместо него - auction_number
 							'contract_number'   => 'product_sku',
                             // Даты аукциона:
 							// НАЧАЛО
@@ -480,12 +484,14 @@ class Auction2013ControllerImportlots extends JControllerForm
                 // commonDebug(__FILE__, __LINE__, $data_stream, true);
                 //$virtuemart_product_id = 35+$i
 				// вывести импортируемые данные
-                if($skip_import){
+                if($skip_import||$skip_import===NULL){
                     //if($data_stream['lot_number']=='1000653')
                         commonDebug(__FILE__,__LINE__,$data_stream, false, false);
-                }else{
+                }
+                if(!$skip_import){ // false, null etc
                     /**
-                    ИМПОРТИРОВАТЬ данные                 */
+                    ИМПОРТИРОВАТЬ данные
+                    если $skip_import===NULL, вернёт false, данные не будут добавлены   */
                     if($virtuemart_product_id=$VmController->import($model,$data_stream)){
                         // var_dump($data_stream);
                         if($data_stream['min_price'])
@@ -535,7 +541,7 @@ class Auction2013ControllerImportlots extends JControllerForm
                     $errors[]= $model->getErrors();
                 }
 			}
-            if(!$skip_import){
+            if(!$skip_import&&$skip_import!==NULL){
                 if($test&&empty($data))
                     echo "<div class=''>\$data is empty, line: ".__LINE__."</div>";
 
@@ -651,8 +657,9 @@ class Auction2013ControllerImportlots extends JControllerForm
                             echo $imgErrors[$e];
                     }
                     die('<h4><a href="'.JRoute::_($redir).'">Вернуться на страницу импорта.</a></h4>');
-                }else
+                }else{
                     $this->setRedirect(JRoute::_($redir), $msg);
+                }
             }else
                 commonDebug(__FILE__,__LINE__,$doubled_contract_numbers);
 		}
