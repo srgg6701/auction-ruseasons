@@ -93,7 +93,7 @@ a {
     text-decoration: none;
   }
   #main_menu ul.menu li.active >&{
-    @media (max-width:480px) {
+    @media (max-width: 480px) {
       display: inline !important;
     }
   }
@@ -778,7 +778,7 @@ table{
   &.cabinet{
     border-spacing: 0;
     width: 100%;
-    @media (max-width: 480px){
+    @media (max-width: 768px){
       border: $tableBorderCommon;
     }
   }
@@ -793,7 +793,7 @@ td{
     }
   }
   div.content_box.user-data table.alignRight.verticalTop tr &{
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       display: block !important;
       text-align: left !important;
     }
@@ -866,7 +866,7 @@ th{
   table.cabinet tr &{
     padding:2px 4px;
     text-align:left;
-    @media(min-width: 480px){
+    @media(min-width: 768px){
       white-space: nowrap;
     }
   }
@@ -876,15 +876,15 @@ th{
   }
   div#main_content.left table.cabinet#tbl-my_bids tr &{
     font-size: 1.1em;
-    @media(min-width: 480px){
+    /*@media(min-width: 480px){
       white-space: nowrap;
-    }
+    }*/
     &:not(:nth-child(1)){
       text-align: center;
     }
   }
   table.cabinet &{
-    @media(max-width: 480px){
+    @media(max-width: 768px){
       border-bottom: $tableBorderCommon;
     }
   }

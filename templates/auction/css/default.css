@@ -175,7 +175,7 @@ div.item-page-shop.fulltime.box .img {
 .mobile_menu {
   display: none;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 115, ../sass/classes.scss */
   .mobile_menu {
     background-color: #417337;
@@ -1409,7 +1409,7 @@ table.cabinet {
   border-spacing: 0;
   width: 100%;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 778, ../sass/tags.scss */
   table.cabinet {
     border: solid 1px #851719;
@@ -1429,7 +1429,7 @@ div.item-page-shop td.box {
   vertical-align: top;
   width: 226px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 795, ../sass/tags.scss */
   div.content_box.user-data table.alignRight.verticalTop tr td {
     display: block !important;
@@ -1457,13 +1457,13 @@ div#main_content.left table.cabinet tr td:not(:first-child) {
   color: black;
   font-weight: bold;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 75, ../sass/mixins.scss */
   div#main_content.left table.cabinet tr td:not(:nth-child(1)):not(:nth-child(2)) {
     display: block !important;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 85, ../sass/mixins.scss */
   div#main_content.left table.cabinet tr td:nth-child(1):not(:last-child), div#main_content.left table.cabinet tr td:nth-child(2):not(:last-child) {
     border-right: solid 1px;
@@ -1523,13 +1523,13 @@ table.cabinet#tbl-my_bids td:nth-child(3), table.cabinet#tbl-my_bids td:nth-chil
   background: #ead5b7;
   padding: 2px 4px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 75, ../sass/mixins.scss */
   div#main_content.left table.cabinet tr th:not(:nth-child(1)):not(:nth-child(2)) {
     display: block !important;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 85, ../sass/mixins.scss */
   div#main_content.left table.cabinet tr th:nth-child(1):not(:last-child), div#main_content.left table.cabinet tr th:nth-child(2):not(:last-child) {
     border-right: solid 1px;
@@ -1540,7 +1540,7 @@ table.cabinet tr th {
   padding: 2px 4px;
   text-align: left;
 }
-@media (min-width: 480px) {
+@media (min-width: 768px) {
   /* line 866, ../sass/tags.scss */
   table.cabinet tr th {
     white-space: nowrap;
@@ -1554,18 +1554,15 @@ table.cabinet.border th {
 /* line 877, ../sass/tags.scss */
 div#main_content.left table.cabinet#tbl-my_bids tr th {
   font-size: 1.1em;
-}
-@media (min-width: 480px) {
-  /* line 877, ../sass/tags.scss */
-  div#main_content.left table.cabinet#tbl-my_bids tr th {
+  /*@media(min-width: 480px){
     white-space: nowrap;
-  }
+  }*/
 }
 /* line 882, ../sass/tags.scss */
 div#main_content.left table.cabinet#tbl-my_bids tr th:not(:nth-child(1)) {
   text-align: center;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 886, ../sass/tags.scss */
   table.cabinet th {
     border-bottom: solid 1px #851719;

@@ -73,7 +73,7 @@
 }
 @mixin tdMobileBlock480{
   div#main_content.left table.cabinet tr &:not(:nth-child(1)):not(:nth-child(2)) {
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       display: block !important;
     }
   }
@@ -81,7 +81,7 @@
 @mixin tdMobileBlockBorderRight480{
   div#main_content.left table.cabinet tr &:nth-child(1),
   div#main_content.left table.cabinet tr &:nth-child(2) {
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       &:not(:last-child){
         border-right: solid 1px;
       }
