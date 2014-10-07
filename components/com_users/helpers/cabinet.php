@@ -306,7 +306,10 @@ Email				email
             	<th>Цена</th>
             	<th>Начало</th>
             	<th>Окончание</th>
-            	<th title="Дней, часов, минут"><div style='border-bottom:dotted 1px;'>Осталось</div></th>
+            	<th title="Дней, часов, минут"><!--
+                    <div style='border-bottom:dotted 1px;'></div>
+                    -->Осталось
+                </th>
             </tr>
 		<?php $DateAndTime=new DateAndTime();
 			foreach($favorites as $virtuemart_product_id => $product_data){?>
@@ -383,7 +386,7 @@ $(function(){
                             $data['virtuemart_category_id'],
                             $topItemOnline['online'] );?>"><?php
         echo $data['item_name'];?></a></td>
-        <td nowrap><?php echo $data['auction_date_finish'];?></td>
+        <td><?php echo $data['auction_date_finish'];?></td>
         <td><?php echo ($data['user_max_lot'])? $data['user_max_lot']:0;?></td>
         <td><?php echo $data['max_bid'];?></td>
         <td><?php

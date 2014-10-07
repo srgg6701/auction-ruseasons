@@ -778,9 +778,12 @@ table{
   &.cabinet{
     border-spacing: 0;
     width: 100%;
+    @media (max-width: 480px){
+      border: $tableBorderCommon;
+    }
   }
   &.border {
-    border: solid 1px $brownDark;
+    border: $tableBorderCommon;
   }
 }
 td{
@@ -814,19 +817,27 @@ td{
   }
   @include tdMobileBlock480;
   @include tdMobileBlockBorderRight480;
-  div#main_content.left table.cabinet tr:not(:first-child):not(:last-child) &{
+  table.cabinet &{
+    border-color: $brownDark !important;
+  }
+  table.cabinet tr:not(:first-child):not(:last-child) &{
     border-bottom:dashed 1px $brown;
   }
-  div#main_content.left table.cabinet.border &{
+  table.cabinet.border &{
     font-weight: normal;
   }
-  div#main_content.left table.cabinet#tbl-my_bids &{
+  table.cabinet#tbl-my_bids &{
     font-size: 1.1em;
     border-bottom: none;
     font-weight: normal;
     &:nth-child(3),
     &:nth-child(4){
       text-align: right;
+    }
+    @media(min-width: 480px){
+      &:nth-child(2){
+        white-space: nowrap;
+      }
     }
   }
   #right_part table.acymailing_form &{
@@ -852,20 +863,29 @@ th{
   }
   @include tdMobileBlock480;
   @include tdMobileBlockBorderRight480;
-  div#main_content.left table.cabinet tr &{
+  table.cabinet tr &{
     padding:2px 4px;
     text-align:left;
-    white-space: nowrap;
+    @media(min-width: 480px){
+      white-space: nowrap;
+    }
   }
-  div#main_content.left  table.cabinet.border &{
+  table.cabinet.border &{
     border-bottom:solid 1px $brownDark;
     text-align: center;
   }
   div#main_content.left table.cabinet#tbl-my_bids tr &{
     font-size: 1.1em;
-    white-space: nowrap;
+    @media(min-width: 480px){
+      white-space: nowrap;
+    }
     &:not(:nth-child(1)){
       text-align: center;
+    }
+  }
+  table.cabinet &{
+    @media(max-width: 480px){
+      border-bottom: $tableBorderCommon;
     }
   }
 }

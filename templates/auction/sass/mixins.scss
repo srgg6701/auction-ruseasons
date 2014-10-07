@@ -82,7 +82,9 @@
   div#main_content.left table.cabinet tr &:nth-child(1),
   div#main_content.left table.cabinet tr &:nth-child(2) {
     @media (max-width: 480px) {
-      border-right: solid 1px;
+      &:not(:last-child){
+        border-right: solid 1px;
+      }
     }
   }
 }
