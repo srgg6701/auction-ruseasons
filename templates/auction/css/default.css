@@ -56,7 +56,7 @@
   height: 0;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 40, ../sass/classes.scss */
   .deeper {
     background-color: #789D50 !important;
@@ -128,7 +128,7 @@ div.item-page-shop.fulltime.box .img {
   padding: 10px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 83, ../sass/classes.scss */
   .left {
     margin-left: 0;
@@ -189,14 +189,14 @@ div.item-page-shop.fulltime.box .img {
     padding: 8px 20px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 128, ../sass/classes.scss */
   .mobile_menu:hover {
     background-color: #789D50;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 135, ../sass/classes.scss */
   #left_part .moduletable {
     margin: 3px -4px;
@@ -303,7 +303,7 @@ div#left_part .testPadding {
   display: inline-block;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 218, ../sass/classes.scss */
   .top_list_mn {
     display: none !important;
@@ -445,7 +445,7 @@ div#usermenu div.moduletable ul.menu li a.H2 {
 #logo-box a {
   position: static;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 78, ../sass/tags.scss */
   #logo-box a {
     color: #386430;
@@ -463,13 +463,13 @@ div#usermenu div.moduletable ul.menu li a.H2 {
   color: #851719;
   text-decoration: none;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 95, ../sass/tags.scss */
   #main_menu ul.menu li.active > a {
     display: inline !important;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 100, ../sass/tags.scss */
   #main_menu ul li a {
     float: none !important;
@@ -482,13 +482,13 @@ div#usermenu div.moduletable ul.menu li a.H2 {
     font-weight: normal !important;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 108, ../sass/tags.scss */
   #main_menu ul li a.border {
     display: inline-block;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 113, ../sass/tags.scss */
   #main_menu ul li a.flat {
     border-top: solid 10px transparent;
@@ -549,7 +549,7 @@ div#usermenu div.moduletable ul.menu li a.H2 {
 #main_menu > ul > li > ul > li a:last-child {
   margin-bottom: 1px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 139, ../sass/tags.scss */
   #main_menu > ul > li > ul > li a {
     border: none !important;
@@ -573,7 +573,7 @@ a#mobile-menu-proposal {
   font: normal 14px/17px Verdana, Geneva, sans-serif;
   padding: 10px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 163, ../sass/tags.scss */
   #padd_bot_menu ul a {
     border: none !important;
@@ -691,7 +691,7 @@ div#footer {
 div#main_content.left {
   margin-left: 220px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 242, ../sass/tags.scss */
   div#main_content.left {
     margin-left: 0;
@@ -919,7 +919,7 @@ form#registration_form, form#proposal_form, form#ask_form {
 img {
   border: none;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 434, ../sass/tags.scss */
   #logo_text img {
     display: none;
@@ -1045,7 +1045,7 @@ form#ask_form input[type="submit"].cancel, form#ask_form input[type="reset"].can
   margin-top: 8px;
   margin-bottom: 20px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 520, ../sass/tags.scss */
   h2.title {
     line-height: normal !important;
@@ -1134,7 +1134,7 @@ form#ask_form label {
   width: 210px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 591, ../sass/tags.scss */
   #padd_bot_menu ul li {
     display: list-item !important;
@@ -1213,7 +1213,7 @@ ul.table li {
   position: relative;
   white-space: nowrap;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 618, ../sass/tags.scss */
   #main_menu ul li {
     background-color: #417337;
@@ -1229,13 +1229,13 @@ ul.table li {
 #main_menu ul li.deeper {
   color: #fad674;
 }
-@media (min-width: 480px) {
+@media (min-width: 768px) {
   /* line 634, ../sass/tags.scss */
   #main_menu ul li.deeper:hover > #main_menu ul li.deeper {
     display: block !important;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 642, ../sass/tags.scss */
   #main_menu > ul > li:first-child {
     display: none !important;
@@ -1247,7 +1247,7 @@ ul.table li {
   padding-right: 8px;
   white-space: nowrap;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 648, ../sass/tags.scss */
   #main_menu > ul > li > ul > li {
     padding: 0 8px 0 8px;
@@ -1491,7 +1491,7 @@ table.cabinet#tbl-my_bids td {
 table.cabinet#tbl-my_bids td:nth-child(3), table.cabinet#tbl-my_bids td:nth-child(4) {
   text-align: right;
 }
-@media (min-width: 480px) {
+@media (min-width: 768px) {
   /* line 838, ../sass/tags.scss */
   table.cabinet#tbl-my_bids td:nth-child(2) {
     white-space: nowrap;
@@ -1554,7 +1554,7 @@ table.cabinet.border th {
 /* line 877, ../sass/tags.scss */
 div#main_content.left table.cabinet#tbl-my_bids tr th {
   font-size: 1.1em;
-  /*@media(min-width: 480px){
+  /*@media(min-width: 768px){
     white-space: nowrap;
   }*/
 }
@@ -1627,7 +1627,7 @@ ul.table {
 #left_menu ul li {
   margin-bottom: 10px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 942, ../sass/tags.scss */
   #main_menu ul {
     background-color: #417337;
@@ -1642,7 +1642,7 @@ ul.table {
     width: 96.5% !important;
   }
 }
-@media (min-width: 480px) {
+@media (min-width: 768px) {
   /* line 942, ../sass/tags.scss */
   #main_menu ul {
     display: table;
@@ -1657,7 +1657,7 @@ ul.table {
   margin-top: 16px;
   width: 67%;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 959, ../sass/tags.scss */
   #main_menu > ul {
     border-top-color: #789D50 !important;
@@ -1674,7 +1674,7 @@ ul.table {
   width: auto;
   z-index: 2;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 970, ../sass/tags.scss */
   #main_menu > ul > li > ul {
     border-top-color: #417337 !important;
@@ -1682,13 +1682,13 @@ ul.table {
     margin-bottom: 4px !important;
   }
 }
-@media (min-width: 480px) {
+@media (min-width: 768px) {
   /* line 985, ../sass/tags.scss */
   #main_menu > ul.menu > li.deeper:hover > ul {
     display: block !important;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 990, ../sass/tags.scss */
   #padd_bot_menu ul {
     display: block !important;
@@ -1720,7 +1720,7 @@ div#usermenu div.moduletable ul.menu {
   position: absolute;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 10, ../sass/default.scss */
   #add_to_favorite {
     display: block !important;
@@ -1792,7 +1792,7 @@ div#footer #bottom_menu {
   margin-left: 50px;
   top: 24px;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 59, ../sass/default.scss */
   #copyright {
     float: right !important;
@@ -1821,7 +1821,7 @@ div#footer #bottom_menu {
   line-height: 19px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   /* line 89, ../sass/default.scss */
   #footer {
     background-color: #417337 !important;
@@ -1840,7 +1840,7 @@ div#footer #bottom_menu {
 
 /* line 102, ../sass/default.scss */
 #header {
-  background: url(../images/header.png) 130px 0 no-repeat;
+  background: url(../images/header.jpg) 130px 0 no-repeat;
   height: 280px;
   left: 0;
   position: relative;
@@ -1855,8 +1855,14 @@ div#footer #bottom_menu {
     margin-right: 15px;
   }
 }
+@media (max-width: 768px) {
+  /* line 102, ../sass/default.scss */
+  #header {
+    background-size: 84% 141px;
+  }
+}
 
-/* line 115, ../sass/default.scss */
+/* line 118, ../sass/default.scss */
 #left_part {
   box-sizing: border-box;
   color: #172a17;
@@ -1867,8 +1873,8 @@ div#footer #bottom_menu {
   padding-top: 0;
   width: 200px;
 }
-@media (max-width: 480px) {
-  /* line 115, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 118, ../sass/default.scss */
   #left_part {
     background: url(../images/body_bg.jpg) 0 0 repeat;
     box-shadow: 8px 8px 18px 4px rgba(0, 0, 0, 0.5);
@@ -1881,15 +1887,15 @@ div#footer #bottom_menu {
     z-index: 1;
   }
 }
-@media (max-width: 480px) {
-  /* line 135, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 138, ../sass/default.scss */
   #left_part.visible {
     transform: translateX(0);
   }
 }
 
-@media (max-width: 480px) {
-  /* line 141, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 144, ../sass/default.scss */
   #logo-box {
     height: 46px !important;
     line-height: 46px !important;
@@ -1898,7 +1904,7 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 149, ../sass/default.scss */
+/* line 152, ../sass/default.scss */
 #logo_img {
   background: url(../../../templates/auction/images/temp/logo2.png) no-repeat center;
   background-size: 100%;
@@ -1908,8 +1914,8 @@ div#footer #bottom_menu {
   top: 21px;
   width: 116px;
 }
-@media (max-width: 480px) {
-  /* line 149, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 152, ../sass/default.scss */
   #logo_img {
     top: 5px;
     height: 115px;
@@ -1918,20 +1924,20 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 164, ../sass/default.scss */
+/* line 167, ../sass/default.scss */
 #logo_text {
   left: 17px;
   position: absolute;
   top: 219px;
 }
-@media (max-width: 480px) {
-  /* line 168, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 171, ../sass/default.scss */
   #logo_text::before {
     content: "Антикварные сезоны - аукцион и магазин";
   }
 }
 
-/* line 174, ../sass/default.scss */
+/* line 177, ../sass/default.scss */
 #logIn {
   height: 203px;
   padding-top: 1px;
@@ -1940,12 +1946,12 @@ div#footer #bottom_menu {
   width: 290px;
 }
 
-/* line 181, ../sass/default.scss */
+/* line 184, ../sass/default.scss */
 #logIn_wrapper {
   background: url(../images/login.png) 0 0 no-repeat;
 }
 
-/* line 184, ../sass/default.scss */
+/* line 187, ../sass/default.scss */
 #logo-box {
   box-sizing: border-box;
   float: left;
@@ -1956,14 +1962,14 @@ div#footer #bottom_menu {
   width: 33%;
 }
 
-/* line 193, ../sass/default.scss */
+/* line 196, ../sass/default.scss */
 #main_content {
   color: #301f07;
   font: normal 14px/17px Verdana, Geneva, sans-serif;
   padding: 1px 15px;
 }
-@media (max-width: 480px) {
-  /* line 193, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 196, ../sass/default.scss */
   #main_content {
     margin-left: 0;
     margin-top: 10px;
@@ -1971,7 +1977,7 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 203, ../sass/default.scss */
+/* line 206, ../sass/default.scss */
 #main_menu {
   background: url(../images/menu_bg.png) no-repeat 0 -5px;
   background-size: 100% 106%;
@@ -1982,8 +1988,8 @@ div#footer #bottom_menu {
   position: relative;
   width: 100%;
 }
-@media (max-width: 480px) {
-  /* line 203, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 206, ../sass/default.scss */
   #main_menu {
     background-position: 0 0;
     background: transparent !important;
@@ -1993,56 +1999,63 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 220, ../sass/default.scss */
+/* line 223, ../sass/default.scss */
 #make_bid {
   margin-top: 30px;
 }
 
-@media (min-width: 480px) {
-  /* line 223, ../sass/default.scss */
+@media (min-width: 768px) {
+  /* line 226, ../sass/default.scss */
   #mobile-menu-proposal {
     display: none;
   }
 }
 
-/* line 229, ../sass/default.scss */
+/* line 232, ../sass/default.scss */
 div#footer #bottom_menu #padd_bot_menu {
   margin-left: 30px;
 }
-@media (max-width: 480px) {
-  /* line 228, ../sass/default.scss */
+@media (max-width: 768px) {
+  /* line 231, ../sass/default.scss */
   #padd_bot_menu {
     margin-left: 15px !important;
     overflow: hidden;
   }
 }
 
-/* line 237, ../sass/default.scss */
+/* line 240, ../sass/default.scss */
 #page {
   margin: 0 auto;
   max-width: 990px;
 }
 
-/* line 241, ../sass/default.scss */
+/* line 244, ../sass/default.scss */
 #pic_top {
-  background: url("../images/top_image.jpg") no-repeat;
   height: 211px;
   margin-left: 146px;
   position: relative;
 }
 @media (max-width: 480px) {
-  /* line 241, ../sass/default.scss */
+  /* line 244, ../sass/default.scss */
   #pic_top {
-    background-position-y: bottom;
+    /*background-position-y: bottom;
     background-position-x: -24px;
-    background-size: 165%;
-    height: 117px;
+    background-size: 165%;*/
     margin: auto 2px auto auto;
     width: 306px;
   }
 }
+@media (max-width: 768px) {
+  /* line 244, ../sass/default.scss */
+  #pic_top {
+    background-position: left bottom;
+    height: 117px;
+    margin: auto 2px auto auto;
+    width: 82%;
+  }
+}
 
-/* line 255, ../sass/default.scss */
+/* line 264, ../sass/default.scss */
 #right_part {
   color: #172a17;
   float: right;
@@ -2050,12 +2063,12 @@ div#footer #bottom_menu #padd_bot_menu {
   width: 290px;
 }
 
-/* line 261, ../sass/default.scss */
+/* line 270, ../sass/default.scss */
 #sel_bids {
   height: 26px;
 }
 
-/* line 264, ../sass/default.scss */
+/* line 273, ../sass/default.scss */
 #search_box {
   height: 40px;
   margin-right: 6px;
@@ -2063,17 +2076,17 @@ div#footer #bottom_menu #padd_bot_menu {
   padding-right: 8px;
 }
 
-/* line 270, ../sass/default.scss */
+/* line 279, ../sass/default.scss */
 #tbl-bid-history {
   width: 100%;
 }
 
-/* line 273, ../sass/default.scss */
+/* line 282, ../sass/default.scss */
 #thanx-page {
   padding: 40px;
 }
 
-/* line 276, ../sass/default.scss */
+/* line 285, ../sass/default.scss */
 #your_order {
   margin-bottom: 2px;
   padding-top: 10px;

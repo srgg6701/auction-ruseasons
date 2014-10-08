@@ -38,7 +38,7 @@
   height: 0;
 }
 .deeper{
-  @media (max-width: 480px){
+  @media (max-width: 768px){
     background-color: #789D50 !important;
     &::before{
       content: "►";
@@ -82,7 +82,7 @@
 }
 .left {
   //margin-left: 220px;
-  @media(max-width: 480px){
+  @media(max-width: 768px){
     margin-left: 0;
   }
 }
@@ -126,14 +126,14 @@
     padding: 8px 20px;
   }
   &:hover{
-    @media (max-width: 480px){
+    @media (max-width: 768px){
       background-color: #789D50;
     }
   }
 }
 .moduletable{
   #left_part &{
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       margin: 3px -4px;
       padding: 4px 10px;
       white-space: nowrap;
@@ -216,7 +216,7 @@
   }
 }
 .top_list_mn{
-  @media(max-width: 480px){
+  @media(max-width: 768px){
     display: none !important;
   }
 }
