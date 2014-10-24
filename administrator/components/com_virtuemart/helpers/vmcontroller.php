@@ -131,9 +131,15 @@ class VmController extends JController{
 		$ProductTable->reset();
 		unset($data['min_price']); // будет добавлено отдельным методом
         //commonDebug(__FILE__,__LINE__,$data); return false;
-		//commonDebug(__FILE__,__LINE__,$model); // VirtueMartModelProduct
-        //commonDebug(__FILE__,__LINE__,$ProductTable, true);
-        return $model->store($data,false,$ProductTable);
+		//commonDebug(__FILE__,__LINE__,$model);
+		//        $model = VirtueMartModelProduct
+        $result = $model->store( $data, // импортируемые данные, передаются по ссылке
+                                 false,
+                                 $ProductTable );
+        // include_once JPATH_SITE.DS.'tests.php';
+        commonDebug(__FILE__,__LINE__,$result, true);
+        commonDebug(__FILE__,__LINE__,$data, false);
+        return $result;
 	}
 /*	MODIFIED END	*/
 	/**

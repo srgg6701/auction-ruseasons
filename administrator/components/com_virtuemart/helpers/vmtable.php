@@ -689,6 +689,8 @@ class VmTable extends JTable{
 	 */
 	public function bindChecknStore(&$data,$preload=false){
         //showTestMessage(__METHOD__, __FILE__, __LINE__, true);
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$data, true);
 		$tblKey = $this->_tbl_key; //virtuemart_product_id, OK
 			
 		$ok = true;
@@ -705,7 +707,7 @@ class VmTable extends JTable{
 			$langUniqueKeys = array();
 
 			if(is_object($data)){
-
+                // обработать не-англоязычные названия полей БД
 				foreach($this->_translatableFields as $name){
 					if(!empty($data->$name)){
 						$langData[$name] = $data->$name;
@@ -748,9 +750,7 @@ class VmTable extends JTable{
 						$langObKeys[$name] = JText::sprintf('COM_VIRTUEMART_STRING_ERROR_OBLIGATORY_KEY', JText::_('COM_VIRTUEMART_' . strtoupper($name)));
 						unset($this->_obkeys[$name]);
 					}
-
-				}
-				// 				$langTable->$tblKey = $data[$tblKey];
+				} // 				$langTable->$tblKey = $data[$tblKey];
 			}
 
 			$langTable->_unique_name = $langUniqueKeys;
@@ -777,16 +777,16 @@ class VmTable extends JTable{
 				}
 				//echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
 			}
-
+            //commonDebug(__FILE__,__LINE__,$data, true);
 			if($ok){
 				if(!$langTable->check()){
 					$ok = false;
-					echo "<div class=''>ok FALSE (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
+					//echo "<div class=''>ok FALSE (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
 					vmdebug('Check returned false '.get_class($langTable).' '.$this->_tbl.' '.$langTable->_db->getErrorMsg());
 					//var_dump($langTable);
 				}
-			}
-
+			}   // this = TableProducts
+            //commonDebug(__FILE__,__LINE__,$this, true);
 			if($ok){
 				$this->bindChecknStoreNoLang($data,$preload);
 
@@ -832,7 +832,7 @@ class VmTable extends JTable{
 				$ok= false;
 			}
 		}
-		echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
+		//echo "<div class=''>ok (bindChecknStore(), ".__LINE__.")= ".$ok."</div>";
         //commonDebug(__FILE__,__LINE__,$data, true);
         return $ok;
 	}

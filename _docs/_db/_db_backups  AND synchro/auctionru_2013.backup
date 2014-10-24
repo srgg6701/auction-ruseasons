@@ -13,8 +13,13 @@
   <AppendTimestamp>True</AppendTimestamp>
   <MaxDays>0</MaxDays>
   <MaxFilesCount>0</MaxFilesCount>
-  <Compression />
-  <DatabaseObjects />
+  <Compression>
+    <CompressLevel>Default</CompressLevel>
+    <CompressComment xml:space="preserve" />
+  </Compression>
+  <DatabaseObjects>
+    <DatabaseObjectType ObjectType="Table" />
+  </DatabaseObjects>
   <Options>
     <PropertyValue Name="LockTables">false</PropertyValue>
     <PropertyValue Name="IncludeVirtualColumnsData">false</PropertyValue>

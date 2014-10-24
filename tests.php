@@ -82,11 +82,11 @@ function commonDebug( $file,
     if($stop) die('<hr><div><b>stopped</b></div>');
 }
 /**
- * Комментарий
+ * Вывести стек вызовов
  * @package
  * @subpackage
  */
-function commonDebugBacktrace($file,$line,$class=''){
+function commonDebugBacktrace($file,$line,$class='',$stop=false){
     file_line($file,$line);
     ob_start();
     debug_print_backtrace();
@@ -97,6 +97,7 @@ function commonDebugBacktrace($file,$line,$class=''){
     $dbpb=str_replace(']','</span>',$dbpb);
     $dbpb=str_replace(" called at ","<br/><span style='background-color:#D1E8FF'> called at </span>",$dbpb);
     setBlock($dbpb,'trace',$class, 'lightyellow');
+    if($stop) die('<h4>stopped</h4>');
 }
 
 /**

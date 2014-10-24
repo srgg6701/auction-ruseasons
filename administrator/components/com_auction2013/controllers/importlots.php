@@ -33,8 +33,8 @@ class Auction2013ControllerImportlots extends JControllerForm
  * Обработать текст названия, сохранить как slug
  * @package
  * @subpackage
+ * point: вызов метода отключён, т.к. замена производится inline, искать по подстроке комментария "заменить невалидные символы"
  */
-    // todo: разобраться с неиспользуемым методом
 	public function handleSlug($slug,&$words,&$allwords){
 		$noquote=mb_ereg_replace("&quot;","",$slug);
 		$handled=mb_ereg_replace("[^A-Za-zА-Яа-я0-9\.,\-\s]","", $noquote);
@@ -221,11 +221,12 @@ class Auction2013ControllerImportlots extends JControllerForm
 	*/
 	public function import(){
         //commonDebug(__FILE__,__LINE__,JRequest::get('post'), true);
-		$test=false;
-        $skip_import=false; /*
-        если NULL, будет показывать передаваемые импорту данные.
-        Чтобы предметы НЕ импортировались - раскомментировать тестовую
-        строку в VmController::import(), чтобы возвращало false. */
+		$test=true;
+        $skip_import=false;
+        /*  если NULL, будет показывать передаваемые импорту данные.
+            Чтобы предметы НЕ импортировались - раскомментировать тестовую
+            строку 'return false;' в VmController::import(),
+            чтобы возвращало false. */
         $laquo = "&laquo;";
         $raquo = "&raquo;";
         $doubled_contract_numbers=array();
@@ -355,6 +356,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 
 								if($column_name=='title' || $column_name=='short_desc' || $column_name=='desc'){
                                     // mb_ereg_replace() не работает
+                                    /** заменить невалидные символы.
+                                        см. также отключённый метод handleSlug()    */
                                     $cell_content=preg_replace("/«/", $laquo, $cell_content);
                                     $cell_content=preg_replace("/»/", $raquo, $cell_content);
                                     //echo "<div>changed cell_content: </div>"; var_dump($cell_content);
@@ -491,7 +494,9 @@ class Auction2013ControllerImportlots extends JControllerForm
                 if(!$skip_import){ // false, null etc
                     /**
                     ИМПОРТИРОВАТЬ данные
-                    если $skip_import===NULL, вернёт false, данные не будут добавлены   */
+                    если $skip_import===NULL, вернёт false, данные не будут добавлены
+                    $model           = VirtueMartModelProduct
+                    $VmController    = VmController  */
                     if($virtuemart_product_id=$VmController->import($model,$data_stream)){
                         // var_dump($data_stream);
                         if($data_stream['min_price'])
