@@ -133,7 +133,7 @@ class VmTable extends JTable{
 
 	function setSlug($slugAutoName, $key = 'slug'){
 		// 		$this->_useSlug = true;
-		$this->_slugAutoName = $slugAutoName;
+		$this->_slugAutoName = $slugAutoName; // product_name (имя поля в auc13_virtuemart_products_ru_ru)
 		$this->_slugName = $key;
 		$this->$key = '';
 		$this->setUniqueName($key);
@@ -489,6 +489,7 @@ class VmTable extends JTable{
 			if (!isset(self::$_query_cache[md5($q)]))
 			{
 			$this->_db->setQuery($q);
+            // проверить уникальность алиаса
 			$existingSlugName =$this->_db->loadResult();
 			}
 			else $existingSlugName = self::$_query_cache[md5($q)];
@@ -523,15 +524,20 @@ class VmTable extends JTable{
 			$slugName = $this->_slugName; // slug
 			
 			if(in_array($slugAutoName,$this->_translatableFields)){
-				$checkTable = $this->_tbl.'_'.VMLANG;
+				$checkTable = $this->_tbl.'_'.VMLANG; #__virtuemart_products_ru_ru
 			} else { 
 				$checkTable = $this->_tbl; // #__virtuemart_products_ru_ru
 			}
+            //commonDebug(__FILE__,__LINE__,$this->$slugAutoName, false);
+            $this->$slugAutoName=preg_replace("/&(l|r)aquo;/", "", $this->$slugAutoName);
+            //commonDebug(__FILE__,__LINE__,$this->$slugAutoName, false);
+            //commonDebugBacktrace(__FILE__,__LINE__,false); //$class=''
 
-			if(empty($this->$slugName)){
+            if(empty($this->$slugName)){ // slug
 				//vmdebug('table check use _slugAutoName '.$slugAutoName.' '.$slugName);
 				if(!empty($this->$slugAutoName)){ // VmTableData()->product_name
 					$this->$slugName = $this->$slugAutoName;
+				    //$this->slug = "Венчальная пара «Господь Вседержитель», «Богоматерь Казанская»"
 				} else {
 					// !$this->product
 					//echo "<div class=''>slugAutoName= ".$slugAutoName."</div>";

@@ -221,7 +221,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 	*/
 	public function import(){
         //commonDebug(__FILE__,__LINE__,JRequest::get('post'), true);
-		$test=true;
+		$test=false;
         $skip_import=false;
         /*  если NULL, будет показывать передаваемые импорту данные.
             Чтобы предметы НЕ импортировались - раскомментировать тестовую
@@ -645,15 +645,19 @@ class Auction2013ControllerImportlots extends JControllerForm
                     }
                 $msg='Импортировано '.($i+1).' записей.';
                 if(!empty($doubled_contract_numbers)){
-                    $msg.='<div class="error-text">Не импортировано записей: '.count($doubled_contract_numbers).'.</div>
+                    $mess = '<div class="error-text">Не импортировано записей: '.count($doubled_contract_numbers).'.</div>
                         <div>Неуникальные номера контрактов:</div>';
+                    //$msg.=$mess;
                     foreach ($doubled_contract_numbers as $contract_number) {
-                        $msg.="<div>$contract_number</div>";
+                        $mess.="<div>$contract_number</div>";
+                        //$msg.="<div>$contract_number</div>";
                     }
+                    $msg.=$mess;
+                    $imgErrors[]=$mess;
                 }
                 $redir='index.php?option=com_auction2013';
                 //
-                if(count($imgErrors)||$test){
+                if($test){ // count($imgErrors)||
                     echo('Импортировано: записей - '.($i+1).', изображений - '.$all_pix_count);
                     if(count($imgErrors)) {
                         echo "<hr><h5 style='color:red'>Ошибки добавления записей в табл. #__virtuemart_product_medias:</h5>";
