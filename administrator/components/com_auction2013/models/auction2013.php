@@ -254,4 +254,53 @@ class Auction2013ModelAuction2013 extends JModelList
 		// List state information.
 		parent::populateState('a.id', 'asc');
 	}
+/**
+ *
+ */
+    public function removeProductImage($post){
+        $location_array = explode("/",$post['imgSrc']);
+        $file_name = array_pop($location_array);
+        $common_path = $_SERVER['DOCUMENT_ROOT'] . implode("/", $location_array) . '/';
+        $main_image = $common_path . $file_name;
+        $preview_image = $common_path . 'preview/' . $file_name;
+        // удалить основную картинку
+        if(file_exists($main_image))
+            unlink($main_image);
+        // удалить из таблиц
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $table_name = '#__virtuemart_medias';
+        $field_name = 'virtuemart_media_id';
+        // получить id записи для удаления связанных данных
+        $query->select($db->quoteName($field_name))
+                ->from($db->quoteName($table_name))
+                ->where($db->quoteName('file_url') . " LIKE '%/" . $file_name . "'");
+        $db->setQuery($query);
+        $virtuemart_media_id = $db->loadResult();
+        $where = $field_name . " = '" . $virtuemart_media_id . "'";
+        //echo 'where = ' . $where;
+        // удалить записи с картинками
+        $query = $db->getQuery(true);
+        $query->delete($db->quoteName($table_name))->where($where);
+        $db->setQuery($query);
+        $db->query();
+        // удалить связанные данные из auc13_virtuemart_product_medias
+        $query = $db->getQuery(true);
+        $query->delete($db->quoteName('#__virtuemart_product_medias'))->where($where);
+        $db->setQuery($query);
+        $result = $db->query();
+        //echo 'main image path: ' . $main_image;
+        if (file_exists($preview_image))
+            unlink($preview_image);
+            /*echo 'preview image path: ' . $preview_image;
+        else
+            echo 'no image: ' . $preview_image;*/
+        return $result;
+        /*}else{
+            //echo 'no image: ' . $main_image;
+            return false;
+        }*/
+        //productId: 3926, src: /auction-ruseasons/images/stories/virtuemart/product/5802075.jpg
+        //echo 'productId: ' . $post['product_id'] . ', src: ' .  . $post['imgSrc'];
+    }
 }

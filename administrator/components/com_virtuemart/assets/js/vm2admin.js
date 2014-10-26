@@ -273,6 +273,7 @@
             jQuery("#admin-ui-tabs").delegate("div.vmicon-16-remove", "click", function (event) {
 
                 // MODIFIED START
+                var tab = this;
                 var product_id=jQuery('input[name="virtuemart_product_id"]').val(),
                     picture = jQuery(event.currentTarget).prev('a.vm_thumb').attr('href');
                 //console.log('product_id='+product_id + ', picture: '+ picture);
@@ -284,9 +285,15 @@
                     },
                     function(data){
                         console.log(data);
-                        jQuery(this).closest(".vm_thumb_image").fadeOut("500", function () {
-                            jQuery(this).remove()
-                        });
+                        if(data=='ok'){
+                            jQuery(tab)
+                                .closest(".vm_thumb_image")
+                                .fadeOut("500", function () {
+                                    jQuery(this).remove()
+                                })
+                        }else{
+                            alert('Не удалось удалить изображение...');
+                        }
                     });
                 // MODIFIED END
                 /*jQuery(this).closest(".vm_thumb_image").fadeOut("500", function () {

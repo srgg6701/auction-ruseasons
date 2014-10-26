@@ -5,7 +5,7 @@ SELECT
   -- cats.virtuemart_category_id           AS 'category id',
   CONCAT(cats_ru_parent.category_name,"/",
   cats_ru.category_name)                 AS 'category',
-  prods_media.  virtuemart_media_id      AS 'VM.media.id',
+  prods_media.  virtuemart_media_id,
   medias.       file_title,
   -- medias.       file_description,
   -- medias.       file_meta,
@@ -37,3 +37,4 @@ FROM auc13_virtuemart_product_medias                  AS prods_media
     ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
 
 -- WHERE prods_media.virtuemart_product_id IN ( 3212, 3237 )
+WHERE prods_media.virtuemart_product_id = 3926
