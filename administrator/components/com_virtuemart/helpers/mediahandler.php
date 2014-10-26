@@ -907,10 +907,12 @@ class VmMediaHandler {
 		public function displayFilesHandler($fileIds,$type){
 
 			VmConfig::loadJLang('com_virtuemart_media');
+            // картинки
 			$html = $this->displayFileSelection($fileIds,$type);
-			$html .= $this->displayFileHandler();
+            $html .= $this->displayFileHandler();
 
-			if(empty($this->_db)) $this->_db = JFactory::getDBO();
+			if(empty($this->_db))
+                $this->_db = JFactory::getDBO();
 			$this->_db->setQuery('SELECT FOUND_ROWS()');
 			$imagetotal = $this->_db->loadResult();
 			//vmJsApi::jQuery(array('easing-1.3.pack','mousewheel-3.0.4.pack','fancybox-1.3.4.pack'),'','fancybox');
@@ -972,7 +974,7 @@ class VmMediaHandler {
 		}); 
 //]]>
 		";
-
+            //echo $html; die();
 			$document = JFactory::getDocument ();
 			$document->addScriptDeclaration ( $j);
 			return $html;
@@ -1033,7 +1035,9 @@ class VmMediaHandler {
 				return  '<div  class="vm_thumb_image"><input type="hidden" value="'.$image->virtuemart_media_id.'" name="virtuemart_media_id[]">
 				<input class="ordering" type="hidden" name="mediaordering['.$image->virtuemart_media_id.']" value="'.$key.'">
 			<a class="vm_thumb" rel="group1" title ="'.$image->file_title.'"href="'.JURI::root(true).'/'.$image->file_url.'" >
-			'.JHTML::image($image->file_url_thumb, $image->file_title, '').'
+			'.JHTML::image($image->file_url/* MODIFIED START */
+			    // _thumb
+			/* MODIFIED END */, $image->file_title, '').'
 			</a><div class="vmicon vmicon-16-remove" title="'.JText::_('COM_VIRTUEMART_IMAGE_REMOVE').'"></div><div class="edit-24-grey" title="'.JText::_('COM_VIRTUEMART_IMAGE_EDIT_INFO').'"></div></div>';
 			} else {
 				$fileTitle = empty($image->file_title)? 'no  title':$image->file_title;
