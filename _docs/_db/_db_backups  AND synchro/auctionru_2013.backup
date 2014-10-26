@@ -13,10 +13,7 @@
   <AppendTimestamp>True</AppendTimestamp>
   <MaxDays>0</MaxDays>
   <MaxFilesCount>0</MaxFilesCount>
-  <Compression>
-    <CompressLevel>Default</CompressLevel>
-    <CompressComment xml:space="preserve" />
-  </Compression>
+  <Compression />
   <DatabaseObjects>
     <DatabaseObjectType ObjectType="Table" />
   </DatabaseObjects>

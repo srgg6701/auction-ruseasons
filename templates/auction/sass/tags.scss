@@ -428,6 +428,15 @@ form {
     display: inline-block;
   }
 }
+hr{
+  &.border{
+    border-style: none;
+    &.bottom{
+      margin-top: 15px;
+      border-bottom: $borderThickBrown;
+    }
+  }
+}
 img {
   border: none;
   @media (max-width: 768px) {

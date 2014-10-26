@@ -77,26 +77,29 @@ else:
 <form id="purchase_app_form" action="<?php 
 echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase'); 
     ?>" method="post">
-      <span><b><?php echo $this->product->product_sku;?>
-                <?php echo $this->product->product_name;?>
-            </b></span>
-      <div class="product_s_desc"><?php echo $this->product->product_s_desc;?></div>
-    <div class="o_o">
-      Категория:................... 
-      <span class="span_o_o">
-          <b><?php
-          echo $this->product->category_name;
-          ?></b>
-      </span>
-    </div>
-    <div class="o_o">
-      Цена:........................... 
-      <span class="span_o_o">
-          <b><?php 
-          echo $this->product->prices['basePriceVariant'];
-          ?> руб.</b>
-      </span>
-    </div>
+        <span><b><?php echo $this->product->product_sku;?>
+                    <?php echo $this->product->product_name;?>
+                </b></span>
+        <div class="product_s_desc">
+           <?php echo $this->product->product_s_desc;?>
+           <hr class="border bottom" />
+        </div>
+        <div class="o_o">
+          Категория:...................
+          <span class="span_o_o">
+              <b><?php
+              echo $this->product->category_name;
+              ?></b>
+          </span>
+        </div>
+        <div class="o_o">
+          Цена:...........................
+          <span class="span_o_o">
+              <b><?php
+              echo $this->product->prices['basePriceVariant'];
+              ?> руб.</b>
+          </span>
+        </div>
 <?php   /**
         Зарезервировано. Ситуация может возникнуть чисто теоретически;
         практические случаи обрабатываются далее (ниже)
