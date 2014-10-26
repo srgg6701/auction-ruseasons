@@ -910,7 +910,7 @@ class VmMediaHandler {
             // картинки
 			$html = $this->displayFileSelection($fileIds,$type);
             $html .= $this->displayFileHandler();
-
+            //echo $html; die();
 			if(empty($this->_db))
                 $this->_db = JFactory::getDBO();
 			$this->_db->setQuery('SELECT FOUND_ROWS()');
@@ -1191,7 +1191,7 @@ class VmMediaHandler {
 			$html .= $this->displayRow('COM_VIRTUEMART_FILES_FORM_FILE_META','file_meta');
 
 			$html .= $this->displayRow('COM_VIRTUEMART_FILES_FORM_FILE_URL','file_url',$readonly);
-			$html .= $this->displayRow('COM_VIRTUEMART_FILES_FORM_FILE_URL_THUMB','file_url_thumb',$readonly);
+			// $html .= $this->displayRow('COM_VIRTUEMART_FILES_FORM_FILE_URL_THUMB','file_url_thumb',$readonly);
 
 			$this->addMediaAttributesByType();
 
