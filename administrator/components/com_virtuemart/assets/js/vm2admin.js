@@ -244,6 +244,7 @@
                 event.preventDefault();
             });
             container.delegate("a.vm_thumb", "click", function (event) {
+                //alert('Hello!');
                 jQuery.fancybox({
                     "type":"image",
                     "titlePosition":"inside",
@@ -269,10 +270,28 @@
 
             });
 
-            jQuery("#admin-ui-tabs").delegate("div.vmicon-16-remove", "click", function () {
-                jQuery(this).closest(".vm_thumb_image").fadeOut("500", function () {
+            jQuery("#admin-ui-tabs").delegate("div.vmicon-16-remove", "click", function (event) {
+
+                // MODIFIED START
+                var product_id=jQuery('input[name="virtuemart_product_id"]').val(),
+                    picture = jQuery(event.currentTarget).prev('a.vm_thumb').attr('href');
+                //console.log('product_id='+product_id + ', picture: '+ picture);
+                jQuery.post(
+                    'index.php?option=com_auction2013&task=auction2013.removeProductImage',
+                    {
+                        product_id: product_id,
+                        imgSrc: picture
+                    },
+                    function(data){
+                        console.log(data);
+                        jQuery(this).closest(".vm_thumb_image").fadeOut("500", function () {
+                            jQuery(this).remove()
+                        });
+                    });
+                // MODIFIED END
+                /*jQuery(this).closest(".vm_thumb_image").fadeOut("500", function () {
                     jQuery(this).remove()
-                });
+                });*/
             });
             jQuery("#admin-ui-tabs").delegate("span.vmicon-16-remove", "click", function () {
                 jQuery(this).closest(".removable").fadeOut("500", function () {

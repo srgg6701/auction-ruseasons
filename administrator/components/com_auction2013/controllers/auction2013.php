@@ -49,4 +49,27 @@ class Auction2013ControllerAuction2013 extends JControllerForm
 		$view->setLayout($layout);
 		return $view; 
 	}
+/**
+ * Удалить изображения предмета
+ */
+    public function removeProductImage(){
+        $post = JRequest::get('post');
+        $location_array = explode("/",$post['imgSrc']);
+        $file_name = array_pop($location_array);
+        $common_path = $_SERVER['DOCUMENT_ROOT'] . implode("/", $location_array) . '/';
+        $main_image = $common_path . $file_name;
+        $preview_image = $common_path . 'preview/' . $file_name;
+        if(file_exists($main_image))
+            echo 'main image path: ' . $main_image;
+        else
+            echo 'no image: ' . $main_image;
+        echo "\n";
+        if(file_exists($preview_image))
+            echo 'preview image path: ' . $preview_image;
+        else
+            echo 'no image: ' . $preview_image;
+        //productId: 3926, src: /auction-ruseasons/images/stories/virtuemart/product/5802075.jpg
+        //echo 'productId: ' . $post['product_id'] . ', src: ' .  . $post['imgSrc'];
+        exit;
+    }
 }
