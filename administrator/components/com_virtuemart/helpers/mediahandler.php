@@ -814,7 +814,7 @@ class VmMediaHandler {
 				//			$this->addMediaAction('delete','COM_VIRTUEMART_FORM_MEDIA_DELETE');
 			}
 
-			$this->addMediaAction('replace_thumb','COM_VIRTUEMART_FORM_MEDIA_UPLOAD_REPLACE_THUMB');
+			//$this->addMediaAction('replace_thumb','COM_VIRTUEMART_FORM_MEDIA_UPLOAD_REPLACE_THUMB');
 
 			//		$this->addMediaAction('replace_thumb','COM_VIRTUEMART_FORM_MEDIA_UPLOAD_DELETE_THUMB');
 
