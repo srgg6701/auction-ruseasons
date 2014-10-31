@@ -1,0 +1,10 @@
+/* line 1, ../sass/layout.scss */
+#content {
+  padding: 1px 5.5% 0 5.5%;
+}
+
+/* line 4, ../sass/layout.scss */
+#page {
+  margin: 0 auto;
+  max-width: 1100px;
+}

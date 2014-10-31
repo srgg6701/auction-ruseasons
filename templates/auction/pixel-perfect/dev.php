@@ -57,34 +57,23 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
     }
     #substrate-wrapper {
         bottom: 0;
-        left: 0;
-        margin: auto;
         position: absolute;
-        right: 0;
         top: 0;
+        z-index: -1;
+    }
     <?php   // установить ширину блока с подложкой
             foreach($substrates as $class=>$substrate):
                 $sPath = $substrate_path . $substrate;
-                if($class==$section) {
-                    $dimensions = getimagesize($sPath);
-                    $dimensions = str_replace("=\"", ":", $dimensions['3']);
-                    $dimensions = str_replace("\"", "px;", $dimensions);
-                    $css=explode(" ",$dimensions);
-                    echo "\t".$css[0]."\n";
-            }
-?>
-        z-index: -1;
+                ?>
+    #substrate.<?php echo $class;?> {
+        background: url(<?php echo $sPath;?>) no-repeat;
     }
+    <?php   endforeach;?>
     #substrate {
         height: 2000px;
         margin: 0 auto;
         max-width: 1366px;
     }
-    #substrate.<?php echo $class;?> {
-        background: url(<?php echo $sPath;?>) no-repeat;
-    }
-<?php   endforeach;
-?>
 </style>
 <div id="controls">
 <?php   $show_substrate=true; // не показывать подложку
@@ -122,11 +111,15 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
 <script>
     jQuery(function(){
         var $=jQuery,
+            page = $(<?php echo $main_block;?>),
             checkbox =$('#sbstr'),
             substrate = $('#substrate'),
             range = $('#opacity-range'),
             tested_content = $('#opacity-range-content');
-        var setRange = function(){
+        // вычислить отступ слева для подложки
+        var w = window.document.getWidth(),
+            sbOffset=((w-$(page).width())/ 2)/w * 100 + '%',
+            setRange = function(){
                 if($(substrate).is(':visible'))
                     $(range).val(parseInt($(substrate).css('opacity'))*100);
                 else
@@ -135,6 +128,12 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
             changeOpacity = function(input){
                 return parseInt(input.value)/100
             };
+        console.log('sbOffset: '+sbOffset);
+        $('#substrate-wrapper').css({
+            left:sbOffset,
+            right:sbOffset
+        });
+
         $(checkbox).on('click', function(){
             // если подложка скрыта
             if($(substrate).css('opacity')==0){
@@ -157,7 +156,7 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
             });
         });
         $(tested_content).on('input', function(){
-            $(<?php echo $main_block;?>).css('opacity', changeOpacity(this));
+            $(page).css('opacity', changeOpacity(this));
         });
         $('#controls').draggable();
     });

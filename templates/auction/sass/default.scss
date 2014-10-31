@@ -1,11 +1,11 @@
 @charset "UTF-8";
 /* default sass file */
 @import "compass";
-@import "layout";
 @import "variables";
 @import "mixins";
 @import "classes";
 @import "tags";
+@import "layout";
 
 #add_to_favorite{
   @media (max-width: 768px) {
@@ -53,7 +53,6 @@
 #content {
   margin-bottom: 10px;
   overflow: hidden;
-  padding: 1px 10px 0 10px;
   position: relative;
 }
 #copyright{
@@ -237,10 +236,6 @@
     margin-left: 15px !important;
     overflow: hidden;
   }
-}
-#page {
-  margin: 0 auto;
-  max-width: 990px;
 }
 #pic_top {
   //background: url('../images/top_image.jpg') no-repeat;
