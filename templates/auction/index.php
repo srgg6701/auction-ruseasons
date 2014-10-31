@@ -147,8 +147,9 @@ $( function(){
 <?php endif;?>
 </head>
 <body>
+<?php   include_once 'pixel-perfect/dev.php';
+?>
 	<div id="page">
-
         <div id="header">
             <div id="pic_top">
                 <section>

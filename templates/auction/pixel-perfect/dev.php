@@ -7,6 +7,8 @@ include_once '[path]/dev.php'; -->
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
+$section = $_GET['section'];
+if(!$section) $section='default';
 /**
  * Настройки подложки: */
 // Идентификатор главного тестируемого блока:
@@ -15,9 +17,7 @@ $main_block = "'#page'";
 $substrate_path = 'templates/auction/pixel-perfect/';
 // Изображения для страниц:
 $substrates = array(    // класс => имя файла изображения
-                        'default'=>'substrate.png'/*,
-                        'search-result'=>'substrate-search-results.jpg',
-                        'auto-profile'=>'substrate-auto-profile.jpg'*/
+                        'default'=>'substrate.png'
                     );
 // Тени
 $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1) inset';
@@ -58,9 +58,21 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
     #substrate-wrapper {
         bottom: 0;
         left: 0;
+        margin: auto;
         position: absolute;
         right: 0;
         top: 0;
+    <?php   // установить ширину блока с подложкой
+            foreach($substrates as $class=>$substrate):
+                $sPath = $substrate_path . $substrate;
+                if($class==$section) {
+                    $dimensions = getimagesize($sPath);
+                    $dimensions = str_replace("=\"", ":", $dimensions['3']);
+                    $dimensions = str_replace("\"", "px;", $dimensions);
+                    $css=explode(" ",$dimensions);
+                    echo "\t".$css[0]."\n";
+            }
+?>
         z-index: -1;
     }
     #substrate {
@@ -68,16 +80,11 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
         margin: 0 auto;
         max-width: 1366px;
     }
-<?php   foreach($substrates as $class=>$substrate):
-?>
     #substrate.<?php echo $class;?> {
-        background: url(<?php echo $substrate_path . $substrate;?>) no-repeat;
+        background: url(<?php echo $sPath;?>) no-repeat;
     }
 <?php   endforeach;
 ?>
-    #substrate.auto-profile {
-        background-position-y: -9px;
-    }
 </style>
 <div id="controls">
 <?php   $show_substrate=true; // не показывать подложку
