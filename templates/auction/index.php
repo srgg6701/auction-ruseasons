@@ -151,25 +151,34 @@ $( function(){
 ?>
 	<div id="page">
         <div id="header">
-            <div id="pic_top">
-                <section>
-                    <div>
-                        <?php   $user = JFactory::getUser();
-                        if($user->guest==1):
-                            $link_tail="view=login";
-                        else:
-                            $link_tail="layout=lots";
-                        endif;?>
-                        <div id="authorize">
-                            <a href="<?php echo JRoute::_('index.php?option=com_users&'.$link_tail);?>">Кабинет</a>
-                        <?php
-                        if($user->guest==1):?>
-                            <a href="<?php echo JRoute::_('index.php?option=com_auction2013&layout=register');?>">Регистрация</a>
-                    <?php   endif;?>
-                        </div>
+            <section>
+                <div>
+                    <?php   $user = JFactory::getUser();
+                    if($user->guest==1):
+                        $link_tail="view=login";
+                    else:
+                        $link_tail="layout=lots";
+                    endif;?>
+                    <div id="authorize">
+                        <a href="<?php echo JRoute::_('index.php?option=com_users&'.$link_tail);?>">Кабинет</a>
+                    <?php
+                    if($user->guest==1):?>/
+                        <a href="<?php echo JRoute::_('index.php?option=com_auction2013&layout=register');?>">Регистрация</a>
+                <?php   endif;?>
                     </div>
-                </section>
-                <div class="floatLeft" id="header-left-side">Салон и аукцион Антикварные сезоны</div>
+                </div>
+            </section>
+            <div id="pic_top">
+                <div class="floatLeft" id="header-left-side">
+                    <a href="">
+                        <div class="floatRight">
+                            <span>Салон</span>
+                            <span class="separator">&nbsp;</span>
+                            <span>Аукцион</span>
+                            <h1>Антикварные сезоны</h1>
+                        </div>
+                    </a>
+                </div>                    
                 <div class="floatLeft" id="header-right-side"></div>
             </div>
             	
@@ -234,7 +243,7 @@ $( function(){
         <div id="footer">
             <div id="copyright">
 			<?php if ($this->countModules('copyright') == 0): ?>
-&copy; 2010 Антикварные Сезоны
+            <div class="vertically-aligned">&copy; 2010 Антикварные Сезоны</div>
   <?php else: ?>
   <jdoc:include type="modules" name="copyright" />
   <?php endif; ?>

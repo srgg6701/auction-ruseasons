@@ -19,12 +19,13 @@ a {
     text-decoration: underline;
   }
   div#footer #bottom_menu #padd_bot_menu li &{
-    border-left: $menuBorder;
-    border-right: $menuBorder;
-    color:#ead8b0;
-    font: 13px calibri, $font-common;
+    @include menuLink;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    @include bottomBlocksHeight;
     margin: 0 1px;
-    padding:0 6px;
+    padding:0 12px;
     text-decoration:none;
     text-transform:uppercase;
     &:hover{
@@ -38,12 +39,23 @@ a {
     @include thinBrownHeader;
     padding-top:5px;
   }
+  #authorize &{
+    color:$font-color-dark-sand;
+    font-family: $font-common;
+    font-size: 11px;
+    text-decoration: none;
+  }
   #board & {
     font: normal 14px $font-common;
     color: $superDark;
     text-align: center;
     margin: 0;
     padding: 0;
+  }
+  #header-left-side &{
+    height: 100%;
+    position: absolute;
+    width: 100%;
   }
   #left_part & {
     color: $brownDark;
@@ -232,9 +244,9 @@ button{
 }
 div{
   &#footer{
-    background:url(../images/footer.png) 0 0 no-repeat;
-    height:20px;
-    padding-top:24px;
+    //background:url(../images/footer.png) 0 0 no-repeat;
+    //height:20px;
+    //padding-top:24px;
     position:relative;
   }
   &#main_content.left{
@@ -365,6 +377,15 @@ div{
   div#usermenu &.moduletable{
     position:relative;
   }
+  #copyright >&{
+    color: #669966;
+  }
+  #header-left-side a &{
+    &.floatRight{
+      margin-top: 68px;
+      margin-right: 10%;
+    }
+  }
   #right_part div[class*="-acy_subscribe"] &.acymailing_module_form{
     width:200px;
   }
@@ -425,6 +446,93 @@ form {
   &#proposal_form,
   &#ask_form{
     display: inline-block;
+  }
+}
+h1{
+  #header-left-side &{
+    color: $font-color-sand;
+    font-size: 22px;
+    font-family: AcademyRegular;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+    text-transform: uppercase;  
+    @include transform(scaleX(1.1));
+  }
+  #main_content &{
+    color: $brownDark;
+    font: normal 22px $font-common;
+    margin: 20 0 0 15px;
+  }
+  .testPadding &{
+    margin:4px;
+    padding:4px;
+  }
+}
+h2 {
+  .box &{
+    height: 34px; // 44px !important
+    overflow: hidden;
+  }
+  .content_box &.title{
+    margin-top: 8px;
+    margin-bottom: 20px;
+  }
+  &.title{
+    @media (max-width: 768px) {
+      line-height: normal !important;
+    }
+  }
+  div.item-page-shop .box &{
+    @include imHeader;
+  }
+  div.item-page-shop.fulltime &{
+    @include imHeader;
+  }
+  div.top_list &{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 400px;
+    margin-bottom: 0px;
+    margin-top:10px;
+    @include txtBrown;
+  }
+}
+h3 {
+  #left_part &{
+    color: $brownDarkUltra;
+    margin: 10px 0;
+    font: normal 18px $font-common;
+    text-transform: uppercase;
+  }
+  #right_part &{
+    color:#6d4721;
+    margin:10px 0;
+    font:normal 18px $font-common;
+    text-transform:uppercase;
+  }
+  div#main_content div.item-page-rules div &{
+    font-weight:300;
+  }
+  #left_part &{
+    color: $brown;
+    font-size:18px;
+    font-weight:bold;
+    margin: 5px 0px 4px 0px;
+    text-transform:none;
+  }
+  #right_part div[class*="-acy_subscribe"] &{
+    color:$brownDark;
+  }
+  #right_part div[class*="-go_catalogues"] div.custom-go_catalogues &{
+    margin:24px 0 auto auto;
+  }
+}
+h4{
+  .test_content_box pre &{
+    margin:0;
+    text-align:left;
   }
 }
 hr{
@@ -502,83 +610,6 @@ input{
     &.btn-primary{
       @include buttonSandCool;
     }
-  }
-}
-h1 {
-  #main_content &{
-    color: $brownDark;
-    font: normal 22px $font-common;
-    margin: 20 0 0 15px;
-  }
-  .testPadding &{
-    margin:4px;
-    padding:4px;
-  }
-}
-h2 {
-  .box &{
-    height: 34px; // 44px !important
-    overflow: hidden;
-  }
-  .content_box &.title{
-    margin-top: 8px;
-    margin-bottom: 20px;
-  }
-  &.title{
-    @media (max-width: 768px) {
-      line-height: normal !important;
-    }
-  }
-  div.item-page-shop .box &{
-    @include imHeader;
-  }
-  div.item-page-shop.fulltime &{
-    @include imHeader;
-  }
-  div.top_list &{
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    max-width: 400px;
-    margin-bottom: 0px;
-    margin-top:10px;
-    @include txtBrown;
-  }
-}
-h3 {
-  #left_part &{
-    color: $brownDarkUltra;
-    margin: 10px 0;
-    font: normal 18px $font-common;
-    text-transform: uppercase;
-  }
-  #right_part &{
-    color:#6d4721;
-    margin:10px 0;
-    font:normal 18px $font-common;
-    text-transform:uppercase;
-  }
-  div#main_content div.item-page-rules div &{
-    font-weight:300;
-  }
-  #left_part &{
-    color: $brown;
-    font-size:18px;
-    font-weight:bold;
-    margin: 5px 0px 4px 0px;
-    text-transform:none;
-  }
-  #right_part div[class*="-acy_subscribe"] &{
-    color:$brownDark;
-  }
-  #right_part div[class*="-go_catalogues"] div.custom-go_catalogues &{
-    margin:24px 0 auto auto;
-  }
-}
-h4{
-  .test_content_box pre &{
-    margin:0;
-    text-align:left;
   }
 }
 label{
@@ -693,29 +724,16 @@ pre{
   }
 }
 section{
-  #pic_top & {
-    //border-radius: 5px;
-    //box-shadow: 0 0 0 50px rgba(255, 255, 255, 0.5) inset;
-    border:green;
-    box-sizing: border-box;
-    height: 40px;
-    float: right;
-    line-height: 40px;
-    margin-right: 20px;
+  #header & {
+    background-color: #2b4519;
+    height: 26px;
+    @include opacity(0.7);
+    left: 0;
     position: absolute;
     right: 0;
-    text-align: center;
-    top: 4px;
-    transition: all 0.3s ease;
-    &:hover{
-      box-shadow: 0 0 0 50px rgba(255,255,255,0.8) inset;
-    }
-    &>div{
-      white-space: nowrap;
-      &>div {
-        float:left;
-      }
-    }
+    text-align: right;
+    top: 0;
+    z-index: 1;
   }
 }
 span {
@@ -766,6 +784,23 @@ span {
     float: left;
     margin-top: 4px;
     margin-left: 10px;
+  }
+  #header-left-side &{
+    color: $font-color-sand;
+    font-family: $font-common;
+    font-size: 13px;
+  }
+  #header-left-side div.floatRight &{
+    font-weight: bold;
+    &:nth-child(1){
+      margin-left: -14px;
+    }
+    &.separator{
+      border-right: solid 1px $font-color-sand;
+      display: inline-block;
+      font-size: 9px;
+      height: 9px;
+    }
   }
   #main_content &,
   #left_part &{
@@ -1009,6 +1044,7 @@ ul {
   }
   div#footer #bottom_menu #padd_bot_menu &{
     display:inline-table;
+    float: right;
     list-style:none;
     margin:0;
     overflow:hidden;

@@ -1,3 +1,7 @@
+@mixin bottomBlocksHeight{
+  height: 45px;
+  line-height: 45px;
+}
 @mixin buttonAsLink{
   background: none;
   border: none;

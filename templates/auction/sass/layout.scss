@@ -1,5 +1,8 @@
 #content{
-  padding: 1px 5.5% 0 5.5%;
+  padding: 10px $offsetPadding 0 $offsetPadding;
+}
+#footer{
+  padding: 0 $offsetPadding;
 }
 #page {
   margin: 0 auto;
