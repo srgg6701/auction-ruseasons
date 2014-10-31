@@ -1858,8 +1858,6 @@ div#footer #bottom_menu {
 
 /* line 101, ../sass/default.scss */
 #header {
-  background: url(../images/header.jpg) 130px 0 no-repeat;
-  height: 280px;
   left: 0;
   min-width: 450px;
   position: relative;
@@ -1881,7 +1879,12 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 118, ../sass/default.scss */
+/* line 117, ../sass/default.scss */
+#header-left-side, #header-right-side {
+  height: 145px;
+}
+
+/* line 120, ../sass/default.scss */
 #left_part {
   box-sizing: border-box;
   color: #172a17;
@@ -1893,7 +1896,7 @@ div#footer #bottom_menu {
   width: 200px;
 }
 @media (max-width: 768px) {
-  /* line 118, ../sass/default.scss */
+  /* line 120, ../sass/default.scss */
   #left_part {
     background: url(../images/body_bg.jpg) 0 0 repeat;
     box-shadow: 8px 8px 18px 4px rgba(0, 0, 0, 0.5);
@@ -1907,14 +1910,14 @@ div#footer #bottom_menu {
   }
 }
 @media (max-width: 768px) {
-  /* line 138, ../sass/default.scss */
+  /* line 140, ../sass/default.scss */
   #left_part.visible {
     transform: translateX(0);
   }
 }
 
 @media (max-width: 768px) {
-  /* line 144, ../sass/default.scss */
+  /* line 146, ../sass/default.scss */
   #logo-box {
     height: 46px !important;
     line-height: 46px !important;
@@ -1923,7 +1926,7 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 152, ../sass/default.scss */
+/* line 154, ../sass/default.scss */
 #logo_img {
   background: url(../../../templates/auction/images/temp/logo2.png) no-repeat center;
   background-size: 100%;
@@ -1934,7 +1937,7 @@ div#footer #bottom_menu {
   width: 116px;
 }
 @media (max-width: 768px) {
-  /* line 152, ../sass/default.scss */
+  /* line 154, ../sass/default.scss */
   #logo_img {
     top: 5px;
     height: 115px;
@@ -1943,20 +1946,20 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 167, ../sass/default.scss */
+/* line 169, ../sass/default.scss */
 #logo_text {
   left: 17px;
   position: absolute;
   top: 219px;
 }
 @media (max-width: 768px) {
-  /* line 171, ../sass/default.scss */
+  /* line 173, ../sass/default.scss */
   #logo_text::before {
     content: "Антикварные сезоны - аукцион и магазин";
   }
 }
 
-/* line 177, ../sass/default.scss */
+/* line 179, ../sass/default.scss */
 #logIn {
   height: 203px;
   padding-top: 1px;
@@ -1965,12 +1968,12 @@ div#footer #bottom_menu {
   width: 290px;
 }
 
-/* line 184, ../sass/default.scss */
+/* line 186, ../sass/default.scss */
 #logIn_wrapper {
   background: url(../images/login.png) 0 0 no-repeat;
 }
 
-/* line 187, ../sass/default.scss */
+/* line 189, ../sass/default.scss */
 #logo-box {
   box-sizing: border-box;
   float: left;
@@ -1981,14 +1984,14 @@ div#footer #bottom_menu {
   width: 33%;
 }
 
-/* line 196, ../sass/default.scss */
+/* line 198, ../sass/default.scss */
 #main_content {
   color: #301f07;
   font: normal 14px/17px Verdana, Geneva, sans-serif;
   padding: 1px 15px;
 }
 @media (max-width: 768px) {
-  /* line 196, ../sass/default.scss */
+  /* line 198, ../sass/default.scss */
   #main_content {
     margin-left: 0;
     margin-top: 10px;
@@ -1996,9 +1999,9 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 206, ../sass/default.scss */
+/* line 208, ../sass/default.scss */
 #main_menu {
-  background: url(../images/menu_bg.png) no-repeat 0 -5px;
+  background-color: #51713B;
   background-size: 100% 106%;
   height: 50px;
   left: 0px;
@@ -2008,7 +2011,7 @@ div#footer #bottom_menu {
   width: 100%;
 }
 @media (max-width: 768px) {
-  /* line 206, ../sass/default.scss */
+  /* line 208, ../sass/default.scss */
   #main_menu {
     background-position: 0 0;
     background: transparent !important;
@@ -2018,38 +2021,38 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 223, ../sass/default.scss */
+/* line 226, ../sass/default.scss */
 #make_bid {
   margin-top: 30px;
 }
 
 @media (min-width: 768px) {
-  /* line 226, ../sass/default.scss */
+  /* line 229, ../sass/default.scss */
   #mobile-menu-proposal {
     display: none;
   }
 }
 
-/* line 232, ../sass/default.scss */
+/* line 235, ../sass/default.scss */
 div#footer #bottom_menu #padd_bot_menu {
   margin-left: 30px;
 }
 @media (max-width: 768px) {
-  /* line 231, ../sass/default.scss */
+  /* line 234, ../sass/default.scss */
   #padd_bot_menu {
     margin-left: 15px !important;
     overflow: hidden;
   }
 }
 
-/* line 240, ../sass/default.scss */
+/* line 243, ../sass/default.scss */
 #pic_top {
   height: 211px;
-  margin-left: 146px;
+  margin-left: 6.5%;
   position: relative;
 }
 @media (max-width: 480px) {
-  /* line 240, ../sass/default.scss */
+  /* line 243, ../sass/default.scss */
   #pic_top {
     /*background-position-y: bottom;
     background-position-x: -24px;
@@ -2059,7 +2062,7 @@ div#footer #bottom_menu #padd_bot_menu {
   }
 }
 @media (max-width: 768px) {
-  /* line 240, ../sass/default.scss */
+  /* line 243, ../sass/default.scss */
   #pic_top {
     background-position: left bottom;
     height: 117px;
@@ -2068,7 +2071,7 @@ div#footer #bottom_menu #padd_bot_menu {
   }
 }
 
-/* line 260, ../sass/default.scss */
+/* line 264, ../sass/default.scss */
 #right_part {
   color: #172a17;
   float: right;
@@ -2076,12 +2079,12 @@ div#footer #bottom_menu #padd_bot_menu {
   width: 290px;
 }
 
-/* line 266, ../sass/default.scss */
+/* line 270, ../sass/default.scss */
 #sel_bids {
   height: 26px;
 }
 
-/* line 269, ../sass/default.scss */
+/* line 273, ../sass/default.scss */
 #search_box {
   height: 40px;
   margin-right: 6px;
@@ -2089,17 +2092,17 @@ div#footer #bottom_menu #padd_bot_menu {
   padding-right: 8px;
 }
 
-/* line 275, ../sass/default.scss */
+/* line 279, ../sass/default.scss */
 #tbl-bid-history {
   width: 100%;
 }
 
-/* line 278, ../sass/default.scss */
+/* line 282, ../sass/default.scss */
 #thanx-page {
   padding: 40px;
 }
 
-/* line 281, ../sass/default.scss */
+/* line 285, ../sass/default.scss */
 #your_order {
   margin-bottom: 2px;
   padding-top: 10px;

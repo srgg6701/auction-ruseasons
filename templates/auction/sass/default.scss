@@ -99,8 +99,7 @@
   width: 336px;
 }
 #header {
-  background: url(../images/header.jpg) 130px 0 no-repeat;
-  height: 280px;
+  //background: url(../images/header.jpg) 130px 0 no-repeat;
   left: 0;
   min-width: 450px;
   position: relative;
@@ -114,6 +113,9 @@
   @media (max-width: 768px){
     background-size: 84% 141px;
   }
+}
+#header-left-side,#header-right-side{
+  height: 145px;
 }
 #left_part {
   box-sizing: border-box;
@@ -204,7 +206,8 @@
   }
 }
 #main_menu{
-  background:url(../images/menu_bg.png) no-repeat 0 -5px;
+  //background:url(../images/menu_bg.png) no-repeat 0 -5px;
+  background-color: #51713B;
   background-size: 100% 106%;
   height:50px;
   left:0px;
@@ -240,7 +243,8 @@
 #pic_top {
   //background: url('../images/top_image.jpg') no-repeat;
   height: 211px;
-  margin-left: 146px;
+  margin-left: 6.5%;
+  //margin-left: 146px;
   position: relative;
   @media (max-width: 480px) {
     /*background-position-y: bottom;
