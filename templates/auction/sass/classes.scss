@@ -15,11 +15,13 @@
 }
 .background{
   #search_box &{
-    background: url("../images/search-brown.png") no-repeat;
-    float: left;
-    height: 16px;
-    margin: 7px 0px auto 7px;
-    width: 16px;
+    background: url("../images/search-brown.png") $greenDark no-repeat 6px 6px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    float: right;
+    height: 27px;
+    margin: 6px 0px 0 0;
+    width: 30px;
     &:hover{
       cursor: pointer;
     }

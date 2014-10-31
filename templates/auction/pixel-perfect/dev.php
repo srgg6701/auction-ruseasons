@@ -37,9 +37,13 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
         -moz-transform: translateX(50%);
         -ms-transform: translateX(50%);
         -o-transform: translateX(50%);
+        opacity: 0.3;
         transform: translateX(50%);
         white-space: nowrap;
         z-index: 2;
+    }
+    #controls:hover {
+        opacity: 1;
     }
     #opacity-range {
         margin-left: 20px;

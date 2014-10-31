@@ -174,24 +174,15 @@ $( function(){
             </div>
             	
             <div id="main_menu">
-                <div id="search_box">
+                <div id="search_box" class="floatLeft">
                     <jdoc:include type="modules" name="search" />
                 </div>
-                <?php /*
-                <div id="logo-box">
-					
-                    <a href="#" id="logo_text">
-                        <img src="<?php echo $templateUrl; ?>/images/logo_text.png" /></a>
-                    </a>
-                </div><?php */?>
+                <jdoc:include type="modules" name="user3" />
                 <div class="mobile_menu" id="mobile-menu-menu">Меню</div>
                 <div class="mobile_menu" id="mobile-menu-products">Предметы</div>
                 <a href="<?php JRoute::_('index.php?option=com_auction2013&layout=proposal')?>" class="floatRight" id="mobile-menu-proposal">Приём на торги</a>
-                <jdoc:include type="modules" name="user3" />
             </div>
-
-            <!--<div id="clock"></div>
-            <a href="<?=$this->baseurl?>" id="logo_img"></a>-->
+            <!--<a href="<?/*=$this->baseurl*/?>" id="logo_img"></a>-->
     	</div>
                 
         <div id="content">

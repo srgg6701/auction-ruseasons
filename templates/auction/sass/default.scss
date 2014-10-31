@@ -51,6 +51,7 @@
   top: 15px;
 }
 #content {
+  clear: both;
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
@@ -115,7 +116,15 @@
   }
 }
 #header-left-side,#header-right-side{
-  height: 145px;
+  height: 145px; opacity: 0.5;
+}
+#header-left-side{
+  background-color: red;
+  width: 42.65%;
+}
+#header-right-side{
+  background-color: violet;
+  width: 57.35%;
 }
 #left_part {
   box-sizing: border-box;
@@ -145,8 +154,8 @@
 }
 #logo-box{
   @media (max-width: 768px) {
-    height: 46px !important;
-    line-height: 46px !important;
+    height: $menuHeight !important;
+    line-height: $menuHeight !important;
     padding: 0 19px 0;
     width: 100% !important;
   }
@@ -206,13 +215,10 @@
   }
 }
 #main_menu{
-  //background:url(../images/menu_bg.png) no-repeat 0 -5px;
   background-color: #51713B;
   background-size: 100% 106%;
-  height:50px;
+  height: $menuHeight;
   left:0px;
-  margin-top:-2px;
-  padding-top:20px;
   position: relative;
   width: 100%;
   @media (max-width: 768px) {
@@ -227,8 +233,12 @@
   margin-top: 30px;
 }
 #mobile-menu-proposal{
+  @include menuLink(none);
   @media(min-width: 768px) {
-    display: none;
+    background-color: $greenDark;
+    margin-right: 6.5%;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 }
 #padd_bot_menu{
@@ -242,9 +252,8 @@
 }
 #pic_top {
   //background: url('../images/top_image.jpg') no-repeat;
-  height: 211px;
   margin-left: 6.5%;
-  //margin-left: 146px;
+  overflow: hidden;
   position: relative;
   @media (max-width: 480px) {
     /*background-position-y: bottom;
@@ -271,10 +280,12 @@
   height: 26px;
 }
 #search_box{
-  height: 40px;
+  //background: blue;
+  @include box-sizing(border-box);
+  height: $menuHeight;
   margin-right: 6px;
-  padding: 5px;
-  padding-right: 8px;
+  padding-top: 5px;
+  width: 24%;
 }
 #tbl-bid-history{
   width:100%;

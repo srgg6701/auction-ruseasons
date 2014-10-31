@@ -64,6 +64,19 @@
     }
   }
 }
+@mixin menuLink($text-transform:uppercase){
+  @include box-sizing(border-box);
+  color:$linkColorSand !important;
+  font:bold 12px/13px $font-common !important;
+  height: $menuHeight !important;
+  line-height: $menuHeight !important;
+  padding: 3px 6px !important;
+  text-decoration:none;
+  text-transform:$text-transform;
+  &:hover{
+    @include liActive;
+  }
+}
 @mixin message_area{
   border-style: solid;
   border-width: 2px;

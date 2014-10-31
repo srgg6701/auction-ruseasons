@@ -1,6 +1,9 @@
 // tags
 a {
   outline: none;
+  &.home{
+    display: none;
+  }
   &.lots_count{
     color: $veryDarkLink;
     font-weight:300;
@@ -119,17 +122,12 @@ a {
       }
     }
   }
-  #main_menu >ul >li &{
-    color:$linkColorSand;
-    font:bold 12px/13px $font-common;
+  #main_menu >ul >li >&{
     float:left;
-    height: 23px; text-decoration:none; text-transform:uppercase;
-    &:hover{
-      @include liActive;
-    }
+    @include menuLink;
   }
   #main_menu >ul >li.active &{
-    margin-bottom:5px;
+    //margin-bottom:5px;
     @include liActive;
     @include subMenu;
     padding:0;
@@ -380,8 +378,9 @@ div{
   }
   &.search{
     #search_box form & {
-      margin-left: 4px;
-      margin-top: 4px;
+      float: right;
+      margin-right: 4px;
+      margin-top: 7px;
     }
   }
   &#signup_auction{
@@ -462,10 +461,9 @@ input{
   &.inputbox{
     #search_box div.search &{
       border: none;
-      display: none;
       margin-left: 7px;
-      padding: 3px 6px;
-      width: 220px;
+      padding: 5px 6px;
+      width: 148px;
     }
   }
   &#enter_auction{
@@ -649,9 +647,9 @@ li{
   }
   #main_menu >ul >&{
     &:first-child{
-      @media (max-width: 768px) {
-        display: none !important;
-      }
+      display: none !important;
+      /*@media (max-width: 768px) {
+      }*/
     }
   }
   #main_menu >ul >li >ul >& {
@@ -696,14 +694,16 @@ pre{
 }
 section{
   #pic_top & {
-    border-radius: 5px;
-    box-shadow: 0 0 0 50px rgba(255, 255, 255, 0.5) inset;
+    //border-radius: 5px;
+    //box-shadow: 0 0 0 50px rgba(255, 255, 255, 0.5) inset;
+    border:green;
     box-sizing: border-box;
     height: 40px;
     float: right;
     line-height: 40px;
     margin-right: 20px;
-    position: relative;
+    position: absolute;
+    right: 0;
     text-align: center;
     top: 4px;
     transition: all 0.3s ease;
@@ -966,12 +966,15 @@ ul {
     }
   }
   #main_menu >&{
-    float: right;
+    display: table;
+    float: left;
     list-style:none;
     margin:0;
-    margin-right: 6px;
-    margin-top: 16px;
-    width: 67%;
+    padding-left: 13px;
+    //margin-left: 25%;
+    //margin-right: 6px;
+    //margin-top: 16px;
+    //width: 67%;
     @media (max-width: 768px) {
       border-top-color: #789D50 !important;
     }
@@ -982,7 +985,7 @@ ul {
     display:none;
     left:0;
     position:absolute;
-    top:16px;
+    top:45px;
     width:auto;
     z-index:2;
     @media (max-width: 768px) {
