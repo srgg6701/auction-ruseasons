@@ -103,9 +103,10 @@
   background: url(../images/header.jpg) 130px 0 no-repeat;
   height: 280px;
   left: 0;
+  min-width: 450px;
   position: relative;
   top: 0;
-  @media (max-width: 480px){
+  @media (max-width: 768px){
     height: auto;
     background-size: 313px 140px;
     background-position-x: 119px;
