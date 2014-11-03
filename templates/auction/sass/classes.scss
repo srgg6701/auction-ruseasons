@@ -68,6 +68,12 @@
 .H2{
   @include headerThin2;
 }
+.hide-from-middle{
+  display: none !important;
+  @media(max-width: 768px){
+    display: block !important;
+  }
+}
 .img{
   div.item-page-shop.fulltime.box &{
     height:228px;
@@ -83,7 +89,6 @@
   @include message_area;
 }
 .left {
-  //margin-left: 220px;
   @media(max-width: 768px){
     margin-left: 0;
   }
@@ -226,6 +231,9 @@
   position: relative;
   top: 50%;
   @include transform(translateY(-50%));
+}
+.vertical-spacer{
+  @include hr-space;
 }
 .width75{
   box-sizing:border-box;

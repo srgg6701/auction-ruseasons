@@ -186,13 +186,13 @@ $( function(){
                 <div id="search_box" class="floatLeft">
                     <jdoc:include type="modules" name="search" />
                 </div>
+                <hr class="vertical-spacer hide-from-middle"/>
                 <div class="mobile_menu" id="mobile-menu-menu">Меню</div>
                 <div class="mobile_menu" id="mobile-menu-products">Предметы</div>
                 <jdoc:include type="modules" name="user3" />
                 <a href="<?php JRoute::_('index.php?option=com_auction2013&layout=proposal')?>" class="floatRight" id="mobile-menu-proposal">Приём на торги</a>
             </div>
     	</div>
-                
         <div id="content">
 		<?php $style="";?>
   	<?php $style="left "?>

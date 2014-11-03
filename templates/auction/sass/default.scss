@@ -291,12 +291,15 @@
   height: 26px;
 }
 #search_box{
-  //background: blue;
   @include box-sizing(border-box);
   height: $menuHeight;
   margin-right: 6px;
   padding-top: 5px;
   width: 24%;
+  @media (max-width: 768px){
+    position: absolute;
+    right: 26%;
+  }
 }
 #tbl-bid-history{
   width:100%;

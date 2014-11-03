@@ -39,6 +39,12 @@
   margin:0;
   padding:0;
 }
+@mixin hr-space($padding-top:0px){
+  display: block;
+  clear: both;
+  border: none;
+  padding-top: $padding-top;
+}
 @mixin imHeader{
   font-size: 14px;
   a{
