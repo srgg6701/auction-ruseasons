@@ -1,0 +1,12 @@
+// здесь расположены элементы, параметры которых прямо зависят друг от друга, т.е., они являются переключателями
+@media (max-width: $media-narrow) {
+  #header-left-side{
+    width: 13% !important;
+  }
+  #header-right-side{
+    width: 87% !important;
+  }
+  #header-left-inside{
+    display: block !important;
+  }
+}

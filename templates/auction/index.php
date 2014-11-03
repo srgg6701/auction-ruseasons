@@ -169,17 +169,26 @@ $( function(){
                 </div>
             </section>
             <div id="pic_top">
-                <div class="floatLeft" id="header-left-side">
+            <?php
+            function makeAuctionText($div_id,$logo_id){?>
+                <div class="floatLeft" id="<?php echo $div_id;?>">
                     <a href="">
-                        <div class="floatRight">
-                            <span>Салон</span>
-                            <span class="separator">&nbsp;</span>
-                            <span>Аукцион</span>
-                            <h1>Антикварные сезоны</h1>
+                        <div id="<?php echo $logo_id;?>">
+                            <div>
+                                <span>Салон</span>
+                                <span class="separator">&nbsp;</span>
+                                <span>Аукцион</span>
+                            </div>
+                            <h1>Антикварные&nbsp;<wbr/>сезоны</h1>
                         </div>
                     </a>
-                </div>                    
-                <div class="floatLeft" id="header-right-side"></div>
+                </div>
+            <?php
+            }
+            makeAuctionText("header-left-side","logo-texts");?>
+            <div class="floatLeft" id="header-right-side"><?php
+                makeAuctionText("header-left-inside","logo-texts-inside");
+                    ?></div>
             </div>
             	
             <div id="main_menu">

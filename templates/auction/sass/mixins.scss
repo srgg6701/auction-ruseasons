@@ -78,6 +78,9 @@
   @include box-sizing(border-box);
   color:$linkColorSand !important;
   font:bold 12px/13px $font-common !important;
+  @media (max-width: $media-middle-next) {
+    font-weight: normal !important;
+  }
   height: $menuHeight !important;
   line-height: $menuHeight !important;
   padding: 3px $offset !important;
@@ -96,7 +99,7 @@
 }
 @mixin tdMobileBlock480{
   div#main_content.left table.cabinet tr &:not(:nth-child(1)):not(:nth-child(2)) {
-    @media (max-width: 768px) {
+    @media (max-width: $media-middle) {
       display: block !important;
     }
   }
@@ -104,7 +107,7 @@
 @mixin tdMobileBlockBorderRight480{
   div#main_content.left table.cabinet tr &:nth-child(1),
   div#main_content.left table.cabinet tr &:nth-child(2) {
-    @media (max-width: 768px) {
+    @media (max-width: $media-middle) {
       &:not(:last-child){
         border-right: solid 1px;
       }

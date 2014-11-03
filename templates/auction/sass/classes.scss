@@ -40,7 +40,7 @@
   height: 0;
 }
 .deeper{
-  @media (max-width: 768px){
+  @media (max-width: $media-middle){
     background-color: #789D50 !important;
     &::before{
       content: "►";
@@ -70,7 +70,7 @@
 }
 .hide-from-middle{
   display: none !important;
-  @media(max-width: 768px){
+  @media(max-width: $media-middle){
     display: block !important;
   }
 }
@@ -89,7 +89,7 @@
   @include message_area;
 }
 .left {
-  @media(max-width: 768px){
+  @media(max-width: $media-middle){
     margin-left: 0;
   }
 }
@@ -121,7 +121,7 @@
 }
 .mobile_menu {
   display: none;
-  @media (max-width: 768px){
+  @media (max-width: $media-middle){
     background-color: #417337;
     border-radius: 4px;
     color: #ead8b0;
@@ -133,14 +133,14 @@
     padding: 8px 20px;
   }
   &:hover{
-    @media (max-width: 768px){
+    @media (max-width: $media-middle){
       background-color: #789D50;
     }
   }
 }
 .moduletable{
   #left_part &{
-    @media (max-width: 768px) {
+    @media (max-width: $media-middle) {
       margin: 3px -4px;
       padding: 4px 10px;
       white-space: nowrap;
@@ -163,6 +163,21 @@
 }
 .right {
   margin-right: 310px;
+}
+.separator{
+  border-right: solid 1px $font-color-sand;
+  display: inline-block;
+  font-size: 9px;
+  //height: 9px;
+  #logo-texts &{
+    font-size: 6px;
+    font-weight: bold;
+    margin-right: 2px;
+    padding-top: 4px;
+  }
+  #logo-texts-inside &{
+    @include box-shadow(1px 3px 10px black);
+  }
 }
 .solid{
   opacity:1 !important;
@@ -223,7 +238,7 @@
   }
 }
 .top_list_mn{
-  @media(max-width: 768px){
+  @media(max-width: $media-middle){
     display: none !important;
   }
 }
