@@ -456,7 +456,8 @@ h1{
     font-family: AcademyRegular;
     margin: 0;
     margin-top: 10px;
-    padding: 0;
+    padding: 0 6px 0 83px;
+    text-align: right;
     text-transform: uppercase;  
     @include transform(scaleX(1.1));
   }
@@ -795,7 +796,7 @@ span {
   #header-left-side div.floatRight &{
     font-weight: bold;
     &:nth-child(1){
-      margin-left: -14px;
+      margin-left: 72px;
     }
     &.separator{
       border-right: solid 1px $font-color-sand;
@@ -1011,6 +1012,7 @@ ul {
     width: 45.5%;
     @media (max-width: 768px) {
       border-top-color: #789D50 !important;
+      display: none;
     }
   }
   #main_menu >ul >li>& {
