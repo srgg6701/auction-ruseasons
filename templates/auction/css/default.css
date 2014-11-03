@@ -2049,8 +2049,15 @@ div#footer #bottom_menu {
   overflow: hidden;
   position: relative;
 }
+@media (max-width: 768px) {
+  /* line 61, ../sass/default.scss */
+  #content {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
 
-/* line 67, ../sass/default.scss */
+/* line 71, ../sass/default.scss */
 #copyright {
   color: #fbe8b3;
   height: 45px;
@@ -2060,7 +2067,7 @@ div#footer #bottom_menu {
   padding-left: 10px;
 }
 @media (max-width: 768px) {
-  /* line 67, ../sass/default.scss */
+  /* line 71, ../sass/default.scss */
   #copyright {
     float: right !important;
     height: 18px !important;
@@ -2069,7 +2076,7 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 81, ../sass/default.scss */
+/* line 85, ../sass/default.scss */
 #dOutput {
   background-color: #FF9;
   border: solid 2px #CCC;
@@ -2083,57 +2090,51 @@ div#footer #bottom_menu {
   top: 40px;
   right: 10px;
 }
-/* line 93, ../sass/default.scss */
+/* line 97, ../sass/default.scss */
 #dOutput * {
   line-height: 19px;
 }
 
-/* line 97, ../sass/default.scss */
+/* line 101, ../sass/default.scss */
 #footer {
   background-color: #437339;
   border-top: solid #739255;
   overflow: hidden !important;
 }
 @media (max-width: 768px) {
-  /* line 97, ../sass/default.scss */
+  /* line 101, ../sass/default.scss */
   #footer {
     height: auto !important;
     padding-top: 10px !important;
   }
 }
 
-/* line 107, ../sass/default.scss */
+/* line 111, ../sass/default.scss */
 #galleryThumbs {
   margin-top: 5px;
   text-align: center;
   width: 336px;
 }
 
-/* line 112, ../sass/default.scss */
+/* line 116, ../sass/default.scss */
 #header {
   background: url(../images/pattern.jpg);
+  background-size: inherit;
   left: 0;
   min-width: 450px;
   position: relative;
   top: 0;
 }
 @media (max-width: 768px) {
-  /* line 112, ../sass/default.scss */
+  /* line 116, ../sass/default.scss */
   #header {
     height: auto;
-    background-size: 313px 140px;
     background-position-x: 119px;
     margin-right: 15px;
   }
 }
-@media (max-width: 768px) {
-  /* line 112, ../sass/default.scss */
-  #header {
-    background-size: 84% 141px;
-  }
-}
 
-/* line 128, ../sass/default.scss */
+/* line 129, ../sass/default.scss */
 #header-left-inside {
   -webkit-box-shadow: 0 -35px 30px -14px rgba(0, 0, 0, 0.5) inset;
   -moz-box-shadow: 0 -35px 30px -14px rgba(0, 0, 0, 0.5) inset;
@@ -2145,39 +2146,39 @@ div#footer #bottom_menu {
   width: 100%;
 }
 
-/* line 137, ../sass/default.scss */
+/* line 138, ../sass/default.scss */
 #header-left-side,
 #header-right-side {
   height: 145px;
 }
 
-/* line 140, ../sass/default.scss */
+/* line 141, ../sass/default.scss */
 #header-left-side {
   background: url(../images/logo.png) no-repeat 4.5% 45px;
   position: relative;
   width: 42.65%;
 }
 @media (max-width: 768px) {
-  /* line 140, ../sass/default.scss */
+  /* line 141, ../sass/default.scss */
   #header-left-side {
     background-position-y: 32px;
   }
 }
 @media (max-width: 850px) {
-  /* line 140, ../sass/default.scss */
+  /* line 141, ../sass/default.scss */
   #header-left-side {
     height: 140px;
   }
 }
 
-/* line 151, ../sass/default.scss */
+/* line 152, ../sass/default.scss */
 #header-right-side {
   background: url(../images/horses.jpg) no-repeat;
   background-size: cover;
   width: 57.35%;
 }
 
-/* line 156, ../sass/default.scss */
+/* line 157, ../sass/default.scss */
 #left_part {
   box-sizing: border-box;
   color: #172a17;
@@ -2189,7 +2190,7 @@ div#footer #bottom_menu {
   width: 200px;
 }
 @media (max-width: 768px) {
-  /* line 156, ../sass/default.scss */
+  /* line 157, ../sass/default.scss */
   #left_part {
     background: url(../images/body_bg.jpg) 0 0 repeat;
     box-shadow: 8px 8px 18px 4px rgba(0, 0, 0, 0.5);
@@ -2203,13 +2204,13 @@ div#footer #bottom_menu {
   }
 }
 @media (max-width: 768px) {
-  /* line 176, ../sass/default.scss */
+  /* line 177, ../sass/default.scss */
   #left_part.visible {
     transform: translateX(0);
   }
 }
 
-/* line 182, ../sass/default.scss */
+/* line 183, ../sass/default.scss */
 #logo-box {
   box-sizing: border-box;
   float: left;
@@ -2220,7 +2221,7 @@ div#footer #bottom_menu {
   width: 33%;
 }
 @media (max-width: 768px) {
-  /* line 182, ../sass/default.scss */
+  /* line 183, ../sass/default.scss */
   #logo-box {
     height: 46px !important;
     line-height: 46px !important;
@@ -2229,7 +2230,7 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 197, ../sass/default.scss */
+/* line 198, ../sass/default.scss */
 #logo_img {
   background: url(../../../templates/auction/images/temp/logo2.png) no-repeat center;
   background-size: 100%;
@@ -2240,7 +2241,7 @@ div#footer #bottom_menu {
   width: 116px;
 }
 @media (max-width: 768px) {
-  /* line 197, ../sass/default.scss */
+  /* line 198, ../sass/default.scss */
   #logo_img {
     top: 5px;
     height: 115px;
@@ -2249,37 +2250,37 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 212, ../sass/default.scss */
+/* line 213, ../sass/default.scss */
 #logo-texts {
   bottom: 29px;
   left: 26%;
   position: absolute;
 }
 @media (max-width: 630px) {
-  /* line 212, ../sass/default.scss */
+  /* line 213, ../sass/default.scss */
   #logo-texts {
     display: none;
   }
 }
 @media (max-width: 768px) {
-  /* line 212, ../sass/default.scss */
+  /* line 213, ../sass/default.scss */
   #logo-texts {
     margin-top: 37px;
   }
 }
 @media (max-width: 850px) {
-  /* line 212, ../sass/default.scss */
+  /* line 213, ../sass/default.scss */
   #logo-texts {
     left: 30%;
   }
 }
 
-/* line 226, ../sass/default.scss */
+/* line 227, ../sass/default.scss */
 #logo-texts-inside {
   position: relative;
 }
 
-/* line 229, ../sass/default.scss */
+/* line 230, ../sass/default.scss */
 #logIn {
   height: 203px;
   padding-top: 1px;
@@ -2288,19 +2289,19 @@ div#footer #bottom_menu {
   width: 290px;
 }
 
-/* line 236, ../sass/default.scss */
+/* line 237, ../sass/default.scss */
 #logIn_wrapper {
   background: url(../images/login.png) 0 0 no-repeat;
 }
 
-/* line 239, ../sass/default.scss */
+/* line 240, ../sass/default.scss */
 #main_content {
   color: #301f07;
   font: normal 14px/17px Verdana, Geneva, sans-serif;
   padding: 1px 15px;
 }
 @media (max-width: 768px) {
-  /* line 239, ../sass/default.scss */
+  /* line 240, ../sass/default.scss */
   #main_content {
     margin-left: 0;
     margin-top: 10px;
@@ -2308,7 +2309,7 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 249, ../sass/default.scss */
+/* line 250, ../sass/default.scss */
 #main_menu {
   background-color: #51713B;
   background-size: 100% 106%;
@@ -2318,7 +2319,7 @@ div#footer #bottom_menu {
   width: 100%;
 }
 @media (max-width: 768px) {
-  /* line 249, ../sass/default.scss */
+  /* line 250, ../sass/default.scss */
   #main_menu {
     background-position: 0 0;
     background: transparent !important;
@@ -2328,12 +2329,12 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 264, ../sass/default.scss */
+/* line 265, ../sass/default.scss */
 #make_bid {
   margin-top: 30px;
 }
 
-/* line 267, ../sass/default.scss */
+/* line 268, ../sass/default.scss */
 #mobile-menu-proposal {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -2347,7 +2348,7 @@ div#footer #bottom_menu {
   text-transform: none;
 }
 @media (max-width: 850px) {
-  /* line 267, ../sass/default.scss */
+  /* line 268, ../sass/default.scss */
   #mobile-menu-proposal {
     font-weight: normal !important;
   }
@@ -2358,7 +2359,7 @@ div#footer #bottom_menu {
   color: #e9e4bc;
 }
 @media (min-width: 768px) {
-  /* line 267, ../sass/default.scss */
+  /* line 268, ../sass/default.scss */
   #mobile-menu-proposal {
     background-color: #43622d;
     margin-right: 6.5%;
@@ -2367,19 +2368,19 @@ div#footer #bottom_menu {
   }
 }
 
-/* line 277, ../sass/default.scss */
+/* line 278, ../sass/default.scss */
 div#footer #bottom_menu #padd_bot_menu {
   margin-left: 30px;
 }
 @media (max-width: 768px) {
-  /* line 276, ../sass/default.scss */
+  /* line 277, ../sass/default.scss */
   #padd_bot_menu {
     margin-left: 15px !important;
     overflow: hidden;
   }
 }
 
-/* line 285, ../sass/default.scss */
+/* line 286, ../sass/default.scss */
 #pic_top {
   margin-left: 6.5%;
   overflow: hidden;
@@ -2394,7 +2395,7 @@ div#footer #bottom_menu #padd_bot_menu {
   }*/
 }
 @media (max-width: 768px) {
-  /* line 285, ../sass/default.scss */
+  /* line 286, ../sass/default.scss */
   #pic_top {
     background-position: left bottom;
     height: 117px;
@@ -2404,7 +2405,7 @@ div#footer #bottom_menu #padd_bot_menu {
   }
 }
 
-/* line 306, ../sass/default.scss */
+/* line 307, ../sass/default.scss */
 #right_part {
   color: #172a17;
   float: right;
@@ -2412,12 +2413,12 @@ div#footer #bottom_menu #padd_bot_menu {
   width: 290px;
 }
 
-/* line 312, ../sass/default.scss */
+/* line 313, ../sass/default.scss */
 #sel_bids {
   height: 26px;
 }
 
-/* line 315, ../sass/default.scss */
+/* line 316, ../sass/default.scss */
 #search_box {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -2431,7 +2432,7 @@ div#footer #bottom_menu #padd_bot_menu {
   }*/
 }
 @media (max-width: 768px) {
-  /* line 315, ../sass/default.scss */
+  /* line 316, ../sass/default.scss */
   #search_box {
     left: 245px;
     position: absolute;
@@ -2440,17 +2441,17 @@ div#footer #bottom_menu #padd_bot_menu {
   }
 }
 
-/* line 331, ../sass/default.scss */
+/* line 332, ../sass/default.scss */
 #tbl-bid-history {
   width: 100%;
 }
 
-/* line 334, ../sass/default.scss */
+/* line 335, ../sass/default.scss */
 #thanx-page {
   padding: 40px;
 }
 
-/* line 337, ../sass/default.scss */
+/* line 338, ../sass/default.scss */
 #your_order {
   margin-bottom: 2px;
   padding-top: 10px;

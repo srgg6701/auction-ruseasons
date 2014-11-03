@@ -63,6 +63,10 @@
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
+  @media (max-width: $media-middle){
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 #copyright{
   color:#fbe8b3;
@@ -111,18 +115,15 @@
 }
 #header {
   background: url(../images/pattern.jpg);
+  background-size: inherit;
   left: 0;
   min-width: 450px;
   position: relative;
   top: 0;
   @media (max-width: $media-middle){
     height: auto;
-    background-size: 313px 140px;
     background-position-x: 119px;
     margin-right: 15px;
-  }
-  @media (max-width: $media-middle){
-    background-size: 84% 141px;
   }
 }
 #header-left-inside{
