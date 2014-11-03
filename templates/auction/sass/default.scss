@@ -244,7 +244,7 @@
   margin-top: 30px;
 }
 #mobile-menu-proposal{
-  @include menuLink(none);
+  @include menuLink(1.8%,none);
   @media(min-width: 768px) {
     background-color: $greenDark;
     margin-right: 6.5%;

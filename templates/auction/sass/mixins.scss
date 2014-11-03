@@ -68,13 +68,13 @@
     }
   }
 }
-@mixin menuLink($text-transform:uppercase){
+@mixin menuLink($offset,$text-transform:uppercase){
   @include box-sizing(border-box);
   color:$linkColorSand !important;
   font:bold 12px/13px $font-common !important;
   height: $menuHeight !important;
   line-height: $menuHeight !important;
-  padding: 3px 6px !important;
+  padding: 3px $offset !important;
   text-decoration:none;
   text-transform:$text-transform;
   &:hover{
