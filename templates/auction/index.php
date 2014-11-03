@@ -59,7 +59,9 @@ window.addEvent('load', function() {
 			});
   </script>
 <?php endif;
-	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
+$dev_server = strstr($_SERVER['HTTP_HOST'],"localhost");
+/*if(!$dev_server){
+    ?>
 <script type="text/javascript">
 <!--
 window.addEvent('domready', function() {
@@ -91,14 +93,14 @@ window.addEvent('domready', function() {
 });
 -->
 </script>
-<?php }?>
+<?php }*/?>
 <script src="<?=$templateUrl?>/js/common.js"></script>
 <?php /*?>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<?php */	
-	if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
+<?php */
+    if(!$dev_server){?>
 <!-- Yandex.Metrika -->
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
 <?php }?>
@@ -147,7 +149,7 @@ $( function(){
 <?php endif;?>
 </head>
 <body>
-<?php   include_once 'pixel-perfect/dev.php';
+<?php   if($dev_server) include_once 'pixel-perfect/dev.php';
 ?>
 	<div id="page">
         <div id="header">
@@ -254,7 +256,7 @@ $( function(){
             <div class="vertically-aligned">&copy; 2010 Антикварные Сезоны</div>
   <?php else: ?>
   <jdoc:include type="modules" name="copyright" />
-  <?php endif; ?>
+  <?php endif;?>
 			</div>
         	
         	<div id="bottom_menu">
@@ -262,7 +264,7 @@ $( function(){
                 	<?php // ul ?>
             		<jdoc:include type="modules" name="footer" />
 					<div id="mailru_counter">
-<?php if(!strstr($_SERVER['HTTP_HOST'],"localhost")){?>
+<?php if(!$dev_server){?>
                         <!--Rating@Mail.ru counter-->
                         <script language="javascript" type="text/javascript">//<![CDATA[
                         d=document;var a='';a+=';r='+escape(d.referrer);js=10;//]]></script>
@@ -334,7 +336,7 @@ jQuery( function($){
 			$(innerBlock).toggle();
 		}
 	});
-<?php   if(strstr($_SERVER['HTTP_HOST'],"localhost")):?>
+<?php   if($dev_server):?>
     //console.log(window.outerWidth);
     window.onresize=function(){
         document.title = window.outerWidth;

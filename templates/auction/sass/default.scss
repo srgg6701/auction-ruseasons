@@ -129,8 +129,8 @@
 #header-left-inside{
   @include box-shadow(0 -35px 30px -14px rgba(0,0,0,0.5) inset);
   display: none;
-  height: 91px;
-  margin-top: 26px;
+  height: 79px;
+  margin-top: 38px;
   text-align: center;
   width: 100%;
 }
@@ -147,6 +147,7 @@
   }
   @media (max-width: $media-middle-next) {
     height: 140px;
+
   }
 }
 #header-right-side{
@@ -284,24 +285,15 @@
   }
 }
 #pic_top {
-  //background: url('../images/top_image.jpg') no-repeat;
   margin-left: 6.5%;
   overflow: hidden;
   position: relative;
-  /*@media (max-width: 480px) {
-    //background-position-y: bottom;
-    //background-position-x: -24px;
-    //background-size: 165%;
-    //height: 117px;
-    //margin: auto 2px auto auto;
-    //width: 306px;
-  }*/
   @media (max-width: $media-middle) {
     background-position: left bottom;
     height: 117px;
     margin: auto 2px auto auto;
     margin-left: 17px;
-    width: 95%;
+    width: 94%;
   }
 }
 #right_part {

@@ -31,6 +31,10 @@ a {
     &:hover{
       text-decoration:none;
     }
+    @media (max-width: $media-middle){
+      height: 24px !important;
+      line-height: 24px !important;
+    }
   }
   div#signup_auction &{
     font-size:13px !important;
@@ -144,6 +148,10 @@ a {
   #main_menu >ul >li >&{
     float:left;
     @include menuLink(0px);
+    @media (max-width: $media-middle){
+      height: 24px !important;
+      line-height: 24px !important;
+    }
   }
   #main_menu >ul >li.active &{
     //margin-bottom:5px;
@@ -1041,10 +1049,11 @@ ul {
       border-bottom: solid 10px #417337;
       display: none;
       float: none !important;
-      margin: 0 0 0 15px !important;
+      margin: 0 0 10px 15px !important;
       padding: 0;
+      padding-left: 0 !important;
       position: static !important;
-      width: 96.5% !important;
+      width: 94.5% !important;
     }
     @media (min-width: $media-middle) {
       display:table;
@@ -1097,6 +1106,9 @@ ul {
     margin:0;
     overflow:hidden;
     padding:0;
+    @media (max-width: $media-middle){
+      padding-bottom: 15px;
+    }
   }
   div#main_content div.vmPag &{
     display:table;
