@@ -3,9 +3,10 @@
   src: url("fonts/academy-regular.eot");
   src: url("fonts/academy-regular.eot") format("embedded-opentype"), url("fonts/academy-regular.woff2") format("woff2"), url("fonts/academy-regular.woff") format("woff"), url("fonts/academy-regular.ttf") format("truetype"), url("fonts/academy-regular.svg#AcademyRegular") format("svg");
 }
-
 @font-face {
   font-family: 'AcademyBold';
   src: url("fonts/academy-bold.eot");
   src: url("fonts/academy-bold.eot") format("embedded-opentype"), url("fonts/academy-bold.woff2") format("woff2"), url("fonts/academy-bold.woff") format("woff"), url("fonts/academy-bold.ttf") format("truetype"), url("fonts/academy-bold.svg#AcademyBold") format("svg");
 }
+
+/*# sourceMappingURL=fonts.css.map */

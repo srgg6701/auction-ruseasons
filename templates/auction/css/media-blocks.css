@@ -1,0 +1,63 @@
+/*
+Error: Undefined variable: "$media-narrow".
+        on line 2 of C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/media-blocks.scss
+
+1: // ╨╖╨┤╨╡╤Б╤М ╤А╨░╤Б╨┐╨╛╨╗╨╛╨╢╨╡╨╜╤Л ╤Н╨╗╨╡╨╝╨╡╨╜╤В╤Л, ╨┐╨░╤А╨░╨╝╨╡╤В╤А╤Л ╨║╨╛╤В╨╛╤А╤Л╤Е ╨┐╤А╤П╨╝╨╛ ╨╖╨░╨▓╨╕╤Б╤П╤В ╨┤╤А╤Г╨│ ╨╛╤В ╨┤╤А╤Г╨│╨░, ╤В.╨╡., ╨╛╨╜╨╕ ╤П╨▓╨╗╤П╤О╤В╤Б╤П ╨┐╨╡╤А╨╡╨║╨╗╤О╤З╨░╤В╨╡╨╗╤П╨╝╨╕
+2: @media (max-width: $media-narrow) {
+3:   #header-left-side{
+4:     width: 13% !important;
+5:   }
+6:   #header-right-side{
+7:     width: 87% !important;
+
+Backtrace:
+C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/media-blocks.scss:2
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/script/tree/variable.rb:49:in `_perform'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/script/tree/node.rb:50:in `perform'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:526:in `block in run_interp_no_strip'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:524:in `map'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:524:in `run_interp_no_strip'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:531:in `run_interp'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:499:in `visit_media'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:157:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/engine.rb:368:in `_render_with_sourcemap'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/engine.rb:285:in `render_with_sourcemap'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:489:in `update_stylesheet'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:293:in `watch'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/sass_compiler.rb:46:in `watch!'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/commands/watch_project.rb:41:in `perform'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/commands/base.rb:18:in `execute'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/commands/project_base.rb:19:in `execute'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/bin/compass:30:in `block in <top (required)>'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/bin/compass:44:in `call'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/bin/compass:44:in `<top (required)>'
+C:/Ruby200-x64/bin/compass:23:in `load'
+C:/Ruby200-x64/bin/compass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$media-narrow\".\A         on line 2 of C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/media-blocks.scss\A \A 1: // ╨╖╨┤╨╡╤Б╤М ╤А╨░╤Б╨┐╨╛╨╗╨╛╨╢╨╡╨╜╤Л ╤Н╨╗╨╡╨╝╨╡╨╜╤В╤Л, ╨┐╨░╤А╨░╨╝╨╡╤В╤А╤Л ╨║╨╛╤В╨╛╤А╤Л╤Е ╨┐╤А╤П╨╝╨╛ ╨╖╨░╨▓╨╕╤Б╤П╤В ╨┤╤А╤Г╨│ ╨╛╤В ╨┤╤А╤Г╨│╨░, ╤В.╨╡., ╨╛╨╜╨╕ ╤П╨▓╨╗╤П╤О╤В╤Б╤П ╨┐╨╡╤А╨╡╨║╨╗╤О╤З╨░╤В╨╡╨╗╤П╨╝╨╕\A 2: @media (max-width: $media-narrow) {\A 3:   #header-left-side{\A 4:     width: 13% !important;\A 5:   }\A 6:   #header-right-side{\A 7:     width: 87% !important;"; }
