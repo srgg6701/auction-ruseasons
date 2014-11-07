@@ -63,6 +63,8 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
     }
     #substrate-wrapper {
         bottom: 0;
+        margin: auto;
+        max-width: 1100px;
         position: absolute;
         top: 0;
         z-index: -1;

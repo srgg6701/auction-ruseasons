@@ -290,6 +290,9 @@
 }
 #page{
   background: url(../images/header.png) repeat-x;
+  @media (max-width:768px){
+	background-position: 0 -26px;
+  }
 }
 #pic_top {
   margin-left: 1%;
