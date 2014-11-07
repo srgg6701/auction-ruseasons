@@ -406,6 +406,10 @@ div{
   #copyright >&{
     color: #669966;
   }
+  #logo-texts >&{
+    @include transform(scaleX(1.07));
+    margin-left: -4px;
+  }
   #logo-texts-inside >&{
     color: $font-color-sand;
     position: absolute;
@@ -460,6 +464,7 @@ form {
   }
   #search_box &{
     overflow: hidden;
+    width: 81.5%;
   }
   div#main_content.left  div#login_area div.login &{
     margin-left: -10px;
@@ -611,10 +616,11 @@ img {
 input{
   #search_box div.search &.inputbox{
     border: none;
-    left: 30%;
+    //left: 30%;
+    margin-left: 5%;
     padding: 5px 6px;
-    position: absolute;
-    width: 64%;
+    //position: absolute;
+    width: 86%;
     @media (max-width: $media-middle){
       left: 0;
       width: 100%;
@@ -710,7 +716,7 @@ li{
   }
   #main_menu ul &{
     display:table-cell;
-    padding-right: 7px;
+    //padding-right: 7px;
     position:relative;
     white-space: nowrap;
     @media (max-width: $media-middle) {
@@ -776,19 +782,6 @@ p {
 pre{
   .test_content_box &{
     margin:0;
-  }
-}
-section{
-  #header & {
-    background-color: #2b4519;
-    height: 26px;
-    @include opacity(0.7);
-    left: 0;
-    position: absolute;
-    right: 0;
-    text-align: right;
-    top: 0;
-    z-index: 1;
   }
 }
 span {
@@ -1064,8 +1057,8 @@ ul {
     float: left;
     list-style:none;
     margin:0;
-    padding-left: 2%;
-    width: 45.5%;
+    //padding-left: 2%;
+    width: 51.5%;
     @media (max-width: $media-middle) {
       border-top-color: #789D50 !important;
       display: none;

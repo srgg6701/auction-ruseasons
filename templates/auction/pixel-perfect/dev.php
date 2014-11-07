@@ -4,9 +4,11 @@ include_once '[path]/dev.php'; -->
 <!--
 2. Подключить jQuery, jQueryUI
 -->
+<?php /*
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
+*/
 $section = $_GET['section'];
 if(!$section) $section='default';
 /**
@@ -71,6 +73,7 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
                 ?>
     #substrate.<?php echo $class;?> {
         background: url(<?php echo $sPath;?>) no-repeat;
+        background-position-x: -242px;
     }
     <?php   endforeach;?>
     #substrate {
@@ -162,6 +165,6 @@ $box_shadow = '0 4px 8px rgba(0, 0, 0, 0.5), 0 -14px 20px 2px rgba(0, 0, 0, 0.1)
         $(tested_content).on('input', function(){
             $(page).css('opacity', changeOpacity(this));
         });
-        $('#controls').draggable();
+        //$('#controls').draggable();
     });
 </script>

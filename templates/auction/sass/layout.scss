@@ -1,10 +1,15 @@
+#header{
+  @include margins-wide;
+}
 #content{
-  padding: 10px $offsetPadding 0 $offsetPadding;
+  //padding: 10px $offsetPadding 0 $offsetPadding;
+  @include margins-wide;
+  padding-top: 10px;
 }
 #footer{
   padding: 0 $offsetPadding;
 }
 #page {
   margin: 0 auto;
-  max-width: 1100px;
+  //max-width: 1100px;
 }

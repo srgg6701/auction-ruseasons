@@ -74,6 +74,11 @@
     }
   }
 }
+@mixin margins-wide{
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
 @mixin menuLink($offset,$text-transform:uppercase){
   @include box-sizing(border-box);
   color:$linkColorSand !important;
