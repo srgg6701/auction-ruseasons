@@ -21,20 +21,6 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $templateUrl; ?>/css/mobile/default.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $templateUrl; ?>/css/mobile/screens.css" rel="stylesheet" type="text/css" />
-<link href="<?php echo $templateUrl; ?>/less/styles.less" rel="stylesheet/less" type="text/css">
-<?php
-    if(JRequest::getVar('option')=='com_users'):?>
-<link href="<?php echo $templateUrl; ?>/less/styles_user.less" rel="stylesheet/less" type="text/css">
-<?php
-    endif;
-	if(JRequest::getVar('option')=='com_virtuemart'):?>
-<link href="<?php echo $templateUrl; ?>/less/vm.less" rel="stylesheet/less" type="text/css">
-<?php endif;
-	if(JRequest::getVar('view')=='productdetails'):?>
-<link href="<?php echo $templateUrl; ?>/less/img_zoom.less" rel="stylesheet/less" type="text/css">
-<?php
-    endif;?>
-<script src="<?php echo $templateUrl; ?>/less/less.js" type="text/javascript"></script> 
 <?php
 endif;
 ?>
