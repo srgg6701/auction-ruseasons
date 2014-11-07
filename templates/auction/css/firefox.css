@@ -1,0 +1,14 @@
+@media (max-width: 768px) {
+    #header-left-side{
+        background-position: 4.5% 30px;
+    }
+    #main_menu{
+        margin-top: -10px;
+    }
+    #mobile-menu-proposal{
+        padding-top: 19px !important;
+    }
+    #search_box{
+        top: 11px;
+    }
+}

@@ -356,7 +356,7 @@ div{
     width:auto;
   }
   div#main_content.left &{
-    box-sizing:border-box;
+    @include box-sizing(border-box);
     &.para{
       margin:20px 0;
     }
@@ -729,7 +729,7 @@ li{
       display: list-item !important;
       overflow: hidden;
       padding: 0 8px 4px 15px;
-      box-sizing: border-box;
+      @include box-sizing(border-box);
     }
     &.deeper {
       color:$linkColorSand;

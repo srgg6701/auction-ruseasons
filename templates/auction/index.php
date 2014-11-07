@@ -5,7 +5,6 @@ $document = isset($this) ? $this : null;
 $baseUrl = $this->baseurl;
 $templateUrl = $this->baseurl . '/templates/' . $this->template;
 //artxComponentWrapper($document);
-// var_dump($this);//die();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -23,6 +22,11 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <link href="<?php echo $templateUrl; ?>/css/mobile/screens.css" rel="stylesheet" type="text/css" />
 <?php
 endif;
+if (JBrowser::getInstance()->getBrowser()=='mozilla'):?>
+    <link href="<?php echo $templateUrl; ?>/css/firefox.css" rel="stylesheet" type="text/css" />
+<?php
+endif;
+//$document->addStyleSheet($templateUrl . '/css/firefox.css' );
 ?>
 <link href="administrator/components/com_auction2013/system-xtra.css" rel="stylesheet" type="text/css">
 
@@ -36,7 +40,7 @@ endif;
 <script type="text/javascript" src="<?php echo $templateUrl; ?>/js/menu.js"></script>-->
 <?php if(JRequest::getVar('option')!=='com_component'):?> 
 <!-- Not com_content, include exmplicitly: -->
- <script src="<?=$baseUrl?>/media/system/js/mootools-core.js" type="text/javascript"></script>
+  <script src="<?=$baseUrl?>/media/system/js/mootools-core.js" type="text/javascript"></script>
   <script src="<?=$baseUrl?>/media/system/js/core.js" type="text/javascript"></script>
   <script src="<?=$baseUrl?>/media/system/js/caption.js" type="text/javascript"></script>
   <script type="text/javascript">

@@ -372,18 +372,24 @@ div#left_part .testPadding {
 
 /* line 253, ../sass/classes.scss */
 .width75 {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: 75%;
 }
 
 /* line 257, ../sass/classes.scss */
 .width70 {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: 70%;
 }
 
 /* line 261, ../sass/classes.scss */
 .width30 {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: 30%;
 }
@@ -930,6 +936,8 @@ div#footer #bottom_menu #padd_bot_menu div.mailru_counter {
 }
 /* line 358, ../sass/tags.scss */
 div#main_content.left div {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 /* line 360, ../sass/tags.scss */
@@ -1458,6 +1466,8 @@ ul.table li {
     display: list-item !important;
     overflow: hidden;
     padding: 0 8px 4px 15px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
 }
@@ -2205,6 +2215,8 @@ div#footer #bottom_menu {
 
 /* line 158, ../sass/default.scss */
 #left_part {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   color: #172A17;
   float: left;
@@ -2237,6 +2249,8 @@ div#footer #bottom_menu {
 
 /* line 184, ../sass/default.scss */
 #logo-box {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
   height: 50px;

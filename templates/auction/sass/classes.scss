@@ -251,15 +251,15 @@
   @include hr-space;
 }
 .width75{
-  box-sizing:border-box;
+  @include box-sizing(border-box);
   width:75%;
 }
 .width70{
-  box-sizing:border-box;
+  @include box-sizing(border-box);
   width:70%;
 }
 .width30{
-  box-sizing:border-box;
+  @include box-sizing(border-box);
   width:30%;
 }
 .warning_area{
