@@ -141,19 +141,21 @@ $( function(){
 <body>
     <section id="user-go">
         <div>
+            <section>
             <?php   $user = JFactory::getUser();
             if($user->guest==1):
                 $link_tail="view=login";
             else:
                 $link_tail="layout=lots";
             endif;?>
-            <div id="authorize">
-                <a href="<?php echo JRoute::_('index.php?option=com_users&'.$link_tail);?>">Кабинет</a>
-                <?php
-                if($user->guest==1):?>/
-                    <a href="<?php echo JRoute::_('index.php?option=com_auction2013&layout=register');?>">Регистрация</a>
-                <?php   endif;?>
-            </div>
+                <div id="authorize">
+                    <a href="<?php echo JRoute::_('index.php?option=com_users&'.$link_tail);?>">Кабинет</a>
+                    <?php
+                    if($user->guest==1):?>/
+                        <a href="<?php echo JRoute::_('index.php?option=com_auction2013&layout=register');?>">Регистрация</a>
+                    <?php   endif;?>
+                </div>
+            </section>
         </div>
     </section>
 <?php   if($dev_server) include_once 'pixel-perfect/dev.php';

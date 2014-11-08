@@ -1,19 +1,20 @@
 /*
 Error: Undefined mixin 'margins-wide'.
-        on line 2 of C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss, in `margins-wide'
-        from line 2 of C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss
+        on line 3 of c:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss, in `margins-wide'
+        from line 3 of c:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss
 
-1: #header{
-2:   @include margins-wide;
-3: }
-4: #content{
-5:   //padding: 10px $offsetPadding 0 $offsetPadding;
-6:   @include margins-wide;
-7:   padding-top: 10px;
+1: #header,
+2: #user-go section{
+3:   @include margins-wide;
+4: }
+5: #content{
+6:   //padding: 10px $offsetPadding 0 $offsetPadding;
+7:   @include margins-wide;
+8:   padding-top: 10px;
 
 Backtrace:
-C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss:2:in `margins-wide'
-C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss:2
+c:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss:3:in `margins-wide'
+c:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss:3
 C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/tree/visitors/perform.rb:338:in `block in visit_mixin'
 C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/stack.rb:98:in `block in with_mixin'
 C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/stack.rb:115:in `with_frame'
@@ -55,16 +56,20 @@ C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:4
 C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
 C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `each'
 C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:469:in `on_file_changed'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:328:in `block in watch'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/listener.rb:252:in `call'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/listener.rb:252:in `on_change'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/listener.rb:290:in `block in initialize_adapter'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/adapters/polling.rb:48:in `call'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
-C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/listen-1.3.1/lib/listen/adapter.rb:297:in `block in start_poller'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/sass-3.4.7/lib/sass/plugin/compiler.rb:293:in `watch'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/sass_compiler.rb:46:in `watch!'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/commands/watch_project.rb:41:in `perform'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/commands/base.rb:18:in `execute'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/commands/project_base.rb:19:in `execute'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/bin/compass:30:in `block in <top (required)>'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/bin/compass:44:in `call'
+C:/Ruby200-x64/lib/ruby/gems/2.0.0/gems/compass-1.0.1/bin/compass:44:in `<top (required)>'
+C:/Ruby200-x64/bin/compass:23:in `load'
+C:/Ruby200-x64/bin/compass:23:in `<main>'
 */
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'margins-wide'.\A         on line 2 of C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss, in `margins-wide'\A         from line 2 of C:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss\A \A 1: #header{\A 2:   @include margins-wide;\A 3: }\A 4: #content{\A 5:   //padding: 10px $offsetPadding 0 $offsetPadding;\A 6:   @include margins-wide;\A 7:   padding-top: 10px;"; }
+  content: "Error: Undefined mixin 'margins-wide'.\A         on line 3 of c:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss, in `margins-wide'\A         from line 3 of c:/WebServers/home/localhost/www/auction-ruseasons/templates/auction/sass/layout.scss\A \A 1: #header,\A 2: #user-go section{\A 3:   @include margins-wide;\A 4: }\A 5: #content{\A 6:   //padding: 10px $offsetPadding 0 $offsetPadding;\A 7:   @include margins-wide;\A 8:   padding-top: 10px;"; }

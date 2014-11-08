@@ -1978,13 +1978,14 @@ div#usermenu div.moduletable ul.menu {
 }
 
 /* line 1, ../sass/layout.scss */
-#header {
+#header,
+#user-go section {
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 4, ../sass/layout.scss */
+/* line 5, ../sass/layout.scss */
 #content {
   max-width: 1100px;
   margin-left: auto;
@@ -1992,12 +1993,12 @@ div#usermenu div.moduletable ul.menu {
   padding-top: 10px;
 }
 
-/* line 9, ../sass/layout.scss */
+/* line 10, ../sass/layout.scss */
 #footer {
   padding: 0 5.5%;
 }
 
-/* line 12, ../sass/layout.scss */
+/* line 13, ../sass/layout.scss */
 #page {
   margin: 0 auto;
 }
