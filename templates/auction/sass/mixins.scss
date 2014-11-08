@@ -81,7 +81,7 @@
 }
 @mixin menuLink($offset,$text-transform:uppercase){
   @include box-sizing(border-box);
-  color:$linkColorSand !important;
+  color:$linkColorSandCommon !important;
   font:bold 12px/13px $font-common !important;
   @media (max-width: $media-middle-next) {
     font-weight: normal !important;
