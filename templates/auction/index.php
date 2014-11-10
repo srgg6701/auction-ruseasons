@@ -169,7 +169,7 @@ $( function(){
                     <a href="">
                         <div id="<?php echo $logo_id;?>">
                             <div>
-                                <span>Салон</span>
+                                <span id="saloon">Салон</span>
                                 <span class="separator">&nbsp;</span>
                                 <span>Аукцион</span>
                             </div>

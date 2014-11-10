@@ -618,10 +618,10 @@ input{
     margin-left: 5%;
     padding: 5px 6px;
     //position: absolute;
-    width: 86%;
+    width: 100%;//86%;
     @media (max-width: $media-middle){
       left: 0;
-      width: 100%;
+      //width: 100%;
     }
     /*@media (max-width: $media-very-narrow){
       left: auto;
@@ -838,19 +838,8 @@ span {
     color: #e4da99;//$font-color-sand;
     font-family: $font-common;
     font-size: 13px;
-  }
-  /*#header-left-side div.floatRight &{
     font-weight: bold;
-    &:nth-child(1){
-      margin-left: 72px;
-    }
-    &.separator{
-      border-right: solid 1px $font-color-sand;
-      display: inline-block;
-      font-size: 9px;
-      height: 9px;
-    }
-  }*/
+  }  
   #logo-texts-inside &{
     @include text-shadow(1px 1px 4px rgba(0,0,0,1));
   }
