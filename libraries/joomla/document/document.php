@@ -442,7 +442,10 @@ class JDocument extends JObject
 				$this->_metaTags['standard'][$name] = $content;
 			}
 		}
-
+        /* MODIFIED START */
+        // для мобильной версии
+        $this->_metaTags['standard']['viewport'] = "width=device-width, initial-scale=1";
+        /* MODIFIED END */
 		return $this;
 	}
 
