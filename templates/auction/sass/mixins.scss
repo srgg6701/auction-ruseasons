@@ -74,6 +74,13 @@
     }
   }
 }
+@mixin label-common{
+  display: inline-block;
+  padding-top: 4px;
+  text-align: right;
+  vertical-align:top;
+  width: 210px;
+}
 @mixin margins-wide{
   max-width: 1100px;
   margin-left: auto;

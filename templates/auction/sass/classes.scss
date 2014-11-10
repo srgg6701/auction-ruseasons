@@ -27,6 +27,7 @@
     }
   }
 }
+.buttonSand,
 .buttonSandCool{
   @include buttonSandCool;
 }
@@ -87,6 +88,9 @@
   border-color: #289FE4;
   display:table;
   @include message_area;
+}
+.item-page-registration{
+  margin-left: - $left-edge-offset;
 }
 .left {
   @media(max-width: $media-middle){
@@ -152,8 +156,6 @@
   opacity:0.2;
 }
 .product_s_desc{
-  //border-bottom: solid 1px $brown !important;
-  //margin-bottom: 14px !important;
   margin-top: 10px !important;
   padding: 8px 0;
   .box >&{  /*background-color: whitesmoke;*/

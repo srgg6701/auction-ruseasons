@@ -1,14 +1,15 @@
 <?php defined('_JEXEC') or die('Restricted access');
 // die('pageclass_sfx')?>
-<div class="item-page<?php echo $this->params->pageclass_sfx?>">
+<div class="item-page-registration<?php echo $this->params->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : 
 	
 	?><h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
 <?php endif; ?>
-<h2 class="title thinBrownHeader">Регистрация</h2>
+<h2 class="title H2">Регистрация</h2>
 <?php // выведем статью "Предложить предмет":
 $article=AuctionStuff::getArticleContent(19);	
 echo $article['introtext'];?>
+    <hr class="divider"/>
 	<form id="registration_form" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.registerOnAuction'); ?>" method="post" class="form-validate">
 		<div class="divider"></div>
 <?php $dWidth='642px';

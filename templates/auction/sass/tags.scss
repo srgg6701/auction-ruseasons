@@ -274,7 +274,7 @@ div{
     position:relative;
   }
   &#main_content.left{
-    margin-left: 220px;
+    margin-left: $left-edge-offset;
     @media (max-width: $media-middle) {
       margin-left: 0;
     }
@@ -413,6 +413,9 @@ div{
     position: absolute;
     top: -16px;
     width: 100%;
+  }
+  #registration_form &{
+    margin-top: 5px;
   }
   #right_part div[class*="-acy_subscribe"] &.acymailing_module_form{
     width:200px;
@@ -589,6 +592,13 @@ hr{
       border-bottom: $borderThickBrown;
     }
   }
+  &.divider{
+    border-top-color: rgb(221, 221, 221);
+    border-top-style: solid;
+    border-top-width: 2px;
+    height: 0px;
+    margin-bottom: 2px;
+  }
 }
 img {
   border: none;
@@ -675,12 +685,11 @@ label{
   #search_box div.search &{
     display:none;
   }
-  form#ask_form &{
-    display: inline-block;
-    padding-top: 4px;
-    text-align: right;
-    vertical-align:top;
-    width: 210px;
+  form#ask_form &,
+  form#proposal_form &,
+  form#registration_form &
+  {
+    @include label-common;
   }
 }
 li{
@@ -1104,7 +1113,7 @@ ul {
     margin-top:-3px;
   }
   div#usermenu div.moduletable &.menu{
-    margin-left: 220px;
+    margin-left: $left-edge-offset;
     margin-top: -3px;
     position:absolute;
   }
