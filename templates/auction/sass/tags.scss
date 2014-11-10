@@ -109,16 +109,16 @@ a {
     text-decoration: none;
   }
   #main_content &,
-  &#mobile-menu-proposal{
+  /*&#mobile-menu-proposal{
     color: $brownDark;
     text-decoration: none;
-  }
-  #main_menu ul.menu li.active >&{
+  }*/
+  #main_menu ul:not(#mobile-menu-proposal).menu li.active >&{
     @media (max-width: $media-middle) {
       display: inline !important;
     }
   }
-  #main_menu ul li &{
+  #main_menu ul:not(#mobile-menu-proposal) li &{
     @media (max-width: $media-middle) {
       float: none !important;
       color: #ead8b0 !important;
@@ -140,7 +140,7 @@ a {
       }
     }
   }
-  #main_menu >ul >li >&{
+  #main_menu >ul:not(#mobile-menu-proposal) >li >&{
     float:left;
     @include menuLink(0px);
     @media (max-width: $media-middle){
@@ -148,14 +148,14 @@ a {
       line-height: 24px !important;
     }
   }
-  #main_menu >ul >li.active &{
+  #main_menu >ul:not(#mobile-menu-proposal) >li.active &{
     @include liActive;
     @include subMenu;
     padding:0;
     text-decoration: none;
     color: #e9e4bc;
   }
-  #main_menu >ul >li >ul >li &{
+  #main_menu >ul:not(#mobile-menu-proposal) >li >ul >li &{
     border-bottom:1px solid #e9e4bc;
     padding-bottom:0px !important;
     width:100%;
@@ -171,15 +171,21 @@ a {
       height: 15px !important;
     }
   }
-  #main_menu >ul >li >ul >li.active &{
+  #main_menu >ul:not(#mobile-menu-proposal) >li >ul >li.active &{
     @include liActive;
     @include subMenu;
   }
-  #user-go &{
-    color:$linkColorSandCommon;
-    text-decoration: none;
-  }
-  &#mobile-menu-proposal{
+  #mobile-menu-proposal &{
+    @include menuLink(1.8%,none);
+    height: 41px !important;
+    line-height: normal !important;
+    margin-top: 4px;
+    padding-top: 15px !important;
+    @media(min-width: $media-middle) {
+      background-color: $greenDark;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
     font: normal 14px/17px $font-common;
     padding: 10px;
     @media (max-width:900px) {
@@ -193,6 +199,10 @@ a {
     @media (max-width:$media-very-narrow) {
       padding-right: 12px !important;
     }
+  }
+  #user-go &{
+    color:$linkColorSandCommon;
+    text-decoration: none;
   }
   #padd_bot_menu ul &{
     @media (max-width: $media-middle) {
@@ -747,7 +757,7 @@ li{
       }
     }
   }
-  #main_menu >ul >&{
+  #main_menu >ul:not(#mobile-menu-proposal) >&{
     &:first-child{
       display: none !important;
       /*@media (max-width: $media-middle) {
@@ -1037,7 +1047,7 @@ ul {
     margin-bottom: 22px;
     margin-top: 14px;
   }
-  #main_menu &{
+  #main_menu &:not(#mobile-menu-proposal){
     @media (max-width: $media-middle) {
       background-color: #417337;
       border-radius: 4px;
@@ -1055,7 +1065,7 @@ ul {
       display:table;
     }
   }
-  #main_menu >&{
+  #main_menu >&:not(#mobile-menu-proposal){
     display: table;
     float: left;
     list-style:none;

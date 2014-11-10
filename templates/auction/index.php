@@ -194,7 +194,8 @@ $( function(){
                 <hr class="vertical-spacer hide-from-middle"/>
                 <div class="mobile_menu" id="mobile-menu-menu">Меню</div>
                 <div class="mobile_menu" id="mobile-menu-products">Предметы</div>
-                <a href="<?php JRoute::_('index.php?option=com_auction2013&layout=proposal')?>" class="floatRight" id="mobile-menu-proposal">Приём на торги</a>
+                <!--<a href="<?php /*JRoute::_('index.php?option=com_auction2013&layout=proposal')*/?>" class="floatRight" id="mobile-menu-proposal">Приём на торги</a>-->
+                <jdoc:include type="modules" name="additional_menu" />
                 <jdoc:include type="modules" name="user3" />
             </div>
     	</div>

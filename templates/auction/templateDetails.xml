@@ -50,7 +50,8 @@
  <positions>
 
     <position>search</position>
-<position>user3</position>
+    <position>user3</position>
+    <positon>additional_menu</positon>
     <position>left_panel</position>
     <position>left</position>
     <position>right_over</position>

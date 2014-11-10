@@ -272,7 +272,7 @@
   margin-top: 30px;
 }
 #mobile-menu-proposal{
-  @include menuLink(1.8%,none);
+  /*@include menuLink(1.8%,none);
   height: 41px !important;
   line-height: normal !important;
   margin-top: 4px;
@@ -281,7 +281,10 @@
     background-color: $greenDark;
     padding-left: 20px !important;
     padding-right: 20px !important;
-  }
+  }*/
+  float: right;
+  margin: 0;
+  padding: 0;
 }
 #padd_bot_menu{
   div#footer #bottom_menu &{
