@@ -25,37 +25,25 @@ echo $article['introtext'];?>
 	<span class="req">*</span> Фото предмета в нескольких ракурсах (если имеется, фото подписи, марки или клейма).
 </div>
 <br/>
+<?php   foreach(range(1,3) as $index):?>
 <div class="form_item">
   <div class="form_element cf_fileupload">
-    <label style="width: 150px;" class="cf_label">Изображение 1</label>
-    <input type="file" name="mail_file" id="mail_file" size="20" title="" class="cf_fileinput cf_inputbox">
+    <label class="cf_label">
+        Фотография <?php echo $index;?>
+        <div>(*.JPG, Max 1.5 Mb):</div>
+    </label>
+    <input type="file" name="mail_file<?php
+        if($index>1) echo $index;
+    ?>" id="mail_file<?php
+    if($index>1) echo $index;
+    ?>" size="20" title="" class="cf_fileinput cf_inputbox">
     
   </div>
   <div class="cfclear">&nbsp;</div>
 </div>
-<div class="form_item">
-  <div class="form_element cf_fileupload">
-    <label style="width: 150px;" class="cf_label">Изображение 2</label>
-    <input type="file" name="mail_file2" id="mail_file2" size="20" title="" class="cf_fileinput cf_inputbox">
-    
-  </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<div class="form_item">
-  <div class="form_element cf_fileupload">
-    <label style="width: 150px;" class="cf_label">Изображение 3</label>
-    <input type="file" name="mail_file3" id="mail_file3" size="20" title="" class="cf_fileinput cf_inputbox">
-    
-  </div>
-  <div class="cfclear">&nbsp;</div>
-</div>
-<!--<div class="form_item">
-  <div class="form_element cf_textbox">
-* графы, обязательные для заполнения
-  <div class="cfclear">&nbsp;</div></div>
-</div>-->
+<?php   endforeach;?>
 <div align="center">
-    <input type="submit" name="sendApp" value="Отправить">
+    <input type="submit" class="buttonSand" name="sendApp" value="Отправить">
 </div>
 		<input type="hidden" name="option" value="com_auction2013" />
 		<input type="hidden" name="task" value="auction2013.sendApplication" />
@@ -66,7 +54,7 @@ jQuery(function($){
 	$('form#proposal_form').submit( function(){
 		var errs=0;
 		$('[required]').each( function(index,element){
-			console.info($(element).val());
+			//console.info($(element).val());
 			if (!$(element).val()){
 				$(element).css({
 					backgroundColor:'#FF6',

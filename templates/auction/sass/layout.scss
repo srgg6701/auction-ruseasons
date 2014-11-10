@@ -1,9 +1,9 @@
 #header,
-#user-go section{
+#user-go section,
+#footer >section{
   @include margins-wide;
 }
 #content{
-  //padding: 10px $offsetPadding 0 $offsetPadding;
   @include margins-wide;
   padding-top: 10px;
 }
@@ -12,5 +12,4 @@
 }
 #page {
   margin: 0 auto;
-  //max-width: 1100px;
 }

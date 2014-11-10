@@ -108,11 +108,9 @@ a {
     display: block;
     text-decoration: none;
   }
-  #main_content &,
-  /*&#mobile-menu-proposal{
+  #main_content &{
     color: $brownDark;
-    text-decoration: none;
-  }*/
+  }
   #main_menu ul:not(#mobile-menu-proposal).menu li.active >&{
     @media (max-width: $media-middle) {
       display: inline !important;
@@ -425,6 +423,14 @@ div{
     top: -16px;
     width: 100%;
   }
+  #proposal_form >&:not(.form_item){
+    margin-top: 5px;
+  }
+  #proposal_form &{
+    &.cfclear{
+      height: 4px;
+    }
+  }
   #registration_form &{
     margin-top: 5px;
   }
@@ -633,26 +639,18 @@ img {
   }
 }
 input{
+  #proposal_form &[type="text"]{
+    width: 66%;
+  }
   #search_box div.search &.inputbox{
     border: none;
-    //left: 30%;
     margin-left: 5%;
     padding: 5px 6px;
-    //position: absolute;
-    width: 100%;//86%;
+    width: 100%;
     @media (max-width: $media-middle){
       left: 0;
       //width: 100%;
     }
-    /*@media (max-width: $media-very-narrow){
-      left: auto;
-      right: 0px;
-      //width: 38%;
-      width: 90%;
-    }
-    @media (max-width: $media-extra-narrow){
-      width: 32%;
-    }*/
   }
   &#enter_auction{
     float:left;
@@ -701,6 +699,9 @@ label{
   form#registration_form &
   {
     @include label-common;
+    &.cf_label{
+      margin-top: -4px;
+    }
   }
 }
 li{
@@ -1027,6 +1028,10 @@ textarea{
     &#price_wiches{
       height:50px;
     }
+  }
+  #proposal_form &{
+    height: 150px;
+    width: 52.5%;
   }
 }
 ul {
