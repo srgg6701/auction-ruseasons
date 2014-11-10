@@ -13,7 +13,7 @@
 defined ('_JEXEC') or die('Restricted access');
 // include_once JPATH_SITE.DS.'tests.php';
 // VirtuemartViewCategory
-//commonDebug(__FILE__,__LINE__,$this, false, 2);
+//commonDebug(__FILE__,__LINE__,$this, true);
 //$subheader=($this->category->category_name)? $this->category->category_name:"Очные торги";
 
 HTML::pageHead('fulltime');

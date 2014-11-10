@@ -22,6 +22,8 @@ $templateUrl = $this->baseurl . '/templates/' . $this->template;
 <link href="<?php echo $templateUrl; ?>/css/mobile/screens.css" rel="stylesheet" type="text/css" />
 <?php
 endif;
+require_once JPATH_LIBRARIES . '/joomla/environment/browser.php';
+//C:\WebServers\home\localhost\www\auction-ruseasons\libraries\joomla\environment\browser.php
 if (JBrowser::getInstance()->getBrowser()=='mozilla'):?>
     <link href="<?php echo $templateUrl; ?>/css/firefox.css" rel="stylesheet" type="text/css" />
 <?php

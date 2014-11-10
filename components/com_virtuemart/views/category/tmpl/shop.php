@@ -30,7 +30,7 @@ defined ('_JEXEC') or die('Restricted access');
 //var_dump($this);die(); 
 
 $subheader=($this->category->category_name)? $this->category->category_name:"Магазин";
-
+//die('stopped: ' . __LINE__ . ', ' . __FILE__);
 HTML::pageHead('shop');
 if(JRequest::getVar('spag'))
 	var_dump($this->vmPagination); ?>
