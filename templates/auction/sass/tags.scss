@@ -169,6 +169,9 @@ a {
       height: 15px !important;
     }
   }
+  #main_menu >ul:not(#mobile-menu-proposal) >li >ul >li:last-child &{
+    border-bottom: none;
+  }
   #main_menu >ul:not(#mobile-menu-proposal) >li >ul >li.active &{
     @include liActive;
     @include subMenu;
