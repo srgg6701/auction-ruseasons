@@ -25,6 +25,9 @@
   margin-right: 20px;
   text-decoration: none;
   padding-left: 24px;
+  @media (max-width: $media-middle) {
+    margin-right:7%;
+  }
   #user-go &{
     color:$linkColorSandCommon;
   }
@@ -141,7 +144,7 @@
 }
 #header-left-side,
 #header-right-side{
-  height: 145px;
+  height: 146px;
 }
 #header-left-side{
   background: url(../images/logo.png) no-repeat 4.5% 45px;
@@ -254,11 +257,11 @@
   }
 }
 #main_menu{
-  //background-color: #51713B;
   background-size: 100% 106%;
   height: $menuHeight;
   left:0px;
   position: relative;
+  top: -1px;
   width: 100%;
   @media (max-width: $media-middle) {
     background-position: 0 0;
