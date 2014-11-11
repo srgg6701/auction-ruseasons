@@ -120,7 +120,13 @@ class SearchViewSearch extends JViewLegacy
 		$state->set('keyword', $searchword);
 		if ($error == null) {
 			$results	= $this->get('data');
-			$total		= $this->get('total');
+            /* MODIFIED START */
+            // добавить картинку к результатам поиска
+            $this->addImageToResults($results);
+            /* MODIFIED END */
+            //include_once JPATH_SITE.DS.'tests.php';
+            //commonDebug(__FILE__,__LINE__,$results);
+            $total		= $this->get('total');
 			$pagination	= $this->get('pagination');
 
 			require_once JPATH_SITE . '/components/com_content/helpers/route.php';
@@ -194,4 +200,22 @@ class SearchViewSearch extends JViewLegacy
 
 		parent::display($tpl);
 	}
+
+    /**
+     * Добавить картинку к результатам поиска
+     * @param $results
+     */
+    function addImageToResults(&$results){
+        $db=JFactory::getDbo();
+        foreach ($results as $i=>$result){
+            $query = "SELECT file_url_thumb
+  FROM #__virtuemart_medias,
+       #__virtuemart_product_medias
+ WHERE #__virtuemart_product_medias.virtuemart_product_id = $result->virtuemart_product_id
+   AND #__virtuemart_product_medias.virtuemart_media_id = #__virtuemart_medias.virtuemart_media_id
+ORDER BY #__virtuemart_medias.virtuemart_media_id LIMIT 1";
+            $db->setQuery($query);
+            $results[$i]->image=$db->loadResult();
+        }
+    }
 }

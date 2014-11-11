@@ -373,7 +373,7 @@ class JView extends JObject
 		{
 			$model = strtolower($default);
 		}
-		// var_dump($model); die();
+		//var_dump($model); die();
 		// First check to make sure the model requested exists
 		if (isset($this->_models[$model]))
 		{

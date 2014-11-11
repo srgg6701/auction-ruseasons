@@ -120,9 +120,9 @@ class SearchModelSearch extends JModelLegacy
 	 * @return array
 	 */
 	function getData()
-	{
+	{   //die(123);
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
+        if (empty($this->_data))
 		{
 			$areas = $this->getAreas();
 
@@ -134,8 +134,9 @@ class SearchModelSearch extends JModelLegacy
 				$this->getState('ordering'),
 				$areas['active'])
 			);
-
-			$rows = array();
+            //include_once JPATH_SITE.DS.'tests.php';
+            //commonDebug(__FILE__,__LINE__,$results, true);
+            $rows = array();
 			foreach ($results as $result) {
 				$rows = array_merge((array) $rows, (array) $result);
 			}
@@ -147,8 +148,7 @@ class SearchModelSearch extends JModelLegacy
 				$this->_data = $rows;
 			}
 		}
-
-		return $this->_data;
+        return $this->_data;
 	}
 
 	/**

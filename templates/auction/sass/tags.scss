@@ -232,6 +232,9 @@ a {
     padding-top:5px !important;
     padding-bottom: 5px !important;
   }
+  .result-title &{
+    text-decoration: none;
+  }
   ul.buttons li div &{
     text-decoration:none !important;
     font-size:12px;
@@ -306,7 +309,7 @@ div{
   div.item-page-shop .box &{
     &.img {
       background-color: rgb(255, 255, 255);
-      border: solid 1px rgb(132, 17, 19);
+      border: $img-border-common;
       height: 228px;
       line-height: 228px;
       overflow-x: hidden;
@@ -638,6 +641,14 @@ img {
     top: 50%;
     transform: translateY(-50%);
     width: 81.5%;
+  }
+  .search-results &{
+    border: $img-border-common;
+    display: inline-block;
+    height: 226px;
+    margin-bottom: 6px;
+    margin-right: 44px;
+    vertical-align: middle;
   }
   div.item-page-shop .box div.img &{
     vertical-align: middle;
