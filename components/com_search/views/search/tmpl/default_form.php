@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 $lang = JFactory::getLanguage();
 $upper_limit = $lang->getUpperLimitSearchWord();
-?>
-
+/*?>
 <form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post">
 
 	<fieldset class="word">
@@ -72,3 +71,4 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 <?php endif; ?>
 
 </form>
+<?php   */
