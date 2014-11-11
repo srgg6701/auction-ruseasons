@@ -1,7 +1,7 @@
 <div class="box">
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?>
         <div class="img"><?php
-            $product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>
+            echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>
         </div>
         <h2><?php echo $product->product_name; ?></h2>
     </a>

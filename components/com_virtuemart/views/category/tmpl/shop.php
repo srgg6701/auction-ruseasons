@@ -86,8 +86,7 @@ if ($this->search !== NULL):?>
 //commonDebug(__FILE__,__LINE__,$this->products);
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
-
-	// array => object
+    // array => object
 	foreach($this->products as $i=>$product){
 		// if SEF has been switched off, returns just the same as gets:
 		//$product->link=HTML::setDetailedLink($product,'shop');

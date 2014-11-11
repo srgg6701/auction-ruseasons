@@ -299,6 +299,8 @@ div{
   div.item-page-shop &{
     &.box{
       @include box;
+      margin-right: 6.352%;
+      //width: 27%;
     }
   }
   div.item-page-shop .box &{
