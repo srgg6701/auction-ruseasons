@@ -9,13 +9,16 @@
 // no direct access
 defined('_JEXEC') or die;
 //include_once JPATH_SITE.DS.'tests.php';
-//commonDebug(__FILE__,__LINE__,$this->results, false);?>
+//commonDebug(__FILE__,__LINE__,$this->pagination, false);?>
 <div class="results-count-block"><?php
     $cnt = 'Всего найдено лотов: ';
-    $cnt.=(count($this->results))?
-        count($this->results):'0';
+    $cnt.=($this->pagination->total)? $this->pagination->total:'0';
+    $cnt.= ' &nbsp; <a id="link-manage-search" href="javascript:void(0)" onclick="manageAdvancedSearch()">[<span>расширенный поиск</span><span style="display: none">результаты поиска</span>]</a>';
     echo $cnt;?></div>
-<dl class="search-results<?php echo $this->pageclass_sfx; ?>">
+<div class="pagination" id="pagination-search-result-1">
+    <?php echo $this->pagination->getPagesLinks(); ?>
+</div>
+<dl class="search-results<?php echo $this->pageclass_sfx; ?>" id="search-results-block">
 <?php foreach($this->results as $result) : ?>
 	<dt class="result-title">
 		<?php //echo $this->pagination->limitstart + $result->count.'. ';?>
@@ -50,6 +53,18 @@ defined('_JEXEC') or die;
 <?php endforeach; ?>
 </dl>
 <div class="results-count-block"><?php echo $cnt;?></div>
-<div class="pagination">
+<div class="pagination" id="pagination-search-result-2">
 	<?php echo $this->pagination->getPagesLinks(); ?>
 </div>
+<script>
+function manageAdvancedSearch(){
+    var $=jQuery;
+    // searchForm // search-results-block
+    $('#searchForm').fadeToggle(200, function(){
+        $('#link-manage-search span').toggle();
+        $('#pagination-search-result-2').toggle();
+    });
+    $('#search-results-block').fadeToggle(200);
+    $('div.results-count-block').eq(1).fadeToggle();
+}
+</script>
