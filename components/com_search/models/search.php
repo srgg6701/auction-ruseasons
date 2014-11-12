@@ -197,12 +197,17 @@ class SearchModelSearch extends JModelLegacy
 			$searchareas = $dispatcher->trigger('onContentSearchAreas');
 
 			foreach ($searchareas as $area) {
+                //echo "<div>area = $area</div>";
+                //include_once JPATH_SITE.DS.'tests.php';
+                //commonDebug(__FILE__,__LINE__,$area);
 				if (is_array($area)) {
 					$areas = array_merge($areas, $area);
 				}
 			}
-
 			$this->_areas['search'] = $areas;
+            //$this->_areas['search'] = array('virtuemart' => "PLG_SEARCH_VIRTUEMART_PRODUCTS");
+            //commonDebug(__FILE__,__LINE__,$this->_areas['search']);
+
 		}
 
 		return $this->_areas;

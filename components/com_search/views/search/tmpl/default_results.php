@@ -23,6 +23,7 @@ defined('_JEXEC') or die;
 			<a href="<?php echo JRoute::_($result->href); ?>"<?php if ($result->browsernav == 1) :?> target="_blank"<?php endif;?>><?php
                 if($result->image):
                     ?><img src="<?php echo $result->image;?>"><?php
+                else:?><img src="<?php echo JURI::base() .'images/no-image.gif';?>" width="226" height="226"><?php
                 endif;
                 $link_text = str_replace("&laquo;","«",$result->title);
                 $link_text = str_replace("&raquo;","»",$link_text);

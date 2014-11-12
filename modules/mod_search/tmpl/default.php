@@ -9,7 +9,10 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<form action="<?php echo JRoute::_('index.php');?>" method="post">
+<form action="<?php
+    echo JRoute::_('index.php?option=com_search');
+    //echo JRoute::_('index.php');
+    ?>" method="post">
     <div class="background" onclick="this.parentNode.submit();"></div>
 	<div class="search<?php echo $moduleclass_sfx ?>">
 		<?php
@@ -46,8 +49,14 @@ defined('_JEXEC') or die;
 
 			echo $output;
 		?>
-	<input type="hidden" name="task" value="search" />
-	<input type="hidden" name="option" value="com_search" />
-	<input type="hidden" name="Itemid" value="<?php echo $mitemid; ?>" />
+        <input type="hidden" name="task" value="search" />
+        <input type="hidden" name="option" value="com_search" />
+        <input type="hidden" name="Itemid" value="<?php echo $mitemid; ?>" />
+
+        <input type="hidden" name="searchphrase" value="all">
+        <input type="hidden" name="ordering" value="alpha">
+        <input type="hidden" name="areas[]" value="virtuemart">
+        <input type="hidden" name="limit" value="10">
+
 	</div>
 </form>

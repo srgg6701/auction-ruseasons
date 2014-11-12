@@ -373,19 +373,23 @@ class JView extends JObject
 		{
 			$model = strtolower($default);
 		}
+		// model: search
 		//var_dump($model); die();
 		// First check to make sure the model requested exists
 		if (isset($this->_models[$model]))
 		{
 			// Model exists, let's build the method name
 			$method = 'get' . ucfirst($property);
-
+            // getAreas
+            //var_dump($method); die();
 			// Does the method exist?
 			if (method_exists($this->_models[$model], $method))
 			{
 				// The method exists, let's call it and return what we get
-				$result = $this->_models[$model]->$method();
-
+				// $this->_models[search]->getAreas()
+                $result = $this->_models[$model]->$method();
+                //include_once JPATH_SITE.DS.'tests.php';
+                //commonDebug(__FILE__,__LINE__,$result);
 				return $result;
 			}
 

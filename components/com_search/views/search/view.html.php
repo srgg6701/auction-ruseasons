@@ -121,11 +121,12 @@ class SearchViewSearch extends JViewLegacy
 		if ($error == null) {
 			$results	= $this->get('data');
             /* MODIFIED START */
+            include_once JPATH_SITE.DS.'tests.php';
+            //commonDebug(__FILE__,__LINE__,$results, true);
             // добавить картинку к результатам поиска
             $this->addImageToResults($results);
             /* MODIFIED END */
-            //include_once JPATH_SITE.DS.'tests.php';
-            //commonDebug(__FILE__,__LINE__,$results);
+
             $total		= $this->get('total');
 			$pagination	= $this->get('pagination');
 
