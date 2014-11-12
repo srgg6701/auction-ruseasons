@@ -116,6 +116,9 @@
     padding-top: 10px !important;
   }
 }
+#form-limit{
+  margin: 10px 16px;
+}
 #galleryThumbs{
   margin-top: 5px;
   text-align: center;
@@ -327,6 +330,9 @@
     right: 120px;
     width: initial;
   }
+}
+#searchForm{
+  display: none;
 }
 #tbl-bid-history{
   width:100%;

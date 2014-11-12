@@ -43,7 +43,7 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 			</div>
 	</fieldset>
 
-	<?php if ($this->params->get('search_areas', 1)) : ?>
+	<?php /*if ($this->params->get('search_areas', 1)) : ?>
 		<fieldset class="only">
 		<legend><?php echo JText::_('COM_SEARCH_SEARCH_ONLY');?></legend>
 		<?php foreach ($this->searchareas['search'] as $val => $txt) :
@@ -55,20 +55,18 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 			</label>
 		<?php endforeach; ?>
 		</fieldset>
-	<?php endif; ?>
+	<?php endif; */?>
 
 <?php if ($this->total > 0) : ?>
 
-	<div class="form-limit">
+	<div class="form-limit" id="form-limit">
 		<label for="limit">
 			<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 		</label>
 		<?php echo $this->pagination->getLimitBox(); ?>
 	</div>
-<p class="counter">
-		<?php echo $this->pagination->getPagesCounter(); ?>
-	</p>
-
 <?php endif; ?>
-
+<hr class="divider"/>
 </form>
+<p class="counter"><?php
+    echo $this->pagination->getPagesCounter(); ?></p>

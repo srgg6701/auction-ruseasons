@@ -29,8 +29,15 @@ defined('_JEXEC') or die;
                 else:?><img src="<?php echo JURI::base() .'images/no-image.gif';?>" width="226" height="226"><?php
                 endif;
                 $link_text = str_replace("&laquo;","«",$result->title);
-                $link_text = str_replace("&raquo;","»",$link_text);
-                echo $this->escape($link_text);?></a>
+                $link_text = str_replace("&raquo;","»",$link_text);?>
+                <div class="name">
+                    <span><?php
+                    echo $this->escape($link_text);
+                ?></span>
+                </div>
+            <div class="price">
+                <span>Цена</span>
+            </div></a>
 		<?php else:?>
 			<?php echo $this->escape($result->title);?>
 		<?php endif; ?>

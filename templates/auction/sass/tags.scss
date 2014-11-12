@@ -233,6 +233,7 @@ a {
     padding-bottom: 5px !important;
   }
   .result-title &{
+    display: block;
     text-decoration: none;
   }
   ul.buttons li div &{
@@ -391,7 +392,7 @@ div{
   div#main_content.left &#login_area{
     margin: 20px 80px;
   }
-  div#main_content.left  div#login_area form#sign-in div.login-fields &{
+  div#main_content.left div#login_area form#sign-in  div.login-fields &{
     display:inline-block;
     /*width:170px;*/
     color: #666;
@@ -445,6 +446,32 @@ div{
   #right_part div[class*="-acy_subscribe"] &.acymailing_module_form{
     width:200px;
   }
+  .result-title &{
+    height: 226px;
+    margin-bottom: 12px;
+    margin-top: -233px;
+    $width-major:90%;
+    $offset-left:272px;
+    &.name{
+      //margin-top: -233px;
+      padding-left: $offset-left;
+      padding-right: 10px;
+      width: $width-major;
+    }
+    &.price{
+      background-color: #ffff00;
+      margin-left: $width-major;
+      //margin-top: -228px;
+      text-align: center;
+      width: 100%-$width-major;
+      @media (max-width: 535px) {
+        float: left;
+        height: auto;
+        margin-top: -28px;
+        margin-left: $offset-left;
+      }
+    }
+  }
   .test_content_box pre &{
     text-align:left;
     &.border{
@@ -475,6 +502,10 @@ div{
 fieldset{
   div#main_content.left  div#login_area div.login form &{
     border: none;
+  }
+  #searchForm &{
+    border:$tableBorderCommon;
+    @include border-radius(2px);
   }
 }
 form {
@@ -732,6 +763,13 @@ li{
   .menu:not(#mobile-menu-proposal) &.active{
     @include liActive;
   }
+  .pagination ul &{
+    display: table-cell;
+    padding: 6px;
+    &:first-child{
+      padding-left: 0;
+    }
+  }
   div#footer #bottom_menu #padd_bot_menu ul &{
     display:table-cell;
     white-space:nowrap;
@@ -838,6 +876,15 @@ span {
     &:hover{
       opacity:1;
     }
+  }
+  .price &{
+    padding-bottom: 8px;
+  }
+  .result-title div &{
+    display: block;
+    position: relative;
+    top: 50%;
+    @include transform(translateY(-50%));
   }
   form#ask_form &{
     &.req{
@@ -1125,6 +1172,13 @@ ul {
       clear: both !important;
       text-align: left !important;
     }
+  }
+  #pagination-search-result-1 &,
+  #pagination-search-result-2 &{
+    margin-top: 12px;
+  }
+  .pagination &{
+    display: table;
   }
   div#footer #bottom_menu #padd_bot_menu &{
     display:inline-table;
