@@ -124,7 +124,7 @@ class SearchViewSearch extends JViewLegacy
             include_once JPATH_SITE.DS.'tests.php';
             //commonDebug(__FILE__,__LINE__,$results, true);
             // добавить картинку к результатам поиска
-            $this->addImageToResults($results);
+            $this->addImagePriceCurrencyToResults($results);
             /* MODIFIED END */
 
             $total		= $this->get('total');
@@ -206,17 +206,37 @@ class SearchViewSearch extends JViewLegacy
      * Добавить картинку к результатам поиска
      * @param $results
      */
-    function addImageToResults(&$results){
+    function addImagePriceCurrencyToResults(&$results){
         $db=JFactory::getDbo();
         foreach ($results as $i=>$result){
-            $query = "SELECT file_url_thumb
-  FROM #__virtuemart_medias,
-       #__virtuemart_product_medias
- WHERE #__virtuemart_product_medias.virtuemart_product_id = $result->virtuemart_product_id
-   AND #__virtuemart_product_medias.virtuemart_media_id = #__virtuemart_medias.virtuemart_media_id
+
+            $query = "SELECT file_url_thumb,
+  truncate(REPLACE(product_price,',','.'),0) AS product_price,
+  currency_symbol
+  FROM #__virtuemart_product_prices
+
+LEFT JOIN #__virtuemart_product_medias
+  ON #__virtuemart_product_medias.virtuemart_product_id =
+  #__virtuemart_product_prices.virtuemart_product_id
+
+LEFT JOIN #__virtuemart_medias
+  ON #__virtuemart_medias.virtuemart_media_id =
+  #__virtuemart_product_medias.virtuemart_media_id
+
+INNER JOIN #__virtuemart_currencies
+  ON #__virtuemart_currencies.virtuemart_currency_id =
+  #__virtuemart_product_prices.product_currency
+
+WHERE #__virtuemart_product_prices.virtuemart_product_id = $result->virtuemart_product_id
+
 ORDER BY #__virtuemart_medias.virtuemart_media_id LIMIT 1";
+
             $db->setQuery($query);
-            $results[$i]->image=$db->loadResult();
+            //testSQL($query, __FILE__, __LINE__, false, '', false);
+            $res=$db->loadRow();
+            $results[$i]->image=$res[0];
+            $results[$i]->price=$res[1];
+            $results[$i]->currency=$res[2];
         }
     }
 }
