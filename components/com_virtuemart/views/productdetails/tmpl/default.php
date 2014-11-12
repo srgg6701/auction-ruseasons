@@ -96,8 +96,9 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
           Цена:...........................
           <span class="span_o_o">
               <b><?php
-              echo $this->product->prices['basePriceVariant'];
-              ?> руб.</b>
+              echo $this->product->prices['basePriceVariant'] .
+              ' ' . $this->product->currency_symbol;
+              ?>.</b>
           </span>
         </div>
 <?php   /**
