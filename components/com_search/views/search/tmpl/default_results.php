@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
                 ?></span>
                 </div>
             <div class="price">
-                <span>Цена</span>
+                <span><?php echo $result->price .' '.$result->currency;?></span>
             </div></a>
 		<?php else:?>
 			<?php echo $this->escape($result->title);?>
