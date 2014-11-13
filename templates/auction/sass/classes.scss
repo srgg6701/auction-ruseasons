@@ -15,7 +15,7 @@
 }
 .background{
   #search_box &{
-    background: url("../images/zoom.png") $greenDark no-repeat 6px 6px;
+    background: url("../images/zoom.png") $greenDark no-repeat 9px 7px;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
     float: right;
@@ -240,6 +240,9 @@
   #galleryThumbs &{
     display: inline-block;
   }
+}
+.thin{
+  font-weight: normal !important;
 }
 .top_list_mn{
   @media(max-width: $media-middle){

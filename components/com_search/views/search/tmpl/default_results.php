@@ -8,6 +8,10 @@
 
 // no direct access
 defined('_JEXEC') or die;
+if(!count($this->results)):?>
+    <h4 class="thin">По вашему запросу ничего не найдено...</h4>
+<?php
+else:
 //include_once JPATH_SITE.DS.'tests.php';
 //commonDebug(__FILE__,__LINE__,$this->pagination, false);?>
 <div class="results-count-block"><?php
@@ -17,7 +21,6 @@ defined('_JEXEC') or die;
     echo $cnt;?></div>
 <div class="pagination" id="pagination-search-result-1">
     <?php
-
     $pagination = str_ireplace('>В начало', '>&lt;&lt;',   $this->pagination->getPagesLinks());
     $pagination = str_ireplace('>Назад', '>&lt;', $pagination);
     $pagination = str_ireplace('>Вперёд', '>&gt;', $pagination);
@@ -81,3 +84,5 @@ function manageAdvancedSearch(){
     $('div.results-count-block').eq(1).fadeToggle();
 }
 </script>
+<?php
+endif;

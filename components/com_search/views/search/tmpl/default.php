@@ -9,7 +9,6 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-
 <div class="search<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 <h1>
@@ -22,7 +21,8 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 
 <?php echo $this->loadTemplate('form'); ?>
-<?php if ($this->error==null && count($this->results) > 0) :
+<?php
+if ($this->error==null) :
 	echo $this->loadTemplate('results');
 else :
 	echo $this->loadTemplate('error');
