@@ -53,9 +53,6 @@
     }
   }
 }
-/*.fleft{
-  @include fleft;
-}*/
 .floatLeft{
   float: left;
 }
@@ -154,6 +151,11 @@
 }
 .opaque{
   opacity:0.2;
+}
+.pagination {
+  li, span, a{
+    color: $mediumRedDark !important;
+  }
 }
 .product_s_desc{
   margin-top: 10px !important;

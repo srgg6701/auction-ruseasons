@@ -16,7 +16,13 @@ defined('_JEXEC') or die;
     $cnt.= ' &nbsp; <a id="link-manage-search" href="javascript:void(0)" onclick="manageAdvancedSearch()">[<span>расширенный поиск</span><span style="display: none">результаты поиска</span>]</a>';
     echo $cnt;?></div>
 <div class="pagination" id="pagination-search-result-1">
-    <?php echo $this->pagination->getPagesLinks(); ?>
+    <?php
+
+    $pagination = str_ireplace('>В начало', '>&lt;&lt;',   $this->pagination->getPagesLinks());
+    $pagination = str_ireplace('>Назад', '>&lt;', $pagination);
+    $pagination = str_ireplace('>Вперёд', '>&gt;', $pagination);
+    $pagination = str_ireplace('>В конец', '>&gt;&gt;', $pagination);
+    echo $pagination; ?>
 </div>
 <dl class="search-results<?php echo $this->pageclass_sfx; ?>" id="search-results-block">
 <?php foreach($this->results as $result) : ?>
@@ -61,7 +67,7 @@ defined('_JEXEC') or die;
 </dl>
 <div class="results-count-block"><?php echo $cnt;?></div>
 <div class="pagination" id="pagination-search-result-2">
-	<?php echo $this->pagination->getPagesLinks(); ?>
+	<?php echo $pagination; ?>
 </div>
 <script>
 function manageAdvancedSearch(){

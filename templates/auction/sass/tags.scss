@@ -234,6 +234,7 @@ a {
   }
   .result-title &{
     display: block;
+    font-size: 13px;
     text-decoration: none;
   }
   ul.buttons li div &{
@@ -451,7 +452,7 @@ div{
     margin-bottom: 12px;
     margin-top: -233px;
     $width-major:90%;
-    $offset-left:272px;
+    $offset-left:234px;
     &.name{
       //margin-top: -233px;
       padding-left: $offset-left;
