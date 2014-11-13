@@ -44,6 +44,9 @@ a {
     @include thinBrownHeader;
     padding-top:5px;
   }
+  #bigLeadImage a{
+    border: $img-border-common;
+  }
   #board & {
     font: normal 14px $font-common;
     color: $superDark;

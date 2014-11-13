@@ -237,6 +237,8 @@
   }
 }
 .th_image{
+  border: $img-border-common;
+  margin: 10px 10px 10px 1px;
   #galleryThumbs &{
     display: inline-block;
   }
