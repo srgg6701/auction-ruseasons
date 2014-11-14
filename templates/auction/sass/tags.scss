@@ -44,7 +44,7 @@ a {
     @include thinBrownHeader;
     padding-top:5px;
   }
-  #bigLeadImage a{
+  #bigLeadImage &{
     border: $img-border-common;
   }
   #board & {

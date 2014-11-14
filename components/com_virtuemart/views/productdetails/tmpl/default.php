@@ -81,7 +81,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
                     <?php echo $this->product->product_name;?>
                 </b></span>
         <div class="product_s_desc">
-           <?php echo $this->product->product_s_desc;?>
+           <?php echo $this->product->product_desc;?>
            <hr class="border bottom" />
         </div>
         <div class="o_o">
@@ -167,7 +167,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
     </div>
     <div class="o_o">
        <span style="color:#000">
-   	      <?=$this->product->product_s_desc?>
+   	      <?=$this->product->product_desc?>
        </span>
     </div>
     <div class="o_o">

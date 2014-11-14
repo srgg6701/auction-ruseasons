@@ -5,7 +5,7 @@ SELECT
   (SELECT COUNT(*) FROM auc13_virtuemart_product_medias
     WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS 'medias',
-  prod_ru_ru.slug,
+  prod_ru_ru.slug                         AS 'slug',
   (SELECT COUNT(*) FROM auc13_dev_auction_rates 
     WHERE virtuemart_product_id = prod.virtuemart_product_id) 
                                           AS bids,
@@ -57,7 +57,8 @@ SELECT
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  -- WHERE   cats_ruru2.category_name LIKE 'Магазин'
+  WHERE   cats_ruru2.category_name LIKE 'Магазин'
+
           -- AND prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
             -- prod_ru_ru.product_name LIKE '%�����%' AND
             -- sales_prices.sales_price IS NOT null

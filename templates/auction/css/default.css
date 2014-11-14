@@ -516,7 +516,7 @@ div#usermenu div.moduletable ul.menu li a.H2 {
   padding-top: 5px;
 }
 /* line 47, ../sass/tags.scss */
-a #bigLeadImage a {
+#bigLeadImage a {
   border: solid 1px #841113;
 }
 /* line 50, ../sass/tags.scss */
