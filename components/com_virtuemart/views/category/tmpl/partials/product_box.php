@@ -5,10 +5,15 @@
         </div>
         <h2><?php echo $product->product_name; ?></h2>
     </a>
-    <?php if (!empty($product->product_s_desc)):?>
+    <?php
+    if (!empty($product->product_s_desc)):?>
 
-        <p class="product_s_desc"><?=shopFunctionsF::limitStringByWord ($product->product_desc, 150, '...')?></p>
-    <?php 	endif;
+        <p class="product_s_desc"><?
+            $pdesc =  shopFunctionsF::limitStringByWord ($product->product_desc, 150, '...');
+            echo strip_tags($pdesc);
+            ?></p>
+    <?php
+    endif;
 
     if ($this->show_prices == '1') {
 

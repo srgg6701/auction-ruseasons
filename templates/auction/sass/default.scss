@@ -125,8 +125,6 @@
   width: 336px;
 }
 #header {
-  //background: url(../images/pattern.jpg);
-  //background-size: inherit;
   left: 0;
   min-width: 450px;
   position: relative;
@@ -134,7 +132,7 @@
   @media (max-width: $media-middle){
     height: auto;
     background-position-x: 119px;
-    margin-right: 15px;
+    //margin-right: 15px;
   }
 }
 #header-left-inside{
@@ -298,15 +296,16 @@
   }
 }
 #pic_top {
+  box-sizing: border-box;
   margin-left: 1%;
   overflow: hidden;
   position: relative;
   @media (max-width: $media-middle) {
+    box-sizing: border-box;
     background-position: left bottom;
     height: 117px;
     margin: auto 2px auto auto;
-    margin-left: 17px;
-    width: 94%;
+    padding-left: 3%;
   }
 }
 #right_part {

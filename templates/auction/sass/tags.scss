@@ -559,7 +559,7 @@ h1{
       line-height: 22px;
       margin-right: -44px;
     }
-    @media(max-width: $media-wide) {
+    @media(max-width: $media-middle-wide - 34px) {
       width: 200px;
     }
   }

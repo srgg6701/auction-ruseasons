@@ -27,7 +27,7 @@ defined ('_JEXEC') or die('Restricted access');
 		
 		$this->category->slug
  */
-//var_dump($this);die(); 
+//var_dump($this);die();
 
 $subheader=($this->category->category_name)? $this->category->category_name:"Магазин";
 //die('stopped: ' . __LINE__ . ', ' . __FILE__);
@@ -48,7 +48,7 @@ if ( VmConfig::get ('showCategory', 1) &&
 	$show_children=false;
 	if($show_children){
 		if ($this->category->haschildren) :
-			echo '<h1>Has children! Do something, Dude...</h1>';?>
+			//echo '<h1>Has children! Do something, Dude...</h1>';?>
 		<div>
 		<?php foreach ($this->category->children as $category) :
 				// Category Link
