@@ -37,4 +37,4 @@ FROM auc13_virtuemart_product_medias                  AS prods_media
     ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
 
 -- WHERE prods_media.virtuemart_product_id IN ( 3212, 3237 )
-WHERE prods_media.virtuemart_product_id = 3926
+-- WHERE prods_media.virtuemart_product_id = 3926

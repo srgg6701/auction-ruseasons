@@ -1,4 +1,17 @@
 <div class="box">
+<?php
+if(count($product->virtuemart_media_id)>1):?>
+    <div>
+        <?php
+        foreach($product->virtuemart_media_id as $i=> $virtuemart_media_id):?>
+            <div data-img-id="<?php echo $virtuemart_media_id;?>"><?php
+                echo $i+1;
+                ?></div>
+        <?php
+        endforeach;?>
+    </div>
+<?php
+endif;?>
     <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?>
         <div class="img"><?php
             echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>
@@ -49,9 +62,9 @@
         echo $this->currency->createPriceDiv ('unitPrice', $unitPriceDescription, $product->prices);
 
     }
-
     $show_button=false;
     if ($show_button):// Product Details Button?>
         <p><?=JHTML::link ($product->link, JText::_ ('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'product-details'))?></p>
-    <?php endif;?>
+    <?php
+    endif;?>
 </div>

@@ -257,6 +257,21 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
             die($e->getMessage());
         }
     }
+    /**
+     *
+     */
+    function getImage($media_id){
+        $db = JFactory::getDbo();
+        $query = "SELECT
+  #__virtuemart_medias.file_url_thumb
+FROM #__virtuemart_medias
+  INNER JOIN #__virtuemart_product_medias
+    ON #__virtuemart_medias.virtuemart_media_id
+  = #__virtuemart_product_medias.virtuemart_media_id
+  WHERE #__virtuemart_product_medias.virtuemart_media_id = $media_id";
+        $db->setQuery($query);
+        return $db->loadResult();
+    }
 	/**
 	 * Проверить предмет в списке наблюдения
 	 *

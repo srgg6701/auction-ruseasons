@@ -83,11 +83,12 @@ if ($this->search !== NULL):?>
 <?php endif; //var_dump($this); die();
 
 //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-//commonDebug(__FILE__,__LINE__,$this->products);
+//
 // here all rock & roll begins! Yo.
 if (!empty($this->products)) {
     // array => object
 	foreach($this->products as $i=>$product){
+        //if($product->virtuemart_product_id=='3890') commonDebug(__FILE__,__LINE__,$product);
 		// if SEF has been switched off, returns just the same as gets:
 		//$product->link=HTML::setDetailedLink($product,'shop');
         require 'partials/product_box.php';
@@ -98,3 +99,23 @@ if (!empty($this->products)) {
 }?>
 </div>
 <?php HTML::setVmPagination()?>
+
+<script>
+    jQuery(function($){
+        $('div.box >div:first-child >div').on('click', function(){
+            var img=$(this).parents('.box').find('img')[0],
+                img_id=$(this).attr('data-img-id');
+            $.get(
+                "<?php echo JURI::base();?>index.php?option=com_auction2013&task=auction2013.getImg",
+                {
+                    image_id:img_id
+                },
+            function(data){
+                $(img).attr('src', '<?php   echo JURI::base();?>'+data);
+                //images/stories/virtuemart/product/resized/02_208_05_4.jpg_90x90.jpg
+                console.log('src = '+$(img).attr('src'));
+            });
+            //console.log(this);
+        });
+    }(jQuery));
+</script>

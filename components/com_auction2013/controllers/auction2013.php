@@ -325,4 +325,13 @@ class Auction2013ControllerAuction2013 extends JControllerLegacy
         HTML::buildForm();
         return true;
     }
+    /**
+     * загрузить предпросмотр картинки товара в разделе категории
+     */
+    public function getImg(){
+        //echo "hello!";
+        echo $this->getModel()->getImage(JRequest::getVar('image_id'));
+        //var_dump(JRequest::get('image_id'));
+        exit;
+    }
 }

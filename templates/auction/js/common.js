@@ -14,4 +14,5 @@ jQuery(function(){
 		$(pLi).toggleClass('expanded');
         if($(pLi).attr('class').indexOf('deeper')!=-1) return false;
 	});
+    $('#content').css('min-height',$(leftPart).css('height'));
 });
