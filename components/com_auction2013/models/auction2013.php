@@ -263,7 +263,7 @@ INNER JOIN #__virtuemart_products_ru_ru  AS prods_ru
     function getImage($media_id){
         $db = JFactory::getDbo();
         $query = "SELECT
-  #__virtuemart_medias.file_url_thumb
+  #__virtuemart_medias.file_title
 FROM #__virtuemart_medias
   INNER JOIN #__virtuemart_product_medias
     ON #__virtuemart_medias.virtuemart_media_id

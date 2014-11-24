@@ -111,11 +111,8 @@ if (!empty($this->products)) {
                     image_id:img_id
                 },
             function(data){
-                $(img).attr('src', '<?php   echo JURI::base();?>'+data);
-                //images/stories/virtuemart/product/resized/02_208_05_4.jpg_90x90.jpg
-                console.log('src = '+$(img).attr('src'));
+                $(img).attr('src', '<?php   echo JURI::base();?>images/stories/virtuemart/product/preview/'+data); //console.log('src = '+$(img).attr('src'));
             });
-            //console.log(this);
         });
     }(jQuery));
 </script>
