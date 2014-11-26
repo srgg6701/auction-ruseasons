@@ -301,7 +301,28 @@ div{
   }
   &.box{
     height: 388px;
+    @include box;
+    margin-right: 6.352%;
+    @media (max-width:$media-middle-wide) {
+      margin-right: 3.7%;
+    }
     position: relative;
+    div{
+      &.img {
+        background-color: rgb(255, 255, 255);
+        border: $img-border-common;
+        height: 228px;
+        line-height: 228px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        text-align: center;
+        vertical-align: middle;
+        width: 226px;
+      }
+      &.PricesalesPrice{
+        min-height: 35px;
+      }
+    }
     >div:first-child{
       bottom: 160px;
       position: absolute;
@@ -328,29 +349,6 @@ div{
   &.item-page-shop {
     * {
       font-family: Verdana;
-    }
-  }
-  div.item-page-shop &{
-    &.box{
-      @include box;
-      margin-right: 6.352%;
-      //width: 27%;
-    }
-  }
-  div.item-page-shop .box &{
-    &.img {
-      background-color: rgb(255, 255, 255);
-      border: $img-border-common;
-      height: 228px;
-      line-height: 228px;
-      overflow-x: hidden;
-      overflow-y: hidden;
-      text-align: center;
-      vertical-align: middle;
-      width: 226px;
-    }
-    &.PricesalesPrice{
-      min-height: 35px;
     }
   }
   &.lots_listing {
