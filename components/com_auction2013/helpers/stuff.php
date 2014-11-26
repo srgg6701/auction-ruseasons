@@ -534,8 +534,8 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         //...
         $db = JFactory::getDbo();
         $query = "SELECT ";
-
-        if($cnt) $query.="COUNT( prices.virtuemart_product_id ) ";
+        $q_prods_value="COUNT( prices.virtuemart_product_id ) ";
+        if($cnt) $query.=$q_prods_value; // todo: разобраться, нужно ли это вообще? Пока найден только один вызов метода
         else {
             $query .= "prices.   virtuemart_product_id";
             if(!$single){
@@ -596,14 +596,18 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         $query.="
            AND cat_cats.category_child_id = pc.virtuemart_category_id
   ORDER BY prices.product_price_publish_up ";
-
-        $db->setQuery($query . self::getPagesLimit());
-
-        //testSQL($query, __FILE__, __LINE__);
+        $query.=self::getPagesLimit();
+        $db->setQuery($query);
 
         if($cnt)  $results =$db->loadResult();
         else
             $results = $single ? $db->loadColumn() : $db->loadAssocList();
+
+        if(JRequest::getVar('qtest')){
+            testSQL($query, __FILE__, __LINE__);
+            commonDebug(__FILE__,__LINE__,$results, false);
+        }
+
         return $results;
     }
     /**
@@ -646,6 +650,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         if(!$start_page=JRequest::getVar('start_page'))
             $start_page=1;
         $LIMIT = ' LIMIT ' . ($start_page-1)*$current_limit .', '.$current_limit;
+        //showTestMessage("LIMIT: $LIMIT", __FILE__, __LINE__, false);
         return $LIMIT;
     }
     /**
@@ -1568,6 +1573,7 @@ class HTML{
 <?php   }
         if($prods_value=AuctionStuff::$prods_value){
             $pgcount = intval($prods_value/(int)$pages_limit[$Itemid]);
+            //echo "<div>prods_value: $prods_value</div>";
             //commonDebug(__FILE__,__LINE__,$prods_value.'/'.(int)$pages_limit[$Itemid]);
             //commonDebug(__FILE__,__LINE__,$pgcount);
             if($prods_value%(int)$pages_limit[$Itemid]) $pgcount+=1;
