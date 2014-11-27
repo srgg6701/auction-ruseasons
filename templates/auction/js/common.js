@@ -9,10 +9,12 @@ jQuery(function(){
 		}
 	});
 	$('#main_menu li.deeper a').on('click', function(){
-        var pLi=$(this).parent(); //console.dir($(this).parent());
-        $('>ul', pLi).slideToggle(200);
-		$(pLi).toggleClass('expanded');
-        if($(pLi).attr('class').indexOf('deeper')!=-1) return false;
+        if($(this).parents('ul').eq(0).css('display')=='block'){
+			var pLi=$(this).parent(); //console.dir($(this).parent());
+			$('>ul', pLi).slideToggle(200);
+			$(pLi).toggleClass('expanded');
+			if($(pLi).attr('class').indexOf('deeper')!=-1) return false;
+		}
 	});
     $('#content').css('min-height',$(leftPart).css('height'));
 });

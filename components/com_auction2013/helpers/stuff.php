@@ -595,7 +595,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 
         $query.="
            AND cat_cats.category_child_id = pc.virtuemart_category_id
-  ORDER BY prices.product_price_publish_up ";
+  ORDER BY prods_ru.product_name";
         $query.=self::getPagesLimit();
         $db->setQuery($query);
 
