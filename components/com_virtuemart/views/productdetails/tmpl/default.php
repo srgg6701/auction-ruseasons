@@ -39,11 +39,14 @@ $hide=' style="visibility:hidden"';
     if((int)$trinityIds[0]<$virtuemart_product_id):
 		$prev_prod_link=AuctionStuff::buildProdNeighborLink($trinityIds[0],$category_link,$SefMode);
 	else: $prev_prod_link=false;
-	endif;?>    
+	endif;
+	if($prev_prod_link):?>    
         <li><a href="<?=$prev_prod_link?>"<?php if(!$prev_prod_link) echo $hide;
 	
 	?>>&lt; &lt; Предыдущий</a></li>
-<?php if(!$category_link): // if no SEF only:
+<?php 
+	endif;
+	if(!$category_link): // if no SEF only:
 		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.$Itemid,false);
 	endif;?>	
         <li><a href="<?=$category_link?>">Вернуться к списку лотов</a></li>
@@ -53,11 +56,15 @@ $hide=' style="visibility:hidden"';
 		$next_prod_id=$trinityIds[1];
 	if($next_prod_id):	
 		$next_prod_link=AuctionStuff::buildProdNeighborLink($next_prod_id,$category_link,$SefMode);
-	endif;?>
+	endif;
+	if($next_prod_link):?>
         <li><a href="<?=$next_prod_link?>"<?php
             //if(!$next_prod_id) echo $hide;
         
 		?>>Следующий &gt; &gt;</a></li>
+<?php
+	endif;
+?>        
     </ul>
 </div><?php // var_dump($this->product->images); die();
   ?>

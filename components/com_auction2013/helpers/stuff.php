@@ -1346,7 +1346,7 @@ class HTML{
                         echo $gts;
                         break;
                     case 'take_lot':
-                        echo "Прием на торги";
+                        echo "Предложить предмет";
                         echo $gts;
                         break;
                     case 'ask_about_lot':
@@ -1372,13 +1372,16 @@ class HTML{
         //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
         //commonDebug(__FILE__,__LINE__,$layout);
         //commonDebug(__FILE__, __LINE__, $category_data);
+		//echo "<div>layout = ".$layout."</div>";
         //echo "<div>category_id = ".$category_id."</div>";
-        ?>
+        //var_dump('<pre>',$category_data,'</pre>');?>
 <div class="top_list">
     <h2><div class="weak"><?php
+		$main_section=false;
         switch($layout){
-            case 'online': case 'fulltime':
-                $lots="Лотов";
+            case 'online': case 'fulltime': case 'shop':
+				$lots=$category_data['category_name'] . ": лотов ";
+				$main_section=true;				
                 break;
             case 'sold':
                 $lots="Проданных предметов";
@@ -1387,22 +1390,9 @@ class HTML{
                 break;
             default:
                 $lots="Предметов";
-        }
-        //$lots = ($layout=='shop'||$layout=='sold')? "Предметов":"Лотов";
-        //commonDebug(__FILE__,__LINE__,$category_data);
-        // раздел вложенной категории
-        if($category_data['top_category_id']!=(int)$category_id){
-			$category_data = $category_data['child_links'][$category_id];
-            ?><span style="color:#456;"><?php
-                echo $category_data['category_name'];
-            ?>.</span>
-        <?php
-		}else{
-            $lots.=" всего";
-            //echo $section; // ТОП категория
-        }
-        ?><span style="white-space:nowrap"><?php
-                echo $lots;?>: <?php
+        }?><span style="white-space:nowrap"><?php
+                echo $lots;
+				if(!$main_section):?>: <?php endif;
                 echo $category_data['product_count'];
                 AuctionStuff::$prods_value=$category_data['product_count'];
                 ?></span>
