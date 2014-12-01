@@ -25,22 +25,24 @@ else:
     HTML::setCommonInnerMenu(array('take_lot','ask_about_lot','user'),array('ask_about_lot'=>$this->product->virtuemart_product_id));
     //commonDebug(__FILE__, __LINE__, $this->product, true);?>
 <div class="lots_listing">
-  <div class="width70 inBlock" style="margin-left:-8px;">    
+  <div class="width70 inBlock" style="margin-left:-8px;">
+<?php
+$SefMode=JFactory::getApplication()->getRouter()->getMode();
+// возвращает ссылку уже в нужном (обычный/ЧПУ) виде:
+$category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
+$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
+$hide=' style="visibility:hidden"';
+//commonDebug(__FILE__,__LINE__,$trinityIds, false);
+?>
     <ul class="table inline weak">
 <?php
-    $SefMode=JFactory::getApplication()->getRouter()->getMode();
-    // возвращает ссылку уже в нужном (обычный/ЧПУ) виде:
-    $category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
-	$trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
-	$hide=' style="visibility:hidden"';
-	
-	if((int)$trinityIds[0]<$virtuemart_product_id):	
+    if((int)$trinityIds[0]<$virtuemart_product_id):
 		$prev_prod_link=AuctionStuff::buildProdNeighborLink($trinityIds[0],$category_link,$SefMode);
 	else: $prev_prod_link=false;
 	endif;?>    
         <li><a href="<?=$prev_prod_link?>"<?php if(!$prev_prod_link) echo $hide;
 	
-	?>>&lt; &lt; Предыдущий <!--(<?=$trinityIds[0]?>)-->></a></li>
+	?>>&lt; &lt; Предыдущий</a></li>
 <?php if(!$category_link): // if no SEF only:
 		$category_link=JRoute::_('index.php?option=com_virtuemart&view=category&Itemid='.$Itemid,false);
 	endif;?>	
@@ -52,9 +54,10 @@ else:
 	if($next_prod_id):	
 		$next_prod_link=AuctionStuff::buildProdNeighborLink($next_prod_id,$category_link,$SefMode);
 	endif;?>
-        <li><a href="<?=$next_prod_link?>"<?php if(!$next_prod_id) echo $hide;
+        <li><a href="<?=$next_prod_link?>"<?php
+            //if(!$next_prod_id) echo $hide;
         
-		?>>Следующий <!--(<?=$next_prod_id?>)-->&gt; &gt;</a></li>
+		?>>Следующий &gt; &gt;</a></li>
     </ul>
 </div><?php // var_dump($this->product->images); die();
   ?>

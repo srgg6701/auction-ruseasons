@@ -482,7 +482,7 @@ FROM #__virtuemart_product_prices $where_product_id";
  FROM `#__virtuemart_products` AS prods
   INNER JOIN `#__virtuemart_product_categories` AS prod_cats
           ON prods.virtuemart_product_id = prod_cats.virtuemart_product_id
-  INNER JOIN `#__virtuemart_category_categories cat_cats`
+  INNER JOIN `#__virtuemart_category_categories` AS cat_cats
           ON prod_cats.virtuemart_category_id = cat_cats.category_child_id
   INNER JOIN `#__virtuemart_categories` AS cats
           ON prod_cats.virtuemart_category_id = cats.virtuemart_category_id
@@ -517,7 +517,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 
         $db=JFactory::getDBO();
         $db->setQuery($query);
-        //testSQL($query,__FILE__,__LINE__,true);
+        //testSQL($query,__FILE__,__LINE__,false);
         return $db->loadResultArray();
     }
     /**
