@@ -609,6 +609,8 @@ h2 {
   .box &{
     height: 34px; // 44px !important
     overflow: hidden;
+  }
+  .box &:hover{
     text-decoration: underline;
   }
   .content_box &.title{
