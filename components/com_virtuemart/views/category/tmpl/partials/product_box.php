@@ -16,7 +16,9 @@ endif;?>
         <div class="img"><?php
             echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>
         </div>
-        <h2><?php echo $product->product_name; ?></h2>
+        <h2><?php
+            // обрабатывается клиентским скриптом
+            echo $product->product_name; ?></h2>
     </a>
     <?php
     if (!empty($product->product_s_desc)):?>

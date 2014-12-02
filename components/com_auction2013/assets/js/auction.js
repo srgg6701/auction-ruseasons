@@ -4,23 +4,13 @@ window.onload=function(){
     //console.log("Auction is here!");
     var boxes=[], // контейнер с названием и описанием предмета
         texts = {}, maxHeights = {},
-        boxesObjects = ['.box >h2','.box >.product_s_desc'] /*{
-            headerObjects: {
-                box:document.querySelectorAll('.box >h2'),
-                maxHeight:box.offsetHeight
-            },
-            descObjects: {
-                box:document.querySelectorAll('.box >.product_s_desc')
-            }
-        }*/;
-    /*var maxHeightHeader = boxesObjects.headerObjects[0].offsetHeight,
-        maxHeightDesc = boxesObjects.descObjects[0].offsetHeight;*/
+        boxesObjects = ['.box h2','.box >.product_s_desc'];
     for(var o = 0, j=boxesObjects.length; o<j; o++){
         //console.groupCollapsed(boxesObjects[o]);
         // получить селекторы заголовков и описаний
         if(boxes[o]=document.querySelectorAll(boxesObjects[o])){
             // получить параметр высоты, выбрав из первого селектора каждого типа
-            if(boxes[o][0]){
+            if(boxes[o][0]){ // заголовок
                 maxHeights[boxesObjects[o]]=boxes[o][0].offsetHeight; //  maxHeights['.box >h2']...
                 //console.dir(boxes[o]);
                 texts[boxesObjects[o]]=[]; // контейнер для текстов (заголовок, описание)
@@ -35,7 +25,7 @@ window.onload=function(){
         }
     }
     //console.log('maxHeights: '); console.dir(maxHeights);
-    //console.log('boxes: '); console.dir(boxes);
+    console.log('boxes: '); console.dir(boxes);
     //console.log('texts: '); console.dir(texts);
 
     var handleText = function(o, i, textArray) {
@@ -69,6 +59,7 @@ window.onload=function(){
                         //boxes[o][i].style.background = "";
                         if (heightDown || lengthsDiff) {
                             overflow=true;
+                            // test start
                             /*if (heightDown && lengthsDiff) {
                              boxes[o][i].style.background = "pink";
                              } else {
@@ -77,6 +68,7 @@ window.onload=function(){
                              }
                              } else {
                              boxes[o][i].style.background = "";*/
+                            // test end
                         }   //console.log('overflow: '+overflow);
                         if(overflow){
                             //pds[4].innerHTML=pds[4].textContent.substr(0,pds[4].innerHTML.length-2)+"..."

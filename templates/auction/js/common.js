@@ -1,3 +1,4 @@
+// см. также динамически подключаемый components\com_auction2013\assets\js\auction.js
 jQuery(function(){
     var $=jQuery;
     var leftPart = $('#left_part');
