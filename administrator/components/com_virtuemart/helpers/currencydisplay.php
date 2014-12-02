@@ -294,6 +294,8 @@ class CurrencyDisplay {
         // include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$price, false, false, true);
 		$currencyId = $this->getCurrencyForDisplay($currencyId);
+        // 131!
+        //showTestMessage("currencyId: $currencyId", __FILE__, __LINE__, false);
         //commonDebug(__FILE__,__LINE__,$currencyId);
 		if($nb==-1){
 			$nb = $this->_nbDecimal;
@@ -308,11 +310,13 @@ class CurrencyDisplay {
             //echo "<div>price **: $price</div>";
 		//}
 		$price = $this->convertCurrencyTo($currencyId,$price,$inToShopCurrency);
-
+        //showTestMessage("price: $price", __FILE__, __LINE__, false); 250000
 		if($this->_numeric_code===756 and VmConfig::get('rappenrundung',FALSE)=="1"){
 			$price = round((float)$price * 2,1) * 0.5;
 		}//*/
-		return $this->getFormattedCurrency($price,$nb);
+		//return $this->getFormattedCurrency($price,$nb);
+
+        return $this->getFormattedCurrency($price,$nb);
 	}
 
 	/**
@@ -386,7 +390,8 @@ class CurrencyDisplay {
                 || $forceNoLabel==='fulltime'
               ){
 				$vis = "block";
-                $priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name ); //echo "<div>priceFormatted: $priceFormatted</div>";
+                $priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name );
+                //showTestMessage("priceFormatted: $priceFormatted", __FILE__, __LINE__, false);
 			} else {
 				$priceFormatted = '';
 				$vis = "none";

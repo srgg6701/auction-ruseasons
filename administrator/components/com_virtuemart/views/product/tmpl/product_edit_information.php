@@ -159,23 +159,30 @@ $i=0;
         /* MODIFIED START
             Нужно для исключения повторной загрузки шаблона (секции) с ценой,
             если id цены не уникален. По неизвестной причине это происходит... */
-            $prices_ids=array();
+        $prices_ids=array();
         /* MODIFIED END */
         // цикл всегда выполняется, как минимум, 1 раз
 		foreach ($this->product->prices as $sPrices) {
+            $prod_price_id=$sPrices['virtuemart_product_price_id'];
             /* MODIFIED START
                 Если id цены не уникален, пропустить итерацию  */
             //echo "<div>virtuemart_product_price_id: ".$this->product->prices->virtuemart_product_price_id."</div>";
-            //commonDebug(__FILE__,__LINE__,$prices_ids, false);
-            if($this->product->prices->virtuemart_product_price_id&&in_array($this->product->prices->virtuemart_product_price_id, $prices_ids))
+            // пропустить итерацию
+            if($prod_price_id){ // цену получили
+                // id цены не уникален
+                if(in_array($prod_price_id, $prices_ids))
+                   continue;
+            }elseif(count($prices_ids)) // не получили цену, но цены уже были
                 continue;
-            /**
-             Добавить id цены в массив, чтобы пропустить итерацию в случае его повторения   */
-            $prices_ids[]=$this->product->prices->virtuemart_product_price_id;
+
+            //Добавить id цены в массив, чтобы пропустить итерацию в случае его повторения
+            $prices_ids[]=$prod_price_id;
+            //showTestMessage("price: " . $prod_price_id, __FILE__, __LINE__, false);
+            //commonDebug(__FILE__,__LINE__,$prices_ids, false);
             /* MODIFIED END */
             if(count($sPrices) == 0) continue;
-			if (empty($sPrices['virtuemart_product_price_id'])) {
-				$sPrices['virtuemart_product_price_id'] = '';
+			if (empty($prod_price_id)) {
+				$prod_price_id = '';
 			}
 			//vmdebug('my $sPrices ',$sPrices);
 			$sPrices = (array)$sPrices;

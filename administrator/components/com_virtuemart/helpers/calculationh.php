@@ -249,7 +249,9 @@ class calculationHelper {
 		//We already have the productobject, no need for extra sql
 		if (is_object($product)) {
 			$costPrice = isset($product->product_price)? $product->product_price:0;
-			$this->productCurrency = isset($product->product_currency)? $product->product_currency:0;
+			$this->productCurrency = isset($product->product_currency)? $product->product_currency:0; // $:144
+            //showTestMessage("costPrice, currency: " .$costPrice.', '.$this->productCurrency, __FILE__, __LINE__, false);
+
 			$override = isset($product->override)? $product->override:0;
 			$product_override_price = isset($product->product_override_price)? $product->product_override_price:0;
 			$this->product_tax_id = isset($product->product_tax_id)? $product->product_tax_id:0;

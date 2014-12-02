@@ -787,7 +787,8 @@ FROM #__virtuemart_products AS p
 WHERE p.virtuemart_product_id = ".$product_id;
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		return $db->loadAssoc();
+        $product = $db->loadAssoc();
+        return $product;
 	}
     /**
      * Получить id ТОП категории по её алиасу

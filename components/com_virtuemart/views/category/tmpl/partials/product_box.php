@@ -34,9 +34,10 @@ endif;?>
     if ($this->show_prices == '1') {
         // VM
         require_once 'prices_before.php';
-
+        //commonDebug(__FILE__,__LINE__,$product->prices, false);
         /**
             * Вывод цены, вариант по умолчанию */
+        //echo $this->currency->createPriceDiv ('costPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
         echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
         //-------------------------------------------------
 

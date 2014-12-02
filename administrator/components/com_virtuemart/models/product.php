@@ -1228,9 +1228,8 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
     public function getProductsInCategory($categoryId='0') {
         //commonDebug(__FILE__,__LINE__,$categoryId, true, false, true);
         $ids = $this->sortSearchListQuery(TRUE, $categoryId);
-        //commonDebug(__FILE__,__LINE__,$ids, true);
         $this->products = $this->getProducts($ids);
-        //var_dump("<pre>",$this->products,"</pre>"); die(__FILE__);
+        //commonDebug(__FILE__,__LINE__,$this->products, false);
         return $this->products;
     }
 
