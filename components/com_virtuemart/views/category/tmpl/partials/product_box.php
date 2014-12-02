@@ -12,7 +12,7 @@ if(count($product->virtuemart_media_id)>1):?>
     </div>
 <?php
 endif;?>
-    <a title="<?=$product->link?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?>
+    <a title="<?=$product->product_name?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?>
         <div class="img"><?php
             echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false)?>
         </div>
