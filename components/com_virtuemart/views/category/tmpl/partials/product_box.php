@@ -1,3 +1,4 @@
+<?php //commonDebug(__FILE__,__LINE__,$product, false);?>
 <div class="box">
 <?php
 if(count($product->virtuemart_media_id)>1):?>
@@ -18,7 +19,7 @@ endif;?>
         </div>
         <h2><?php
             // обрабатывается клиентским скриптом
-            echo $product->product_name; ?></h2>
+            echo $product->product_sku . ' ' . $product->product_name; ?></h2>
     </a>
     <?php
     if (!empty($product->product_s_desc)):?>
