@@ -323,6 +323,7 @@ div{
         width: 226px;
       }
       &.PricesalesPrice{
+        margin-top: 5px;
         min-height: 35px;
       }
     }
@@ -608,6 +609,7 @@ h1{
 h2 {
   .box &{
     height: 34px; // 44px !important
+    margin: 5px 0 2px;
     overflow: hidden;
   }
   .box &:hover{
@@ -888,6 +890,7 @@ p {
   div.item-page-shop &{
     &.product_s_desc{
       color:black;
+      margin: 0 !important;
     }
   }
 }
