@@ -153,7 +153,6 @@ $i=0;
     <table border="0" width="100%" cellpadding="2" cellspacing="3" id="mainPriceTable" class="adminform">
         
         <tbody id="productPriceBody">
-		
 		<?php
 		//vmdebug('grummel ',$this->product->prices);
         //commonDebug(__FILE__,__LINE__,$this->product->prices, false);
@@ -162,10 +161,13 @@ $i=0;
             если id цены не уникален. По неизвестной причине это происходит... */
             $prices_ids=array();
         /* MODIFIED END */
+        // цикл всегда выполняется, как минимум, 1 раз
 		foreach ($this->product->prices as $sPrices) {
             /* MODIFIED START
                 Если id цены не уникален, пропустить итерацию  */
-            if(in_array($this->product->prices->virtuemart_product_price_id, $prices_ids))
+            //echo "<div>virtuemart_product_price_id: ".$this->product->prices->virtuemart_product_price_id."</div>";
+            //commonDebug(__FILE__,__LINE__,$prices_ids, false);
+            if($this->product->prices->virtuemart_product_price_id&&in_array($this->product->prices->virtuemart_product_price_id, $prices_ids))
                 continue;
             /**
              Добавить id цены в массив, чтобы пропустить итерацию в случае его повторения   */
@@ -233,11 +235,11 @@ $i=0;
 				<?php //echo JText::_ ('COM_VIRTUEMART_PRODUCT_PRICE_ORDER'); ?>
 				<?php echo $this->loadTemplate ('price'); ?>
             </td>
-        </tr><?php ?>
+        </tr>
 			<?php
 			$this->priceCounter++;
 		}
-		?>
+        ?>
         </tbody>
     </table>
     <div class="button2-left">
