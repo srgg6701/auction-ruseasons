@@ -291,7 +291,8 @@ class CurrencyDisplay {
 	 * return string formatted price
 	 */
 	public function priceDisplay($price, $currencyId=0,$quantity = 1.0,$inToShopCurrency = false,$nb= -1){
-
+        // include_once JPATH_SITE.DS.'tests.php';
+        //commonDebug(__FILE__,__LINE__,$price, false, false, true);
 		$currencyId = $this->getCurrencyForDisplay($currencyId);
         //commonDebug(__FILE__,__LINE__,$currencyId);
 		if($nb==-1){
@@ -302,7 +303,9 @@ class CurrencyDisplay {
 	/*	if($this->_vendorCurrency_numeric===756){ // and $this->_numeric_code!==$this->_vendorCurrency_numeric){
 			$price = round((float)$price * 2,1) * 0.5 * (float)$quantity;
 		} else {*/
+            //echo "<div>price *: $price</div>";
 			$price = round((float)$price,$nb) * (float)$quantity;
+            //echo "<div>price **: $price</div>";
 		//}
 		$price = $this->convertCurrencyTo($currencyId,$price,$inToShopCurrency);
 
@@ -318,8 +321,7 @@ class CurrencyDisplay {
 	 * @param val number
 	 */
 	private function getFormattedCurrency( $nb, $nbDecimal=-1){
-
-		//TODO $this->_nbDecimal is the config of the currency and $nbDecimal is the config of the price type.
+        //TODO $this->_nbDecimal is the config of the currency and $nbDecimal is the config of the price type.
 		if($nbDecimal==-1) $nbDecimal = $this->_nbDecimal;
 		if($nb>=0){
 			$format = $this->_positivePos;
@@ -332,7 +334,7 @@ class CurrencyDisplay {
 
 		//$res = $this->formatNumber($nb, $nbDecimal, $this->_thousands, $this->_decimal);
 		$res = number_format((float)$nb,(int)$nbDecimal,$this->_decimal,$this->_thousands);
-		$search = array('{sign}', '{number}', '{symbol}');
+		$search = array('{sign}', '{number}', '{symbol}'); //echo "<div>$sign, $res, $this->_symbol</div>";
 		$replace = array($sign, $res, $this->_symbol);
 		$formattedRounded = str_replace ($search,$replace,$format);
 
@@ -384,7 +386,7 @@ class CurrencyDisplay {
                 || $forceNoLabel==='fulltime'
               ){
 				$vis = "block";
-                $priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name );
+                $priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name ); //echo "<div>priceFormatted: $priceFormatted</div>";
 			} else {
 				$priceFormatted = '';
 				$vis = "none";
@@ -404,7 +406,8 @@ class CurrencyDisplay {
 			$descr = '';
 			if($this->_priceConfig[$name][2]) $descr = JText::_($description);
 			// 			vmdebug('createPriceDiv $name '.$name.' '.$product_price[$name]);
-			if(!$switchSequel){
+			// для аукциона приходим сюда
+            if(!$switchSequel){
 				return '<div class="Price'.$name.'" style="display : '.$vis.';" >'.$descr.'<span class="Price'.$name.'" >'.$priceFormatted.' </span>'.$make_lot.'</div>';
 			} else {
 				return '<div class="Price'.$name.'" style="display : '.$vis.';" ><span class="Price'.$name.'" >'.$priceFormatted.'</span>'.$descr.$make_lot.'</div>';

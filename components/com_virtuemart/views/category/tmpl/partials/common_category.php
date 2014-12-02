@@ -15,13 +15,10 @@
 
 		$this->category->slug
  */
-
-//commonDebug(__FILE__,__LINE__,JRequest::get('get'), true);
-
-$categoryLayout = JRequest::getVar('layout');
+$categoryLayout=AuctionStuff::getTopLayout();
 HTML::pageHead($categoryLayout);
 ?>
-<div class="item-page-<?php echo $categoryLayout;?>">
+<div class="item-page-<?php echo $categoryLayout;?> category-layout">
 <?php   if(JRequest::getVar('spag')) var_dump($this->vmPagination); ?>
 <br>
 <?php if (empty($this->keyword)):?>

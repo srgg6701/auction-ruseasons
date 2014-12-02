@@ -624,10 +624,7 @@ h2 {
       line-height: normal !important;
     }
   }
-  div.item-page-shop .box &{
-    @include imHeader;
-  }
-  div.item-page-shop.fulltime &{
+  div.category-layout .box &{
     @include imHeader;
   }
   div.top_list &{

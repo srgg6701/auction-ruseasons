@@ -1,4 +1,4 @@
-USE auctionru_2013;
+﻿USE auctionru_2013;
 SELECT
   DISTINCT prod.virtuemart_product_id     AS 'prod.id',
   prod_ru_ru.product_name                 AS 'item name',
@@ -11,6 +11,7 @@ SELECT
                                           AS bids,
   prod_prices.product_price               AS 'prod. price',
   sales_prices.min_price                  AS 'min. price', 
+  crncy.currency_name                     AS 'currency',
   prod_prices.product_price_publish_up    AS 'publish_up',
   prod.product_available_date             AS 'auction_start',
   prod.auction_date_finish                AS 'auction_finish',
@@ -49,6 +50,9 @@ SELECT
    LEFT JOIN auc13_virtuemart_categories_ru_ru        AS cats_ruru2
               ON cats_ruru2.virtuemart_category_id   = catscats.category_parent_id
    
+   LEFT JOIN auc13_virtuemart_currencies              AS crncy
+              ON crncy.virtuemart_currency_id        = prod_prices.product_currency
+
    LEFT JOIN auc13_dev_shop_orders                    AS shop_orders
               ON shop_orders.virtuemart_product_id  = prod.virtuemart_product_id
    /*LEFT JOIN auc13_dev_auction_rates                           AS bids
@@ -57,7 +61,7 @@ SELECT
               ON prod_medias.virtuemart_product_id  = prod.virtuemart_product_id
    LEFT JOIN auc13_virtuemart_medias                  AS medias
               ON medias.virtuemart_media_id = prod_medias.virtuemart_media_id
-  WHERE   cats_ruru2.category_name LIKE 'Магазин'
+  WHERE   cats_ruru2.category_name LIKE 'Очные торги'
 
           -- AND prod.virtuemart_product_id = 2702 OR prod.virtuemart_product_id = 2772
             -- prod_ru_ru.product_name LIKE '%�����%' AND
