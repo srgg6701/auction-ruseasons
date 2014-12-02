@@ -28,8 +28,8 @@ LEFT JOIN #__virtuemart_category_categories AS cat_cats
 WHERE cat_cats.category_parent_id = 0';
 		if($published)
 			$query.=' AND cats.`published` = "1"';
-		$query.='
-      AND cats_ru.category_name <> "Очные торги" -- исключить fulltime
+		//$query.='      AND cats_ru.category_name <> "Очные торги" -- исключить fulltime ';
+        $query.='
 ORDER BY cats.ordering DESC';
 		if(!$db) 
 			$db=JFactory::getDBO();
