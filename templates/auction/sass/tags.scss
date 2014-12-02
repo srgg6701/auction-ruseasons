@@ -235,6 +235,9 @@ a {
     padding-top:5px !important;
     padding-bottom: 5px !important;
   }
+  .box &{
+    text-decoration: none;
+  }
   .result-title &{
     display: block;
     font-size: 13px;
@@ -606,6 +609,7 @@ h2 {
   .box &{
     height: 34px; // 44px !important
     overflow: hidden;
+    text-decoration: underline;
   }
   .content_box &.title{
     margin-top: 8px;
