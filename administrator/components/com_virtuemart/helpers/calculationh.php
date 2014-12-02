@@ -273,6 +273,7 @@ class calculationHelper {
 			$this->_db->setQuery('SELECT `vendor_currency` FROM #__virtuemart_vendors  WHERE `virtuemart_vendor_id`="' . $this->productVendorId . '" ');
 			$single = $this->_db->loadResult();
 			$this->vendorCurrency = $single;
+            //showTestMessage("vendorCurrency: ".$this->vendorCurrency, __FILE__, __LINE__, false);
 		}
 
 		if (!empty($amount)) {
@@ -283,10 +284,12 @@ class calculationHelper {
 
 		//For Profit, margin, and so on
 		$this->rules['Marge'] = $this->gatherEffectingRulesForProductPrice('Marge', $this->product_marge_id);
-
+        //showTestMessage("productCurrency: $this->productCurrency", __FILE__, __LINE__, false);
 		$this->productPrices['costPrice'] = $costPrice;
 		$basePriceShopCurrency = $this->roundInternal($this->_currencyDisplay->convertCurrencyTo((int) $this->productCurrency, $costPrice,true));
 		//vmdebug('my pure $basePriceShopCurrency',$costPrice,$this->productCurrency,$basePriceShopCurrency);
+        //commonDebug(__FILE__,__LINE__,$this->_currencyDisplay, true);
+        //showTestMessage("convertCurrencyTo: ".convertCurrencyTo((int) $this->productCurrency, $costPrice,true), __FILE__, __LINE__, false);
 		$basePriceMargin = $this->roundInternal($this->executeCalculation($this->rules['Marge'], $basePriceShopCurrency));
 		$this->basePrice = $basePriceShopCurrency = $this->productPrices['basePrice'] = !empty($basePriceMargin) ? $basePriceMargin : $basePriceShopCurrency;
 

@@ -1,4 +1,3 @@
-<?php //commonDebug(__FILE__,__LINE__,$product, false);?>
 <div class="box">
 <?php
 if(count($product->virtuemart_media_id)>1):?>
@@ -38,6 +37,12 @@ endif;?>
         /**
             * Вывод цены, вариант по умолчанию */
         //echo $this->currency->createPriceDiv ('costPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
+        $pr=$this->products[0]; //commonDebug(__FILE__,__LINE__,$pr, false);
+        $this->currency->arr_prices=array(
+                    'product_price'=>$pr->product_price,
+                    'currency_symbol'=>$pr->currency_symbol,
+                    'product_currency'=>$pr->product_currency
+                );
         echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
         //-------------------------------------------------
 

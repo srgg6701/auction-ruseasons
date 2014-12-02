@@ -22,8 +22,12 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
  */
 
 class CurrencyDisplay {
+    /* MODIFIED START */
+    //public $rigid_price_format;
+    public $arr_prices;
+    /* MODIFIED END */
 
-	static $_instance;
+    static $_instance;
 	private $_currencyConverter;
 
 	private $_currency_id   = '0';		// string ID related with the currency (ex : language)
@@ -412,11 +416,26 @@ class CurrencyDisplay {
 			if($this->_priceConfig[$name][2]) $descr = JText::_($description);
 			// 			vmdebug('createPriceDiv $name '.$name.' '.$product_price[$name]);
 			// для аукциона приходим сюда
+            if($this->arr_prices){
+                /*array(3) {
+                    ["product_price"]=>"220000.00000"
+                    ["currency_symbol"]=>"$"
+                    ["product_currency"]=>"144"
+                }*/
+                //commonDebug(__FILE__,__LINE__,$this->arr_prices, false);
+                $pval = round($this->arr_prices['product_price']);
+                if($this->arr_prices['currency_symbol']=='$'){
+                    $priceFormatted=$this->arr_prices['currency_symbol'] .  $pval;
+                }else{
+                    $priceFormatted=$pval . ' руб';
+                }
+            }
             if(!$switchSequel){
-				return '<div class="Price'.$name.'" style="display : '.$vis.';" >'.$descr.'<span class="Price'.$name.'" >'.$priceFormatted.' </span>'.$make_lot.'</div>';
+                return '<div class="Price'.$name.'" style="display : '.$vis.';" >'.$descr.'<span class="Price'.$name.'" >'.$priceFormatted.' </span>'.$make_lot.'</div>';
 			} else {
 				return '<div class="Price'.$name.'" style="display : '.$vis.';" ><span class="Price'.$name.'" >'.$priceFormatted.'</span>'.$descr.$make_lot.'</div>';
 			}
+            $this->arr_prices=NULL;
 		}
 	}
 
