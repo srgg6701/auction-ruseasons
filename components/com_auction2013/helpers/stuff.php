@@ -975,6 +975,22 @@ WHERE cats_cats.category_parent_id = 0";
 		return $ItemIds;
 	}
     /**
+     * Получить layout TOP-категории, когда сам layout не передан
+     */
+    public function getTopLayout(){
+        if(!$categoryLayout = JRequest::getVar('layout')){
+            $layouts=AuctionStuff::getTopCatsMenuItemIds('main');
+            $layouts=array_flip($layouts);
+            //commonDebug(__FILE__,__LINE__,$layouts);
+            $get=JRequest::get('get');
+            return $layouts[$get['Itemid']];
+            //showTestMessage($categoryLayout, __FILE__, __LINE__, false);
+        }
+        // если layout был уже получен, просто вернём его
+        return $categoryLayout;
+    }
+
+    /**
      * Получить лоты юзера; указать его статус игрока.
      */
     public static function getUserLots($user_id=NULL){
