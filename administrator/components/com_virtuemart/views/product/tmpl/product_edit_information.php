@@ -153,87 +153,87 @@ $i=0;
     <table border="0" width="100%" cellpadding="2" cellspacing="3" id="mainPriceTable" class="adminform">
         
         <tbody id="productPriceBody">
-		<?php
-		//vmdebug('grummel ',$this->product->prices);
-        //commonDebug(__FILE__,__LINE__,$this->product->prices, false);
+	<?php
+    //vmdebug('grummel ',$this->product->prices);
+    //commonDebug(__FILE__,__LINE__,$this->product->prices, false);
+    /* MODIFIED START
+        Нужно для исключения повторной загрузки шаблона (секции) с ценой,
+        если id цены не уникален. По неизвестной причине это происходит... */
+    $prices_ids=array();
+    /* MODIFIED END */
+    // цикл всегда выполняется, как минимум, 1 раз
+    foreach ($this->product->prices as $sPrices) {
+        $prod_price_id=$sPrices['virtuemart_product_price_id'];
         /* MODIFIED START
-            Нужно для исключения повторной загрузки шаблона (секции) с ценой,
-            если id цены не уникален. По неизвестной причине это происходит... */
-        $prices_ids=array();
+            Если id цены не уникален, пропустить итерацию  */
+        //echo "<div>virtuemart_product_price_id: ".$this->product->prices->virtuemart_product_price_id."</div>";
+        // пропустить итерацию
+        if($prod_price_id){ // цену получили
+            // id цены не уникален
+            if(in_array($prod_price_id, $prices_ids))
+               continue;
+        }elseif(count($prices_ids)) // не получили цену, но цены уже были
+            continue;
+
+        //Добавить id цены в массив, чтобы пропустить итерацию в случае его повторения
+        if($prod_price_id) $prices_ids[]=$prod_price_id;
+        //showTestMessage("price: " . $prod_price_id, __FILE__, __LINE__, false);
+        //commonDebug(__FILE__,__LINE__,$prices_ids, false);
         /* MODIFIED END */
-        // цикл всегда выполняется, как минимум, 1 раз
-		foreach ($this->product->prices as $sPrices) {
-            $prod_price_id=$sPrices['virtuemart_product_price_id'];
-            /* MODIFIED START
-                Если id цены не уникален, пропустить итерацию  */
-            //echo "<div>virtuemart_product_price_id: ".$this->product->prices->virtuemart_product_price_id."</div>";
-            // пропустить итерацию
-            if($prod_price_id){ // цену получили
-                // id цены не уникален
-                if(in_array($prod_price_id, $prices_ids))
-                   continue;
-            }elseif(count($prices_ids)) // не получили цену, но цены уже были
-                continue;
+        if(count($sPrices) == 0) continue;
+        if (empty($prod_price_id)) {
+            $prod_price_id = '';
+        }
+        //vmdebug('my $sPrices ',$sPrices);
+        $sPrices = (array)$sPrices;
+        $this->tempProduct = (object)array_merge ((array)$this->product, $sPrices);
+        $this->calculatedPrices = $calculator->getProductPrices ($this->tempProduct);
 
-            //Добавить id цены в массив, чтобы пропустить итерацию в случае его повторения
-            $prices_ids[]=$prod_price_id;
-            //showTestMessage("price: " . $prod_price_id, __FILE__, __LINE__, false);
-            //commonDebug(__FILE__,__LINE__,$prices_ids, false);
-            /* MODIFIED END */
-            if(count($sPrices) == 0) continue;
-			if (empty($prod_price_id)) {
-				$prod_price_id = '';
-			}
-			//vmdebug('my $sPrices ',$sPrices);
-			$sPrices = (array)$sPrices;
-			$this->tempProduct = (object)array_merge ((array)$this->product, $sPrices);
-			$this->calculatedPrices = $calculator->getProductPrices ($this->tempProduct);
+        if((string)$sPrices['product_price']==='0' or (string)$sPrices['product_price']===''){
+            $this->calculatedPrices['costPrice'] = '';
+        }
 
-			if((string)$sPrices['product_price']==='0' or (string)$sPrices['product_price']===''){
-				$this->calculatedPrices['costPrice'] = '';
-			}
+        $currency_model = VmModel::getModel ('currency');
+        $this->lists['currencies'] = JHTML::_ ('select.genericlist', $currencies, 'mprices[product_currency][' . $this->priceCounter . ']', '', 'virtuemart_currency_id', 'currency_name', $this->tempProduct->product_currency);
 
-			$currency_model = VmModel::getModel ('currency');
-			$this->lists['currencies'] = JHTML::_ ('select.genericlist', $currencies, 'mprices[product_currency][' . $this->priceCounter . ']', '', 'virtuemart_currency_id', 'currency_name', $this->tempProduct->product_currency);
+        $DBTax = ''; //JText::_('COM_VIRTUEMART_RULES_EFFECTING') ;
+        foreach ($calculator->rules['DBTax'] as $rule) {
+            $DBTax .= $rule['calc_name'] . '<br />';
+        }
+        $this->DBTaxRules = $DBTax;
 
-			$DBTax = ''; //JText::_('COM_VIRTUEMART_RULES_EFFECTING') ;
-			foreach ($calculator->rules['DBTax'] as $rule) {
-				$DBTax .= $rule['calc_name'] . '<br />';
-			}
-			$this->DBTaxRules = $DBTax;
+        $tax = ''; //JText::_('COM_VIRTUEMART_TAX_EFFECTING').'<br />';
+        foreach ($calculator->rules['Tax'] as $rule) {
+            $tax .= $rule['calc_name'] . '<br />';
+        }
+        foreach ($calculator->rules['VatTax'] as $rule) {
+            $tax .= $rule['calc_name'] . '<br />';
+        }
+        $this->taxRules = $tax;
 
-			$tax = ''; //JText::_('COM_VIRTUEMART_TAX_EFFECTING').'<br />';
-			foreach ($calculator->rules['Tax'] as $rule) {
-				$tax .= $rule['calc_name'] . '<br />';
-			}
-			foreach ($calculator->rules['VatTax'] as $rule) {
-				$tax .= $rule['calc_name'] . '<br />';
-			}
-			$this->taxRules = $tax;
+        $DATax = ''; //JText::_('COM_VIRTUEMART_RULES_EFFECTING');
+        foreach ($calculator->rules['DATax'] as $rule) {
+            $DATax .= $rule['calc_name'] . '<br />';
+        }
+        $this->DATaxRules = $DATax;
 
-			$DATax = ''; //JText::_('COM_VIRTUEMART_RULES_EFFECTING');
-			foreach ($calculator->rules['DATax'] as $rule) {
-				$DATax .= $rule['calc_name'] . '<br />';
-			}
-			$this->DATaxRules = $DATax;
+        if (!isset($this->tempProduct->product_tax_id)) {
+            $this->tempProduct->product_tax_id = 0;
+        }
+        $this->lists['taxrates'] = ShopFunctions::renderTaxList ($this->tempProduct->product_tax_id, 'mprices[product_tax_id][' . $this->priceCounter . ']');
+        if (!isset($this->tempProduct->product_discount_id)) {
+            $this->tempProduct->product_discount_id = 0;
+        }
+        $this->lists['discounts'] = $this->renderDiscountList ($this->tempProduct->product_discount_id, 'mprices[product_discount_id][' . $this->priceCounter . ']');
 
-			if (!isset($this->tempProduct->product_tax_id)) {
-				$this->tempProduct->product_tax_id = 0;
-			}
-			$this->lists['taxrates'] = ShopFunctions::renderTaxList ($this->tempProduct->product_tax_id, 'mprices[product_tax_id][' . $this->priceCounter . ']');
-			if (!isset($this->tempProduct->product_discount_id)) {
-				$this->tempProduct->product_discount_id = 0;
-			}
-			$this->lists['discounts'] = $this->renderDiscountList ($this->tempProduct->product_discount_id, 'mprices[product_discount_id][' . $this->priceCounter . ']');
+        $this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList ($this->tempProduct->virtuemart_shoppergroup_id, false, 'mprices[virtuemart_shoppergroup_id][' . $this->priceCounter . ']');
 
-			$this->lists['shoppergroups'] = ShopFunctions::renderShopperGroupList ($this->tempProduct->virtuemart_shoppergroup_id, false, 'mprices[virtuemart_shoppergroup_id][' . $this->priceCounter . ']');
-
-			if ($this->priceCounter == $nbPrice) {
-				$tmpl = "productPriceRowTmpl";
-			} else {
-				$tmpl = "productPriceRowTmpl_" . $this->priceCounter;
-			}
-			?>
+        if ($this->priceCounter == $nbPrice) {
+            $tmpl = "productPriceRowTmpl";
+        } else {
+            $tmpl = "productPriceRowTmpl_" . $this->priceCounter;
+        }
+        ?>
         <tr id="<?php echo $tmpl ?>" class="removable row<?php echo $rowColor?>">
             <td width="100%">
                 <span class="vmicon vmicon-16-move price_ordering"></span>
