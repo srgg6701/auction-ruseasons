@@ -106,9 +106,9 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
           Цена:...........................
           <span class="span_o_o">
               <b><?php
-              echo $this->product->prices['basePriceVariant'] .
-              ' ' . $this->product->currency_symbol;
-              ?>.</b>
+              $startPrice=CurrencyDisplay::getPriceBlock( array('product_price'=>$this->product->product_price, 'currency_symbol'=>$this->product->currency_symbol), true );
+              echo $startPrice;
+              ?></b>
           </span>
         </div>
 <?php   /**
@@ -214,11 +214,10 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
             endif;
         ?>:
       <span class="span_o_o">
-          <b>
-		<?php
+          <b><?php
+        //-цена-
         $startPrice = substr($this->product->product_price,0,strpos($this->product->product_price,'.'));
-        echo $startPrice;?>
-          </b>
+        echo $startPrice;?></b>
     <?php   if((int)$topItem['fulltime']===(int)$Itemid):
     ?>
           <b> -
