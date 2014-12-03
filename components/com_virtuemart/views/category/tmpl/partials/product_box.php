@@ -40,8 +40,8 @@ endif;?>
         $pr=$this->products[0]; //commonDebug(__FILE__,__LINE__,$pr, false);
         $this->currency->arr_prices=array(
                     'product_price'=>$pr->product_price,
-                    'currency_symbol'=>$pr->currency_symbol,
-                    'product_currency'=>$pr->product_currency
+                    'currency_symbol'=>$pr->currency_symbol/*,
+                    'product_currency'=>$pr->product_currency*/
                 );
         echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
         //-------------------------------------------------

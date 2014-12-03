@@ -417,18 +417,9 @@ class CurrencyDisplay {
 			// 			vmdebug('createPriceDiv $name '.$name.' '.$product_price[$name]);
 			// для аукциона приходим сюда
             if($this->arr_prices){
-                /*array(3) {
-                    ["product_price"]=>"220000.00000"
-                    ["currency_symbol"]=>"$"
-                    ["product_currency"]=>"144"
-                }*/
-                //commonDebug(__FILE__,__LINE__,$this->arr_prices, false);
-                $pval = round($this->arr_prices['product_price']);
-                if($this->arr_prices['currency_symbol']=='$'){
-                    $priceFormatted=$this->arr_prices['currency_symbol'] .  $pval;
-                }else{
-                    $priceFormatted=$pval . ' руб';
-                }
+                /**
+                 *  Модифицировать блок с ценой, исходя из того, что это - или доллар, или рубль*/
+                $priceFormatted=CurrencyDisplay::getPriceBlock($this->arr_prices);
             }
             if(!$switchSequel){
                 return '<div class="Price'.$name.'" style="display : '.$vis.';" >'.$descr.'<span class="Price'.$name.'" >'.$priceFormatted.' </span>'.$make_lot.'</div>';
@@ -439,6 +430,22 @@ class CurrencyDisplay {
 		}
 	}
 
+    static public function getPriceBlock($arr_prices, $check_dot=false){
+        //commonDebug(__FILE__,__LINE__,$arr_prices, false);
+        /*array(3) {
+                    ["product_price"]=>"220000.00000"
+                    ["currency_symbol"]=>"$"
+                    ["product_currency"]=>"144"
+                }*/
+        $pval = round(intval($arr_prices['product_price']));
+        if ($arr_prices['currency_symbol']=='$')
+            $priceFormatted=$arr_prices['currency_symbol'] .  $pval;
+        else{
+            $priceFormatted=$pval . ' руб';
+            if($check_dot) $priceFormatted.='.';
+        }
+        return $priceFormatted;
+    }
 	/**
 	 *
 	 * @author Max Milbers
