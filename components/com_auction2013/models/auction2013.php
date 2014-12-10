@@ -785,25 +785,31 @@ INNER JOIN #__virtuemart_product_prices  AS prices
      * @subpackage
      */
     public function getProductsForAuction($auction_number){
-        $query="SELECT
-  prod_ru.virtuemart_product_id,
-  prod_ru.product_name,
-  prod_ru.slug,
-  cats.virtuemart_category_id,
-  cats_ru.slug,
-  prod_ru.product_s_desc,
-  (SELECT alias
-    FROM #__menu
-    WHERE menutype = 'mainmenu'
-    AND link LIKE '%=com_virtuemart%'
-    AND link LIKE CONCAT( '%virtuemart_category_id=',(
-      SELECT category_parent_id
-        FROM #__virtuemart_category_categories
-       WHERE category_child_id = cats.virtuemart_category_id)
-    )
-  ) AS top_category_alias,
-  prod.auction_number,
-  medias.file_url_thumb
+        $query="SELECT  prod_ru.virtuemart_product_id,
+        prod_ru.product_name AS title,
+        prod_ru.product_s_desc,";
+        //echo JURI::base();
+        // добавить извлечение ссылки
+        $query.=(!JApplication::getRouter()->getMode())?
+            "
+  CONCAT('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=',
+          prod_ru.virtuemart_product_id,
+         '&virtuemart_category_id=',
+         cats.virtuemart_category_id  ) AS href,"
+            :
+            "
+  CONCAT( '".JURI::base()."аукцион/', ( SELECT alias
+              FROM #__menu
+             WHERE menutype = 'mainmenu'
+               AND link LIKE '%=com_virtuemart%'
+               AND link LIKE CONCAT( '%virtuemart_category_id=',(
+                                      SELECT category_parent_id
+                                        FROM #__virtuemart_category_categories
+                                       WHERE category_child_id = cats.virtuemart_category_id)
+                                  )
+          ), '/', cats_ru.slug, '/', prod_ru.slug, '-detail' ) AS href,";
+        $query.="
+  medias.file_url_thumb AS image
 FROM #__virtuemart_products_ru_ru prod_ru
   INNER JOIN #__virtuemart_products prod
     ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id
@@ -817,15 +823,7 @@ FROM #__virtuemart_products_ru_ru prod_ru
     ON prods_media.virtuemart_media_id = medias.virtuemart_media_id
         WHERE auction_number = $auction_number";
         $db=JFactory::getDbo();
-        /*$query = $db->getQuery(true);
-        $query->select($db->quoteName(array('prod_ru.virtuemart_product_id', 'product_name', 'product_s_desc', 'file_url_thumb')))
-            ->from($db->quoteName('#__virtuemart_products_ru_ru AS prod_ru'))
-            ->innerJoin('#__virtuemart_products AS prod ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id')
-            ->leftJoin('#__virtuemart_product_medias AS prods_media ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id')
-            ->leftJoin('#__virtuemart_medias AS medias ON prods_media.virtuemart_media_id = medias.virtuemart_media_id')
-            ->where($db->quoteName('auction_number = ' . $auction_number));
-        $query->order('product_name');*/
-        testSQL($query, __FILE__, __LINE__, false, '', false);
+        //testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);
         $results = $db->loadObjectList(); // Result, loadAssoc, ArrayList, Column, Row, RowList
         $this->_total	= count($results);

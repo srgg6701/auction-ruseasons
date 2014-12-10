@@ -863,7 +863,7 @@ FROM #__virtuemart_categories AS cats
   INNER JOIN #__menu AS menu
     ON menu.link LIKE CONCAT('%&virtuemart_category_id=',cats.virtuemart_category_id)
 WHERE cats_cats.category_parent_id = 0";
-        testSQL($query,__FILE__, __LINE__);
+        //testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
         if($array){
             self::$menu_layouts_query_array=$query;

@@ -188,7 +188,7 @@ class VirtuemartViewCategory extends VmView {
         //commonDebug(__FILE__,__LINE__,$categoryId, true);
         // VirtueMartModelProduct::
         $products = $productModel->getProductsInCategory($categoryId);
-        commonDebug(__FILE__, __LINE__, $products, false);
+        //commonDebug(__FILE__, __LINE__, $products, false);
 
         $productModel->addImages($products,1);
 
