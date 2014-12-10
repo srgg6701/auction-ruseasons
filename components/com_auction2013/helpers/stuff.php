@@ -106,11 +106,12 @@ class AuctionStuff{
 		// todo: разобраться в целесообразности...
         $links = self::getSessionCategoriesLinks();
         //commonDebug(__FILE__, __LINE__, $links, true);
+        $link_type=(JApplication::getRouter()->getMode())?
+            'sef':'link';
         foreach($links as $layout=>$data){
             // если таки есть категория с таким id
             if(array_key_exists($virtuemart_category_id, $data['child_links'])){
-                $link_type=(JApplication::getRouter()->getMode())?
-                    'sef':'link';
+
                 return $data['child_links'][$virtuemart_category_id][$link_type];
             }
         }
