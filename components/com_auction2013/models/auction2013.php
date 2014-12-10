@@ -788,17 +788,22 @@ INNER JOIN #__virtuemart_product_prices  AS prices
         $query="SELECT
         prod_ru.virtuemart_product_id,
         product_name,
+        cats.virtuemart_category_id,
         product_s_desc,
         auction_number,
         file_url_thumb
         FROM #__virtuemart_products_ru_ru AS prod_ru
         INNER JOIN #__virtuemart_products AS prod
         ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id
+        INNER JOIN #__virtuemart_product_categories cats
+         ON cats.virtuemart_product_id = prod.virtuemart_product_id
         LEFT JOIN #__virtuemart_product_medias AS prods_media
         ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id
         LEFT JOIN #__virtuemart_medias AS medias
         ON prods_media.virtuemart_media_id = medias.virtuemart_media_id
         WHERE auction_number = $auction_number";
+        //  index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=4194&virtuemart_category_id=24
+        //  /auction-ruseasons/аукцион/очные-торги/zhivopis-grafika/zhivopiz-detail
         $db=JFactory::getDbo();
         /*$query = $db->getQuery(true);
         $query->select($db->quoteName(array('prod_ru.virtuemart_product_id', 'product_name', 'product_s_desc', 'file_url_thumb')))
