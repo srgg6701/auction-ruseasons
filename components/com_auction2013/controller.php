@@ -41,6 +41,10 @@ class Auction2013Controller extends JController
             else{
                 $model = $this->getModel('auction2013');
                 $view->setModel($model, true);
+                if($lName=='auctions'){
+                    //die("<div>Показать предметы аукциона</div>");
+                    $view->results=$model->getProductsForAuction(JRequest::getVar('auction'));
+                }
                 $view->setLayout($lName);
                 $view->assignRef('document', $document);
                 $view->display();

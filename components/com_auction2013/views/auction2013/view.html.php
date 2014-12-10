@@ -25,7 +25,20 @@ class Auction2013ViewAuction2013 extends JView
 		$this->state	= $this->get('State');
 		$this->params	= $this->state->get('params');
 		$this->item		= $this->get('Item');
-		// Check for errors.
+
+        //showTestMessage("layout: " .$this->getLayout(), __FILE__, __LINE__, true);
+        if($this->getLayout()=='auctions'){
+            //$total		= $this->get('total');
+            //commonDebug(__FILE__,__LINE__,$this->results, true);
+            //  index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=4194&virtuemart_category_id=24
+            //  /auction-ruseasons/аукцион/очные-торги/zhivopis-grafika/zhivopiz-detail
+            //$this->link_segment=JApplication::getRouter()->getMode()?  '':'';
+            //showTestMessage("getTopCatsLayouts", __FILE__, __LINE__, false);
+            //AuctionStuff::getTopCatsLayouts();
+            $this->assignRef('pagination',  $this->get('pagination'));
+        }
+
+        // Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;

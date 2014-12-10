@@ -23,6 +23,11 @@ class AuctionStuff{
     static $prods_value=0;
     static private $top_cats_index_ids=NULL;        // [index]=>category_id
     static private $top_cats_layouts_ids=NULL;      // [layout]=>category_id
+    static private $top_cats_full=NULL;
+    static private $top_cats_ids=NULL;
+    static private $top_cats_layouts=NULL;
+    static private $menu_layouts_query=NULL;
+    static private $menu_layouts_query_array=NULL;
     static $vm_category_id = '&virtuemart_category_id=';
     /**
  * Добавить предмет в избранное
@@ -111,7 +116,6 @@ class AuctionStuff{
         foreach($links as $layout=>$data){
             // если таки есть категория с таким id
             if(array_key_exists($virtuemart_category_id, $data['child_links'])){
-
                 return $data['child_links'][$virtuemart_category_id][$link_type];
             }
         }
@@ -826,14 +830,25 @@ WHERE p.virtuemart_product_id = ".$product_id;
         return true;
     }*/
     /**
-     * Комментарий
+     * Создать запрос извлечения алиаса меню для категории предмета
      * @package
      * @subpackage
      */
     public function getAlias($db,$array=NULL){
+        //debug_print_backtrace();
+        if($array){
+            if(self::$menu_layouts_query_array){
+                $db->setQuery(self::$menu_layouts_query_array);
+                return true;
+            }
+        }else{
+            if(self::$menu_layouts_query){
+                $db->setQuery(self::$menu_layouts_query);
+                return true;
+            }
+        }
         $query = "SELECT ";
-        if($array)
-            $query.= "
+        if($array) $query.= "
   cats.virtuemart_category_id,";
 
         $query.= "
@@ -848,8 +863,13 @@ FROM #__virtuemart_categories AS cats
   INNER JOIN #__menu AS menu
     ON menu.link LIKE CONCAT('%&virtuemart_category_id=',cats.virtuemart_category_id)
 WHERE cats_cats.category_parent_id = 0";
-        //testSQL($query,__FILE__, __LINE__);
+        testSQL($query,__FILE__, __LINE__);
         $db->setQuery($query);
+        if($array){
+            self::$menu_layouts_query_array=$query;
+        }else{
+            self::$menu_layouts_query=$query;
+        }
         return true;
     }
 
@@ -863,17 +883,20 @@ WHERE cats_cats.category_parent_id = 0";
  * @subpackage
  */
 	public static function getTopCatsLayouts($array=NULL){
-        static $top_cats_full     =NULL;
+        //static $top_cats_full     =NULL;
+        $top_cats_full = self::$top_cats_full;
         /**
             23 =>string: shop
             21 =>string: online
             22 =>string: fulltime   */
-        static $top_cats_ids      =NULL;
+        //static $top_cats_ids      =NULL;
+        $top_cats_ids = self::$top_cats_ids;
         /**
             0 =>string: 23
             1 =>string: 21
             2 =>string: 22    */
-        static $top_cats_layouts  =NULL;
+        //static $top_cats_layouts  =NULL;
+        $top_cats_layouts = self::$top_cats_layouts;
         /**
             0 =>string: shop
             1 =>string: online
@@ -886,22 +909,28 @@ WHERE cats_cats.category_parent_id = 0";
                     if (!$top_cats_full) {
                         $top_cats_full = array();
                         foreach ($db->loadAssocList() as $i => $data)
-                            $top_cats_full[$data['virtuemart_category_id']] = $data['layout'];
+                            //$top_cats_full[$data['virtuemart_category_id']] = $data['layout'];
+                            self::$top_cats_full[$data['virtuemart_category_id']] = $data['layout'];
                         //commonDebug(__FILE__,__LINE__,$top_cats_full);
-                        return $top_cats_full;
+                        return self::$top_cats_full;
+                        //return $top_cats_full;
                     }
                     //else commonDebug(__FILE__,__LINE__,$top_cats_full);
                 }
-                $top_cats_ids = $db->loadColumn();
+                //$top_cats_ids = $db->loadColumn();
                 //commonDebug(__FILE__,__LINE__,$top_cats_ids);
-                return $top_cats_ids;
+                self::$top_cats_ids=$db->loadColumn();
+                //return $top_cats_ids;
+                return self::$top_cats_ids;
             }else{
                 //showTestMessage('NO array', __FILE__, __LINE__);
                 if(!$top_cats_layouts){
-                    $top_cats_layouts = $db->loadColumn();
+                    //$top_cats_layouts = $db->loadColumn();
+                    self::$top_cats_layouts = $db->loadColumn();
                     //commonDebug(__FILE__,__LINE__,$top_cats_layouts);
                 }
-                return $top_cats_layouts;
+                //return $top_cats_layouts;
+                return self::$top_cats_layouts;
             }
         }else{
             //commonDebug(__FILE__,__LINE__,$top_cats_full);

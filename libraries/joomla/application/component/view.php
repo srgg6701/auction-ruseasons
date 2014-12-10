@@ -389,7 +389,15 @@ class JView extends JObject
 				// $this->_models[search]->getAreas()
                 $result = $this->_models[$model]->$method();
                 //include_once JPATH_SITE.DS.'tests.php';
-                //commonDebug(__FILE__,__LINE__,$result);
+                //commonDebug(__FILE__,__LINE__,array('model_name'=>get_class($this->_models[$model]),$model,$method));
+                /*array(3) {
+                  ["model_name"]=>
+                  string(17) "SearchModelSearch"
+                  [0]=>
+                  string(6) "search"
+                  [1]=>
+                  string(13) "getPagination"
+                }*/
 				return $result;
 			}
 
