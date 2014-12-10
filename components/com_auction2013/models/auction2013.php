@@ -779,4 +779,77 @@ INNER JOIN #__virtuemart_product_prices  AS prices
         return true;
     }
 
+    /**
+     * Извлечь предметы аукциона
+     * @package
+     * @subpackage
+     */
+    public function getProductsForAuction($auction_number){
+        /*$query="SELECT
+        prod_ru.virtuemart_product_id,
+        product_name,
+        product_s_desc,
+        auction_number,
+        file_url_thumb
+        FROM #__virtuemart_products_ru_ru AS prod_ru
+        INNER JOIN #__virtuemart_products AS prod
+        ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id
+        LEFT JOIN #__virtuemart_product_medias AS prods_media
+        ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id
+        LEFT JOIN #__virtuemart_medias AS medias
+        ON prods_media.virtuemart_media_id = medias.virtuemart_media_id
+        WHERE auction_number = $auction_number";*/
+        $db=JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(array('prod_ru.virtuemart_product_id', 'product_name', 'product_s_desc', 'file_url_thumb')))
+            ->from($db->quoteName('#__virtuemart_products_ru_ru AS prod_ru'))
+            ->innerJoin($db->quoteName('#__virtuemart_products', 'prod') .
+                ' ON ( prod_ru.virtuemart_product_id = prod.virtuemart_product_id )' )
+                //'#__virtuemart_products AS prod ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id')
+            ->leftJoin($db->quoteName('#__virtuemart_product_medias', 'prods_media') .
+                ' ON ( prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id )' )
+                //'#__virtuemart_product_medias AS prods_media ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id')
+            ->leftJoin($db->quoteName('#__virtuemart_medias', 'medias') .
+                 ' ON ( prods_media.virtuemart_media_id = medias.virtuemart_media_id )' )
+                //'#__virtuemart_medias AS medias ON prods_media.virtuemart_media_id = medias.virtuemart_media_id')
+            ->where($db->quoteName('auction_number = ' . $auction_number));
+        $query->order('product_name');
+        //var_dump($query);
+        //testSQL($query, __FILE__, __LINE__, false, '', false);
+        $db->setQuery($query);
+        $results = $db->loadObjectList(); // Result, loadAssoc, ArrayList, Column, Row, RowList
+        $this->_total	= count($results);
+        //commonDebug(__FILE__,__LINE__,$results, true);
+        return $results;
+    }
+
+    /**
+     * Method to get the total number of records
+     *
+     * @access public
+     * @return integer
+     */
+    function getTotal()
+    {
+        return $this->_total;
+    }
+
+    /**
+     * Method to get a pagination object of the items for the result
+     *
+     * @access public
+     * @return integer
+     */
+    function getPagination()
+    {
+        // Lets load the content if it doesn't already exist
+        if (empty($this->_pagination))
+        {
+            jimport('joomla.html.pagination');
+            $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+        }
+
+        return $this->_pagination;
+    }
+
 }
