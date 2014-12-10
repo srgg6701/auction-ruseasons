@@ -786,24 +786,36 @@ INNER JOIN #__virtuemart_product_prices  AS prices
      */
     public function getProductsForAuction($auction_number){
         $query="SELECT
-        prod_ru.virtuemart_product_id,
-        product_name,
-        cats.virtuemart_category_id,
-        product_s_desc,
-        auction_number,
-        file_url_thumb
-        FROM #__virtuemart_products_ru_ru AS prod_ru
-        INNER JOIN #__virtuemart_products AS prod
-        ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id
-        INNER JOIN #__virtuemart_product_categories cats
-         ON cats.virtuemart_product_id = prod.virtuemart_product_id
-        LEFT JOIN #__virtuemart_product_medias AS prods_media
-        ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id
-        LEFT JOIN #__virtuemart_medias AS medias
-        ON prods_media.virtuemart_media_id = medias.virtuemart_media_id
+  prod_ru.virtuemart_product_id,
+  prod_ru.product_name,
+  prod_ru.slug,
+  cats.virtuemart_category_id,
+  cats_ru.slug,
+  prod_ru.product_s_desc,
+  (SELECT alias
+    FROM #__menu
+    WHERE menutype = 'mainmenu'
+    AND link LIKE '%=com_virtuemart%'
+    AND link LIKE CONCAT( '%virtuemart_category_id=',(
+      SELECT category_parent_id
+        FROM #__virtuemart_category_categories
+       WHERE category_child_id = cats.virtuemart_category_id)
+    )
+  ) AS top_category_alias,
+  prod.auction_number,
+  medias.file_url_thumb
+FROM #__virtuemart_products_ru_ru prod_ru
+  INNER JOIN #__virtuemart_products prod
+    ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id
+  INNER JOIN #__virtuemart_product_categories cats
+    ON cats.virtuemart_product_id = prod.virtuemart_product_id
+  INNER JOIN #__virtuemart_categories_ru_ru cats_ru
+    ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
+  LEFT OUTER JOIN #__virtuemart_product_medias prods_media
+    ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id
+  LEFT OUTER JOIN #__virtuemart_medias medias
+    ON prods_media.virtuemart_media_id = medias.virtuemart_media_id
         WHERE auction_number = $auction_number";
-        //  index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=4194&virtuemart_category_id=24
-        //  /auction-ruseasons/аукцион/очные-торги/zhivopis-grafika/zhivopiz-detail
         $db=JFactory::getDbo();
         /*$query = $db->getQuery(true);
         $query->select($db->quoteName(array('prod_ru.virtuemart_product_id', 'product_name', 'product_s_desc', 'file_url_thumb')))
