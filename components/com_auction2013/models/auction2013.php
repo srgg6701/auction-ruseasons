@@ -821,7 +821,8 @@ FROM #__virtuemart_products_ru_ru prod_ru
     ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id
   LEFT OUTER JOIN #__virtuemart_medias medias
     ON prods_media.virtuemart_media_id = medias.virtuemart_media_id
-        -- WHERE auction_number = $auction_number";
+        -- WHERE auction_number = $auction_number
+        " . AuctionStuff::getPagesLimit();
         $db=JFactory::getDbo();
         testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);

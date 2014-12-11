@@ -28,7 +28,7 @@ if(!count($this->results)):?>
 else:
 //commonDebug(__FILE__,__LINE__,$this->layout, true);
     HTML::setVmPagination($this->layout, true);?>
-<dl class="search-results" id="search-results-block">
+<dl class="search-results auction" id="search-results-block">
     <?php foreach($this->results as $result) : ?>
         <dt class="result-title">
             <?php if ($result->href) :?>
@@ -41,11 +41,13 @@ else:
                     $link_text = str_replace("&laquo;","«",$result->title);
                     $link_text = str_replace("&raquo;","»",$link_text);?>
                     <div class="name">
-                    <span><?=$this->escape($link_text)?></span>
+                    <span><?=$this->escape($link_text)?>
+                        <p><?=$result->product_s_desc?></p>
+                    </span>
                     </div>
             <?php else:?>
                 <?=$this->escape($result->title)?>
-            <?php endif; ?>
+            <?php endif;?>
                 </a>
         </dt>
     <?php endforeach; ?>

@@ -1573,7 +1573,9 @@ class HTML{
             }else{
                 $arr_common_link=explode($str_page_limit,$base_link);
                 $base_link=$arr_common_link[0];
-                if($router->getMode()) $base_link.="?";
+                if($router->getMode()) {
+                    $base_link.=(!strstr($base_link,'?'))? "?":"&";
+                }
                 //commonDebug(__FILE__,__LINE__,$arr_common_link);
             } //commonDebug(__FILE__,__LINE__,AuctionStuff::$arrLimits);
             foreach(AuctionStuff::$arrLimits as $key=>$limit){?>
