@@ -26,7 +26,9 @@ if(!count($this->results)):?>
     <h4 class="thin">Ничего не найдено...</h4>
 <?php
 else:
-//commonDebug(__FILE__,__LINE__,$this->pagination, true);?>
+//commonDebug(__FILE__,__LINE__,$this->layout, true);
+HTML::setVmPagination($this->layout);
+/*?>
 <div class="pagination" id="pagination-search-result-1">
     <?php
     $pagination = str_ireplace('>В начало', '>&lt;&lt;',   $this->pagination->getPagesLinks());
@@ -34,7 +36,7 @@ else:
     $pagination = str_ireplace('>Вперёд', '>&gt;', $pagination);
     $pagination = str_ireplace('>В конец', '>&gt;&gt;', $pagination);
     echo $pagination; ?>
-</div>
+</div><?php */?>
 <dl class="search-results" id="search-results-block">
     <?php foreach($this->results as $result) : ?>
         <dt class="result-title">

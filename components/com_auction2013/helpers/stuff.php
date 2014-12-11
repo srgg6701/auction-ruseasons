@@ -658,8 +658,9 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
     public static function getPagesLimit(){
         /**
         получить лимит колич. предметов текущей сессии */
-        $arrLimits=self::handlePagesLimit();
-        $current_limit=$arrLimits[1];
+        //$arrLimits=self::handlePagesLimit();
+        $current_limit=self::handlePagesLimit();
+            //$arrLimits[1];
         if(!$start_page=JRequest::getVar('start_page'))
             $start_page=1;
         $LIMIT = ' LIMIT ' . ($start_page-1)*$current_limit .', '.$current_limit;
@@ -1135,10 +1136,9 @@ WHERE cats_cats.category_parent_id = 0";
         $pages_limit =$session->get('pages_limit');
         commonDebug(__FILE__,__LINE__,$pages_limit_session, false);
         /*array(1) {
-          [126]=>
-          int(15)
+          [126]=> int(15)
         }*/
-        return array($Itemid,$pages_limit[$Itemid]);
+        return $pages_limit[$Itemid];//array($Itemid,$pages_limit[$Itemid]);
     }
 //shop'
 /**
@@ -1554,10 +1554,11 @@ class HTML{
     <?php $router = JFactory::getApplication()->getRouter();
     //$session = JFactory::getSession();
     //$arrLimits=array(15,30,60);
-    $arrPagesLimit=AuctionStuff::handlePagesLimit();
-    $Itemid     = $arrPagesLimit[0];
-	$pages_limit= $arrPagesLimit[1];
-    commonDebug(__FILE__,__LINE__,$arrPagesLimit, false);
+    //$arrPagesLimit=AuctionStuff::handlePagesLimit();
+    //$Itemid     = $arrPagesLimit[0];
+	$pages_limit= AuctionStuff::handlePagesLimit();
+        //$arrPagesLimit[1];
+    commonDebug(__FILE__,__LINE__,$pages_limit, false);
         //$session->get('pages_limit');
     if(JRequest::getVar('qtest')) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
     // 126
@@ -1585,7 +1586,8 @@ class HTML{
     <a href="<?php
         echo JRoute::_($common_link.$str_page_limit.$limit);
         ?>"<?php
-        if($limit==$pages_limit[$Itemid])
+        //if($limit==$pages_limit[$Itemid])
+        if($limit==$pages_limit)
             echo " style=\"font-weight: bold;text-decoration:none;\"";
         ?>><?php
         echo $limit;

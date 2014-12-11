@@ -1,34 +1,20 @@
-﻿SELECT
-  prod_ru.virtuemart_product_id,
-  prod_ru.product_name,
-  prod_ru.slug,
-  /*(SELECT
-      auc13_virtuemart_categories_ru_ru.slug
-    FROM auc13_virtuemart_categories_ru_ru
-    WHERE auc13_virtuemart_categories_ru_ru.virtuemart_category_id = (SELECT
-        auc13_virtuemart_category_categories.category_parent_id
-      FROM auc13_virtuemart_category_categories
-      WHERE auc13_virtuemart_category_categories.category_child_id = cats.virtuemart_category_id)) 
-    AS parent_category_slug,*/
-  cats.virtuemart_category_id,
-  cats_ru.slug,
-  prod_ru.product_s_desc,
-  /*(SELECT
-        auc13_virtuemart_category_categories.category_parent_id
-      FROM auc13_virtuemart_category_categories
-      WHERE auc13_virtuemart_category_categories.category_child_id = cats.virtuemart_category_id)
-  AS parent_category_id, */
-  (SELECT alias-- , id, menutype, title, link 
-    FROM auctionru_2013.auc13_menu
-    WHERE menutype = 'mainmenu' 
-    AND link LIKE '%=com_virtuemart%'
-    AND link LIKE CONCAT('%virtuemart_category_id=',(
-      SELECT category_parent_id
-        FROM auc13_virtuemart_category_categories
-       WHERE category_child_id = cats.virtuemart_category_id)
-    )
-  ) AS top_category_alias,
-  prod.auction_number,
+﻿SELECT  prod_ru.virtuemart_product_id,
+        prod_ru.product_name,
+        prod_ru.product_s_desc,
+  CONCAT('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=',
+          prod_ru.virtuemart_product_id,
+         '&virtuemart_category_id=', 
+         cats.virtuemart_category_id  ) AS link_common,
+  CONCAT( ( SELECT alias
+              FROM auc13_menu
+             WHERE menutype = 'mainmenu' 
+               AND link LIKE '%=com_virtuemart%'
+               AND link LIKE CONCAT( '%virtuemart_category_id=',(
+                                      SELECT category_parent_id
+                                        FROM auc13_virtuemart_category_categories
+                                       WHERE category_child_id = cats.virtuemart_category_id)
+                                  )
+          ), '/', cats_ru.slug, '/', prod_ru.slug, '-detail' ) AS link_sef,
   medias.file_url_thumb
 FROM auc13_virtuemart_products_ru_ru prod_ru
   INNER JOIN auc13_virtuemart_products prod
