@@ -1555,25 +1555,13 @@ class HTML{
             }
             echo($layout=='shop')? "Предметов":"Лотов"?> на странице:
             <?php $router = JFactory::getApplication()->getRouter();
-//$session = JFactory::getSession();
-//$arrLimits=array(15,30,60);
-//$arrPagesLimit=AuctionStuff::handlePagesLimit();
-//$Itemid     = $arrPagesLimit[0];
             $pages_limit= AuctionStuff::handlePagesLimit();
-//$arrPagesLimit[1];
-//commonDebug(__FILE__,__LINE__,$pages_limit, false);
-//$session->get('pages_limit');
             if(JRequest::getVar('qtest')) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
-// 126
-//commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-//commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
-//showTestMessage("prods_value: ".AuctionStuff::$prods_value,__FILE__,__LINE__,'red');
             $str_page_limit = "pages_limit=";
             $base_link = JUri::current();
             //showTestMessage("common_link: ".$base_link,__FILE__,__LINE__,'red');
             /**
             ?view=auction2013&layout=auctions&auction=102030&Itemid=126 */
-            //commonDebug(__FILE__,__LINE__,JURI::getInstance()->getQuery());
             if(!$router->getMode()||$layout=='auctions'){
                 if(!$router->getMode())
                     $base_link.="index.php";
@@ -1589,15 +1577,10 @@ class HTML{
                 //commonDebug(__FILE__,__LINE__,$arr_common_link);
             } //commonDebug(__FILE__,__LINE__,AuctionStuff::$arrLimits);
             foreach(AuctionStuff::$arrLimits as $key=>$limit){?>
-    <a href="<?php
-                echo JRoute::_($base_link.$str_page_limit.$limit);
-        ?>"<?php
-        //if($limit==$pages_limit[$Itemid])
+<a href="<?=JRoute::_($base_link.$str_page_limit.$limit)?>"<?php
                 if($limit==$pages_limit)
                     echo " style=\"font-weight: bold;text-decoration:none;\"";
-        ?>><?php
-                echo $limit;
-        ?></a>
+        ?>><?=$limit?></a>
  &nbsp;
 <?php
             } //commonDebug(__FILE__,__LINE__,AuctionStuff::$prods_value, true);

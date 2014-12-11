@@ -32,22 +32,21 @@ else:
     <?php foreach($this->results as $result) : ?>
         <dt class="result-title">
             <?php if ($result->href) :?>
-                <a href="<?php echo JRoute::_($result->href); ?>">
-                    <?php
-                    if($result->image):
-                        ?><img src="<?php echo $result->image;?>"><?php
-                    else:?><img src="<?php echo JURI::base() .'images/no-image.gif';?>" width="226" height="226"><?php
+                <a href="<?=JRoute::_($result->href)?>">
+            <?php   if($result->image):
+                        ?><img src="<?=$result->image?>"><?php
+                    else:
+                        ?><img src="<?=JURI::base() .'images/no-image.gif'?>" width="226" height="226"><?php
                     endif;
                     $link_text = str_replace("&laquo;","«",$result->title);
                     $link_text = str_replace("&raquo;","»",$link_text);?>
                     <div class="name">
-                    <span><?php
-                        echo $this->escape($link_text);
-                        ?></span>
+                    <span><?=$this->escape($link_text)?></span>
                     </div>
             <?php else:?>
-                <?php echo $this->escape($result->title);?>
+                <?=$this->escape($result->title)?>
             <?php endif; ?>
+                </a>
         </dt>
     <?php endforeach; ?>
 </dl>
@@ -55,5 +54,5 @@ else:
 <div class="pagination" id="pagination-search-result-2">
     <?php echo $pagination; ?>
 </div><?php */
-    HTML::setVmPagination($this->layout);
+    HTML::setVmPagination();
 endif;
