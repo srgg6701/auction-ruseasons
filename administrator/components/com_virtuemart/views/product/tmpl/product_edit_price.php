@@ -54,9 +54,7 @@ table.adminform.productPriceTable
 			<?php echo $this->lists['currencies']; ?>
         </td>
     </tr>
-<?php	
-		$rowColor = 1 - $rowColor; 
-	?>
+<?php $rowColor = 1 - $rowColor;?>
     <tr class="row<?php echo $rowColor?>">
         <td>
             <span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_BASE_TITLE'); ?>"><?php 
@@ -87,12 +85,23 @@ table.adminform.productPriceTable
             <input  type="hidden" name="product_in_stock" value="1" size="10" />
         </td>
     </tr>
-	<tr class="row0">
+    <?php $rowColor = 1 - $rowColor;?>
+	<tr class="row<?php echo $rowColor?>">
     	<td colspan="5">
         	<legend>Информация для аукциона</legend>
         </td>
 	</tr>
-	<tr class="row1">
+    <?php $rowColor = 1 - $rowColor;?>
+    <tr class="row<?php echo $rowColor?>">
+        <td><span class="hasTip" title="# лота предмета"># лота</span></td>
+        <td colspan="4"><input
+                type="text"
+                name="lot_number"
+                size="12"
+                value="<?php echo $this->product->lot_number; ?>"/></td>
+    </tr>
+    <?php $rowColor = 1 - $rowColor;?>
+	<tr class="row<?php echo $rowColor?>">
     	<td>
         	<span class="hasTip" title="<?php echo JText::_ ('COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL_TITLE'); ?>"><?php 
 			echo JText::_("COM_VIRTUEMART_PRODUCT_FORM_PRICE_MINIMAL");
