@@ -1107,7 +1107,7 @@ WHERE cats_cats.category_parent_id = 0";
     public static function handlePagesLimit($Itemid=false,$min_limit=false,$session=false){
         if(!$min_limit) $min_limit=self::$arrLimits[0];
         if(!$session) $session=JFactory::getSession();
-        commonDebug(__FILE__,__LINE__,JRequest::get('get'), false);
+        //commonDebug(__FILE__,__LINE__,JRequest::get('get'), false);
         if(!$Itemid) { // если не передали id меню, значит, это - список предметов аукциона
             $Itemid=JRequest::getVar('Itemid');
         }
@@ -1130,11 +1130,11 @@ WHERE cats_cats.category_parent_id = 0";
             //commonDebug(__FILE__,__LINE__,$pages_limit_url);
             //commonDebug(__FILE__,__LINE__,$pages_limit_session[$Itemid]);
             //commonDebug(__FILE__,__LINE__,$pages_limit_session);
-        }   commonDebug(__FILE__,__LINE__,array($min_limit,$pages_limit_session));
+        }   //commonDebug(__FILE__,__LINE__,array($min_limit,$pages_limit_session));
         // сохранить в сессии
         $session->set('pages_limit',$pages_limit_session);
         $pages_limit =$session->get('pages_limit');
-        commonDebug(__FILE__,__LINE__,$pages_limit_session, false);
+        //commonDebug(__FILE__,__LINE__,$pages_limit_session, false);
         /*array(1) {
           [126]=> int(15)
         }*/
@@ -1460,7 +1460,7 @@ class HTML{
     </h2>
 <?php HTML::setCommonInnerMenu(array('user','take_lot'));?>
 </div>
-<?php HTML::setVmPagination($layout);//,true
+<?php HTML::setVmPagination($layout,true);//
 	}
 /**
  * Описание
@@ -1547,98 +1547,101 @@ class HTML{
         if($save){
             ob_start();?>
 <div class="lots_listing">
-	<?php
-	//commonDebug(__FILE__,__LINE__,array($layout,$link),false,false,true);
-    if(!$layout) {
-        static $layout;
-        $layout=JRequest::getVar('layout');
-    }
-    echo($layout=='shop')? "Предметов":"Лотов"?> на странице:
-    <?php $router = JFactory::getApplication()->getRouter();
-    //$session = JFactory::getSession();
-    //$arrLimits=array(15,30,60);
-    //$arrPagesLimit=AuctionStuff::handlePagesLimit();
-    //$Itemid     = $arrPagesLimit[0];
-	$pages_limit= AuctionStuff::handlePagesLimit();
-        //$arrPagesLimit[1];
-    if($save) commonDebug(__FILE__,__LINE__,$pages_limit, false);
-        //$session->get('pages_limit');
-    if(JRequest::getVar('qtest')&&$save) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
-    // 126
-    //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
-    //commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
-    //showTestMessage("prods_value: ".AuctionStuff::$prods_value,__FILE__,__LINE__,'red');
-    //
-    $str_page_limit = "pages_limit=";
-    $common_link = JUri::current();
-    if(!$router->getMode()){
-        $common_link.="index.php?".JURI::getInstance()->getQuery();
-        //commonDebug(__FILE__,__LINE__,JURI::getInstance()->getQuery());
-    }
-    //commonDebug(__FILE__,__LINE__,$common_link);
-    if(!JRequest::getVar('pages_limit')){
-        $common_link.=($router->getMode())? "?":"&";
-    }else{
-        $arr_common_link=explode($str_page_limit,$common_link);
-        $common_link=$arr_common_link[0];
-        if($router->getMode()) $common_link.="?";
-        //commonDebug(__FILE__,__LINE__,$arr_common_link);
-    }
-    if($save) commonDebug(__FILE__,__LINE__,AuctionStuff::$arrLimits);
-    foreach(AuctionStuff::$arrLimits as $key=>$limit){?>
+            <?php
+            //commonDebug(__FILE__,__LINE__,array($layout,$link),false,false,true);
+            if(!$layout) {
+                static $layout;
+                $layout=JRequest::getVar('layout');
+            }
+            echo($layout=='shop')? "Предметов":"Лотов"?> на странице:
+            <?php $router = JFactory::getApplication()->getRouter();
+//$session = JFactory::getSession();
+//$arrLimits=array(15,30,60);
+//$arrPagesLimit=AuctionStuff::handlePagesLimit();
+//$Itemid     = $arrPagesLimit[0];
+            $pages_limit= AuctionStuff::handlePagesLimit();
+//$arrPagesLimit[1];
+//commonDebug(__FILE__,__LINE__,$pages_limit, false);
+//$session->get('pages_limit');
+            if(JRequest::getVar('qtest')) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
+// 126
+//commonDebug(__FILE__,__LINE__,JRequest::get('get'));
+//commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
+//showTestMessage("prods_value: ".AuctionStuff::$prods_value,__FILE__,__LINE__,'red');
+            $str_page_limit = "pages_limit=";
+            $base_link = JUri::current();
+            //showTestMessage("common_link: ".$base_link,__FILE__,__LINE__,'red');
+            /**
+            ?view=auction2013&layout=auctions&auction=102030&Itemid=126 */
+            //commonDebug(__FILE__,__LINE__,JURI::getInstance()->getQuery());
+            if(!$router->getMode()||$layout=='auctions'){
+                if(!$router->getMode())
+                    $base_link.="index.php";
+                $base_link.="?".JURI::getInstance()->getQuery();
+                //commonDebug(__FILE__,__LINE__,JURI::getInstance()->getQuery());
+            }   //showTestMessage($base_link,__FILE__,__LINE__);
+            if(!JRequest::getVar('pages_limit')){
+                $base_link.=(!strstr($base_link,'?'))? "?":"&";
+            }else{
+                $arr_common_link=explode($str_page_limit,$base_link);
+                $base_link=$arr_common_link[0];
+                if($router->getMode()) $base_link.="?";
+                //commonDebug(__FILE__,__LINE__,$arr_common_link);
+            } //commonDebug(__FILE__,__LINE__,AuctionStuff::$arrLimits);
+            foreach(AuctionStuff::$arrLimits as $key=>$limit){?>
     <a href="<?php
-        echo JRoute::_($common_link.$str_page_limit.$limit);
+                echo JRoute::_($base_link.$str_page_limit.$limit);
         ?>"<?php
         //if($limit==$pages_limit[$Itemid])
-        if($limit==$pages_limit)
-            echo " style=\"font-weight: bold;text-decoration:none;\"";
+                if($limit==$pages_limit)
+                    echo " style=\"font-weight: bold;text-decoration:none;\"";
         ?>><?php
-        echo $limit;
+                echo $limit;
         ?></a>
  &nbsp;
-<?php   }
-    //commonDebug(__FILE__,__LINE__,AuctionStuff::$prods_value, true);
-    if($prods_value=AuctionStuff::$prods_value){
-        //$pgcount = intval($prods_value/(int)$pages_limit[$Itemid]);
-        $pgcount = intval($prods_value/(int)$pages_limit);
-        //echo "<div>prods_value: $prods_value</div>";
-        //commonDebug(__FILE__,__LINE__,$prods_value.'/'.(int)$pages_limit[$Itemid]);
-        //commonDebug(__FILE__,__LINE__,$pgcount);
-        //if($prods_value%(int)$pages_limit[$Itemid])
-        if($prods_value%(int)$pages_limit)
-            $pgcount+=1;
-        // свормировать Pagination
-        $stpg = 'start_page';
-        $stpgEq = $stpg . '=';
-        $getUrl =  JRequest::get('get');
-        //commonDebug(__FILE__,__LINE__, $getUrl);
-        $pureUrl = JUri::current();
-        if($stpage=$getUrl[$stpg]) // если в Url есть 'start_page', вырезать значение
-            $pureUrl = str_replace( $stpgEq . $stpage, $stpgEq, $pureUrl);
-        else
-            $stpage=1;
-        //commonDebug(__FILE__,__LINE__,$pureUrl);
-        // что там у нас с SEF?
-        $pureUrl.= (JApplication::getRouter()->getMode())?
-            '?' : '&';
-        $pureUrl.=$stpgEq;
-        $pages='страницы: ';
-        foreach (range(1,$pgcount) as $i) {
-            if($i>1) $pages.=" | ";
-            $pages.='<a href='. $pureUrl .$i;
-            if($i==$stpage) $pages.=' style="font-weight:bold;text-decoration:none;"';
-            $pages.= '>'.$i.'</a> ';
-        }
-        // если таки сформировали список страниц:
-        if(isset($pages)) {
+<?php
+            } //commonDebug(__FILE__,__LINE__,AuctionStuff::$prods_value, true);
+            if($prods_value=AuctionStuff::$prods_value){
+                //$pgcount = intval($prods_value/(int)$pages_limit[$Itemid]);
+                $pgcount = intval($prods_value/(int)$pages_limit);
+                //echo "<div>prods_value: $prods_value</div>";
+                //commonDebug(__FILE__,__LINE__,$prods_value.'/'.(int)$pages_limit[$Itemid]);
+                //commonDebug(__FILE__,__LINE__,$pgcount);
+                //if($prods_value%(int)$pages_limit[$Itemid])
+                if($prods_value%(int)$pages_limit)
+                    $pgcount+=1;
+                // свормировать Pagination
+                $stpg = 'start_page';
+                $stpgEq = $stpg . '=';
+                $getUrl =  JRequest::get('get');
+                //commonDebug(__FILE__,__LINE__, $getUrl);
+                $pureUrl = JUri::current();
+                if($stpage=$getUrl[$stpg]) // если в Url есть 'start_page', вырезать значение
+                    $pureUrl = str_replace( $stpgEq . $stpage, $stpgEq, $pureUrl);
+                else
+                    $stpage=1;
+                //commonDebug(__FILE__,__LINE__,$pureUrl);
+                // что там у нас с SEF?
+                $pureUrl.= (JApplication::getRouter()->getMode())?
+                    '?' : '&';
+                $pureUrl.=$stpgEq;
+                $pages='страницы: ';
+                foreach (range(1,$pgcount) as $i) {
+                    if($i>1) $pages.=" | ";
+                    $pages.='<a href='. $pureUrl .$i;
+                    if($i==$stpage) $pages.=' style="font-weight:bold;text-decoration:none;"';
+                    $pages.= '>'.$i.'</a> ';
+                }
+                // если таки сформировали список страниц:
+                if(isset($pages)) {
+                    ?>
+                    <div class="vmPag">
+                        <?=$pages?>
+                    </div>
+                <?php
+                }
+            }
             ?>
-            <div class="vmPag">
-                <?=$pages?>
-            </div>
-        <?php
-        }
-    }
-    ?>
 </div>
 <?php       $pagination=ob_get_contents();
             ob_end_clean();
