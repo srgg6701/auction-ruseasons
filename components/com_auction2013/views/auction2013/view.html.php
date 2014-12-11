@@ -27,6 +27,7 @@ class Auction2013ViewAuction2013 extends JView
 		$this->item		= $this->get('Item');
 
         //showTestMessage("layout: " .$this->getLayout(), __FILE__, __LINE__, true);
+        /*$this->layout=$this->getLayout();
         if(($this->layout=$this->getLayout())=='auctions'){
             // нужно для корректного формирования блока пагинации (HTML::setVmPagination($this->layout);)
             AuctionStuff::$prods_value=$this->get('total');
@@ -34,7 +35,7 @@ class Auction2013ViewAuction2013 extends JView
             //                /auction-ruseasons/аукцион/очные-торги/zhivopis-grafika/zhivopiz-detail
             //http://localhost/auction-ruseasons/аукцион/очные-торги/zhivopis-grafika/zhivopiz-detail
             //$this->assignRef('pagination',  $this->get('pagination'));
-        }
+        }*/
 
         // Check for errors.
 		if (count($errors = $this->get('Errors'))) {

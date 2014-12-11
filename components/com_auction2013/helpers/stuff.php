@@ -1559,7 +1559,7 @@ class HTML{
             if(JRequest::getVar('qtest')) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
             $str_page_limit = "pages_limit=";
             $base_link = JUri::current();
-            //showTestMessage("common_link: ".$base_link,__FILE__,__LINE__,'red');
+            //showTestMessage("base_link: ".$base_link,__FILE__,__LINE__,'red');
             /**
             ?view=auction2013&layout=auctions&auction=102030&Itemid=126 */
             if(!$router->getMode()||$layout=='auctions'){
@@ -1572,10 +1572,21 @@ class HTML{
                 $base_link.=(!strstr($base_link,'?'))? "?":"&";
             }else{
                 $arr_common_link=explode($str_page_limit,$base_link);
-                $base_link=$arr_common_link[0];
-                if($router->getMode()) {
-                    $base_link.=(!strstr($base_link,'?'))? "?":"&";
+                $base_link=$arr_common_link[0]; // перед "pages_limit="
+                $last_symbol=substr($base_link,strlen($base_link)-1,1);
+                // base_link& //10
+                //commonDebug(__FILE__,__LINE__,array($base_link,$arr_common_link,$last_symbol), false);
+                if($last_symbol!="&"){ // ? или буква
+                    if($last_symbol!="?"){ // буква
+                        if(strstr($base_link,'?')) // в строке уже есть "?"
+                            $base_link.="&";
+                        else // в строке нет "?"
+                            $base_link.="?";
+                    }
                 }
+                /*if($router->getMode()) {
+                    $base_link.=(!strstr($base_link,'?'))? "?":"&";
+                }*/
                 //commonDebug(__FILE__,__LINE__,$arr_common_link);
             } //commonDebug(__FILE__,__LINE__,AuctionStuff::$arrLimits);
             foreach(AuctionStuff::$arrLimits as $key=>$limit){?>

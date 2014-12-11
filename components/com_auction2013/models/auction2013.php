@@ -785,12 +785,16 @@ INNER JOIN #__virtuemart_product_prices  AS prices
      * @subpackage
      */
     public function getProductsForAuction($auction_number){
-        $query="SELECT  prod_ru.virtuemart_product_id,
+        $query_count="SELECT COUNT(prod_ru.virtuemart_product_id)";
+        $query_full="SELECT  prod_ru.virtuemart_product_id,
+        prod.lot_number
         prod_ru.product_name AS title,
+        currency_symbol,
+        CONCAT( TRUNCATE(prices.product_price,0), ' - ', TRUNCATE(price2,0)) AS prices,
         prod_ru.product_s_desc,";
         //echo JURI::base();
         // добавить извлечение ссылки
-        $query.=(!JApplication::getRouter()->getMode())?
+        $query_full.=(!JApplication::getRouter()->getMode())?
             "
   CONCAT('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=',
           prod_ru.virtuemart_product_id,
@@ -808,8 +812,9 @@ INNER JOIN #__virtuemart_product_prices  AS prices
                                        WHERE category_child_id = cats.virtuemart_category_id)
                                   )
           ), '/', cats_ru.slug, '/', prod_ru.slug, '-detail' ) AS href,";
-        $query.="
-  medias.file_url_thumb AS image
+        $query_full.="
+  medias.file_url_thumb AS image ";
+        $query_common="
 FROM #__virtuemart_products_ru_ru prod_ru
   INNER JOIN #__virtuemart_products prod
     ON prod_ru.virtuemart_product_id = prod.virtuemart_product_id
@@ -817,17 +822,37 @@ FROM #__virtuemart_products_ru_ru prod_ru
     ON cats.virtuemart_product_id = prod.virtuemart_product_id
   INNER JOIN #__virtuemart_categories_ru_ru cats_ru
     ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
+
+  LEFT JOIN #__virtuemart_product_prices AS prices
+    ON prices.virtuemart_product_id = prod.virtuemart_product_id
+
+  LEFT JOIN #__dev_sales_price AS prices2
+    ON prices2.virtuemart_product_id = prod.virtuemart_product_id
+
+  LEFT JOIN #__virtuemart_currencies AS currency
+    ON virtuemart_currency_id = product_currency
+
   LEFT OUTER JOIN #__virtuemart_product_medias prods_media
     ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id
   LEFT OUTER JOIN #__virtuemart_medias medias
-    ON prods_media.virtuemart_media_id = medias.virtuemart_media_id
+    ON prods_media.virtuemart_media_id = medias.virtuemart_media_id";
+        if(!JRequest::getVar('unlim'))
+            $query_common.="
         -- WHERE auction_number = $auction_number
-        " . AuctionStuff::getPagesLimit();
+        ";
         $db=JFactory::getDbo();
+        // получить общее количество предметов
+        $query=$query_count.$query_common;
+        //testSQL($query, __FILE__, __LINE__, false, '', false);
+        $db->setQuery($query);
+        // сохранить общее количество предметов
+        AuctionStuff::$prods_value=$db->loadResult();
+        // получить предметы в соотвествии с лимитом страниц
+        $query=$query_full.$query_common . AuctionStuff::getPagesLimit();
         testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);
         $results = $db->loadObjectList(); // Result, loadAssoc, ArrayList, Column, Row, RowList
-        $this->_total	= count($results);
+        //$this->_total	= count($results);
         //commonDebug(__FILE__,__LINE__,$results, true);
         return $results;
     }
@@ -838,6 +863,7 @@ FROM #__virtuemart_products_ru_ru prod_ru
      * @access public
      * @return integer
      */
+    /*
     function getTotal()
     {
         return $this->_total;
@@ -849,6 +875,7 @@ FROM #__virtuemart_products_ru_ru prod_ru
      * @access public
      * @return integer
      */
+    /*
     function getPagination()
     {
         // Lets load the content if it doesn't already exist
@@ -859,6 +886,5 @@ FROM #__virtuemart_products_ru_ru prod_ru
         }
 
         return $this->_pagination;
-    }
-
+    }*/
 }

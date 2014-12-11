@@ -26,8 +26,8 @@ if(!count($this->results)):?>
     <h4 class="thin">Ничего не найдено...</h4>
 <?php
 else:
-//commonDebug(__FILE__,__LINE__,$this->layout, true);
-    HTML::setVmPagination($this->layout, true);?>
+//commonDebug(__FILE__,__LINE__,$this->getLayout(), true);
+    HTML::setVmPagination($this->getLayout(), true);?>
 <dl class="search-results auction" id="search-results-block">
     <?php foreach($this->results as $result) : ?>
         <dt class="result-title">
@@ -41,8 +41,13 @@ else:
                     $link_text = str_replace("&laquo;","«",$result->title);
                     $link_text = str_replace("&raquo;","»",$link_text);?>
                     <div class="name">
-                    <span><?=$this->escape($link_text)?>
+                    <span>
+                        <b><?=$this->escape($link_text)?></b>
                         <p><?=$result->product_s_desc?></p>
+                        <section><?php
+                        echo $result->prices." ";
+                        echo($result->currency_symbol=='$')?
+                            "у.е":$result->currency_symbol; ?>.</section>
                     </span>
                     </div>
             <?php else:?>
