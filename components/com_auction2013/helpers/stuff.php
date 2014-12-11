@@ -1385,9 +1385,9 @@ class HTML{
  * @package
  * @subpackage
  */
-    public function buildProductImagesQueue($virtuemart_media_ids){
+    public function buildProductImagesQueue($virtuemart_media_ids,$virtuemart_product_id=NULL){
         ?>
-        <div>
+        <div<?php if($virtuemart_product_id):?> id="img-box-<?=$virtuemart_product_id?>"<?php endif;?>>
             <?php
             if(is_array($virtuemart_media_ids)):
                 foreach($virtuemart_media_ids as $i=> $virtuemart_media_id):?>
@@ -1398,8 +1398,8 @@ class HTML{
                 endforeach;
             else:
                 if(is_numeric($virtuemart_media_ids)):
-                    foreach(rand(0,$virtuemart_media_ids) as $index):?>
-                        <div data-img-iindex="<?=$index?>"><?php
+                    foreach(range(0,$virtuemart_media_ids-1) as $index):?>
+                        <div data-img-index="<?=$index?>"><?php
                             echo $index+1;
                             ?></div>
                     <?php
@@ -1414,13 +1414,14 @@ class HTML{
  * @package
  * @subpackage
  */
-    public function setProductImagesQueueHandler($selector,$parent_class){
+    public function setProductImagesQueueHandler($selector,$parent_class,$attr='data-img-id'){
         ?>
 <script>
     jQuery(function($){
         $('<?=$selector?>').on('click', function(){
-            var img=$(this).parents('<?=$parent_class?>').find('img')[0],
-                img_id=$(this).attr('data-img-id');
+            var img=$(this).parents('<?=$parent_class?>').find('img')[0];
+<?php   if($attr=='data-img-id'):?>
+            var img_id=$(this).attr('<?=$attr?>');
             $.get(
                 "<?php echo JURI::base();?>index.php?option=com_auction2013&task=auction2013.getImg",
                 {
@@ -1428,7 +1429,10 @@ class HTML{
                 },
                 function(data){
                     $(img).attr('src', '<?php   echo JURI::base();?>images/stories/virtuemart/product/preview/'+data); //console.log('src = '+$(img).attr('src'));
-                });
+            });
+<?php   else:?>
+            console.log(img);
+<?php   endif;?>
         });
     }(jQuery));
 </script>
