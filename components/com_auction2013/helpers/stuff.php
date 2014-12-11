@@ -1414,7 +1414,7 @@ class HTML{
  * @package
  * @subpackage
  */
-    public function setProductImagesQueueHandler($selector,$parent_class,$attr='data-img-id'){
+    public function setProductImagesQueueHandler($selector,$parent_class,$attr='data-img-id',$base_img_dir=false){
         ?>
 <script>
     jQuery(function($){
@@ -1433,10 +1433,9 @@ class HTML{
 <?php   else:?>
             var src_index=$(this).attr('<?=$attr?>'),
                 parentIdIndex=this.parentNode.id.substr(8);
-
-            console.log(img);
-            console.log(src_index, parentIdIndex);
-            img.src=''+imgs_src[parentIdIndex][src_index];
+            //console.log(src_index, parentIdIndex);
+            img.src='<?=JURI::base().$base_img_dir?>'+imgs_src[parentIdIndex][src_index];
+            //console.log(img);
 <?php   endif;?>
         });
     }(jQuery));

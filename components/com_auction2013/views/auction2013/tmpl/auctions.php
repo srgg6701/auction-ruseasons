@@ -76,5 +76,5 @@ else:
 </dl>
 <?php   HTML::setVmPagination();
         // добавить обработчика предпросмотра картинок предмета
-        HTML::setProductImagesQueueHandler('dl [data-img-index]','dl','data-img-index');
+        HTML::setProductImagesQueueHandler('dl [data-img-index]','dl','data-img-index',$this->img_dir);
 endif;
