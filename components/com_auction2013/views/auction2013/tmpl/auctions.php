@@ -19,8 +19,7 @@ defined('_JEXEC') or die;
       string(87) "images/stories/virtuemart/product/resized/akvarelnye-goroda-maji-vronskoj-2_226x226.jpg"
     }
   } */
-commonDebug(__FILE__,__LINE__,$this->results, false);
-
+//commonDebug(__FILE__,__LINE__,$this->results, false);
 
 if(!count($this->results)):?>
     <h4 class="thin">Ничего не найдено...</h4>
@@ -28,14 +27,28 @@ if(!count($this->results)):?>
 else:
 //commonDebug(__FILE__,__LINE__,$this->getLayout(), true);
     HTML::setVmPagination($this->getLayout(), true);?>
+    <script>
+        var imgs_src={};
+    </script>
 <dl class="search-results auction" id="search-results-block">
     <?php foreach($this->results as $product_id=>$product_data) : ?>
         <dt class="result-title">
             <?php
             // построить маркеры для пролистывания картинок
-            //HTML::buildProductImagesQueue($product->virtuemart_media_id);
-
-            if ($product_data['href']) :?>
+            HTML::buildProductImagesQueue(count($product_data['image']),$product_id);
+            if ($product_data['href']) :
+                if($product_data['image'][0]):?>
+                    <script>
+                        imgs_src['<?=$product_id?>']=[];
+                <?php   foreach ($product_data['image'] as $i=>$src):?>
+                            imgs_src[<?=$product_id?>][<?=$i?>]='<?=$src?>';
+                <?php   endforeach;
+                /*  Object4194: Array[2]
+                        0: "akvarelnye-goroda-maji-vronskoj-2_226x226.jpg"
+                        1: "edros_226x226.jpg"*/?>
+                    </script>
+            <?php
+                endif;?>
                 <a href="<?=JRoute::_($product_data['href'])?>">
             <?php   if($product_data['image']):
                         ?><img src="<?=$this->img_dir.$product_data['image'][0]?>"><?php
@@ -63,5 +76,5 @@ else:
 </dl>
 <?php   HTML::setVmPagination();
         // добавить обработчика предпросмотра картинок предмета
-        HTML::setProductImagesQueueHandler('dl img','dl');
+        HTML::setProductImagesQueueHandler('dl [data-img-index]','dl','data-img-index');
 endif;

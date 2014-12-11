@@ -1431,7 +1431,12 @@ class HTML{
                     $(img).attr('src', '<?php   echo JURI::base();?>images/stories/virtuemart/product/preview/'+data); //console.log('src = '+$(img).attr('src'));
             });
 <?php   else:?>
+            var src_index=$(this).attr('<?=$attr?>'),
+                parentIdIndex=this.parentNode.id.substr(8);
+
             console.log(img);
+            console.log(src_index, parentIdIndex);
+            img.src=''+imgs_src[parentIdIndex][src_index];
 <?php   endif;?>
         });
     }(jQuery));
