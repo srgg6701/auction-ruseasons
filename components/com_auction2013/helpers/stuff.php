@@ -1605,12 +1605,16 @@ class HTML{
                     $pureUrl = str_replace( $stpgEq . $stpage, $stpgEq, $pureUrl);
                 else
                     $stpage=1;
-                //commonDebug(__FILE__,__LINE__,$pureUrl);
+                //showTestMessage("pureUrl: $pureUrl", __FILE__, __LINE__, false);
+                $pureUrl.= (!strstr($pureUrl,'?'))? '?' : '&';
+                if($layout=='auctions'){
+                    $pureUrl.=JURI::getInstance()->getQuery().'&';
+
+                }
                 // что там у нас с SEF?
-                $pureUrl.= (JApplication::getRouter()->getMode())?
-                    '?' : '&';
                 $pureUrl.=$stpgEq;
                 $pages='страницы: ';
+                //showTestMessage("pureUrl: $pureUrl", __FILE__, __LINE__, false);
                 foreach (range(1,$pgcount) as $i) {
                     if($i>1) $pages.=" | ";
                     $pages.='<a href='. $pureUrl .$i;
