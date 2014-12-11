@@ -1541,8 +1541,11 @@ class HTML{
  * @package
  * @subpackage
  */
-	public static function setVmPagination($layout=false){
-							//commonDebug(__FILE__,__LINE__,$link);?>
+	public static function setVmPagination($layout=false, $save=false){
+							//commonDebug(__FILE__,__LINE__,$link);
+        static $pagination;
+        if($save){
+            ob_start();?>
 <div class="lots_listing">
 	<?php
 	//commonDebug(__FILE__,__LINE__,array($layout,$link),false,false,true);
@@ -1558,9 +1561,9 @@ class HTML{
     //$Itemid     = $arrPagesLimit[0];
 	$pages_limit= AuctionStuff::handlePagesLimit();
         //$arrPagesLimit[1];
-    commonDebug(__FILE__,__LINE__,$pages_limit, false);
+    if($save) commonDebug(__FILE__,__LINE__,$pages_limit, false);
         //$session->get('pages_limit');
-    if(JRequest::getVar('qtest')) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
+    if(JRequest::getVar('qtest')&&$save) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
     // 126
     //commonDebug(__FILE__,__LINE__,JRequest::get('get'));
     //commonDebug(__FILE__,__LINE__,$session->get('pages_limit'));
@@ -1581,7 +1584,7 @@ class HTML{
         if($router->getMode()) $common_link.="?";
         //commonDebug(__FILE__,__LINE__,$arr_common_link);
     }
-    commonDebug(__FILE__,__LINE__,AuctionStuff::$arrLimits);
+    if($save) commonDebug(__FILE__,__LINE__,AuctionStuff::$arrLimits);
     foreach(AuctionStuff::$arrLimits as $key=>$limit){?>
     <a href="<?php
         echo JRoute::_($common_link.$str_page_limit.$limit);
@@ -1637,7 +1640,11 @@ class HTML{
     }
     ?>
 </div>
-<?php }
+<?php       $pagination=ob_get_contents();
+            ob_end_clean();
+        }
+        echo $pagination;
+    }
 /**
  * Показать предметы из списка наблюдения
  * @package

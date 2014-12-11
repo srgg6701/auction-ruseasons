@@ -27,16 +27,7 @@ if(!count($this->results)):?>
 <?php
 else:
 //commonDebug(__FILE__,__LINE__,$this->layout, true);
-HTML::setVmPagination($this->layout);
-/*?>
-<div class="pagination" id="pagination-search-result-1">
-    <?php
-    $pagination = str_ireplace('>В начало', '>&lt;&lt;',   $this->pagination->getPagesLinks());
-    $pagination = str_ireplace('>Назад', '>&lt;', $pagination);
-    $pagination = str_ireplace('>Вперёд', '>&gt;', $pagination);
-    $pagination = str_ireplace('>В конец', '>&gt;&gt;', $pagination);
-    echo $pagination; ?>
-</div><?php */?>
+    HTML::setVmPagination($this->layout, true);?>
 <dl class="search-results" id="search-results-block">
     <?php foreach($this->results as $result) : ?>
         <dt class="result-title">
@@ -60,8 +51,9 @@ HTML::setVmPagination($this->layout);
         </dt>
     <?php endforeach; ?>
 </dl>
-<?php  /*<div class="results-count-block"><?php echo $cnt;?></div>*/ ?>
+<?php  /*<div class="results-count-block"><?php echo $cnt;?></div> ?>
 <div class="pagination" id="pagination-search-result-2">
     <?php echo $pagination; ?>
-</div><?php
+</div><?php */
+    HTML::setVmPagination($this->layout);
 endif;
