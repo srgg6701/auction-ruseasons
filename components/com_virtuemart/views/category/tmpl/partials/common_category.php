@@ -83,10 +83,13 @@ if (!empty($this->products)) {
     echo JText::_ ('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
 }?>
 </div>
-<?php HTML::setVmPagination()?>
+<?php   HTML::setVmPagination();
+        // добавить обработчика предпросмотра картинок предмета
+        HTML::setProductImagesQueueHandler('div.box >div:first-child >div','.box');/*?>
 <script>
     jQuery(function($){
         $('div.box >div:first-child >div').on('click', function(){
+        // 'dl img'
             var img=$(this).parents('.box').find('img')[0],
                 img_id=$(this).attr('data-img-id');
             $.get(
@@ -99,4 +102,4 @@ if (!empty($this->products)) {
                 });
         });
     }(jQuery));
-</script>
+</script><?php */?>

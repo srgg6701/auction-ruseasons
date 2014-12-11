@@ -784,15 +784,17 @@ INNER JOIN #__virtuemart_product_prices  AS prices
      * @package
      * @subpackage
      */
-    public function getProductsForAuction($auction_number){
+    public function getProductsForAuction($auction_number, $img_dir){
         $query_count="SELECT COUNT(prod_ru.virtuemart_product_id)";
         $query_full="SELECT  prod_ru.virtuemart_product_id,
-        prod.lot_number
+        prod.lot_number,
+        ( SELECT COUNT(*) FROM #__virtuemart_product_medias
+          WHERE virtuemart_product_id = prod_ru.virtuemart_product_id
+        ) AS img_cnt,
         prod_ru.product_name AS title,
         currency_symbol,
         CONCAT( TRUNCATE(prices.product_price,0), ' - ', TRUNCATE(price2,0)) AS prices,
         prod_ru.product_s_desc,";
-        //echo JURI::base();
         // добавить извлечение ссылки
         $query_full.=(!JApplication::getRouter()->getMode())?
             "
@@ -813,7 +815,14 @@ INNER JOIN #__virtuemart_product_prices  AS prices
                                   )
           ), '/', cats_ru.slug, '/', prod_ru.slug, '-detail' ) AS href,";
         $query_full.="
-  medias.file_url_thumb AS image ";
+        ( SELECT
+    REPLACE(file_url_thumb,'".$img_dir."','')
+    FROM auc13_virtuemart_medias
+     WHERE virtuemart_media_id = prods_media.virtuemart_media_id
+
+  ) AS image";
+        /*
+  medias.file_url_thumb AS image "; */
         $query_common="
 FROM #__virtuemart_products_ru_ru prod_ru
   INNER JOIN #__virtuemart_products prod
@@ -833,17 +842,18 @@ FROM #__virtuemart_products_ru_ru prod_ru
     ON virtuemart_currency_id = product_currency
 
   LEFT OUTER JOIN #__virtuemart_product_medias prods_media
-    ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id
-  LEFT OUTER JOIN #__virtuemart_medias medias
-    ON prods_media.virtuemart_media_id = medias.virtuemart_media_id";
+    ON prod_ru.virtuemart_product_id = prods_media.virtuemart_product_id";
+
+  /*"LEFT OUTER JOIN #__virtuemart_medias medias
+    ON prods_media.virtuemart_media_id = medias.virtuemart_media_id";*/
         if(!JRequest::getVar('unlim'))
             $query_common.="
-        -- WHERE auction_number = $auction_number
-        ";
+        WHERE auction_number = $auction_number";
+
         $db=JFactory::getDbo();
         // получить общее количество предметов
         $query=$query_count.$query_common;
-        //testSQL($query, __FILE__, __LINE__, false, '', false);
+        testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);
         // сохранить общее количество предметов
         AuctionStuff::$prods_value=$db->loadResult();
@@ -852,39 +862,36 @@ FROM #__virtuemart_products_ru_ru prod_ru
         testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);
         $results = $db->loadObjectList(); // Result, loadAssoc, ArrayList, Column, Row, RowList
-        //$this->_total	= count($results);
-        //commonDebug(__FILE__,__LINE__,$results, true);
-        return $results;
-    }
-
-    /**
-     * Method to get the total number of records
-     *
-     * @access public
-     * @return integer
-     */
-    /*
-    function getTotal()
-    {
-        return $this->_total;
-    }
-
-    /**
-     * Method to get a pagination object of the items for the result
-     *
-     * @access public
-     * @return integer
-     */
-    /*
-    function getPagination()
-    {
-        // Lets load the content if it doesn't already exist
-        if (empty($this->_pagination))
-        {
-            jimport('joomla.html.pagination');
-            $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+        $arr_products=array();
+        foreach ($results as $result) {
+            $product_id=$result->virtuemart_product_id;
+            if(!isset($arr_products[$product_id])){
+                $arr_products[$product_id]=array();
+                $arr_products[$product_id]['lot_number']=$result->lot_number;
+                $arr_products[$product_id]['title']=$result->title;
+                $arr_products[$product_id]['currency_symbol']=$result->currency_symbol;
+                $arr_products[$product_id]['prices']=$result->prices;
+                $arr_products[$product_id]['product_s_desc']=$result->product_s_desc;
+                $arr_products[$product_id]['href']=$result->href;
+            }
+            $arr_products[$product_id]['image'][]=$result->image;
         }
-
-        return $this->_pagination;
-    }*/
+        /*
+        [3826]=>
+          array(7) {
+            ["lot_number"]=> string(7) "1000287"
+            ["title"]=> string(91) "Burgeois Eugene (1855-1909) «Пейзаж с деревьями у озера»."
+            ["currency_symbol"]=> string(6) "руб"
+            ["prices"]=> string(5) "0 - 0"
+            ["product_s_desc"]=> string(112) "Холст, масло, без подписи, Франция, 2-я пол. ХIХ в., 55,5х38 см (сколы"
+            ["href"]=> string(190) "http://localhost/auction-ruseasons/аукцион/магазин-антиквариата/raznoe/burgeois-eugene-1855-1909-laquo-пейзаж-с-деревьями-у-озера-raquo-detail"
+            ["image"]=> array(3) {
+                          [0]=> string(1) "0"
+                          [1]=> string(25) "02_215_05_2.jpg_90x90.jpg"
+                          [2]=> string(25) "02_215_05_3.jpg_90x90.jpg"
+                        }
+          }*/
+        //commonDebug(__FILE__,__LINE__,$arr_products, true);
+        return $arr_products;
+    }
 }

@@ -1381,6 +1381,61 @@ class HTML{
         return $options;
     }
 /**
+ * построить маркеры для пролистывания картинок предмета
+ * @package
+ * @subpackage
+ */
+    public function buildProductImagesQueue($virtuemart_media_ids){
+        ?>
+        <div>
+            <?php
+            if(is_array($virtuemart_media_ids)):
+                foreach($virtuemart_media_ids as $i=> $virtuemart_media_id):?>
+                    <div data-img-id="<?=$virtuemart_media_id?>"><?php
+                        echo $i+1;
+                    ?></div>
+                <?php
+                endforeach;
+            else:
+                if(is_numeric($virtuemart_media_ids)):
+                    foreach(rand(0,$virtuemart_media_ids) as $index):?>
+                        <div data-img-iindex="<?=$index?>"><?php
+                            echo $index+1;
+                            ?></div>
+                    <?php
+                    endforeach;
+                endif;
+            endif;?>
+        </div>
+    <?php
+    }
+/**
+ * Построить скрипт обработки пролистывания
+ * @package
+ * @subpackage
+ */
+    public function setProductImagesQueueHandler($selector,$parent_class){
+        ?>
+<script>
+    jQuery(function($){
+        $('<?=$selector?>').on('click', function(){
+            var img=$(this).parents('<?=$parent_class?>').find('img')[0],
+                img_id=$(this).attr('data-img-id');
+            $.get(
+                "<?php echo JURI::base();?>index.php?option=com_auction2013&task=auction2013.getImg",
+                {
+                    image_id:img_id
+                },
+                function(data){
+                    $(img).attr('src', '<?php   echo JURI::base();?>images/stories/virtuemart/product/preview/'+data); //console.log('src = '+$(img).attr('src'));
+                });
+        });
+    }(jQuery));
+</script>
+        <?php
+    }
+
+/**
  * Получить HTML истории и списка выбора ставок
  */
     public static function getBidsHTML($virtuemart_product_id){

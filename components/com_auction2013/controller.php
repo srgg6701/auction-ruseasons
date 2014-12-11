@@ -43,7 +43,8 @@ class Auction2013Controller extends JController
                 $view->setModel($model, true);
                 if($lName=='auctions'){
                     //die("<div>Показать предметы аукциона</div>");
-                    $view->results=$model->getProductsForAuction(JRequest::getVar('auction'));
+                    $view->img_dir='images/stories/virtuemart/product/resized/';
+                    $view->results=$model->getProductsForAuction(JRequest::getVar('auction'), $view->img_dir);
                 }
                 $view->setLayout($lName);
                 $view->assignRef('document', $document);

@@ -1,16 +1,8 @@
 <div class="box">
 <?php
-if(count($product->virtuemart_media_id)>1):?>
-    <div>
-        <?php
-        foreach($product->virtuemart_media_id as $i=> $virtuemart_media_id):?>
-            <div data-img-id="<?php echo $virtuemart_media_id;?>"><?php
-                echo $i+1;
-                ?></div>
-        <?php
-        endforeach;?>
-    </div>
-<?php
+if(count($product->virtuemart_media_id)>1):
+    // построить маркеры для пролистывания картинок
+    HTML::buildProductImagesQueue($product->virtuemart_media_id);
 endif;?>
     <a title="<?=$product->product_name?>" rel="vm-additional-images" href="<?=$product->link?>"><?php if(isset($test)){?>PRODUCT<?php }?>
         <div class="img"><?php
@@ -40,8 +32,7 @@ endif;?>
         $pr=$this->products[0]; //commonDebug(__FILE__,__LINE__,$pr, false);
         $this->currency->arr_prices=array(
                     'product_price'=>$pr->product_price,
-                    'currency_symbol'=>$pr->currency_symbol/*,
-                    'product_currency'=>$pr->product_currency*/
+                    'currency_symbol'=>$pr->currency_symbol
                 );
         echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
         //-------------------------------------------------
