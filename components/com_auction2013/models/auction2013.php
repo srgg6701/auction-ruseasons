@@ -853,13 +853,13 @@ FROM #__virtuemart_products_ru_ru prod_ru
         $db=JFactory::getDbo();
         // получить общее количество предметов
         $query=$query_count.$query_common;
-        testSQL($query, __FILE__, __LINE__, false, '', false);
+        //testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);
         // сохранить общее количество предметов
         AuctionStuff::$prods_value=$db->loadResult();
         // получить предметы в соотвествии с лимитом страниц
         $query=$query_full.$query_common . AuctionStuff::getPagesLimit();
-        testSQL($query, __FILE__, __LINE__, false, '', false);
+        //testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);
         $results = $db->loadObjectList(); // Result, loadAssoc, ArrayList, Column, Row, RowList
         $arr_products=array();
