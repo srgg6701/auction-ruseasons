@@ -46,6 +46,8 @@ a {
   }
   #bigLeadImage &{
     border: $img-border-common;
+    height: 334px;
+    // width выставляется динамически, клиентским скриптом
   }
   #board & {
     font: normal 14px $font-common;

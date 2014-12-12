@@ -20,7 +20,9 @@ defined('_JEXEC') or die;
     }
   } */
 //commonDebug(__FILE__,__LINE__,$this->results, false);
-
+?>
+<h2 id="auction-header"><?=$this->section_header?></h2>
+<?php
 if(!count($this->results)):?>
     <h4 class="thin">Ничего не найдено...</h4>
 <?php
@@ -49,9 +51,14 @@ else:
                     </script>
             <?php
                 endif;?>
-                <a href="<?=JRoute::_($product_data['href'])?>">
+                <a href="<?php
+                /**
+                ВНИМАНИЕ! В $product_data['href'] жёстко вшита ссылка на дир.
+                /аукцион/очные-торги/ - исключительно для очных торгов! */
+                echo JRoute::_($product_data['href']);?>">
             <?php   if($product_data['image']):
-                        ?><img src="<?=$this->img_dir.$product_data['image'][0]?>"><?php
+                        ?><img src="<?php
+                        echo $this->img_dir.$product_data['image'][0];?>"><?php
                     else:
                         ?><img src="<?=JURI::base() .'images/no-image.gif'?>" width="226" height="226"><?php
                     endif;

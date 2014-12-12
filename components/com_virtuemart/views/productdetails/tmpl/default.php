@@ -3,10 +3,16 @@ defined('_JEXEC') or die('Restricted access');
 //if(JRequest::getVar('show_id')) echo "<h4>product_id = ".$this->product->virtuemart_product_id."</h4>";
 //commonDebug(__FILE__,__LINE__,$this->product, true);
 $Itemid = JRequest::getVar('Itemid');
-
 $path = JPATH_SITE.DS.'components'.DS.'com_auction2013'.DS.'helpers'.DS.'stuff.php';
 //die('path: '.$path);
 require_once $path;
+//commonDebug(__FILE__, __LINE__, $this->product, true);
+$product_header="<span>
+    <b>Лот № ".$this->product->lot_number. " " .
+        $this->product->product_name ."
+                </b></span>";
+
+//showTestMessage("product_header: ".$product_header, __FILE__, __LINE__, false, true);
 
 $topItem = AuctionStuff::getTopCatsMenuItemIds('main', false);
 //commonDebug(__FILE__, __LINE__, key($topItem));
@@ -87,9 +93,7 @@ $hide=' style="visibility:hidden"';
 <form id="purchase_app_form" action="<?php 
 echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase'); 
     ?>" method="post">
-        <span><b><?php echo $this->product->product_sku;?>
-                    <?php echo $this->product->product_name;?>
-                </b></span>
+        <?=$product_header?>
         <div class="product_s_desc">
            <?php echo $this->product->product_desc;?>
            <hr class="border bottom" />
@@ -173,8 +177,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
     else:
 ?>      
     <div class="bord_bottom">
-      <b><?php //"Лот "(int)$this->product->lot_number
-          echo $this->product->product_name?></b>
+        <?=$product_header?>
     </div>
     <div class="o_o">
        <span style="color:#000">

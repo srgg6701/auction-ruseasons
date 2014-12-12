@@ -85,21 +85,4 @@ if (!empty($this->products)) {
 </div>
 <?php   HTML::setVmPagination();
         // добавить обработчика предпросмотра картинок предмета
-        HTML::setProductImagesQueueHandler('div.box >div:first-child >div','.box');/*?>
-<script>
-    jQuery(function($){
-        $('div.box >div:first-child >div').on('click', function(){
-        // 'dl img'
-            var img=$(this).parents('.box').find('img')[0],
-                img_id=$(this).attr('data-img-id');
-            $.get(
-                "<?php echo JURI::base();?>index.php?option=com_auction2013&task=auction2013.getImg",
-                {
-                    image_id:img_id
-                },
-                function(data){
-                    $(img).attr('src', '<?php   echo JURI::base();?>images/stories/virtuemart/product/preview/'+data); //console.log('src = '+$(img).attr('src'));
-                });
-        });
-    }(jQuery));
-</script><?php */?>
+        HTML::setProductImagesQueueHandler('div.box >div:first-child >div','.box');
