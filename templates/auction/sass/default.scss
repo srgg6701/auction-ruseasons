@@ -17,6 +17,9 @@
 }
 #auction-header{
   color:$brownDark;
+  margin: 0;
+  position: absolute;
+  top: 15px;
 }
 #authorize{
   background: url(../images/pointer.png) no-repeat 10px;

@@ -142,6 +142,74 @@ $( function(){
 <?php endif;?>
 </head>
 <body>
+<?php   if(JRequest::getVar('rulers')):?>
+<style>
+    #rulers-horizontal, #rulers-vertical{
+        background-color: black;
+        cursor: move;
+        opacity: 0.5;
+        position: absolute;
+        z-index: 10;
+    }
+    #rulers-horizontal{
+        height: 35px;
+        top:35px;
+        width: 100%;
+    }
+    #rulers-vertical{
+        height: 100%;
+        left: 35px;
+        width: 35px;
+    }
+</style>
+<script>
+    jQuery(function(){
+        var $=jQuery,
+            diff= 0,
+            attrDr='data-dragged',
+            horizontal=$('#rulers-horizontal'),
+            vertical=$('#rulers-vertical');
+        $('body').on('mousemove', function(){
+            if($(horizontal).attr(attrDr)){
+                $(horizontal).css('top',(event.clientY-diff)+'px');
+                //console.log('clientY:'+event.clientY+'\n');
+            }
+            if($(vertical).attr(attrDr)){
+                //console.log('clientX:'+event.clientX);
+                $(vertical).css('left',(event.clientX-diff)+'px');
+            }
+        });
+        $(horizontal).on('mousedown mousemove mouseup',function(event){
+            moveRulers(this,event,attrDr)
+        });
+        $(vertical).on('mousedown mousemove mouseup',function(event){
+            moveRulers(this,event,attrDr)
+        });
+        function moveRulers(obj,event,attrDr){
+            var diff;
+            switch(event.type){
+                case 'mousedown':
+                    $(obj).attr(attrDr,1);
+                    if(obj.id=='rulers-horizontal'){
+                        diff=event.clientY-parseInt($(obj).css('top'));
+                        //console.log('Down, diff H:'+diff);
+                    }
+                    if(obj.id=='rulers-vertical'){
+                        diff=event.clientX-parseInt($(obj).css('left'));
+                        //console.log('Down, diff: V'+diff);
+                    }
+                    break;
+                case 'mouseup':
+                    $(obj).removeAttr(attrDr);
+                    //console.log('%cAttribute is removed','color:red');
+                    break;
+            }
+        }
+   });
+</script>
+<div id="rulers-horizontal"></div>
+<div id="rulers-vertical"></div>
+<?php   endif;?>
     <section id="user-go">
         <div>
             <section>

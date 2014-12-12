@@ -389,6 +389,9 @@ div{
     padding-top: 6px;
     padding-bottom: 7px;
   }
+  &.top_list{
+    height: 40px;
+  }
   &.top_list_mn{
     height: 25px;
     margin-top: 10px;
@@ -535,6 +538,9 @@ div{
       margin: 8px auto;
       padding: 10px;
     }
+  }
+  &.Post-body{
+    position: relative;
   }
   &.search{
     #search_box form & {

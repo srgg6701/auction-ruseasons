@@ -21,7 +21,10 @@ defined('_JEXEC') or die;
   } */
 //commonDebug(__FILE__,__LINE__,$this->results, false);
 ?>
-<h2 id="auction-header"><?=$this->section_header?></h2>
+<div class="top_list">
+    <h2 id="auction-header"><?=$this->section_header?></h2>
+<?php   HTML::setCommonInnerMenu(array('user','take_lot'));?>
+</div>
 <?php
 if(!count($this->results)):?>
     <h4 class="thin">Ничего не найдено...</h4>

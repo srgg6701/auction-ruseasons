@@ -1442,7 +1442,6 @@ class HTML{
 </script>
         <?php
     }
-
 /**
  * Получить HTML истории и списка выбора ставок
  */
@@ -1453,7 +1452,11 @@ class HTML{
         return array('bids_history'=>$bids_history, 'options'=>$options);
     }
     /**
-     * Описание
+     * Используется только внутри HTML::setCommonInnerMenu()
+     * Создать ссылки команд для юзера:
+     * Регистрация":"Ваш кабинет
+     * Предложить предмет
+     * Задать вопрос по лоту
      * @package
      * @subpackage
      */
@@ -1479,7 +1482,7 @@ class HTML{
         </div>
     <?php }
 /**
- * Описание
+ * Устанавливает команды юзера, пагинацию
  * @package
  * @subpackage
  */
@@ -1526,7 +1529,7 @@ class HTML{
 <?php HTML::setVmPagination($layout,true);//
 	}
 /**
- * Описание
+ * Построить опции выбора для юзера
  * @package
  * @subpackage
  */
