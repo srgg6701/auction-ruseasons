@@ -25,7 +25,8 @@ class Auction2013ViewAuction2013 extends JView
 		$this->item		= $this->get('Item');
         if($this->getLayout()=='auctions'){
             $this->img_dir='images/stories/virtuemart/product/resized/';
-            $this->section_header='Аукцион № '.JRequest::getVar('auction');
+            $this->auction_number=JRequest::getVar('auction');
+            $this->section_header='Аукцион № '.$this->auction_number;
         }
         // Check for errors.
 		if (count($errors = $this->get('Errors'))) {

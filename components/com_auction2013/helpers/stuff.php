@@ -19,6 +19,7 @@ require_once JPATH_SITE.DS.'tests.php';
  */
 class AuctionStuff{
     static $andLayout = '&layout=';
+    static $auction_list_common_link='index.php?option=com_auction2013&view=auction2013&layout=auctions&auction=';
     static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
     static $prods_value=0;
     /**

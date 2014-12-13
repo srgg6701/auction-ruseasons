@@ -32,6 +32,10 @@ if(!count($this->results)):?>
 else:
 //commonDebug(__FILE__,__LINE__,$this->getLayout(), true);
     HTML::setVmPagination($this->getLayout(), true);?>
+<form action="<?=AuctionStuff::$auction_list_common_link . $this->auction_number?>'&Itemid='<?=JRequest::getVar('Itemid')?>" method="post">
+    <input type="search" value="" placeholder="Поиск" name="product_name" class="field keyword" style="width:300px;margin:5px 0">
+    <input type="submit" value="Искать"/>
+</form>
     <script>
         var imgs_src={};
     </script>
