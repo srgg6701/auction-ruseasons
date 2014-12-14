@@ -851,7 +851,8 @@ FROM #__virtuemart_products_ru_ru prod_ru
         WHERE auction_number = $auction_number";
 
         if($this->name_for_search){
-            commonDebug(__FILE__,__LINE__,$this->name_for_search, true);
+            $arr_words=explode(" ",$this->name_for_search);
+            commonDebug(__FILE__,__LINE__,$arr_words, true);
         }
         $db=JFactory::getDbo();
         // получить общее количество предметов

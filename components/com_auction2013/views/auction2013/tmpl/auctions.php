@@ -32,7 +32,7 @@ if(!count($this->results)):?>
 else:
 //commonDebug(__FILE__,__LINE__,$this->getLayout(), true);
     HTML::setVmPagination($this->getLayout(), true);?>
-<form action="<?=AuctionStuff::$auction_list_common_link . $this->auction_number?>'&Itemid='<?=JRequest::getVar('Itemid')?>" method="post">
+<form action="?<?=AuctionStuff::$auction_list_common_link . $this->auction_number?>&Itemid=<?=JRequest::getVar('Itemid')?>" method="post">
     <input type="search" value="" placeholder="Поиск" name="product_name" class="field keyword" style="width:300px;margin:5px 0">
     <input type="submit" value="Искать"/>
 </form>
@@ -65,7 +65,7 @@ else:
                 echo JRoute::_($product_data['href']);?>">
             <?php   if($product_data['image']):
                         ?><img src="<?php
-                        echo $this->img_dir.$product_data['image'][0];?>"><?php
+                        echo $product_data['image'][0];?>"><?php
                     else:
                         ?><img src="<?=JURI::base() .'images/no-image.gif'?>" width="226" height="226"><?php
                     endif;
@@ -90,5 +90,5 @@ else:
 </dl>
 <?php   HTML::setVmPagination();
         // добавить обработчика предпросмотра картинок предмета
-        HTML::setProductImagesQueueHandler('dl [data-img-index]','dl','data-img-index',$this->img_dir);
+        HTML::setProductImagesQueueHandler('dl [data-img-index]','dl','data-img-index');
 endif;

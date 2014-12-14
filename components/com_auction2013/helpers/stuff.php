@@ -19,7 +19,7 @@ require_once JPATH_SITE.DS.'tests.php';
  */
 class AuctionStuff{
     static $andLayout = '&layout=';
-    static $auction_list_common_link='index.php?option=com_auction2013&view=auction2013&layout=auctions&auction=';
+    static $auction_list_common_link='view=auction2013&layout=auctions&auction=';
     static $common_link_segment = 'index.php?option=com_virtuemart&view=category&Itemid=';
     static $prods_value=0;
     /**
@@ -1415,7 +1415,7 @@ class HTML{
  * @package
  * @subpackage
  */
-    public function setProductImagesQueueHandler($selector,$parent_class,$attr='data-img-id',$base_img_dir=false){
+    public function setProductImagesQueueHandler($selector,$parent_class,$attr='data-img-id'){
         ?>
 <script>
     jQuery(function($){
