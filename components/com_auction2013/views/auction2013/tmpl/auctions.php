@@ -96,9 +96,11 @@ if(count($this->results)):
                     $link_text = str_replace("&raquo;","»",$link_text);?>
                     <div class="name">
                     <span>
-                        <b><?=$this->escape($link_text)?></b>
+                        <b>Лот <?=$this->escape($product_data['lot_number'])?>.
+                            <?=$this->escape($link_text)?></b>
                         <p><?=$product_data['product_s_desc']?></p>
-                        <section><?php
+                        <section>
+                            Предварительная оценка: <?php
                         echo $product_data['prices']." ";
                         echo($product_data['currency_symbol']=='$')?
                             "у.е":$product_data['currency_symbol']; ?>.</section>
