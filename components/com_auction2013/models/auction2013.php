@@ -784,7 +784,7 @@ INNER JOIN #__virtuemart_product_prices  AS prices
      * @package
      * @subpackage
      */
-    public function getProductsForAuction($auction_number, $img_dir){
+    public function getProductsForAuction($auction_number, $img_dir=''){
         $query_count="SELECT COUNT(prod_ru.virtuemart_product_id)";
         $query_full="SELECT  prod_ru.virtuemart_product_id,
         prod.lot_number,
@@ -850,13 +850,17 @@ FROM #__virtuemart_products_ru_ru prod_ru
             $query_common.="
         WHERE auction_number = $auction_number";
 
-        if($this->name_for_search){
-            $arr_words=explode(" ",$this->name_for_search);
-            commonDebug(__FILE__,__LINE__,$arr_words, true);
-        }
         $db=JFactory::getDbo();
         // получить общее количество предметов
+        if($this->name_for_search){
+            $arr_words=explode(" ",$this->name_for_search);
+            //commonDebug(__FILE__,__LINE__,$arr_words, true);
+            $like = "prod_ru.product_name LIKE '%";
+            $query_common.=" AND ( $like"
+                . implode("%' OR $like", $arr_words ) . '%\')';
+        }
         $query=$query_count.$query_common;
+
         //testSQL($query, __FILE__, __LINE__, false, '', false);
         $db->setQuery($query);
         // сохранить общее количество предметов
@@ -898,4 +902,21 @@ FROM #__virtuemart_products_ru_ru prod_ru
         //commonDebug(__FILE__,__LINE__,$arr_products, true);
         return $arr_products;
     }
+    /**
+     * Извлечь дату аукциона
+     * @package
+     * @subpackage
+     */
+    public function getAuctionDate($auction_number){
+        //...
+        $db = JFactory::getDbo();
+        $query = "SELECT DATE_FORMAT(product_available_date, '%d.%m.%Y')
+AS date
+   FROM #__virtuemart_products
+  WHERE auction_number = " . $auction_number . "
+  LIMIT 1";
+        $db->setQuery($query);
+        return $db->loadResult();
+    }
+
 }

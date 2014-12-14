@@ -24,7 +24,6 @@ class Auction2013ViewAuction2013 extends JView
 		$this->params	= $this->state->get('params');
 		$this->item		= $this->get('Item');
         if($this->getLayout()=='auctions'){
-            $this->auction_number=JRequest::getVar('auction');
             $this->section_header='Аукцион № '.$this->auction_number;
         }
         // Check for errors.

@@ -9,6 +9,15 @@
 @import "layout";
 @import "media-blocks";
 
+#auction-catalogue{
+  margin-top: 10px;
+}
+#auction-number{
+  color: $brown;
+  font-size: 13px;
+  padding-left: 10px;
+  text-decoration: none;
+}
 #add_to_favorite{
   @media (max-width: $media-middle) {
     display: block !important;

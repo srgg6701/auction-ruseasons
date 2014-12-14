@@ -44,6 +44,12 @@ a {
     @include thinBrownHeader;
     padding-top:5px;
   }
+  #auction-catalogue &{
+    text-decoration: none;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
   #bigLeadImage &{
     border: $img-border-common;
     height: 334px;
@@ -472,6 +478,9 @@ div{
   }
   div#usermenu &.moduletable{
     position:relative;
+  }
+  #auction-catalogue >&{
+    height: 142px;
   }
   #copyright >&{
     color: #709454;

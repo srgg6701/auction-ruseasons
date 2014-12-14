@@ -26,16 +26,35 @@ defined('_JEXEC') or die;
 <?php   HTML::setCommonInnerMenu(array('user','take_lot'));?>
 </div>
 <?php
-if(!count($this->results)):?>
-    <h4 class="thin">Ничего не найдено...</h4>
-<?php
-else:
 //commonDebug(__FILE__,__LINE__,$this->getLayout(), true);
-    HTML::setVmPagination($this->getLayout(), true);?>
-<form action="?<?=AuctionStuff::$auction_list_common_link . $this->auction_number?>&Itemid=<?=JRequest::getVar('Itemid')?>" method="post">
+HTML::setVmPagination($this->getLayout(), true);
+if(!count($this->results)):?>
+    <h4 class="thin">Ничего не найдено... &nbsp; <a href="<?=JRoute::_('index.php?option=com_auction2013&'.AuctionStuff::$auction_list_common_link . $this->auction_number)?>">Все результаты...</a></h4>
+<?php
+endif;?>
+<form action="?<?=AuctionStuff::$auction_list_common_link . $this->auction_number?>" method="post">
     <input type="search" value="" placeholder="Поиск" name="product_name" class="field keyword" style="width:300px;margin:5px 0">
+    <input type="hidden" name="Itemid" value="<?=JRequest::getVar('Itemid')?>"/>
     <input type="submit" value="Искать"/>
 </form>
+<div class="clearfix" id="auction-catalogue">
+    <div class="floatLeft">
+        <a href="documents/Russians_seasones_auction_<?=$this->auction_number?>.jpg">
+            <img width="100" height="142" alt="Антиквариат Каталог <?=$this->auction_number?>" src="documents/preview_Russians_seasones_auction_<?=$this->auction_number?>.jpg">
+        </a>
+    </div>
+    <div class="floatLeft">
+        <div id="auction-number" class="vertically-aligned">Аукцион № <?=$this->auction_number?><br>
+        <?=$this->auction_date?>
+        <br>
+        <a href="documents/Russians_seasones_auction_<?=$this->auction_number?>.pdf">Скачать КАТАЛОГ в PDF формате</a>
+        </div>
+    </div>
+</div>
+<?php
+if(count($this->results)):
+    ?>
+    <h4>Результаты поиска</h4>
     <script>
         var imgs_src={};
     </script>

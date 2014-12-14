@@ -33,7 +33,7 @@ class Auction2013Controller extends JController
 		$vFormat = $document->getType(); 
 		$lName	 = JRequest::getCmd('layout', 'default');
         if ($view = $this->getView($vName, $vFormat)) {
-            /** 
+            /**
             если юзер залогинен, не надо показывать форму регистрации - 
             перенаправить в личный кабинет! */
             if($lName=='register'&&!JFactory::getUser()->guest)
@@ -42,13 +42,16 @@ class Auction2013Controller extends JController
                 $model = $this->getModel('auction2013');
                 $view->setModel($model, true);
                 if($lName=='auctions'){
-                    //commonDebug(__FILE__,__LINE__,$this, true);
+                    //showTestMessage("name_for_search=".JRequest::getVar('product_name'), __FILE__, __LINE__, false);
+                    //commonDebug(__FILE__,__LINE__,array(JRequest::get('get'),JRequest::get('post')), true);
                     if($product_name=JRequest::getVar('product_name')){
                         // передать имя предмета для поиска
                         $model->name_for_search=$product_name;
-                        //showTestMessage("name_for_search=".$model->name_for_search, __FILE__, __LINE__, false);
+                        //showTestMessage("name_for_search=".$model->name_for_search, __FILE__, __LINE__, false, true);
                     }   //commonDebug(__FILE__,__LINE__,$this, true);
-                    $view->results=$model->getProductsForAuction(JRequest::getVar('auction'));
+                    $view->auction_number=JRequest::getVar('auction');
+                    $view->auction_date=$model->getAuctionDate($view->auction_number);
+                    $view->results=$model->getProductsForAuction($view->auction_number);
                     //die("<div>Показать предметы аукциона</div>");
                 }
                 $view->setLayout($lName);
