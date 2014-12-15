@@ -676,7 +676,7 @@ div#usermenu div.moduletable ul.menu li a.H2 {
   }
 }
 /* line 160, ../sass/tags.scss */
-#main_menu > ul:not(#mobile-menu-proposal) > li.active a {
+#main_menu > ul:not(#mobile-menu-proposal) > li.active > a {
   text-decoration: none;
   color: #e9e4bc;
   color: #fad674;

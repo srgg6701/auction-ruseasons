@@ -157,7 +157,7 @@ a {
       line-height: 24px !important;
     }
   }
-  #main_menu >ul:not(#mobile-menu-proposal) >li.active &{
+  #main_menu >ul:not(#mobile-menu-proposal) >li.active >&{
     @include liActive;
     @include subMenu;
     padding:0;
