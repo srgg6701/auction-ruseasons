@@ -1,5 +1,5 @@
 [_]notes/
 .idea/
-#*cache/
 nbproject
+__docs
 #templates/auction/.sass-cache
