@@ -841,7 +841,7 @@ WHERE p.virtuemart_product_id = ".$product_id;
      * @package
      * @subpackage
      */
-    public function getAlias($db,$array=NULL){
+    public static function getAlias($db,$array=NULL){
         //debug_print_backtrace();
         if($array){
             if(self::$menu_layouts_query_array){

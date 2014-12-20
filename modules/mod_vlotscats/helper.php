@@ -10,13 +10,13 @@ require_once JPATH_SITE.DS.'tests.php';
 class modVlotscatsHelper extends JModuleHelper
 {	
 
- private static $categories_data=NULL;
+    private static $categories_data=NULL;
  /**
  * Извлечь данные категорий верхнего уровня
  * @package
  * @subpackage
  */
-	function getTopCategories($published=false,$db=false){
+	static function getTopCategories($published=false,$db=false){
 		$query='SELECT cats.virtuemart_category_id, 
         cats_ru.category_name,
 		cats_ru.slug AS "alias"
@@ -48,7 +48,7 @@ ORDER BY cats.ordering DESC';
             if (!$db)
                 $db=JFactory::getDBO();
 
-            $session =& JFactory::getSession();
+            $session = JFactory::getSession();
             $prods=array();
             $session->set('products_data',$prods);
             $top_cats=modVlotscatsHelper::getTopCategories($db);
