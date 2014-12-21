@@ -639,6 +639,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
                    ON prices.virtuemart_product_id = cats.virtuemart_product_id
         INNER JOIN #__virtuemart_products            AS p
                   ON prices.virtuemart_product_id = p.virtuemart_product_id
+        INNER JOIN #__virtuemart_products_ru_ru AS prods_ru ON prods_ru.virtuemart_product_id = p.virtuemart_product_id
              WHERE cat_cats.category_parent_id = ".$top_category_id;
          // $query передаётся по ссылке
          self::getPeriodLimits($category_alias,$query,$published);
@@ -646,7 +647,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
          self::excludeSold($category_alias,$query);
 
           $query.="
-        ORDER BY prices.product_price_publish_up " . self::getPagesLimit();
+        ORDER BY prods_ru.product_name " . self::getPagesLimit();
         //testSQL($query, __FILE__, __LINE__);
         $ids=JFactory::getDbo()->setQuery($query)->loadColumn();
         return $ids;
@@ -1435,7 +1436,7 @@ class HTML{
             var src_index=$(this).attr('<?=$attr?>'),
                 parentIdIndex=this.parentNode.id.substr(8);
             //console.log(src_index, parentIdIndex);
-            img.src='<?=JURI::base().$base_img_dir?>'+imgs_src[parentIdIndex][src_index];
+            img.src='<?=JURI::base()?>'+imgs_src[parentIdIndex][src_index];
             //console.log(img);
 <?php   endif;?>
         });
