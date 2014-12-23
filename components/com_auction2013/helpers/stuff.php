@@ -1757,26 +1757,15 @@ class HTML{
                         <a href="/projects/auction-ruseasons/documents/Russians_seasones_auction_<?=$auction_number?>.pdf">Скачать КАТАЛОГ в PDF формате</a>
                 <?php   if(!$a_number):?>
                         <p><a href="documents/russians_seasones_auction_<?=$auction_number?>.doc">Результаты торгов</a></p>
-                        <div style="min-height: 32px; border-bottom: 1px solid; padding-top: 10px;">
+                        <div style="min-height: 32px;padding-top: 10px;">
                             <a href="index.php?option=com_auction2013&<?=AuctionStuff::$auction_list_common_link.$auction_number?>">Проданные лоты - Аукцион №<?=$id?></a>
                         </div>
                 <?php   endif;?>
                     </div>
                 </div>
             </div>
-
-<?php   /*
-        <p><span style="float: left; width: 105px;"><a href="documents/Russians_seasones_auction_<?=$auction_number?>.jpg"></a><a href="images/illustrations/Russians_seasones_auction_<?=$auction_number?>.jpg"><img src="documents/preview_Russians_seasones_auction_<?=$auction_number?>.jpg" border="0" alt="Антиквариат Каталог №<?=$id?>" width="100" height="142" /></a></span>
-</p>
-<p>Аукцион №<?=$id?><br /><?=$auction_data['date_finish']?><br /><a href="documents/Russians_seasones_auction_<?=$auction_number?>.pdf">Скачать КАТАЛОГ в PDF формате</a>
-</p>
-<p><a href="documents/russians_seasones_auction_<?=$auction_number?>.doc">Результаты торгов</a>
-</p>
-<div style="min-height: 32px; border-bottom: 1px solid; padding-top: 10px;">
-    <!--http://localhost:8080/projects/auction-ruseasons/component/auction2013/?view=auction2013&layout=auctions&auction=102030&Itemid=126-->
-    <a href="index.php?option=com_auction2013&<?=AuctionStuff::$auction_list_common_link.$auction_number?>">Проданные лоты - Аукцион №<?=$id?></a>
-</div>
-        <?php   */
+            <hr style="border:0; border-bottom: solid 1px #301F07"/>
+<?php
         }
         return true;
     }
