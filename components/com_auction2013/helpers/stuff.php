@@ -1758,7 +1758,7 @@ class HTML{
                 <?php   if(!$a_number):?>
                         <p><a href="documents/russians_seasones_auction_<?=$auction_number?>.doc">Результаты торгов</a></p>
                         <div style="min-height: 32px;padding-top: 10px;">
-                            <a href="index.php?option=com_auction2013&<?=AuctionStuff::$auction_list_common_link.$auction_number?>">Проданные лоты - Аукцион №<?=$id?></a>
+                            <a href="index.php?option=com_auction2013&<?=AuctionStuff::$auction_list_common_link.$auction_number?>">Представленные лоты - Аукцион №<?=$id?></a>
                         </div>
                 <?php   endif;?>
                     </div>
