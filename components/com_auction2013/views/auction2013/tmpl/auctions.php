@@ -38,6 +38,9 @@ endif;?>
     <input type="hidden" name="Itemid" value="<?=JRequest::getVar('Itemid')?>"/>
     <input type="submit" value="Искать"/>
 </form>
+<?php
+HTML::showClosedAuctions($this->auction_number,$this->auction_date);
+/*
 <div class="clearfix" id="auction-catalogue">
     <div class="floatLeft">
         <a href="documents/Russians_seasones_auction_<?=$this->auction_number?>.jpg">
@@ -52,7 +55,7 @@ endif;?>
         </div>
     </div>
 </div>
-<?php
+<?php   */
 if(count($this->results)):
     if(JRequest::getVar('action')=='search'):?>
     <h4>Результаты поиска<span class="thin"><?=$all_results?></span></h4>

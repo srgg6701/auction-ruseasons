@@ -10,7 +10,8 @@ $document->title=str_replace("&raquo;","»",$document->title);?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <script src="<?=$templateUrl?>/js/jquery-1.7.1.min.js"></script>
 <script src="<?=$templateUrl?>/js/jquery-ui-1.8.18.custom.min.js"></script>
 <jdoc:include type="head" />
 <?php

@@ -218,6 +218,20 @@ FROM `#__virtuemart_categories` AS cats
         return $db->loadResult();
     }
     /**
+         * description...
+         * @package
+         * @subpackage
+         */
+    public static function getClosedAuctions(){
+        $query = "SELECT DISTINCT auction_number,
+                  DATE_FORMAT( auction_date_finish,  '%d.%m.%Y' ) AS  'date_finish'
+FROM #__virtuemart_products
+WHERE auction_date_finish  > NOW()
+ORDER BY auction_number";
+        $db=JFactory::getDbo();
+        $db->setQuery($query);
+        return $db->loadAssocList();
+    }    /**
      * Получить страны
      * @package
      * @subpackage
@@ -378,9 +392,9 @@ FROM #__virtuemart_products_ru_ru
 		$db->setQuery($query);
 		return $db->loadResult();
 	}
-    /**
-     * Получить актуальную цену лота - либо минимальную, либо текущую ставку
-     */
+/**
+ * Получить актуальную цену лота - либо минимальную, либо текущую ставку
+ */
     public static function getBidSum($data) {
         if(key_exists('product_price', $data))
             $product_price = $data['product_price'];
@@ -648,7 +662,7 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
 
           $query.="
         ORDER BY prods_ru.product_name " . self::getPagesLimit();
-        //testSQL($query, __FILE__, __LINE__);
+        if(JRequest::getVar('qtest')) testSQL($query, __FILE__, __LINE__);
         $ids=JFactory::getDbo()->setQuery($query)->loadColumn();
         return $ids;
     }
@@ -687,8 +701,6 @@ WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
         if(!$result=$db->loadResult()) $result='руб';
         return $result;
     }
-
-
     /**
  * Получить slug продукта. В частности, чтобы дописать ссылку на предыдущий продукт в профайле текущего.
  * @package
@@ -1624,7 +1636,7 @@ class HTML{
             echo($layout=='shop')? "Предметов":"Лотов"?> на странице:
             <?php $router = JFactory::getApplication()->getRouter();
             $pages_limit= AuctionStuff::handlePagesLimit();
-            if(JRequest::getVar('qtest')) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
+            if(JRequest::getVar('ptest')) commonDebug(__FILE__,__LINE__,$pages_limit); //die();
             $str_page_limit = "pages_limit=";
             $base_link = JUri::current();
             //showTestMessage("base_link: ".$base_link,__FILE__,__LINE__,'red');
@@ -1715,6 +1727,58 @@ class HTML{
             ob_end_clean();
         }
         echo $pagination;
+    }
+/**
+     * description...
+     * @package
+     * @subpackage
+     */
+    public static function showClosedAuctions($a_number=NULL,$a_date=NULL){
+        $auctions_data=($a_number&&$a_date)?
+                array(array('auction_number'=>$a_number,'date_finish'=>$a_date))
+                :   AuctionStuff::getClosedAuctions();
+
+        $auctions_data=array(array('auction_number'=>'102030','date_finish'=>'12.12.2014'));
+        foreach ($auctions_data as $auction_data) {
+            $id=$auction_number=$auction_data['auction_number'];
+            if((int)$auction_number<9&&!strstr($auction_number,'0'))
+                $auction_number='0'.$auction_number;
+        ?>
+
+            <div class="clearfix" id="auction-catalogue">
+                <div class="floatLeft">
+                    <a href="/projects/auction-ruseasons/documents/Russians_seasones_auction_<?=$auction_number?>.jpg">
+                        <img width="100" height="142" alt="Антиквариат Каталог <?=$id?>" src="/projects/auction-ruseasons/documents/preview_Russians_seasones_auction_<?=$auction_number?>.jpg">
+                    </a>
+                </div>
+                <div class="floatLeft">
+                    <div id="auction-number" class="vertically-aligned">Аукцион № <?=$id?><br>
+                        <?=$auction_data['date_finish']?>        <br>
+                        <a href="/projects/auction-ruseasons/documents/Russians_seasones_auction_<?=$auction_number?>.pdf">Скачать КАТАЛОГ в PDF формате</a>
+                <?php   if(!$a_number):?>
+                        <p><a href="documents/russians_seasones_auction_<?=$auction_number?>.doc">Результаты торгов</a></p>
+                        <div style="min-height: 32px; border-bottom: 1px solid; padding-top: 10px;">
+                            <a href="index.php?option=com_auction2013&<?=AuctionStuff::$auction_list_common_link.$auction_number?>">Проданные лоты - Аукцион №<?=$id?></a>
+                        </div>
+                <?php   endif;?>
+                    </div>
+                </div>
+            </div>
+
+<?php   /*
+        <p><span style="float: left; width: 105px;"><a href="documents/Russians_seasones_auction_<?=$auction_number?>.jpg"></a><a href="images/illustrations/Russians_seasones_auction_<?=$auction_number?>.jpg"><img src="documents/preview_Russians_seasones_auction_<?=$auction_number?>.jpg" border="0" alt="Антиквариат Каталог №<?=$id?>" width="100" height="142" /></a></span>
+</p>
+<p>Аукцион №<?=$id?><br /><?=$auction_data['date_finish']?><br /><a href="documents/Russians_seasones_auction_<?=$auction_number?>.pdf">Скачать КАТАЛОГ в PDF формате</a>
+</p>
+<p><a href="documents/russians_seasones_auction_<?=$auction_number?>.doc">Результаты торгов</a>
+</p>
+<div style="min-height: 32px; border-bottom: 1px solid; padding-top: 10px;">
+    <!--http://localhost:8080/projects/auction-ruseasons/component/auction2013/?view=auction2013&layout=auctions&auction=102030&Itemid=126-->
+    <a href="index.php?option=com_auction2013&<?=AuctionStuff::$auction_list_common_link.$auction_number?>">Проданные лоты - Аукцион №<?=$id?></a>
+</div>
+        <?php   */
+        }
+        return true;
     }
 /**
  * Показать предметы из списка наблюдения

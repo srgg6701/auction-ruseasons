@@ -5,7 +5,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 //strstr($_SERVER['HTTP_HOST'],"localhost")
-error_reporting ( E_ALL ^ E_NOTICE );
+//error_reporting ( E_ALL ^ E_NOTICE );
+error_reporting ( E_ERROR );
 //error_reporting ( E_ERROR | E_WARNING );
 //error_reporting ( E_ERROR ^ E_NOTICE );
 //ini_set ( 'display_errors', true );
