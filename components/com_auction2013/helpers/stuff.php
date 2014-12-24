@@ -227,6 +227,7 @@ FROM `#__virtuemart_categories` AS cats
                   DATE_FORMAT( auction_date_finish,  '%d.%m.%Y' ) AS 'date_finish'
 FROM #__virtuemart_products
 WHERE auction_date_finish < NOW()
+  AND auction_number <>  ''
 ORDER BY auction_number DESC";
         $db=JFactory::getDbo();
         $db->setQuery($query);
