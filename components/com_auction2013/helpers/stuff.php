@@ -224,10 +224,10 @@ FROM `#__virtuemart_categories` AS cats
          */
     public static function getClosedAuctions(){
         $query = "SELECT DISTINCT auction_number,
-                  DATE_FORMAT( auction_date_finish,  '%d.%m.%Y' ) AS  'date_finish'
+                  DATE_FORMAT( auction_date_finish,  '%d.%m.%Y' ) AS 'date_finish'
 FROM #__virtuemart_products
-WHERE auction_date_finish  > NOW()
-ORDER BY auction_number";
+WHERE auction_date_finish < NOW()
+ORDER BY auction_number DESC";
         $db=JFactory::getDbo();
         $db->setQuery($query);
         return $db->loadAssocList();
@@ -1738,10 +1738,10 @@ class HTML{
                 array(array('auction_number'=>$a_number,'date_finish'=>$a_date))
                 :   AuctionStuff::getClosedAuctions();
 
-        $auctions_data=array(array('auction_number'=>'102030','date_finish'=>'12.12.2014'));
+        //$auctions_data=array(array('auction_number'=>'102030','date_finish'=>'12.12.2014'));
         foreach ($auctions_data as $auction_data) {
             $id=$auction_number=$auction_data['auction_number'];
-            if((int)$auction_number<9&&!strstr($auction_number,'0'))
+            if(strlen($auction_number)<2)
                 $auction_number='0'.$auction_number;
         ?>
 
