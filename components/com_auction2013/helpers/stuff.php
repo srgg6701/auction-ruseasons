@@ -231,6 +231,7 @@ WHERE auction_date_finish < NOW()
 ORDER BY auction_number DESC";
         $db=JFactory::getDbo();
         $db->setQuery($query);
+        if(JRequest::getVar('qtest')) testSQL($query, __FILE__, __LINE__);
         return $db->loadAssocList();
     }    /**
      * Получить страны
