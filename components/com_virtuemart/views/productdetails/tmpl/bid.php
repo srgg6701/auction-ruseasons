@@ -106,5 +106,5 @@ function switchSections(step){
     });
 }(jQuery));
 </script>
-<?
+<?php
 endif;

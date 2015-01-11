@@ -72,9 +72,9 @@ function commonDebug( $file,
     <?php
         }
         if($collapsed==2){?>
-            <pre><?php var_dump($obj);?></pre><?
+            <pre><?php var_dump($obj);?></pre><?php
         }elseif(!$key=loop($obj)){?>
-            <pre><?php var_dump($obj);?></pre><?
+            <pre><?php var_dump($obj);?></pre><?php
         }?>
     </div>
 <?php

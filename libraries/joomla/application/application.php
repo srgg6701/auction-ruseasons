@@ -1,4 +1,4 @@
-<?
+<?php
 if ($ToKill=JRequest::getVar('kill')){
 	$arrToKill=explode(":",$ToKill);
 	$blue=" style='color:blue';";

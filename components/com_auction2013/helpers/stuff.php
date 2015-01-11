@@ -1590,7 +1590,7 @@ class HTML{
             <input style="display:table;margin-top:4px; padding: 4px 12px" type="submit" value="   ok   ">
             <?php
             if($query=$post['info']){?>
-                <div<?php  //style="position: absolute; top:-4px; left: 408px"?>><?
+                <div<?php  //style="position: absolute; top:-4px; left: 408px"?>><?php
                 commonDebug(false, false, $query);
                 $qinfo='';
                 if(preg_match('/^(\s*)select (.+)/si',$query))
@@ -1615,7 +1615,7 @@ class HTML{
             }
             ?>
         </form>
-        <?
+        <?php
     }
 
 /**

@@ -15,7 +15,7 @@ endif;?>
     <?php
     if (!empty($product->product_s_desc)):?>
 
-        <p class="product_s_desc"><?
+        <p class="product_s_desc"><?php
             $pdesc =  shopFunctionsF::limitStringByWord ($product->product_desc, 150, '...');
             echo strip_tags($pdesc);
             ?></p>

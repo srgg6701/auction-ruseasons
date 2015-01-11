@@ -41,7 +41,7 @@ JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
 //TEST:
 // Стек вызовов:
-function setDebugTrace( $file,
+/*function setDebugTrace( $file,
 						$method = false,
 						$line = false,
 						$condition = false,
@@ -114,7 +114,7 @@ function setDebugTrace( $file,
 		}
 	}else
 		$session->clear('test_output');
-}
+}*/
 //TEST
 if(JRequest::getVar('sclear')) {
 	$session = JFactory::getSession();
@@ -132,7 +132,7 @@ JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 $app->dispatch();
 
 //TEST:
-function showDebugTrace(){
+/*function showDebugTrace(){
 	echo "<div><b>Request:</b></div>";
 	var_dump(JRequest::get('get'));
 	$session = JFactory::getSession();
@@ -142,7 +142,7 @@ function showDebugTrace(){
 	echo "<div>Check clear:</div>";
 	$test_output = $session->get('test_output');
 	var_dump($test_output);
-}
+}*/
 //TEST
 
 // Mark afterDispatch in the profiler.

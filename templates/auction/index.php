@@ -17,7 +17,7 @@ $document->title=str_replace("&raquo;","»",$document->title);?>
 <?php
     if(!JRequest::getVar('less')):?>
 <link href="<?php echo $templateUrl; ?>/css/default.css" rel="stylesheet" type="text/css" />
-<?
+<?php
     else:?>
 <link href="<?php echo $templateUrl; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $templateUrl; ?>/css/mobile/default.css" rel="stylesheet" type="text/css" />

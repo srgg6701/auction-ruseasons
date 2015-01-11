@@ -164,7 +164,7 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
 			else:
 				// юзер не идентифицирован или предмет подан другому юзеру
 				if($item['user_id']==='unknown'||!(int)$item['user_id']):
-					?>Предмет продан<?
+					?>Предмет продан<?php
 				// продан текущему юзеру
 				else:
 		?>Вы приобрели данный предмет <?php echo $intime;

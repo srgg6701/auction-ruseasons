@@ -121,12 +121,12 @@ class vmAuctionHTML{
             $com_class="apply";
             $title="Подтвердить покупку";
             $purchases = $this->purchases_applications;
-            ?>Неподтверждённые<?
+            ?>Неподтверждённые<?php
         else:
             $com_class="cancel";
             $title="Отменить покупку";
             $purchases = $this->purchases_paid;
-            ?>Подтверждённые<?
+            ?>Подтверждённые<?php
         endif;
             ?> заявки</legend>
         <table width="100%" class="adminform">
