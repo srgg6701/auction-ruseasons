@@ -127,8 +127,9 @@ class Auction2013ViewAuction2013 extends JView
 		ob_start();?>
       <form method="post" name="export_start" id="export_start" action="index.php?option=com_auction2013&view=auction2013&layout=export">  
 		  <div id="dbs" style="padding:8px;display:inline-block">
-        	<input name="db_name" id="db_auctionru_ruse" type="radio" value="auctionru_ruse"<?php if($this->source_db=='auctionru_ruse'){?> checked<?php }?> disabled>
-        auctionru_ruse (<span style="color:brown">старый</span> сайт, префикс таблиц &mdash; <b>geodesic</b>)
+          <?php $old_radio_name="db_auctionru_ruse";?>
+        	<input name="db_name" id="<?php echo $old_radio_name;?>" type="radio" value="auctionru_ruse"<?php if($this->source_db=='auctionru_ruse'){?> checked<?php }?> disabled>
+        auctionru_ruse (<span style="color:brown">старый</span> сайт, префикс таблиц &mdash; <b>geodesic</b>) [<a href="#" onclick="document.getElementById('<?php echo $old_radio_name;?>').removeAttribute('disabled'); return false;">снять блокировку</a>]
         <br>
         	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?php /*if($this->source_db=='auctionru_2013'){?> checked<?php }*/?> checked>
         auctionru_2013 (<span style="color:navy">новый</span> сайт, префикс таблиц &mdash; <b>auc13</b>)
