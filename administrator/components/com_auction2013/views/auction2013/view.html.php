@@ -104,10 +104,10 @@ class Auction2013ViewAuction2013 extends JView
             $post = JRequest::get('post');
             $this->products = $post['category_id'];
             // если выбрали старую БД
-            if ($this->source_db == 'auctionru_ruse') {
-                $this->section_products = $this->Export->getOldDataToExport($this->source_db, $this->section[0], $this->active_categories);
-                showTestMessage("handleExport:<br>\$section[" . $this->section[1] . "] = " . $this->section[0] . "<hr>", __FILE__, __LINE__, false, false);
-            }
+            $this->section_products = $this->Export->getOldDataToExport($this->source_db, $this->section[0], $this->active_categories);
+            /*if ($this->source_db == 'auctionru_ruse') {
+                //showTestMessage("handleExport:<br>\$section[" . $this->section[1] . "] = " . $this->section[0] . "<hr>", __FILE__, __LINE__, false, false);
+            }*/
 		}
 		$this->chooseDb();
 		// Выберите раздел:   
@@ -136,10 +136,10 @@ class Auction2013ViewAuction2013 extends JView
       <form method="post" name="export_start" id="export_start" action="index.php?option=com_auction2013&view=auction2013&layout=export">  
 		  <div id="dbs" style="padding:8px;display:inline-block">
           <?php $old_radio_name="db_auctionru_ruse";?>
-        	<input name="db_name" id="<?php echo $old_radio_name;?>" type="radio" value="auctionru_ruse"<?php if($this->source_db=='auctionru_ruse'){?> checked<?php }?> disabled>
-        auctionru_ruse (<span style="color:brown">старый</span> сайт, префикс таблиц &mdash; <b>geodesic</b>) [<a href="#" onclick="document.getElementById('<?php echo $old_radio_name;?>').removeAttribute('disabled'); return false;">снять блокировку</a>]
+        	<input name="db_name" id="<?php echo $old_radio_name;?>" type="radio" value="auctionru_ruse"<?php if($this->source_db=='auctionru_ruse'){?> checked<?php }?>>
+        auctionru_ruse (<span style="color:brown">старый</span> сайт, префикс таблиц &mdash; <b>geodesic</b>) <!--[<a href="#" onclick="document.getElementById('<?php /*echo $old_radio_name;*/?>').removeAttribute('disabled'); return false;">снять блокировку</a>]-->
         <br>
-        	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?php /*if($this->source_db=='auctionru_2013'){?> checked<?php }*/?>>
+        	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?php if($this->source_db=='auctionru_2013'){?> checked<?php }?>>
         auctionru_2013 (<span style="color:navy">новый</span> сайт, префикс таблиц &mdash; <b>auc13</b>)
         </div>
     	<input id="active_section" name="section" type="hidden" value="">        

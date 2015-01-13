@@ -257,12 +257,12 @@ class Export{
  * @package
  * @subpackage
  */
-	public function getDataToExport( 
+	public function getOldDataToExport(
 							$source_db,
 							$parent_category_name=false,
 							$categories_ids=false
 						){
-		//echo "<div class=''>getDataToExport:: source_db= ".$source_db."</div>";
+		//echo "<div class=''>getOldDataToExport:: source_db= ".$source_db."</div>";
 		$this->connect_db_old($source_db);
 		// see method getImportFields() to control fields set
 		// получить данные
@@ -320,7 +320,8 @@ FROM #__geodesic_classifieds_cp prods
 ORDER BY cats.category_name, prods.title";
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		$prods=$db->loadAssocList();
+		//testSQL($query, __FILE__, __LINE__);
+        $prods=$db->loadAssocList();
 		// echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$headers=$this->getActualFields();
 		array_unshift($prods,$headers);
@@ -482,7 +483,7 @@ ORDER BY cats.category_name, prods.title";
 			$password = 'Ytxbnfnm2012';
 			try {
 				$dbh = new PDO($dsn, $user, $password);
-				echo "<h1>Подключение к auctionru_ruse выполнено!</h1>";
+				//echo "<div>Подключение к auctionru_ruse выполнено...</div>";
 			} catch (PDOException $e) {
 				echo 'Подключение не удалось: ' . $e->getMessage();
 			}

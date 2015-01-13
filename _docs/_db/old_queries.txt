@@ -1,4 +1,5 @@
 SELECT
+  cats.category_name,
   REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
   prods.optional_field_5 AS 'lot_number',
   prods.optional_field_6 AS 'contract_number',
@@ -9,10 +10,10 @@ SELECT
   prods.title,
   '' AS 'short_desc',
   prods.descriptiON AS 'desc',
-  prods.current_bid AS 'price1',
-  prods.final_price AS 'price2', 
-  prods.image AS 'images',
-  prods.id
+  prods.price AS 'price1',
+  '' AS 'price2', 
+  '' AS 'price3',
+  prods.image AS 'images' -- ,  prods.id
 FROM geodesic_classifieds_cp prods
   INNER JOIN geodesic_categories cats
     ON prods.category = cats.category_id   
@@ -22,14 +23,8 @@ FROM geodesic_classifieds_cp prods
                 )
 ORDER BY cats.category_name, prods.title LIMIT 1000
 
---
-  -- REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
-  -- prods.optional_field_5 AS 'lot_number',
-  -- prods.optional_field_6 AS 'contract_number',
-  -- prods.date AS 'date_show',
-  -- prods.ends AS 'date_hide',
-  -- REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
-  -- REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
+
+/*	*/
 
 SELECT
   prods.id,
