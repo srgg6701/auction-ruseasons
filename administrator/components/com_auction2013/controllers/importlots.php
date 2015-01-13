@@ -30,26 +30,6 @@ class Auction2013ControllerImportlots extends JControllerForm
 		$view->display(); 
 	}
 /**
- * Обработать текст названия, сохранить как slug
- * @package
- * @subpackage
- * point: вызов метода отключён, т.к. замена производится inline, искать по подстроке комментария "заменить невалидные символы"
- */
-	public function handleSlug($slug,&$words,&$allwords){
-		$noquote=mb_ereg_replace("&quot;","",$slug);
-		$handled=mb_ereg_replace("[^A-Za-zА-Яа-я0-9\.,\-\s]","", $noquote);
-		$handled=mb_ereg_replace(" ","-",$handled);
-		if($key=array_search($handled,$allwords)!==false){
-			if(!isset($words[$handled])){ 
-				$words[$handled]=1;
-			}else{ 
-				$words[$handled]+=1;
-			}
-			$handled=$handled.'-'.$words[$handled];
-		}
-		$allwords[]=$handled;	
-	}
-/**
  * Описание
  * @package
  * @subpackage
@@ -368,8 +348,7 @@ class Auction2013ControllerImportlots extends JControllerForm
                                         }*/
                                     }
                                     // mb_ereg_replace() не работает
-                                    /** заменить невалидные символы.
-                                        см. также отключённый метод handleSlug()    */
+                                    /** заменить невалидные символы. */
                                     //$cell_content=preg_replace("/«/", $laquo, $cell_content);
                                     //$cell_content=preg_replace("/»/", $raquo, $cell_content);
                                     //$cell_content=mb_ereg_replace('/«/', $raquo, $cell_content);
