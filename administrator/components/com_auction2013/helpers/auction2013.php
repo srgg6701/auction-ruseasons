@@ -267,7 +267,7 @@ class Export{
 		// see method getImportFields() to control fields set
 		// получить данные
 		// ВНИМАНИЕ! Набор столбцов для таблицы с данными формируется методом getActualFields()
-		$query="SELECT
+        $query="SELECT
   REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
   prods.optional_field_5 AS 'lot_number',
   prods.optional_field_6 AS 'contract_number',
@@ -277,29 +277,24 @@ class Export{
   REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
   '' AS 'short_desc',
-  prods.description AS 'desc',
-  prods.current_bid AS 'price1',
-  prods.final_price AS 'price2', 
+  prods.description AS 'desc', ";
+        switch($parent_category_name){
+            case 'Магазин': case 'Онлайн торги':
+            $query.="
+  prods.price               AS 'price1',
+  ''                        AS 'price2',";
+            break;
+            case 'Очные торги':
+                $query.="
+  prods.starting_bid        AS 'price1',
+  prods.optional_field_2    AS 'price2',";
+                break;
+        }
+        $query.="
+  ''                AS 'price3',";
+        $query.="
   prods.image AS 'images',
   prods.id";
-  /*-- cats.category_name,
-  -- cats.category_id,
-  -- prods.order_item_id,
-  -- prods.item_type,
-  -- prods.quantity,
-  -- prods.auction_type,
-  -- prods.price_plan_id,
-  -- prods.seller,
-  -- prods.live,
-  -- prods.precurrency,
-  -- prods.postcurrency,
-  -- prods.duration,
-  
-  prods.optional_field_2 AS 'optf-1',
-  prods.optional_field_1 AS 'optf-2',
-  prods.optional_field_3 AS 'optf-3',
-  prods.optional_field_4 AS 'optf-4',
-  prods.optional_field_5 AS 'optf-5'";*/
 
   		$query.="
 FROM #__geodesic_classifieds_cp prods
