@@ -319,7 +319,7 @@ FROM #__geodesic_classifieds_cp prods
 ORDER BY cats.category_name, prods.title";
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		testSQL($query, __FILE__, __LINE__);
+		//testSQL($query, __FILE__, __LINE__);
         $prods=$db->loadAssocList();
 		// echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$headers=$this->getActualFields();

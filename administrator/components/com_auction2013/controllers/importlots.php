@@ -285,7 +285,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				$arrFields=array(
 							// #__virtuemart_products:
 							'auction_number'    => 'auction_number',
-							//'lot_number'        => 'lot_number', // todo: не используется, вместо него - auction_number
+							'lot_number'        => 'lot_number', // todo: не используется, вместо него - auction_number
 							'contract_number'   => 'product_sku',
                             // Даты аукциона:
 							// НАЧАЛО
