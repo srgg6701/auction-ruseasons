@@ -488,7 +488,9 @@ FROM #__virtuemart_product_prices $where_product_id";
            AND prices.product_price_publish_down  > NOW() ";
         if($category_alias!='shop')
             $query.="
-           AND p.product_available_date           < NOW()
+           AND p.product_available_date           < NOW()";
+        if($category_alias=='online')
+            $query.="
            AND p.auction_date_finish              > NOW()
            ";
         return true;
