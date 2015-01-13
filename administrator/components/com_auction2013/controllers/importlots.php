@@ -227,8 +227,8 @@ class Auction2013ControllerImportlots extends JControllerForm
             Чтобы предметы НЕ импортировались - раскомментировать тестовую
             строку 'return false;' в VmController::import(),
             чтобы возвращало false. */
-        $laquo = "&laquo;";
-        $raquo = "&raquo;";
+        //$laquo = "&laquo;";
+        //$raquo = "&raquo;";
         $doubled_contract_numbers=array();
 
 		$user = JFactory::getUser();
@@ -344,7 +344,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 							}
 
 						}else{
-							// назначим индекс поля с данными
+                            // назначим индекс поля с данными
 							$data_index=$row_count-1;
 							if (isset($enc_from)&&isset($enc_to))
 								$cell_content=iconv($enc_from,$enc_to,$cell_content);
@@ -355,12 +355,29 @@ class Auction2013ControllerImportlots extends JControllerForm
 								$column_name=$columns_names[$i];
 
 								if($column_name=='title' || $column_name=='short_desc' || $column_name=='desc'){
+                                    if($column_name=='title'){
+                                        // создадим slug
+                                        /*$slug=$cell_content;
+                                        $slug=preg_replace("/«/", "", $slug);
+                                        $slug=preg_replace("/ /", "-", $slug);
+                                        $slug=mb_substr($slug,0,70);*/
+                                        $slug=$this->handleSlugString($cell_content);
+                                        /*if($test) {
+                                            echo "<div>line: ".__LINE__.", кавычки:</div>
+                                            preg_match: ". preg_match('/«/',$cell_content)."<hr>";
+                                        }*/
+                                    }
                                     // mb_ereg_replace() не работает
                                     /** заменить невалидные символы.
                                         см. также отключённый метод handleSlug()    */
-                                    $cell_content=preg_replace("/«/", $laquo, $cell_content);
-                                    $cell_content=preg_replace("/»/", $raquo, $cell_content);
-                                    //echo "<div>changed cell_content: </div>"; var_dump($cell_content);
+                                    //$cell_content=preg_replace("/«/", $laquo, $cell_content);
+                                    //$cell_content=preg_replace("/»/", $raquo, $cell_content);
+                                    //$cell_content=mb_ereg_replace('/«/', $raquo, $cell_content);
+                                    //$cell_content=mb_ereg_replace('/»/', $raquo, $cell_content);
+                                    if($test&&$column_name=='title') {
+                                        echo "<div>line: ".__LINE__.", changed cell_content: </div>";
+                                        var_dump($cell_content);
+                                    }
                                 }
 								//echo "<div class=''>column_name= ".$column_name."</div>";
 								switch($column_name){
@@ -415,6 +432,8 @@ class Auction2013ControllerImportlots extends JControllerForm
 								$images[$data_index]=array();
 						}   //echo "<div><b>file:</b> ".__FILE__."<br>line: <span style='color:green'>".__LINE__."</span></div><hr color='orange'>";
 					}
+                    $data[$data_index]['slug']=$slug;
+                    if($test)  commonDebug(__FILE__,__LINE__,$data);
 					$row_count++;
 				}
                 fclose($handle);
@@ -489,7 +508,7 @@ class Auction2013ControllerImportlots extends JControllerForm
 				// вывести импортируемые данные
                 if($skip_import||$skip_import===NULL){
                     //if($data_stream['lot_number']=='1000653')
-                        commonDebug(__FILE__,__LINE__,$data_stream, false, false);
+                        //commonDebug(__FILE__,__LINE__,$data_stream, false, false);
                 }
                 if(!$skip_import){ // false, null etc
                     /**
@@ -669,8 +688,8 @@ class Auction2013ControllerImportlots extends JControllerForm
                 }else{
                     $this->setRedirect(JRoute::_($redir), $msg);
                 }
-            }else
-                commonDebug(__FILE__,__LINE__,$doubled_contract_numbers);
+            }/*else
+                commonDebug(__FILE__,__LINE__,$doubled_contract_numbers);*/
 		}
 	}
 /**
@@ -685,4 +704,26 @@ class Auction2013ControllerImportlots extends JControllerForm
 		$view->setLayout($layout);
 		return $view; 
 	}
+
+    /**
+     * Транслителировать
+     * @param $s
+     * @return mixed|string
+     */
+    public function handleSlugString($slug)
+    {
+        //$s = (string) $s; // преобразуем в строковое значение
+        //$s = strip_tags($s); // убираем HTML-теги
+        //$s = str_replace(array("\n", "\r"), " ", $s); // убираем перевод каретки
+        //$s = preg_replace("/\s+/", ' ', $s); // удаляем повторяющие пробелы
+        //$s = trim($s); // убираем пробелы в начале и конце строки
+        //$s = function_exists('mb_strtolower') ? mb_strtolower($s) : strtolower($s); // переводим строку в нижний регистр (иногда надо задать локаль)
+        //$slug=preg_replace("/«/", "", $slug);
+        $slug=preg_replace("/ /", "-", $slug);
+        $slug=mb_substr($slug,0,70);
+        $slug = strtr($slug, array('а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'e', 'ж' => 'j', 'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c', 'ч' => 'ch', 'ш' => 'sh', 'щ' => 'shch', 'ы' => 'y', 'э' => 'e', 'ю' => 'yu', 'я' => 'ya', 'ъ' => '', 'ь' => ''));
+        $slug = preg_replace("/[^0-9a-z-_\-]/i", "", $slug); // очищаем строку от недопустимых символов
+        $slug = str_replace(" ", "-", $slug); // заменяем пробелы знаком минус
+        return $slug; // возвращаем результат
+    }
 }
