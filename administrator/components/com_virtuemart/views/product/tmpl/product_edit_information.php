@@ -60,7 +60,7 @@ $i=0;
                         <input type="text" class="inputbox floatLeft" name="auction_number" id="auction_number" data-auction_number="<?php
                         echo $this->product->auction_number; ?>" value="<?php
                         echo $this->product->auction_number;
-                        ?>" size="32" maxlength="64" onblur="checkFormData(this);" />
+                        ?>" size="32" maxlength="64" onblur="checkFormData(/*this*/);" />
                     </td>
                 </tr>
 

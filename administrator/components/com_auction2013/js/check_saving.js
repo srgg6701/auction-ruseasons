@@ -5,7 +5,7 @@
 function checkOnClick(action){
     //savingState.setState(true);
     console.log('%ccheckOnSubmit','font-weight:bold;color:orange');
-    checkFormData(false,action); // apply|save
+    checkFormData(/*false,*/action); // apply|save
     return false;
 }
 /**
@@ -13,7 +13,7 @@ function checkOnClick(action){
  * @param auctionNumberInput - поле с номером аукциона
  * @returns boolean
  */
-function checkFormData(auctionNumberInput,action) {
+function checkFormData(/*auctionNumberInput,*/action) {
     //console.log('auctionNumberInput:');
     //console.dir(auctionNumberInput);
     var $ = jQuery;
@@ -36,13 +36,13 @@ function checkFormData(auctionNumberInput,action) {
         }
     });
     // получить поле с № аукциона, если ещё не получено
-    if(!auctionNumberInput) auctionNumberInput = $('input[name="auction_number"]');
+    //if(!auctionNumberInput) auctionNumberInput = $('input[name="auction_number"]');
 
     if(action){ // клацали по кнопке
         var errMess=[];
         //
-        if (fulltime && !$(auctionNumberInput).val())
-            errMess.push('Не указан номер аукциона');
+        /*if (fulltime && !$(auctionNumberInput).val())
+            errMess.push('Не указан номер аукциона');*/
         //
         if($(shoosenCats).size() === 0)
             errMess.push('Не выбрана категория предмета');
@@ -62,7 +62,7 @@ function checkFormData(auctionNumberInput,action) {
         var blockId = 'checking_result';
         $('#'+blockId).remove(); // удалить сообщение, если уже есть
         return blockId;
-    }
+    };
     // если очные торги, будем проверять дату аукциона:
     if (fulltime) {
         // создать/разместить/вернуть для alert'а (в случае сохранения) сообщение об ошибке
@@ -85,12 +85,12 @@ function checkFormData(auctionNumberInput,action) {
                 class: infoClass,
                 title: title
             });
-            $(auctionNumberInput).after(info);
+            //$(auctionNumberInput).after(info);
             return title;
         };
         //--------------------------------------------
         // нет номера аукциона (при потере фокуса поля), - всё отменить
-        if (!$(auctionNumberInput).val()) {
+        /*if (!$(auctionNumberInput).val()) {
             // если НЕ клацали по кнопке сохранения данных
             if (!action)
                 setInfoBlock('empty'); // также удаляет сообщение, если оно уже есть
@@ -98,9 +98,6 @@ function checkFormData(auctionNumberInput,action) {
             return false;
         } else { // номер аукциона есть
             // есть не тот, что был - проверить доступность
-            /*var data_auction_number = $(auctionNumberInput).attr('data-auction_number');
-            if (data_auction_number!= $(auctionNumberInput).val()
-               ) {*/
             var gotoUrl = getUrlToGo($(auctionNumberInput).val());
             console.log('Проверить № аукциона: '+gotoUrl);
             $.get(gotoUrl)
@@ -131,7 +128,7 @@ function checkFormData(auctionNumberInput,action) {
                         return false;
                 });
             //}
-        }
+        }*/
     } else if (action) {
         removeInfoBlock();
         // Не очные торги и клацали по кнопке
