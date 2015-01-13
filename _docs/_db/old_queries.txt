@@ -1,3 +1,58 @@
+-- МАГАЗИН
+SELECT
+  REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
+  prods.optional_field_5 AS 'lot_number',
+  prods.optional_field_6 AS 'contract_number',
+  prods.date AS 'date_show',
+  prods.ends AS 'date_hide',
+  REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
+  REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
+  prods.title,
+  ''                                         AS 'short_desc',
+  prods.descriptiON                          AS 'desc',
+  prods.price                                AS 'price1',
+  ''                        AS 'price2',
+  ''                AS 'price3',
+  prods.image AS 'images',
+  prods.id
+FROM geodesic_classifieds_cp prods
+  INNER JOIN geodesic_categories cats
+    ON prods.category = cats.category_id   
+        AND cats.parent_id = (  SELECT category_id 
+					 FROM geodesic_categories 
+					WHERE category_name = 'Магазин'  
+                )
+ORDER BY cats.category_name, prods.title LIMIT 1000
+
+
+-- ОЧНЫЕ ТОРГИ
+SELECT
+  REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
+  prods.optional_field_5 AS 'lot_number',
+  prods.optional_field_6 AS 'contract_number',
+  prods.date AS 'date_show',
+  prods.ends AS 'date_hide',
+  REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
+  REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
+  prods.title,
+  '' AS 'short_desc',
+  prods.descriptiON AS 'desc', 
+  prods.starting_bid        AS 'price1',
+  prods.optional_field_2    AS 'price2',
+  ''                AS 'price3',
+  prods.image AS 'images',
+  prods.id
+FROM geodesic_classifieds_cp prods
+  INNER JOIN geodesic_categories cats
+    ON prods.category = cats.category_id   
+        AND cats.parent_id = (  SELECT category_id 
+					 FROM geodesic_categories 
+					WHERE category_name = 'Очные торги'  
+                )
+ORDER BY cats.category_name, prods.title LIMIT 1000
+
+
+-- ОНЛАЙН ТОРГИ
 SELECT
   cats.category_name,
   REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
@@ -22,141 +77,3 @@ FROM geodesic_classifieds_cp prods
 					WHERE category_name = 'Онлайн торги'  
                 )
 ORDER BY cats.category_name, prods.title LIMIT 1000
-
-
-/*	*/
-
-SELECT
-  prods.id,
-  prods.title,
-  ( SELECT category_name FROM geodesic_categories 
-     WHERE category_id = prods.category) AS 'category',
-  
-  
-  ( SELECT category_name FROM geodesic_categories 
-     WHERE category_id = -- parent_id
-			-- id родительской категории
-			( SELECT parent_id FROM geodesic_categories
-				WHERE category_name = ( 
-					-- категория предмета
-					SELECT category_name FROM geodesic_categories 
-						WHERE category_id = prods.category
-					) limit 1
-					
-			)
-			
-	) AS 'parent_category',
-  
-  prods.descriptiON AS 'desc',
-  prods.price_plan_id,
-  prods.price,
-  prods.current_bid AS 'price1 (current_bid)',
-  prods.final_price AS 'price2 (final_price)',
-  
-	prods.minimum_bid,
-	prods.starting_bid,
-	prods.reserve_price
-  
-FROM geodesic_classifieds_cp prods
-  LEFT JOIN geodesic_categories cats
-    ON prods.category = cats.category_id   
-        AND cats.parent_id = (  SELECT category_id 
-					 FROM geodesic_categories
-					WHERE category_name = 'Магазин'  
-                ) OR
-			cats.parent_id = (  SELECT category_id 
-					 FROM geodesic_categories
-					WHERE category_name = 'Онлайн торги'  
-                ) OR	
-			cats.parent_id = (  SELECT category_id 
-					 FROM geodesic_categories
-					WHERE category_name = 'Очные торги'  
-                )	
-ORDER BY prods.title LIMIT 1000
-
--- 
---
-
-
-SELECT
-  prods.id,
-  prods.title,
-  ( SELECT category_name FROM geodesic_categories 
-     WHERE category_id = prods.category) AS 'category',
-  
-  
-  ( SELECT category_name FROM geodesic_categories 
-     WHERE category_id = -- parent_id
-			-- id родительской категории
-			( SELECT parent_id FROM geodesic_categories
-				WHERE category_name = ( 
-					-- категория предмета
-					SELECT category_name FROM geodesic_categories 
-						WHERE category_id = prods.category
-					) limit 1
-					
-			)
-			
-	) AS 'parent_category',
-  
-  prods.descriptiON AS 'desc',
-  prods.price_plan_id,
-  prods.price,
-  prods.current_bid AS 'price1 (current_bid)',
-  prods.final_price AS 'price2 (final_price)',
-  
-	prods.minimum_bid,
-	prods.starting_bid,
-	prods.reserve_price
-  
-FROM geodesic_classifieds prods
-  LEFT JOIN geodesic_categories cats
-    ON prods.category = cats.category_id   
-        AND cats.parent_id = (  SELECT category_id 
-					 FROM geodesic_categories
-					WHERE category_name = 'Магазин'  
-                ) OR
-			cats.parent_id = (  SELECT category_id 
-					 FROM geodesic_categories
-					WHERE category_name = 'Онлайн торги'  
-                ) OR	
-			cats.parent_id = (  SELECT category_id 
-					 FROM geodesic_categories
-					WHERE category_name = 'Очные торги'  
-                )	
-ORDER BY prods.title LIMIT 1000
-
-
---
---
-
-SELECT * FROM geodesic_classifieds_cp WHERE category_name = 'Магазин'
-ORDER BY category, title LIMIT 50
-UNION
-SELECT * FROM geodesic_classifieds_cp WHERE category_name = 'Онлайн торги'
-ORDER BY category, title LIMIT 50
-UNION
-SELECT * FROM geodesic_classifieds_cp WHERE category_name = 'Очные торги'
-ORDER BY category, title LIMIT 50
-
--- 
-
-SELECT
-  REPLACE(prods.optional_field_1,'%B9','') AS 'auction_number',
-  prods.optional_field_5 AS 'lot_number',
-  prods.optional_field_6 AS 'contract_number',
-  prods.date AS 'date_show',
-  prods.ends AS 'date_hide',
-  REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
-  REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
-  prods.title,
-  '' AS 'short_desc',
-  prods.descriptiON AS 'desc',
-  prods.current_bid AS 'price1',
-  prods.final_price AS 'price2', 
-  ''                AS 'price3', 
-  prods.image AS 'images',
-  prods.id
-FROM geodesic_classifieds_cp prods
-
--- WHERE   prods.title LIKE "Опричник"

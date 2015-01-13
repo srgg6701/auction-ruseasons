@@ -276,17 +276,16 @@ class Export{
   REPLACE(prods.optional_field_3, '%3A',':') AS 'date_start',
   REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
-  '' AS 'short_desc',
-  prods.description AS 'desc', ";
+  ''                                         AS 'short_desc',
+  prods.description                          AS 'desc',
+  prods.price                                AS 'price1',";
         switch($parent_category_name){
             case 'Магазин': case 'Онлайн торги':
             $query.="
-  prods.price               AS 'price1',
   ''                        AS 'price2',";
             break;
             case 'Очные торги':
                 $query.="
-  prods.starting_bid        AS 'price1',
   prods.optional_field_2    AS 'price2',";
                 break;
         }
@@ -320,7 +319,7 @@ FROM #__geodesic_classifieds_cp prods
 ORDER BY cats.category_name, prods.title";
 		$db=JFactory::getDBO();
 		$db->setQuery($query);
-		//testSQL($query, __FILE__, __LINE__);
+		testSQL($query, __FILE__, __LINE__);
         $prods=$db->loadAssocList();
 		// echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
 		$headers=$this->getActualFields();
