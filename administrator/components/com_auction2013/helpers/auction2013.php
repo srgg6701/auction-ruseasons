@@ -263,7 +263,7 @@ class Export{
 							$categories_ids=false
 						){
 		//echo "<div class=''>getOldDataToExport:: source_db= ".$source_db."</div>";
-		$this->connect_db_old($source_db);
+		$pdo=$this->connect_db_old($source_db);
 		// see method Auction2013Helper::getImportFields() to control fields set
 		// получить данные
 		// ВНИМАНИЕ! Набор столбцов для таблицы с данными формируется методом getActualFields()
@@ -336,11 +336,15 @@ FROM geodesic_classifieds_cp prods
 		}
 		$query.="
 ORDER BY cats.category_name, prods.title";
-		$db=JFactory::getDBO();
+		//$db=JFactory::getDBO();
 		testSQL($query,__FILE__,__LINE__);
-        $db->setQuery($query);
-		$prods=$db->loadAssocList();
-		commonDebug(__FILE__,__LINE__,$prods, false);
+        //$db->setQuery($query);
+		//$prods=$db->loadAssocList();
+        foreach($pdo->query($query,PDO::FETCH_ASSOC) as $row){
+            $prods[]=$row;
+        }
+		commonDebug(__FILE__,__LINE__,$prods, true);
+        //die();
         $headers=$this->getActualFields();
 		array_unshift($prods,$headers);
 		return $prods;
@@ -394,22 +398,31 @@ ORDER BY cats.category_name, prods.title";
  * @subpackage
  */
 	public function getCategoriesToExport($source_db,$section_name=false){
-		$this->connect_db_old($source_db);		
+		$pdo=$this->connect_db_old($source_db);
 		$query="SELECT cats.category_id, 
   category_name,
-  ( SELECT COUNT(*) FROM #__geodesic_classifieds_cp
+  ( SELECT COUNT(*) FROM geodesic_classifieds_cp
       WHERE category = cats.category_id
   ) AS 'count' 
-	FROM #__geodesic_categories cats";
+	FROM geodesic_categories cats";
 		if($section_name)
 			$query.=" 
  WHERE cats.parent_id = ".$this->getParentIdQuery($section_name);
 		
 		$query.=" 
    ORDER BY category_name"; // echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
-		$db=JFactory::getDBO();
-		$db->setQuery($query);
-		return $db->loadAssocList(); 	
+		//$db=JFactory::getDBO();
+		//$db->setQuery($query);
+        //$assoc = $db->loadAssocList();
+        testSQL($query,__FILE__,__LINE__);
+        commonDebug(__FILE__,__LINE__,$pdo);
+        $assoc=array();
+        foreach($pdo->query($query,PDO::FETCH_ASSOC) as $row){
+            var_dump("<pre>",$row,"</pre>");
+            $assoc[]=$row;
+        }
+        commonDebug(__FILE__,__LINE__,$assoc);
+        return $assoc;
 	}
 /**
  * Создать и сохранить CSV-файл 
@@ -508,8 +521,8 @@ ORDER BY cats.category_name, prods.title";
         $user = 'auctionru_ruse';
         $password = 'Ytxbnfnm2012'; //Ytxbnfnm2012
         try {
-            echo "<h1>Подключение к auctionru_ruse выполнено!</h1>";
             return new PDO($dsn, $user, $password);
+            echo "<h1>Подключение к auctionru_ruse выполнено!</h1>";
         } catch (PDOException $e) {
             echo 'Подключение не удалось: <span style="color:red">' . $e->getMessage() .'</span><hr>Параметры:
             <div>host: '.$host.'</div>
