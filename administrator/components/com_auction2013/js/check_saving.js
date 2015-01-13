@@ -129,11 +129,12 @@ function checkFormData(/*auctionNumberInput,*/action) {
                 });
             //}
         }*/
-    } else if (action) {
+    } /*else if (action) {
         removeInfoBlock();
         // Не очные торги и клацали по кнопке
         Joomla.submitbutton(action); // отправить данные формы
         //alert('[156]Отправить данные');
         //console.log('%c[2]Отправить данные', 'color:violet');
-    }
+    }*/
+    Joomla.submitbutton(action);
 }
