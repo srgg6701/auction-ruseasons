@@ -263,7 +263,7 @@ class Export{
 							$categories_ids=false
 						){
 		//echo "<div class=''>getOldDataToExport:: source_db= ".$source_db."</div>";
-		//$this->connect_db_old($source_db);
+		$this->connect_db_old($source_db);
 		// see method Auction2013Helper::getImportFields() to control fields set
 		// получить данные
 		// ВНИМАНИЕ! Набор столбцов для таблицы с данными формируется методом getActualFields()
@@ -508,8 +508,8 @@ ORDER BY cats.category_name, prods.title";
         $user = 'auctionru_ruse';
         $password = 'Ytxbnfnm2012'; //Ytxbnfnm2012
         try {
-            $dbh = new PDO($dsn, $user, $password);
             echo "<h1>Подключение к auctionru_ruse выполнено!</h1>";
+            return new PDO($dsn, $user, $password);
         } catch (PDOException $e) {
             echo 'Подключение не удалось: <span style="color:red">' . $e->getMessage() .'</span><hr>Параметры:
             <div>host: '.$host.'</div>

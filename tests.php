@@ -136,7 +136,9 @@ function testSQL( $query,
         ?><div class="header_query">Всего записей: <?php echo (count($query[0]))? count($query[0]):'<span class="error-text">0</span>';?></div><?php
         $query=$query[1];
     }
-    setBlock(str_replace("#_","auc13",$query),"query",$class);
+    if(strstr($query,"#_"))
+        $query=str_replace("#_","auc13",$query);
+    setBlock($query,"query",$class);
     if($backtrace) commonDebugBacktrace($file,$line,$class);
     if($stop) die();
 }
