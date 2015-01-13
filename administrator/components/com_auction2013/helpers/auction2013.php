@@ -47,7 +47,7 @@ FROM #__virtuemart_categories                  AS cats
         return $results;
     }
 	/**
-	 * Пояснение для таблицы импорта
+	 *
      */
 	public static function getImportFields(){
 		return array(
@@ -166,7 +166,7 @@ class Export{
  */
 	public function getParentIdQuery($parent_category_name){
 		return "(  SELECT category_id 
-					 FROM geodesic_categories
+					 FROM #__geodesic_categories 
 					WHERE category_name = '".$parent_category_name."'  
                 )";
 	}	
@@ -257,14 +257,14 @@ class Export{
  * @package
  * @subpackage
  */
-	public function getOldDataToExport(
+	public function getDataToExport( 
 							$source_db,
-							$parent_category_name=false, // Онлайн торги, Очные торги, Магазин
+							$parent_category_name=false,
 							$categories_ids=false
 						){
-		//echo "<div class=''>getOldDataToExport:: source_db= ".$source_db."</div>";
-		$pdo=$this->connect_db_old($source_db);
-		// see method Auction2013Helper::getImportFields() to control fields set
+		//echo "<div class=''>getDataToExport:: source_db= ".$source_db."</div>";
+		$this->connect_db_old($source_db);
+		// see method getImportFields() to control fields set
 		// получить данные
 		// ВНИМАНИЕ! Набор столбцов для таблицы с данными формируется методом getActualFields()
 		$query="SELECT
@@ -277,22 +277,9 @@ class Export{
   REPLACE(prods.optional_field_4, '%3A',':') AS 'date_stop',
   prods.title,
   '' AS 'short_desc',
-  prods.description AS 'desc', ";
-        switch($parent_category_name){
-            case 'Магазин': case 'Онлайн торги':
-                $query.="
-  prods.price               AS 'price1',
-  ''                        AS 'price2',";
-                break;
-            case 'Очные торги':
-                $query.="
-  prods.starting_bid        AS 'price1',
-  prods.optional_field_2    AS 'price2',";
-                break;
-        }
-        $query.="
-  ''                AS 'price3',";
-        $query.="
+  prods.description AS 'desc',
+  prods.current_bid AS 'price1',
+  prods.final_price AS 'price2', 
   prods.image AS 'images',
   prods.id";
   /*-- cats.category_name,
@@ -315,8 +302,8 @@ class Export{
   prods.optional_field_5 AS 'optf-5'";*/
 
   		$query.="
-FROM geodesic_classifieds_cp prods
-  INNER JOIN geodesic_categories cats
+FROM #__geodesic_classifieds_cp prods
+  INNER JOIN #__geodesic_categories cats
     ON prods.category = cats.category_id";
 		
 		if($parent_category_name)
@@ -336,16 +323,11 @@ FROM geodesic_classifieds_cp prods
 		}
 		$query.="
 ORDER BY cats.category_name, prods.title";
-		//$db=JFactory::getDBO();
-		testSQL($query,__FILE__,__LINE__);
-        //$db->setQuery($query);
-		//$prods=$db->loadAssocList();
-        foreach($pdo->query($query,PDO::FETCH_ASSOC) as $row){
-            $prods[]=$row;
-        }
-		commonDebug(__FILE__,__LINE__,$prods, true);
-        //die();
-        $headers=$this->getActualFields();
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		$prods=$db->loadAssocList();
+		// echo "<div class=''>query(".count($prods).")= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
+		$headers=$this->getActualFields();
 		array_unshift($prods,$headers);
 		return $prods;
 	}
@@ -398,31 +380,22 @@ ORDER BY cats.category_name, prods.title";
  * @subpackage
  */
 	public function getCategoriesToExport($source_db,$section_name=false){
-		$pdo=$this->connect_db_old($source_db);
+		$this->connect_db_old($source_db);		
 		$query="SELECT cats.category_id, 
   category_name,
-  ( SELECT COUNT(*) FROM geodesic_classifieds_cp
+  ( SELECT COUNT(*) FROM #__geodesic_classifieds_cp
       WHERE category = cats.category_id
   ) AS 'count' 
-	FROM geodesic_categories cats";
+	FROM #__geodesic_categories cats";
 		if($section_name)
 			$query.=" 
  WHERE cats.parent_id = ".$this->getParentIdQuery($section_name);
 		
 		$query.=" 
    ORDER BY category_name"; // echo "<div class=''>query= <pre>".str_replace("#_","auc13",$query)."</pre></div>"; //die();
-		//$db=JFactory::getDBO();
-		//$db->setQuery($query);
-        //$assoc = $db->loadAssocList();
-        testSQL($query,__FILE__,__LINE__);
-        commonDebug(__FILE__,__LINE__,$pdo);
-        $assoc=array();
-        foreach($pdo->query($query,PDO::FETCH_ASSOC) as $row){
-            var_dump("<pre>",$row,"</pre>");
-            $assoc[]=$row;
-        }
-        commonDebug(__FILE__,__LINE__,$assoc);
-        return $assoc;
+		$db=JFactory::getDBO();
+		$db->setQuery($query);
+		return $db->loadAssocList(); 	
 	}
 /**
  * Создать и сохранить CSV-файл 
@@ -430,7 +403,6 @@ ORDER BY cats.category_name, prods.title";
  * @subpackage
  */
 	public function createCSV($catnames,$source_prods,$section){
-        $test=false;
 		//var_dump(JRequest::get('post')); die('section='.$section);		
 		$filename='/_docs/csv_saved/['.$section.']'.array_shift($catnames)."___".array_pop($catnames).'.csv';
 		$filename=str_replace(" ","_",$filename);
@@ -444,12 +416,6 @@ ORDER BY cats.category_name, prods.title";
 				unlink($full_file_path);
 			$fp = fopen(JPATH_SITE.$winfilename, 'w');
 			foreach ($source_prods as $i=>$fields){
-
-				/*if($test) {
-                    echo "<div>fields:</div>";
-                    var_dump("<pre>",$fields,"</pre>");
-                }*/
-
 				// строки:
 				if($i){
 					if(!isset($images)){
@@ -500,11 +466,9 @@ ORDER BY cats.category_name, prods.title";
 				}
 				unset($data['id']);
 				unset($data['images']);
-                if($test) {
-                    echo "<hr/>desc: $data[desc]<br>$data[price1],$data[price2]";
-                }
-				if($make_file&&$test!=1)
-					fputcsv($fp, $data, ";");
+				if($make_file)
+					fputcsv($fp, $data, ";"); 
+				$i++;
 			}
 			fclose($fp);
 		}
@@ -516,20 +480,17 @@ ORDER BY cats.category_name, prods.title";
  * @subpackage
  */
 	public function connect_db_old($source_db){
-        $host=(strstr($_SERVER['HTTP_HOST'],"localhost"))? '77.222.40.220':'localhost';
-        $dsn = 'mysql:dbname='.$source_db.';host='.$host;
-        $user = 'auctionru_ruse';
-        $password = 'Ytxbnfnm2012'; //Ytxbnfnm2012
-        try {
-            return new PDO($dsn, $user, $password);
-            echo "<h1>Подключение к auctionru_ruse выполнено!</h1>";
-        } catch (PDOException $e) {
-            echo 'Подключение не удалось: <span style="color:red">' . $e->getMessage() .'</span><hr>Параметры:
-            <div>host: '.$host.'</div>
-            <div>dsn: '.$dsn.'</div>
-            <div>user: '.$user.'</div>
-            <div>password: '.$password.'</div>';
-        }
-		 //echo('<h1>connect_db_old: '.$source_db.'</h1>');
+		if($source_db=='auctionru_ruse'){
+			$host=(strstr($_SERVER['HTTP_HOST'],"localhost"))? '77.222.56.121':'localhost';
+			$dsn = 'mysql:dbname='.$source_db.';host='.$host;
+			$user = 'auctionru_ruse';
+			$password = 'Ytxbnfnm2012';
+			try {
+				$dbh = new PDO($dsn, $user, $password);
+				echo "<h1>Подключение к auctionru_ruse выполнено!</h1>";
+			} catch (PDOException $e) {
+				echo 'Подключение не удалось: ' . $e->getMessage();
+			}
+		} //echo('<h1>connect_db_old: '.$source_db.'</h1>');
 	}	
 }
