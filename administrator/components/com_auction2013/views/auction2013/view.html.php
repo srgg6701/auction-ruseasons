@@ -88,18 +88,26 @@ class Auction2013ViewAuction2013 extends JView
 		//var_dump(JRequest::get('post'));		
 		$this->source_db=JRequest::getVar('db_name');
 		$this->top_categories=$this->getTopCategories();
-		if($section=JRequest::getVar('section')){
-			$this->section=explode(':',$section);
-			$this->Export=new Export;
-			// массив чекбоксов post, приходящий с отправкой формы
-			$this->active_categories=JRequest::getVar('category_id');
-			//echo "<div class=''>active_categories:</div>";
-			//var_dump(JRequest::getVar('category_id'));
-			//Получить список категорий выбранной секции:
-			$this->categories_data=$this->Export->getCategoriesToExport($this->source_db, $this->section[0]);
-			$post=JRequest::get('post');
-			$this->products=$post['category_id'];
-			$this->section_products=$this->Export->getDataToExport($this->source_db,$this->section[0],$this->active_categories); // echo "<h1>handleExport:<br>\$section[".$this->section[1]."] = ".$this->section[0]."</h1>"; 
+		if($section=JRequest::getVar('section')) {
+            $this->section = explode(':', $section);
+            $this->Export = new Export;
+            // массив чекбоксов post, приходящий с отправкой формы
+            $this->active_categories = JRequest::getVar('category_id');
+            //echo "<div class=''>active_categories:</div>";
+            //var_dump(JRequest::getVar('category_id'));
+            //Получить список категорий выбранной секции:
+            $this->categories_data = $this->Export->getCategoriesToExport($this->source_db, $this->section[0]);
+            /*
+             * Онлайн торги, Очные торги, Магазин*/
+            //commonDebug(__FILE__,__LINE__,$this->section, true);
+            //showTestMessage('section[0]: ' . $this->section[0],__FILE__,__LINE__/*,$color=false,$stop=false*/);
+            $post = JRequest::get('post');
+            $this->products = $post['category_id'];
+            // если выбрали старую БД
+            if ($this->source_db == 'auctionru_ruse') {
+                $this->section_products = $this->Export->getOldDataToExport($this->source_db, $this->section[0], $this->active_categories);
+                showTestMessage("handleExport:<br>\$section[" . $this->section[1] . "] = " . $this->section[0] . "<hr>", __FILE__, __LINE__, false, false);
+            }
 		}
 		$this->chooseDb();
 		// Выберите раздел:   
@@ -131,7 +139,7 @@ class Auction2013ViewAuction2013 extends JView
         	<input name="db_name" id="<?php echo $old_radio_name;?>" type="radio" value="auctionru_ruse"<?php if($this->source_db=='auctionru_ruse'){?> checked<?php }?> disabled>
         auctionru_ruse (<span style="color:brown">старый</span> сайт, префикс таблиц &mdash; <b>geodesic</b>) [<a href="#" onclick="document.getElementById('<?php echo $old_radio_name;?>').removeAttribute('disabled'); return false;">снять блокировку</a>]
         <br>
-        	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?php /*if($this->source_db=='auctionru_2013'){?> checked<?php }*/?> checked>
+        	<input name="db_name" id="db_auctionru_2013" type="radio" value="auctionru_2013"<?php /*if($this->source_db=='auctionru_2013'){?> checked<?php }*/?>>
         auctionru_2013 (<span style="color:navy">новый</span> сайт, префикс таблиц &mdash; <b>auc13</b>)
         </div>
     	<input id="active_section" name="section" type="hidden" value="">        
