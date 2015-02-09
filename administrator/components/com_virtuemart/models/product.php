@@ -1560,7 +1560,6 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         if (array_key_exists('product_packaging', $data)) {
             $data['product_packaging'] = str_replace(',', '.', $data['product_packaging']);
         }
-
         // with the true, we do preloading and preserve so old values note by Max Milbers
         // $product_data->bindChecknStore ($data, $isChild);
         if(!$skip_storing) // VmTable::bindChecknStore()
@@ -1715,7 +1714,7 @@ INNER JOIN #__virtuemart_categories_ru_ru          AS cats_ruru
         }
 
         if (!$isChild) {
-            showTestMessage("! \$isChild", __FILE__, __LINE__, 'red');
+            //showTestMessage("! \$isChild", __FILE__, __LINE__, 'red');
             $data = $this->updateXrefAndChildTables($data, 'product_shoppergroups');
 
             $data = $this->updateXrefAndChildTables($data, 'product_manufacturers');

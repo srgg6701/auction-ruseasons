@@ -132,7 +132,7 @@ class Auction2013ControllerImportlots extends JControllerForm
  * @subpackage
  */
 	public static function addSalesRecord($virtuemart_product_id, $price2, $price3){
-        echo "<div>добавляем запись...</div>";
+        //echo "<div>добавляем запись...</div>";
         // Create and populate an object.
         $object = new stdClass();
         $object->virtuemart_product_id=$virtuemart_product_id;
