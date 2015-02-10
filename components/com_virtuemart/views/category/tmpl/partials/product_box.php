@@ -25,11 +25,18 @@ endif;?>
     if ($this->show_prices == '1') {
         // VM
         require_once 'prices_before.php';
-        //commonDebug(__FILE__,__LINE__,$product->prices, false);
+        //if($product->virtuemart_product_id=='3827') commonDebug(__FILE__,__LINE__,$product, false);
         /**
          * Вывод цены, вариант по умолчанию */
-        echo $this->currency->createPriceDiv ('costPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
-        /*$pr=$this->products[0]; //commonDebug(__FILE__,__LINE__,$pr, false);
+        //echo "► " . $this->currency->createPriceDiv ('costPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices/*,    false, false, 1.0, 'shop'*/);
+
+        if(!($product_cost=$product->prices['basePriceVariant'])) $product_cost ='0';
+        echo  "Цена: " . $product_cost. ' ' . $product->currency_symbol;
+
+        /*if($product->virtuemart_product_id=='3827') commonDebug(__FILE__,__LINE__,$product->prices, false);
+        else echo " ◄skipped► ";*/
+
+        /* $pr=$this->products[0];
         $this->currency->arr_prices=array(
                     'product_price'=>$pr->product_price,
                     'currency_symbol'=>$pr->currency_symbol

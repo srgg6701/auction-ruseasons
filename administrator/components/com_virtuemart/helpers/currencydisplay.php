@@ -382,7 +382,6 @@ class CurrencyDisplay {
 		} else {
 			$price = $product_price;
 		}
-        //include_once JPATH_SITE.DS.'tests.php';
         //commonDebug(__FILE__,__LINE__,$this->_priceConfig[$name][0]);
 		//This could be easily extended by product specific settings
 		if(!empty($this->_priceConfig[$name][0])){
@@ -391,15 +390,15 @@ class CurrencyDisplay {
             //commonDebug(__FILE__,__LINE__,$price);
 			if( !empty($price) or $name == 'billTotal'
                 || $forceNoLabel==='online'
-                || $forceNoLabel==='fulltime'
+                || $forceNoLabel==='fulltime' //|| $forceNoLabel==='shop'
               ){
 				$vis = "block";
                 $priceFormatted = $this->priceDisplay($price,0,(float)$quantity,false,$this->_priceConfig[$name][1],$name );
-                //showTestMessage("priceFormatted: $priceFormatted", __FILE__, __LINE__, false);
 			} else {
 				$priceFormatted = '';
 				$vis = "none";
 			}
+            //showTestMessage("priceFormatted: $priceFormatted", __FILE__, __LINE__, false);
 			if($priceOnly){
 				return $priceFormatted;
 			}
@@ -417,6 +416,8 @@ class CurrencyDisplay {
 			// 			vmdebug('createPriceDiv $name '.$name.' '.$product_price[$name]);
 			// для аукциона приходим сюда
             if($this->arr_prices){
+                //echo "<div>arr_prices exists:</div>";
+                //commonDebug(__FILE__,__LINE__,$this->arr_prices);
                 /**
                  *  Модифицировать блок с ценой, исходя из того, что это - или доллар, или рубль*/
                 $priceFormatted=CurrencyDisplay::getPriceBlock($this->arr_prices);
@@ -438,12 +439,19 @@ class CurrencyDisplay {
                     ["product_currency"]=>"144"
                 }*/
         $pval = round(intval($arr_prices['product_price']));
-        if ($arr_prices['currency_symbol']=='$')
+        //commonDebug(__FILE__,__LINE__,$arr_prices, false);
+        if ($arr_prices['currency_symbol']=='руб'){
+            $priceFormatted=$pval . ' руб';
+            if($check_dot) $priceFormatted.='.';
+        }else{
+            $priceFormatted=$arr_prices['currency_symbol'] .  $pval;
+        }
+        /*if ($arr_prices['currency_symbol']=='$')
             $priceFormatted=$arr_prices['currency_symbol'] .  $pval;
         else{
             $priceFormatted=$pval . ' руб';
             if($check_dot) $priceFormatted.='.';
-        }
+        }*/
         return $priceFormatted;
     }
 	/**
