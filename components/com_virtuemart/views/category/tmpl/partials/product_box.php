@@ -27,14 +27,14 @@ endif;?>
         require_once 'prices_before.php';
         //commonDebug(__FILE__,__LINE__,$product->prices, false);
         /**
-            * Вывод цены, вариант по умолчанию */
-        //echo $this->currency->createPriceDiv ('costPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
-        $pr=$this->products[0]; //commonDebug(__FILE__,__LINE__,$pr, false);
+         * Вывод цены, вариант по умолчанию */
+        echo $this->currency->createPriceDiv ('costPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
+        /*$pr=$this->products[0]; //commonDebug(__FILE__,__LINE__,$pr, false);
         $this->currency->arr_prices=array(
                     'product_price'=>$pr->product_price,
                     'currency_symbol'=>$pr->currency_symbol
                 );
-        echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
+        echo $this->currency->createPriceDiv ('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);*/
         //-------------------------------------------------
 
         // VM
