@@ -1908,6 +1908,113 @@ class DateAndTime{
         if($date) echo date("d.m H:i",strtotime($date));
     }
 }
+class Media{
+    /**
+     * Перерасчёт размеров изображения и создание на основе рассчитанных параметров адаптировнного
+     * Возвращает имя нового файла
+     * ВНИМАНИЕ! Функция выполняется только в том случае, если путь к создаваемому файлу (включая его имя) является уникальным, что зависит от передаваемых аргументов $prefix_to_save и $upload_dir (должен быть передан, как минимум, один из них)
+     * @imagepath ─ путь к исходному файлу
+     * @grade ─ база для перерасчёта - вертикальный/горизонтальный размеры
+        * если вертикальный, должно быть:
+        * строкой, если передаём фиксированное статическое значение (пиксели)
+        * числом, если передаём соотношение. Например, 2 - означает получить высоту исходного изображения и разделить на 2, после чего подогнать пропорционально ширину
+        * если горизонтальный, то аргумент должен передаваться как единственное значение массива, как и в предыдущем случае - либо число, либо строка.
+        * должно быть числом для рассчёта соотношения или строкой для задания базы перерасчёта в px. Е
+     * @prefix_to_save ─ если нужен дополнительный префикс сохраняемого файла
+     * @upload_dir ─ если нужно сохранять картинки НЕ в той же директории, что и исходное изображение
+     * @imageholder ─ заглушка на случай, если не получится подставить картинку
+     */
+    public static function resizeImage(   $imagepath,
+                                          $grade,
+                                          $prefix_to_save=false,
+                                          $upload_dir=false,
+                                          $imageholder='no-img_eng.gif',
+                                          $quality=80
+    ){
+        //$upload_sub_dir='photos'; //subdir for reduced images
+        $types     = array('jpg','jpeg','gif','png'); //поддерживаемые форматы         загружаемых файлов
+        //распарсить путь к файлу:
+        if (strstr($imagepath,'/')||strstr($imagepath,"\\")){
+            $slash=(strstr($imagepath,'/'))? '/':"\\"; //выясним тип слэша
+            $arrPath=explode($slash,$imagepath); //получим путь в виде массива
+            $imagename=array_pop($arrPath); //и имя файла получили, и массив кастрировали :)
+            $source_path=implode($slash,$arrPath); //путь без имени файла
+        }
+        $iarr=explode('.',$imagename); //отпарсить имя файла от расширения...
+        $ext=strtolower(array_pop($iarr)); //расширение
+        $path_to_save=($upload_dir)? $upload_dir:$source_path; //директория сохранения (имя файла и его префикс НЕ включены)
+        $new_imagename=$prefix_to_save.$imagename;
+        $path_to_save.=$slash.$new_imagename; //полный путь сохранения, ВКЛЮЧАЯ имя файла и его префикс.
+        if (!in_array($ext, $types)) { //проверка на соответствие формата
+            return array('name'=>$imageholder);
+        }else{ //исходный файл нужного формата
+            if(!file_exists($path_to_save)){ //проверить, нет ли уже такого же файла. Префикс уже включён (см. выше)
+                $newImage=self::createNewImage($imagepath);
+                $params = $newImage['params'];
+                //$source = $newImage['source'];
+                //установить базу для перерасчёта параметров (горизонталь/вертикаль)
+                if (is_array($grade)){ //значит, отталкиваемся от горизонтального размера
+                    $gdirect=$params[0];
+                    $grade=$grade[0];
+                }else $gdirect=$params[1];
+                if (gettype($grade)=='string') //если строка - просто забираем значение
+                    $grade=$gdirect/intval($grade);
+                $newwidth  = floor($params[0]/$grade);
+                $newheight = floor($params[1]/$grade);
+                //создаем миниатюру загруженного изображения
+                self::saveNewImage($newImage['source'], $path_to_save, $params, $newwidth, $newheight, $quality);
+            }
+            return array('name'=>$new_imagename,'width'=>$newwidth,'height'=>$newheight); //новое имя файла, ширина, высота
+        }
+    }
+    /**
+     * Скопировать изображение в новую директорию с имзменением параметров
+     * @imagepath ─ путь к исходному изображению
+     * @path_to_save ─ директория сохранения
+     */
+    public static function copyImageResizedSimple($imagepath, $path_to_save, $newwidth, $newheight, $quality=false){
+        $newImage=self::createNewImage($imagepath);
+        if(JRequest::getVar('cimgs')) commonDebug(__FILE__,__LINE__,array('imagepath'=>$imagepath, 'path_to_save'=>$path_to_save, 'newImage'=>$newImage),false);
+        self::saveNewImage($newImage['source'], $path_to_save, $newImage['params'], $newwidth, $newheight, $quality);
+    }
+    /**
+     * Сохранить новосозданную картинку.
+     * Должен вызываться другим методом, который передаёт созданную ранее картинку
+     * @source ─ созданная картинка
+     * @params ─ высота и ширина исходной картинки
+     */
+    public static function saveNewImage($source, $path_to_save, $params, $newwidth, $newheight, $quality=false){
+        //создаем миниатюру загруженного изображения
+        $resource = imagecreatetruecolor($newwidth, $newheight);
+        imagecopyresampled($resource, $source, 0, 0, 0, 0, $newwidth, $newheight, $params[0], $params[1]);
+        switch ($params[2]) {
+            case 1:
+                imagegif($resource, $path_to_save);
+                break;
+            case 2:
+                imagejpeg($resource, $path_to_save, $quality); //75 качество изображения по умолчанию
+                break;
+        }
+        //назначаем права доступа обоим файлам
+        //chmod("$imagepath", 0644);
+        //chmod("$resource_src", 0644);
+    }
+    /**
+     *  Создать новое изображение из файла-источника
+     */
+    public static function createNewImage($imagepath){
+        $params = getimagesize($imagepath);
+        switch ($params[2]) {
+            case 1:
+                $source = imagecreatefromgif($imagepath);
+                break;
+            case 2:
+                $source = imagecreatefromjpeg($imagepath);
+                break;
+        }
+        return array('params'=>$params,'source'=>$source);
+    }
+}
 class Users{
     /**
      * Получить данные админов/суперюзеров, принимающих рассылку

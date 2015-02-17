@@ -33,4 +33,3 @@ WHERE cat_cats.category_parent_id = (
            WHERE cat_cats1.category_child_id = 10
         )
    AND prod_cats.virtuemart_category_id = 10
-  )

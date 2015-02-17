@@ -20,7 +20,7 @@ INNER JOIN auc13_virtuemart_product_categories AS cats
            ON cats.virtuemart_product_id = prods.virtuemart_product_id
 INNER JOIN auc13_virtuemart_categories_ru_ru AS cats_ru
            ON cats_ru.virtuemart_category_id = cats.virtuemart_category_id
-     WHERE cats.virtuemart_category_id = 34 -- онлайн-торги, иконы
+     WHERE -- cats.virtuemart_category_id = 34 -- онлайн-торги, иконы
   -- cats_ru.category_name LIKE 'Иконы'
-  -- prices.virtuemart_product_id = 2772
+  prices.virtuemart_product_id = 2772
   ORDER BY cats_ru.category_name, prods_ru.product_name
