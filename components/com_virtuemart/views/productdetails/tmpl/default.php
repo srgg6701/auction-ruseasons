@@ -37,8 +37,9 @@ $SefMode=JFactory::getApplication()->getRouter()->getMode();
 // возвращает ссылку уже в нужном (обычный/ЧПУ) виде:
 $category_link=AuctionStuff::extractCategoryLinkFromSession($virtuemart_category_id);
 $trinityIds=AuctionStuff::getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id);
+
 $hide=' style="visibility:hidden"';
-//commonDebug(__FILE__,__LINE__,$trinityIds, false);
+//if(JRequest::getVar('tri'))commonDebug(__FILE__,__LINE__,$trinityIds, false);
 ?>
     <ul class="table inline weak">
 <?php
@@ -110,7 +111,9 @@ echo JRoute::_('index.php?option=com_auction2013&task=auction2013.purchase');
           Цена:...........................
           <span class="span_o_o">
               <b><?php
-              echo $this->product->prices['basePriceVariant'] .
+              $product_cost_round=($product->currency_symbol=='руб')? 0:2;
+
+              echo round($this->product->prices['basePriceVariant'],$product_cost_round) .
                       ' ' . $this->product->currency_symbol;
               //-цена-
               /*$startPrice=CurrencyDisplay::getPriceBlock( array('product_price'=>$this->product->product_price, 'currency_symbol'=>$this->product->currency_symbol), true );

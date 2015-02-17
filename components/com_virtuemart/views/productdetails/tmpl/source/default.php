@@ -159,9 +159,6 @@ echo $this->loadTemplate('images');
 		  $text = JText::_('COM_VIRTUEMART_VENDOR_FORM_INFO_LBL');
 		  echo '<span class="bold">'. JText::_('COM_VIRTUEMART_PRODUCT_DETAILS_VENDOR_LBL'). '</span>'; ?><a class="modal" href="<?php echo $link ?>"><?php echo $text ?></a><br />
 		 */
-		?>
-
-		<?php
 		if ($this->showRating) {
 		    $maxrating = VmConfig::get('vm_maximum_rating_scale', 5);
 
@@ -197,17 +194,12 @@ echo $this->loadTemplate('images');
 		//if ($this->show_prices and (empty($this->product->images[0]) or $this->product->images[0]->file_is_downloadable == 0)) {
 		    echo $this->loadTemplate('showprices');
 		//}
-		?>
-
-		<?php
 		// Add To Cart Button
 // 			if (!empty($this->product->prices) and !empty($this->product->images[0]) and $this->product->images[0]->file_is_downloadable==0 ) {
 //		if (!VmConfig::get('use_as_catalog', 0) and !empty($this->product->prices['salesPrice'])) {
 		    echo $this->loadTemplate('addtocart');
 //		}  // Add To Cart Button END
-		?>
 
-		<?php
 		// Availability Image
 		$stockhandle = VmConfig::get('stockhandle', 'none');
 		if (($this->product->product_in_stock - $this->product->product_ordered) < 1) {
@@ -224,9 +216,6 @@ echo $this->loadTemplate('images');
 			<?php
 			}
 		}
-		?>
-
-<?php
 // Ask a question about this product
 if (VmConfig::get('ask_question', 1) == 1) {
     ?>

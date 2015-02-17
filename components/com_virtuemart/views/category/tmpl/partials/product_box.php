@@ -31,7 +31,8 @@ endif;?>
         //echo "► " . $this->currency->createPriceDiv ('costPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices/*,    false, false, 1.0, 'shop'*/);
 
         if(!($product_cost=$product->prices['basePriceVariant'])) $product_cost ='0';
-        echo  "Цена: " . $product_cost. ' ' . $product->currency_symbol;
+        $product_cost_round=($product->currency_symbol=='руб')? 0:2;
+        echo  "Цена: " . round($product_cost, $product_cost_round). ' ' . $product->currency_symbol;
 
         /*if($product->virtuemart_product_id=='3827') commonDebug(__FILE__,__LINE__,$product->prices, false);
         else echo " ◄skipped► ";*/

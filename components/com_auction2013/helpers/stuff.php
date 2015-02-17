@@ -501,51 +501,32 @@ FROM #__virtuemart_product_prices $where_product_id";
  * @subpackage
  */
     public static function getProductNeighborhood($virtuemart_product_id,$virtuemart_category_id){
-
-        $qProdParentCategoryId="SELECT cat_cats1.category_parent_id
-            FROM `#__virtuemart_category_categories` AS cat_cats1
-           WHERE cat_cats1.category_child_id = ".$virtuemart_category_id;
-
-        $qAllProdsInCategory="SELECT prods.virtuemart_product_id
- FROM `#__virtuemart_products` AS prods
-  INNER JOIN `#__virtuemart_product_categories` AS prod_cats
-          ON prods.virtuemart_product_id = prod_cats.virtuemart_product_id
-  INNER JOIN `#__virtuemart_category_categories` AS cat_cats
-          ON prod_cats.virtuemart_category_id = cat_cats.category_child_id
-  INNER JOIN `#__virtuemart_categories` AS cats
-          ON prod_cats.virtuemart_category_id = cats.virtuemart_category_id
-  AND cats.virtuemart_category_id = cat_cats.id
-WHERE cat_cats.category_parent_id = ( ".$qProdParentCategoryId."
-                                    )
-   AND prod_cats.virtuemart_category_id = ".$virtuemart_category_id;
-
-        $qPrevProdId="
-		SELECT MAX(prods1.virtuemart_product_id)
-          FROM `#__virtuemart_products` AS prods1
-         WHERE prods1.virtuemart_product_id < ".$virtuemart_product_id;
-
-        $qNextProdId="SELECT MIN(prods2.virtuemart_product_id)
-          FROM `#__virtuemart_products` AS prods2
-         WHERE prods2.virtuemart_product_id > ".$virtuemart_product_id;
-
-        $query="SELECT prods3.virtuemart_product_id
-  FROM `#__virtuemart_products` AS prods3
- WHERE (
-        prods3.virtuemart_product_id = ( ".$qPrevProdId."
-                                       )
-        OR
-        prods3.virtuemart_product_id = ".$virtuemart_product_id."
-        OR
-        prods3.virtuemart_product_id = ( ".$qNextProdId."
-                                       )
-       )
-  AND   prods3.virtuemart_product_id IN (
-        ".$qAllProdsInCategory."
-       ) ";
+        $product_in=".virtuemart_product_id IN (
+                 SELECT virtuemart_product_id
+                   FROM #__virtuemart_product_categories
+                  WHERE virtuemart_category_id = $virtuemart_category_id
+              )";
+        $query="SELECT prods3.virtuemart_product_id AS prod_id
+  FROM #__virtuemart_products AS prods3
+ WHERE (  prods3.virtuemart_product_id = (
+		      SELECT MAX(prods1.virtuemart_product_id)
+            FROM #__virtuemart_products AS prods1
+           WHERE prods1.virtuemart_product_id < $virtuemart_product_id
+             AND prods1{$product_in}
+        )
+        OR prods3.virtuemart_product_id = $virtuemart_product_id
+       AND prods3{$product_in}
+        OR prods3.virtuemart_product_id = (
+           SELECT MIN(prods2.virtuemart_product_id)
+             FROM #__virtuemart_products AS prods2
+            WHERE prods2.virtuemart_product_id > $virtuemart_product_id
+              AND prods2{$product_in}
+        )
+       )";
 
         $db=JFactory::getDBO();
         $db->setQuery($query);
-        //testSQL($query,__FILE__,__LINE__,false);
+        queryTestByGetVar($query,__FILE__,__LINE__,false);
         return $db->loadResultArray();
     }
     /**

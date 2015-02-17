@@ -120,6 +120,14 @@ function showTestMessage($message,$file,$line,$color=false,$stop=false){
     </div>";
     if($stop) die('<div>stopped</div>');
 }
+
+/**
+ *
+ */
+function queryTestByGetVar($query,$file,$line,$stop=false,$class='test',$backtrace=false){
+    if(JRequest::getVar('qtest')==$line)
+        testSQL($query,$file,$line,$stop,$class,$backtrace);
+}
 /**
  * Вывести запрос в виде, подходящем для прямого тестирования
  */

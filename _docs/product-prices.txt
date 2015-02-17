@@ -1,0 +1,500 @@
+object(stdClass)#311 (111) {
+  ["virtuemart_product_id"]=>
+  string(4) "3827"
+  ["virtuemart_vendor_id"]=>
+  string(1) "1"
+  ["product_parent_id"]=>
+  string(1) "0"
+  ["product_sku"]=>
+  string(9) "01/132/02"
+  ["product_name"]=>
+  string(105) "A«Парусник в мореA»ыава ываы вав аывываыфафыаыфваываыва"
+  ["slug"]=>
+  string(110) "laquo-парусник-в-море-raquo-ыава-ываы-вав-аывываыфафыаыфваываыва"
+  ["product_s_desc"]=>
+  string(123) "Холст на фанере, масло, подпись - неразборчиво, Западная Европа, 2-я п"
+  ["product_desc"]=>
+  string(182) "<p>Холст на фанере, масло, подпись - неразборчиво, Западная Европа, 2-я пол. ХХ в., 22х27 см (реставрация)</p>"
+  ["product_weight"]=>
+  string(6) "0.0000"
+  ["product_weight_uom"]=>
+  string(2) "KG"
+  ["product_length"]=>
+  string(6) "0.0000"
+  ["product_width"]=>
+  string(6) "0.0000"
+  ["product_height"]=>
+  string(6) "0.0000"
+  ["product_lwh_uom"]=>
+  string(1) "M"
+  ["product_url"]=>
+  string(0) ""
+  ["product_in_stock"]=>
+  string(1) "1"
+  ["product_ordered"]=>
+  string(1) "0"
+  ["low_stock_notification"]=>
+  string(1) "0"
+  ["product_available_date"]=>
+  string(19) "0000-00-00 00:00:00"
+  ["product_availability"]=>
+  string(0) ""
+  ["product_special"]=>
+  string(1) "0"
+  ["auction_number"]=>
+  string(0) ""
+  ["contract_number"]=>
+  string(0) ""
+  ["lot_number"]=>
+  string(2) "50"
+  ["product_available_date_closed"]=>
+  string(19) "0000-00-00 00:00:00"
+  ["auction_date_start"]=>
+  NULL
+  ["auction_date_finish"]=>
+  string(19) "0000-00-00 00:00:00"
+  ["product_sales"]=>
+  string(1) "0"
+  ["product_unit"]=>
+  string(2) "KG"
+  ["product_packaging"]=>
+  string(6) "0.0000"
+  ["product_params"]=>
+  string(57) "min_order_level=null|max_order_level=null|product_box=""|"
+  ["intnotes"]=>
+  string(0) ""
+  ["customtitle"]=>
+  string(0) ""
+  ["metadesc"]=>
+  string(0) ""
+  ["metakey"]=>
+  string(0) ""
+  ["metarobot"]=>
+  string(0) ""
+  ["metaauthor"]=>
+  string(0) ""
+  ["layout"]=>
+  string(1) "0"
+  ["published"]=>
+  string(1) "1"
+  ["_pkey":protected]=>
+  string(21) "virtuemart_product_id"
+  ["_pkeyForm":protected]=>
+  string(0) ""
+  ["_obkeys":protected]=>
+  array(2) {
+    ["product_name"]=>
+    string(143) "Название товара отсутствует! Не удается сохранить запись без Название товара."
+    ["slug"]=>
+    string(64) "Данная SEF псевдоним уже существует."
+  }
+  ["_unique":protected]=>
+  bool(true)
+  ["_unique_name":protected]=>
+  array(1) {
+    ["slug"]=>
+    string(64) "Данная SEF псевдоним уже существует."
+  }
+  ["_orderingKey":protected]=>
+  string(8) "ordering"
+  ["_slugAutoName":protected]=>
+  string(12) "product_name"
+  ["_slugName":protected]=>
+  string(4) "slug"
+  ["_loggable":protected]=>
+  bool(true)
+  ["_xParams":protected]=>
+  string(14) "product_params"
+  ["_varsToPushParam":protected]=>
+  array(3) {
+    ["min_order_level"]=>
+    array(2) {
+      [0]=>
+      NULL
+      [1]=>
+      string(5) "float"
+    }
+    ["max_order_level"]=>
+    array(2) {
+      [0]=>
+      NULL
+      [1]=>
+      string(5) "float"
+    }
+    ["product_box"]=>
+    array(2) {
+      [0]=>
+      NULL
+      [1]=>
+      string(5) "float"
+    }
+  }
+  ["_translatable"]=>
+  bool(true)
+  ["_translatableFields":protected]=>
+  array(7) {
+    [0]=>
+    string(12) "product_name"
+    [1]=>
+    string(14) "product_s_desc"
+    [2]=>
+    string(12) "product_desc"
+    [3]=>
+    string(8) "metadesc"
+    [4]=>
+    string(7) "metakey"
+    [5]=>
+    string(11) "customtitle"
+    ["slug"]=>
+    string(4) "slug"
+  }
+  ["_tablePreFix"]=>
+  string(2) "p."
+  ["_tbl":protected]=>
+  string(22) "#__virtuemart_products"
+  ["_tbl_key":protected]=>
+  string(21) "virtuemart_product_id"
+  ["_db":protected]=>
+  object(JDatabaseMySQL)#15 (19) {
+    ["name"]=>
+    string(5) "mysql"
+    ["nameQuote":protected]=>
+    string(1) "`"
+    ["nullDate":protected]=>
+    string(19) "0000-00-00 00:00:00"
+    ["dbMinimum":protected]=>
+    string(5) "5.0.4"
+    ["_database":"JDatabase":private]=>
+    string(14) "auctionru_2013"
+    ["connection":protected]=>
+    resource(31) of type (mysql link)
+    ["count":protected]=>
+    int(0)
+    ["cursor":protected]=>
+    resource(355) of type (Unknown)
+    ["debug":protected]=>
+    bool(false)
+    ["limit":protected]=>
+    int(0)
+    ["log":protected]=>
+    array(0) {
+    }
+    ["offset":protected]=>
+    int(0)
+    ["sql":protected]=>
+    string(259) "SELECT `#__menu`.id , cats.category_layout
+  FROM  `#__menu`, #__virtuemart_categories cats
+ WHERE  `menutype` =  'mainmenu'
+   AND link REGEXP  '(^|/?|&|&amp;)layout=fulltime($|&|&amp;)'
+            AND  cats.category_layout = 'fulltime'
+        LIMIT 1"
+    ["tablePrefix":protected]=>
+    string(6) "auc13_"
+    ["utf":protected]=>
+    bool(true)
+    ["errorNum":protected]=>
+    int(0)
+    ["errorMsg":protected]=>
+    string(0) ""
+    ["hasQuoted":protected]=>
+    bool(false)
+    ["quoted":protected]=>
+    array(0) {
+    }
+  }
+  ["_trackAssets":protected]=>
+  bool(false)
+  ["_rules":protected]=>
+  NULL
+  ["_locked":protected]=>
+  bool(false)
+  ["_errors":protected]=>
+  array(0) {
+  }
+  ["_cache"]=>
+  NULL
+  ["_query_cache"]=>
+  NULL
+  ["created_on"]=>
+  string(19) "0000-00-00 00:00:00"
+  ["created_by"]=>
+  string(1) "0"
+  ["modified_on"]=>
+  string(19) "2015-02-10 10:16:56"
+  ["modified_by"]=>
+  string(3) "107"
+  ["_langTag"]=>
+  string(5) "ru_ru"
+  ["_tbl_lang"]=>
+  string(28) "#__virtuemart_products_ru_ru"
+  ["min_order_level"]=>
+  NULL
+  ["max_order_level"]=>
+  NULL
+  ["product_box"]=>
+  string(0) ""
+  ["virtuemart_media_id"]=>
+  array(3) {
+    [0]=>
+    string(4) "8574"
+    [1]=>
+    string(4) "8575"
+    [2]=>
+    string(4) "8576"
+  }
+  ["shoppergroups"]=>
+  array(0) {
+  }
+  ["product_price"]=>
+  string(9) "600.00000"
+  ["product_override_price"]=>
+  string(7) "0.00000"
+  ["override"]=>
+  string(1) "0"
+  ["virtuemart_product_price_id"]=>
+  string(4) "3877"
+  ["virtuemart_shoppergroup_id"]=>
+  string(1) "0"
+  ["product_price_publish_up"]=>
+  string(19) "2014-08-21 23:00:00"
+  ["product_price_publish_down"]=>
+  string(19) "2015-08-21 23:00:00"
+  ["price_quantity_start"]=>
+  string(1) "0"
+  ["price_quantity_end"]=>
+  string(1) "0"
+  ["prices"]=>
+  array(18) {
+    ["costPrice"]=>
+    string(9) "600.00000"
+    ["basePrice"]=>
+    float(7.5)
+    ["basePriceVariant"]=>
+    float(7.5)
+    ["basePriceWithTax"]=>
+    float(0)
+    ["discountedPriceWithoutTax"]=>
+    float(0)
+    ["priceBeforeTax"]=>
+    float(7.5)
+    ["salesPrice"]=>
+    float(7.5)
+    ["taxAmount"]=>
+    float(0)
+    ["salesPriceWithDiscount"]=>
+    float(0)
+    ["salesPriceTemp"]=>
+    float(7.5)
+    ["unitPrice"]=>
+    float(0)
+    ["discountAmount"]=>
+    float(0)
+    ["priceWithoutTax"]=>
+    float(7.5)
+    ["variantModification"]=>
+    float(0)
+    ["DBTax"]=>
+    array(0) {
+    }
+    ["Tax"]=>
+    array(0) {
+    }
+    ["VatTax"]=>
+    array(0) {
+    }
+    ["DATax"]=>
+    array(0) {
+    }
+  }
+  ["product_tax_id"]=>
+  string(1) "0"
+  ["product_discount_id"]=>
+  string(1) "0"
+  ["product_currency"]=>
+  string(3) "202"
+  ["locked_on"]=>
+  string(19) "0000-00-00 00:00:00"
+  ["locked_by"]=>
+  string(1) "0"
+  ["minimal_price"]=>
+  string(4) "0.00"
+  ["price2"]=>
+  string(1) "0"
+  ["top_category_slug"]=>
+  string(14) "магазин"
+  ["currency_symbol"]=>
+  string(6) "у.е."
+  ["virtuemart_manufacturer_id"]=>
+  array(0) {
+  }
+  ["mf_name"]=>
+  string(0) ""
+  ["mf_desc"]=>
+  string(0) ""
+  ["mf_url"]=>
+  string(0) ""
+  ["categories"]=>
+  array(1) {
+    [0]=>
+    string(2) "20"
+  }
+  ["virtuemart_category_id"]=>
+  string(2) "20"
+  ["ordering"]=>
+  string(2) "15"
+  ["id"]=>
+  string(4) "3707"
+  ["category_name"]=>
+  string(12) "Разное"
+  ["packaging"]=>
+  int(0)
+  ["box"]=>
+  int(0)
+  ["orderable"]=>
+  bool(true)
+  ["quantity"]=>
+  int(1)
+  ["amount"]=>
+  int(1)
+  ["product_template"]=>
+  string(0) ""
+  ["canonical"]=>
+  string(104) "index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=3827&virtuemart_category_id=20"
+  ["link"]=>
+  string(192) "/projects/auction-ruseasons/магазин-антиквариата/raznoe/laquo-парусник-в-море-raquo-ыава-ываы-вав-аывываыфафыаыфваываыва-detail"
+  ["images"]=>
+  array(1) {
+    [0]=>
+    object(VmImage)#310 (36) {
+      ["media_attributes"]=>
+      int(0)
+      ["setRole"]=>
+      bool(false)
+      ["file_name"]=>
+      string(39) "zapadnoevro_parysnik_v_more_01_132_02_3"
+      ["file_extension"]=>
+      string(3) "jpg"
+      ["virtuemart_media_id"]=>
+      string(4) "8574"
+      ["_foldersToTest":"VmMediaHandler":private]=>
+      array(2) {
+        [0]=>
+        string(83) "C:\PHPDevServer12\www\projects\auction-ruseasons\images\stories\virtuemart\product\"
+        [1]=>
+        string(91) "C:\PHPDevServer12\www\projects\auction-ruseasons\images\stories\virtuemart\product\resized\"
+      }
+      ["_actions":"VmMediaHandler":private]=>
+      array(0) {
+      }
+      ["_mLocation":"VmMediaHandler":private]=>
+      array(0) {
+      }
+      ["_hidden":"VmMediaHandler":private]=>
+      array(0) {
+      }
+      ["theme_url"]=>
+      string(75) "http://127.0.0.1:8080/projects/auction-ruseasons/components/com_virtuemart/"
+      ["virtuemart_vendor_id"]=>
+      string(1) "1"
+      ["file_title"]=>
+      string(43) "zapadnoevro_parysnik_v_more_01_132_02_3.jpg"
+      ["file_description"]=>
+      string(0) ""
+      ["file_meta"]=>
+      string(0) ""
+      ["file_mimetype"]=>
+      string(10) "image/jpeg"
+      ["file_type"]=>
+      string(7) "product"
+      ["file_url"]=>
+      string(77) "images/stories/virtuemart/product/zapadnoevro_parysnik_v_more_01_132_02_3.jpg"
+      ["file_url_thumb"]=>
+      string(93) "images/stories/virtuemart/product/resized/zapadnoevro_parysnik_v_more_01_132_02_3_226x226.jpg"
+      ["published"]=>
+      string(1) "1"
+      ["file_is_downloadable"]=>
+      string(1) "0"
+      ["file_is_forSale"]=>
+      string(1) "0"
+      ["file_is_product_image"]=>
+      string(1) "0"
+      ["shared"]=>
+      string(1) "0"
+      ["file_params"]=>
+      string(0) ""
+      ["_translatable"]=>
+      bool(false)
+      ["_tablePreFix"]=>
+      string(0) ""
+      ["_cache"]=>
+      NULL
+      ["_query_cache"]=>
+      NULL
+      ["created_on"]=>
+      string(19) "0000-00-00 00:00:00"
+      ["created_by"]=>
+      string(1) "0"
+      ["modified_on"]=>
+      string(19) "2015-02-10 10:16:56"
+      ["modified_by"]=>
+      string(3) "107"
+      ["file_url_folder"]=>
+      string(34) "images/stories/virtuemart/product/"
+      ["file_path_folder"]=>
+      string(34) "images\stories\virtuemart\product\"
+      ["file_url_folder_thumb"]=>
+      string(42) "images/stories/virtuemart/product/resized/"
+      ["media_role"]=>
+      string(19) "file_is_displayable"
+    }
+  }
+  ["stock"]=>
+  object(stdClass)#338 (2) {
+    ["stock_tip"]=>
+    string(71) "У нас достаточный запас данного товара"
+    ["stock_level"]=>
+    string(11) "normalstock"
+  }
+}
+
+  ["costPrice"]=>
+  string(9) "600.00000"
+  ["basePrice"]=>
+  float(7.5)
+  ["basePriceVariant"]=>
+  float(7.5)
+  ["basePriceWithTax"]=>
+  float(0)
+  ["discountedPriceWithoutTax"]=>
+  float(0)
+  ["priceBeforeTax"]=>
+  float(7.5)
+  ["salesPrice"]=>
+  float(7.5)
+  ["taxAmount"]=>
+  float(0)
+  ["salesPriceWithDiscount"]=>
+  float(0)
+  ["salesPriceTemp"]=>
+  float(7.5)
+  ["unitPrice"]=>
+  float(0)
+  ["discountAmount"]=>
+  float(0)
+  ["priceWithoutTax"]=>
+  float(7.5)
+  ["variantModification"]=>
+  float(0)
+  ["DBTax"]=>
+  array(0) {
+  }
+  ["Tax"]=>
+  array(0) {
+  }
+  ["VatTax"]=>
+  array(0) {
+  }
+  ["DATax"]=>
+  array(0) {
+  }
+}
