@@ -25,24 +25,31 @@
                     // получить последний сегмент (имя файла)
                     $filename=array_pop($arr_file_preview);
                     // $arr_file_preview ─ сегменты пути БЕЗ имени файла
-
                     // сохранить сегменты пути к дир. preview/resized/ - понадобится позже
+                    // для проверки наличия файла миниатюры 334х334 в дир. resized
                     $arr_path_to_preview = $arr_file_preview;
-                    // конвертировать сегменты в строку, дописав путь к дир для средних миниатюр
+                    // конвертировать сегменты в строку, дописав путь к дир для средних миниатюр (334x334)
                     $path_to_resized=implode('/',$arr_path_to_preview) . '/resized/';
-
-                    // добавить имя директории и файла к массиву сегментов пути к файлу
+                    // добавить имя директории и файла к массиву сегментов пути к файлу в дир. preview
+                    /**
+                     *  АХТУНГ! --------------------------
+                        Дир. preview, по сути, является временной и нужна для заливки файлов через FTP;
+                        реальной рабочей директорией является параллельная ─ resized. Однако файлы туда через FTP
+                        не заливаются, поскольку там они создаются автоматически VM с дописыванием суффикса _226x226;
+                        т.о., дир. preview используется, чтобы избежать ручного дописывания;
+                        после загрузки любой страницы, содержащей ссылку на изображение в preview,
+                        они перемещаются из preview в resized.
+                     */
                     $arr_file_preview[]='preview/'.$filename;
                     // преобразовать сегменты в строку
                     $file_preview_url=implode("/",$arr_file_preview);
-
                     // Для проверки наличия файла в дир resized:
                     // разделить на имя и расшерение
                     // имя
                     $file_name_raw = explode('.',$filename);
                     // расширение
                     $file_name_ext = array_pop($file_name_raw);
-                    // дописать суяяикс
+                    // дописать суффикс
                     $file_name_thumb = implode('.',$file_name_raw) . '_226x226.' . $file_name_ext;
                     // если миниатюры по указанному адресу нет, создать её
                     $resized_file_path=$path_to_resized . $file_name_thumb;
@@ -55,17 +62,21 @@
                     if(JRequest::getVar('imgs')) {
                        showTestMessage('<b>resized_file_path</b>: ' . $resized_file_path . '<br/><b>exists:</b> ' . $resized_file . '<hr/>',__FILE__,__LINE__);
                     }
-
-                    // нет файла в дир. resized
-                    if(!$resized_file){
+                    if($resized_file){ // файл уже есть. Проверить его размер
+                        $imgsize=getimagesize($resized_file_path);
+                        //commonDebug(__FILE__,__LINE__,$imgsize);
+                        // если меньше, чем надо, создать новый с нужными размерами
+                        if($imgsize[0]<334||$imgsize[1]<334)    // width / height
+                            Media::copyImageResizedSimple($stuff->file_url, $resized_file_path);
+                    }else{// нет файла в дир. resized
                         showTestMessage('<b style="color:red">no file:</b> ' . $resized_file_path,__FILE__,__LINE__);
                         // переместить файл из preview в resized
                         if($preview_file){
                             if(!(rename($file_preview_url,$resized_file_path))){
-                                echo "<div>Ошибка: не удалось переместить файл в директорию <b>rezied</b></div>";
+                                echo "<div>Ошибка: не удалось переместить файл в директорию <b>resized</b></div>";
                             }
                         }else{ // если в preview его нет, то создать копию из оригинала максимального размера
-                            Media::copyImageResizedSimple($stuff->file_url, $resized_file_path, 334, 334, 80);
+                            Media::copyImageResizedSimple($stuff->file_url, $resized_file_path);
                         }
                     }
                     // todo: НЕ ЗАБЫТЬ!!!

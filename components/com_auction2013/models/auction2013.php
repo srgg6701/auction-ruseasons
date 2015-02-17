@@ -270,7 +270,37 @@ FROM #__virtuemart_medias
   = #__virtuemart_product_medias.virtuemart_media_id
   WHERE #__virtuemart_product_medias.virtuemart_media_id = $media_id";
         $db->setQuery($query);
-        return $db->loadResult();
+        $filename=$db->loadResult(); // 3166286.jpg_product_product
+        //
+        $results=explode('.',$db->loadResult()); // 3166286
+        $ext='.'.array_pop($results);            // jpg_product_product
+        $filename_raw=implode('.',$results); // 3166286
+        // убрать всевозможный мусор после расширений файлов
+        if($ext!='.jpe'&&$ext!='.jpeg'&&$ext!='.jpg'&&$ext!='.png'&&$ext!='.gif'){
+            if(strstr($ext,'.jpe'))
+                $xt='.jpe';
+            elseif(strstr($ext,'.jpeg'))
+                $xt='.jpeg';
+            elseif(strstr($ext,'.jpg'))
+                $xt='.jpg';
+            elseif(strstr($ext,'.png'))
+                $xt='.png';
+            elseif(strstr($ext,'.gif'))
+                $xt='.gif';
+
+            $filename=$filename_raw.$xt; // 3166286.jpg
+        } // else $filename= // 3166286.jpg
+        $idir='images/stories/virtuemart/product/';
+        $path=JPATH_SITE . DS . $idir;
+        $prev='preview/' . $filename;                           //echo "\nprev: $prev \n";
+        $rsiz='resized/' . $filename_raw . '_226x226' . $ext;   //echo "\nrsiz: $rsiz \n\n";
+        if(file_exists($path . $prev))
+            return $idir . $prev;
+        // поискать в resized
+        elseif (file_exists($path . $rsiz))
+            return $idir . $rsiz;
+        else
+            return '0';
     }
 	/**
 	 * Проверить предмет в списке наблюдения

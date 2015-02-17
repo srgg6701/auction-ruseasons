@@ -1427,14 +1427,15 @@ class HTML{
                     image_id:img_id
                 },
                 function(data){
-                    $(img).attr('src', '<?php   echo JURI::base();?>images/stories/virtuemart/product/preview/'+data); //console.log('src = '+$(img).attr('src'));
+                    console.log('data: ' + data);
+                    $(img).attr('src', '<?php   echo JURI::base();?>'+data); //console.log('src = '+$(img).attr('src'));
             });
 <?php   else:?>
             var src_index=$(this).attr('<?=$attr?>'),
                 parentIdIndex=this.parentNode.id.substr(8);
             //console.log(src_index, parentIdIndex);
             img.src='<?=JURI::base()?>'+imgs_src[parentIdIndex][src_index];
-            //console.log(img);
+            console.log(img);
 <?php   endif;?>
         });
     }(jQuery));
@@ -1972,10 +1973,11 @@ class Media{
      * @imagepath ─ путь к исходному изображению
      * @path_to_save ─ директория сохранения
      */
-    public static function copyImageResizedSimple($imagepath, $path_to_save, $newwidth, $newheight, $quality=false){
+    public static function copyImageResizedSimple($imagepath, $path_to_save, $newwidth=334, $newheight=334, $quality=80){
         $newImage=self::createNewImage($imagepath);
         if(JRequest::getVar('cimgs')) commonDebug(__FILE__,__LINE__,array('imagepath'=>$imagepath, 'path_to_save'=>$path_to_save, 'newImage'=>$newImage),false);
-        self::saveNewImage($newImage['source'], $path_to_save, $newImage['params'], $newwidth, $newheight, $quality);
+        if(!self::saveNewImage($newImage['source'], $path_to_save, $newImage['params'], $newwidth, $newheight, $quality))
+            echo "<div><span style='color:red'>Ошибка</span> ─ не удалось сохранить файл $path_to_save</div>";
     }
     /**
      * Сохранить новосозданную картинку.
@@ -1989,10 +1991,10 @@ class Media{
         imagecopyresampled($resource, $source, 0, 0, 0, 0, $newwidth, $newheight, $params[0], $params[1]);
         switch ($params[2]) {
             case 1:
-                imagegif($resource, $path_to_save);
+                return imagegif($resource, $path_to_save);
                 break;
             case 2:
-                imagejpeg($resource, $path_to_save, $quality); //75 качество изображения по умолчанию
+                return imagejpeg($resource, $path_to_save, $quality); //75 качество изображения по умолчанию
                 break;
         }
         //назначаем права доступа обоим файлам
